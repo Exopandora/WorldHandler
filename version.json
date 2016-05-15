@@ -74,7 +74,7 @@
 		"1.5.2-1.8": "- Added a 3D rendered player to \"Player Info\"\n > Diverse changes to \"Player Info\"\n- Added \"mcmod.info\" for Minecraft Forge Modloader users\n- \"Times\" are now editable ingame\n- Experience will no longer be consumed if the enchanting wasn't successfull\n- Consumable Experience are now ediatble (also ingame)\n- Fixes to \"Settings\"\n- The \"remove Experience\" Button now removes the Experience of the Player correctly\n- More changes and fixes\n > Moved and renamed \com\worldhandler\environment.png to \com\worldhandler\icons.png\n- Added a currently hidden feature",
 		"1.5.2-1.7": "- Added \"Information pages\" in \"Settings\"\n- Added \"Reset\" button in \"Settings\"\n- Simplified \"Settings\"\n- Fixes to \"Update Check\"\n- \"Times\" are now editable\n > Config only but will be featured in next update",
 		"1.5.2-1.6": "- Added \"Command Syntax\"\n- Added config file\n > Settings will now be editable and saved\n- 1.5.2 Compatibility\n- Improvements to \"Update Check\"\n- Adjusted \"Times\"\n > Day will now start at 23000 game ticks\n > Night will now start at 12500 game ticks"
-	}
+	},
 	"1.5.1":
 	{
 		"1.5.1-1.5": "- Added \"Update Check\"\n- Added \"Settings\"\n- Added \"Cheats enabled\" check\n- Added \"Items\"\n- Added \"Translations\"\n > Please help translating\n- Added \"Note\"\n- Fixed Potion's wrong characters\n- Fixed Potion's give wrong ampflier",
