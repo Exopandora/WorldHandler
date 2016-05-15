@@ -62,7 +62,7 @@
     "1.4": "- Changed the way \"Create & Display Object\" in \"Scoreboard\" works\n- Changed the way \"Create Object\" in \"Scoreboard\" works\n- Changed the way \"Display Object\" in \"Scoreboard\" works\n- Fixed \"Inverted Player Points\" in \"Scoreboard\"",
     "1.3": "- Added \"Customisation\" to \"Potions\"\n- Changes to \"Gamerules\"\n > Now shows the Rule itself (commandBlockOutput, doFireTick, doMobLoot, doMobSpawning, doTileDrops, keepInventory, mobGriefing)\n- Changes to \"Scoreboard\"\n > Now remembers your input\n- Changed \"Open-Button\" from \"^\" to \"C\"\n- Removed \"Infinite Potion Effects\"\n > Replaced with \"Max time\" (1.000.000 sec)\n- Renamed \"Gamerule\" to \"Gamerules\"",
     "1.2": "- Improved 1.5.1 Compatibility\n- Added \"Player Info\" in \"World Info\"\n- Added \"Shortcuts\" in the \"Main Menu\"\n- Added \"Consume Exp\" to \"Enchant\"\n- Renamed \" World Info\" to \"Information\" in the Main Menu\"\n- Changed \"Difficulty\" & \"Gamemode\"\n- Changed \"Potion\" Design",
-    "1.1": "- 1.5.1 Compatibility",
+    "1.1": "- 1.5.1 Compatibility"
   },
   "1.5": {
     "1.0": "- Release"
