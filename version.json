@@ -6,6 +6,6 @@
   },
   "1.9": {
     "3.4": "n/a",
-    "3.3": "- Fixed Enchantment Slider Values\n- Fixed \"Update Available\" Button being too small\n- Fixed Localization in \"Give Custom Item\"",
+    "3.3": "- Fixed Enchantment Slider Values\n- Fixed \"Update Available\" Button being too small\n- Fixed Localization in \"Give Custom Item\""
   }
 }
