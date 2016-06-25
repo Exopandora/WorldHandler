@@ -2,8 +2,8 @@
 	"homepage": "http://minecraft.curseforge.com/mc-mods/228970",
 	"promos":
 	{
-		"1.10-latest": "3.6",
-		"1.10-recommended": "3.6",
+		"1.10-latest": "3.7",
+		"1.10-recommended": "3.7",
 		"1.9.4-latest": "3.5",
 		"1.9.4-recommended": "3.5",
 		"1.9-latest": "3.3",
@@ -29,6 +29,7 @@
 	},
 	"1.10":
 	{
+		"3.7": "- Changed Command Generator From JSON To NBT\n- Fixed Iron Boots Icon In Summon\n- Fixed Particles For Potions In Summon\n- Fixed Swords In Summon\n- Fixed Enchantment Crash\n- Fixed Ambient Potion Particles Boolean Being Inverted",
 		"3.6": "- Added 1.10 Compatibility\n    \u003E Sounds\n        \u003E Stray\n            \u003E entity.stray.ambient\n            \u003E entity.stray.death\n            \u003E entity.stray.hurt\n            \u003E entity.stray.step\n        \u003E Wither Skeleton\n            \u003E entity.wither_skeleton.ambient\n            \u003E entity.wither_skeleton.death\n            \u003E entity.wither_skeleton.hurt\n            \u003E entity.wither_skeleton.step\n        \u003E Polar Bear\n            \u003E entity.polar_bear.ambient\n            \u003E entity.polar_bear.baby_ambient\n            \u003E entity.polar_bear.death\n            \u003E entity.polar_bear.hurt\n            \u003E entity.polar_bear.step\n            \u003E entity.polar_bear.warning\n        \u003E Husk\n            \u003E entity.husk.ambient\n            \u003E entity.husk.death\n            \u003E entity.husk.hurt\n            \u003E entity.husk.step\n        \u003E Wither Skeleton\n            \u003E entity.wither_skeleton.ambient\n            \u003E entity.wither_skeleton.death\n            \u003E entity.wither_skeleton.hurt\n            \u003E entity.wither_skeleton.step\n        \u003E Enchant\n            \u003E block.enchantment_table.use\n- Added Config Option \"Permission Query\"\n- Changed List Arrangement To Be Alphabetically\n- Removed Sound \"entity.creeper.ambient\"\n- Fixed Missing Translations"
 	},
 	"1.9.4":
