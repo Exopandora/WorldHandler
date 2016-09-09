@@ -2,10 +2,10 @@
 	"homepage": "http://minecraft.curseforge.com/mc-mods/228970",
 	"promos":
 	{
-		"1.10.2-latest": "3.9",
-		"1.10.2-recommended": "3.9",
-		"1.10-latest": "3.9",
-		"1.10-recommended": "3.9",
+		"1.10.2-latest": "4.0",
+		"1.10.2-recommended": "4.0",
+		"1.10-latest": "4.0",
+		"1.10-recommended": "4.0",
 		"1.9.4-latest": "3.5",
 		"1.9.4-recommended": "3.5",
 		"1.9-latest": "3.3",
@@ -31,11 +31,13 @@
 	},
 	"1.10.2":
 	{
+		"4.0": "- Fixed Edit Blocks ID Filter",
 		"3.9": "- Added Clickable Tabs to Potions\n- Added Clickable Tabs to Change World\n- Added Clickable Tabs to Butcher\n- Added Localization: Simplified Chinese\n- Added Localization: German\n- Added Digital Tooltip to Watch\n- Changed Potions' Layout\n- Changed localization Strings to new format\n- Changed Tooltips\n- Fixed Sign Editor Command Generator\n- Fixed Note Block Editor Key-Mappings\n- Reworked Scoreboard",
 		"3.8": "- Added 1.10.2 Compatibility\n- Fixed Attributes Crash"
 	},
 	"1.10":
 	{
+		"4.0": "- Fixed Edit Blocks ID Filter",
 		"3.9": "- Added Clickable Tabs to Potions\n- Added Clickable Tabs to Change World\n- Added Clickable Tabs to Butcher\n- Added Localization: Simplified Chinese\n- Added Localization: German\n- Added Digital Tooltip to Watch\n- Changed Potions' Layout\n- Changed localization Strings to new format\n- Changed Tooltips\n- Fixed Sign Editor Command Generator\n- Fixed Note Block Editor Key-Mappings\n- Reworked Scoreboard",
 		"3.8": "- Added 1.10.2 Compatibility\n- Fixed Attributes Crash",
 		"3.7": "- Changed Command Generator From JSON To NBT\n- Fixed Iron Boots Icon In Summon\n- Fixed Particles For Potions In Summon\n- Fixed Swords In Summon\n- Fixed Enchantment Crash\n- Fixed Ambient Potion Particles Boolean Being Inverted",
