@@ -2,8 +2,8 @@
 	"homepage": "http://minecraft.curseforge.com/mc-mods/228970",
 	"promos":
 	{
-		"1.11-latest": "4.1",
-		"1.11-recommended": "4.1",
+		"1.11-latest": "4.2",
+		"1.11-recommended": "4.2",
 		"1.10.2-latest": "4.0",
 		"1.10.2-recommended": "4.0",
 		"1.10-latest": "4.0",
@@ -33,6 +33,7 @@
 	},
 	"1.11":
 	{
+		"4.2": "- Fixed Username Textfield",
 		"4.1": "- Added 1.11 Compatibility\n    \u003E Chat\n        \u003E 256 increased character limit\n    \u003E Gamerules\n        \u003E maxEntityCramming\n        \u003E doWeatherCycle\n    \u003E Enchantments\n        \u003E Curse of Vanishing\n        \u003E Curse of Binding\n    \u003E Sounds\n        \u003E Llama\n            \u003E entity.llama.ambient\n            \u003E entity.llama.angry\n            \u003E entity.llama.chest\n            \u003E entity.llama.death\n            \u003E entity.llama.eat\n            \u003E entity.llama.hurt\n            \u003E entity.llama.spit\n            \u003E entity.llama.step\n        \u003E Vex\n            \u003E entity.vex.ambient\n            \u003E entity.vex.charge\n            \u003E entity.vex.death\n            \u003E entity.vex.hurt\n        \u003E Vindicator\n            \u003E entity.vindication_illager.ambient\n            \u003E entity.vindication_illager.death\n            \u003E entity.vindication_illager.hurt\n        \u003E Evoker\n            \u003E entity.evocation_illager.ambient\n            \u003E entity.evocation_illager.cast_spell\n            \u003E entity.evocation_illager.death\n            \u003E entity.evocation_illager.hurt\n            \u003E entity.evocation_illager.prepare_attack\n            \u003E entity.evocation_illager.prepare_summon\n        \u003E Mule\n            \u003E entity.mule.ambient\n            \u003E entity.mule.chest\n            \u003E entity.mule.death\n            \u003E entity.mule.hurt\n        \u003E Donkey\n            \u003E entity.donkey.ambient\n            \u003E entity.donkey.chest\n            \u003E entity.donkey.angry\n            \u003E entity.donkey.death\n            \u003E entity.donkey.hurt\n        \u003E Skeleton Horse\n            \u003E entity.skeleton_horse.ambient\n            \u003E entity.skeleton_horse.hurt\n            \u003E entity.skeleton_horse.death\n        \u003E Zombie Horse\n            \u003E entity.zombie_horse.ambient\n            \u003E entity.zombie_horse.hurt\n            \u003E entity.zombie_horse.death\n        \u003E Zombie Villager\n            \u003E entity.zombie_villager.ambient\n            \u003E entity.zombie_villager.hurt\n            \u003E entity.zombie_villager.converted\n            \u003E entity.zombie_villager.cure\n            \u003E entity.zombie_villager.step\n            \u003E entity.zombie_villager.death\n        \u003E Bottle\n            \u003E item.bottle.empty\n        \u003E Armor\n            \u003E item.armor.equip_elytra\n        \u003E Damage\n            \u003E item.totem.use\n        \u003E Shulker Box\n            \u003E block.shulker_box.close\n            \u003E block.shulker_box.open\n- Updated Translation Strings\n- Fixed Change World Gui Tab Buttons\n- Removed \"Constant Weather\""
 	},
 	"1.10.2":
