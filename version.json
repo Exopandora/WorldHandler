@@ -2,6 +2,8 @@
 	"homepage": "http://minecraft.curseforge.com/mc-mods/228970",
 	"promos":
 	{
+		"1.11.2-latest": "4.3",
+		"1.11.2-recommended": "4.3",
 		"1.11-latest": "4.2",
 		"1.11-recommended": "4.2",
 		"1.10.2-latest": "4.0",
@@ -30,6 +32,10 @@
 		"1.5.1-recommended": "1.5",
 		"1.5-latest": "1.0",
 		"1.5-recommended": "1.0"
+	},
+	"1.11.2"
+	{
+		"4.3": "- Added 1.11.2 Compatibility\n    \u003E Added Sweeping Enchantment"
 	},
 	"1.11":
 	{
