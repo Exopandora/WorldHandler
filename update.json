@@ -1,14 +1,15 @@
 {
 	"promos":
 	{
-		"1.11.2": "4.7"
+		"1.11.2": "4.6"
 	},
 	"1.11.2":
 	{		
-		"4.7":		
+		"4.6":		
 		{			
-			"url": "test_url",
-			"m5d": "test_m5d"
+			"url": "https://minecraft.curseforge.com/projects/world-handler-command-gui/files/2393761/download",
+			"md5": "a356c3d40e7d41b5cdeac08bf4a067cc",
+			"name": "WorldHandler-1.11.2-4.7"
 		}	
 	}
 }
