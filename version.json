@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.12-latest": "4.7",
-		"1.12-recommended": "4.7",
+		"1.12-latest": "4.8",
+		"1.12-recommended": "4.8",
 		"1.11.2-latest": "4.6",
 		"1.11.2-recommended": "4.6",
 		"1.11-latest": "4.2",
@@ -37,6 +37,7 @@
 	},
 	"1.12"
 	{
+		"4.8": "- Fixed crash for Forge Version 14.21.0.2348",
 		"4.7": "- Added Command Block placing mode option\n- Added Advancement Gui\n- Changed skin alpha value range to 0-255 so it matches the tooltip\n- Changed clock hands colors (swapped)\n- Changed the default position with /wh pos1 and /wh pos2 if nothing is targeted to the players current position\n- Changed default key to 'V' to avoid conflicts\n- Removed Play Sound\n- Minor Icon changes\n- Fixed permission issues\n- Fixed Potion Particles in Summon\n- Fixed Potion Particles in Potion"
 	},
 	"1.11.2":
