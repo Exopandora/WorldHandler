@@ -1,1 +1,9 @@
-update.json
+# Ignore Everything
+/*
+
+# Except
+
+!/src/
+!build.gradle
+!README.md
+!version.json
