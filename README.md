@@ -1,6 +1,8 @@
 # World Handler #
 
-The World Handler provides a smart Gui for people without having to know any complex commands and gives them a look inside the art of Minecraft map and world making. Now anyone can easily create maps or just save a few ammount of time and provides an easy to use interface.
+The World Handler provides a smart Gui for people without having to know any complex commands and gives
+them a look inside the art of Minecraft map and world making. Now anyone can easily create maps or just
+save a few ammount of time and provides an easy to use interface.
 
 Curseforge: https://minecraft.curseforge.com/projects/world-handler-command-gui
 
@@ -43,7 +45,7 @@ Curseforge: https://minecraft.curseforge.com/projects/world-handler-command-gui
 * Simplified usage for /fill and /clone
 
 # Download #
-Compiled and signed versions: https://minecraft.curseforge.com/projects/world-handler-command-gui/files
+Compiled and signed versions: https://minecraft.curseforge.com/projects/world-handler-command-gui/files  
 Requires: Minecraft Forge (http://files.minecraftforge.net/)
 
 # Installation #
