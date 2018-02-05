@@ -1,0 +1,429 @@
+gui.worldhandler.config.tooltip=World Handler Einstellungen
+
+gui.worldhandler.config.category.settings=Einstellungen
+gui.worldhandler.config.category.skin=Skin
+gui.worldhandler.config.category.butcher=Metzler
+
+gui.worldhandler.config.key.settings.biome_indicator=Biome Indikator
+gui.worldhandler.config.key.settings.command_syntax=Befehlssyntax
+gui.worldhandler.config.key.settings.shortcuts=Schnellsteuerleiste
+gui.worldhandler.config.key.settings.key_shortcuts=Tasten Abkürzungen
+gui.worldhandler.config.key.settings.tooltips=Tooltips
+gui.worldhandler.config.key.settings.watch=Uhr
+gui.worldhandler.config.key.settings.smooth_watch=Geschmeidige Uhr
+gui.worldhandler.config.key.settings.pause_game=Spiel Pausieren
+gui.worldhandler.config.key.settings.custom_times=Benutzerdefinierte Zeiten
+gui.worldhandler.config.key.settings.permission_query=Berechtigungsabfrage
+gui.worldhandler.config.key.settings.custom_time_dawn=Sonnenaufgangszeit
+gui.worldhandler.config.key.settings.custom_time_noon=Mittagszeit
+gui.worldhandler.config.key.settings.custom_time_sunset=Sonnenuntergangszeit
+gui.worldhandler.config.key.settings.custom_time_midnight=Mitternachtszeit
+gui.worldhandler.config.key.settings.block_placing_mode=Platziermodus für Blöcke
+
+gui.worldhandler.config.comment.settings.custom_time_dawn=Biome Indikator Aktiviert
+gui.worldhandler.config.comment.settings.command_syntax=Befehlssyntax Aktiviert
+gui.worldhandler.config.comment.settings.shortcuts=Schnellsteuerleiste Aktiviert
+gui.worldhandler.config.comment.settings.key_shortcuts=Tasten Abkürzungen Aktiviert
+gui.worldhandler.config.comment.settings.tooltips=Tooltips Aktiviert
+gui.worldhandler.config.comment.settings.watch=Uhr Aktiviert
+gui.worldhandler.config.comment.settings.smooth_watch=Geschmeidige Uhr Aktiviert
+gui.worldhandler.config.comment.settings.pause_game=Spiel Pausieren
+gui.worldhandler.config.comment.settings.custom_times=Benutzerdefinierte Zeiten Aktiviert
+gui.worldhandler.config.comment.settings.permission_query=Berechtigungsabfrage Aktiviert
+gui.worldhandler.config.comment.settings.custom_time_dawn=Sonnenaufgangszeit in Ticks
+gui.worldhandler.config.comment.settings.custom_time_noon=Mittagszeit in Ticks
+gui.worldhandler.config.comment.settings.custom_time_sunset=Sonnenuntergangszeit in Ticks
+gui.worldhandler.config.comment.settings.custom_time_midnight=Mitternachtszeit in Ticks
+gui.worldhandler.config.comment.settings.block_placing_mode=Platziermodus für Blöcke
+
+gui.worldhandler.config.key.skin.icons=Ikon Größe
+gui.worldhandler.config.key.skin.label_color=Label Farbe
+gui.worldhandler.config.key.skin.headline_color=Farbe der Überschrift
+gui.worldhandler.config.key.skin.background_red=Hintergrund Rot
+gui.worldhandler.config.key.skin.background_green=Hintergrund Grün
+gui.worldhandler.config.key.skin.background_blue=Hintergrund Blau
+gui.worldhandler.config.key.skin.button_red=Schaltflächen Rot
+gui.worldhandler.config.key.skin.button_green=Schaltflächen Grün
+gui.worldhandler.config.key.skin.button_blue=Schaltflächen Blau
+gui.worldhandler.config.key.skin.textures=Texturen
+gui.worldhandler.config.key.skin.sharp_tab_edges=Scharfe Tab Kanten
+gui.worldhandler.config.key.skin.draw_background=Zeichne Hintergrund
+gui.worldhandler.config.key.skin.background_alpha=Hintergrund Alpha
+gui.worldhandler.config.key.skin.button_alpha=Hintergrund Alpha
+
+gui.worldhandler.config.comment.skin.icons=Größe der Ikons
+gui.worldhandler.config.comment.skin.label_color=Label Farbe
+gui.worldhandler.config.comment.skin.headline_color=Farbe der Überschrift
+gui.worldhandler.config.comment.skin.background_red=Hintergrund Rot
+gui.worldhandler.config.comment.skin.background_green=Hintergrund Grün
+gui.worldhandler.config.comment.skin.background_blue=Hintergrund Blau
+gui.worldhandler.config.comment.skin.button_red=Schaltflächen Rot
+gui.worldhandler.config.comment.skin.button_green=Schaltflächen Grün
+gui.worldhandler.config.comment.skin.button_blue=Schaltflächen Blau
+gui.worldhandler.config.comment.skin.textures=Hintergrund Texturen
+gui.worldhandler.config.comment.skin.sharp_tab_edges=Scharfe Tab Kanten Aktiviert
+gui.worldhandler.config.comment.skin.draw_background=Hintergrund Aktiviert
+gui.worldhandler.config.comment.skin.background_alpha=Hintergrund Alpha
+gui.worldhandler.config.comment.skin.button_alpha=Schaltflächen Alpha
+
+gui.worldhandler.config.comment.butcher=Metzeln von %s Aktiviert
+
+gui.worldhandler.tab.scoreboard.objectives=Objekte
+gui.worldhandler.tab.scoreboard.teams=Teams
+gui.worldhandler.tab.scoreboard.players=Spieler
+
+gui.worldhandler.tab.player.player=Player
+gui.worldhandler.tab.player.experience=Experience
+gui.worldhandler.tab.player.advancements=Fortschritt
+
+gui.worldhandler.tab.entities.summon=Beschwören
+
+gui.worldhandler.tab.world.world=Welt
+gui.worldhandler.tab.world.gamerules=Spielregeln
+
+gui.worldhandler.tab.blocks.edit_blocks=Blöcke Ändern
+gui.worldhandler.tab.blocks.sign_editor=Schilder Ändern
+gui.worldhandler.tab.blocks.note_block_editor=Noten Ändern
+
+gui.worldhandler.tab.items.give_custom_item=Item Erstellen
+gui.worldhandler.tab.items.enchantment=Verzaubern
+
+gui.worldhandler.tab.containers=Container
+gui.worldhandler.tab.multiplayer=Mehrspieler
+
+gui.worldhandler.title.entities.summon=Beschwören
+
+gui.worldhandler.title.items.give_custom_item=Item Erstellen
+gui.worldhandler.title.items.enchantment=Verzaubern
+
+gui.worldhandler.title.blocks.edit_blocks=Blöcke Ändern
+gui.worldhandler.title.blocks.sign_editor=Schilder Ändern
+gui.worldhandler.title.blocks.note_block_editor=Noten Ändern
+
+gui.worldhandler.title.scoreboard=Anzeigetafel
+
+gui.worldhandler.title.world.world=Welt
+gui.worldhandler.title.world.gamerules=Gamerules
+
+gui.worldhandler.title.player.player=Spieler
+gui.worldhandler.title.player.experience=Erfahrung
+gui.worldhandler.title.player.advancements=Fortschritt
+
+gui.worldhandler.title.butcher=Metzler
+gui.worldhandler.title.change_world=Welt Wechseln
+gui.worldhandler.title.potions=Tränke
+
+gui.worldhandler.title.containers=Container
+gui.worldhandler.title.multiplayer=Mehrspieler
+
+gui.worldhandler.advancements.grant=Vergeben
+gui.worldhandler.advancements.revoke=Wiederrufen
+gui.worldhandler.advancements.only=Nur
+gui.worldhandler.advancements.until=Bis
+gui.worldhandler.advancements.from=Von
+gui.worldhandler.advancements.through=Durch
+gui.worldhandler.advancements.everything=Alles
+
+gui.worldhandler.continue.question=Bist du sicher ?
+
+gui.worldhandler.change_world.singleplayer=Einzelspieler Welt
+gui.worldhandler.change_world.multiplayer=Mehrspieler Server
+
+gui.worldhandler.butcher.radius=Radius
+gui.worldhandler.butcher.configure=Konfigurieren
+gui.worldhandler.butcher.slaughter=Metzeln
+
+gui.worldhandler.multiplayer.kick=Kicken
+gui.worldhandler.multiplayer.ban=Bannen
+gui.worldhandler.multiplayer.pardon=Pardon
+gui.worldhandler.multiplayer.permissions=Berechtigung
+gui.worldhandler.multiplayer.runtime=Laufzeit
+gui.worldhandler.multiplayer.whitelist=Weiße Liste
+gui.worldhandler.multiplayer.username=Benutzername
+
+gui.worldhandler.multiplayer.kick_ban.reason=Grund
+
+gui.worldhandler.multiplayer.permissions.give=Berechtigung Geben
+gui.worldhandler.multiplayer.permissions.take=Berechtigung Nehmen
+
+gui.worldhandler.multiplayer.runtime.save_world=Welt Speichern
+gui.worldhandler.multiplayer.runtime.autosave=Autom. Speichern: %s
+gui.worldhandler.multiplayer.runtime.stop_server=Server Stoppen
+
+gui.worldhandler.multiplayer.whitelist.reload=Weiße Liste Neu Laden
+gui.worldhandler.multiplayer.whitelist.whitelist=Weiße Liste: %s
+gui.worldhandler.multiplayer.whitelist.add=Hinzuf
+gui.worldhandler.multiplayer.whitelist.remove=Entf
+
+gui.worldhandler.potions.effect=Effekt
+gui.worldhandler.potions.effect.give=Geben
+gui.worldhandler.potions.effect.remove=Entfernen
+gui.worldhandler.potions.effect.remove_all=Alle Entfernen
+gui.worldhandler.potions.effect.amplifier=Verstärker
+gui.worldhandler.potions.effect.ambient=Umgebung: %s
+gui.worldhandler.potions.effect.particles=Partikel: %s
+gui.worldhandler.potions.effect.bottle=Trank
+gui.worldhandler.potions.effect.splash=Wurftrank
+gui.worldhandler.potions.effect.lingering=Verweil
+gui.worldhandler.potions.effect.tipped_arrow=Pfeil
+
+gui.worldhandler.entities=Lebewesen
+gui.worldhandler.items=Items
+gui.worldhandler.scoreboard=Anzeigetafel
+gui.worldhandler.resourcepack=Ressourcen
+gui.worldhandler.change_world=Welt Wechseln
+gui.worldhandler.world=Welt
+gui.worldhandler.blocks=Blöcke
+gui.worldhandler.player=Spieler
+
+gui.worldhandler.items.give_custom_item.start=Start
+gui.worldhandler.items.give_custom_item.enchantment=Verzauberung
+gui.worldhandler.items.give_custom_item.attributes=Attribute
+gui.worldhandler.items.give_custom_item.give_custom_item=Gebe Eigenes Item
+
+gui.worldhandler.items.give_custom_item.start.item_id=Item ID
+gui.worldhandler.items.give_custom_item.start.lore_1=Sage I
+gui.worldhandler.items.give_custom_item.start.lore_2=Sage II
+gui.worldhandler.items.give_custom_item.start.custom_name=Eigener Name
+
+gui.worldhandler.items.enchantment.level=Level
+gui.worldhandler.items.enchantment.enchant=Verzaubern
+
+gui.worldhandler.blocks.sign_editor.look_at_sign=Gucke auf ein Schild und drücke '%s'
+gui.worldhandler.blocks.sign_editor.text_line_1=Textzeile I
+gui.worldhandler.blocks.sign_editor.text_line_2=Textzeile II
+gui.worldhandler.blocks.sign_editor.text_line_3=Textzeile III
+gui.worldhandler.blocks.sign_editor.text_line_4=Textzeile IV
+gui.worldhandler.blocks.sign_editor.commmand=Befehl
+gui.worldhandler.blocks.sign_editor.done=Fertig
+gui.worldhandler.blocks.sign_editor.format_text_line=Textzeile formatieren
+
+gui.worldhandler.blocks.note_block_editor.look_at_note_block=Gucke auf einen Notenblock und drücke '%s'
+gui.worldhandler.blocks.note_block_editor.c=C
+gui.worldhandler.blocks.note_block_editor.d=D
+gui.worldhandler.blocks.note_block_editor.e=E
+gui.worldhandler.blocks.note_block_editor.f=F
+gui.worldhandler.blocks.note_block_editor.g=G
+gui.worldhandler.blocks.note_block_editor.a=A
+gui.worldhandler.blocks.note_block_editor.b=H
+
+gui.worldhandler.gamerules.rule.commandBlockOutput=Befehlsblock Feedback
+gui.worldhandler.gamerules.rule.disableElytraMovementCheck=Deaktiviere Speed-Check
+gui.worldhandler.gamerules.rule.doDaylightCycle=Tageszyklus
+gui.worldhandler.gamerules.rule.doEntityDrops=Entity Drops
+gui.worldhandler.gamerules.rule.doFireTick=Feuerverbreitung
+gui.worldhandler.gamerules.rule.doMobLoot=Tierdrops
+gui.worldhandler.gamerules.rule.doMobSpawning=Tiere Spawnen
+gui.worldhandler.gamerules.rule.doTileDrops=Block Drops
+gui.worldhandler.gamerules.rule.keepInventory=Behalte Inventar
+gui.worldhandler.gamerules.rule.logAdminCommands=Adminbefehle Aufschreiben
+gui.worldhandler.gamerules.rule.mobGriefing=Griefing von Tieren
+gui.worldhandler.gamerules.rule.naturalRegeneration=Natürliche Regeneration
+gui.worldhandler.gamerules.rule.randomTickSpeed=Zufällige Tickgeschwindigkeit
+gui.worldhandler.gamerules.rule.reducedDebugInfo=Reduzierte Debug Info
+gui.worldhandler.gamerules.rule.sendCommandFeedback=Befehlsfeedback
+gui.worldhandler.gamerules.rule.showDeathMessages=Todesnachrichten
+gui.worldhandler.gamerules.rule.spawnRadius=Spawn Radius
+gui.worldhandler.gamerules.rule.spectatorsGenerateChunks=Zuschauer Generieren Chunks
+gui.worldhandler.gamerules.rule.doWeatherCycle=Wetterzyklus
+gui.worldhandler.gamerules.rule.maxEntityCramming=Max Entity Stapel
+gui.worldhandler.gamerules.rule.announceAdvancements=Fortschritte bekanntgeben
+gui.worldhandler.gamerules.rule.doLimitedCrafting=Limitertes Craften
+gui.worldhandler.gamerules.rule.gameLoopFunction=Game Loop Funktion
+gui.worldhandler.gamerules.rule.maxCommandChainLength=Kommandokettenlänge
+
+gui.worldhandler.world_info.start=Start
+gui.worldhandler.world_info.world=Welt
+gui.worldhandler.world_info.statistics=Statistiken
+
+gui.worldhandler.world_info.n_a=n/v
+
+gui.worldhandler.world_info.start.spawn=Spawn
+
+gui.worldhandler.world_info.world.name=Name
+gui.worldhandler.world_info.world.world_type=Welttyp
+gui.worldhandler.world_info.world.seed=Seed
+
+gui.worldhandler.world_info.statistics.world_time=Weltzeit
+gui.worldhandler.world_info.statistics.played=Played
+
+gui.worldhandler.edit_blocks.coordinates=Koordinaten
+gui.worldhandler.edit_blocks.fill=Füllen
+gui.worldhandler.edit_blocks.replace=Ersetzen
+gui.worldhandler.edit_blocks.clone=Klonen
+
+gui.worldhandler.edit_blocks.replace.block_id_replace=Block ID Ersetze
+gui.worldhandler.edit_blocks.replace.block_id_place=Block ID Platzier
+
+gui.worldhandler.edit_blocks.fill.block_id_to_fill=Block ID Füllen
+
+gui.worldhandler.edit_blocks.clone.mode.replace=Ersetzen
+gui.worldhandler.edit_blocks.clone.mode.masked=Maskiert
+gui.worldhandler.edit_blocks.clone.mode.filtered=Gefiltert
+
+gui.worldhandler.edit_blocks.pos.set_pos_1=Position 1
+gui.worldhandler.edit_blocks.pos.set_pos_2=Position 2
+
+gui.worldhandler.scoreboard.slot.list=Liste
+gui.worldhandler.scoreboard.slot.belowName=Unter Name
+gui.worldhandler.scoreboard.slot.sidebar=Seitentafel
+gui.worldhandler.scoreboard.slot.sidebar.team=Seitentafel Team
+
+gui.worldhandler.scoreboard.objectives.objective=Objekt
+gui.worldhandler.scoreboard.objectives.create=Erstellen
+gui.worldhandler.scoreboard.objectives.display=Anzeigen
+gui.worldhandler.scoreboard.objectives.undisplay=Verstecken
+gui.worldhandler.scoreboard.objectives.remove=Entfernen
+
+gui.worldhandler.scoreboard.objectives.criteria.air=Spieler Luft
+gui.worldhandler.scoreboard.objectives.criteria.armor=Spieler Rüstung
+gui.worldhandler.scoreboard.objectives.criteria.deathCount=Tode
+gui.worldhandler.scoreboard.objectives.criteria.dummy=Dummy
+gui.worldhandler.scoreboard.objectives.criteria.food=Spieler Hunger
+gui.worldhandler.scoreboard.objectives.criteria.health=Spieler Leben
+gui.worldhandler.scoreboard.objectives.criteria.killedByTeam=Von Team Getötet
+gui.worldhandler.scoreboard.objectives.criteria.level=Erfahrungslevel
+gui.worldhandler.scoreboard.objectives.criteria.playerKillCount=Spieler Getötet
+gui.worldhandler.scoreboard.objectives.criteria.stat=Statistik
+gui.worldhandler.scoreboard.objectives.criteria.stat.craftingTableInteraction=Werkbank Interaktionen
+gui.worldhandler.scoreboard.objectives.criteria.stat.breakItem=Items Verbraucht
+gui.worldhandler.scoreboard.objectives.criteria.stat.craftItem=Items Hergestellt
+gui.worldhandler.scoreboard.objectives.criteria.stat.drop=Items Fallen Gelassen
+gui.worldhandler.scoreboard.objectives.criteria.stat.entityKilledBy=Getötet Von Zähler
+gui.worldhandler.scoreboard.objectives.criteria.stat.killEntity=Tötungen Von Lebewesen
+gui.worldhandler.scoreboard.objectives.criteria.stat.mineBlock=Blöcke Abgebaut
+gui.worldhandler.scoreboard.objectives.criteria.stat.pickup=Items Aufgenommen
+gui.worldhandler.scoreboard.objectives.criteria.stat.useItem=Items Benutzt
+gui.worldhandler.scoreboard.objectives.criteria.teamkill=Teamtötungen
+gui.worldhandler.scoreboard.objectives.criteria.totalKillCount=Tötungen
+gui.worldhandler.scoreboard.objectives.criteria.trigger=Auslöser
+gui.worldhandler.scoreboard.objectives.criteria.xp=Erfahrung
+
+gui.worldhandler.scoreboard.team.options.friendlyfire=Freundliches Feuer
+gui.worldhandler.scoreboard.team.options.seeFriendlyInvisibles=Unsichtbare Freunde
+gui.worldhandler.scoreboard.team.options.nametagVisibility=Namensschild Sichtbarkeit
+gui.worldhandler.scoreboard.team.options.deathMessageVisibility=Todesnachrichten
+gui.worldhandler.scoreboard.team.options.collisionRule=Teamkollision
+gui.worldhandler.scoreboard.team.options.color=Farbe
+
+gui.worldhandler.scoreboard.team.suboption.always=Immer
+gui.worldhandler.scoreboard.team.suboption.never=Niemals
+gui.worldhandler.scoreboard.team.suboption.hideForOtherTeams=Für Andere Unsichtbar
+gui.worldhandler.scoreboard.team.suboption.hideForOwnTeam=Für Eigene Unsichtbar
+gui.worldhandler.scoreboard.team.suboption.pushOwnTeam=Bewege Eigenes Team
+gui.worldhandler.scoreboard.team.suboption.pushOtherTeams=Bewege Andere Teams
+gui.worldhandler.scoreboard.team.suboption.true=Ein
+gui.worldhandler.scoreboard.team.suboption.false=Aus
+
+gui.worldhandler.scoreboard.team.team=Team
+gui.worldhandler.scoreboard.team.create=Erstellen
+gui.worldhandler.scoreboard.team.join=Beitreten
+gui.worldhandler.scoreboard.team.leave=Verlassen
+gui.worldhandler.scoreboard.team.remove=Entfernen
+gui.worldhandler.scoreboard.team.empty=Leeren
+gui.worldhandler.scoreboard.team.options=Team Optionen
+
+gui.worldhandler.scoreboard.players.points=Punkte
+gui.worldhandler.scoreboard.players.tag=Etikett
+gui.worldhandler.scoreboard.players.trigger=Auslöser
+
+gui.worldhandler.entities.player.start=Start
+gui.worldhandler.entities.player.score=Wertung
+gui.worldhandler.entities.player.position=Position
+gui.worldhandler.entities.player.miscellaneous=Sonstige
+
+gui.worldhandler.entities.player.score.experience=Erfahrung
+gui.worldhandler.entities.player.score.experience_coins=Erf-Punkte
+
+gui.worldhandler.entities.player.position.copy_position=Kopiere Position
+
+gui.worldhandler.entities.player.miscellaneous.set_spawn=Setze Spawn
+gui.worldhandler.entities.player.miscellaneous.set_global_spawn=Setze Globalen Spawn
+gui.worldhandler.entities.player.miscellaneous.kill=Töten
+gui.worldhandler.entities.player.miscellaneous.clear_inventory=Leere Inventar
+
+gui.worldhandler.entities.summon.start=Start
+gui.worldhandler.entities.summon.potion_effects=Statuseffekte
+gui.worldhandler.entities.summon.attributes=Attribute
+gui.worldhandler.entities.summon.equipment=Ausrüstung
+
+gui.worldhandler.entities.summon.start.mob_id=Tier ID
+gui.worldhandler.entities.summon.start.custom_name=Eigener Name
+gui.worldhandler.entities.summon.start.passenger_mob_id=Passagier Tier ID
+
+gui.worldhandler.potion.time.hours=Stunden
+gui.worldhandler.potion.time.minutes=Minuten
+gui.worldhandler.potion.time.seconds=Sekunden
+
+gui.worldhandler.shortcuts.tooltip.home=Home
+gui.worldhandler.shortcuts.tooltip.butcher=Metzeln
+gui.worldhandler.shortcuts.tooltip.settings=Einstellungen
+gui.worldhandler.shortcuts.tooltip.potions=Tränke
+
+gui.worldhandler.shortcuts.tooltip.gamemode=Spielmodus: %s
+gui.worldhandler.shortcuts.tooltip.gamemode.survival=Überleben
+gui.worldhandler.shortcuts.tooltip.gamemode.creative=Kreativ
+gui.worldhandler.shortcuts.tooltip.gamemode.adventure=Abenteuer
+gui.worldhandler.shortcuts.tooltip.gamemode.spectator=Zuschauer
+
+gui.worldhandler.shortcuts.tooltip.difficulty=Schwierigkeit: %s
+gui.worldhandler.shortcuts.tooltip.difficulty.peaceful=Friedlich
+gui.worldhandler.shortcuts.tooltip.difficulty.easy=Einfach
+gui.worldhandler.shortcuts.tooltip.difficulty.normal=Normal
+gui.worldhandler.shortcuts.tooltip.difficulty.hard=Schwer
+
+gui.worldhandler.shortcuts.tooltip.weather=Wetter: %s
+gui.worldhandler.shortcuts.tooltip.weather.thunder=Unwetter
+gui.worldhandler.shortcuts.tooltip.weather.rainy=Regen
+gui.worldhandler.shortcuts.tooltip.weather.clear=Sonnig
+
+gui.worldhandler.shortcuts.tooltip.time=Zeit: %s
+gui.worldhandler.shortcuts.tooltip.time.midnight=Mitternacht (%s)
+gui.worldhandler.shortcuts.tooltip.time.sunset=Sonnenuntergang (%s)
+gui.worldhandler.shortcuts.tooltip.time.noon=Mittag (%s)
+gui.worldhandler.shortcuts.tooltip.time.dawn=Sonnenaufgang (%s)
+
+gui.worldhandler.generic.back=Zurück
+gui.worldhandler.generic.backToGame=Schließen
+gui.worldhandler.generic.browse=Blättern
+gui.worldhandler.generic.options=Optionen
+gui.worldhandler.generic.on=An
+gui.worldhandler.generic.off=Aus
+gui.worldhandler.generic.yes=Ja
+gui.worldhandler.generic.no=Nein
+gui.worldhandler.generic.value=Wert
+gui.worldhandler.generic.name=Name
+gui.worldhandler.generic.enable=Ein
+gui.worldhandler.generic.disable=Aus
+gui.worldhandler.generic.edit_username=Benutzername
+
+gui.worldhandler.actions.add=Hinzufügen
+gui.worldhandler.actions.remove=Entfernen
+gui.worldhandler.actions.reset=Zurücksetzen
+gui.worldhandler.actions.set_to_0=Auf 0 setzen
+gui.worldhandler.actions.perform=Ausführen
+gui.worldhandler.actions.send=Senden
+gui.worldhandler.actions.copy=Kopieren
+gui.worldhandler.actions.place_command_block=Platziere Befehlsblock
+
+gui.worldhandler.color=Farbe
+gui.worldhandler.color.black=Schwarz
+gui.worldhandler.color.dark_blue=Dunkel Blau
+gui.worldhandler.color.dark_green=Dunkel Grün
+gui.worldhandler.color.dark_aqua=Dunkel Türkis
+gui.worldhandler.color.dark_red=Dunkel Rot
+gui.worldhandler.color.dark_purple=Dunkel Lila
+gui.worldhandler.color.gold=Gold
+gui.worldhandler.color.gray=Grau
+gui.worldhandler.color.dark_gray=Dunkel Grau
+gui.worldhandler.color.blue=Blau
+gui.worldhandler.color.green=Grün
+gui.worldhandler.color.aqua=Türkis
+gui.worldhandler.color.red=Rot
+gui.worldhandler.color.light_purple=Pink
+gui.worldhandler.color.yellow=Gelb
+gui.worldhandler.color.white=Weiss
+gui.worldhandler.color.reset=Normal
+
+worldhandler.permission.refused=Du hast nicht die benötigte Berechtigung, um den World Handler zu benutzen
+worldhandler.permission.refused.change=Ändere "%s" um diese Nachricht zu umgehen
