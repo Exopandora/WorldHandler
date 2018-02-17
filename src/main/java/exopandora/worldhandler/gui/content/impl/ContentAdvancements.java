@@ -186,12 +186,6 @@ public class ContentAdvancements extends Content
 	}
 	
 	@Override
-	public String[] getHeadline()
-	{
-		return new String[] {null, I18n.format("gui.worldhandler.generic.options")};
-	}
-	
-	@Override
 	public Content getActiveContent()
 	{
 		return Contents.ADVANCEMENTS;

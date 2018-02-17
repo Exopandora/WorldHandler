@@ -13,6 +13,7 @@ import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderSummon;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes.Applyable;
+import exopandora.worldhandler.config.ConfigSliders;
 import exopandora.worldhandler.gui.button.GuiButtonItem;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.GuiSlider;
@@ -57,10 +58,43 @@ public class ContentSummon extends Content
 	
 	private final BuilderSummon builderSummon = new BuilderSummon();
 	
+	private final List<EnumAttributes> attributes = Stream.concat(EnumAttributes.getAttributesFor(Applyable.BOTH).stream(), EnumAttributes.getAttributesFor(Applyable.MOB).stream()).collect(Collectors.toList());
+	
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
 		return this.builderSummon;
+	}
+	
+	@Override
+	public void init(Container container)
+	{
+		for(EnumAttributes attribute : this.builderSummon.getAttributes())
+		{
+			double ammount = this.builderSummon.getAttributeAmmount(attribute);
+			
+			if(ammount > ConfigSliders.getMaxSummonAttributes())
+			{
+				this.builderSummon.setAttribute(attribute, ConfigSliders.getMaxSummonAttributes());
+			}
+		}
+		
+		for(Potion potion : this.builderSummon.getPotions())
+		{
+			byte amplifier = this.builderSummon.getAmplifier(potion);
+			
+			if(amplifier > ConfigSliders.getMaxSummonPotionAmplifier())
+			{
+				this.builderSummon.setAmplifier(potion, (byte) ConfigSliders.getMaxSummonPotionAmplifier());
+			}
+			
+			int minutes = this.builderSummon.getMinutes(potion);
+			
+			if(minutes > ConfigSliders.getMaxSummonPotionMinutes())
+			{
+				this.builderSummon.setMinutes(potion, (int) ConfigSliders.getMaxSummonPotionMinutes());
+			}
+		}
 	}
 	
 	@Override
@@ -82,7 +116,7 @@ public class ContentSummon extends Content
 		
 		if(this.page.equals("attributes"))
 		{
-			ElementPageList<EnumAttributes, Object> attributes = new ElementPageList<EnumAttributes, Object>(x + 118, y, Stream.concat(EnumAttributes.getAttributesFor(Applyable.BOTH).stream(), EnumAttributes.getAttributesFor(Applyable.MOB).stream()).collect(Collectors.toList()), null, 114, 20, 3, this, new int[] {6, 7, 8}, new ILogicPageList<EnumAttributes, Object>()
+			ElementPageList<EnumAttributes, Object> attributes = new ElementPageList<EnumAttributes, Object>(x + 118, y, this.attributes, null, 114, 20, 3, this, new int[] {6, 7, 8}, new ILogicPageList<EnumAttributes, Object>()
 			{
 				@Override
 				public String translate(EnumAttributes key)
@@ -105,7 +139,7 @@ public class ContentSummon extends Content
 				@Override
 				public void onRegister(int id, int x, int y, int width, int height, String display, String registry, boolean enabled, EnumAttributes value, Container container)
 				{
-					container.add(new GuiSlider<EnumAttributes>(Contents.SUMMON, container, value, x, y, width, height, display, value.getMin(), value.getMax(), value.getStart(), new AttributeResponder(response ->
+					container.add(new GuiSlider<EnumAttributes>(Contents.SUMMON, container, value, x, y, width, height, display, -ConfigSliders.getMaxSummonAttributes(), ConfigSliders.getMaxSummonAttributes(), 0, new AttributeResponder(response ->
 					{
 						builderSummon.setAttribute(value, response);
 					})));
@@ -208,11 +242,11 @@ public class ContentSummon extends Content
 					
 					if(count == this.potionPage)
 					{
-						container.add(new GuiSlider<Potion>(this, container, "amplifier" + potion, x + 118, y, 114, 20, I18n.format(potion.getName()), 0, 100, 0, new SimpleResponder<Potion>(value ->
+						container.add(new GuiSlider<Potion>(this, container, "amplifier" + potion.getRegistryName(), x + 118, y, 114, 20, I18n.format(potion.getName()), 0, ConfigSliders.getMaxSummonPotionAmplifier(), 0, new SimpleResponder<Potion>(value ->
 						{
 							this.builderSummon.setAmplifier(potion, value.byteValue());
 						})));
-						container.add(new GuiSlider<Potion>(this, container, "duration" + potion, x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.potion.time.minutes"), 0, 100, 0, new SimpleResponder<Potion>(value ->
+						container.add(new GuiSlider<Potion>(this, container, "duration" + potion.getRegistryName(), x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.potion.time.minutes"), 0, ConfigSliders.getMaxSummonPotionMinutes(), 0, new SimpleResponder<Potion>(value ->
 						{
 							this.builderSummon.setMinutes(potion, value);
 						})));
@@ -627,8 +661,6 @@ public class ContentSummon extends Content
 	{
 		String[] headline = new String[2];
 		
-		headline[0] = I18n.format("gui.worldhandler.generic.browse");
-		
 		if(this.page.equals("potionEffects"))
 		{
 			headline[1] = (this.potionPage + 1) + "/" + (Potion.REGISTRY.getKeys().size() - 2);
@@ -636,10 +668,6 @@ public class ContentSummon extends Content
 		else if(this.page.equals("equipment"))
 		{
 			headline[1] = (this.equipmentPage + 1) + "/2";
-		}
-		else if(this.page.equals("main"))
-		{
-			headline[1] = I18n.format("gui.worldhandler.generic.options");
 		}
 		
 		return headline;

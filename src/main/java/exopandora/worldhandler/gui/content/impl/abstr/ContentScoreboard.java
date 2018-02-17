@@ -25,10 +25,4 @@ public abstract class ContentScoreboard extends Content
 	{
 		return I18n.format("gui.worldhandler.title.scoreboard");
 	}
-	
-	@Override
-	public String[] getHeadline()
-	{
-		return new String[] {I18n.format("gui.worldhandler.generic.browse"), I18n.format("gui.worldhandler.generic.options")};
-	}
 }

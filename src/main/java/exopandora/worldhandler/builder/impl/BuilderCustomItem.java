@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import java.util.Set;
+
 import exopandora.worldhandler.builder.component.impl.ComponentAttributeItem;
 import exopandora.worldhandler.builder.component.impl.ComponentDisplay;
 import exopandora.worldhandler.builder.component.impl.ComponentEnchantment;
@@ -39,7 +41,17 @@ public class BuilderCustomItem extends BuilderGive
 		this.enchantment.setLevel(enchantment, level);
 	}
 	
-	public void setAttribute(EnumAttributes attribute, float ammount)
+	public short getEnchantmentLevel(Enchantment enchantment)
+	{
+		return this.enchantment.getLevel(enchantment);
+	}
+	
+	public Set<Enchantment> getEnchantments()
+	{
+		return this.enchantment.getEnchantments();
+	}
+	
+	public void setAttribute(EnumAttributes attribute, double ammount)
 	{
 		this.attribute.set(attribute, ammount);
 	}
@@ -47,6 +59,16 @@ public class BuilderCustomItem extends BuilderGive
 	public void removeAttribute(EnumAttributes attribute)
 	{
 		this.attribute.remove(attribute);
+	}
+	
+	public double getAttributeAmmount(EnumAttributes attribute)
+	{
+		return this.attribute.getAmmount(attribute);
+	}
+	
+	public Set<EnumAttributes> getAttributes()
+	{
+		return this.attribute.getAttributes();
 	}
 	
 	public void setName(ColoredString name)

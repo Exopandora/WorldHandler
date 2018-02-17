@@ -76,6 +76,7 @@ public class GuiWorldHandlerContainer extends Container
 		this.tabWidth = (this.bgTextureWidth - this.tabDistanceTotal) / Math.max(this.tabSize, 2);
 		this.tabHalf = this.tabWidth / 2D;
 		this.tabEpsilon = this.bgTextureWidth - (this.tabDistanceTotal + this.tabHalf * Math.max(this.tabSize, 2) * 2D);
+		this.content.init(this);
 	}
 	
 	@Override

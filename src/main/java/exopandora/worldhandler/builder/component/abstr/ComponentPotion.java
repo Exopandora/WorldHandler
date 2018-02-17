@@ -2,6 +2,7 @@ package exopandora.worldhandler.builder.component.abstr;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -167,6 +168,11 @@ public abstract class ComponentPotion implements IBuilderComponent
 		}
 		
 		return false;
+	}
+	
+	public Set<Potion> getPotions()
+	{
+		return this.potions.keySet();
 	}
 	
 	@Nullable

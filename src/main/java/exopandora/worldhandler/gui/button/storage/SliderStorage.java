@@ -6,34 +6,56 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SliderStorage
 {
-	private final float min;
-	private final float max;
-	private float value;
+	private final double min;
+	private final double max;
+	private double position;
 	
-	public SliderStorage(float min, float max, float value)
+	public SliderStorage(double min, double max, double position)
 	{
 		this.min = min;
 		this.max = max;
-		this.value = value;
+		this.position = position;
 	}
 	
-	public float getMin()
+	public SliderStorage(double min, double max, int value)
+	{
+		this.min = min;
+		this.max = max;
+		this.position = this.valueToPosition(value);
+	}
+	
+	public double getMin()
 	{
 		return this.min;
 	}
 	
-	public float getMax()
+	public double getMax()
 	{
 		return this.max;
 	}
 	
-	public float getFloat()
+	public double getPosition()
 	{
-		return this.value;
+		return this.position;
 	}
 	
-	public void setFloat(float value)
+	public void setPosition(double position)
 	{
-		this.value = value;
+		this.position = position;
+	}
+	
+	public int getValue()
+	{
+		return (int) (this.min + (this.max - this.min) * this.position);
+	}
+	
+	public void setValue(int value)
+	{
+		this.position = this.valueToPosition(value);
+	}
+	
+	private double valueToPosition(int value)
+	{
+		return (value - this.min) / (this.max - this.min);
 	}
 }

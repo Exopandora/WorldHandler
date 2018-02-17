@@ -6,6 +6,7 @@ import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderScoreboardPlayers;
 import exopandora.worldhandler.builder.impl.BuilderScoreboardPlayers.EnumPoints;
 import exopandora.worldhandler.builder.impl.BuilderScoreboardPlayers.EnumTag;
+import exopandora.worldhandler.config.ConfigSliders;
 import exopandora.worldhandler.gui.button.EnumTooltip;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.GuiSlider;
@@ -40,6 +41,15 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	public ICommandBuilder getCommandBuilder()
 	{
 		return this.builderPlayers;
+	}
+	
+	@Override
+	public void init(Container container)
+	{
+		if(this.builderPlayers.getPoints() > ConfigSliders.getMaxPlayerPoints())
+		{
+			this.builderPlayers.setPoints((int) ConfigSliders.getMaxPlayerPoints());
+		}
 	}
 	
 	@Override
@@ -78,7 +88,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		
 		if(this.selectedPlayer.equals("add|set|remove"))
 		{
-			container.add(new GuiSlider<String>(this, container, "points", x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.points"), 0, 100, 0, new SimpleResponder<String>(value ->
+			container.add(new GuiSlider<String>(this, container, "points", x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.points"), 0, ConfigSliders.getMaxPlayerPoints(), 0, new SimpleResponder<String>(value ->
 			{
 				this.builderPlayers.setPoints(value);
 			})));

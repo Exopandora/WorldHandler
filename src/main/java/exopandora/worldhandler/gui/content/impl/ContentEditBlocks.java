@@ -395,12 +395,6 @@ public class ContentEditBlocks extends Content
 	}
 	
 	@Override
-	public String[] getHeadline()
-	{
-		return new String[] {I18n.format("gui.worldhandler.generic.browse"), I18n.format("gui.worldhandler.generic.options")};
-	}
-	
-	@Override
 	public Content getActiveContent()
 	{
 		return Contents.EDIT_BLOCKS;

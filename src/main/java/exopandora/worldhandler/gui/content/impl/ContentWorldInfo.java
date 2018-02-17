@@ -220,12 +220,6 @@ public class ContentWorldInfo extends Content
 	}
 	
 	@Override
-	public String[] getHeadline()
-	{
-		return new String[] {I18n.format("gui.worldhandler.generic.browse")};
-	}
-	
-	@Override
 	public Content getActiveContent()
 	{
 		return Contents.WORLD_INFO;

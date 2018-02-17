@@ -6,13 +6,14 @@ import java.util.List;
 import exopandora.worldhandler.config.ConfigButcher;
 import exopandora.worldhandler.config.ConfigSettings;
 import exopandora.worldhandler.config.ConfigSkin;
+import exopandora.worldhandler.config.ConfigSliders;
 import exopandora.worldhandler.main.Main;
 import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.config.DummyConfigElement;
+import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
@@ -45,9 +46,10 @@ public class GuiConfigWorldHandler extends GuiConfig
 	{
 		List<IConfigElement> list = new ArrayList();
     	
-		list.add(new DummyConfigElement.DummyCategoryElement(I18n.format("gui.worldhandler.config.category.settings"), "gui.worldhandler.config", new ConfigElement(WorldHandler.CONFIG.getCategory(ConfigSettings.CATEGORY)).getChildElements()));
-		list.add(new DummyConfigElement.DummyCategoryElement(I18n.format("gui.worldhandler.config.category.skin"), "gui.worldhandler.config", new ConfigElement(WorldHandler.CONFIG.getCategory(ConfigSkin.CATEGORY)).getChildElements()));
-		list.add(new DummyConfigElement.DummyCategoryElement(I18n.format("gui.worldhandler.config.category.butcher"), "gui.worldhandler.config", new ConfigElement(WorldHandler.CONFIG.getCategory(ConfigButcher.CATEGORY)).getChildElements()));
+		list.add(new DummyCategoryElement(I18n.format("gui.worldhandler.config.category.settings"), "gui.worldhandler.config", new ConfigElement(WorldHandler.CONFIG.getCategory(ConfigSettings.CATEGORY)).getChildElements()));
+		list.add(new DummyCategoryElement(I18n.format("gui.worldhandler.config.category.skin"), "gui.worldhandler.config", new ConfigElement(WorldHandler.CONFIG.getCategory(ConfigSkin.CATEGORY)).getChildElements()));
+		list.add(new DummyCategoryElement(I18n.format("gui.worldhandler.config.category.butcher"), "gui.worldhandler.config", new ConfigElement(WorldHandler.CONFIG.getCategory(ConfigButcher.CATEGORY)).getChildElements()));
+		list.add(new DummyCategoryElement(I18n.format("gui.worldhandler.config.category.sliders"), "gui.worldhandler.config", new ConfigElement(WorldHandler.CONFIG.getCategory(ConfigSliders.CATEGORY)).getChildElements()));
 		
 		return list;
 	}

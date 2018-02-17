@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -26,7 +27,7 @@ public class GuiSlider<T> extends GuiButton
 	private final Container frame;
 	private final ButtonStorage<SliderStorage> storage;
 	
-	public GuiSlider(Content container, Container frame, Object key, int x, int y, int width, int height, String name, float min, float max, float start, ISliderResponder responder)
+	public GuiSlider(Content container, Container frame, Object key, int x, int y, int width, int height, String name, double min, double max, double start, ISliderResponder responder)
 	{
 		super(Integer.MAX_VALUE, x, y, width, height, null);
 		this.frame = frame;
@@ -34,35 +35,50 @@ public class GuiSlider<T> extends GuiButton
 		this.name = name;
         this.responder = responder;
 		this.storage = container.getStorage(key);
-		
-		if(this.storage.getObject() == null || this.storage.getObject().getMin() != min || this.storage.getObject().getMax() != max)
-		{
-			this.storage.setObject(new SliderStorage(min, max, min == max ? 0 : ((start - min) / (max - min))));
-		}
-		
+		this.initStorage(Math.round(min), Math.round(max), Math.round(start));
 		this.displayString = this.getDisplayString();
 	}
 	
-	private void setFloat(float value)
+	private void initStorage(double min, double max, double start)
 	{
-		this.storage.getObject().setFloat(value);
+		if(this.storage.getObject() == null || this.storage.getObject().getMin() != min || this.storage.getObject().getMax() != max)
+		{
+			if(this.storage.getObject() == null)
+			{
+				if(min == max)
+				{
+					this.storage.setObject(new SliderStorage(min, max, 0));
+				}
+				else
+				{
+					this.storage.setObject(new SliderStorage(min, max, (start - min) / (max - min)));
+				}
+			}
+			else
+			{
+				this.storage.setObject(new SliderStorage(min, max, (int) MathHelper.clamp(this.getValue(), min, max)));
+			}
+		}
 	}
 	
-	private float getFloat()
+	private void setPosition(double position)
 	{
-		return this.storage.getObject().getFloat();
+		this.storage.getObject().setPosition(position);
+	}
+	
+	private double getPosition()
+	{
+		return this.storage.getObject().getPosition();
 	}
 	
 	private void setValue(int value)
 	{
-		SliderStorage slider = this.storage.getObject();
-		this.storage.getObject().setFloat((value - slider.getMin()) / (slider.getMax() - slider.getMin()));
+		this.storage.getObject().setValue(value);
 	}
 	
 	private int getValue()
 	{
-		SliderStorage slider = this.storage.getObject();
-		return (int) (slider.getMin() + (slider.getMax() - slider.getMin()) * this.getFloat());
+		return this.storage.getObject().getValue();
 	}
 	
 	private String getDisplayString()
@@ -118,7 +134,7 @@ public class GuiSlider<T> extends GuiButton
 			sliderValue = 1.0F;
 		}
 		
-		this.setFloat(sliderValue);
+		this.setPosition(sliderValue);
 		this.displayString = this.getDisplayString();
 		this.responder.setValue(this.key, this.getValue());
 	}
@@ -139,8 +155,8 @@ public class GuiSlider<T> extends GuiButton
             GlStateManager.enableBlend();
     		GlStateManager.color((float) ConfigSkin.getButtonRed() / 255, (float) ConfigSkin.getButtonGreen() / 255, (float) ConfigSkin.getButtonBlue() / 255, (float) ConfigSkin.getButtonAlpha() / 255);
     		
-    		this.drawTexturedModalRect(this.x + (int) (this.getFloat() * (float) (this.width - 8)), this.y, 0, 66 + textureXOffset, 4, 20);
-			this.drawTexturedModalRect(this.x + (int) (this.getFloat() * (float) (this.width - 8)) + 4, this.y, 196, 66 + textureXOffset, 4, 20);
+    		this.drawTexturedModalRect(this.x + (int) (this.getPosition() * (float) (this.width - 8)), this.y, 0, 66 + textureXOffset, 4, 20);
+			this.drawTexturedModalRect(this.x + (int) (this.getPosition() * (float) (this.width - 8)) + 4, this.y, 196, 66 + textureXOffset, 4, 20);
 			
     		GlStateManager.disableBlend();
             GlStateManager.popMatrix();

@@ -12,6 +12,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public interface IContent
 {
+	default void init(Container container)
+	{
+		
+	}
+	
 	default void initGui(Container container, int x, int y)
 	{
 		

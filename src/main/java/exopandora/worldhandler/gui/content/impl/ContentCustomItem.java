@@ -1,6 +1,7 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -10,6 +11,7 @@ import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderCustomItem;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes.Applyable;
+import exopandora.worldhandler.config.ConfigSliders;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.GuiSlider;
@@ -49,6 +51,8 @@ public class ContentCustomItem extends Content
 	
 	private GuiButtonList colorButton;
 	
+	private final List<EnumAttributes> attributes = Stream.concat(EnumAttributes.getAttributesFor(Applyable.BOTH).stream(), EnumAttributes.getAttributesFor(Applyable.PLAYER).stream()).collect(Collectors.toList());
+	
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
@@ -56,17 +60,41 @@ public class ContentCustomItem extends Content
 	}
 	
 	@Override
+	public void init(Container container)
+	{
+		for(EnumAttributes attribute : this.builderCutomItem.getAttributes())
+		{
+			double ammount = this.builderCutomItem.getAttributeAmmount(attribute);
+			
+			if(ammount > ConfigSliders.getMaxItemAttributes())
+			{
+				this.builderCutomItem.setAttribute(attribute, ConfigSliders.getMaxItemAttributes());
+			}
+		}
+		
+		for(Enchantment enchantment : this.builderCutomItem.getEnchantments())
+		{
+			short level = this.builderCutomItem.getEnchantmentLevel(enchantment);
+			
+			if(level > ConfigSliders.getMaxItemEnchantment())
+			{
+				this.builderCutomItem.setEnchantment(enchantment, (short) ConfigSliders.getMaxItemEnchantment());
+			}
+		}
+	}
+	
+	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.items.give_custom_item.start.item_id"));
+		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.item_id"));
 		this.itemField.setValidator(Predicates.<String>notNull());
 		this.itemField.setText(this.item);
 		
-		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.items.give_custom_item.start.lore_1"));
+		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.lore_1"));
 		this.itemLore1Field.setValidator(Predicates.<String>notNull());
 		this.itemLore1Field.setText(this.builderCutomItem.getLore1());
 		
-		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.items.give_custom_item.start.lore_2"));
+		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.lore_2"));
 		this.itemLore2Field.setValidator(Predicates.<String>notNull());
 		this.itemLore2Field.setText(this.builderCutomItem.getLore2());
 		
@@ -74,7 +102,7 @@ public class ContentCustomItem extends Content
 		{
 			if(this.startPage == 1)
 			{
-				ElementColorMenu colors = new ElementColorMenu(this, x, y, "gui.worldhandler.items.give_custom_item.start.custom_name", this.builderCutomItem.getName(), new int[] {10, 11, 12, 13, 14, 15});
+				ElementColorMenu colors = new ElementColorMenu(this, x, y, "gui.worldhandler.items.custom_item.start.custom_name", this.builderCutomItem.getName(), new int[] {10, 11, 12, 13, 14, 15});
 				container.add(colors);
 			}
 		}
@@ -103,7 +131,7 @@ public class ContentCustomItem extends Content
 				@Override
 				public void onRegister(int id, int x, int y, int width, int height, String display, String registry, boolean enabled, ResourceLocation value, Container container)
 				{
-					container.add(new GuiSlider<ResourceLocation>(Contents.CUSTOM_ITEM, container, value, x, y, width, height, display, 0, 100, 0, new SimpleResponder<ResourceLocation>(response ->
+					container.add(new GuiSlider<ResourceLocation>(Contents.CUSTOM_ITEM, container, value, x, y, width, height, display, 0, ConfigSliders.getMaxItemEnchantment(), 0, new SimpleResponder<ResourceLocation>(response ->
 					{
 						builderCutomItem.setEnchantment(Enchantment.REGISTRY.getObject(value), response.shortValue());
 					})));
@@ -131,7 +159,7 @@ public class ContentCustomItem extends Content
 		}
 		else if(this.selectedPage.equals("attributes"))
 		{
-			ElementPageList<EnumAttributes, Object> attributes = new ElementPageList<EnumAttributes, Object>(x + 118, y, Stream.concat(EnumAttributes.getAttributesFor(Applyable.BOTH).stream(), EnumAttributes.getAttributesFor(Applyable.PLAYER).stream()).collect(Collectors.toList()), null,  114, 20, 3, this, new int[] {13, 14, 15}, new ILogicPageList<EnumAttributes, Object>()
+			ElementPageList<EnumAttributes, Object> attributes = new ElementPageList<EnumAttributes, Object>(x + 118, y, this.attributes, null,  114, 20, 3, this, new int[] {13, 14, 15}, new ILogicPageList<EnumAttributes, Object>()
 			{
 				@Override
 				public String translate(EnumAttributes key)
@@ -154,7 +182,7 @@ public class ContentCustomItem extends Content
 				@Override
 				public void onRegister(int id, int x, int y, int width, int height, String display, String registry, boolean enabled, EnumAttributes value, Container container)
 				{
-					container.add(new GuiSlider<EnumAttributes>(Contents.CUSTOM_ITEM, container, value, x, y, width, height, display, value.getMin(), value.getMax(), value.getStart(), new AttributeResponder(response ->
+					container.add(new GuiSlider<EnumAttributes>(Contents.CUSTOM_ITEM, container, value, x, y, width, height, display, -ConfigSliders.getMaxItemAttributes(), ConfigSliders.getMaxItemAttributes(), 0, new AttributeResponder(response ->
 					{
 						builderCutomItem.setAttribute(value, response);
 					})));
@@ -193,9 +221,9 @@ public class ContentCustomItem extends Content
 		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
 		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
 		
-		container.add(button3 = new GuiButtonWorldHandler(3, x, y, 114, 20, I18n.format("gui.worldhandler.items.give_custom_item.start")));
-		container.add(button4 = new GuiButtonWorldHandler(4, x, y + 24, 114, 20, I18n.format("gui.worldhandler.items.give_custom_item.enchantment")));
-		container.add(button5 = new GuiButtonWorldHandler(5, x, y + 48, 114, 20, I18n.format("gui.worldhandler.items.give_custom_item.attributes")));
+		container.add(button3 = new GuiButtonWorldHandler(3, x, y, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start")));
+		container.add(button4 = new GuiButtonWorldHandler(4, x, y + 24, 114, 20, I18n.format("gui.worldhandler.items.custom_item.enchantment")));
+		container.add(button5 = new GuiButtonWorldHandler(5, x, y + 48, 114, 20, I18n.format("gui.worldhandler.items.custom_item.attributes")));
 		
 		if(this.selectedPage.equals("start"))
 		{
@@ -218,7 +246,7 @@ public class ContentCustomItem extends Content
 		
 		if(!this.builderCutomItem.needsCommandBlock() && !this.builderCutomItem.getName().isSpecial())
 		{
-			container.add(button6 = new GuiButtonWorldHandler(9, x, y + 72, 114, 20, I18n.format("gui.worldhandler.items.give_custom_item.give_custom_item")));
+			container.add(button6 = new GuiButtonWorldHandler(9, x, y + 72, 114, 20, I18n.format("gui.worldhandler.items.custom_item.custom_item")));
 		}
 		else
 		{
@@ -321,28 +349,13 @@ public class ContentCustomItem extends Content
 	@Override
 	public String getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.items.give_custom_item");
+		return I18n.format("gui.worldhandler.title.items.custom_item");
 	}
 	
 	@Override
 	public String getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.items.give_custom_item");
-	}
-	
-	@Override
-	public String[] getHeadline()
-	{
-		String[] headline = new String[2];
-		
-		headline[0] = I18n.format("gui.worldhandler.generic.browse");
-		
-		if(this.selectedPage.equals("start"))
-		{
-			headline[1] = I18n.format("gui.worldhandler.generic.options");
-		}
-		
-		return headline;
+		return I18n.format("gui.worldhandler.tab.items.custom_item");
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package exopandora.worldhandler.builder.component.impl;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -51,9 +52,14 @@ public class ComponentEnchantment implements IBuilderComponent
 		this.enchantments.put(enchantment, level);
 	}
 	
-	public int getLevel(Enchantment enchantment)
+	public short getLevel(Enchantment enchantment)
 	{
 		return this.enchantments.get(enchantment);
+	}
+	
+	public Set<Enchantment> getEnchantments()
+	{
+		return this.enchantments.keySet();
 	}
 	
 	@Override

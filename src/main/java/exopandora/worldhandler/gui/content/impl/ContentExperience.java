@@ -2,6 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderExperience;
+import exopandora.worldhandler.config.ConfigSliders;
 import exopandora.worldhandler.gui.button.EnumTooltip;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.GuiSlider;
@@ -32,18 +33,27 @@ public class ContentExperience extends Content
 	}
 	
 	@Override
+	public void init(Container container)
+	{
+		if(this.builderExperience.getLevel() > ConfigSliders.getMaxExperience())
+		{
+			this.builderExperience.setLevel((int) ConfigSliders.getMaxExperience());
+		}
+	}
+	
+	@Override
 	public void initButtons(Container container, int x, int y)
 	{
 		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
 		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
 		
-		container.add(new GuiSlider<String>(this, container, "experience", x + 116 / 2, y, 114, 20, I18n.format("gui.worldhandler.title.player.experience"), 0, 100, 0, new SimpleResponder<String>(value -> 
+		container.add(new GuiSlider<String>(this, container, "experience", x + 116 / 2, y, 114, 20, I18n.format("gui.worldhandler.title.player.experience"), 0, ConfigSliders.getMaxExperience(), 0, new SimpleResponder<String>(value -> 
 		{
 			this.builderExperience.setLevel(value);
 		})));
 		
-		container.add(addButton = new GuiButtonWorldHandler(3, x + 116 / 2, y + 24, 114, 20, I18n.format("gui.worldhandler.actions.add")));
-		container.add(removeButton = new GuiButtonWorldHandler(4, x + 116 / 2, y + 48, 114, 20, I18n.format("gui.worldhandler.actions.remove")));
+		container.add(this.addButton = new GuiButtonWorldHandler(3, x + 116 / 2, y + 24, 114, 20, I18n.format("gui.worldhandler.actions.add")));
+		container.add(this.removeButton = new GuiButtonWorldHandler(4, x + 116 / 2, y + 48, 114, 20, I18n.format("gui.worldhandler.actions.remove")));
 		container.add(new GuiButtonWorldHandler(5, x + 116 / 2, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.reset"), I18n.format("gui.worldhandler.actions.set_to_0"), EnumTooltip.TOP_RIGHT));
 		
 		boolean enabled = this.builderExperience.getLevel() > 0;

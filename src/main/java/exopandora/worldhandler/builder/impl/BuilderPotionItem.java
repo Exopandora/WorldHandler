@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import java.util.Set;
+
 import exopandora.worldhandler.builder.component.impl.ComponentPotionItem;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
@@ -83,6 +85,11 @@ public class BuilderPotionItem extends BuilderGive
 	public boolean getAmbient(Potion potion)
 	{
 		return this.potion.get(potion).getAmbient();
+	}
+	
+	public Set<Potion> getPotions()
+	{
+		return this.potion.getPotions();
 	}
 	
 	public BuilderPotionItem getBuilderForPotion(Item item)

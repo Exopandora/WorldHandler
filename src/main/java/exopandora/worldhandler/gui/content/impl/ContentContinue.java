@@ -92,12 +92,6 @@ public class ContentContinue extends ContentChild
 	}
 	
 	@Override
-	public String[] getHeadline()
-	{
-		return new String[]{I18n.format("gui.worldhandler.continue.question")};
-	}
-	
-	@Override
 	public void keyTyped(Container container, char typedChar, int keyCode)
 	{
 		if(keyCode == Keyboard.KEY_RIGHT || keyCode == Keyboard.KEY_LEFT)

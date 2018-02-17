@@ -1,5 +1,6 @@
 package exopandora.worldhandler.builder.impl;
 
+import java.util.Set;
 import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
@@ -131,7 +132,7 @@ public class BuilderSummon extends CommandBuilderNBT
 		return this.getNodeAsCoordinate(3);
 	}
 	
-	public void setAttribute(EnumAttributes attribute, float ammount)
+	public void setAttribute(EnumAttributes attribute, double ammount)
 	{
 		this.attribute.set(attribute, ammount);
 	}
@@ -139,6 +140,16 @@ public class BuilderSummon extends CommandBuilderNBT
 	public void removeAttribute(EnumAttributes attribute)
 	{
 		this.attribute.remove(attribute);
+	}
+	
+	public double getAttributeAmmount(EnumAttributes attribute)
+	{
+		return this.attribute.getAmmount(attribute);
+	}
+	
+	public Set<EnumAttributes> getAttributes()
+	{
+		return this.attribute.getAttributes();
 	}
 	
 	public void setCustomName(ColoredString name)
@@ -291,7 +302,7 @@ public class BuilderSummon extends CommandBuilderNBT
 	{
 		this.potion.get(potion).setAmplifier(amplifier);
 	}
-
+	
 	public void setSeconds(Potion potion, int seconds)
 	{
 		this.potion.get(potion).setSeconds(seconds);
@@ -345,6 +356,11 @@ public class BuilderSummon extends CommandBuilderNBT
 	public boolean getAmbient(Potion potion)
 	{
 		return this.potion.get(potion).getAmbient();
+	}
+	
+	public Set<Potion> getPotions()
+	{
+		return this.potion.getPotions();
 	}
 	
 	private NBTBase itemListSerializer(NBTTagList list)

@@ -63,6 +63,12 @@ public class ElementColorMenu extends Element
 				{
 					string.setColor(storage.getIndex());
 				}
+				
+				@Override
+				public String getId()
+				{
+					return logic.getId();
+				}
 			}));
 			
 			container.add(new GuiButtonWorldHandler(this.ids[1], this.x + 118, this.y + 48, 20, 20, (this.string.isItalic() ? ChatFormatting.ITALIC : ChatFormatting.RESET) + "I"));

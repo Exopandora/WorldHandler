@@ -3,6 +3,7 @@ gui.worldhandler.config.tooltip=World Handler Einstellungen
 gui.worldhandler.config.category.settings=Einstellungen
 gui.worldhandler.config.category.skin=Skin
 gui.worldhandler.config.category.butcher=Metzler
+gui.worldhandler.config.category.sliders=Regler
 
 gui.worldhandler.config.key.settings.biome_indicator=Biome Indikator
 gui.worldhandler.config.key.settings.command_syntax=Befehlssyntax
@@ -68,6 +69,24 @@ gui.worldhandler.config.comment.skin.button_alpha=Schaltflächen Alpha
 
 gui.worldhandler.config.comment.butcher=Metzeln von %s Aktiviert
 
+gui.worldhandler.config.key.sliders.max_potion_amplifier=Max Trank Verstärker
+gui.worldhandler.config.key.sliders.max_item_enchantment=Max Item Verzauberung
+gui.worldhandler.config.key.sliders.max_item_attributes=Max Item Attribute
+gui.worldhandler.config.key.sliders.max_summon_potion_amplifier=Max Trank Verstärker (Beschwören)
+gui.worldhandler.config.key.sliders.max_summon_potion_minutes=Max Trank Minuten (Beschwören)
+gui.worldhandler.config.key.sliders.max_summon_attributes=Max Attribute (Beschwören)
+gui.worldhandler.config.key.sliders.max_experience=Max Erfahrungspunkte
+gui.worldhandler.config.key.sliders.max_player_points=Max Spielerpunkte
+
+gui.worldhandler.config.comment.sliders.max_potion_amplifier=Max Trank Verstärker
+gui.worldhandler.config.comment.sliders.max_item_enchantment=Max Item Verzauberung
+gui.worldhandler.config.comment.sliders.max_item_attributes=Max Item Attribute
+gui.worldhandler.config.comment.sliders.max_summon_potion_amplifier=Max Trank Verstärker (Beschwören)
+gui.worldhandler.config.comment.sliders.max_summon_potion_minutes=Max Trank Minuten (Beschwören)
+gui.worldhandler.config.comment.sliders.max_summon_attributes=Max Attribute (Beschwören)
+gui.worldhandler.config.comment.sliders.max_experience=Max Erfahrungspunkte
+gui.worldhandler.config.comment.sliders.max_player_points=Max Spielerpunkte
+
 gui.worldhandler.tab.scoreboard.objectives=Objekte
 gui.worldhandler.tab.scoreboard.teams=Teams
 gui.worldhandler.tab.scoreboard.players=Spieler
@@ -85,7 +104,7 @@ gui.worldhandler.tab.blocks.edit_blocks=Blöcke Ändern
 gui.worldhandler.tab.blocks.sign_editor=Schilder Ändern
 gui.worldhandler.tab.blocks.note_block_editor=Noten Ändern
 
-gui.worldhandler.tab.items.give_custom_item=Item Erstellen
+gui.worldhandler.tab.items.custom_item=Item Erstellen
 gui.worldhandler.tab.items.enchantment=Verzaubern
 
 gui.worldhandler.tab.containers=Container
@@ -93,7 +112,7 @@ gui.worldhandler.tab.multiplayer=Mehrspieler
 
 gui.worldhandler.title.entities.summon=Beschwören
 
-gui.worldhandler.title.items.give_custom_item=Item Erstellen
+gui.worldhandler.title.items.custom_item=Item Erstellen
 gui.worldhandler.title.items.enchantment=Verzaubern
 
 gui.worldhandler.title.blocks.edit_blocks=Blöcke Ändern
@@ -123,8 +142,6 @@ gui.worldhandler.advancements.until=Bis
 gui.worldhandler.advancements.from=Von
 gui.worldhandler.advancements.through=Durch
 gui.worldhandler.advancements.everything=Alles
-
-gui.worldhandler.continue.question=Bist du sicher ?
 
 gui.worldhandler.change_world.singleplayer=Einzelspieler Welt
 gui.worldhandler.change_world.multiplayer=Mehrspieler Server
@@ -176,15 +193,15 @@ gui.worldhandler.world=Welt
 gui.worldhandler.blocks=Blöcke
 gui.worldhandler.player=Spieler
 
-gui.worldhandler.items.give_custom_item.start=Start
-gui.worldhandler.items.give_custom_item.enchantment=Verzauberung
-gui.worldhandler.items.give_custom_item.attributes=Attribute
-gui.worldhandler.items.give_custom_item.give_custom_item=Gebe Eigenes Item
+gui.worldhandler.items.custom_item.start=Start
+gui.worldhandler.items.custom_item.enchantment=Verzauberung
+gui.worldhandler.items.custom_item.attributes=Attribute
+gui.worldhandler.items.custom_item.custom_item=Erstellen
 
-gui.worldhandler.items.give_custom_item.start.item_id=Item ID
-gui.worldhandler.items.give_custom_item.start.lore_1=Sage I
-gui.worldhandler.items.give_custom_item.start.lore_2=Sage II
-gui.worldhandler.items.give_custom_item.start.custom_name=Eigener Name
+gui.worldhandler.items.custom_item.start.item_id=Item
+gui.worldhandler.items.custom_item.start.lore_1=Sage I
+gui.worldhandler.items.custom_item.start.lore_2=Sage II
+gui.worldhandler.items.custom_item.start.custom_name=Eigener Name
 
 gui.worldhandler.items.enchantment.level=Level
 gui.worldhandler.items.enchantment.enchant=Verzaubern
@@ -385,8 +402,6 @@ gui.worldhandler.shortcuts.tooltip.time.dawn=Sonnenaufgang (%s)
 
 gui.worldhandler.generic.back=Zurück
 gui.worldhandler.generic.backToGame=Schließen
-gui.worldhandler.generic.browse=Blättern
-gui.worldhandler.generic.options=Optionen
 gui.worldhandler.generic.on=An
 gui.worldhandler.generic.off=Aus
 gui.worldhandler.generic.yes=Ja

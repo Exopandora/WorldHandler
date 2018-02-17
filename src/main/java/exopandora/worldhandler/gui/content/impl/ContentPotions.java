@@ -6,6 +6,7 @@ import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
 import exopandora.worldhandler.builder.impl.BuilderPotionEffect;
 import exopandora.worldhandler.builder.impl.BuilderPotionItem;
+import exopandora.worldhandler.config.ConfigSliders;
 import exopandora.worldhandler.gui.button.EnumTooltip;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.GuiSlider;
@@ -35,6 +36,25 @@ public class ContentPotions extends ContentChild
 	public ICommandBuilder getCommandBuilder()
 	{
 		return new BuilderMultiCommand(this.builderPotion, this.builderPotionItem);
+	}
+	
+	@Override
+	public void init(Container container)
+	{
+		if(this.builderPotion.getAmplifier() > ConfigSliders.getMaxPotionAmplifier())
+		{
+			this.builderPotion.setAmplifier((byte) ConfigSliders.getMaxPotionAmplifier());
+		}
+		
+		for(Potion potion : this.builderPotionItem.getPotions())
+		{
+			byte amplifier = this.builderPotionItem.getAmplifier(potion);
+			
+			if(amplifier > ConfigSliders.getMaxPotionAmplifier())
+			{
+				this.builderPotionItem.setAmplifier(potion, (byte) ConfigSliders.getMaxPotionAmplifier());
+			}
+		}
 	}
 	
 	@Override
@@ -113,7 +133,7 @@ public class ContentPotions extends ContentChild
 			
 			container.add(new GuiButtonWorldHandler(8, x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.potions.effect.ambient", (this.builderPotionItem.getAmbient(potion) ? I18n.format("gui.worldhandler.generic.on") : I18n.format("gui.worldhandler.generic.off")))));
 			container.add(new GuiButtonWorldHandler(9, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.potions.effect.particles", (this.builderPotion.getHideParticles() ? I18n.format("gui.worldhandler.generic.off") : I18n.format("gui.worldhandler.generic.on")))));
-			container.add(new GuiSlider<Potion>(this, container, "potions_amplifier" + potion, x + 118, y, 114, 20, I18n.format("gui.worldhandler.potions.effect.amplifier"), 0, 100, 0, new SimpleResponder<Potion>(value ->
+			container.add(new GuiSlider<Potion>(this, container, "potions_amplifier" + potion.getRegistryName(), x + 118, y, 114, 20, I18n.format("gui.worldhandler.potions.effect.amplifier"), 0, ConfigSliders.getMaxPotionAmplifier(), 0, new SimpleResponder<Potion>(value ->
 			{
 				this.builderPotion.setAmplifier(value.byteValue());
 				this.builderPotionItem.setAmplifier(potion, value.byteValue());
@@ -123,17 +143,17 @@ public class ContentPotions extends ContentChild
 		{
 			Potion potion = this.builderPotion.getEffectAsPotion();
 			
-			container.add(new GuiSlider<Potion>(this, container, "seconds" + potion, x + 118, y, 114, 20, I18n.format("gui.worldhandler.potion.time.seconds"), 0, 59, 0, new SimpleResponder<Potion>(value ->
+			container.add(new GuiSlider<Potion>(this, container, "seconds" + potion.getRegistryName(), x + 118, y, 114, 20, I18n.format("gui.worldhandler.potion.time.seconds"), 0, 59, 0, new SimpleResponder<Potion>(value ->
 			{
 				this.builderPotion.setSeconds(value.intValue());
 				this.builderPotionItem.setSeconds(potion, value.intValue());
 			})));
-			container.add(new GuiSlider<Potion>(this, container, "minutes" + potion, x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.potion.time.minutes"), 0, 59, 0, new SimpleResponder<Potion>(value ->
+			container.add(new GuiSlider<Potion>(this, container, "minutes" + potion.getRegistryName(), x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.potion.time.minutes"), 0, 59, 0, new SimpleResponder<Potion>(value ->
 			{
 				this.builderPotion.setMinutes(value.intValue());
 				this.builderPotionItem.setMinutes(potion, value.intValue());
 			})));
-			container.add(new GuiSlider<Potion>(this, container, "hours" + potion, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.potion.time.hours"), 0, 99, 0, new SimpleResponder<Potion>(value ->
+			container.add(new GuiSlider<Potion>(this, container, "hours" + potion.getRegistryName(), x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.potion.time.hours"), 0, 99, 0, new SimpleResponder<Potion>(value ->
 			{
 				this.builderPotion.setHours(value.intValue());
 				this.builderPotionItem.setHours(potion, value.intValue());

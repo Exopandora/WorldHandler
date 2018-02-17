@@ -12,23 +12,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public enum EnumAttributes
 {
-	MAX_HEALTH("generic.maxHealth", EnumOperation.ADDITIVE, 0, 100, 0, Applyable.BOTH),
-	FOLLOW_RANGE("generic.followRange", EnumOperation.ADDITIVE, 0, 100, 0, Applyable.MOB),
-	KNOCKBACK_RESISTANCE("generic.knockbackResistance", EnumOperation.PERCENTAGE, 0, 100, 0, Applyable.BOTH),
-	MOVEMENT_SPEED("generic.movementSpeed", EnumOperation.PERCENTAGE, 0, 100, 0, Applyable.BOTH),
-	ATTACK_DAMAGE("generic.attackDamage", EnumOperation.ADDITIVE, 0, 100, 0, Applyable.BOTH),
-	ARMOR("generic.armor", EnumOperation.ADDITIVE, 0, 100, 0, Applyable.BOTH),
-	ARMOR_TOUGHNESS("generic.armorToughness", EnumOperation.ADDITIVE, 0, 100, 0, Applyable.BOTH),
-	ATTACK_SPEED("generic.attackSpeed", EnumOperation.PERCENTAGE, 0, 100, 0, Applyable.BOTH),
-	LUCK("generic.luck", EnumOperation.PERCENTAGE, -100, 100, 0, Applyable.PLAYER),
-	HORSE_JUMP_STRENGTH("horse.jumpStrength", EnumOperation.PERCENTAGE, 0, 100, 0, Applyable.MOB),
-	ZOMBIE_SPAWN_REINFORCEMENTS("zombie.spawnReinforcements", EnumOperation.PERCENTAGE, 0, 100, 0, Applyable.MOB);
+	MAX_HEALTH("generic.maxHealth", EnumOperation.ADDITIVE, Applyable.BOTH),
+	FOLLOW_RANGE("generic.followRange", EnumOperation.ADDITIVE, Applyable.MOB),
+	KNOCKBACK_RESISTANCE("generic.knockbackResistance", EnumOperation.PERCENTAGE, Applyable.BOTH),
+	MOVEMENT_SPEED("generic.movementSpeed", EnumOperation.PERCENTAGE, Applyable.BOTH),
+	ATTACK_DAMAGE("generic.attackDamage", EnumOperation.ADDITIVE, Applyable.BOTH),
+	ARMOR("generic.armor", EnumOperation.ADDITIVE, Applyable.BOTH),
+	ARMOR_TOUGHNESS("generic.armorToughness", EnumOperation.ADDITIVE, Applyable.BOTH),
+	ATTACK_SPEED("generic.attackSpeed", EnumOperation.PERCENTAGE, Applyable.BOTH),
+	LUCK("generic.luck", EnumOperation.PERCENTAGE, Applyable.PLAYER),
+	HORSE_JUMP_STRENGTH("horse.jumpStrength", EnumOperation.PERCENTAGE, Applyable.MOB),
+	ZOMBIE_SPAWN_REINFORCEMENTS("zombie.spawnReinforcements", EnumOperation.PERCENTAGE, Applyable.MOB);
 	
 	private String attribute;
 	private EnumOperation operation;
-	private float min;
-	private float max;
-	private float start;
 	private Applyable applyable;
 	
 	public enum Applyable
@@ -38,13 +35,10 @@ public enum EnumAttributes
 		MOB
 	}
 	
-	private EnumAttributes(String attribute, EnumOperation operation, float min, float max, float start, Applyable applyable)
+	private EnumAttributes(String attribute, EnumOperation operation, Applyable applyable)
 	{
 		this.attribute = attribute;
 		this.operation = operation;
-		this.min = min;
-		this.max = max;
-		this.start = start;
 		this.applyable = applyable;
 	}
 	
@@ -68,29 +62,14 @@ public enum EnumAttributes
 		return this.operation;
 	}
 	
-	public float getMin()
-	{
-		return this.min;
-	}
-	
-	public float getMax()
-	{
-		return this.max;
-	}
-	
-	public float getStart()
-	{
-		return this.start;
-	}
-	
 	public Applyable getApplyable()
 	{
 		return this.applyable;
 	}
 	
-	public double calculate(Float value)
+	public double calculate(Double value)
 	{
-		return this.operation.getOperation().apply(value.doubleValue());
+		return this.operation.getOperation().apply(value);
 	}
 	
 	public enum EnumOperation

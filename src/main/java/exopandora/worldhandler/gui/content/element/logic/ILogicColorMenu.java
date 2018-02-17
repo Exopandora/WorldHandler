@@ -19,4 +19,9 @@ public interface ILogicColorMenu
 	{
 		return true;
 	}
+	
+	default String getId()
+	{
+		return "color";
+	}
 }

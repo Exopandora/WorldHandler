@@ -45,19 +45,26 @@ public class ContentSignEditor extends Content
 	
 	private final BuilderSignEditor builderSignEditor = new BuilderSignEditor();
 	
+	private boolean isActive;
+	
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
-		return this.isActive() ? this.builderSignEditor : null;
+		return this.isActive ? this.builderSignEditor : null;
+	}
+	
+	@Override
+	public void init(Container container)
+	{
+		this.isActive = BlockHelper.isFocusedBlockEqualTo(Blocks.STANDING_SIGN) || BlockHelper.isFocusedBlockEqualTo(Blocks.WALL_SIGN);
+		this.builderSignEditor.setPosition(BlockHelper.getFocusedBlockPos());
 	}
 	
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		if(this.isActive())
-		{
-			this.builderSignEditor.setPosition(BlockHelper.getFocusedBlockPos());
-			
+		if(this.isActive)
+		{			
 			this.commandField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.commmand"));
 			this.commandField.setValidator(Predicates.notNull());
 			this.commandField.setText(this.builderSignEditor.getCommand(this.selectedLine));
@@ -76,6 +83,12 @@ public class ContentSignEditor extends Content
 				{
 					return editColor;
 				}
+				
+				@Override
+				public String getId()
+				{
+					return "color" + selectedLine;
+				}
 			});
 			
 			container.add(colors);
@@ -93,7 +106,7 @@ public class ContentSignEditor extends Content
 		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
 		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
 		
-		if(this.isActive())
+		if(this.isActive)
 		{
 			container.add(button3 = new GuiButtonWorldHandler(3, x, y, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_1")));
 			container.add(button4 = new GuiButtonWorldHandler(4, x, y + 24, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_2")));
@@ -114,15 +127,6 @@ public class ContentSignEditor extends Content
 			button4.enabled = this.selectedLine != 1;
 			button5.enabled = this.selectedLine != 2;
 			button6.enabled = this.selectedLine != 3;
-		}
-	}
-	
-	@Override
-	public void updateScreen(Container container)
-	{
-		if(!this.isActive())
-		{
-    		container.initGui();
 		}
 	}
 	
@@ -162,7 +166,7 @@ public class ContentSignEditor extends Content
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.isActive())
+		if(this.isActive)
 		{
 			if(!this.editColor)
 			{
@@ -190,15 +194,10 @@ public class ContentSignEditor extends Content
 		}
 	}
 	
-	private boolean isActive()
-	{
-		return BlockHelper.isFocusedBlockEqualTo(Blocks.STANDING_SIGN) || BlockHelper.isFocusedBlockEqualTo(Blocks.WALL_SIGN);
-	}
-	
 	@Override
 	public void keyTyped(Container container, char charTyped, int keyCode)
 	{
-		if(this.isActive())
+		if(this.isActive)
 		{
 			if(this.commandField.textboxKeyTyped(charTyped, keyCode))
 			{
@@ -211,7 +210,7 @@ public class ContentSignEditor extends Content
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton)
 	{
-		if(this.isActive())
+		if(this.isActive)
 		{
 			this.commandField.mouseClicked(mouseX, mouseY, mouseButton);
 		}
@@ -233,17 +232,6 @@ public class ContentSignEditor extends Content
 	public String getTabTitle()
 	{
 		return I18n.format("gui.worldhandler.tab.blocks.sign_editor");
-	}
-	
-	@Override
-	public String[] getHeadline()
-	{
-		if(BlockHelper.isFocusedBlockEqualTo(Blocks.STANDING_SIGN) || BlockHelper.isFocusedBlockEqualTo(Blocks.WALL_SIGN))
-		{
-			return new String[] {I18n.format("gui.worldhandler.generic.browse"), I18n.format("gui.worldhandler.generic.options")};
-		}
-		
-		return null;
 	}
 	
 	@Override

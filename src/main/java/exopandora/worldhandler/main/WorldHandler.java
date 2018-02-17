@@ -11,6 +11,7 @@ import exopandora.worldhandler.command.CommandWorldHandler;
 import exopandora.worldhandler.config.ConfigButcher;
 import exopandora.worldhandler.config.ConfigSettings;
 import exopandora.worldhandler.config.ConfigSkin;
+import exopandora.worldhandler.config.ConfigSliders;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.helper.BlockHelper;
@@ -66,6 +67,7 @@ public class WorldHandler
 		
 		ConfigSettings.load(CONFIG);
 		ConfigSkin.load(CONFIG);
+		ConfigSliders.load(CONFIG);
 	}
 	
 	@EventHandler
@@ -102,6 +104,7 @@ public class WorldHandler
 		ConfigSettings.load(CONFIG);
 		ConfigSkin.load(CONFIG);
 		ConfigButcher.load(CONFIG);
+		ConfigSliders.load(CONFIG);
 		updateKeyBindings();
 	}
 	

@@ -2,6 +2,7 @@ package exopandora.worldhandler.gui.content.element.impl;
 
 import java.util.List;
 
+import exopandora.worldhandler.config.ConfigSkin;
 import exopandora.worldhandler.format.TextFormatting;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.storage.ButtonStorage;
@@ -132,7 +133,7 @@ public class ElementPageList<T, K> extends Element
 	@Override
 	public void draw()
 	{
-		Minecraft.getMinecraft().fontRenderer.drawString((this.storage.getObject() + 1) + "/" + this.getTotalPages(), this.x, this.y - 11, 0x4F4F4F);
+		Minecraft.getMinecraft().fontRenderer.drawString((this.storage.getObject() + 1) + "/" + this.getTotalPages(), this.x, this.y - 11, ConfigSkin.getHeadlineColor());
 	}
 	
 	private int getTotalPages()

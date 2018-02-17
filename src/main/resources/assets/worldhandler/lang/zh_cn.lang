@@ -3,6 +3,7 @@ gui.worldhandler.config.tooltip=World Handler 设置
 gui.worldhandler.config.category.settings=设置
 gui.worldhandler.config.category.skin=皮肤样式
 gui.worldhandler.config.category.butcher=屠宰
+gui.worldhandler.config.category.sliders=Sliders
 
 gui.worldhandler.config.key.settings.biome_indicator=生物群系指示器
 gui.worldhandler.config.key.settings.command_syntax=命令句法
@@ -68,6 +69,24 @@ gui.worldhandler.config.comment.skin.button_alpha=按钮 Alpha
 
 gui.worldhandler.config.comment.butcher=屠宰 %s 开启
 
+gui.worldhandler.config.key.sliders.max_potion_amplifier=Max Potion Amplifier
+gui.worldhandler.config.key.sliders.max_item_enchantment=Max Item Enchantment
+gui.worldhandler.config.key.sliders.max_item_attributes=Max Item Attribute
+gui.worldhandler.config.key.sliders.max_summon_potion_amplifier=Max Summon Potion Amplifier
+gui.worldhandler.config.key.sliders.max_summon_potion_minutes=Max Summon Potion Minutes
+gui.worldhandler.config.key.sliders.max_summon_attributes=Max Summon Attributes
+gui.worldhandler.config.key.sliders.max_experience=Max Experience
+gui.worldhandler.config.key.sliders.max_player_points=Max Player Points
+
+gui.worldhandler.config.comment.sliders.max_potion_amplifier=Max Potion Amplifier
+gui.worldhandler.config.comment.sliders.max_item_enchantment=Max Item Enchantment
+gui.worldhandler.config.comment.sliders.max_item_attributes=Max Item Attribute
+gui.worldhandler.config.comment.sliders.max_summon_potion_amplifier=Max Summon Potion Amplifier
+gui.worldhandler.config.comment.sliders.max_summon_potion_minutes=Max Summon Potion Minutes
+gui.worldhandler.config.comment.sliders.max_summon_attributes=Max Summon Attributes
+gui.worldhandler.config.comment.sliders.max_experience=Max Experience
+gui.worldhandler.config.comment.sliders.max_player_points=Max Player Points
+
 gui.worldhandler.tab.scoreboard.objectives=变量
 gui.worldhandler.tab.scoreboard.teams=团队
 gui.worldhandler.tab.scoreboard.players=玩家
@@ -85,7 +104,7 @@ gui.worldhandler.tab.blocks.edit_blocks=编辑方块
 gui.worldhandler.tab.blocks.sign_editor=告示牌编辑器
 gui.worldhandler.tab.blocks.note_block_editor=音符编辑器
 
-gui.worldhandler.tab.items.give_custom_item=给予自定义物品
+gui.worldhandler.tab.items.custom_item=给予自定义物品
 gui.worldhandler.tab.items.enchantment=附魔
 
 gui.worldhandler.tab.containers=容器
@@ -93,7 +112,7 @@ gui.worldhandler.tab.multiplayer=多人
 
 gui.worldhandler.title.entities.summon=召唤
 
-gui.worldhandler.title.items.give_custom_item=给予自定义物品
+gui.worldhandler.title.items.custom_item=给予自定义物品
 gui.worldhandler.title.items.enchantment=附魔
 
 gui.worldhandler.title.blocks.edit_blocks=编辑方块
@@ -123,8 +142,6 @@ gui.worldhandler.advancements.until=直到
 gui.worldhandler.advancements.from=自
 gui.worldhandler.advancements.through=经由
 gui.worldhandler.advancements.everything=全部
-
-gui.worldhandler.continue.question=继续？
 
 gui.worldhandler.change_world.singleplayer=单人世界
 gui.worldhandler.change_world.multiplayer=多人世界
@@ -176,15 +193,15 @@ gui.worldhandler.world=世界
 gui.worldhandler.blocks=方块
 gui.worldhandler.player=玩家
 
-gui.worldhandler.items.give_custom_item.start=首选项
-gui.worldhandler.items.give_custom_item.enchantment=附魔
-gui.worldhandler.items.give_custom_item.attributes=属性
-gui.worldhandler.items.give_custom_item.give_custom_item=给予自定义物品
+gui.worldhandler.items.custom_item.start=首选项
+gui.worldhandler.items.custom_item.enchantment=附魔
+gui.worldhandler.items.custom_item.attributes=属性
+gui.worldhandler.items.custom_item.custom_item=给予自定义物品
 
-gui.worldhandler.items.give_custom_item.start.item_id=物品 ID
-gui.worldhandler.items.give_custom_item.start.lore_1=描述 I
-gui.worldhandler.items.give_custom_item.start.lore_2=描述 II
-gui.worldhandler.items.give_custom_item.start.custom_name=自定义名称
+gui.worldhandler.items.custom_item.start.item_id=物品 ID
+gui.worldhandler.items.custom_item.start.lore_1=描述 I
+gui.worldhandler.items.custom_item.start.lore_2=描述 II
+gui.worldhandler.items.custom_item.start.custom_name=自定义名称
 
 gui.worldhandler.items.enchantment.level=等级
 gui.worldhandler.items.enchantment.enchant=附魔
@@ -385,8 +402,6 @@ gui.worldhandler.shortcuts.tooltip.time.dawn=日出（%s）
 
 gui.worldhandler.generic.back=返回
 gui.worldhandler.generic.backToGame=返回游戏
-gui.worldhandler.generic.browse=浏览
-gui.worldhandler.generic.options=选项
 gui.worldhandler.generic.on=开
 gui.worldhandler.generic.off=关
 gui.worldhandler.generic.yes=是

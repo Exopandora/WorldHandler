@@ -38,15 +38,18 @@ public class ContentNoteEditor extends Content
 {
 	private final BuilderNoteEditor builderNoteEditor = new BuilderNoteEditor();
 	
+	private boolean isActive;
+	
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
-		return this.isActive() ? this.builderNoteEditor : null;
+		return this.isActive ? this.builderNoteEditor : null;
 	}
 	
 	@Override
-	public void initGui(Container container, int x, int y)
+	public void init(Container container)
 	{
+		this.isActive = BlockHelper.isFocusedBlockEqualTo(Blocks.NOTEBLOCK);
 		this.builderNoteEditor.setPosition(BlockHelper.getFocusedBlockPos());
 	}
 	
@@ -56,9 +59,9 @@ public class ContentNoteEditor extends Content
 		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
 		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
 		
-		if(this.isActive())
+		if(this.isActive)
 		{
-			BlockPos pos = BlockHelper.getFocusedBlockPos();
+			BlockPos pos = this.builderNoteEditor.getBlockPos();
 			SoundEvent sound = this.getSoundEvent(pos.down());
 			
 			container.add(new GuiButtonKeyboard(4, x - 3 + 15, y, 14, 92, I18n.format("gui.worldhandler.blocks.note_block_editor.g"), Orientation.NORMAL, 0.53F, container, this, pos, sound));
@@ -92,15 +95,6 @@ public class ContentNoteEditor extends Content
 			container.add(new GuiButtonKeyboard(26, x - 3 - 5 + 15 * 12, y, 9, 58, "C#", Orientation.BLACK, 1.5F, container, this, pos, sound));
 			container.add(new GuiButtonKeyboard(27, x - 3 - 5 + 15 * 13, y, 9, 58, "D#", Orientation.BLACK, 1.7F, container, this, pos, sound));
 			container.add(new GuiButtonKeyboard(28, x - 3 - 5 + 15 * 15, y, 9, 58, "F#", Orientation.BLACK, 2.0F, container, this, pos, sound));
-		}
-	}
-	
-	@Override
-	public void updateScreen(Container container)
-	{
-		if(!this.isActive())
-		{
-    		container.initGui();
 		}
 	}
 	
@@ -192,7 +186,7 @@ public class ContentNoteEditor extends Content
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.isActive())
+		if(this.isActive)
 		{
 			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("worldhandler:textures/misc/note.png"));
 			
@@ -271,11 +265,6 @@ public class ContentNoteEditor extends Content
     	}
     	
     	return SoundEvents.BLOCK_NOTE_HARP;
-	}
-	
-	private boolean isActive()
-	{
-		return BlockHelper.isFocusedBlockEqualTo(Blocks.NOTEBLOCK);
 	}
 	
 	@Override

@@ -27,7 +27,7 @@ public class ComponentAttributeMob extends ComponentAttribute
 	{
 		NBTTagList attributes = new NBTTagList();
 		
-		for(Entry<EnumAttributes, Float> entry : this.attributes.entrySet())
+		for(Entry<EnumAttributes, Double> entry : this.attributes.entrySet())
 		{
 			if(this.applyable.apply(entry.getKey()) && entry.getValue() != 0)
 			{
