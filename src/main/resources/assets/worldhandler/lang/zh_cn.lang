@@ -3,7 +3,7 @@ gui.worldhandler.config.tooltip=World Handler 设置
 gui.worldhandler.config.category.settings=设置
 gui.worldhandler.config.category.skin=皮肤样式
 gui.worldhandler.config.category.butcher=屠宰
-gui.worldhandler.config.category.sliders=Sliders
+gui.worldhandler.config.category.sliders=滑块
 
 gui.worldhandler.config.key.settings.biome_indicator=生物群系指示器
 gui.worldhandler.config.key.settings.command_syntax=命令句法
