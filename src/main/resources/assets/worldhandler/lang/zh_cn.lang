@@ -69,23 +69,23 @@ gui.worldhandler.config.comment.skin.button_alpha=按钮 Alpha
 
 gui.worldhandler.config.comment.butcher=屠宰 %s 开启
 
-gui.worldhandler.config.key.sliders.max_potion_amplifier=Max Potion Amplifier
-gui.worldhandler.config.key.sliders.max_item_enchantment=Max Item Enchantment
-gui.worldhandler.config.key.sliders.max_item_attributes=Max Item Attribute
-gui.worldhandler.config.key.sliders.max_summon_potion_amplifier=Max Summon Potion Amplifier
-gui.worldhandler.config.key.sliders.max_summon_potion_minutes=Max Summon Potion Minutes
-gui.worldhandler.config.key.sliders.max_summon_attributes=Max Summon Attributes
-gui.worldhandler.config.key.sliders.max_experience=Max Experience
-gui.worldhandler.config.key.sliders.max_player_points=Max Player Points
+gui.worldhandler.config.key.sliders.max_potion_amplifier=药水倍率最大值
+gui.worldhandler.config.key.sliders.max_item_enchantment=物品附魔最大值
+gui.worldhandler.config.key.sliders.max_item_attributes=物品属性最大值
+gui.worldhandler.config.key.sliders.max_summon_potion_amplifier=召唤药水倍率最大值
+gui.worldhandler.config.key.sliders.max_summon_potion_minutes=召唤药水持续时间最大值
+gui.worldhandler.config.key.sliders.max_summon_attributes=召唤属性最大值
+gui.worldhandler.config.key.sliders.max_experience=经验最大值
+gui.worldhandler.config.key.sliders.max_player_points=玩家分数最大值
 
-gui.worldhandler.config.comment.sliders.max_potion_amplifier=Max Potion Amplifier
-gui.worldhandler.config.comment.sliders.max_item_enchantment=Max Item Enchantment
-gui.worldhandler.config.comment.sliders.max_item_attributes=Max Item Attribute
-gui.worldhandler.config.comment.sliders.max_summon_potion_amplifier=Max Summon Potion Amplifier
-gui.worldhandler.config.comment.sliders.max_summon_potion_minutes=Max Summon Potion Minutes
-gui.worldhandler.config.comment.sliders.max_summon_attributes=Max Summon Attributes
-gui.worldhandler.config.comment.sliders.max_experience=Max Experience
-gui.worldhandler.config.comment.sliders.max_player_points=Max Player Points
+gui.worldhandler.config.comment.sliders.max_potion_amplifier=药水倍率最大值
+gui.worldhandler.config.comment.sliders.max_item_enchantment=物品附魔最大值
+gui.worldhandler.config.comment.sliders.max_item_attributes=物品属性最大值
+gui.worldhandler.config.comment.sliders.max_summon_potion_amplifier=召唤药水倍率最大值
+gui.worldhandler.config.comment.sliders.max_summon_potion_minutes=召唤药水持续时间最大值
+gui.worldhandler.config.comment.sliders.max_summon_attributes=召唤属性最大值
+gui.worldhandler.config.comment.sliders.max_experience=经验最大值
+gui.worldhandler.config.comment.sliders.max_player_points=玩家分数最大值
 
 gui.worldhandler.tab.scoreboard.objectives=变量
 gui.worldhandler.tab.scoreboard.teams=团队
