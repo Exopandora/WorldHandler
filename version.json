@@ -2,12 +2,12 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.12.2-latest": "2.1",
-		"1.12.2-recommended": "2.1",
-		"1.12.1-latest": "2.1",
-		"1.12.1-recommended": "2.1",
-		"1.12-latest": "2.1",
-		"1.12-recommended": "2.1",
+		"1.12.2-latest": "2.1.1",
+		"1.12.2-recommended": "2.1.1",
+		"1.12.1-latest": "2.1.1",
+		"1.12.1-recommended": "2.1.1",
+		"1.12-latest": "2.1.1",
+		"1.12-recommended": "2.1.1",
 		"1.11.2-latest": "1.46",
 		"1.11.2-recommended": "1.46",
 		"1.11-latest": "1.42",
@@ -41,6 +41,7 @@
 	},
 	"1.12.2":
 	{
+		"2.1.1": "- Fixed /wh and /worldhandler denying other commands in multiplayer",
 		"2.1": "- Added option to change the max slider values\n- Fixed Sign Editor showing wrong color\n- Removed Headlines for better visibility\n- Updated Translations",
 		"2.0": "- Recode 2.0\n- Added headline color as a config option\n- Added option tag and trigger for scoreboard players\n- Added reset for advancements\n- Updated config file format\n- Updated translations\n- Updated layout\n- Updated biome indicator (should work better with modded biomes)\n- Changed command syntax display\n- Changed /worldhandler show to /worldhandler display\n- Fixed setworldspawn and spawnpoint\n- Fixed equipment not working for summon\n- Fixed wrong translation for biome indicator settings\n- Fixed translation typo\n- Fixed potential config file issues\n- Fixed custom potions not having an item model\n- Fixed /worldhandler display not showing the mouse cursor\n- /worldhandler and /wh now work in multiplayer\n- Removed custom data from summon\n- Potions can now be combined if given as an item\n- Open source and signed",
 		"1.50": "- Fixed Biome Indicator black screen",
@@ -50,6 +51,7 @@
 	},
 	"1.12.1":
 	{
+		"2.1.1": "- Fixed /wh and /worldhandler denying other commands in multiplayer",
 		"2.1": "- Added option to change the max slider values\n- Fixed Sign Editor showing wrong color\n- Removed Headlines for better visibility\n- Updated Translations",
 		"2.0": "- Recodee 2.0\n- Added headline color as a config option\n- Added option tag and trigger for scoreboard players\n- Added reset for advancements\n- Updated config file format\n- Updated translations\n- Updated layout\n- Updated biome indicator (should work better with modded biomes)\n- Changed command syntax display\n- Changed /worldhandler show to /worldhandler display\n- Fixed setworldspawn and spawnpoint\n- Fixed equipment not working for summon\n- Fixed wrong translation for biome indicator settings\n- Fixed translation typo\n- Fixed potential config file issues\n- Fixed custom potions not having an item model\n- Fixed /worldhandler display not showing the mouse cursor\n- /worldhandler and /wh now work in multiplayer\n- Removed custom data from summon\n- Potions can now be combined if given as an item\n- Open source and signed",
 		"1.50": "- Fixed Biome Indicator black screen",
@@ -59,6 +61,7 @@
 	},
 	"1.12":
 	{
+		"2.1.1": "- Fixed /wh and /worldhandler denying other commands in multiplayer",
 		"2.1": "- Added option to change the max slider values\n- Fixed Sign Editor showing wrong color\n- Removed Headlines for better visibility\n- Updated Translations",
 		"2.0": "- Recodee 2.0\n- Added headline color as a config option\n- Added option tag and trigger for scoreboard players\n- Added reset for advancements\n- Updated config file format\n- Updated translations\n- Updated layout\n- Updated biome indicator (should work better with modded biomes)\n- Changed command syntax display\n- Changed /worldhandler show to /worldhandler display\n- Fixed setworldspawn and spawnpoint\n- Fixed equipment not working for summon\n- Fixed wrong translation for biome indicator settings\n- Fixed translation typo\n- Fixed potential config file issues\n- Fixed custom potions not having an item model\n- Fixed /worldhandler display not showing the mouse cursor\n- /worldhandler and /wh now work in multiplayer\n- Removed custom data from summon\n- Potions can now be combined if given as an item\n- Open source and signed",
 		"1.50": "- Fixed Biome Indicator black screen",

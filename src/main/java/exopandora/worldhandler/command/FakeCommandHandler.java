@@ -37,7 +37,7 @@ public class FakeCommandHandler extends CommandHandler
 	
 	public void tryCommand(ICommand command, ClientChatEvent event)
 	{
-		if(event.getMessage().startsWith("/" + command.getName()) || event.getMessage().startsWith("/" + command.getName() + " "))
+		if(event.getMessage().equals("/" + command.getName()) || event.getMessage().startsWith("/" + command.getName() + " "))
 		{
 			this.fakeCommand(command, event);
 		}
