@@ -22,6 +22,7 @@ public class Main
 	public static final String NAME_AND_VERSION = NAME + " " + FULL_VERSION;
 	public static final String URL = "https://minecraft.curseforge.com/projects/world-handler-command-gui";
 	public static final String UPDATE_URL = "https://raw.githubusercontent.com/Exopandora/worldhandler/master/version.json";
+	public static final String CERTIFICATE = "d6261bb645f41db84c74f98e512c2bb43f188af2";
 	
 	public static void main(String[] args)
 	{

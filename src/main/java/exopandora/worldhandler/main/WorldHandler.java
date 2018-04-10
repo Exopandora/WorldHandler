@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -34,7 +35,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@Mod(modid = Main.MODID, name = Main.NAME, acceptedMinecraftVersions = "[" + Main.MC_COMPATIBLE + ",)", version = Main.VERSION, canBeDeactivated = false, guiFactory = "exopandora.worldhandler.gui.config.GuiFactoryWorldHandler", updateJSON = Main.UPDATE_URL, clientSideOnly = true)
+@Mod(modid = Main.MODID, name = Main.NAME, acceptedMinecraftVersions = "[" + Main.MC_COMPATIBLE + ",)", version = Main.VERSION, canBeDeactivated = false, guiFactory = "exopandora.worldhandler.gui.config.GuiFactoryWorldHandler", updateJSON = Main.UPDATE_URL, clientSideOnly = true, certificateFingerprint = Main.CERTIFICATE)
 public class WorldHandler
 {
 	@Instance(Main.MODID)
@@ -60,7 +61,7 @@ public class WorldHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		LOGGER = event.getModLog();
-		LOGGER.info("Pre-Initializing " + Main.NAME_AND_VERSION);
+		LOGGER.info("Pre-Initialisation");
 		LOGGER.info("First Release on March 28 2013 - 02:29 PM CET by Exopandora");
 		LOGGER.info("Latest Version: " + Main.URL);
 		CONFIG = new Configuration(event.getSuggestedConfigurationFile());
@@ -73,7 +74,7 @@ public class WorldHandler
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		LOGGER.info("Initializing " + Main.NAME_AND_VERSION);
+		LOGGER.info("Initialisation");
 		USERNAME = Minecraft.getMinecraft().getSession().getUsername();
 		
 		MinecraftForge.EVENT_BUS.register(new exopandora.worldhandler.event.EventHandler());
@@ -84,9 +85,13 @@ public class WorldHandler
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		LOGGER.info("Post-Initializing " + Main.NAME_AND_VERSION);
-		LOGGER.info("Every mod that has not been registered to this point may not be fully featured in this mod");
-		
+		LOGGER.info("Post-Initialisation");
+	}
+	
+	@EventHandler
+	public void loadComplete(FMLLoadCompleteEvent event)
+	{
+		LOGGER.info("Load-Complete");
 		ConfigButcher.load(CONFIG);
 		Content.registerContents();
 		Category.registerCategories();
