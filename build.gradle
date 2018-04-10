@@ -26,6 +26,16 @@ jar {
     }
 }
 
+task signJar(type: SignJar, dependsOn: reobfJar) {
+    keyStore = project.keyStore
+    alias = project.keyStoreAlias
+    storePass = project.keyStorePass
+    keyPass = project.keyStoreKeyPass
+	inputFile = jar.archivePath
+	outputFile = jar.archivePath
+}
+build.dependsOn signJar
+
 minecraft {
     version = "1.12.2-14.23.2.2611"
     runDir = "run"
