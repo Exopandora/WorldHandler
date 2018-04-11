@@ -10,9 +10,15 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
+def mcversion = "1.12.2"
+def modversion = "2.1.2"
+def mccompatible = "1.12"
+def url = "https://minecraft.curseforge.com/projects/world-handler-command-gui"
+def update_url = "https://raw.githubusercontent.com/Exopandora/worldhandler/master/version.json"
+def certificate = "d6261bb645f41db84c74f98e512c2bb43f188af2"
 
-version = "1.12.2-2.1.1"
-group = "src.worldhandler.main.WorldHandler" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = mcversion + "-" + modversion
+group = "exopandora.worldhandler.WorldHandler" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "WorldHandler"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -22,7 +28,7 @@ compileJava {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'exopandora.worldhandler.main.Main'
+        attributes 'Main-Class': 'exopandora.worldhandler.Main'
     }
 }
 
@@ -39,7 +45,14 @@ build.dependsOn signJar
 minecraft {
     version = "1.12.2-14.23.2.2611"
     runDir = "run"
-    
+	
+	replace '$version', modversion
+	replace '$mcversion', mcversion
+	replace '$compatible', mccompatible
+	replace '$url', url
+	replace '$update_url', update_url
+	replace '$certificate', certificate
+	
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
     // stable_#            stables are built at the discretion of the MCP team.
@@ -81,11 +94,11 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+		
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
+	
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'

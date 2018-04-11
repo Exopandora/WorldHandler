@@ -15,14 +15,6 @@ public class Main
 {
 	public static final String NAME = "World Handler";
 	public static final String MODID = "worldhandler";
-	public static final String MC_VERSION = "1.12.2";
-	public static final String MC_COMPATIBLE = "1.12";
-	public static final String VERSION = "2.1.1";
-	public static final String FULL_VERSION = MC_VERSION + "-" + VERSION;
-	public static final String NAME_AND_VERSION = NAME + " " + FULL_VERSION;
-	public static final String URL = "https://minecraft.curseforge.com/projects/world-handler-command-gui";
-	public static final String UPDATE_URL = "https://raw.githubusercontent.com/Exopandora/worldhandler/master/version.json";
-	public static final String CERTIFICATE = "d6261bb645f41db84c74f98e512c2bb43f188af2";
 	
 	public static void main(String[] args)
 	{

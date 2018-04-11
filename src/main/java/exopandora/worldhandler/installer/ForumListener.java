@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
 
-import exopandora.worldhandler.Main;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -19,7 +18,7 @@ public class ForumListener implements ActionListener
 		{
 		    try
 			{
-				Desktop.getDesktop().browse(new URI(Main.URL));
+				Desktop.getDesktop().browse(new URI("$url"));
 			}
 			catch(Exception e)
 			{
@@ -28,4 +27,3 @@ public class ForumListener implements ActionListener
 		}
 	}
 }
- 

@@ -541,7 +541,7 @@ public class GuiWorldHandlerContainer extends Container
 		final int hexAlpha = (int) (0xFF * 0.2) << 24;
 		final int color = ConfigSkin.getLabelColor() + hexAlpha;
 		
-		this.fontRenderer.drawString(Main.MC_VERSION + "-" + Main.VERSION, this.width - this.fontRenderer.getStringWidth(Main.MC_VERSION + "-" + Main.VERSION) - 2, this.height - 10, color);
+		this.fontRenderer.drawString("$mcversion-$version", this.width - this.fontRenderer.getStringWidth("$mcversion-$version") - 2, this.height - 10, color);
 		
 		//TITLE
 		

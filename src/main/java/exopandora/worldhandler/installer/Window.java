@@ -24,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class Window implements Runnable
 {
-	private final String title = Main.NAME_AND_VERSION + " Installer";
+	private final String title = Main.NAME + " $mcversion-$version Installer";
 	private final JFrame frame = new JFrame();
 	
 	@Override

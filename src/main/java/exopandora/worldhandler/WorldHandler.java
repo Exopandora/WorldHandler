@@ -37,7 +37,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@Mod(modid = Main.MODID, name = Main.NAME, acceptedMinecraftVersions = "[" + Main.MC_COMPATIBLE + ",)", version = Main.VERSION, canBeDeactivated = false, guiFactory = "exopandora.worldhandler.gui.config.GuiFactoryWorldHandler", updateJSON = Main.UPDATE_URL, clientSideOnly = true, certificateFingerprint = Main.CERTIFICATE)
+@Mod(modid = Main.MODID, name = Main.NAME, acceptedMinecraftVersions = "[$compatible,)", version = "$version", canBeDeactivated = false, guiFactory = "exopandora.worldhandler.gui.config.GuiFactoryWorldHandler", updateJSON = "$update_url", clientSideOnly = true, certificateFingerprint = "$certificate")
 public class WorldHandler
 {
 	@Instance(Main.MODID)
@@ -65,7 +65,7 @@ public class WorldHandler
 		LOGGER = event.getModLog();
 		LOGGER.info("Pre-Initialisation");
 		LOGGER.info("First Release on March 28 2013 - 02:29 PM CET by Exopandora");
-		LOGGER.info("Latest Version: " + Main.URL);
+		LOGGER.info("Latest Version: $url");
 		CONFIG = new Configuration(event.getSuggestedConfigurationFile());
 	}
 	

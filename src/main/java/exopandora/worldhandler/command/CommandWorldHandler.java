@@ -53,9 +53,9 @@ public class CommandWorldHandler extends CommandBase
 			}
 			else if(args[0].equalsIgnoreCase("version"))
 			{
-				sender.sendMessage(new TextComponentString("Installed: " + Main.MC_VERSION + "-" + Main.VERSION));
+				sender.sendMessage(new TextComponentString("Installed: $mcversion-$version"));
 				ComparableVersion target = ForgeVersion.getResult(Loader.instance().getIndexedModList().get(Main.MODID)).target;
-				sender.sendMessage(new TextComponentString("Latest: " + Main.MC_VERSION + "-" + (target != null ? target : Main.VERSION)));
+				sender.sendMessage(new TextComponentString("Latest: $mcversion-" + (target != null ? target : "$version")));
 			}
 			else
 			{
