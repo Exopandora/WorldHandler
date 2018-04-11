@@ -12,6 +12,8 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import exopandora.worldhandler.Main;
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderDifficulty;
 import exopandora.worldhandler.builder.impl.BuilderDifficulty.EnumDifficulty;
 import exopandora.worldhandler.builder.impl.BuilderGamemode;
@@ -34,8 +36,6 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.IContent;
 import exopandora.worldhandler.gui.content.element.IElement;
 import exopandora.worldhandler.helper.ResourceHelper;
-import exopandora.worldhandler.main.Main;
-import exopandora.worldhandler.main.WorldHandler;
 import exopandora.worldhandler.util.UtilRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

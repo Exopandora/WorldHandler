@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.main.Main;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraftforge.fml.relauncher.Side;

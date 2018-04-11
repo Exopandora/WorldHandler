@@ -1,8 +1,8 @@
 package exopandora.worldhandler.gui.content;
 
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.impl.ContentContinue;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
-import exopandora.worldhandler.main.Main;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

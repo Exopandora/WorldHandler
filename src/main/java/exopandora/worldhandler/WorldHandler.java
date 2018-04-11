@@ -1,4 +1,4 @@
-package exopandora.worldhandler.main;
+package exopandora.worldhandler;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;

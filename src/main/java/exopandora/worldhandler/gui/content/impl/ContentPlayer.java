@@ -2,6 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGeneric;
 import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
@@ -14,7 +15,6 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandlerContainer;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiInventory;

@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import exopandora.worldhandler.Main;
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderWorldHandler;
 import exopandora.worldhandler.event.EventHandler;
-import exopandora.worldhandler.main.Main;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;

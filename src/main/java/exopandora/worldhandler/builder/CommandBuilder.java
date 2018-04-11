@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.Syntax.SyntaxEntry;
 import exopandora.worldhandler.builder.types.Coordinate;
 import exopandora.worldhandler.builder.types.Level;
 import exopandora.worldhandler.builder.types.TargetSelector;
 import exopandora.worldhandler.builder.types.Type;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;

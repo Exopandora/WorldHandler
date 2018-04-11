@@ -1,5 +1,6 @@
 package exopandora.worldhandler.gui.content.impl;
 
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.ConfigSettings;
 import exopandora.worldhandler.gui.button.EnumIcon;
 import exopandora.worldhandler.gui.button.EnumTooltip;
@@ -11,7 +12,6 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandlerContainer;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.main.Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreenResourcePacks;

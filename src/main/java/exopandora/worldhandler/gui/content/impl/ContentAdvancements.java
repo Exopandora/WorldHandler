@@ -7,6 +7,7 @@ import java.util.stream.StreamSupport;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderAdvancement;
 import exopandora.worldhandler.builder.impl.BuilderAdvancement.EnumActionType;
@@ -26,7 +27,6 @@ import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.content.element.logic.ILogicPageList;
 import exopandora.worldhandler.helper.AdvancementHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.client.Minecraft;

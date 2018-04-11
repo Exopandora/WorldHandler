@@ -1,4 +1,4 @@
-package exopandora.worldhandler.main;
+package exopandora.worldhandler;
 
 import java.awt.EventQueue;
 import java.io.File;

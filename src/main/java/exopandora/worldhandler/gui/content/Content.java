@@ -3,6 +3,7 @@ package exopandora.worldhandler.gui.content;
 import java.util.HashMap;
 import java.util.Map;
 
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.button.storage.ButtonStorage;
 import exopandora.worldhandler.gui.content.impl.ContentAdvancements;
 import exopandora.worldhandler.gui.content.impl.ContentButcher;
@@ -25,7 +26,6 @@ import exopandora.worldhandler.gui.content.impl.ContentScoreboardTeams;
 import exopandora.worldhandler.gui.content.impl.ContentSignEditor;
 import exopandora.worldhandler.gui.content.impl.ContentSummon;
 import exopandora.worldhandler.gui.content.impl.ContentWorldInfo;
-import exopandora.worldhandler.main.Main;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraftforge.fml.relauncher.Side;

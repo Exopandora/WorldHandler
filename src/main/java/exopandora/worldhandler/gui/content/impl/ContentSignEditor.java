@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderSignEditor;
 import exopandora.worldhandler.config.ConfigSkin;
@@ -18,7 +19,6 @@ import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementColorMenu;
 import exopandora.worldhandler.gui.content.element.logic.ILogicColorMenu;
 import exopandora.worldhandler.helper.BlockHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;

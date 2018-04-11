@@ -2,10 +2,10 @@ package exopandora.worldhandler.gui.button;
 
 import org.lwjgl.input.Mouse;
 
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.ConfigSkin;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.main.Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;

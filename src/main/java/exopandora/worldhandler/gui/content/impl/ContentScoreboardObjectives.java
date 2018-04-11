@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.google.common.base.Predicates;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderScoreboardObjectives;
 import exopandora.worldhandler.format.EnumColor;
@@ -16,7 +17,6 @@ import exopandora.worldhandler.gui.content.element.impl.ElementClickList;
 import exopandora.worldhandler.gui.content.element.logic.ILogicClickList;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentScoreboard;
 import exopandora.worldhandler.helper.EntityHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;

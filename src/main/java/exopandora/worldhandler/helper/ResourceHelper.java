@@ -4,8 +4,8 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.ConfigSkin;
-import exopandora.worldhandler.main.Main;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;

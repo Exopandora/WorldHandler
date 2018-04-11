@@ -6,10 +6,10 @@ import java.util.function.Consumer;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderSetblock;
 import exopandora.worldhandler.builder.types.Coordinate;
 import exopandora.worldhandler.config.ConfigSettings;
-import exopandora.worldhandler.main.WorldHandler;
 import exopandora.worldhandler.util.UtilPlayer;
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;

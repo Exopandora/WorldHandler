@@ -3,6 +3,7 @@ package exopandora.worldhandler.gui.content.impl;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderClone;
 import exopandora.worldhandler.builder.impl.BuilderClone.EnumMask;
@@ -21,7 +22,6 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.ResourceHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;

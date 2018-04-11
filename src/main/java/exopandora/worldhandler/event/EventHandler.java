@@ -2,14 +2,14 @@ package exopandora.worldhandler.event;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import exopandora.worldhandler.Main;
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.command.FakeCommandHandler;
 import exopandora.worldhandler.config.ConfigSettings;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandlerContainer;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.hud.BiomeIndicator;
-import exopandora.worldhandler.main.Main;
-import exopandora.worldhandler.main.WorldHandler;
 import exopandora.worldhandler.util.UtilPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
