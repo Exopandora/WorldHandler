@@ -40,19 +40,41 @@ public class ContentChangeWorld extends ContentChild
 			case 3:
 				ServerData server = Minecraft.getMinecraft().getCurrentServerData();
 				
-				Minecraft.getMinecraft().world.sendQuittingDisconnectingPacket();
-				Minecraft.getMinecraft().loadWorld((WorldClient)null);
-				
-				Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
+				if(server != null)
 				{
-					@Override
-					public void initGui()
+					Minecraft.getMinecraft().world.sendQuittingDisconnectingPacket();
+					Minecraft.getMinecraft().loadWorld((WorldClient)null);
+					
+					Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
 					{
-						FMLClientHandler.instance().connectToServer(new GuiMultiplayer(new GuiMainMenu()), server);
-						Minecraft.getMinecraft().displayGuiScreen((GuiScreen) null);
-						Minecraft.getMinecraft().setIngameFocus();
-					}
-				}));
+						@Override
+						public void initGui()
+						{
+							FMLClientHandler.instance().connectToServer(new GuiMultiplayer(new GuiMainMenu()), server);
+							Minecraft.getMinecraft().displayGuiScreen((GuiScreen) null);
+							Minecraft.getMinecraft().setIngameFocus();
+						}
+					}));
+				}
+				else
+				{
+					String worldName = Minecraft.getMinecraft().getIntegratedServer().getWorldName();
+					String folderName = Minecraft.getMinecraft().getIntegratedServer().getFolderName();
+					
+					Minecraft.getMinecraft().world.sendQuittingDisconnectingPacket();
+					Minecraft.getMinecraft().loadWorld((WorldClient)null);
+					
+					Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
+					{
+						@Override
+						public void initGui()
+						{
+							Minecraft.getMinecraft().launchIntegratedServer(folderName, worldName, null);
+							Minecraft.getMinecraft().displayGuiScreen((GuiScreen) null);
+							Minecraft.getMinecraft().setIngameFocus();
+						}
+					}));
+				}
 				break;
 			default:
 				break;
