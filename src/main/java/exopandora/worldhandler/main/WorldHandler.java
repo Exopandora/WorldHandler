@@ -25,6 +25,8 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.ProgressManager;
+import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
@@ -39,7 +41,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class WorldHandler
 {
 	@Instance(Main.MODID)
-	public WorldHandler INSTANCE;
+	private static WorldHandler INSTANCE;
 	
 	public static KeyBinding KEY_WORLD_HANDLER = new KeyBinding(Main.NAME, Keyboard.KEY_V, "key.categories.misc");
 	public static KeyBinding KEY_WORLD_HANDLER_POS1 = new KeyBinding(Main.NAME + " Pos1", Keyboard.KEY_O, "key.categories.misc");
@@ -65,10 +67,6 @@ public class WorldHandler
 		LOGGER.info("First Release on March 28 2013 - 02:29 PM CET by Exopandora");
 		LOGGER.info("Latest Version: " + Main.URL);
 		CONFIG = new Configuration(event.getSuggestedConfigurationFile());
-		
-		ConfigSettings.load(CONFIG);
-		ConfigSkin.load(CONFIG);
-		ConfigSliders.load(CONFIG);
 	}
 	
 	@EventHandler
@@ -92,9 +90,20 @@ public class WorldHandler
 	public void loadComplete(FMLLoadCompleteEvent event)
 	{
 		LOGGER.info("Load-Complete");
+		ProgressBar bar = ProgressManager.push(Main.NAME, 2);
+		bar.step("Loading Configuration Files");
+		
+		ConfigSettings.load(CONFIG);
+		ConfigSkin.load(CONFIG);
+		ConfigSliders.load(CONFIG);
 		ConfigButcher.load(CONFIG);
+		
+		bar.step("Initialising User Interface");
+		
 		Content.registerContents();
 		Category.registerCategories();
+		
+		ProgressManager.pop(bar);
 	}
 	
 	@EventHandler
