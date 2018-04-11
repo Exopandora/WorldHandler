@@ -53,6 +53,13 @@ public class ContentGamerules extends Content
 			@Override
 			public String translate(String key)
 			{
+				String translated = I18n.format(key);
+				
+				if(!translated.equals(key))
+				{
+					return translated;
+				}
+				
 				return I18n.format("gui.worldhandler.gamerules.rule." + key);
 			}
 			
