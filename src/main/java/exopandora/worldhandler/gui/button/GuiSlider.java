@@ -41,23 +41,20 @@ public class GuiSlider<T> extends GuiButton
 	
 	private void initStorage(double min, double max, double start)
 	{
-		if(this.storage.getObject() == null || this.storage.getObject().getMin() != min || this.storage.getObject().getMax() != max)
+		if(this.storage.getObject() == null)
 		{
-			if(this.storage.getObject() == null)
+			if(min == max)
 			{
-				if(min == max)
-				{
-					this.storage.setObject(new SliderStorage(min, max, 0));
-				}
-				else
-				{
-					this.storage.setObject(new SliderStorage(min, max, (start - min) / (max - min)));
-				}
+				this.storage.setObject(new SliderStorage(min, max, 0.0D));
 			}
 			else
 			{
-				this.storage.setObject(new SliderStorage(min, max, (int) MathHelper.clamp(this.getValue(), min, max)));
+				this.storage.setObject(new SliderStorage(min, max, (start - min) / (max - min)));
 			}
+		}
+		else if(this.storage.getObject().getMin() != min || this.storage.getObject().getMax() != max)
+		{
+			this.storage.setObject(new SliderStorage(min, max, (int) MathHelper.clamp(this.getValue(), min, max)));
 		}
 	}
 	
