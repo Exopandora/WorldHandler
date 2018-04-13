@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderSignEditor;
@@ -35,7 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ContentSignEditor extends Content
 {
-	private static final ResourceLocation LOGO = new ResourceLocation("worldhandler:textures/logo.png");
+	private static final ResourceLocation LOGO = new ResourceLocation(Main.MODID, "textures/logo.png");
 	
 	private int selectedLine = 0;
 	private boolean editColor;
