@@ -11,77 +11,85 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class BiomeIndicator
 {
-	private static final Set<String> BIOMES;
-	private static String CURRENT_BIOME;
-	private static int TICKS;
+	private final Set<String> biomes = new HashSet<String>();
+	private String currentBiome;
+	private int ticksRemaining;
 	
-	static
+	public BiomeIndicator()
 	{
-		Set<String> pool = new HashSet<String>();
+		this.init();
+	}
+	
+	private void init()
+	{
+		Set<String> biomes = new HashSet<String>();
 		
 		for(ResourceLocation location : Biome.REGISTRY.getKeys())
 		{
-			pool.add(filterName(Biome.REGISTRY.getObject(location).getBiomeName()));
+			biomes.add(this.filterName(Biome.REGISTRY.getObject(location).getBiomeName()));
 		}
 		
-		BIOMES = new HashSet<String>(pool);
+		this.biomes.addAll(biomes);
 		
-		for(String biome : pool)
+		for(String biome : biomes)
 		{
-			for(String index : pool)
+			for(String index : biomes)
 			{
 				if(index.matches(biome + "([A-Za-z ])+") || index.matches("([A-Za-z ])+ " + biome))
 				{
-					BIOMES.remove(index);
+					this.biomes.remove(index);
 				}
 			}
 		}
 		
-		BIOMES.remove("River");
-		BIOMES.remove("Beach");
+		this.biomes.remove("River");
+		this.biomes.remove("Beach");
 	}
 	
-	public static void tick()
+	public void tick()
 	{
-        int posX = MathHelper.floor(Minecraft.getMinecraft().player.posX);
-        int posY = MathHelper.floor(Minecraft.getMinecraft().player.posY);
-        int posZ = MathHelper.floor(Minecraft.getMinecraft().player.posZ);
-        
-        BlockPos pos = new BlockPos(posX, posY, posZ);
-        
-        if(Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().world.isBlockLoaded(pos))
-        {
-            Chunk chunk = Minecraft.getMinecraft().world.getChunkFromBlockCoords(pos);
-        	String biome = getBaseBiome(filterName(chunk.getBiome(pos, Minecraft.getMinecraft().world.getBiomeProvider()).getBiomeName()));
-        	
-        	if(TICKS == 0 && biome != null)
-        	{
-        		if(CURRENT_BIOME == null || !CURRENT_BIOME.equals(biome))
-    			{
-            		Minecraft.getMinecraft().ingameGUI.displayTitle(biome, null, 20, 60, 20);
-            		TICKS = 100;
-            		CURRENT_BIOME = biome;
-    			}
-        	}
-        	else if(TICKS > 0)
-        	{
-        		TICKS--;
-        	}
-        }
+		int posX = MathHelper.floor(Minecraft.getMinecraft().player.posX);
+		int posY = MathHelper.floor(Minecraft.getMinecraft().player.posY);
+		int posZ = MathHelper.floor(Minecraft.getMinecraft().player.posZ);
+		
+		BlockPos pos = new BlockPos(posX, posY, posZ);
+		
+		if(Minecraft.getMinecraft().world != null && Minecraft.getMinecraft().world.isBlockLoaded(pos))
+		{
+			Chunk chunk = Minecraft.getMinecraft().world.getChunkFromBlockCoords(pos);
+			String biome = this.getBaseBiome(this.filterName(chunk.getBiome(pos, Minecraft.getMinecraft().world.getBiomeProvider()).getBiomeName()));
+			
+			if(this.ticksRemaining == 0 && biome != null)
+			{
+				if(this.currentBiome == null || !this.currentBiome.equals(biome))
+				{
+					Minecraft.getMinecraft().ingameGUI.displayTitle(biome, null, 20, 60, 20);
+					this.ticksRemaining = 100;
+					this.currentBiome = biome;
+				}
+			}
+			else if(this.ticksRemaining > 0)
+			{
+				this.ticksRemaining--;
+			}
+		}
 	}
 	
-	private static String filterName(String biome)
+	private String filterName(String biome)
 	{
 		return biome.replaceAll("([a-z])([A-Z])", "$1 $2").replaceAll("[^A-Za-z ]", "").replaceAll("( [A-Z])$", "");
 	}
 	
 	@Nullable
-	private static String getBaseBiome(String input)
+	private String getBaseBiome(String input)
 	{
-		for(String biome : BIOMES)
+		for(String biome : this.biomes)
 		{
 			if(input.matches("([A-Za-z ])*" + biome + "([A-Za-z ])*"))
 			{
