@@ -29,7 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class EventHandler
+public class EventListener
 {
 	private final FakeCommandHandler commandHandler = new FakeCommandHandler();
 	private final BiomeIndicator biomeIndicator = new BiomeIndicator();
