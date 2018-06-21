@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import exopandora.worldhandler.WorldHandler;
@@ -77,6 +79,7 @@ public class BlockHelper
 		return new BlockPos(pos.getX(), pos.getY(), z);
 	}
 	
+	@Nonnull
 	public static BlockPos getPos1()
 	{
 		return POS_1;
@@ -95,6 +98,7 @@ public class BlockHelper
 		}
 	}
 	
+	@Nonnull
 	public static BlockPos getPos2()
 	{
 		return POS_2;
