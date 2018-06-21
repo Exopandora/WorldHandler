@@ -8,7 +8,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderWorldHandler;
-import exopandora.worldhandler.event.EventHandler;
+import exopandora.worldhandler.event.EventListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -49,7 +49,7 @@ public class CommandWorldHandler extends CommandBase
 			}
 			else if(args[0].equalsIgnoreCase("display"))
 			{
-				new Thread(() -> Minecraft.getMinecraft().addScheduledTask(EventHandler::displayGui)).start();
+				Minecraft.getMinecraft().addScheduledTask(EventListener::displayGui);
 			}
 			else if(args[0].equalsIgnoreCase("version"))
 			{
