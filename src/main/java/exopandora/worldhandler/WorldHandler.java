@@ -12,10 +12,12 @@ import exopandora.worldhandler.config.ConfigButcher;
 import exopandora.worldhandler.config.ConfigSettings;
 import exopandora.worldhandler.config.ConfigSkin;
 import exopandora.worldhandler.config.ConfigSliders;
+import exopandora.worldhandler.event.EventListener;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.proxy.CommonProxy;
+import exopandora.worldhandler.util.UtilKeyBinding;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.command.ICommand;
@@ -30,6 +32,7 @@ import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.common.event.FMLModDisabledEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -37,7 +40,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@Mod(modid = Main.MODID, name = Main.NAME, acceptedMinecraftVersions = "[$compatible,)", version = "$version", canBeDeactivated = false, guiFactory = "exopandora.worldhandler.gui.config.GuiFactoryWorldHandler", updateJSON = "$update_url", clientSideOnly = true, certificateFingerprint = "$certificate")
+@Mod(modid = Main.MODID, name = Main.NAME, acceptedMinecraftVersions = "[$compatible,)", version = "$version", canBeDeactivated = true, guiFactory = "exopandora.worldhandler.gui.config.GuiFactoryWorldHandler", updateJSON = "$update_url", clientSideOnly = true, certificateFingerprint = "$certificate")
 public class WorldHandler
 {
 	@Instance(Main.MODID)
@@ -47,17 +50,16 @@ public class WorldHandler
 	public static KeyBinding KEY_WORLD_HANDLER_POS1 = new KeyBinding(Main.NAME + " Pos1", Keyboard.KEY_O, "key.categories.misc");
 	public static KeyBinding KEY_WORLD_HANDLER_POS2 = new KeyBinding(Main.NAME + " Pos2", Keyboard.KEY_P, "key.categories.misc");
 	
-	public static Logger LOGGER;
-	
 	public static final ICommand COMMAND_WORLD_HANDLER = new CommandWorldHandler();
 	public static final ICommand COMMAND_WH = new CommandWH();
 	
 	public static Configuration CONFIG;
-	
+	public static Logger LOGGER;
 	public static String USERNAME = null;
 	
 	@SidedProxy(clientSide = "exopandora.worldhandler.proxy.ClientProxy", serverSide = "exopandora.worldhandler.proxy.CommonProxy")
-	public static CommonProxy PROXY;
+	private static CommonProxy PROXY;
+	private EventListener eventListener = new EventListener();
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -75,9 +77,9 @@ public class WorldHandler
 		LOGGER.info("Initialisation");
 		USERNAME = Minecraft.getMinecraft().getSession().getUsername();
 		
-		MinecraftForge.EVENT_BUS.register(new exopandora.worldhandler.event.EventHandler());
+		MinecraftForge.EVENT_BUS.register(this.eventListener);
 		ClientRegistry.registerKeyBinding(KEY_WORLD_HANDLER);
-		updateKeyBindings();
+		UtilKeyBinding.updatePosKeys();
 	}
 	
 	@EventHandler
@@ -113,28 +115,25 @@ public class WorldHandler
 		event.registerServerCommand(COMMAND_WH);
 	}
 	
+	@EventHandler
+	public void disable(FMLModDisabledEvent event)
+	{
+		MinecraftForge.EVENT_BUS.register(this.eventListener);
+		Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils.removeElement(Minecraft.getMinecraft().gameSettings.keyBindings, KEY_WORLD_HANDLER);
+		
+		if(UtilKeyBinding.arePosKeysRegistered() && ConfigSettings.arePosShortcutsEnabled())
+		{
+			UtilKeyBinding.removePosKeys();
+		}
+	}
+	
 	public static void updateConfig()
 	{
 		ConfigSettings.load(CONFIG);
 		ConfigSkin.load(CONFIG);
 		ConfigButcher.load(CONFIG);
 		ConfigSliders.load(CONFIG);
-		updateKeyBindings();
-	}
-	
-	public static void updateKeyBindings()
-	{
-		boolean isRegistered = ArrayUtils.contains(Minecraft.getMinecraft().gameSettings.keyBindings, KEY_WORLD_HANDLER_POS1) || ArrayUtils.contains(Minecraft.getMinecraft().gameSettings.keyBindings, KEY_WORLD_HANDLER_POS2);
-		
-		if(ConfigSettings.arePosShortcutsEnabled() && !isRegistered)
-		{
-			ClientRegistry.registerKeyBinding(KEY_WORLD_HANDLER_POS1);
-			ClientRegistry.registerKeyBinding(KEY_WORLD_HANDLER_POS2);
-		}
-		else if(!ConfigSettings.arePosShortcutsEnabled() && isRegistered)
-		{
-			Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils.removeElements(Minecraft.getMinecraft().gameSettings.keyBindings, KEY_WORLD_HANDLER_POS1, KEY_WORLD_HANDLER_POS2);
-		}
+		UtilKeyBinding.updatePosKeys();
 	}
 	
 	public static void sendCommand(ICommandBuilder builder)
