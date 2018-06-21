@@ -18,6 +18,7 @@ public class ConfigSettings
 	private static boolean PAUSE;
 	private static boolean CUSTOM_TIMES;
 	private static boolean PERMISSION_QEURY;
+	private static boolean HIGHLIGHT_BLOCKS;
 	
 	private static int DAWN;
 	private static int NOON;
@@ -40,6 +41,7 @@ public class ConfigSettings
 		PAUSE = config.getBoolean("pause_game", CATEGORY, false, I18n.format("gui.worldhandler.config.comment.settings.pause_game"), "gui.worldhandler.config.key.settings.pause_game");
 		CUSTOM_TIMES = config.getBoolean("custom_times", CATEGORY, false, I18n.format("gui.worldhandler.config.comment.settings.custom_times"), "gui.worldhandler.config.key.settings.custom_times");
 		PERMISSION_QEURY = config.getBoolean("permission_query", CATEGORY, true, I18n.format("gui.worldhandler.config.comment.settings.permission_query"), "gui.worldhandler.config.key.settings.permission_query");
+		HIGHLIGHT_BLOCKS = config.getBoolean("highlight_blocks", CATEGORY, true, I18n.format("gui.worldhandler.config.comment.settings.highlight_blocks"), "gui.worldhandler.config.key.settings.highlight_blocks");
 		DAWN = config.getInt("custom_time_dawn", CATEGORY, 1000, 0, 24000, I18n.format("gui.worldhandler.config.comment.settings.custom_time_dawn"), "gui.worldhandler.config.key.settings.custom_time_dawn");
 		NOON = config.getInt("custom_time_noon", CATEGORY, 6000, 0, 24000, I18n.format("gui.worldhandler.config.comment.settings.custom_time_noon"), "gui.worldhandler.config.key.settings.custom_time_noon");
 		SUNSET = config.getInt("custom_time_sunset", CATEGORY, 12500, 0, 24000, I18n.format("gui.worldhandler.config.comment.settings.custom_time_sunset"), "gui.worldhandler.config.key.settings.custom_time_sunset");
@@ -101,7 +103,12 @@ public class ConfigSettings
 	{
 		return PERMISSION_QEURY;
 	}
-
+	
+	public static boolean isHighlightBlocksEnabled()
+	{
+		return HIGHLIGHT_BLOCKS;
+	}
+	
 	public static int getDawn()
 	{
 		return DAWN;
