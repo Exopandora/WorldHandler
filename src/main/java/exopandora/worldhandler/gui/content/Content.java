@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.content.impl.ContentAdvancements;
 import exopandora.worldhandler.gui.content.impl.ContentButcher;
 import exopandora.worldhandler.gui.content.impl.ContentChangeWorld;
@@ -19,6 +19,7 @@ import exopandora.worldhandler.gui.content.impl.ContentMain;
 import exopandora.worldhandler.gui.content.impl.ContentMultiplayer;
 import exopandora.worldhandler.gui.content.impl.ContentNoteEditor;
 import exopandora.worldhandler.gui.content.impl.ContentPlayer;
+import exopandora.worldhandler.gui.content.impl.ContentPlaysound;
 import exopandora.worldhandler.gui.content.impl.ContentPotions;
 import exopandora.worldhandler.gui.content.impl.ContentScoreboardObjectives;
 import exopandora.worldhandler.gui.content.impl.ContentScoreboardPlayers;
@@ -45,6 +46,7 @@ public abstract class Content implements IContent
 		
 		//ENTITIES
 		registerContent(3, "summon", new ContentSummon());
+		registerContent(21, "playsound", new ContentPlaysound());
 		
 		//ITEMS
 		registerContent(5, "custom_item", new ContentCustomItem());
@@ -88,24 +90,24 @@ public abstract class Content implements IContent
         REGISTRY.register(id, textualID, content);
     }
     
-    private Map<Object, ButtonStorage> storage;
+    private Map<Object, ButtonValues> persistence;
     
-    public <T> ButtonStorage<T> getStorage(Object id)
+    public <T> ButtonValues<T> getPersistence(Object id)
     {
-    	if(this.storage == null)
+    	if(this.persistence == null)
     	{
-    		this.storage = new HashMap<Object, ButtonStorage>();
+    		this.persistence = new HashMap<Object, ButtonValues>();
     	}
     	
-    	if(this.storage.containsKey(id))
+    	if(this.persistence.containsKey(id))
     	{
-    		return this.storage.get(id);
+    		return this.persistence.get(id);
     	}
     	
-    	ButtonStorage<T> storage = new ButtonStorage<T>();
+    	ButtonValues<T> values = new ButtonValues<T>();
     	
-    	this.storage.put(id, storage);
+    	this.persistence.put(id, values);
     	
-    	return storage;
+    	return values;
     }
 }

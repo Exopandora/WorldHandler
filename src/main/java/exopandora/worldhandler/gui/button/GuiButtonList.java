@@ -4,7 +4,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 
 import exopandora.worldhandler.format.TextFormatting;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import net.minecraft.client.Minecraft;
@@ -17,21 +17,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiButtonList<T> extends GuiButtonWorldHandler
 {
 	private final IListButtonLogic<T> logic;
-	private final ButtonStorage<T> storage;
+	private final ButtonValues<T> persistence;
 	private int mouseX;
 	private int mouseY;
 	
-	public GuiButtonList(int id, int x, int y, int width, int height, Content container, IListButtonLogic<T> logic)
+	public GuiButtonList(int id, int x, int y, int width, int height, Content content, IListButtonLogic<T> logic)
 	{
-		this(id, x, y, width, height, null, container, logic);
+		this(id, x, y, width, height, null, content, logic);
 	}
 	
-	public GuiButtonList(int id, int x, int y, int width, int height, EnumTooltip tooltipType, Content container, IListButtonLogic<T> logic)
+	public GuiButtonList(int id, int x, int y, int width, int height, EnumTooltip tooltipType, Content content, IListButtonLogic<T> logic)
 	{
 		super(id, x, y, width, height, null, null, tooltipType);
 		this.logic = logic;
-		this.storage = container.getStorage(this.logic.getId());
-		this.updateStorageObject();
+		this.persistence = content.getPersistence(this.logic.getId());
+		this.updatePersistenceObject();
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class GuiButtonList<T> extends GuiButtonWorldHandler
 			this.mouseX = mouseX;
 			this.mouseY = mouseY;
 			
-			this.displayString = this.logic.getDisplayString(this.storage);
+			this.displayString = this.logic.getDisplayString(this.persistence);
 			
 			if(this.displayString != null && !this.displayString.isEmpty())
 			{
@@ -77,7 +77,7 @@ public class GuiButtonList<T> extends GuiButtonWorldHandler
 	{
 		if(this.tooltipType != null)
 		{
-			this.displayTooltip = this.logic.getTooltipString(this.storage);
+			this.displayTooltip = this.logic.getTooltipString(this.persistence);
 		}
 		
 		super.drawTooltip(mouseX, mouseY, width, height);
@@ -102,34 +102,34 @@ public class GuiButtonList<T> extends GuiButtonWorldHandler
 	{
 		if(this.isHoveringLeft(this.mouseX, this.mouseY))
 		{
-			if(this.storage.getIndex() > 0)
+			if(this.persistence.getIndex() > 0)
 			{
-				this.storage.decrementIndex();
+				this.persistence.decrementIndex();
 			}
 			else
 			{
-				this.storage.setIndex(this.logic.getMax() - 1);
+				this.persistence.setIndex(this.logic.getMax() - 1);
 			}
 		}
 		else if(this.isHoveringRight(this.mouseX, this.mouseY))
 		{
-			if(this.storage.getIndex() < this.logic.getMax() - 1)
+			if(this.persistence.getIndex() < this.logic.getMax() - 1)
 			{
-				this.storage.incrementIndex();
+				this.persistence.incrementIndex();
 			}
 			else
 			{
-				this.storage.setIndex(0);
+				this.persistence.setIndex(0);
 			}
 		}
 		
-		this.updateStorageObject();
-		this.logic.actionPerformed(container, button, this.storage);
+		this.updatePersistenceObject();
+		this.logic.actionPerformed(container, button, this.persistence);
 	}
 	
-	private void updateStorageObject()
+	private void updatePersistenceObject()
 	{
-		this.storage.setObject(this.logic.getObject(this.storage.getIndex()));
+		this.persistence.setObject(this.logic.getObject(this.persistence.getIndex()));
 	}
 	
 	public IListButtonLogic<T> getLogic()

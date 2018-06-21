@@ -1,6 +1,6 @@
 package exopandora.worldhandler.gui.button.logic;
 
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.container.Container;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.fml.relauncher.Side;
@@ -9,19 +9,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public interface IListButtonLogic<T>
 {
-	void actionPerformed(Container container, GuiButton button, ButtonStorage<T> storage);
+	void actionPerformed(Container container, GuiButton button, ButtonValues<T> values);
 	
 	int getMax();
 	
 	T getObject(int index);
 	
-	String getDisplayString(ButtonStorage<T> storage);
+	String getDisplayString(ButtonValues<T> values);
 	
-	default String getTooltipString(ButtonStorage<T> storage)
+	default String getTooltipString(ButtonValues<T> values)
 	{
-		if(storage != null && storage.getObject() != null)
+		if(values != null && values.getObject() != null)
 		{
-			return storage.getObject().toString() + " (" + (storage.getIndex() + 1) + "/" + this.getMax() + ")";
+			return values.getObject().toString() + " (" + (values.getIndex() + 1) + "/" + this.getMax() + ")";
 		}
 		
 		return null;

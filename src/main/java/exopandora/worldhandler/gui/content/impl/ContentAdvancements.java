@@ -17,7 +17,7 @@ import exopandora.worldhandler.gui.button.EnumTooltip;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -109,9 +109,9 @@ public class ContentAdvancements extends Content
 			private final EnumMode[] values = Arrays.stream(EnumMode.values()).filter(mode -> !mode.equals(EnumMode.EVERYTHING)).toArray(EnumMode[]::new);
 			
 			@Override
-			public void actionPerformed(Container container, GuiButton button, ButtonStorage<EnumMode> storage)
+			public void actionPerformed(Container container, GuiButton button, ButtonValues<EnumMode> values)
 			{
-				builderAdvancement.setMode(storage.getObject());
+				builderAdvancement.setMode(values.getObject());
 			}
 			
 			@Override
@@ -127,9 +127,9 @@ public class ContentAdvancements extends Content
 			}
 			
 			@Override
-			public String getDisplayString(ButtonStorage<EnumMode> storage)
+			public String getDisplayString(ButtonValues<EnumMode> values)
 			{
-				return I18n.format("gui.worldhandler.advancements." + storage.getObject().toString());
+				return I18n.format("gui.worldhandler.advancements." + values.getObject().toString());
 			}
 			
 			@Override

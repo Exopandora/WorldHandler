@@ -5,7 +5,7 @@ import java.util.List;
 import exopandora.worldhandler.config.ConfigSkin;
 import exopandora.worldhandler.format.TextFormatting;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.element.Element;
@@ -24,9 +24,9 @@ public class ElementPageList<T, K> extends Element
 	private final int width;
 	private final int height;
 	private final int[] ids;
-	private final ButtonStorage<Integer> storage;
+	private final ButtonValues<Integer> values;
 	
-	public ElementPageList(int x, int y, List<T> list, K initial, int width, int height, int length, Content container, int[] ids, ILogicPageList<T, K> logic)
+	public ElementPageList(int x, int y, List<T> list, K initial, int width, int height, int length, Content content, int[] ids, ILogicPageList<T, K> logic)
 	{
 		super(x, y);
 		this.list = list;
@@ -34,15 +34,15 @@ public class ElementPageList<T, K> extends Element
 		this.width = width;
 		this.height = height;
 		this.logic = logic;
-		this.storage = container.getStorage(logic.getId());
+		this.values = content.getPersistence(logic.getId());
 		this.ids = ids;
 		
 		this.list.sort((a, b) -> this.logic.translate(a).compareTo(this.logic.translate(b)));
 		
-		if(this.storage.getObject() == null)
+		if(this.values.getObject() == null)
 		{
-			this.storage.setObject(0);
-			this.storage.setIndex(Math.max(0, this.list.indexOf(this.logic.convert(initial))));
+			this.values.setObject(0);
+			this.values.setIndex(Math.max(0, this.list.indexOf(this.logic.convert(initial))));
 			
 			if(initial == null)
 			{
@@ -69,8 +69,8 @@ public class ElementPageList<T, K> extends Element
 			GuiButtonWorldHandler left = new GuiButtonWorldHandler(this.ids[0], this.x, this.y + (this.height + 4) * this.length, buttonWidth + 1, this.height, "<");
 			GuiButtonWorldHandler right = new GuiButtonWorldHandler(this.ids[1], this.x + 5 + buttonWidth, this.y + (this.height + 4) * this.length, buttonWidth, this.height, ">");
 			
-			left.enabled = this.storage.getObject() > 0;
-			right.enabled = this.storage.getObject() < this.getTotalPages() - 1;
+			left.enabled = this.values.getObject() > 0;
+			right.enabled = this.values.getObject() < this.getTotalPages() - 1;
 			
 			container.add(left);
 			container.add(right);
@@ -80,12 +80,12 @@ public class ElementPageList<T, K> extends Element
 		
 		for(int x = 0; x < length; x++)
 		{
-			int index = this.storage.getObject() * length + x;
+			int index = this.values.getObject() * length + x;
 			
 			if(index < this.list.size())
 			{
 				T entry = this.list.get(index);
-				this.logic.onRegister(this.ids[2], this.x, this.y + (this.height + 4) * x, this.width, this.height, TextFormatting.shortenString(this.logic.translate(entry), this.width, Minecraft.getMinecraft().fontRenderer), this.logic.getRegistryName(entry), this.storage.getIndex() != index, entry, container);
+				this.logic.onRegister(this.ids[2], this.x, this.y + (this.height + 4) * x, this.width, this.height, TextFormatting.shortenString(this.logic.translate(entry), this.width, Minecraft.getMinecraft().fontRenderer), this.logic.getRegistryName(entry), this.values.getIndex() != index, entry, container);
 			}
 			else
 			{
@@ -101,13 +101,13 @@ public class ElementPageList<T, K> extends Element
 	{
 		if(button.id == this.ids[0])
 		{
-			this.storage.setObject(this.storage.getObject() - 1);
+			this.values.setObject(this.values.getObject() - 1);
 			container.initGui();
 			return true;
 		}
 		else if(button.id == this.ids[1])
 		{
-			this.storage.setObject(this.storage.getObject() + 1);
+			this.values.setObject(this.values.getObject() + 1);
 			container.initGui();
 			return true;
 		}
@@ -119,7 +119,7 @@ public class ElementPageList<T, K> extends Element
 				
 				if(TextFormatting.shortenString(this.logic.translate(entry), this.width, Minecraft.getMinecraft().fontRenderer).equals(button.displayString))
 				{
-					this.storage.setIndex(x);
+					this.values.setIndex(x);
 					this.logic.onClick(entry);
 					container.initGui();
 					return true;
@@ -133,7 +133,7 @@ public class ElementPageList<T, K> extends Element
 	@Override
 	public void draw()
 	{
-		Minecraft.getMinecraft().fontRenderer.drawString((this.storage.getObject() + 1) + "/" + this.getTotalPages(), this.x, this.y - 11, ConfigSkin.getHeadlineColor());
+		Minecraft.getMinecraft().fontRenderer.drawString((this.values.getObject() + 1) + "/" + this.getTotalPages(), this.x, this.y - 11, ConfigSkin.getHeadlineColor());
 	}
 	
 	private int getTotalPages()

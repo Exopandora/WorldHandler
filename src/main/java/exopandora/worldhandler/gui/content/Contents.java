@@ -15,6 +15,7 @@ public class Contents
 	public static final Content MULTIPLAYER;
 	
 	public static final Content SUMMON;
+	public static final Content PLAYSOUND;
 	
 	public static final Content CUSTOM_ITEM;
 	public static final Content ENCHANTMENT;
@@ -47,6 +48,7 @@ public class Contents
 		MULTIPLAYER = Contents.getRegisteredContainer("multiplayer");
 		
 		SUMMON = Contents.getRegisteredContainer("summon");
+		PLAYSOUND = Contents.getRegisteredContainer("playsound");
 		
 		CUSTOM_ITEM = Contents.getRegisteredContainer("custom_item");
 		ENCHANTMENT = Contents.getRegisteredContainer("enchantment");
@@ -75,13 +77,13 @@ public class Contents
 	
 	private static <T extends Content> T getRegisteredContainer(String name)
 	{
-		Content container = Content.REGISTRY.getObject(new ResourceLocation(Main.MODID, name));
+		Content content = Content.REGISTRY.getObject(new ResourceLocation(Main.MODID, name));
 		
-		if(container == null)
+		if(content == null)
 		{
 			throw new IllegalStateException("Invalid Container requested: " + name);
 		}
 		
-		return (T) container;
+		return (T) content;
 	}
 }
