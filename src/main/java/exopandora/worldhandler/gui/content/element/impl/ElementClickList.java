@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.gui.button.EnumTooltip;
 import exopandora.worldhandler.gui.button.GuiButtonList;
+import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
 import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.container.Container;
@@ -20,22 +21,32 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ElementClickList extends Element
 {
-	private final int buttonId1;
-	private final int buttonId2;
+	private final int buttonId;
 	private final List<Node> list;
 	private final ILogicClickList logic;
-	private GuiButtonList button1;
-	private GuiButtonList button2;
 	private final Content content;
+	private final ElementClickList parent;
+	private final int depth;
+	private final int maxDepth;
 	
-	public ElementClickList(int x, int y, List<Node> list, int buttonId1, int buttonId2, Content content, ILogicClickList logic)
+	private GuiButtonList button;
+	private ElementClickList child;
+	
+	public ElementClickList(int x, int y, List<Node> list, int buttonId, int maxDepth, Content content, ILogicClickList logic)
+	{
+		this(x, y, list, buttonId, maxDepth, content, logic, null);
+	}
+	
+	private ElementClickList(int x, int y, List<Node> list, int buttonId, int maxDepth, Content content, ILogicClickList logic, ElementClickList parent)
 	{
 		super(x, y);
 		this.list = list;
-		this.buttonId1 = buttonId1;
-		this.buttonId2 = buttonId2;
+		this.buttonId = buttonId;
 		this.logic = logic;
 		this.content = content;
+		this.parent = parent;
+		this.maxDepth = maxDepth;
+		this.depth = this.parent != null ? this.parent.depth + 1 : 1;
 	}
 	
 	@Override
@@ -47,12 +58,12 @@ public class ElementClickList extends Element
 	@Override
 	public void initButtons(Container container)
 	{
-		container.add(this.button1 = new GuiButtonList(this.buttonId1, this.x, this.y, 114, 20, EnumTooltip.TOP_RIGHT, this.content, new IListButtonLogic<Node>()
+		container.add(this.button = new GuiButtonList(this.buttonId, this.x, this.y, 114, 20, EnumTooltip.TOP_RIGHT, this.content, new IListButtonLogic<Node>()
 		{
 			@Override
 			public void actionPerformed(Container container, GuiButton button, ButtonValues<Node> values)
 			{
-				content.getPersistence(listButtonLogic2.getId()).setIndex(0);
+				content.getPersistence(logic.getId() + (depth + 1)).setIndex(0);
 				container.initButtons();
 			}
 			
@@ -67,11 +78,11 @@ public class ElementClickList extends Element
 			{
 				return list.get(index);
 			}
-
+			
 			@Override
 			public String getDisplayString(ButtonValues<Node> values)
 			{
-				return logic.translate1(values.getObject().getKey());
+				return logic.translate(getKeys());
 			}
 			
 			@Override
@@ -88,101 +99,43 @@ public class ElementClickList extends Element
 			@Override
 			public String getId()
 			{
-				return logic.getId() + 1;
+				return logic.getId() + depth;
 			}
 		}));
 		
-		final Node node = this.getValues1().getObject();
-		this.logic.consumeKey1(node.getKey());
+		Node node = this.getValues().getObject();
+		this.logic.consumeKey(this.getKeys());
 		
 		if(node.getEntries() != null)
 		{
-			container.add(this.button2 = new GuiButtonList(this.buttonId2, this.x, this.y + 24, 114, 20, EnumTooltip.TOP_RIGHT, this.content, this.listButtonLogic2));
-			this.logic.consumeKey2(node.getKey(), node.getEntries().get(this.getValues2().getIndex()).getKey());
+			this.child = new ElementClickList(this.x, this.y + 24, node.getEntries(), this.buttonId + 1, this.maxDepth, this.content, this.logic, this);
+			this.child.initButtons(container);
 		}
-		else
+		else if(this.depth < this.maxDepth)
 		{
-			container.add(this.button2 = new GuiButtonList(this.buttonId2, this.x, this.y + 24, 114, 20, EnumTooltip.TOP_RIGHT, this.content, this.listButtonLogic2));
-			this.button2.enabled = false;
+			GuiButtonWorldHandler button = new GuiButtonWorldHandler(this.buttonId + 1, this.x, this.y + 24, 114, 20, null);
+			button.enabled = false;
+			container.add(button);
 		}
 	}
 	
-	private final IListButtonLogic<Node> listButtonLogic2 = new IListButtonLogic<Node>()
+	private String[] getKeys()
 	{
-		@Override
-		public void actionPerformed(Container container, GuiButton button, ButtonValues<Node> values)
-		{
-			container.initButtons();
-		}
-		
-		@Override
-		public int getMax()
-		{
-			if(getValues1().getObject() != null)
-			{
-				return getValues1().getObject().getEntries().size();
-			}
-			
-			return 0;
-		}
-		
-		@Override
-		public Node getObject(int index)
-		{
-			if(getValues1().getObject().getEntries() != null)
-			{
-				return getValues1().getObject().getEntries().get(index);
-			}
-			
-			return null;
-		}
-		
-		@Override
-		public String getDisplayString(ButtonValues<Node> values)
-		{
-			if(values.getObject() != null)
-			{
-				return logic.translate2(getValues1().getObject().getKey(), values.getObject().getKey());
-			}
-			
-			return null;
-		}
-		
-		@Override
-		public String getTooltipString(ButtonValues<Node> values)
-		{
-			if(getValues1().getObject().getEntries() != null)
-			{
-				return values.getObject().getKey() + " (" + (values.getIndex() + 1) + "/" + getValues1().getObject().getEntries().size() + ")";
-			}
-			
-			return null;
-		}
-		
-		@Override
-		public String getId()
-		{
-			return logic.getId() + 2;
-		}
-	};
+		return this.getKeys(new String[this.depth]);
+	}
 	
-	@Nullable
-	private ButtonValues<Node> getValues1()
+	private String[] getKeys(String[] keys)
 	{
-		if(this.button1 != null)
-		{
-			return this.content.<Node>getPersistence(this.button1.getLogic().getId());
-		}
-		
-		return null;
+		keys[this.depth - 1] = this.getValues().getObject().getKey();
+		return this.parent != null ? this.parent.getKeys(keys) : keys;
 	}
 	
 	@Nullable
-	private ButtonValues<Node> getValues2()
+	private ButtonValues<Node> getValues()
 	{
-		if(this.button2 != null)
+		if(this.button != null)
 		{
-			return this.content.<Node>getPersistence(this.button2.getLogic().getId());
+			return this.content.<Node>getPersistence(this.button.getLogic().getId());
 		}
 		
 		return null;
@@ -191,15 +144,14 @@ public class ElementClickList extends Element
 	@Override
 	public boolean actionPerformed(Container container, GuiButton button)
 	{
-		if(button.id == this.buttonId1)
+		if(button.id == this.buttonId)
 		{
-			this.button1.actionPerformed(container, button);
+			this.button.actionPerformed(container, button);
 			return true;
 		}
-		else if(button.id == this.buttonId2)
+		else if(this.child != null)
 		{
-			this.button2.actionPerformed(container, button);
-			return true;
+			return this.child.actionPerformed(container, button);
 		}
 		
 		return false;

@@ -48,47 +48,61 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		
 		if(this.selectedObjective.equals("create"))
 		{
-			ElementClickList objectives = new ElementClickList(x + 118, y + 24, HELPER.getObjectives(), 7, 8, this, new ILogicClickList()
+			ElementClickList objectives = new ElementClickList(x + 118, y + 24, HELPER.getObjectives(), 7, 2, this, new ILogicClickList()
 			{
 				@Override
-				public void consumeKey1(String key)
+				public void consumeKey(String... keys)
 				{
-					builderObjectives.setCriteria(key);
+					if(keys.length > 1)
+					{
+						this.consumeKeyImpl(keys);
+					}
+					else
+					{
+						builderObjectives.setCriteria(keys[0]);
+					}
 				}
 				
 				@Override
-				public String translate1(String key)
+				public String translate(String... keys)
 				{
-					String format = "gui.worldhandler.scoreboard.objectives.criteria." + key;
-					String result = I18n.format(format);
-					
-					if(result.equals(format))
+					if(keys.length > 1)
 					{
-						ResourceLocation location = new ResourceLocation(key);
-						
-						if(Item.REGISTRY.containsKey(location))
-						{
-							result = I18n.format(Item.REGISTRY.getObject(location).getUnlocalizedName() + ".name");
-						}
-						else if(Block.REGISTRY.containsKey(location))
-						{
-							result = Block.REGISTRY.getObject(location).getLocalizedName();
-						}
-						else if(EntityHelper.doesExist(key))
-						{
-							result = I18n.format("entity." + key + ".name");
-						}
-						else if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(key)))
-						{
-							result = I18n.format("gui.worldhandler.color." + key);
-						}
-						else
-						{
-							result = I18n.format(key);
-						}
+						return this.translate(keys[1]);
 					}
-					
-					return result;
+					else
+					{
+						String format = "gui.worldhandler.scoreboard.objectives.criteria." + keys[0];
+						String result = I18n.format(format);
+						
+						if(result.equals(format))
+						{
+							ResourceLocation location = new ResourceLocation(keys[0]);
+							
+							if(Item.REGISTRY.containsKey(location))
+							{
+								result = I18n.format(Item.REGISTRY.getObject(location).getUnlocalizedName() + ".name");
+							}
+							else if(Block.REGISTRY.containsKey(location))
+							{
+								result = Block.REGISTRY.getObject(location).getLocalizedName();
+							}
+							else if(EntityHelper.doesExist(keys[0]))
+							{
+								result = I18n.format("entity." + keys[0] + ".name");
+							}
+							else if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(keys[0])))
+							{
+								result = I18n.format("gui.worldhandler.color." + keys[0]);
+							}
+							else
+							{
+								result = I18n.format(keys[0]);
+							}
+						}
+						
+						return result;
+					}
 				}
 				
 				@Override
@@ -102,24 +116,32 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		}
 		else if(this.selectedObjective.equals("display") || this.selectedObjective.equals("undisplay"))
 		{
-			ElementClickList slots = new ElementClickList(x + 118, y + 24 + (this.selectedObjective.equals("undisplay") ? -12 : 0), HELPER.getSlots(), 9, 10, this, new ILogicClickList()
+			ElementClickList slots = new ElementClickList(x + 118, y + 24 + (this.selectedObjective.equals("undisplay") ? -12 : 0), HELPER.getSlots(), 9, 2, this, new ILogicClickList()
 			{
 				@Override
-				public String translate1(String key)
+				public String translate(String... keys)
 				{
-					return I18n.format("gui.worldhandler.scoreboard.slot." + key);
+					if(keys.length > 1)
+					{
+						return I18n.format("gui.worldhandler.color." + keys[1]);
+					}
+					else
+					{
+						return I18n.format("gui.worldhandler.scoreboard.slot." + keys[0]);
+					}
 				}
 				
 				@Override
-				public String translate2(String key1, String key2)
+				public void consumeKey(String... keys)
 				{
-					return I18n.format("gui.worldhandler.color." + key2);
-				}
-				
-				@Override
-				public void consumeKey1(String key)
-				{
-					builderObjectives.setSlot(key);
+					if(keys.length > 1)
+					{
+						this.consumeKeyImpl(keys);
+					}
+					else
+					{
+						builderObjectives.setSlot(keys[0]);
+					}
 				}
 				
 				@Override

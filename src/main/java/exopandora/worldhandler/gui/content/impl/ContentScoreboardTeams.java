@@ -47,37 +47,39 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		
 		if(this.selectedTeam.equals("option"))
 		{
-			ElementClickList options = new ElementClickList(x + 118, y + 24, HELPER.getOptions(), 6, 7, this, new ILogicClickList()
+			ElementClickList options = new ElementClickList(x + 118, y + 24, HELPER.getOptions(), 6, 2, this, new ILogicClickList()
 			{
 				@Override
-				public String translate1(String key)
+				public String translate(String... keys)
 				{
-					return I18n.format("gui.worldhandler.scoreboard.team.options." + key);
-				}
-				
-				@Override
-				public String translate2(String key1, String key2)
-				{
-					if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(key2)))
+					if(keys.length > 1)
 					{
-						return I18n.format("gui.worldhandler.color." + key2);
+						if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(keys[1])))
+						{
+							return I18n.format("gui.worldhandler.color." + keys[1]);
+						}
+						
+						return I18n.format("gui.worldhandler.scoreboard.team.suboption." + keys[1]);
 					}
-					
-					return I18n.format("gui.worldhandler.scoreboard.team.suboption." + key2);
+					else
+					{
+						return I18n.format("gui.worldhandler.scoreboard.team.options." + keys[0]);
+					}
 				}
 				
 				@Override
-				public void consumeKey1(String key)
+				public void consumeKey(String... keys)
 				{
-					builderTeams.setRule(key);
+					if(keys.length > 1)
+					{
+						builderTeams.setValue(keys[1]);
+					}
+					else
+					{
+						builderTeams.setRule(keys[0]);
+					}
 				}
 				
-				@Override
-				public void consumeKey2(String key1, String key2)
-				{
-					builderTeams.setValue(key2);
-				}
-
 				@Override
 				public String getId()
 				{

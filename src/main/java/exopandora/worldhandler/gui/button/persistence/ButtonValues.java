@@ -24,9 +24,19 @@ public class ButtonValues<T>
 		this.index++;
 	}
 	
+	public void incrementIndexBy(int amount)
+	{
+		this.index += amount;
+	}
+	
 	public void decrementIndex()
 	{
 		this.index--;
+	}
+	
+	public void decrementIndexBy(int amount)
+	{
+		this.index -= amount;
 	}
 	
 	public T getObject()
