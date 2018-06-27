@@ -26,6 +26,7 @@ public class Contents
 	
 	public static final Content WORLD_INFO;
 	public static final Content GAMERULES;
+	public static final Content RECIPES;
 	
 	public static final Content PLAYER;
 	public static final Content EXPERIENCE;
@@ -59,6 +60,7 @@ public class Contents
 		
 		WORLD_INFO = Contents.getRegisteredContainer("world");
 		GAMERULES = Contents.getRegisteredContainer("gamerules");
+		RECIPES = Contents.getRegisteredContainer("recipes");
 		
 		PLAYER = Contents.getRegisteredContainer("player");
 		EXPERIENCE = Contents.getRegisteredContainer("experience");

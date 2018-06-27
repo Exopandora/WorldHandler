@@ -283,6 +283,9 @@ gui.worldhandler.edit_blocks.clone.mode.filtered=Filtered
 gui.worldhandler.edit_blocks.pos.set_pos_1=Set Pos 1
 gui.worldhandler.edit_blocks.pos.set_pos_2=Set Pos 2
 
+gui.worldhandler.recipes.give=Give
+gui.worldhandler.recipes.take=Take
+
 gui.worldhandler.scoreboard.slot.list=List
 gui.worldhandler.scoreboard.slot.belowName=Below Name
 gui.worldhandler.scoreboard.slot.sidebar=Sidebar

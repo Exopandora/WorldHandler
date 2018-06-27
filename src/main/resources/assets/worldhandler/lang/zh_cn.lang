@@ -283,6 +283,9 @@ gui.worldhandler.edit_blocks.clone.mode.filtered=仅指定方块
 gui.worldhandler.edit_blocks.pos.set_pos_1=设置位点 1
 gui.worldhandler.edit_blocks.pos.set_pos_2=设置位点 2
 
+gui.worldhandler.recipes.give=Give
+gui.worldhandler.recipes.take=Take
+
 gui.worldhandler.scoreboard.slot.list=列表
 gui.worldhandler.scoreboard.slot.belowName=名称下方
 gui.worldhandler.scoreboard.slot.sidebar=侧边栏
