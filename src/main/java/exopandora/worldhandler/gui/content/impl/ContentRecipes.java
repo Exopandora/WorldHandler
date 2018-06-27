@@ -135,13 +135,13 @@ public class ContentRecipes extends Content
 	@Override
 	public String getTitle()
 	{
-		return "Recipes";
+		return I18n.format("gui.worldhandler.title.world.recipes");
 	}
 	
 	@Override
 	public String getTabTitle()
 	{
-		return "Recipes";
+		return I18n.format("gui.worldhandler.tab.world.recipes");
 	}
 	
 	@Override
