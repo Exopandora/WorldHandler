@@ -24,7 +24,7 @@ public class ButtonValues<T>
 		this.index++;
 	}
 	
-	public void incrementIndexBy(int amount)
+	public void incrementIndex(int amount)
 	{
 		this.index += amount;
 	}
@@ -34,7 +34,7 @@ public class ButtonValues<T>
 		this.index--;
 	}
 	
-	public void decrementIndexBy(int amount)
+	public void decrementIndex(int amount)
 	{
 		this.index -= amount;
 	}

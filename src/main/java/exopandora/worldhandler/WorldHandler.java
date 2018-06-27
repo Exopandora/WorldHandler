@@ -100,7 +100,7 @@ public class WorldHandler
 		ConfigSliders.load(CONFIG);
 		ConfigButcher.load(CONFIG);
 		
-		bar.step("Initialising User Interface");
+		bar.step("Initializing User Interface");
 		
 		Content.registerContents();
 		Category.registerCategories();

@@ -3,8 +3,8 @@ package exopandora.worldhandler.gui.content.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
+import com.google.common.collect.Lists;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import exopandora.worldhandler.WorldHandler;
@@ -43,7 +43,7 @@ public class ContentAdvancements extends Content
 	
 	private GuiButtonList modeButton;
 	
-	private final List<Advancement> advancements = StreamSupport.stream(new AdvancementManager(null).getAdvancements().spliterator(), true).filter(advancement -> advancement.getDisplay() != null).collect(Collectors.toList());
+	private final List<Advancement> advancements = Lists.newArrayList(new AdvancementManager(null).getAdvancements()).parallelStream().filter(advancement -> advancement.getDisplay() != null).collect(Collectors.toList());
 	
 	@Override
 	public ICommandBuilder getCommandBuilder()

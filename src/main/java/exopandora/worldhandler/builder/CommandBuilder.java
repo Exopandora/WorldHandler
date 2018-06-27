@@ -1,7 +1,6 @@
 package exopandora.worldhandler.builder;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -232,20 +231,34 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	{
 		if(syntax != null)
 		{
-			this.command = syntax.getSyntaxEntries().stream().map(entry -> new AbstractMap.SimpleEntry<SyntaxEntry, String>(entry, entry.toString())).collect(Collectors.toList());
+			this.command = syntax.getSyntaxEntries().stream().map(entry -> new SimpleEntry<SyntaxEntry, String>(entry, entry.toString())).collect(Collectors.toList());
 		}
 	}
 	
 	@Override
 	public String toCommand()
 	{
-		return "/" + this.getCommandName() + " " + String.join(" ", this.command.stream().map(entry -> this.isDefaultEntry(entry) ? entry.getKey().toString() : entry.getValue()).collect(Collectors.toList()));
+		CommandString command = new CommandString(this.getCommandName());
+		
+		for(Entry<SyntaxEntry, String> entry : this.command)
+		{
+			if(this.isDefaultEntry(entry))
+			{
+				command.append(entry.getKey().toString());
+			}
+			else
+			{
+				command.append(entry.getValue());
+			}
+		}
+		
+		return command.toString();
 	}
 	
 	@Override
 	public String toActualCommand()
 	{
-		List<String> command = new ArrayList<String>();
+		CommandString command = new CommandString(this.getCommandName());
 		
 		for(Entry<SyntaxEntry, String> entry : this.command)
 		{
@@ -254,9 +267,9 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 				break;
 			}
 			
-			command.add(entry.getValue());
+			command.append(entry.getValue());
 		}
 		
-		return "/" + this.getCommandName() + " " + String.join(" ", command);
+		return command.toString();
 	}
 }

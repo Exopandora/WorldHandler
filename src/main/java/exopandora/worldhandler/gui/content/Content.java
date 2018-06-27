@@ -21,6 +21,7 @@ import exopandora.worldhandler.gui.content.impl.ContentNoteEditor;
 import exopandora.worldhandler.gui.content.impl.ContentPlayer;
 import exopandora.worldhandler.gui.content.impl.ContentPlaysound;
 import exopandora.worldhandler.gui.content.impl.ContentPotions;
+import exopandora.worldhandler.gui.content.impl.ContentRecipes;
 import exopandora.worldhandler.gui.content.impl.ContentScoreboardObjectives;
 import exopandora.worldhandler.gui.content.impl.ContentScoreboardPlayers;
 import exopandora.worldhandler.gui.content.impl.ContentScoreboardTeams;
@@ -60,24 +61,25 @@ public abstract class Content implements IContent
 		//WORLD
 		registerContent(9, "world", new ContentWorldInfo());
 		registerContent(10, "gamerules", new ContentGamerules());
+		registerContent(11, "recipes", new ContentRecipes());
 		
 		//PLAYER
-		registerContent(11, "player", new ContentPlayer());
-		registerContent(12, "experience", new ContentExperience());
-		registerContent(13, "advancements", new ContentAdvancements());
+		registerContent(12, "player", new ContentPlayer());
+		registerContent(13, "experience", new ContentExperience());
+		registerContent(14, "advancements", new ContentAdvancements());
 		
 		//SCOREBOARD
-		registerContent(14, "scoreboard_objectives", new ContentScoreboardObjectives());
-		registerContent(15, "scoreboard_teams", new ContentScoreboardTeams());
-		registerContent(16, "scoreboard_players", new ContentScoreboardPlayers());
+		registerContent(15, "scoreboard_objectives", new ContentScoreboardObjectives());
+		registerContent(16, "scoreboard_teams", new ContentScoreboardTeams());
+		registerContent(17, "scoreboard_players", new ContentScoreboardPlayers());
 		
 		//MISC
-		registerContent(17, "change_world", new ContentChangeWorld());
-		registerContent(18, "continue", new ContentContinue());
+		registerContent(18, "change_world", new ContentChangeWorld());
+		registerContent(19, "continue", new ContentContinue());
 		
 		//NO CATEGORY
-		registerContent(19, "potions", new ContentPotions());
-		registerContent(20, "butcher", new ContentButcher());
+		registerContent(20, "potions", new ContentPotions());
+		registerContent(21, "butcher", new ContentButcher());
 	}
 	
     private static void registerContent(int id, String textualID, Content content)

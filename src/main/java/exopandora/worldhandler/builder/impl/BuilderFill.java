@@ -148,6 +148,7 @@ public class BuilderFill extends BuilderDoubleBlockPos
 		return syntax;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static enum EnumBlockHandling
 	{
 		REPLACE,

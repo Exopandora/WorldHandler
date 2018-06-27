@@ -3,6 +3,8 @@ package exopandora.worldhandler.builder.impl;
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.Type;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BuilderDifficulty extends CommandBuilder
 {
@@ -37,6 +39,7 @@ public class BuilderDifficulty extends CommandBuilder
 		return syntax;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static enum EnumDifficulty
 	{
 		PEACEFUL,

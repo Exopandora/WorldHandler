@@ -14,10 +14,4 @@ public abstract class Element implements IElement
 		this.x = x;
 		this.y = y;
 	}
-	
-	@Override
-	public void draw()
-	{
-		
-	}
 }

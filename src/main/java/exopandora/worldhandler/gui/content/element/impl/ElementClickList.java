@@ -21,31 +21,29 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ElementClickList extends Element
 {
-	private final int buttonId;
+	private final int[] buttonIds;
 	private final List<Node> list;
 	private final ILogicClickList logic;
 	private final Content content;
 	private final ElementClickList parent;
 	private final int depth;
-	private final int maxDepth;
 	
 	private GuiButtonList button;
 	private ElementClickList child;
 	
-	public ElementClickList(int x, int y, List<Node> list, int buttonId, int maxDepth, Content content, ILogicClickList logic)
+	public ElementClickList(int x, int y, List<Node> list, int[] buttonIds, Content content, ILogicClickList logic)
 	{
-		this(x, y, list, buttonId, maxDepth, content, logic, null);
+		this(x, y, list, buttonIds, content, logic, null);
 	}
 	
-	private ElementClickList(int x, int y, List<Node> list, int buttonId, int maxDepth, Content content, ILogicClickList logic, ElementClickList parent)
+	private ElementClickList(int x, int y, List<Node> list, int[] buttonIds, Content content, ILogicClickList logic, ElementClickList parent)
 	{
 		super(x, y);
 		this.list = list;
-		this.buttonId = buttonId;
+		this.buttonIds = buttonIds;
 		this.logic = logic;
 		this.content = content;
 		this.parent = parent;
-		this.maxDepth = maxDepth;
 		this.depth = this.parent != null ? this.parent.depth + 1 : 1;
 	}
 	
@@ -58,7 +56,7 @@ public class ElementClickList extends Element
 	@Override
 	public void initButtons(Container container)
 	{
-		container.add(this.button = new GuiButtonList(this.buttonId, this.x, this.y, 114, 20, EnumTooltip.TOP_RIGHT, this.content, new IListButtonLogic<Node>()
+		container.add(this.button = new GuiButtonList(this.getButtonId(), this.x, this.y, 114, 20, EnumTooltip.TOP_RIGHT, this.content, new IListButtonLogic<Node>()
 		{
 			@Override
 			public void actionPerformed(Container container, GuiButton button, ButtonValues<Node> values)
@@ -108,26 +106,15 @@ public class ElementClickList extends Element
 		
 		if(node.getEntries() != null)
 		{
-			this.child = new ElementClickList(this.x, this.y + 24, node.getEntries(), this.buttonId + 1, this.maxDepth, this.content, this.logic, this);
+			this.child = new ElementClickList(this.x, this.y + 24, node.getEntries(), this.buttonIds, this.content, this.logic, this);
 			this.child.initButtons(container);
 		}
-		else if(this.depth < this.maxDepth)
+		else if(this.depth < this.buttonIds.length)
 		{
-			GuiButtonWorldHandler button = new GuiButtonWorldHandler(this.buttonId + 1, this.x, this.y + 24, 114, 20, null);
+			GuiButtonWorldHandler button = new GuiButtonWorldHandler(this.getButtonId(), this.x, this.y + 24, 114, 20, null);
 			button.enabled = false;
 			container.add(button);
 		}
-	}
-	
-	private String[] getKeys()
-	{
-		return this.getKeys(new String[this.depth]);
-	}
-	
-	private String[] getKeys(String[] keys)
-	{
-		keys[this.depth - 1] = this.getValues().getObject().getKey();
-		return this.parent != null ? this.parent.getKeys(keys) : keys;
 	}
 	
 	@Nullable
@@ -144,7 +131,7 @@ public class ElementClickList extends Element
 	@Override
 	public boolean actionPerformed(Container container, GuiButton button)
 	{
-		if(button.id == this.buttonId)
+		if(button.id == this.getButtonId())
 		{
 			this.button.actionPerformed(container, button);
 			return true;
@@ -155,5 +142,31 @@ public class ElementClickList extends Element
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void draw()
+	{
+		
+	}
+	
+	private int getButtonId()
+	{
+		return this.buttonIds[this.depth - 1];
+	}
+	
+	private String[] getKeys()
+	{
+		return this.getKeys(new String[this.depth]);
+	}
+	
+	private String[] getKeys(String[] keys)
+	{
+		if(keys != null && this.depth <= keys.length)
+		{
+			keys[this.depth - 1] = this.getValues().getObject().getKey();
+		}
+		
+		return this.parent != null ? this.parent.getKeys(keys) : keys;
 	}
 }

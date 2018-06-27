@@ -10,6 +10,7 @@ import exopandora.worldhandler.gui.content.Content;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -100,26 +101,57 @@ public class GuiButtonList<T> extends GuiButtonWorldHandler
 	
 	public void actionPerformed(Container container, GuiButton button)
 	{
+		int max = this.logic.getMax() - 1;
+		int index = this.persistence.getIndex();
+		
 		if(this.isHoveringLeft(this.mouseX, this.mouseY))
 		{
-			if(this.persistence.getIndex() > 0)
+			if(GuiScreen.isShiftKeyDown())
 			{
-				this.persistence.decrementIndex();
+				if(index < 10)
+				{
+					this.persistence.setIndex(max - (9 - index));
+				}
+				else
+				{
+					this.persistence.decrementIndex(10);
+				}
 			}
 			else
 			{
-				this.persistence.setIndex(this.logic.getMax() - 1);
+				if(index > 0)
+				{
+					this.persistence.decrementIndex();
+				}
+				else
+				{
+					this.persistence.setIndex(max);
+				}
 			}
 		}
 		else if(this.isHoveringRight(this.mouseX, this.mouseY))
 		{
-			if(this.persistence.getIndex() < this.logic.getMax() - 1)
+			if(GuiScreen.isShiftKeyDown())
 			{
-				this.persistence.incrementIndex();
+				if(index > max - 10)
+				{
+					this.persistence.setIndex(9 - (max - index));
+				}
+				else
+				{
+					this.persistence.incrementIndex(10);
+				}
 			}
 			else
 			{
-				this.persistence.setIndex(0);
+				if(index < max)
+				{
+					this.persistence.incrementIndex();
+				}
+				else
+				{
+					this.persistence.setIndex(0);
+				}
 			}
 		}
 		

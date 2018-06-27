@@ -12,6 +12,7 @@ import exopandora.worldhandler.gui.content.element.Element;
 import exopandora.worldhandler.gui.content.element.logic.ILogicPageList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -101,13 +102,33 @@ public class ElementPageList<T, K> extends Element
 	{
 		if(button.id == this.ids[0])
 		{
-			this.values.setObject(this.values.getObject() - 1);
+			int value = this.values.getObject();
+			
+			if(GuiScreen.isShiftKeyDown())
+			{
+				this.values.setObject(value - Math.min(10, value));
+			}
+			else
+			{
+				this.values.setObject(value - 1);
+			}
+			
 			container.initGui();
 			return true;
 		}
 		else if(button.id == this.ids[1])
 		{
-			this.values.setObject(this.values.getObject() + 1);
+			int value = this.values.getObject();
+			
+			if(GuiScreen.isShiftKeyDown())
+			{
+				this.values.setObject(value + Math.min(10, this.getTotalPages() - 1 - value));
+			}
+			else
+			{
+				this.values.setObject(value + 1);
+			}
+			
 			container.initGui();
 			return true;
 		}

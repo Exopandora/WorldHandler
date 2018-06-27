@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.types;
 
+import javax.annotation.Nullable;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,6 +30,7 @@ public class Level
 		this.level = level;
 	}
 	
+	@Nullable
 	public static Level valueOf(String value)
 	{
 		if(value != null)

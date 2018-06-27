@@ -238,6 +238,7 @@ public class BuilderScoreboardTeams extends BuilderScoreboard
 		return syntax;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static enum EnumMode
 	{
 		JOIN,

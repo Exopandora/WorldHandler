@@ -47,7 +47,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		
 		if(this.selectedTeam.equals("option"))
 		{
-			ElementClickList options = new ElementClickList(x + 118, y + 24, HELPER.getOptions(), 6, 2, this, new ILogicClickList()
+			ElementClickList options = new ElementClickList(x + 118, y + 24, HELPER.getOptions(), new int[] {6, 7}, this, new ILogicClickList()
 			{
 				@Override
 				public String translate(String... keys)

@@ -48,7 +48,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		
 		if(this.selectedObjective.equals("create"))
 		{
-			ElementClickList objectives = new ElementClickList(x + 118, y + 24, HELPER.getObjectives(), 7, 2, this, new ILogicClickList()
+			ElementClickList objectives = new ElementClickList(x + 118, y + 24, HELPER.getObjectives(), new int[] {7, 8}, this, new ILogicClickList()
 			{
 				@Override
 				public void consumeKey(String... keys)
@@ -116,7 +116,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		}
 		else if(this.selectedObjective.equals("display") || this.selectedObjective.equals("undisplay"))
 		{
-			ElementClickList slots = new ElementClickList(x + 118, y + 24 + (this.selectedObjective.equals("undisplay") ? -12 : 0), HELPER.getSlots(), 9, 2, this, new ILogicClickList()
+			ElementClickList slots = new ElementClickList(x + 118, y + 24 + (this.selectedObjective.equals("undisplay") ? -12 : 0), HELPER.getSlots(), new int[] {9, 10}, this, new ILogicClickList()
 			{
 				@Override
 				public String translate(String... keys)
