@@ -49,7 +49,7 @@ public class ContentRecipes extends Content
 			}
 		}
 		
-		ElementPageList<IRecipe, String> list = new ElementPageList<IRecipe, String>(x, y, recipes, null, 114, 20, 3, this, new int[] {6, 7, 8}, new ILogicPageList<IRecipe, String>()
+		ElementPageList<IRecipe, String> list = new ElementPageList<IRecipe, String>(x, y, recipes, null, 114, 20, 3, this, new int[] {4, 5, 6}, new ILogicPageList<IRecipe, String>()
 		{
 			@Override
 			public String translate(IRecipe key)
