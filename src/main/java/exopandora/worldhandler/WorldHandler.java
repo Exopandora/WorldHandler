@@ -65,7 +65,7 @@ public class WorldHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		LOGGER = event.getModLog();
-		LOGGER.info("Pre-Initialisation");
+		LOGGER.info("Pre-Initialization");
 		LOGGER.info("First Release on March 28 2013 - 02:29 PM CET by Exopandora");
 		LOGGER.info("Latest Version: $url");
 		CONFIG = new Configuration(event.getSuggestedConfigurationFile());
@@ -74,7 +74,7 @@ public class WorldHandler
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		LOGGER.info("Initialisation");
+		LOGGER.info("Initialization");
 		USERNAME = Minecraft.getMinecraft().getSession().getUsername();
 		
 		MinecraftForge.EVENT_BUS.register(this.eventListener);
@@ -85,7 +85,7 @@ public class WorldHandler
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		LOGGER.info("Post-Initialisation");
+		LOGGER.info("Post-Initialization");
 	}
 	
 	@EventHandler
