@@ -61,7 +61,7 @@ public class Category
 	public static void registerCategories()
 	{
 		registerCategory(0, "main", new Category(Contents.MAIN, Contents.CONTAINERS, Contents.MULTIPLAYER));
-		registerCategory(1, "entities", new Category(Contents.SUMMON, Contents.PLAYSOUND));
+		registerCategory(1, "entities", new Category(Contents.SUMMON));
 		registerCategory(2, "items", new Category(Contents.CUSTOM_ITEM, Contents.ENCHANTMENT));
 		registerCategory(3, "blocks", new Category(Contents.EDIT_BLOCKS, Contents.SIGN_EDITOR, Contents.NOTE_EDITOR));
 		registerCategory(4, "world", new Category(Contents.WORLD_INFO, Contents.GAMERULES, Contents.RECIPES));

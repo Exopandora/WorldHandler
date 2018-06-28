@@ -15,7 +15,6 @@ public class Contents
 	public static final Content MULTIPLAYER;
 	
 	public static final Content SUMMON;
-	public static final Content PLAYSOUND;
 	
 	public static final Content CUSTOM_ITEM;
 	public static final Content ENCHANTMENT;
@@ -49,7 +48,6 @@ public class Contents
 		MULTIPLAYER = Contents.getRegisteredContainer("multiplayer");
 		
 		SUMMON = Contents.getRegisteredContainer("summon");
-		PLAYSOUND = Contents.getRegisteredContainer("playsound");
 		
 		CUSTOM_ITEM = Contents.getRegisteredContainer("custom_item");
 		ENCHANTMENT = Contents.getRegisteredContainer("enchantment");

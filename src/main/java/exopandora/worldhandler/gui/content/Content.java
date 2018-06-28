@@ -47,7 +47,6 @@ public abstract class Content implements IContent
 		
 		//ENTITIES
 		registerContent(3, "summon", new ContentSummon());
-		registerContent(21, "playsound", new ContentPlaysound());
 		
 		//ITEMS
 		registerContent(5, "custom_item", new ContentCustomItem());
