@@ -32,26 +32,31 @@ jar {
     }
 }
 
-task signJar(type: SignJar, dependsOn: reobfJar) {
-    keyStore = project.keyStore
-    alias = project.keyStoreAlias
-    storePass = project.keyStorePass
-    keyPass = project.keyStoreKeyPass
-	inputFile = jar.archivePath
-	outputFile = jar.archivePath
+task processMetadata(dependsOn: minecraft) {
+	minecraft.replace '$version', modversion
+	minecraft.replace '$mcversion', mcversion
+	minecraft.replace '$compatible', mccompatible
+	minecraft.replace '$url', url
+	minecraft.replace '$update_url', update_url
+	minecraft.replace '$certificate', certificate
 }
-build.dependsOn signJar
+
+if(project.hasProperty('keyStore')) {
+	task signJar(type: SignJar, dependsOn: reobfJar) {
+		keyStore = project.keyStore
+		alias = project.keyStoreAlias
+		storePass = project.keyStorePass
+		keyPass = project.keyStoreKeyPass
+		inputFile = jar.archivePath
+		outputFile = jar.archivePath
+	}
+	
+	build.dependsOn signJar
+}
 
 minecraft {
     version = "1.12.2-14.23.3.2676"
     runDir = "run"
-	
-	replace '$version', modversion
-	replace '$mcversion', mcversion
-	replace '$compatible', mccompatible
-	replace '$url', url
-	replace '$update_url', update_url
-	replace '$certificate', certificate
     
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
