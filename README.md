@@ -36,6 +36,7 @@ Curseforge: https://minecraft.curseforge.com/projects/world-handler-command-gui
 				<li>/gamerule</li>
 				<li>/give</li>
 				<li>/kill</li>
+				<li>/recipe</li>
 				<li>/scoreboard</li>
 				<li>/setworldspawn</li>
 				<li>/spawnpoint</li>
