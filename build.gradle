@@ -10,9 +10,15 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
+def mcversion = "1.12.2"
+def modversion = "2.1.4"
+def mccompatible = "1.12"
+def url = "https://minecraft.curseforge.com/projects/world-handler-command-gui"
+def update_url = "https://raw.githubusercontent.com/Exopandora/worldhandler/master/version.json"
+def certificate = "d6261bb645f41db84c74f98e512c2bb43f188af2"
 
-version = "1.12.2-2.0"
-group = "src.worldhandler.main.WorldHandler" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = mcversion + "-" + modversion
+group = "exopandora.worldhandler.WorldHandler" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "WorldHandler"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -22,12 +28,34 @@ compileJava {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'exopandora.worldhandler.main.Main'
+        attributes 'Main-Class': 'exopandora.worldhandler.Main'
     }
 }
 
+task processMetadata(dependsOn: minecraft) {
+	minecraft.replace '$version', modversion
+	minecraft.replace '$mcversion', mcversion
+	minecraft.replace '$compatible', mccompatible
+	minecraft.replace '$url', url
+	minecraft.replace '$update_url', update_url
+	minecraft.replace '$certificate', certificate
+}
+
+if(project.hasProperty('keyStore')) {
+	task signJar(type: SignJar, dependsOn: reobfJar) {
+		keyStore = project.keyStore
+		alias = project.keyStoreAlias
+		storePass = project.keyStorePass
+		keyPass = project.keyStoreKeyPass
+		inputFile = jar.archivePath
+		outputFile = jar.archivePath
+	}
+	
+	build.dependsOn signJar
+}
+
 minecraft {
-    version = "1.12.2-14.23.2.2611"
+    version = "1.12.2-14.23.3.2676"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.

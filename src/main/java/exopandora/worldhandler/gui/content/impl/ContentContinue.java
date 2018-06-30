@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.ICommandBuilderSyntax;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
@@ -11,7 +12,6 @@ import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandlerContainer;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;

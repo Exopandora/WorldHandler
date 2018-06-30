@@ -4,6 +4,9 @@
 # Except
 
 !/src/
+!/gradle/
+!gradlew
+!gradlew.bat
 !build.gradle
 !README.md
 !version.json

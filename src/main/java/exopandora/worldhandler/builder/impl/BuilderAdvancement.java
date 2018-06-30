@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nullable;
+
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.Type;
@@ -28,7 +30,8 @@ public class BuilderAdvancement extends CommandBuilder
 	{
 		this.setNode(0, action != null ? action.toString() : null);
 	}
-	
+
+	@Nullable
 	public EnumActionType getActionType()
 	{
 		return EnumHelper.valueOf(EnumActionType.class, this.getNodeAsString(1));
@@ -38,7 +41,8 @@ public class BuilderAdvancement extends CommandBuilder
 	{
 		this.setNode(1, player);
 	}
-	
+
+	@Nullable
 	public String getPlayer()
 	{
 		return this.getNodeAsString(1);
@@ -48,7 +52,8 @@ public class BuilderAdvancement extends CommandBuilder
 	{
 		this.setNode(2, mode != null ? mode.toString() : null);
 	}
-	
+
+	@Nullable
 	public EnumMode getMode()
 	{
 		return EnumHelper.valueOf(EnumMode.class, this.getNodeAsString(2));
@@ -58,7 +63,8 @@ public class BuilderAdvancement extends CommandBuilder
 	{
 		this.setNode(3, advancement);
 	}
-	
+
+	@Nullable
 	public ResourceLocation getAdvancement()
 	{
 		return this.getNodeAsResourceLocation(3);
@@ -92,7 +98,8 @@ public class BuilderAdvancement extends CommandBuilder
 		
 		return syntax;
 	}
-	
+
+	@SideOnly(Side.CLIENT)
 	public static enum EnumActionType
 	{
 		GRANT,
@@ -105,6 +112,7 @@ public class BuilderAdvancement extends CommandBuilder
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static enum EnumMode
 	{
 		ONLY,

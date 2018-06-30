@@ -204,6 +204,7 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 		return syntax;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static enum EnumTag
 	{
 		ADD,
@@ -216,6 +217,7 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static enum EnumPoints
 	{
 		ADD,

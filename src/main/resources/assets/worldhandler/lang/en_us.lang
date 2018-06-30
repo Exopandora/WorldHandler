@@ -15,6 +15,7 @@ gui.worldhandler.config.key.settings.smooth_watch=Smooth Watch
 gui.worldhandler.config.key.settings.pause_game=Pause Game
 gui.worldhandler.config.key.settings.custom_times=Custom Times
 gui.worldhandler.config.key.settings.permission_query=Permission Query
+gui.worldhandler.config.key.settings.highlight_blocks=Highlight Blocks
 gui.worldhandler.config.key.settings.custom_time_dawn=Custom Dawn Ticks
 gui.worldhandler.config.key.settings.custom_time_noon=Custom Noon Ticks
 gui.worldhandler.config.key.settings.custom_time_sunset=Custom Sunset Ticks
@@ -31,6 +32,7 @@ gui.worldhandler.config.comment.settings.smooth_watch=Whether or not the watch p
 gui.worldhandler.config.comment.settings.pause_game=Whether or not to pause the game when the gui is opened
 gui.worldhandler.config.comment.settings.custom_times=Whether or not to use the custom times
 gui.worldhandler.config.comment.settings.permission_query=Whether or not the permission query is enabled
+gui.worldhandler.config.comment.settings.highlight_blocks=Whether or not selected blocks will be highlighted
 gui.worldhandler.config.comment.settings.custom_time_dawn=Ticks upon dawn
 gui.worldhandler.config.comment.settings.custom_time_noon=Ticks upon noon
 gui.worldhandler.config.comment.settings.custom_time_sunset=Ticks upon sunset
@@ -99,6 +101,7 @@ gui.worldhandler.tab.entities.summon=Summon
 
 gui.worldhandler.tab.world.world=World
 gui.worldhandler.tab.world.gamerules=Gamerules
+gui.worldhandler.tab.world.recipes=Recipes
 
 gui.worldhandler.tab.blocks.edit_blocks=Edit Blocks
 gui.worldhandler.tab.blocks.sign_editor=Sign Editor
@@ -123,6 +126,7 @@ gui.worldhandler.title.scoreboard=Scoreboard
 
 gui.worldhandler.title.world.world=World
 gui.worldhandler.title.world.gamerules=Gamerules
+gui.worldhandler.title.world.recipes=Recipes
 
 gui.worldhandler.title.player.player=Player
 gui.worldhandler.title.player.experience=Experience
@@ -280,6 +284,9 @@ gui.worldhandler.edit_blocks.clone.mode.filtered=Filtered
 
 gui.worldhandler.edit_blocks.pos.set_pos_1=Set Pos 1
 gui.worldhandler.edit_blocks.pos.set_pos_2=Set Pos 2
+
+gui.worldhandler.recipes.give=Give
+gui.worldhandler.recipes.take=Take
 
 gui.worldhandler.scoreboard.slot.list=List
 gui.worldhandler.scoreboard.slot.belowName=Below Name

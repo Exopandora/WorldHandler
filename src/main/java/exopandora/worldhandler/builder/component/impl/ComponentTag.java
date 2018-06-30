@@ -4,8 +4,8 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagByteArray;

@@ -3,6 +3,7 @@ package exopandora.worldhandler.gui.content.impl;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderClone;
 import exopandora.worldhandler.builder.impl.BuilderClone.EnumMask;
@@ -13,7 +14,7 @@ import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -21,7 +22,6 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.ResourceHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
@@ -178,9 +178,9 @@ public class ContentEditBlocks extends Content
 			container.add(this.cloneButton = new GuiButtonList(9, x + 118, y, 114, 20, EnumTooltip.TOP_RIGHT, this, new IListButtonLogic<EnumMask>()
 			{
 				@Override
-				public void actionPerformed(Container container, GuiButton button, ButtonStorage<EnumMask> storage)
+				public void actionPerformed(Container container, GuiButton button, ButtonValues<EnumMask> values)
 				{
-					builderClone.setMask(storage.getObject());
+					builderClone.setMask(values.getObject());
 				}
 				
 				@Override
@@ -196,9 +196,9 @@ public class ContentEditBlocks extends Content
 				}
 				
 				@Override
-				public String getDisplayString(ButtonStorage<EnumMask> storage)
+				public String getDisplayString(ButtonValues<EnumMask> values)
 				{
-					return I18n.format("gui.worldhandler.edit_blocks.clone.mode." + storage.getObject().toString());
+					return I18n.format("gui.worldhandler.edit_blocks.clone.mode." + values.getObject().toString());
 				}
 				
 				@Override

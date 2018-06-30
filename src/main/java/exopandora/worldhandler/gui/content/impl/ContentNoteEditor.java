@@ -2,6 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 import org.lwjgl.input.Keyboard;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderNoteEditor;
 import exopandora.worldhandler.config.ConfigSkin;
@@ -14,7 +15,6 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.helper.BlockHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

@@ -3,7 +3,8 @@ package exopandora.worldhandler.gui.content;
 import java.util.HashMap;
 import java.util.Map;
 
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.Main;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.content.impl.ContentAdvancements;
 import exopandora.worldhandler.gui.content.impl.ContentButcher;
 import exopandora.worldhandler.gui.content.impl.ContentChangeWorld;
@@ -18,14 +19,15 @@ import exopandora.worldhandler.gui.content.impl.ContentMain;
 import exopandora.worldhandler.gui.content.impl.ContentMultiplayer;
 import exopandora.worldhandler.gui.content.impl.ContentNoteEditor;
 import exopandora.worldhandler.gui.content.impl.ContentPlayer;
+import exopandora.worldhandler.gui.content.impl.ContentPlaysound;
 import exopandora.worldhandler.gui.content.impl.ContentPotions;
+import exopandora.worldhandler.gui.content.impl.ContentRecipes;
 import exopandora.worldhandler.gui.content.impl.ContentScoreboardObjectives;
 import exopandora.worldhandler.gui.content.impl.ContentScoreboardPlayers;
 import exopandora.worldhandler.gui.content.impl.ContentScoreboardTeams;
 import exopandora.worldhandler.gui.content.impl.ContentSignEditor;
 import exopandora.worldhandler.gui.content.impl.ContentSummon;
 import exopandora.worldhandler.gui.content.impl.ContentWorldInfo;
-import exopandora.worldhandler.main.Main;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraftforge.fml.relauncher.Side;
@@ -58,24 +60,25 @@ public abstract class Content implements IContent
 		//WORLD
 		registerContent(9, "world", new ContentWorldInfo());
 		registerContent(10, "gamerules", new ContentGamerules());
+		registerContent(11, "recipes", new ContentRecipes());
 		
 		//PLAYER
-		registerContent(11, "player", new ContentPlayer());
-		registerContent(12, "experience", new ContentExperience());
-		registerContent(13, "advancements", new ContentAdvancements());
+		registerContent(12, "player", new ContentPlayer());
+		registerContent(13, "experience", new ContentExperience());
+		registerContent(14, "advancements", new ContentAdvancements());
 		
 		//SCOREBOARD
-		registerContent(14, "scoreboard_objectives", new ContentScoreboardObjectives());
-		registerContent(15, "scoreboard_teams", new ContentScoreboardTeams());
-		registerContent(16, "scoreboard_players", new ContentScoreboardPlayers());
+		registerContent(15, "scoreboard_objectives", new ContentScoreboardObjectives());
+		registerContent(16, "scoreboard_teams", new ContentScoreboardTeams());
+		registerContent(17, "scoreboard_players", new ContentScoreboardPlayers());
 		
 		//MISC
-		registerContent(17, "change_world", new ContentChangeWorld());
-		registerContent(18, "continue", new ContentContinue());
+		registerContent(18, "change_world", new ContentChangeWorld());
+		registerContent(19, "continue", new ContentContinue());
 		
 		//NO CATEGORY
-		registerContent(19, "potions", new ContentPotions());
-		registerContent(20, "butcher", new ContentButcher());
+		registerContent(20, "potions", new ContentPotions());
+		registerContent(21, "butcher", new ContentButcher());
 	}
 	
     private static void registerContent(int id, String textualID, Content content)
@@ -88,24 +91,24 @@ public abstract class Content implements IContent
         REGISTRY.register(id, textualID, content);
     }
     
-    private Map<Object, ButtonStorage> storage;
+    private Map<Object, ButtonValues> persistence;
     
-    public <T> ButtonStorage<T> getStorage(Object id)
+    public <T> ButtonValues<T> getPersistence(Object id)
     {
-    	if(this.storage == null)
+    	if(this.persistence == null)
     	{
-    		this.storage = new HashMap<Object, ButtonStorage>();
+    		this.persistence = new HashMap<Object, ButtonValues>();
     	}
     	
-    	if(this.storage.containsKey(id))
+    	if(this.persistence.containsKey(id))
     	{
-    		return this.storage.get(id);
+    		return this.persistence.get(id);
     	}
     	
-    	ButtonStorage<T> storage = new ButtonStorage<T>();
+    	ButtonValues<T> values = new ButtonValues<T>();
     	
-    	this.storage.put(id, storage);
+    	this.persistence.put(id, values);
     	
-    	return storage;
+    	return values;
     }
 }

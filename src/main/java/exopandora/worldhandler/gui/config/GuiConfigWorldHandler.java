@@ -3,12 +3,12 @@ package exopandora.worldhandler.gui.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import exopandora.worldhandler.Main;
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.config.ConfigButcher;
 import exopandora.worldhandler.config.ConfigSettings;
 import exopandora.worldhandler.config.ConfigSkin;
 import exopandora.worldhandler.config.ConfigSliders;
-import exopandora.worldhandler.main.Main;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.config.ConfigCategory;

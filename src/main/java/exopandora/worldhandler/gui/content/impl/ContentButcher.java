@@ -1,5 +1,6 @@
 package exopandora.worldhandler.gui.content.impl;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderButcher;
 import exopandora.worldhandler.config.ConfigButcher;
@@ -9,7 +10,6 @@ import exopandora.worldhandler.gui.config.GuiConfigWorldHandler;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
 import exopandora.worldhandler.helper.EntityHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;

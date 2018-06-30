@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderDifficulty;
 import exopandora.worldhandler.builder.impl.BuilderDifficulty.EnumDifficulty;
 import exopandora.worldhandler.builder.impl.BuilderGamemode;
@@ -34,8 +35,6 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.IContent;
 import exopandora.worldhandler.gui.content.element.IElement;
 import exopandora.worldhandler.helper.ResourceHelper;
-import exopandora.worldhandler.main.Main;
-import exopandora.worldhandler.main.WorldHandler;
 import exopandora.worldhandler.util.UtilRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -144,7 +143,7 @@ public class GuiWorldHandlerContainer extends Container
 			
 			if(!this.content.getActiveContent().equals(tab))
 			{
-				this.finalButtons.add(new GuiButtonTab(-16, (int)(backgroundX + xOffset), backgroundY - 20, (int)this.tabWidth + (int)Math.ceil(this.tabEpsilon / this.tabSize), 21, index));
+				this.finalButtons.add(new GuiButtonTab(-16, (int) (backgroundX + xOffset), backgroundY - 20, (int) this.tabWidth + (int) Math.ceil(this.tabEpsilon / this.tabSize), 21, index));
 			}
 		});
 		
@@ -343,7 +342,6 @@ public class GuiWorldHandlerContainer extends Container
 							break elements;
 						}
 					}
-				
 				this.content.actionPerformed(this, button);
 				break;
 		}
@@ -351,7 +349,7 @@ public class GuiWorldHandlerContainer extends Container
 	
 	private void defaultColor()
 	{
-		this.defaultColor(1);
+		this.defaultColor(1.0F);
 	}
 	
 	private void defaultColor(float alpha)
@@ -445,8 +443,8 @@ public class GuiWorldHandlerContainer extends Container
 			}
 			
 			this.bindBackground();
-			this.drawTexturedModalRect((int)(backgroundX + xOffset), (int)(backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
-			this.drawTexturedModalRect((int)(backgroundX + this.tabHalf + xOffset), (int)(backgroundY + yOffset), this.bgTextureWidth - (int) Math.ceil(this.tabHalf), 0, (int) Math.ceil(this.tabHalf), fHeight);
+			this.drawTexturedModalRect((int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
+			this.drawTexturedModalRect((int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.ceil(this.tabHalf), 0, (int) Math.ceil(this.tabHalf), fHeight);
 			
 			if(!ConfigSkin.areSharpEdgesEnabled())
 			{
@@ -460,7 +458,7 @@ public class GuiWorldHandlerContainer extends Container
 						
 						for(int x = 0; x < factor; x++)
 						{
-							this.drawTexturedModalRect((int)(backgroundX + this.tabWidth + xOffset - x - 1), (int)(backgroundY + x + 1), (int)(this.tabWidth - x - 1), x + 1, x + 1, 1);
+							this.drawTexturedModalRect((int) (backgroundX + this.tabWidth + xOffset - x - 1), (int) (backgroundY + x + 1), (int) (this.tabWidth - x - 1), x + 1, x + 1, 1);
 						}
 					}
 					
@@ -472,7 +470,7 @@ public class GuiWorldHandlerContainer extends Container
 						
 						for(int x = 0; x < factor; x++)
 						{
-							this.drawTexturedModalRect((int)(backgroundX + xOffset), (int)(backgroundY + x + 1), xOffset.intValue(), x + 1, x + 1, 1);
+							this.drawTexturedModalRect((int) (backgroundX + xOffset), (int) (backgroundY + x + 1), xOffset.intValue(), x + 1, x + 1, 1);
 						}
 					}
 					
@@ -486,7 +484,7 @@ public class GuiWorldHandlerContainer extends Container
 						for(int x = 0; x < width; x += interval)
 						{
 							this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-							this.drawTexturedModalRect((int)(backgroundX + xOffset), (int)(backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
+							this.drawTexturedModalRect((int) (backgroundX + xOffset), (int) (backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
 						}
 					}
 					
@@ -499,7 +497,7 @@ public class GuiWorldHandlerContainer extends Container
 						for(int x = 0; x < width; x += interval)
 						{
 							this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-							this.drawTexturedModalRect((int)(backgroundX + Math.ceil(xOffset) + x + offset), (int)(backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
+							this.drawTexturedModalRect((int) (backgroundX + Math.ceil(xOffset) + x + offset), (int) (backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
 						}
 					}
 				}
@@ -531,17 +529,20 @@ public class GuiWorldHandlerContainer extends Container
 				}
 			}
 			
-			this.drawCenteredString(this.fontRenderer, ChatFormatting.UNDERLINE + tab.getTabTitle(), (int)(backgroundX + this.tabHalf + xOffset), (int)(backgroundY - 13), color);
+			this.drawCenteredString(this.fontRenderer, ChatFormatting.UNDERLINE + tab.getTabTitle(), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color);
 		});
 		
 		this.defaultColor();
 		
 		//VERSION LABEL
 		
+		final String label = "$mcversion-$version";
 		final int hexAlpha = (int) (0xFF * 0.2) << 24;
 		final int color = ConfigSkin.getLabelColor() + hexAlpha;
+		final int versionWidth = this.width - this.fontRenderer.getStringWidth(label) - 2;
+		final int versionHeight = this.height - 10;
 		
-		this.fontRenderer.drawString(Main.MC_VERSION + "-" + Main.VERSION, this.width - this.fontRenderer.getStringWidth(Main.MC_VERSION + "-" + Main.VERSION) - 2, this.height - 10, color);
+		this.fontRenderer.drawString(label, versionWidth, versionHeight, color);
 		
 		//TITLE
 		
@@ -647,6 +648,13 @@ public class GuiWorldHandlerContainer extends Container
 					((GuiButtonWorldHandler) this.buttonList.get(x)).drawTooltip(mouseX, mouseY, this.width, this.height);
 				}
 			}
+		}
+		
+		//VERSION LABEL TOOLTIP
+		
+		if(mouseX >= versionWidth && mouseY >= versionHeight)
+		{
+			GuiUtils.drawHoveringText(Arrays.asList(label), versionWidth - 12, versionHeight + 12, this.width + this.fontRenderer.getStringWidth(label), this.height + 10, this.width, this.fontRenderer);
 		}
 	}
 	

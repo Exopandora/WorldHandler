@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderClone;
 import exopandora.worldhandler.builder.impl.BuilderClone.EnumMask;
 import exopandora.worldhandler.builder.impl.BuilderFill;
@@ -12,7 +13,6 @@ import exopandora.worldhandler.builder.impl.BuilderWH;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.EnumHelper;
 import exopandora.worldhandler.helper.ResourceHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;

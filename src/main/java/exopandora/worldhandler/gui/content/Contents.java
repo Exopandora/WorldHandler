@@ -1,8 +1,8 @@
 package exopandora.worldhandler.gui.content;
 
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.impl.ContentContinue;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
-import exopandora.worldhandler.main.Main;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,6 +25,7 @@ public class Contents
 	
 	public static final Content WORLD_INFO;
 	public static final Content GAMERULES;
+	public static final Content RECIPES;
 	
 	public static final Content PLAYER;
 	public static final Content EXPERIENCE;
@@ -57,6 +58,7 @@ public class Contents
 		
 		WORLD_INFO = Contents.getRegisteredContainer("world");
 		GAMERULES = Contents.getRegisteredContainer("gamerules");
+		RECIPES = Contents.getRegisteredContainer("recipes");
 		
 		PLAYER = Contents.getRegisteredContainer("player");
 		EXPERIENCE = Contents.getRegisteredContainer("experience");
@@ -75,13 +77,13 @@ public class Contents
 	
 	private static <T extends Content> T getRegisteredContainer(String name)
 	{
-		Content container = Content.REGISTRY.getObject(new ResourceLocation(Main.MODID, name));
+		Content content = Content.REGISTRY.getObject(new ResourceLocation(Main.MODID, name));
 		
-		if(container == null)
+		if(content == null)
 		{
 			throw new IllegalStateException("Invalid Container requested: " + name);
 		}
 		
-		return (T) container;
+		return (T) content;
 	}
 }

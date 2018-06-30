@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -17,7 +20,8 @@ public class TargetSelector
 	{
 		this.values.put(id.toLowerCase(), value);
 	}
-	
+
+	@Nullable
 	public <T> T get(String id)
 	{
 		return (T) this.values.get(id);
@@ -28,6 +32,7 @@ public class TargetSelector
 		return this.values.remove(id.toLowerCase());
 	}
 	
+	@Nonnull
 	public static TargetSelector valueOf(String input)
 	{
 		if(input.matches(REGEX));

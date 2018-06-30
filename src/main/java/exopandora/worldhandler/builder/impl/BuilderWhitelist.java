@@ -76,6 +76,7 @@ public class BuilderWhitelist extends CommandBuilder
 		return syntax;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static enum EnumMode
 	{
 		ADD,

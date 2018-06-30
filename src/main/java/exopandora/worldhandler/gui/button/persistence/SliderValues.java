@@ -1,26 +1,31 @@
-package exopandora.worldhandler.gui.button.storage;
+package exopandora.worldhandler.gui.button.persistence;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+
 @SideOnly(Side.CLIENT)
-public class SliderStorage
+public class SliderValues
 {
 	private final double min;
 	private final double max;
 	private double position;
 	
-	public SliderStorage(double min, double max, double position)
+	private SliderValues(double min, double max)
 	{
 		this.min = min;
 		this.max = max;
+	}
+	
+	public SliderValues(double min, double max, double position)
+	{
+		this(min, max);
 		this.position = position;
 	}
 	
-	public SliderStorage(double min, double max, int value)
+	public SliderValues(double min, double max, int value)
 	{
-		this.min = min;
-		this.max = max;
+		this(min, max);
 		this.position = this.valueToPosition(value);
 	}
 	
@@ -56,6 +61,11 @@ public class SliderStorage
 	
 	private double valueToPosition(int value)
 	{
+		if(this.min == this.max)
+		{
+			return 0;
+		}
+		
 		return (value - this.min) / (this.max - this.min);
 	}
 }

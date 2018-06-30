@@ -16,6 +16,7 @@ public class BuilderGive extends CommandBuilderNBT
 	{
 		this.setPlayer(player);
 		this.setItem(item);
+		this.setAmount(1);
 		this.setMetadata(0);
 	}
 	

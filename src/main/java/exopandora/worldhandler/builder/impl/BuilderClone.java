@@ -129,6 +129,7 @@ public class BuilderClone extends BuilderDoubleBlockPos
 		return syntax;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static enum EnumMask
 	{
 		REPLACE,

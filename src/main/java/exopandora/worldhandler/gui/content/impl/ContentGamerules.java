@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.google.common.base.Predicates;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGamerule;
 import exopandora.worldhandler.gui.button.EnumTooltip;
@@ -16,7 +17,6 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.content.element.logic.ILogicPageList;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
@@ -53,6 +53,13 @@ public class ContentGamerules extends Content
 			@Override
 			public String translate(String key)
 			{
+				String translated = I18n.format(key);
+				
+				if(!translated.equals(key))
+				{
+					return translated;
+				}
+				
 				return I18n.format("gui.worldhandler.gamerules.rule." + key);
 			}
 			

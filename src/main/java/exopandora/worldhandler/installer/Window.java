@@ -17,21 +17,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import exopandora.worldhandler.main.Main;
+import exopandora.worldhandler.Main;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class Window implements Runnable
 {
-	private final String title = Main.NAME_AND_VERSION + " Installer";
 	private final JFrame frame = new JFrame();
 	
 	@Override
 	public void run()
 	{
+		String titleString = Main.NAME + " $mcversion-$version Installer";
+		
 		this.frame.setResizable(false);
-		this.frame.setTitle(this.title);
+		this.frame.setTitle(titleString);
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		List<Image> icons = new ArrayList<Image>();
@@ -63,7 +64,7 @@ public class Window implements Runnable
 		gbcPanel.gridy = 0;
 		this.frame.add(panel, gbcPanel);
 		
-		JLabel title = new JLabel(this.title);
+		JLabel title = new JLabel(titleString);
 		panel.add(title, this.getButtonConstraints(0, 0));
 		
 		JTextField textField = new JTextField(Main.getInitialDirectory().getAbsolutePath());

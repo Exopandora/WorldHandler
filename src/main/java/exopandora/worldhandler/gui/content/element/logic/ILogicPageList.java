@@ -5,7 +5,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public interface ILogicPageList<T, K>
+public interface ILogicPageList<T, K> extends ILogic
 {
 	String translate(T key);
 	String getRegistryName(T key);
@@ -14,6 +14,4 @@ public interface ILogicPageList<T, K>
 	void onRegister(int id, int x, int y, int width, int height, String display, String registryKey, boolean enabled, T value, Container container);
 	
 	T convert(K object);
-	
-	String getId();
 }

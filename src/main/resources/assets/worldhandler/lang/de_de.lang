@@ -15,22 +15,24 @@ gui.worldhandler.config.key.settings.smooth_watch=Geschmeidige Uhr
 gui.worldhandler.config.key.settings.pause_game=Spiel Pausieren
 gui.worldhandler.config.key.settings.custom_times=Benutzerdefinierte Zeiten
 gui.worldhandler.config.key.settings.permission_query=Berechtigungsabfrage
+gui.worldhandler.config.key.settings.highlight_blocks=Blöcke Hervorheben
 gui.worldhandler.config.key.settings.custom_time_dawn=Sonnenaufgangszeit
 gui.worldhandler.config.key.settings.custom_time_noon=Mittagszeit
 gui.worldhandler.config.key.settings.custom_time_sunset=Sonnenuntergangszeit
 gui.worldhandler.config.key.settings.custom_time_midnight=Mitternachtszeit
 gui.worldhandler.config.key.settings.block_placing_mode=Platziermodus für Blöcke
 
-gui.worldhandler.config.comment.settings.custom_time_dawn=Biome Indikator Aktiviert
-gui.worldhandler.config.comment.settings.command_syntax=Befehlssyntax Aktiviert
-gui.worldhandler.config.comment.settings.shortcuts=Schnellsteuerleiste Aktiviert
-gui.worldhandler.config.comment.settings.key_shortcuts=Tasten Abkürzungen Aktiviert
-gui.worldhandler.config.comment.settings.tooltips=Tooltips Aktiviert
-gui.worldhandler.config.comment.settings.watch=Uhr Aktiviert
-gui.worldhandler.config.comment.settings.smooth_watch=Geschmeidige Uhr Aktiviert
+gui.worldhandler.config.comment.settings.custom_time_dawn=Aktiviert Biome Indikator
+gui.worldhandler.config.comment.settings.command_syntax=Aktiviert Befehlssyntax
+gui.worldhandler.config.comment.settings.shortcuts=Aktiviert Schnellsteuerleiste
+gui.worldhandler.config.comment.settings.key_shortcuts=Aktiviert Tasten Abkürzungen
+gui.worldhandler.config.comment.settings.tooltips=Aktiviert Tooltips
+gui.worldhandler.config.comment.settings.watch=Aktiviert Uhr
+gui.worldhandler.config.comment.settings.smooth_watch=Aktiviert Geschmeidige Uhr
 gui.worldhandler.config.comment.settings.pause_game=Spiel Pausieren
-gui.worldhandler.config.comment.settings.custom_times=Benutzerdefinierte Zeiten Aktiviert
-gui.worldhandler.config.comment.settings.permission_query=Berechtigungsabfrage Aktiviert
+gui.worldhandler.config.comment.settings.custom_times=Aktiviert Benutzerdefinierte Zeiten
+gui.worldhandler.config.comment.settings.permission_query=Aktiviert Berechtigungsabfrage
+gui.worldhandler.config.comment.settings.highlight_blocks=Hebt ausgewählte Blöcke hervor
 gui.worldhandler.config.comment.settings.custom_time_dawn=Sonnenaufgangszeit in Ticks
 gui.worldhandler.config.comment.settings.custom_time_noon=Mittagszeit in Ticks
 gui.worldhandler.config.comment.settings.custom_time_sunset=Sonnenuntergangszeit in Ticks
@@ -99,6 +101,7 @@ gui.worldhandler.tab.entities.summon=Beschwören
 
 gui.worldhandler.tab.world.world=Welt
 gui.worldhandler.tab.world.gamerules=Spielregeln
+gui.worldhandler.tab.world.recipes=Rezepte
 
 gui.worldhandler.tab.blocks.edit_blocks=Blöcke Ändern
 gui.worldhandler.tab.blocks.sign_editor=Schilder Ändern
@@ -123,6 +126,7 @@ gui.worldhandler.title.scoreboard=Anzeigetafel
 
 gui.worldhandler.title.world.world=Welt
 gui.worldhandler.title.world.gamerules=Gamerules
+gui.worldhandler.title.world.recipes=Rezepte
 
 gui.worldhandler.title.player.player=Spieler
 gui.worldhandler.title.player.experience=Erfahrung
@@ -280,6 +284,9 @@ gui.worldhandler.edit_blocks.clone.mode.filtered=Gefiltert
 
 gui.worldhandler.edit_blocks.pos.set_pos_1=Position 1
 gui.worldhandler.edit_blocks.pos.set_pos_2=Position 2
+
+gui.worldhandler.recipes.give=Geben
+gui.worldhandler.recipes.take=Nehmen
 
 gui.worldhandler.scoreboard.slot.list=Liste
 gui.worldhandler.scoreboard.slot.belowName=Unter Name

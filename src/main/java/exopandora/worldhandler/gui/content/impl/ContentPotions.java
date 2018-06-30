@@ -2,6 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.ArrayList;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
 import exopandora.worldhandler.builder.impl.BuilderPotionEffect;
@@ -15,7 +16,6 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.content.element.logic.ILogicPageList;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Items;

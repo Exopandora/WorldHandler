@@ -8,41 +8,59 @@ Curseforge: https://minecraft.curseforge.com/projects/world-handler-command-gui
 
 # Features #
 * GUI for Commands
-	* Client Commands
-		* /advancement
-		* /blockdata
-		* /time
-		* /difficulty
-		* /weather
-		* /kill
-		* /give
-		* /effect
-		* /gamemode
-		* /setworldspawn
-		* /spawnpoint
-		* /clear
-		* /summon
-		* /enchant
-		* /xp
-		* /scoreboard
-		* /gamerule
-		* /fill
-		* /clone
-
-	* Server Commands
-		* /kick
-		* /ban
-		* /pardon
-		* /op
-		* /deop
-		* /save-all
-		* /save-on
-		* /save-off
-		* /whitelist
-	
 * Biome Indicator
 * World and Player Information
 * Simplified usage for /fill and /clone
+
+<table>
+	<tr>
+		<th>
+			Featured Client Commands<br />
+		</th>
+		<th>
+			Featured Server Commands<br />
+		</th>
+	</tr>
+	<tr>
+		<td valign="top">
+			<ul>
+				<li>/advancement</li>
+				<li>/blockdata</li>
+				<li>/clear</li>
+				<li>/clone</li>
+				<li>/difficulty</li>
+				<li>/effect</li>
+				<li>/enchant</li>
+				<li>/fill</li>
+				<li>/gamemode</li>
+				<li>/gamerule</li>
+				<li>/give</li>
+				<li>/kill</li>
+				<li>/recipe</li>
+				<li>/scoreboard</li>
+				<li>/setworldspawn</li>
+				<li>/spawnpoint</li>
+				<li>/summon</li>
+				<li>/time</li>
+				<li>/weather</li>
+				<li>/xp</li>
+			</ul>
+		</td>
+		<td valign="top">
+			<ul>
+				<li>/ban</li>
+				<li>/deop</li>
+				<li>/kick</li>
+				<li>/op</li>
+				<li>/pardon</li>
+				<li>/save-all</li>
+				<li>/save-off</li>
+				<li>/save-on</li>
+				<li>/whitelist</li>
+			</ul>
+		</td>
+	</tr>
+</table>
 
 # Download #
 Compiled and signed versions: https://minecraft.curseforge.com/projects/world-handler-command-gui/files  

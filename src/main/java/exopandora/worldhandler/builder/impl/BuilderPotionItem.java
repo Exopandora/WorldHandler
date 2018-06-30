@@ -21,9 +21,7 @@ public class BuilderPotionItem extends BuilderGive
 	
 	public BuilderPotionItem(ResourceLocation item, String player, ComponentPotionItem potion)
 	{
-		this.setItem(item);
-		this.setPlayer(player);
-		this.setAmount(1);
+		super(player, item);
 		this.potion = this.registerNBTComponent(potion);
 	}
 	

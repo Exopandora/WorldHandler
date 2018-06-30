@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.main.Main;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraftforge.fml.relauncher.Side;
@@ -64,7 +64,7 @@ public class Category
 		registerCategory(1, "entities", new Category(Contents.SUMMON));
 		registerCategory(2, "items", new Category(Contents.CUSTOM_ITEM, Contents.ENCHANTMENT));
 		registerCategory(3, "blocks", new Category(Contents.EDIT_BLOCKS, Contents.SIGN_EDITOR, Contents.NOTE_EDITOR));
-		registerCategory(4, "world", new Category(Contents.WORLD_INFO, Contents.GAMERULES));
+		registerCategory(4, "world", new Category(Contents.WORLD_INFO, Contents.GAMERULES, Contents.RECIPES));
 		registerCategory(5, "player", new Category(Contents.PLAYER, Contents.EXPERIENCE, Contents.ADVANCEMENTS));
 		registerCategory(6, "scoreboard", new Category(Contents.SCOREBOARD_OBJECTIVES, Contents.SCOREBOARD_TEAMS, Contents.SCOREBOARD_PLAYERS));
 	}

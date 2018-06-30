@@ -2,7 +2,10 @@ package exopandora.worldhandler.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class UtilPlayer
 {
 	public static boolean canIssueCommand()

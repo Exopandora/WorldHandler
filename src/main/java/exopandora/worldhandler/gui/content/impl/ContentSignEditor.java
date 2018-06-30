@@ -5,6 +5,8 @@ import org.lwjgl.input.Keyboard;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import exopandora.worldhandler.Main;
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderSignEditor;
 import exopandora.worldhandler.config.ConfigSkin;
@@ -18,7 +20,6 @@ import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementColorMenu;
 import exopandora.worldhandler.gui.content.element.logic.ILogicColorMenu;
 import exopandora.worldhandler.helper.BlockHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -35,7 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ContentSignEditor extends Content
 {
-	private static final ResourceLocation LOGO = new ResourceLocation("worldhandler:textures/logo.png");
+	private static final ResourceLocation LOGO = new ResourceLocation(Main.MODID, "textures/logo.png");
 	
 	private int selectedLine = 0;
 	private boolean editColor;

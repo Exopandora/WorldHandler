@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Predicates;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderSummon;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
@@ -27,7 +28,6 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.content.element.logic.ILogicPageList;
-import exopandora.worldhandler.main.WorldHandler;
 import exopandora.worldhandler.util.UtilPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

@@ -1,5 +1,8 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.TargetSelector;
@@ -30,7 +33,8 @@ public class BuilderButcher extends CommandBuilder
 		this.targetSelector.set("r", radius);
 		this.setNode(0, this.targetSelector);
 	}
-	
+
+	@Nonnull
 	public int getRadius()
 	{
 		return this.targetSelector.<Integer>get("r");
@@ -42,6 +46,7 @@ public class BuilderButcher extends CommandBuilder
 		this.setNode(0, this.targetSelector);
 	}
 	
+	@Nonnull
 	public ResourceLocation getEntity()
 	{
 		return this.targetSelector.<ResourceLocation>get("type");

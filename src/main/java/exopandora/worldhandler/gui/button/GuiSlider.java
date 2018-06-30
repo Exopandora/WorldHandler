@@ -2,8 +2,8 @@ package exopandora.worldhandler.gui.button;
 
 import exopandora.worldhandler.config.ConfigSkin;
 import exopandora.worldhandler.gui.button.logic.ISliderResponder;
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
-import exopandora.worldhandler.gui.button.storage.SliderStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
+import exopandora.worldhandler.gui.button.persistence.SliderValues;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.helper.ResourceHelper;
@@ -25,67 +25,64 @@ public class GuiSlider<T> extends GuiButton
 	private final String name;
 	private final ISliderResponder responder;
 	private final Container frame;
-	private final ButtonStorage<SliderStorage> storage;
+	private final ButtonValues<SliderValues> persistence;
 	
-	public GuiSlider(Content container, Container frame, Object key, int x, int y, int width, int height, String name, double min, double max, double start, ISliderResponder responder)
+	public GuiSlider(Content content, Container frame, Object key, int x, int y, int width, int height, String name, double min, double max, double start, ISliderResponder responder)
 	{
 		super(Integer.MAX_VALUE, x, y, width, height, null);
 		this.frame = frame;
 		this.key = key;
 		this.name = name;
         this.responder = responder;
-		this.storage = container.getStorage(key);
-		this.initStorage(Math.round(min), Math.round(max), Math.round(start));
+		this.persistence = content.getPersistence(key);
+		this.initValues(Math.round(min), Math.round(max), Math.round(start));
 		this.displayString = this.getDisplayString();
 	}
 	
-	private void initStorage(double min, double max, double start)
+	private void initValues(double min, double max, double start)
 	{
-		if(this.storage.getObject() == null || this.storage.getObject().getMin() != min || this.storage.getObject().getMax() != max)
+		if(this.persistence.getObject() == null)
 		{
-			if(this.storage.getObject() == null)
+			if(min == max)
 			{
-				if(min == max)
-				{
-					this.storage.setObject(new SliderStorage(min, max, 0));
-				}
-				else
-				{
-					this.storage.setObject(new SliderStorage(min, max, (start - min) / (max - min)));
-				}
+				this.persistence.setObject(new SliderValues(min, max, 0.0D));
 			}
 			else
 			{
-				this.storage.setObject(new SliderStorage(min, max, (int) MathHelper.clamp(this.getValue(), min, max)));
+				this.persistence.setObject(new SliderValues(min, max, (start - min) / (max - min)));
 			}
+		}
+		else if(this.persistence.getObject().getMin() != min || this.persistence.getObject().getMax() != max)
+		{
+			this.persistence.setObject(new SliderValues(min, max, (int) MathHelper.clamp(this.getValue(), min, max)));
 		}
 	}
 	
 	private void setPosition(double position)
 	{
-		this.storage.getObject().setPosition(position);
+		this.persistence.getObject().setPosition(position);
 	}
 	
 	private double getPosition()
 	{
-		return this.storage.getObject().getPosition();
+		return this.persistence.getObject().getPosition();
 	}
 	
 	private void setValue(int value)
 	{
-		this.storage.getObject().setValue(value);
+		this.persistence.getObject().setValue(value);
 	}
 	
 	private int getValue()
 	{
-		return this.storage.getObject().getValue();
+		return this.persistence.getObject().getValue();
 	}
 	
 	private String getDisplayString()
 	{
 		return this.responder.getText(this.key, I18n.format(this.name), this.getValue());
 	}
-
+	
 	@Override
 	protected int getHoverState(boolean mouseOver)
 	{
@@ -191,7 +188,7 @@ public class GuiSlider<T> extends GuiButton
 		
 		return false;
 	}
-
+	
 	@Override
 	public void mouseReleased(int mouseX, int mouseY)
 	{

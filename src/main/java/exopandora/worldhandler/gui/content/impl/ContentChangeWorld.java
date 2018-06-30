@@ -5,9 +5,14 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiWorldSelection;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -33,7 +38,43 @@ public class ContentChangeWorld extends ContentChild
 				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldSelection(container));
 				break;
 			case 3:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(container));
+				ServerData server = Minecraft.getMinecraft().getCurrentServerData();
+				
+				if(server != null)
+				{
+					Minecraft.getMinecraft().world.sendQuittingDisconnectingPacket();
+					Minecraft.getMinecraft().loadWorld((WorldClient)null);
+					
+					Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
+					{
+						@Override
+						public void initGui()
+						{
+							FMLClientHandler.instance().connectToServer(new GuiMultiplayer(new GuiMainMenu()), server);
+							Minecraft.getMinecraft().displayGuiScreen((GuiScreen) null);
+							Minecraft.getMinecraft().setIngameFocus();
+						}
+					}));
+				}
+				else
+				{
+					String worldName = Minecraft.getMinecraft().getIntegratedServer().getWorldName();
+					String folderName = Minecraft.getMinecraft().getIntegratedServer().getFolderName();
+					
+					Minecraft.getMinecraft().world.sendQuittingDisconnectingPacket();
+					Minecraft.getMinecraft().loadWorld((WorldClient)null);
+					
+					Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
+					{
+						@Override
+						public void initGui()
+						{
+							Minecraft.getMinecraft().launchIntegratedServer(folderName, worldName, null);
+							Minecraft.getMinecraft().displayGuiScreen((GuiScreen) null);
+							Minecraft.getMinecraft().setIngameFocus();
+						}
+					}));
+				}
 				break;
 			default:
 				break;

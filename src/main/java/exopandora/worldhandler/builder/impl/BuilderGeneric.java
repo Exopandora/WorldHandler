@@ -1,5 +1,6 @@
 package exopandora.worldhandler.builder.impl;
 
+import exopandora.worldhandler.builder.CommandString;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,7 +20,7 @@ public class BuilderGeneric implements ICommandBuilder
 	@Override
 	public String toCommand()
 	{
-		return "/" + this.command + " " + String.join(" ", this.arguments);
+		return new CommandString(this.command, this.arguments).toString();
 	}
 	
 	public String toActualCommand()

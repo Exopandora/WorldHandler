@@ -3,10 +3,11 @@ package exopandora.worldhandler.gui.content.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
+import com.google.common.collect.Lists;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderAdvancement;
 import exopandora.worldhandler.builder.impl.BuilderAdvancement.EnumActionType;
@@ -16,7 +17,7 @@ import exopandora.worldhandler.gui.button.EnumTooltip;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -26,7 +27,6 @@ import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.content.element.logic.ILogicPageList;
 import exopandora.worldhandler.helper.AdvancementHelper;
-import exopandora.worldhandler.main.WorldHandler;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.client.Minecraft;
@@ -43,7 +43,7 @@ public class ContentAdvancements extends Content
 	
 	private GuiButtonList modeButton;
 	
-	private final List<Advancement> advancements = StreamSupport.stream(new AdvancementManager(null).getAdvancements().spliterator(), true).filter(advancement -> advancement.getDisplay() != null).collect(Collectors.toList());
+	private final List<Advancement> advancements = Lists.newArrayList(new AdvancementManager(null).getAdvancements()).parallelStream().filter(advancement -> advancement.getDisplay() != null).collect(Collectors.toList());
 	
 	@Override
 	public ICommandBuilder getCommandBuilder()
@@ -109,9 +109,9 @@ public class ContentAdvancements extends Content
 			private final EnumMode[] values = Arrays.stream(EnumMode.values()).filter(mode -> !mode.equals(EnumMode.EVERYTHING)).toArray(EnumMode[]::new);
 			
 			@Override
-			public void actionPerformed(Container container, GuiButton button, ButtonStorage<EnumMode> storage)
+			public void actionPerformed(Container container, GuiButton button, ButtonValues<EnumMode> values)
 			{
-				builderAdvancement.setMode(storage.getObject());
+				builderAdvancement.setMode(values.getObject());
 			}
 			
 			@Override
@@ -127,9 +127,9 @@ public class ContentAdvancements extends Content
 			}
 			
 			@Override
-			public String getDisplayString(ButtonStorage<EnumMode> storage)
+			public String getDisplayString(ButtonValues<EnumMode> values)
 			{
-				return I18n.format("gui.worldhandler.advancements." + storage.getObject().toString());
+				return I18n.format("gui.worldhandler.advancements." + values.getObject().toString());
 			}
 			
 			@Override

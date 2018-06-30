@@ -6,8 +6,9 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.gui.button.EnumTooltip;
 import exopandora.worldhandler.gui.button.GuiButtonList;
+import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.element.Element;
@@ -20,22 +21,30 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ElementClickList extends Element
 {
-	private final int buttonId1;
-	private final int buttonId2;
+	private final int[] buttonIds;
 	private final List<Node> list;
 	private final ILogicClickList logic;
-	private GuiButtonList button1;
-	private GuiButtonList button2;
-	private final Content master;
+	private final Content content;
+	private final ElementClickList parent;
+	private final int depth;
 	
-	public ElementClickList(int x, int y, List<Node> list, int buttonId1, int buttonId2, Content container, ILogicClickList logic)
+	private GuiButtonList button;
+	private ElementClickList child;
+	
+	public ElementClickList(int x, int y, List<Node> list, int[] buttonIds, Content content, ILogicClickList logic)
+	{
+		this(x, y, list, buttonIds, content, logic, null);
+	}
+	
+	private ElementClickList(int x, int y, List<Node> list, int[] buttonIds, Content content, ILogicClickList logic, ElementClickList parent)
 	{
 		super(x, y);
 		this.list = list;
-		this.buttonId1 = buttonId1;
-		this.buttonId2 = buttonId2;
+		this.buttonIds = buttonIds;
 		this.logic = logic;
-		this.master = container;
+		this.content = content;
+		this.parent = parent;
+		this.depth = this.parent != null ? this.parent.depth + 1 : 1;
 	}
 	
 	@Override
@@ -47,12 +56,12 @@ public class ElementClickList extends Element
 	@Override
 	public void initButtons(Container container)
 	{
-		container.add(this.button1 = new GuiButtonList(this.buttonId1, this.x, this.y, 114, 20, EnumTooltip.TOP_RIGHT, this.master, new IListButtonLogic<Node>()
+		container.add(this.button = new GuiButtonList(this.getButtonId(), this.x, this.y, 114, 20, EnumTooltip.TOP_RIGHT, this.content, new IListButtonLogic<Node>()
 		{
 			@Override
-			public void actionPerformed(Container container, GuiButton button, ButtonStorage<Node> storage)
+			public void actionPerformed(Container container, GuiButton button, ButtonValues<Node> values)
 			{
-				master.getStorage(listButtonLogic2.getId()).setIndex(0);
+				content.getPersistence(logic.getId() + (depth + 1)).setIndex(0);
 				container.initButtons();
 			}
 			
@@ -67,19 +76,19 @@ public class ElementClickList extends Element
 			{
 				return list.get(index);
 			}
-
+			
 			@Override
-			public String getDisplayString(ButtonStorage<Node> storage)
+			public String getDisplayString(ButtonValues<Node> values)
 			{
-				return logic.translate1(storage.getObject().getKey());
+				return logic.translate(getKeys());
 			}
 			
 			@Override
-			public String getTooltipString(ButtonStorage<Node> storage)
+			public String getTooltipString(ButtonValues<Node> values)
 			{
-				if(storage != null && storage.getObject() != null)
+				if(values != null && values.getObject() != null)
 				{
-					return storage.getObject().getKey() + " (" + (storage.getIndex() + 1) + "/" + this.getMax() + ")";
+					return values.getObject().getKey() + " (" + (values.getIndex() + 1) + "/" + this.getMax() + ")";
 				}
 				
 				return null;
@@ -88,101 +97,32 @@ public class ElementClickList extends Element
 			@Override
 			public String getId()
 			{
-				return logic.getId() + 1;
+				return logic.getId() + depth;
 			}
 		}));
 		
-		final Node node = this.getStorage1().getObject();
-		this.logic.consumeKey1(node.getKey());
+		Node node = this.getValues().getObject();
+		this.logic.consumeKey(this.getKeys());
 		
 		if(node.getEntries() != null)
 		{
-			container.add(this.button2 = new GuiButtonList(this.buttonId2, this.x, this.y + 24, 114, 20, EnumTooltip.TOP_RIGHT, this.master, this.listButtonLogic2));
-			this.logic.consumeKey2(node.getKey(), node.getEntries().get(this.getStorage2().getIndex()).getKey());
+			this.child = new ElementClickList(this.x, this.y + 24, node.getEntries(), this.buttonIds, this.content, this.logic, this);
+			this.child.initButtons(container);
 		}
-		else
+		else if(this.depth < this.buttonIds.length)
 		{
-			container.add(this.button2 = new GuiButtonList(this.buttonId2, this.x, this.y + 24, 114, 20, EnumTooltip.TOP_RIGHT, this.master, this.listButtonLogic2));
-			this.button2.enabled = false;
+			GuiButtonWorldHandler button = new GuiButtonWorldHandler(this.getButtonId(), this.x, this.y + 24, 114, 20, null);
+			button.enabled = false;
+			container.add(button);
 		}
 	}
 	
-	private final IListButtonLogic<Node> listButtonLogic2 = new IListButtonLogic<Node>()
-	{
-		@Override
-		public void actionPerformed(Container container, GuiButton button, ButtonStorage<Node> storage)
-		{
-			container.initButtons();
-		}
-		
-		@Override
-		public int getMax()
-		{
-			if(getStorage1().getObject() != null)
-			{
-				return getStorage1().getObject().getEntries().size();
-			}
-			
-			return 0;
-		}
-		
-		@Override
-		public Node getObject(int index)
-		{
-			if(getStorage1().getObject().getEntries() != null)
-			{
-				return getStorage1().getObject().getEntries().get(index);
-			}
-			
-			return null;
-		}
-		
-		@Override
-		public String getDisplayString(ButtonStorage<Node> storage)
-		{
-			if(storage.getObject() != null)
-			{
-				return logic.translate2(getStorage1().getObject().getKey(), storage.getObject().getKey());
-			}
-			
-			return null;
-		}
-		
-		@Override
-		public String getTooltipString(ButtonStorage<Node> storage)
-		{
-			if(getStorage1().getObject().getEntries() != null)
-			{
-				return storage.getObject().getKey() + " (" + (storage.getIndex() + 1) + "/" + getStorage1().getObject().getEntries().size() + ")";
-			}
-			
-			return null;
-		}
-		
-		@Override
-		public String getId()
-		{
-			return logic.getId() + 2;
-		}
-	};
-	
 	@Nullable
-	private ButtonStorage<Node> getStorage1()
+	private ButtonValues<Node> getValues()
 	{
-		if(this.button1 != null)
+		if(this.button != null)
 		{
-			return this.master.<Node>getStorage(this.button1.getLogic().getId());
-		}
-		
-		return null;
-	}
-	
-	@Nullable
-	private ButtonStorage<Node> getStorage2()
-	{
-		if(this.button2 != null)
-		{
-			return this.master.<Node>getStorage(this.button2.getLogic().getId());
+			return this.content.<Node>getPersistence(this.button.getLogic().getId());
 		}
 		
 		return null;
@@ -191,17 +131,42 @@ public class ElementClickList extends Element
 	@Override
 	public boolean actionPerformed(Container container, GuiButton button)
 	{
-		if(button.id == this.buttonId1)
+		if(button.id == this.getButtonId())
 		{
-			this.button1.actionPerformed(container, button);
+			this.button.actionPerformed(container, button);
 			return true;
 		}
-		else if(button.id == this.buttonId2)
+		else if(this.child != null)
 		{
-			this.button2.actionPerformed(container, button);
-			return true;
+			return this.child.actionPerformed(container, button);
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void draw()
+	{
+		
+	}
+	
+	private int getButtonId()
+	{
+		return this.buttonIds[this.depth - 1];
+	}
+	
+	private String[] getKeys()
+	{
+		return this.getKeys(new String[this.depth]);
+	}
+	
+	private String[] getKeys(String[] keys)
+	{
+		if(keys != null && this.depth <= keys.length)
+		{
+			keys[this.depth - 1] = this.getValues().getObject().getKey();
+		}
+		
+		return this.parent != null ? this.parent.getKeys(keys) : keys;
 	}
 }

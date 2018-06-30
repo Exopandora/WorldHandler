@@ -7,7 +7,7 @@ import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.button.logic.ColorListButtonLogic;
-import exopandora.worldhandler.gui.button.storage.ButtonStorage;
+import exopandora.worldhandler.gui.button.persistence.ButtonValues;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.element.Element;
@@ -59,9 +59,9 @@ public class ElementColorMenu extends Element
 			container.add(this.colorList = new GuiButtonList(this.ids[0], this.x + 118, this.y + 24, 114, 20, this.content, new ColorListButtonLogic()
 			{
 				@Override
-				public void actionPerformed(Container container, GuiButton button, ButtonStorage<Integer> storage)
+				public void actionPerformed(Container container, GuiButton button, ButtonValues<Integer> values)
 				{
-					string.setColor(storage.getIndex());
+					string.setColor(values.getIndex());
 				}
 				
 				@Override
