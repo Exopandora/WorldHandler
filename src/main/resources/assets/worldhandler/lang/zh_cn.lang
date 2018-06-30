@@ -15,7 +15,7 @@ gui.worldhandler.config.key.settings.smooth_watch=时钟平滑效果
 gui.worldhandler.config.key.settings.pause_game=暂停游戏
 gui.worldhandler.config.key.settings.custom_times=自定义时间
 gui.worldhandler.config.key.settings.permission_query=权限队列
-gui.worldhandler.config.key.settings.highlight_blocks=Highlight Blocks
+gui.worldhandler.config.key.settings.highlight_blocks=高亮方块
 gui.worldhandler.config.key.settings.custom_time_dawn=自定义日出时间
 gui.worldhandler.config.key.settings.custom_time_noon=自定义正午时间
 gui.worldhandler.config.key.settings.custom_time_sunset=自定义日落时间
@@ -32,7 +32,7 @@ gui.worldhandler.config.comment.settings.smooth_watch=时钟平滑效果开启
 gui.worldhandler.config.comment.settings.pause_game=暂停游戏
 gui.worldhandler.config.comment.settings.custom_times=自定义时间开启
 gui.worldhandler.config.comment.settings.permission_query=权限队列开启
-gui.worldhandler.config.comment.settings.highlight_blocks=Whether or not selected blocks will be highlighted
+gui.worldhandler.config.comment.settings.highlight_blocks=被选中的方块会不会高亮
 gui.worldhandler.config.comment.settings.custom_time_dawn=日出的时间
 gui.worldhandler.config.comment.settings.custom_time_noon=正午的时间
 gui.worldhandler.config.comment.settings.custom_time_sunset=日落的时间
@@ -101,7 +101,7 @@ gui.worldhandler.tab.entities.summon=召唤
 
 gui.worldhandler.tab.world.world=世界
 gui.worldhandler.tab.world.gamerules=游戏规则
-gui.worldhandler.tab.world.recipes=Recipes
+gui.worldhandler.tab.world.recipes=配方
 
 gui.worldhandler.tab.blocks.edit_blocks=编辑方块
 gui.worldhandler.tab.blocks.sign_editor=告示牌编辑器
@@ -126,7 +126,7 @@ gui.worldhandler.title.scoreboard=记分板
 
 gui.worldhandler.title.world.world=世界
 gui.worldhandler.title.world.gamerules=游戏规则
-gui.worldhandler.title.world.recipes=Recipes
+gui.worldhandler.title.world.recipes=配方
 
 gui.worldhandler.title.player.player=玩家
 gui.worldhandler.title.player.experience=经验等级
@@ -285,8 +285,8 @@ gui.worldhandler.edit_blocks.clone.mode.filtered=仅指定方块
 gui.worldhandler.edit_blocks.pos.set_pos_1=设置位点 1
 gui.worldhandler.edit_blocks.pos.set_pos_2=设置位点 2
 
-gui.worldhandler.recipes.give=Give
-gui.worldhandler.recipes.take=Take
+gui.worldhandler.recipes.give=给予
+gui.worldhandler.recipes.take=拿取
 
 gui.worldhandler.scoreboard.slot.list=列表
 gui.worldhandler.scoreboard.slot.belowName=名称下方
