@@ -101,7 +101,6 @@ gui.worldhandler.tab.entities.summon=召唤
 
 gui.worldhandler.tab.world.world=世界
 gui.worldhandler.tab.world.gamerules=游戏规则
-gui.worldhandler.tab.world.recipes=配方
 
 gui.worldhandler.tab.blocks.edit_blocks=编辑方块
 gui.worldhandler.tab.blocks.sign_editor=告示牌编辑器
@@ -109,6 +108,7 @@ gui.worldhandler.tab.blocks.note_block_editor=音符编辑器
 
 gui.worldhandler.tab.items.custom_item=给予自定义物品
 gui.worldhandler.tab.items.enchantment=附魔
+gui.worldhandler.tab.items.recipes=配方
 
 gui.worldhandler.tab.containers=容器
 gui.worldhandler.tab.multiplayer=多人
@@ -117,6 +117,7 @@ gui.worldhandler.title.entities.summon=召唤
 
 gui.worldhandler.title.items.custom_item=给予自定义物品
 gui.worldhandler.title.items.enchantment=附魔
+gui.worldhandler.title.items.recipes=配方
 
 gui.worldhandler.title.blocks.edit_blocks=编辑方块
 gui.worldhandler.title.blocks.sign_editor=告示牌编辑器
@@ -126,7 +127,6 @@ gui.worldhandler.title.scoreboard=记分板
 
 gui.worldhandler.title.world.world=世界
 gui.worldhandler.title.world.gamerules=游戏规则
-gui.worldhandler.title.world.recipes=配方
 
 gui.worldhandler.title.player.player=玩家
 gui.worldhandler.title.player.experience=经验等级

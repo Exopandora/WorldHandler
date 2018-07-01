@@ -129,19 +129,19 @@ public class ContentRecipes extends Content
 	@Override
 	public Category getCategory()
 	{
-		return Categories.WORLD;
+		return Categories.ITEMS;
 	}
 	
 	@Override
 	public String getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.world.recipes");
+		return I18n.format("gui.worldhandler.title.items.recipes");
 	}
 	
 	@Override
 	public String getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.world.recipes");
+		return I18n.format("gui.worldhandler.tab.items.recipes");
 	}
 	
 	@Override

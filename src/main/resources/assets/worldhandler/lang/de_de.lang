@@ -101,7 +101,6 @@ gui.worldhandler.tab.entities.summon=Beschwören
 
 gui.worldhandler.tab.world.world=Welt
 gui.worldhandler.tab.world.gamerules=Spielregeln
-gui.worldhandler.tab.world.recipes=Rezepte
 
 gui.worldhandler.tab.blocks.edit_blocks=Blöcke Ändern
 gui.worldhandler.tab.blocks.sign_editor=Schilder Ändern
@@ -109,6 +108,7 @@ gui.worldhandler.tab.blocks.note_block_editor=Noten Ändern
 
 gui.worldhandler.tab.items.custom_item=Item Erstellen
 gui.worldhandler.tab.items.enchantment=Verzaubern
+gui.worldhandler.tab.items.recipes=Rezepte
 
 gui.worldhandler.tab.containers=Container
 gui.worldhandler.tab.multiplayer=Mehrspieler
@@ -117,6 +117,7 @@ gui.worldhandler.title.entities.summon=Beschwören
 
 gui.worldhandler.title.items.custom_item=Item Erstellen
 gui.worldhandler.title.items.enchantment=Verzaubern
+gui.worldhandler.title.items.recipes=Rezepte
 
 gui.worldhandler.title.blocks.edit_blocks=Blöcke Ändern
 gui.worldhandler.title.blocks.sign_editor=Schilder Ändern
@@ -126,7 +127,6 @@ gui.worldhandler.title.scoreboard=Anzeigetafel
 
 gui.worldhandler.title.world.world=Welt
 gui.worldhandler.title.world.gamerules=Gamerules
-gui.worldhandler.title.world.recipes=Rezepte
 
 gui.worldhandler.title.player.player=Spieler
 gui.worldhandler.title.player.experience=Erfahrung

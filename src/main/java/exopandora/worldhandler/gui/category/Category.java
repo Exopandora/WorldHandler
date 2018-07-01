@@ -62,9 +62,9 @@ public class Category
 	{
 		registerCategory(0, "main", new Category(Contents.MAIN, Contents.CONTAINERS, Contents.MULTIPLAYER));
 		registerCategory(1, "entities", new Category(Contents.SUMMON));
-		registerCategory(2, "items", new Category(Contents.CUSTOM_ITEM, Contents.ENCHANTMENT));
+		registerCategory(2, "items", new Category(Contents.CUSTOM_ITEM, Contents.ENCHANTMENT, Contents.RECIPES));
 		registerCategory(3, "blocks", new Category(Contents.EDIT_BLOCKS, Contents.SIGN_EDITOR, Contents.NOTE_EDITOR));
-		registerCategory(4, "world", new Category(Contents.WORLD_INFO, Contents.GAMERULES, Contents.RECIPES));
+		registerCategory(4, "world", new Category(Contents.WORLD_INFO, Contents.GAMERULES));
 		registerCategory(5, "player", new Category(Contents.PLAYER, Contents.EXPERIENCE, Contents.ADVANCEMENTS));
 		registerCategory(6, "scoreboard", new Category(Contents.SCOREBOARD_OBJECTIVES, Contents.SCOREBOARD_TEAMS, Contents.SCOREBOARD_PLAYERS));
 	}

@@ -101,7 +101,6 @@ gui.worldhandler.tab.entities.summon=Summon
 
 gui.worldhandler.tab.world.world=World
 gui.worldhandler.tab.world.gamerules=Gamerules
-gui.worldhandler.tab.world.recipes=Recipes
 
 gui.worldhandler.tab.blocks.edit_blocks=Edit Blocks
 gui.worldhandler.tab.blocks.sign_editor=Sign Editor
@@ -109,6 +108,7 @@ gui.worldhandler.tab.blocks.note_block_editor=Note Editor
 
 gui.worldhandler.tab.items.custom_item=Custom Item
 gui.worldhandler.tab.items.enchantment=Enchantment
+gui.worldhandler.tab.items.recipes=Recipes
 
 gui.worldhandler.tab.containers=Containers
 gui.worldhandler.tab.multiplayer=Multiplayer
@@ -117,6 +117,7 @@ gui.worldhandler.title.entities.summon=Summon
 
 gui.worldhandler.title.items.custom_item=Custom Item
 gui.worldhandler.title.items.enchantment=Enchantment
+gui.worldhandler.title.items.recipes=Recipes
 
 gui.worldhandler.title.blocks.edit_blocks=Edit Blocks
 gui.worldhandler.title.blocks.sign_editor=Sign Editor
@@ -126,7 +127,6 @@ gui.worldhandler.title.scoreboard=Scoreboard
 
 gui.worldhandler.title.world.world=World
 gui.worldhandler.title.world.gamerules=Gamerules
-gui.worldhandler.title.world.recipes=Recipes
 
 gui.worldhandler.title.player.player=Player
 gui.worldhandler.title.player.experience=Experience
