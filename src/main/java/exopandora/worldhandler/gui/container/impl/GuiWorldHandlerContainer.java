@@ -270,6 +270,7 @@ public class GuiWorldHandlerContainer extends Container
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
+		buttons:
 		switch(button.id)
 		{
 			case 1:
@@ -334,14 +335,13 @@ public class GuiWorldHandlerContainer extends Container
 				}
 				break;
 			default:
-				elements:
-					for(IElement element : this.elements)
+				for(IElement element : this.elements)
+				{
+					if(element.actionPerformed(this, button))
 					{
-						if(element.actionPerformed(this, button))
-						{
-							break elements;
-						}
+						break buttons;
 					}
+				}
 				this.content.actionPerformed(this, button);
 				break;
 		}
