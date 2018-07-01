@@ -2,12 +2,12 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.12.2-latest": "2.1.4",
-		"1.12.2-recommended": "2.1.4",
-		"1.12.1-latest": "2.1.4",
-		"1.12.1-recommended": "2.1.4",
-		"1.12-latest": "2.1.4",
-		"1.12-recommended": "2.1.4",
+		"1.12.2-latest": "2.2.0",
+		"1.12.2-recommended": "2.2.0",
+		"1.12.1-latest": "2.2.0",
+		"1.12.1-recommended": "2.2.0",
+		"1.12-latest": "2.2.0",
+		"1.12-recommended": "2.2.0",
 		"1.11.2-latest": "1.46",
 		"1.11.2-recommended": "1.46",
 		"1.11-latest": "1.42",
@@ -41,6 +41,7 @@
 	},
 	"1.12.2":
 	{
+		"2.2.0": "- Added Recipe GUI\n- Added block highlighting for edit blocks\n- Added functionality to skip 10 pages while shift-clicking for lists\n- Changed logo\n- Fixed double space for multi-command syntax\n- Fixed item buttons not working for containers screen",
 		"2.1.4": "- Fixed enchantment level sliders",
 		"2.1.3": "- Fixed crash when cancelling change to multiplayer server",
 		"2.1.2": "- Added progress bar\n- Fixed modded gamerule translations\n- Fixed being connected to the old server when changing servers",
@@ -54,6 +55,7 @@
 	},
 	"1.12.1":
 	{
+		"2.2.0": "- Added Recipe GUI\n- Added block highlighting for edit blocks\n- Added functionality to skip 10 pages while shift-clicking for lists\n- Changed logo\n- Fixed double space for multi-command syntax\n- Fixed item buttons not working for containers screen",
 		"2.1.4": "- Fixed enchantment level sliders",
 		"2.1.3": "- Fixed crash when cancelling change to multiplayer server",
 		"2.1.2": "- Added progress bar\n- Fixed modded gamerule translations\n- Fixed being connected to the old server when changing servers",
@@ -67,6 +69,7 @@
 	},
 	"1.12":
 	{
+		"2.2.0": "- Added Recipe GUI\n- Added block highlighting for edit blocks\n- Added functionality to skip 10 pages while shift-clicking for lists\n- Changed logo\n- Fixed double space for multi-command syntax\n- Fixed item buttons not working for containers screen",
 		"2.1.4": "- Fixed enchantment level sliders",
 		"2.1.3": "- Fixed crash when cancelling change to multiplayer server",
 		"2.1.2": "- Added progress bar\n- Fixed modded gamerule translations\n- Fixed being connected to the old server when changing servers",
