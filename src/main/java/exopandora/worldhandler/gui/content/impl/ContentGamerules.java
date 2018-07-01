@@ -94,7 +94,7 @@ public class ContentGamerules extends Content
 			}
 			
 			@Override
-			public String convert(String object)
+			public String getObject(String object)
 			{
 				return object;
 			}

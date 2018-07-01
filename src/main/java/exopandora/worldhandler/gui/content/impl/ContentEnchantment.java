@@ -68,7 +68,7 @@ public class ContentEnchantment extends Content
 			}
 			
 			@Override
-			public ResourceLocation convert(String object)
+			public ResourceLocation getObject(String object)
 			{
 				return Type.parseResourceLocation(object);
 			}

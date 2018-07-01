@@ -138,7 +138,7 @@ public class ContentCustomItem extends Content
 				}
 				
 				@Override
-				public ResourceLocation convert(String object)
+				public ResourceLocation getObject(String object)
 				{
 					if(object != null)
 					{
@@ -189,7 +189,7 @@ public class ContentCustomItem extends Content
 				}
 				
 				@Override
-				public EnumAttributes convert(Object object)
+				public EnumAttributes getObject(Object object)
 				{
 					return null;
 				}

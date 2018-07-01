@@ -43,7 +43,7 @@ public class ElementPageList<T, K> extends Element
 		if(this.values.getObject() == null)
 		{
 			this.values.setObject(0);
-			this.values.setIndex(Math.max(0, this.list.indexOf(this.logic.convert(initial))));
+			this.values.setIndex(Math.max(0, this.list.indexOf(this.logic.getObject(initial))));
 			
 			if(initial == null)
 			{

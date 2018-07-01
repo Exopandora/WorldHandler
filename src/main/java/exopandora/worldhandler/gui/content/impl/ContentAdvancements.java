@@ -83,7 +83,7 @@ public class ContentAdvancements extends Content
 			}
 			
 			@Override
-			public Advancement convert(String object)
+			public Advancement getObject(String object)
 			{
 				return helper.ADVANCEMENT_MANAGER.getAdvancement(Type.parseResourceLocation(object));
 			}

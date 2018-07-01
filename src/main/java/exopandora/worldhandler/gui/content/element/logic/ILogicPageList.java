@@ -13,5 +13,5 @@ public interface ILogicPageList<T, K> extends ILogic
 	void onClick(T clicked);
 	void onRegister(int id, int x, int y, int width, int height, String display, String registryKey, boolean enabled, T value, Container container);
 	
-	T convert(K object);
+	T getObject(K object);
 }

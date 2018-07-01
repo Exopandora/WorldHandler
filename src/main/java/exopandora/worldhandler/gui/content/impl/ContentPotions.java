@@ -89,7 +89,7 @@ public class ContentPotions extends ContentChild
 			}
 			
 			@Override
-			public ResourceLocation convert(Potion object)
+			public ResourceLocation getObject(Potion object)
 			{
 				if(object != null)
 				{

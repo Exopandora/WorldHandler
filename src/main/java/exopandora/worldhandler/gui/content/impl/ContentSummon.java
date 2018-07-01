@@ -146,7 +146,7 @@ public class ContentSummon extends Content
 				}
 				
 				@Override
-				public EnumAttributes convert(Object object)
+				public EnumAttributes getObject(Object object)
 				{
 					return null;
 				}

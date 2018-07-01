@@ -83,7 +83,7 @@ public class ContentRecipes extends Content
 			}
 			
 			@Override
-			public IRecipe convert(String object)
+			public IRecipe getObject(String object)
 			{
 				return CraftingManager.REGISTRY.getObject(Type.parseResourceLocation(object));
 			}
