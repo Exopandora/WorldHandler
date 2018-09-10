@@ -1,8 +1,11 @@
 package exopandora.worldhandler.format;
 
+import javax.annotation.Nullable;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@Deprecated
 @SideOnly(Side.CLIENT)
 public enum EnumColor
 {
@@ -55,6 +58,7 @@ public enum EnumColor
 		return "\u00A7" + this.prefix;
 	}
 	
+	@Nullable
 	public static EnumColor getColorFromId(int id)
 	{
 		if(id >= 0 && id < EnumColor.values().length)
