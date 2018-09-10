@@ -6,6 +6,7 @@ import exopandora.worldhandler.builder.types.Type;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class BuilderDifficulty extends CommandBuilder
 {
 	public BuilderDifficulty()
@@ -39,6 +40,7 @@ public class BuilderDifficulty extends CommandBuilder
 		return syntax;
 	}
 	
+	@Deprecated
 	@SideOnly(Side.CLIENT)
 	public static enum EnumDifficulty
 	{
