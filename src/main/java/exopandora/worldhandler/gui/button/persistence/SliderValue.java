@@ -3,27 +3,26 @@ package exopandora.worldhandler.gui.button.persistence;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-
 @SideOnly(Side.CLIENT)
-public class SliderValues
+public class SliderValue
 {
 	private final double min;
 	private final double max;
 	private double position;
 	
-	private SliderValues(double min, double max)
+	private SliderValue(double min, double max)
 	{
 		this.min = min;
 		this.max = max;
 	}
 	
-	public SliderValues(double min, double max, double position)
+	public SliderValue(double min, double max, double position)
 	{
 		this(min, max);
 		this.position = position;
 	}
 	
-	public SliderValues(double min, double max, int value)
+	public SliderValue(double min, double max, int value)
 	{
 		this(min, max);
 		this.position = this.valueToPosition(value);

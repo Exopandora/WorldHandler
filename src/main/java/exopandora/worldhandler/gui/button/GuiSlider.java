@@ -2,8 +2,8 @@ package exopandora.worldhandler.gui.button;
 
 import exopandora.worldhandler.config.ConfigSkin;
 import exopandora.worldhandler.gui.button.logic.ISliderResponder;
-import exopandora.worldhandler.gui.button.persistence.ButtonValues;
-import exopandora.worldhandler.gui.button.persistence.SliderValues;
+import exopandora.worldhandler.gui.button.persistence.ButtonValue;
+import exopandora.worldhandler.gui.button.persistence.SliderValue;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.helper.ResourceHelper;
@@ -25,7 +25,7 @@ public class GuiSlider<T> extends GuiButton
 	private final String name;
 	private final ISliderResponder responder;
 	private final Container frame;
-	private final ButtonValues<SliderValues> persistence;
+	private final ButtonValue<SliderValue> persistence;
 	
 	public GuiSlider(Content content, Container frame, Object key, int x, int y, int width, int height, String name, double min, double max, double start, ISliderResponder responder)
 	{
@@ -45,16 +45,16 @@ public class GuiSlider<T> extends GuiButton
 		{
 			if(min == max)
 			{
-				this.persistence.setObject(new SliderValues(min, max, 0.0D));
+				this.persistence.setObject(new SliderValue(min, max, 0.0D));
 			}
 			else
 			{
-				this.persistence.setObject(new SliderValues(min, max, (start - min) / (max - min)));
+				this.persistence.setObject(new SliderValue(min, max, (start - min) / (max - min)));
 			}
 		}
 		else if(this.persistence.getObject().getMin() != min || this.persistence.getObject().getMax() != max)
 		{
-			this.persistence.setObject(new SliderValues(min, max, (int) MathHelper.clamp(this.getValue(), min, max)));
+			this.persistence.setObject(new SliderValue(min, max, (int) MathHelper.clamp(this.getValue(), min, max)));
 		}
 	}
 	

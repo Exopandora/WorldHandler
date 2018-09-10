@@ -29,7 +29,7 @@ public interface IContent
 		
 	}
 	
-	default void actionPerformed(Container container, GuiButton button)
+	default void actionPerformed(Container container, GuiButton button) throws Exception
 	{
 		
 	}

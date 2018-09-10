@@ -3,6 +3,7 @@ package exopandora.worldhandler.gui.button;
 import org.lwjgl.input.Mouse;
 
 import exopandora.worldhandler.Main;
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.config.ConfigSkin;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
@@ -148,7 +149,15 @@ public class GuiButtonKeyboard extends GuiButtonWorldHandler
 				if(mousePressed(minecraft, mouseX, mouseY) && Mouse.isButtonDown(0))
 				{
 					this.playPressSound(minecraft.getSoundHandler());
-					this.content.actionPerformed(this.container, this);
+					
+					try
+					{
+						this.content.actionPerformed(this.container, this);
+					}
+					catch(Exception e)
+					{
+						WorldHandler.throwError(e);
+					}
 				}
 				
 				this.lastMousePressed = mousePressed(minecraft, mouseX, mouseY);

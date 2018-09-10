@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -142,22 +143,29 @@ public class EventListener
 	{
 		if(!UtilPlayer.canIssueCommand() && ConfigSettings.isPermissionQueryEnabled())
 		{
-			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.RED + I18n.format("worldhandler.permission.refused")));
-			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.key.settings.permission_query"))));
+			Minecraft.getMinecraft().ingameGUI.addChatMessage(ChatType.GAME_INFO, new TextComponentString(ChatFormatting.RED + I18n.format("worldhandler.permission.refused")));
+			Minecraft.getMinecraft().ingameGUI.addChatMessage(ChatType.GAME_INFO, new TextComponentString(ChatFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.key.settings.permission_query"))));
 		}
 		else
 		{
-			if(BlockHelper.isFocusedBlockEqualTo(Blocks.STANDING_SIGN) || BlockHelper.isFocusedBlockEqualTo(Blocks.WALL_SIGN))
+			try
 			{
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.SIGN_EDITOR));
+				if(BlockHelper.isFocusedBlockEqualTo(Blocks.STANDING_SIGN) || BlockHelper.isFocusedBlockEqualTo(Blocks.WALL_SIGN))
+				{
+					Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.SIGN_EDITOR));
+				}
+				else if(BlockHelper.isFocusedBlockEqualTo(Blocks.NOTEBLOCK))
+				{
+					Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.NOTE_EDITOR));
+				}
+				else
+				{
+					Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.MAIN));
+				}
 			}
-			else if(BlockHelper.isFocusedBlockEqualTo(Blocks.NOTEBLOCK))
+			catch(Exception e)
 			{
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.NOTE_EDITOR));
-			}
-			else
-			{
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.MAIN));
+				WorldHandler.throwError(e);
 			}
 		}
 	}

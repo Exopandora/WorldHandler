@@ -17,7 +17,7 @@ import exopandora.worldhandler.gui.button.EnumTooltip;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.persistence.ButtonValues;
+import exopandora.worldhandler.gui.button.persistence.ButtonValue;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -109,7 +109,7 @@ public class ContentAdvancements extends Content
 			private final EnumMode[] values = Arrays.stream(EnumMode.values()).filter(mode -> !mode.equals(EnumMode.EVERYTHING)).toArray(EnumMode[]::new);
 			
 			@Override
-			public void actionPerformed(Container container, GuiButton button, ButtonValues<EnumMode> values)
+			public void actionPerformed(Container container, GuiButton button, ButtonValue<EnumMode> values)
 			{
 				builderAdvancement.setMode(values.getObject());
 			}
@@ -127,7 +127,7 @@ public class ContentAdvancements extends Content
 			}
 			
 			@Override
-			public String getDisplayString(ButtonValues<EnumMode> values)
+			public String getDisplayString(ButtonValue<EnumMode> values)
 			{
 				return I18n.format("gui.worldhandler.advancements." + values.getObject().toString());
 			}
@@ -145,7 +145,7 @@ public class ContentAdvancements extends Content
 	}
 	
 	@Override
-	public void actionPerformed(Container container, GuiButton button)
+	public void actionPerformed(Container container, GuiButton button) throws Exception
 	{
 		switch(button.id)
 		{

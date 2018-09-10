@@ -21,6 +21,12 @@ import exopandora.worldhandler.util.UtilKeyBinding;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.command.ICommand;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -167,5 +173,23 @@ public class WorldHandler
 				Minecraft.getMinecraft().player.sendChatMessage(command);
 			}
 		}
+	}
+	
+	public static void throwError(Exception exception)
+	{
+		if(!Minecraft.getMinecraft().inGameHasFocus)
+		{
+			Minecraft.getMinecraft().displayGuiScreen(null);
+			Minecraft.getMinecraft().setIngameFocus();
+		}
+		
+		TextComponentString name = new TextComponentString(Main.NAME);
+		name.setStyle(new Style().setUnderlined(true).setClickEvent(new ClickEvent(Action.OPEN_URL, "$url")));
+		
+		TextComponentTranslation message = new TextComponentTranslation("worldhandler.error.gui", name);
+		message.setStyle(new Style().setColor(net.minecraft.util.text.TextFormatting.RED));
+		
+		Minecraft.getMinecraft().ingameGUI.addChatMessage(ChatType.SYSTEM, message);
+		exception.printStackTrace();
 	}
 }

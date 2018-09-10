@@ -5,7 +5,7 @@ import java.util.List;
 import exopandora.worldhandler.config.ConfigSkin;
 import exopandora.worldhandler.format.TextFormatting;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
-import exopandora.worldhandler.gui.button.persistence.ButtonValues;
+import exopandora.worldhandler.gui.button.persistence.ButtonValue;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.element.Element;
@@ -25,7 +25,7 @@ public class ElementPageList<T, K> extends Element
 	private final int width;
 	private final int height;
 	private final int[] ids;
-	private final ButtonValues<Integer> values;
+	private final ButtonValue<Integer> values;
 	
 	public ElementPageList(int x, int y, List<T> list, K initial, int width, int height, int length, Content content, int[] ids, ILogicPageList<T, K> logic)
 	{

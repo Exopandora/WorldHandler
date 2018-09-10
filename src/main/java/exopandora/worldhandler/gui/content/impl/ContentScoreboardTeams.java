@@ -148,7 +148,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	}
 	
 	@Override
-	public void actionPerformed(Container container, GuiButton button)
+	public void actionPerformed(Container container, GuiButton button) throws Exception
 	{
 		switch(button.id)
 		{

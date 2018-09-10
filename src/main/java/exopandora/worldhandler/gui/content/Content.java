@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.gui.button.persistence.ButtonValues;
+import exopandora.worldhandler.gui.button.persistence.ButtonValue;
 import exopandora.worldhandler.gui.content.impl.ContentAdvancements;
 import exopandora.worldhandler.gui.content.impl.ContentButcher;
 import exopandora.worldhandler.gui.content.impl.ContentChangeWorld;
@@ -91,13 +91,13 @@ public abstract class Content implements IContent
         REGISTRY.register(id, textualID, content);
     }
     
-    private Map<Object, ButtonValues> persistence;
+    private Map<Object, ButtonValue> persistence;
     
-    public <T> ButtonValues<T> getPersistence(Object id)
+    public <T> ButtonValue<T> getPersistence(Object id)
     {
     	if(this.persistence == null)
     	{
-    		this.persistence = new HashMap<Object, ButtonValues>();
+    		this.persistence = new HashMap<Object, ButtonValue>();
     	}
     	
     	if(this.persistence.containsKey(id))
@@ -105,7 +105,7 @@ public abstract class Content implements IContent
     		return this.persistence.get(id);
     	}
     	
-    	ButtonValues<T> values = new ButtonValues<T>();
+    	ButtonValue<T> values = new ButtonValue<T>();
     	
     	this.persistence.put(id, values);
     	

@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ConfigButcher
-{	
+{
 	private static Map<String, Boolean> ENTITIES = new HashMap<String, Boolean>();
 	
 	public static final String CATEGORY = "butcher";

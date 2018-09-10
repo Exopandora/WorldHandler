@@ -5,7 +5,7 @@ import java.util.Arrays;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import exopandora.worldhandler.format.EnumColor;
-import exopandora.worldhandler.gui.button.persistence.ButtonValues;
+import exopandora.worldhandler.gui.button.persistence.ButtonValue;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -26,13 +26,13 @@ public abstract class ColorListButtonLogic implements IListButtonLogic<Integer>
 	}
 	
 	@Override
-	public String getTooltipString(ButtonValues<Integer> values)
+	public String getTooltipString(ButtonValue<Integer> values)
 	{
 		return null;
 	}
 	
 	@Override
-	public String getDisplayString(ButtonValues values)
+	public String getDisplayString(ButtonValue values)
 	{
 		EnumColor color = EnumColor.getColorFromId(values.getIndex());
 		return color + I18n.format("gui.worldhandler.color") + ": " + I18n.format("gui.worldhandler.color." + color.getFormat());

@@ -72,7 +72,7 @@ public class ContentExperience extends Content
 	}
 	
 	@Override
-	public void actionPerformed(Container container, GuiButton button)
+	public void actionPerformed(Container container, GuiButton button) throws Exception
 	{
 		switch(button.id)
 		{

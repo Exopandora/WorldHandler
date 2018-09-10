@@ -8,7 +8,7 @@ import exopandora.worldhandler.gui.button.EnumTooltip;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.persistence.ButtonValues;
+import exopandora.worldhandler.gui.button.persistence.ButtonValue;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.element.Element;
@@ -59,7 +59,7 @@ public class ElementClickList extends Element
 		container.add(this.button = new GuiButtonList(this.getButtonId(), this.x, this.y, 114, 20, EnumTooltip.TOP_RIGHT, this.content, new IListButtonLogic<Node>()
 		{
 			@Override
-			public void actionPerformed(Container container, GuiButton button, ButtonValues<Node> values)
+			public void actionPerformed(Container container, GuiButton button, ButtonValue<Node> values)
 			{
 				content.getPersistence(logic.getId() + (depth + 1)).setIndex(0);
 				container.initButtons();
@@ -78,13 +78,13 @@ public class ElementClickList extends Element
 			}
 			
 			@Override
-			public String getDisplayString(ButtonValues<Node> values)
+			public String getDisplayString(ButtonValue<Node> values)
 			{
 				return logic.translate(getKeys());
 			}
 			
 			@Override
-			public String getTooltipString(ButtonValues<Node> values)
+			public String getTooltipString(ButtonValue<Node> values)
 			{
 				if(values != null && values.getObject() != null)
 				{
@@ -118,7 +118,7 @@ public class ElementClickList extends Element
 	}
 	
 	@Nullable
-	private ButtonValues<Node> getValues()
+	private ButtonValue<Node> getValues()
 	{
 		if(this.button != null)
 		{

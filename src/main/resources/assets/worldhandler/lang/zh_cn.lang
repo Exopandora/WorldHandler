@@ -449,3 +449,5 @@ gui.worldhandler.color.reset=默认
 
 worldhandler.permission.refused=您没有权限使用 World Handler
 worldhandler.permission.refused.change=更改 "%s" 来停止显示这条信息
+
+worldhandler.error.gui=An unexpected error occured. Please send a crash report with your log files to the %s forum

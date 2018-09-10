@@ -4,7 +4,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 
 import exopandora.worldhandler.format.TextFormatting;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.persistence.ButtonValues;
+import exopandora.worldhandler.gui.button.persistence.ButtonValue;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import net.minecraft.client.Minecraft;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiButtonList<T> extends GuiButtonWorldHandler
 {
 	private final IListButtonLogic<T> logic;
-	private final ButtonValues<T> persistence;
+	private final ButtonValue<T> persistence;
 	private int mouseX;
 	private int mouseY;
 	

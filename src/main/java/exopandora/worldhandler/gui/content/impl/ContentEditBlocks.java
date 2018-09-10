@@ -14,7 +14,7 @@ import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.persistence.ButtonValues;
+import exopandora.worldhandler.gui.button.persistence.ButtonValue;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -178,7 +178,7 @@ public class ContentEditBlocks extends Content
 			container.add(this.cloneButton = new GuiButtonList(9, x + 118, y, 114, 20, EnumTooltip.TOP_RIGHT, this, new IListButtonLogic<EnumMask>()
 			{
 				@Override
-				public void actionPerformed(Container container, GuiButton button, ButtonValues<EnumMask> values)
+				public void actionPerformed(Container container, GuiButton button, ButtonValue<EnumMask> values)
 				{
 					builderClone.setMask(values.getObject());
 				}
@@ -196,7 +196,7 @@ public class ContentEditBlocks extends Content
 				}
 				
 				@Override
-				public String getDisplayString(ButtonValues<EnumMask> values)
+				public String getDisplayString(ButtonValue<EnumMask> values)
 				{
 					return I18n.format("gui.worldhandler.edit_blocks.clone.mode." + values.getObject().toString());
 				}
@@ -216,7 +216,7 @@ public class ContentEditBlocks extends Content
 	}
 	
 	@Override
-	public void actionPerformed(Container container, GuiButton button)
+	public void actionPerformed(Container container, GuiButton button) throws Exception
 	{
 		switch(button.id)
 		{
