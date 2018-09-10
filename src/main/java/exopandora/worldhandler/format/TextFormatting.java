@@ -1,7 +1,5 @@
 package exopandora.worldhandler.format;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -10,75 +8,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TextFormatting
 {
-	public static String getFormatting(int id)
-	{
-		if(id >= 0 && id < EnumColor.values().length)
-		{
-			return EnumColor.values()[id].getFormat();
-		}
-		
-		return EnumColor.DEFAULT.getFormat();
-	}
-	
-	public static String getPrefix(int id)
-	{
-		if(id >= 0 && id < EnumColor.values().length)
-		{
-			return EnumColor.values()[id].getPrefix();
-		}
-		
-		return EnumColor.DEFAULT.getPrefix();
-	}
-	
-	public static String format(String text, int color, boolean obfuscated, boolean bold, boolean strikethrough, boolean underlined, boolean italic)
-	{
-		String formattedText = text;
-		
-		if(italic)
-		{
-			formattedText = ChatFormatting.ITALIC + formattedText;
-		}
-		
-		if(underlined)
-		{
-			formattedText = ChatFormatting.UNDERLINE + formattedText;
-		}
-		
-		if(strikethrough)
-		{
-			formattedText = ChatFormatting.STRIKETHROUGH + formattedText;
-		}
-		
-		if(bold)
-		{
-			formattedText = ChatFormatting.BOLD + formattedText;
-		}
-		
-		if(obfuscated)
-		{
-			formattedText = ChatFormatting.OBFUSCATED + formattedText;
-		}
-		
-		if(color >= 0 && color < EnumColor.values().length)
-		{
-			formattedText = "\u00A7" + EnumColor.values()[color].getPrefix() + formattedText;
-		}
-		
-		return formattedText;
-	}
-	
-	public static String formatFinal(String text, Integer color, boolean obfuscated, boolean bold, boolean strikethrough, boolean underlined, boolean italic)
-	{
-		String formattedText = format(ChatFormatting.stripFormatting(text), color, obfuscated, bold, strikethrough, underlined, italic);
-		
-		if(!formattedText.equals(text))
-		{
-			formattedText += ChatFormatting.RESET;
-		}
-		
-		return formattedText;
-	}
-	
 	public static String shortenString(String str, int maxWidth, FontRenderer fontRenderer)
 	{
 		return TextFormatting.shortenString(str, "", maxWidth, fontRenderer);
