@@ -19,7 +19,6 @@ import exopandora.worldhandler.gui.content.impl.ContentMain;
 import exopandora.worldhandler.gui.content.impl.ContentMultiplayer;
 import exopandora.worldhandler.gui.content.impl.ContentNoteEditor;
 import exopandora.worldhandler.gui.content.impl.ContentPlayer;
-import exopandora.worldhandler.gui.content.impl.ContentPlaysound;
 import exopandora.worldhandler.gui.content.impl.ContentPotions;
 import exopandora.worldhandler.gui.content.impl.ContentRecipes;
 import exopandora.worldhandler.gui.content.impl.ContentScoreboardObjectives;
