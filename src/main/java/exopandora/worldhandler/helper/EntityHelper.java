@@ -1,13 +1,14 @@
 package exopandora.worldhandler.helper;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,8 +16,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class EntityHelper
 {
-	private static final Map<ResourceLocation, String> RESOURCELOCATION_TO_NAME;
-	private static final Map<Class<? extends Entity>, ResourceLocation> CLASS_TO_RESOURCELOCATION;
+	private static final Map<ResourceLocation, String> RESOURCELOCATION_TO_NAME = new HashMap<ResourceLocation, String>();
+	private static final Map<Class<? extends Entity>, ResourceLocation> CLASS_TO_RESOURCELOCATION = new HashMap<Class<? extends Entity>, ResourceLocation>();
 	
 	static
 	{
@@ -25,8 +26,11 @@ public class EntityHelper
 			throw new RuntimeException("Accessed Entities before register!");
 		}
 		
-		RESOURCELOCATION_TO_NAME = ForgeRegistries.ENTITIES.getEntries().stream().collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().getName()));
-		CLASS_TO_RESOURCELOCATION = ForgeRegistries.ENTITIES.getEntries().stream().collect(Collectors.toMap(entry -> entry.getValue().getEntityClass(), Entry::getKey));
+		for(Entry<ResourceLocation, EntityEntry> entity : ForgeRegistries.ENTITIES.getEntries())
+		{
+			RESOURCELOCATION_TO_NAME.put(entity.getKey(), entity.getValue().getName());
+			CLASS_TO_RESOURCELOCATION.put(entity.getValue().getEntityClass(), entity.getKey());
+		}
 	}
 	
 	@Nullable
