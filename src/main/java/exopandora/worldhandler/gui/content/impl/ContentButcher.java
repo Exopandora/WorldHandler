@@ -35,7 +35,7 @@ public class ContentButcher extends ContentChild
 	public void initGui(Container container, int x, int y)
 	{
 		this.radiusField = new GuiTextFieldTooltip(x + 116 / 2, y + 12, 116, 20, I18n.format("gui.worldhandler.butcher.radius"));
-		this.radiusField.setValidator(string -> string != null && string.matches("[0-9]*"));
+		this.radiusField.setValidator(string -> string != null && string.matches("[0-9]{0,8}"));
 		this.radiusField.setText(this.radius);
 	}
 	
@@ -50,7 +50,7 @@ public class ContentButcher extends ContentChild
 		container.add(new GuiButtonWorldHandler(3, x + 116 / 2, y + 36, 232 / 2, 20, I18n.format("gui.worldhandler.butcher.configure")));
 		container.add(slaughter = new GuiButtonWorldHandler(2, x + 116 / 2, y + 60, 232 / 2, 20, I18n.format("gui.worldhandler.butcher.slaughter")));
 		
-		slaughter.enabled = this.radius != null && this.radius.matches("[0-9]+");
+		slaughter.enabled = this.radius != null && !this.radius.isEmpty();
 	}
 	
 	@Override
