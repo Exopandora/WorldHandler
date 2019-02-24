@@ -153,8 +153,8 @@ public class ContentMultiplayer extends Content
 		else if(this.selected.equals("runtime"))
 		{
 			container.add(new GuiButtonWorldHandler(13, x + 118, y, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime.save_world"), this.builderSaveAll.toActualCommand(), EnumTooltip.TOP_RIGHT));
-			container.add(new GuiButtonWorldHandler(14, x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime.autosave", I18n.format("gui.worldhandler.generic.on"), this.builderSaveOn.toActualCommand(), EnumTooltip.TOP_RIGHT)));
-			container.add(new GuiButtonWorldHandler(15, x + 118, y + 48, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.multiplayer.runtime.autosave", I18n.format("gui.worldhandler.generic.off"), this.builderSaveOff.toActualCommand(), EnumTooltip.TOP_RIGHT)));
+			container.add(new GuiButtonWorldHandler(14, x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime.autosave", I18n.format("gui.worldhandler.generic.on")), this.builderSaveOn.toActualCommand(), EnumTooltip.TOP_RIGHT));
+			container.add(new GuiButtonWorldHandler(15, x + 118, y + 48, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.multiplayer.runtime.autosave", I18n.format("gui.worldhandler.generic.off")), this.builderSaveOff.toActualCommand(), EnumTooltip.TOP_RIGHT));
 			container.add(new GuiButtonWorldHandler(16, x + 118, y + 72, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.multiplayer.runtime.stop_server"), this.builderStop.toActualCommand(), EnumTooltip.TOP_RIGHT));
 			
 			button6.enabled = false;
