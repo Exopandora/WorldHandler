@@ -36,7 +36,7 @@ public abstract class ComponentPotion implements IBuilderComponent
 				
 				compound.setByte("Id", (byte) Potion.getIdFromPotion(entry.getKey()));
 				compound.setByte("Amplifier", (byte) (potion.getAmplifier() - 1));
-				compound.setInteger("Duration", potion.getDuration() > 0 ? Math.min(potion.getDuration(), 1000000) : 1000000);
+				compound.setInteger("Duration", potion.getDurationTicks() > 0 ? Math.min(potion.getDurationTicks(), 1000000) : 1000000);
 				compound.setBoolean("Ambient", potion.getAmbient());
 				compound.setBoolean("ShowParticles", potion.getShowParticles());
 				

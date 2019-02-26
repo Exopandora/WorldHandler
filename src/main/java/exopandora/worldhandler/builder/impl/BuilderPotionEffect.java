@@ -108,7 +108,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setSeconds(int seconds)
 	{
 		this.seconds = seconds;
-		this.setDuration(PotionMetadata.getDuration(this.seconds, this.minutes, this.hours));
+		this.setDuration(PotionMetadata.getDurationSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public int getMinutes()
@@ -119,7 +119,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setMinutes(int minutes)
 	{
 		this.minutes = minutes;
-		this.setDuration(PotionMetadata.getDuration(this.seconds, this.minutes, this.hours));
+		this.setDuration(PotionMetadata.getDurationSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public int getHours()
@@ -130,7 +130,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setHours(int hours)
 	{
 		this.hours = hours;
-		this.setDuration(PotionMetadata.getDuration(this.seconds, this.minutes, this.hours));
+		this.setDuration(PotionMetadata.getDurationSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public BuilderGeneric getRemoveCommand()

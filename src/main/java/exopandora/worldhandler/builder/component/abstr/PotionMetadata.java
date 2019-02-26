@@ -88,14 +88,24 @@ public class PotionMetadata
 		this.ambient = ambient;
 	}
 	
-	public int getDuration()
+	public int getDurationTicks()
 	{
-		return PotionMetadata.getDuration(this.seconds, this.minutes, this.hours);
+		return PotionMetadata.getDurationTicks(this.seconds, this.minutes, this.hours);
 	}
 	
-	public static int getDuration(int seconds, int minutes, int hours)
+	public int getDurationSeconds()
+	{
+		return PotionMetadata.getDurationSeconds(this.seconds, this.minutes, this.hours);
+	}
+	
+	public static int getDurationTicks(int seconds, int minutes, int hours)
 	{
 		return seconds * 20 + minutes * 1200 + hours * 72000;
+	}
+	
+	public static int getDurationSeconds(int seconds, int minutes, int hours)
+	{
+		return seconds + minutes * 60 + hours * 3600;
 	}
 	
 	public PotionMetadata withAmplifier(byte amplifier)
