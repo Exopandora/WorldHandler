@@ -42,6 +42,7 @@ Curseforge: https://minecraft.curseforge.com/projects/world-handler-command-gui
 				<li>/spawnpoint</li>
 				<li>/summon</li>
 				<li>/time</li>
+				<li>/trigger</li>
 				<li>/weather</li>
 				<li>/xp</li>
 			</ul>

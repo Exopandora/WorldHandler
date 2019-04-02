@@ -1,11 +1,21 @@
 package exopandora.worldhandler.builder.impl.abstr;
 
 import exopandora.worldhandler.builder.CommandBuilderNBT;
-import exopandora.worldhandler.builder.types.Coordinate;
+import exopandora.worldhandler.builder.types.CoordinateInt;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public abstract class BuilderBlockPos extends CommandBuilderNBT
 {
+	private final int offset;
+	
+	public BuilderBlockPos(int offset)
+	{
+		this.offset = offset;
+	}
+	
 	public void setPosition(BlockPos pos)
 	{
 		this.setX(pos.getX());
@@ -13,64 +23,64 @@ public abstract class BuilderBlockPos extends CommandBuilderNBT
 		this.setZ(pos.getZ());
 	}
 	
-	public void setX(float x)
+	public void setX(int x)
 	{
-		this.setX(new Coordinate(x));
+		this.setX(new CoordinateInt(x));
 	}
 	
-	public void setY(float y)
+	public void setY(int y)
 	{
-		this.setY(new Coordinate(y));
+		this.setY(new CoordinateInt(y));
 	}
 	
-	public void setZ(float z)
+	public void setZ(int z)
 	{
-		this.setZ(new Coordinate(z));
+		this.setZ(new CoordinateInt(z));
 	}
 	
-	public void setX(Coordinate x)
+	public void setX(CoordinateInt x)
 	{
-		this.setNode(0, x);
+		this.setNode(this.offset, x);
 	}
 	
-	public void setY(Coordinate y)
+	public void setY(CoordinateInt y)
 	{
-		this.setNode(1, y);
+		this.setNode(this.offset + 1, y);
 	}
 	
-	public void setZ(Coordinate z)
+	public void setZ(CoordinateInt z)
 	{
-		this.setNode(2, z);
+		this.setNode(this.offset + 2, z);
 	}
 	
-	public Coordinate getXCoordiante()
+	public CoordinateInt getXCoordinate()
 	{
-		return this.getNodeAsCoordinate(0);
+		return this.getNodeAsCoordinateInt(this.offset);
 	}
 	
-	public Coordinate getYCoordiante()
+	public CoordinateInt getYCoordinate()
 	{
-		return this.getNodeAsCoordinate(1);
+		return this.getNodeAsCoordinateInt(this.offset + 1);
 	}
 	
-	public Coordinate getZCoordiante()
+	public CoordinateInt getZCoordinate()
 	{
-		return this.getNodeAsCoordinate(2);
+		return this.getNodeAsCoordinateInt(this.offset + 2);
 	}
 	
-	public double getX()
+	public int getX()
 	{
-		return this.getXCoordiante().getValue();
+		return this.getXCoordinate().getValue();
 	}
 	
-	public double getY()
+	public int getY()
 	{
-		return this.getYCoordiante().getValue();
+		return this.getYCoordinate().getValue();
 	}
 	
-	public double getZ()
+	public int getZ()
 	{
-		return this.getZCoordiante().getValue();
+		return this.getZCoordinate().getValue();
 	}
 	
 	public BlockPos getBlockPos()

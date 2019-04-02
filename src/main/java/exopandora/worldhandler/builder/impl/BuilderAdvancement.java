@@ -7,10 +7,10 @@ import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.Type;
 import exopandora.worldhandler.helper.EnumHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderAdvancement extends CommandBuilder
 {
 	public BuilderAdvancement(EnumMode mode)
@@ -34,7 +34,7 @@ public class BuilderAdvancement extends CommandBuilder
 	@Nullable
 	public EnumActionType getActionType()
 	{
-		return EnumHelper.valueOf(EnumActionType.class, this.getNodeAsString(1));
+		return EnumHelper.valueOf(this.getNodeAsString(1), EnumActionType.class);
 	}
 	
 	public void setPlayer(String player)
@@ -56,14 +56,14 @@ public class BuilderAdvancement extends CommandBuilder
 	@Nullable
 	public EnumMode getMode()
 	{
-		return EnumHelper.valueOf(EnumMode.class, this.getNodeAsString(2));
+		return EnumHelper.valueOf(this.getNodeAsString(2), EnumMode.class);
 	}
 	
 	public void setAdvancement(ResourceLocation advancement)
 	{
 		this.setNode(3, advancement);
 	}
-
+	
 	@Nullable
 	public ResourceLocation getAdvancement()
 	{
@@ -98,8 +98,8 @@ public class BuilderAdvancement extends CommandBuilder
 		
 		return syntax;
 	}
-
-	@SideOnly(Side.CLIENT)
+	
+	@OnlyIn(Dist.CLIENT)
 	public static enum EnumActionType
 	{
 		GRANT,
@@ -112,7 +112,7 @@ public class BuilderAdvancement extends CommandBuilder
 		}
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		ONLY,

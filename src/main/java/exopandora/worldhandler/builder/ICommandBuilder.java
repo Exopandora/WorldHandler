@@ -1,9 +1,9 @@
 package exopandora.worldhandler.builder;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public interface ICommandBuilder
 {
 	static final int MAX_COMMAND_LENGTH = 256;

@@ -1,19 +1,17 @@
 package exopandora.worldhandler.helper;
 
-import java.util.function.Predicate;
-
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.config.ConfigSkin;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityList;
-import net.minecraft.item.Item;
+import exopandora.worldhandler.builder.types.BlockResourceLocation;
+import exopandora.worldhandler.builder.types.ItemResourceLocation;
+import exopandora.worldhandler.config.Config;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.IForgeRegistry;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ResourceHelper
 {
 	private static final ResourceLocation BACKGROUND = new ResourceLocation("textures/gui/demo_background.png");
@@ -24,38 +22,57 @@ public class ResourceHelper
 	{
 		if(resource != null)
 		{
-			return new ResourceLocation(resource.replaceAll(" ", "_"));
+			return new ResourceLocation(stripToResourceLocation(resource));
 		}
 		
 		return null;
 	}
 	
-	public static boolean isRegisteredItem(String item)
+	@Nullable
+	public static String stripToResourceLocation(String resource)
 	{
-		return Item.REGISTRY.getKeys().contains(stringToResourceLocation(item));
-	}
-	
-	public static boolean isRegisteredBlock(String block)
-	{
-		return Block.REGISTRY.getKeys().contains(stringToResourceLocation(block));
-	}
-	
-	public static boolean isRegisteredMob(String mob)
-	{
-		return EntityList.isRegistered(stringToResourceLocation(mob));
-	}
-	
-	public static boolean isRegisteredAdvancement(String advancement)
-	{
-		return AdvancementHelper.ADVANCEMENT_MANAGER.getAdvancement(stringToResourceLocation(advancement)) != null;
+		if(resource != null)
+		{
+			return resource.toLowerCase().replaceAll("[^a-z0-9/._\\-:]", "_");
+		}
+		
+		return null;
 	}
 	
 	@Nullable
-	public static ResourceLocation stringToResourceLocationNullable(String resource, Predicate<String> predicate)
+	public static boolean isRegistered(ResourceLocation resource, IForgeRegistry<?> registry)
 	{
-		if(predicate.test(resource))
+		return resource != null && registry != null && registry.containsKey(resource);
+	}
+	
+	@Nullable
+	public static boolean isRegistered(BlockResourceLocation resource, IForgeRegistry<?> registry)
+	{
+		if(resource != null)
 		{
-			return stringToResourceLocation(resource);
+			return isRegistered(resource.getResourceLocation(), registry);
+		}
+		
+		return false;
+	}
+	
+	@Nullable
+	public static boolean isRegistered(ItemResourceLocation resource, IForgeRegistry<?> registry)
+	{
+		if(resource != null)
+		{
+			return isRegistered(resource.getResourceLocation(), registry);
+		}
+		
+		return false;
+	}
+	
+	@Nullable
+	public static ResourceLocation assertRegistered(ResourceLocation resource, IForgeRegistry<?> registry)
+	{
+		if(ResourceHelper.isRegistered(resource, registry))
+		{
+			return resource;
 		}
 		
 		return null;
@@ -63,7 +80,7 @@ public class ResourceHelper
 	
 	public static ResourceLocation getBackgroundTexture()
 	{
-		if(ConfigSkin.getTextureType().equals("resourcepack"))
+		if(Config.getSkin().getTextureType().equals("resourcepack"))
 		{
 			return BACKGROUND;
 		}
@@ -73,16 +90,16 @@ public class ResourceHelper
 	
 	public static ResourceLocation getIconTexture()
 	{
-		return new ResourceLocation(Main.MODID, "textures/icons/icons" + ConfigSkin.getIconSize() + ".png");
+		return new ResourceLocation(Main.MODID, "textures/icons/icons" + Config.getSkin().getIconSize() + ".png");
 	}
 	
 	public static ResourceLocation getButtonTexture()
 	{
-		if(ConfigSkin.getTextureType().equals("resourcepack"))
+		if(Config.getSkin().getTextureType().equals("resourcepack"))
 	    {
 			return BUTTON;
 	    }
 		
-		return new ResourceLocation(Main.MODID, "textures/skins/" + ConfigSkin.getTextureType() + "/" + ConfigSkin.getTextureType() + "_buttons.png");
+		return new ResourceLocation(Main.MODID, "textures/skins/" + Config.getSkin().getTextureType() + "/" + Config.getSkin().getTextureType() + "_buttons.png");
 	}
 }

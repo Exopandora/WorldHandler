@@ -1,28 +1,29 @@
 package exopandora.worldhandler.builder.component.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ComponentEnchantment implements IBuilderComponent
 {
-	private Map<Enchantment, Short> enchantments = Enchantment.REGISTRY.getKeys().stream().collect(Collectors.toMap(Enchantment.REGISTRY::getObject, key -> (short) 0));
+	private Map<Enchantment, Short> enchantments = new HashMap<Enchantment, Short>();
 	
 	@Override
 	@Nullable
-	public NBTBase serialize()
+	public INBTBase serialize()
 	{
 		NBTTagList enchantments = new NBTTagList();
 		
@@ -32,24 +33,31 @@ public class ComponentEnchantment implements IBuilderComponent
 			{
 				NBTTagCompound enchantment = new NBTTagCompound();
 				
-				enchantment.setShort("id", (short) Enchantment.getEnchantmentID(entry.getKey()));
+				enchantment.setString("id", ForgeRegistries.ENCHANTMENTS.getKey(entry.getKey()).toString());
 				enchantment.setShort("lvl", entry.getValue());
 				
-				enchantments.appendTag(enchantment);
+				enchantments.add(enchantment);
 			}
 		}
 		
-		if(!enchantments.hasNoTags())
+		if(enchantments.isEmpty())
 		{
-			return enchantments;
+			return null;
 		}
 		
-		return null;
+		return enchantments;
 	}
 	
 	public void setLevel(Enchantment enchantment, short level)
 	{
-		this.enchantments.put(enchantment, level);
+		if(level == 0)
+		{
+			this.enchantments.remove(enchantment);
+		}
+		else
+		{
+			this.enchantments.put(enchantment, level);
+		}
 	}
 	
 	public short getLevel(Enchantment enchantment)
@@ -65,6 +73,6 @@ public class ComponentEnchantment implements IBuilderComponent
 	@Override
 	public String getTag()
 	{
-		return "ench";
+		return "Enchantments";
 	}
 }

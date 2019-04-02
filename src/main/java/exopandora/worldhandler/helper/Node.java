@@ -6,16 +6,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class Node
 {
 	private final String key;
@@ -157,10 +155,15 @@ public class Node
 	
 	public void mergeItems()
 	{
-		this.mergeItems(null, this);
+		this.mergeItems(null, this, null);
 	}
 	
-	private void mergeItems(Node root, Node child)
+	public void mergeItems(BiPredicate<String, String> predicate)
+	{
+		this.mergeItems(null, this, predicate);
+	}
+	
+	private void mergeItems(Node root, Node child, BiPredicate<String, String> predicate)
 	{
 		if(child != null && child.getEntries() != null)
 		{
@@ -168,7 +171,7 @@ public class Node
 			{
 				for(Node node : child.getEntries())
 				{
-					this.mergeItems(child, node);
+					this.mergeItems(child, node, predicate);
 				}
 			}
 			else
@@ -181,14 +184,13 @@ public class Node
 					{
 						if(node.getEntries() != null && !node.getEntries().isEmpty())
 						{
-							this.mergeItems(child, node);
+							this.mergeItems(child, node, predicate);
 							flag = false;
 							break;
 						}
-						else
+						else if(predicate != null)
 						{
-							ResourceLocation location = new ResourceLocation(child.getKey(), node.getKey());
-							flag = flag && (Item.REGISTRY.containsKey(location) || Block.REGISTRY.containsKey(location));
+							flag = flag && predicate.test(child.getKey(), node.getKey());
 						}
 					}
 					
@@ -276,5 +278,11 @@ public class Node
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return this.getKey();
 	}
 }

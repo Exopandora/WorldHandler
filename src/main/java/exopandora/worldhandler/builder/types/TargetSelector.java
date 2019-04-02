@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class TargetSelector
 {
 	private final Map<String, Object> values = new HashMap<String, Object>();
@@ -20,8 +20,9 @@ public class TargetSelector
 	{
 		this.values.put(id.toLowerCase(), value);
 	}
-
+	
 	@Nullable
+	@SuppressWarnings("unchecked")
 	public <T> T get(String id)
 	{
 		return (T) this.values.get(id);

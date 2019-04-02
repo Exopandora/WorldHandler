@@ -1,86 +1,80 @@
 package exopandora.worldhandler.gui.button;
 
-import exopandora.worldhandler.config.ConfigSkin;
-import exopandora.worldhandler.gui.button.logic.ISliderResponder;
-import exopandora.worldhandler.gui.button.persistence.ButtonValue;
-import exopandora.worldhandler.gui.button.persistence.SliderValue;
-import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.helper.ResourceHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.Objects;
 
-@SideOnly(Side.CLIENT)
-public class GuiSlider<T> extends GuiButton
+import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.format.TextFormatting;
+import exopandora.worldhandler.gui.container.Container;
+import exopandora.worldhandler.gui.logic.ILogic;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class GuiSlider extends GuiButtonBase
 {
-	private boolean isMouseDown;
-	private boolean isActive;
+	private final Persistence persistence;
+	private final ILogicSlider logic;
+	private final Container container;
 	
-	private final Object key;
-	private final String name;
-	private final ISliderResponder responder;
-	private final Container frame;
-	private final ButtonValue<SliderValue> persistence;
+	private boolean dragging;
 	
-	public GuiSlider(Content content, Container frame, Object key, int x, int y, int width, int height, String name, double min, double max, double start, ISliderResponder responder)
+	public GuiSlider(int x, int y, int widthIn, int heightIn, double min, double max, double start, Container container, ILogicSlider logic)
 	{
-		super(Integer.MAX_VALUE, x, y, width, height, null);
-		this.frame = frame;
-		this.key = key;
-		this.name = name;
-        this.responder = responder;
-		this.persistence = content.getPersistence(key);
-		this.initValues(Math.round(min), Math.round(max), Math.round(start));
-		this.displayString = this.getDisplayString();
+		this(0, x, y, widthIn, heightIn, min, max, start, container, logic);
 	}
 	
-	private void initValues(double min, double max, double start)
+	public GuiSlider(int id, int x, int y, int widthIn, int heightIn, double min, double max, double start, Container container, ILogicSlider logic)
 	{
-		if(this.persistence.getObject() == null)
+		super(id, x, y, widthIn, heightIn, null, null);
+		this.logic = Objects.requireNonNull(logic);
+		this.container = Objects.requireNonNull(container);
+		this.persistence = this.container.getContent().getPersistence(this.logic.getId(), () -> new Persistence(min, max, min == max ? 0.0 : ((start - min) / (max - min))));
+		this.persistence.validate(min, max);
+		this.logic.onChangeSliderValue(this.persistence.getValueInt());
+		this.updateDisplayString();
+	}
+	
+	@Override
+	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY)
+	{
+		if(this.visible)
 		{
-			if(min == max)
+			if(this.dragging)
 			{
-				this.persistence.setObject(new SliderValue(min, max, 0.0D));
+				this.persistence.setValue((mouseX - (this.x + 4)) / (float) (this.width - 8));
+				this.updateSlider();
 			}
-			else
-			{
-				this.persistence.setObject(new SliderValue(min, max, (start - min) / (max - min)));
-			}
+			
+			int xOffset = Config.getSkin().getTextureType().equals("resourcepack") ? 0 : -46;
+			
+			GlStateManager.pushMatrix();
+			GlStateManager.enableBlend();
+			GlStateManager.color4f(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
+			
+			this.drawTexturedModalRect(this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.y, 0, 66 + xOffset, 4, 20);
+			this.drawTexturedModalRect(this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.y, 196, 66 + xOffset, 4, 20);
+			
+			GlStateManager.disableBlend();
+			GlStateManager.popMatrix();
 		}
-		else if(this.persistence.getObject().getMin() != min || this.persistence.getObject().getMax() != max)
-		{
-			this.persistence.setObject(new SliderValue(min, max, (int) MathHelper.clamp(this.getValue(), min, max)));
-		}
 	}
 	
-	private void setPosition(double position)
+	@Override
+	public void onClick(double mouseX, double mouseY)
 	{
-		this.persistence.getObject().setPosition(position);
+		this.persistence.setValue((mouseX - (this.x + 4)) / (this.width - 8));
+		this.updateSlider();
+		this.dragging = true;
 	}
 	
-	private double getPosition()
+	@Override
+	public void onRelease(double mouseX, double mouseY)
 	{
-		return this.persistence.getObject().getPosition();
-	}
-	
-	private void setValue(int value)
-	{
-		this.persistence.getObject().setValue(value);
-	}
-	
-	private int getValue()
-	{
-		return this.persistence.getObject().getValue();
-	}
-	
-	private String getDisplayString()
-	{
-		return this.responder.getText(this.key, I18n.format(this.name), this.getValue());
+		super.onRelease(mouseX, mouseY);
+		this.dragging = false;
 	}
 	
 	@Override
@@ -89,114 +83,107 @@ public class GuiSlider<T> extends GuiButton
 		return 0;
 	}
 	
-	@Override
-    public void drawButton(Minecraft minecraft, int mouseX, int mouseY, float partialTicks)
-    {
-        this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-        
-        GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
-		GlStateManager.color((float) ConfigSkin.getButtonRed() / 255, (float) ConfigSkin.getButtonGreen() / 255, (float) ConfigSkin.getButtonBlue() / 255, (float) ConfigSkin.getButtonAlpha() / 255);
-        
-    	Minecraft.getMinecraft().renderEngine.bindTexture(ResourceHelper.getButtonTexture());
-    	
-        if(ConfigSkin.getTextureType().equals("resourcepack"))
-        {
-            this.drawTexturedModalRect(this.x, this.y, 0, 46, this.width / 2, this.height);
-            this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, 46, this.width / 2, this.height);
-        }
-        else
-        {
-            this.drawTexturedModalRect(this.x, this.y, 0, 0, this.width / 2, this.height);
-            this.drawTexturedModalRect(this.x + this.width / 2, this.y, 200 - this.width / 2, 0, this.width / 2, this.height);
-        }
-        
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
-        
-        this.mouseDragged(minecraft, mouseX, mouseY);
-    }
-	
-	private void update(int mouseX, int mouseY)
+	private void updateSlider()
 	{
-		float sliderValue = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
-		
-		if(sliderValue < 0.0F)
+		if(this.persistence.getValue() < 0.0F)
 		{
-			sliderValue = 0.0F;
+			this.persistence.setValue(0.0F);
 		}
 		
-		if(sliderValue > 1.0F)
+		if(this.persistence.getValue() > 1.0F)
 		{
-			sliderValue = 1.0F;
+			this.persistence.setValue(1.0F);
 		}
 		
-		this.setPosition(sliderValue);
-		this.displayString = this.getDisplayString();
-		this.responder.setValue(this.key, this.getValue());
+		this.updateDisplayString();
+		this.logic.onChangeSliderValue(this.persistence.getValueInt());
 	}
 	
-	@Override
-	public void mouseDragged(Minecraft mc, int mouseX, int mouseY)
+	private void updateDisplayString()
 	{
-		if(this.visible)
+		int value = this.persistence.getValueInt();
+		String suffix = this.logic.formatValue(value) + this.logic.formatSuffix(value);
+		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+		
+		this.displayString = TextFormatting.shortenString(this.logic.formatPrefix(value), this.width - fontRenderer.getStringWidth(suffix), fontRenderer) + suffix;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static interface ILogicSlider extends ILogic
+	{
+		String formatPrefix(int value);
+		String formatSuffix(int value);
+		String formatValue(int value);
+		
+		void onChangeSliderValue(int value);
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public class Persistence
+	{
+		private double min;
+		private double max;
+		private double value;
+		
+		private Persistence(double min, double max)
 		{
-			if(this.isMouseDown)
+			this.min = min;
+			this.max = max;
+		}
+		
+		public Persistence(double min, double max, double value)
+		{
+			this(min, max);
+			this.value = value;
+		}
+		
+		public double getMin()
+		{
+			return this.min;
+		}
+		
+		public double getMax()
+		{
+			return this.max;
+		}
+		
+		public double getValue()
+		{
+			return this.value;
+		}
+		
+		public void setValue(double value)
+		{
+			this.value = value;
+		}
+		
+		public int getValueInt()
+		{
+			return (int) Math.round(this.min + (this.max - this.min) * this.value);
+		}
+		
+		public void setValueInt(int value)
+		{
+			this.value = this.intToValue(value);
+		}
+		
+		public void validate(double min, double max)
+		{
+			if(this.getMin() != min || this.getMax() != max)
 			{
-				this.update(mouseX, mouseY);
+				this.min = min;
+				this.max = max;
+			}
+		}
+		
+		private double intToValue(int value)
+		{
+			if(this.min == this.max)
+			{
+				return 0;
 			}
 			
-            int textureXOffset = ConfigSkin.getTextureType().equals("resourcepack") ? 0 : -46;
-			
-            GlStateManager.pushMatrix();
-            GlStateManager.enableBlend();
-    		GlStateManager.color((float) ConfigSkin.getButtonRed() / 255, (float) ConfigSkin.getButtonGreen() / 255, (float) ConfigSkin.getButtonBlue() / 255, (float) ConfigSkin.getButtonAlpha() / 255);
-    		
-    		this.drawTexturedModalRect(this.x + (int) (this.getPosition() * (float) (this.width - 8)), this.y, 0, 66 + textureXOffset, 4, 20);
-			this.drawTexturedModalRect(this.x + (int) (this.getPosition() * (float) (this.width - 8)) + 4, this.y, 196, 66 + textureXOffset, 4, 20);
-			
-    		GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
-            
-            int color = 0xE0E0E0;
-            
-            if(!this.enabled)
-            {
-                color = 0xA0A0A0;
-            }
-            else if(this.hovered)
-            {
-                color = 0xFFFFA0;
-            }
-            
-            this.drawCenteredString(mc.fontRenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, color);
+			return (value - this.min) / (this.max - this.min);
 		}
-		
-		this.isActive = true;
-	}
-	
-	@Override
-	public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
-	{
-		if(super.mousePressed(mc, mouseX, mouseY) && this.isActive)
-		{
-			this.update(mouseX, mouseY);
-			this.isMouseDown = true;
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	@Override
-	public void mouseReleased(int mouseX, int mouseY)
-	{
-		this.isMouseDown = false;
-        
-        if(this.frame != null)
-        {
-        	this.frame.initGui();
-        }
 	}
 }

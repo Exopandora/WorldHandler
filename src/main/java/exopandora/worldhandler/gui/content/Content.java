@@ -2,11 +2,12 @@ package exopandora.worldhandler.gui.content;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.gui.button.persistence.ButtonValue;
 import exopandora.worldhandler.gui.content.impl.ContentAdvancements;
 import exopandora.worldhandler.gui.content.impl.ContentButcher;
+import exopandora.worldhandler.gui.content.impl.ContentButcherSettings;
 import exopandora.worldhandler.gui.content.impl.ContentChangeWorld;
 import exopandora.worldhandler.gui.content.impl.ContentContainers;
 import exopandora.worldhandler.gui.content.impl.ContentContinue;
@@ -18,24 +19,28 @@ import exopandora.worldhandler.gui.content.impl.ContentGamerules;
 import exopandora.worldhandler.gui.content.impl.ContentMain;
 import exopandora.worldhandler.gui.content.impl.ContentMultiplayer;
 import exopandora.worldhandler.gui.content.impl.ContentNoteEditor;
+import exopandora.worldhandler.gui.content.impl.ContentScoreboardObjectives;
 import exopandora.worldhandler.gui.content.impl.ContentPlayer;
+import exopandora.worldhandler.gui.content.impl.ContentScoreboardPlayers;
 import exopandora.worldhandler.gui.content.impl.ContentPotions;
 import exopandora.worldhandler.gui.content.impl.ContentRecipes;
-import exopandora.worldhandler.gui.content.impl.ContentScoreboardObjectives;
-import exopandora.worldhandler.gui.content.impl.ContentScoreboardPlayers;
-import exopandora.worldhandler.gui.content.impl.ContentScoreboardTeams;
+import exopandora.worldhandler.gui.content.impl.ContentSettings;
 import exopandora.worldhandler.gui.content.impl.ContentSignEditor;
 import exopandora.worldhandler.gui.content.impl.ContentSummon;
+import exopandora.worldhandler.gui.content.impl.ContentScoreboardTeams;
 import exopandora.worldhandler.gui.content.impl.ContentWorldInfo;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.RegistryNamespaced;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.registry.IRegistry;
+import net.minecraft.util.registry.RegistryNamespacedDefaultedByKey;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
-@SideOnly(Side.CLIENT)
-public abstract class Content implements IContent
+@OnlyIn(Dist.CLIENT)
+public abstract class Content extends ForgeRegistryEntry<Content> implements IContent
 {
-	public static final RegistryNamespaced<ResourceLocation, Content> REGISTRY = new RegistryNamespaced<ResourceLocation, Content>(); 
+	public static final String NAMESPACE = String.join("_", new String[] {Main.MODID, "content"});
+	public static final IRegistry<Content> REGISTRY = IRegistry.func_212610_a(NAMESPACE, new RegistryNamespacedDefaultedByKey<Content>(new ResourceLocation(NAMESPACE, "main"))); 
 	
 	public static void registerContents()
 	{
@@ -78,36 +83,38 @@ public abstract class Content implements IContent
 		//NO CATEGORY
 		registerContent(20, "potions", new ContentPotions());
 		registerContent(21, "butcher", new ContentButcher());
+		registerContent(22, "butcher_settings", new ContentButcherSettings());
+		registerContent(23, "settings", new ContentSettings());
 	}
 	
-    private static void registerContent(int id, String textualID, Content content)
-    {
-    	registerContent(id, new ResourceLocation(Main.MODID, textualID), content);
-    }
-    
-    private static void registerContent(int id, ResourceLocation textualID, Content content)
-    {
-        REGISTRY.register(id, textualID, content);
-    }
-    
-    private Map<Object, ButtonValue> persistence;
-    
-    public <T> ButtonValue<T> getPersistence(Object id)
-    {
-    	if(this.persistence == null)
-    	{
-    		this.persistence = new HashMap<Object, ButtonValue>();
-    	}
-    	
-    	if(this.persistence.containsKey(id))
-    	{
-    		return this.persistence.get(id);
-    	}
-    	
-    	ButtonValue<T> values = new ButtonValue<T>();
-    	
-    	this.persistence.put(id, values);
-    	
-    	return values;
-    }
+	private static void registerContent(int id, String textualID, Content content)
+	{
+		registerContent(id, new ResourceLocation(Main.MODID, textualID), content);
+	}
+	
+	private static void registerContent(int id, ResourceLocation textualID, Content content)
+	{
+		REGISTRY.register(id, textualID, content);
+	}
+	
+	private Map<String, Object> persistence;
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getPersistence(String id, Supplier<T> supplier)
+	{
+		if(this.persistence == null)
+		{
+			this.persistence = new HashMap<String, Object>();
+		}
+		
+		if(this.persistence.containsKey(id))
+		{
+			return (T) this.persistence.get(id);
+		}
+		
+		T object = supplier.get();
+		this.persistence.put(id, object);
+		
+		return object;
+	}
 }

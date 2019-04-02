@@ -3,11 +3,12 @@ package exopandora.worldhandler.builder.impl;
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.Type;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderEnchantment extends CommandBuilder
 {
 	public void getPlayer(String player)
@@ -23,6 +24,11 @@ public class BuilderEnchantment extends CommandBuilder
 	public ResourceLocation getEnchantment()
 	{
 		return this.getNodeAsResourceLocation(1);
+	}
+	
+	public void setEnchantment(Enchantment enchantment)
+	{
+		this.setEnchantment(enchantment.getRegistryName());
 	}
 	
 	public void setEnchantment(ResourceLocation enchantment)

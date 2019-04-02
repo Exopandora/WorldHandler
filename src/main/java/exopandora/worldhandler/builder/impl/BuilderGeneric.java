@@ -2,10 +2,10 @@ package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandString;
 import exopandora.worldhandler.builder.ICommandBuilder;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderGeneric implements ICommandBuilder
 {
 	private final String command;

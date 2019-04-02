@@ -1,10 +1,11 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
+import exopandora.worldhandler.helper.ActionHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiConnecting;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
@@ -12,73 +13,61 @@ import net.minecraft.client.gui.GuiWorldSelection;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentChangeWorld extends ContentChild
 {
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonWorldHandler(2, x + 116 / 2, y + 24, 232 / 2, 20, I18n.format("gui.worldhandler.change_world.singleplayer")));
-		container.add(new GuiButtonWorldHandler(3, x + 116 / 2, y + 48, 232 / 2, 20, I18n.format("gui.worldhandler.change_world.multiplayer")));
-	}
-	
-	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
-	{
-		switch(button.id)
+		container.add(new GuiButtonBase(x + 116 / 2, y + 24, 232 / 2, 20, I18n.format("gui.worldhandler.change_world.singleplayer"), () ->
 		{
-			case 2:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldSelection(container));
-				break;
-			case 3:
-				ServerData server = Minecraft.getMinecraft().getCurrentServerData();
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldSelection(container));
+		}));
+		container.add(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, I18n.format("gui.worldhandler.change_world.multiplayer"), () ->
+		{
+			ServerData server = Minecraft.getInstance().getCurrentServerData();
+			
+			if(server != null)
+			{
+				Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
+				Minecraft.getInstance().loadWorld((WorldClient)null);
 				
-				if(server != null)
+				Minecraft.getInstance().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
 				{
-					Minecraft.getMinecraft().world.sendQuittingDisconnectingPacket();
-					Minecraft.getMinecraft().loadWorld((WorldClient)null);
-					
-					Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
+					@Override
+					public void initGui()
 					{
-						@Override
-						public void initGui()
-						{
-							FMLClientHandler.instance().connectToServer(new GuiMultiplayer(new GuiMainMenu()), server);
-							Minecraft.getMinecraft().displayGuiScreen((GuiScreen) null);
-							Minecraft.getMinecraft().setIngameFocus();
-						}
-					}));
-				}
-				else
+						Minecraft.getInstance().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getInstance(), server));
+						Minecraft.getInstance().mouseHelper.grabMouse();
+					}
+				}));
+			}
+			else
+			{
+				String worldName = Minecraft.getInstance().getIntegratedServer().getWorldName();
+				String folderName = Minecraft.getInstance().getIntegratedServer().getFolderName();
+				
+				Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
+				Minecraft.getInstance().loadWorld(null);
+				
+				Minecraft.getInstance().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
 				{
-					String worldName = Minecraft.getMinecraft().getIntegratedServer().getWorldName();
-					String folderName = Minecraft.getMinecraft().getIntegratedServer().getFolderName();
-					
-					Minecraft.getMinecraft().world.sendQuittingDisconnectingPacket();
-					Minecraft.getMinecraft().loadWorld((WorldClient)null);
-					
-					Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
+					@Override
+					public void initGui()
 					{
-						@Override
-						public void initGui()
-						{
-							Minecraft.getMinecraft().launchIntegratedServer(folderName, worldName, null);
-							Minecraft.getMinecraft().displayGuiScreen((GuiScreen) null);
-							Minecraft.getMinecraft().setIngameFocus();
-						}
-					}));
-				}
-				break;
-			default:
-				break;
-		}
+						Minecraft.getInstance().launchIntegratedServer(folderName, worldName, null);
+						Minecraft.getInstance().displayGuiScreen(null);
+						Minecraft.getInstance().mouseHelper.grabMouse();
+					}
+				}));
+			}
+		}));
 	}
 	
 	@Override

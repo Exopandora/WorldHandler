@@ -4,11 +4,13 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.impl.abstr.BuilderScoreboard;
+import exopandora.worldhandler.builder.types.GreedyString;
 import exopandora.worldhandler.builder.types.Type;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import exopandora.worldhandler.helper.EnumHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderScoreboardObjectives extends BuilderScoreboard
 {
 	public BuilderScoreboardObjectives()
@@ -21,74 +23,74 @@ public class BuilderScoreboardObjectives extends BuilderScoreboard
 		this.setNode(0, "objectives");
 	}
 	
-	public void setMode(String mode)
+	public void setMode(EnumMode mode)
 	{
 		String objective = this.getObjective();
 		
-		if(mode.equals("add") || mode.equals("remove") || mode.equals("setdisplay"))
+		this.updateSyntax(this.getSyntax(mode));
+		this.setNode(1, mode.toString());
+		
+		if(objective != null)
 		{
-			this.updateSyntax(this.getSyntax(mode));
-			this.setNode(1, mode);
-			
-			if(objective != null)
-			{
-				this.setObjective(objective);
-			}
-			
-			this.init();
+			this.setObjective(objective);
 		}
+		
+		this.init();
 	}
 	
-	public String getMode()
+	public EnumMode getMode()
 	{
-		return this.getNodeAsString(1);
+		return EnumHelper.valueOf(this.getNodeAsString(1), EnumMode.class);
 	}
 	
 	public void setObjective(String name)
 	{
-		String mode = this.getMode();
 		String objective = name != null ? name.replaceAll(" ", "_") : null;
+		
+		EnumMode mode = this.getMode();
 		
 		if(mode != null)
 		{
-			if(mode.equals("add") || mode.equals("remove"))
+			switch(mode)
 			{
-				this.setNode(2, objective);
-				
-				if(mode.equals("add"))
-				{
-					this.setNode(4, name);
-				}
-			}
-			else if(mode.equals("setdisplay"))
-			{
-				this.setNode(3, objective);
+				case ADD:
+					this.setNode(4, new GreedyString(name));
+				case REMOVE:
+					this.setNode(2, objective);
+					break;
+				case SETDISPLAY:
+					this.setNode(3, objective);
+					break;
+				default:
+					break;
 			}
 		}
 	}
 	
 	public void setCriteria(String criteria)
 	{
-		if(this.getMode() == null || !this.getMode().equals("add"))
+		if(this.getMode() == null || !this.getMode().equals(EnumMode.ADD))
 		{
-			this.setMode("add");
+			this.setMode(EnumMode.ADD);
 		}
-		this.setNode(3, criteria.replaceAll("[:]", "."));
+		
+		this.setNode(3, criteria);
 	}
 	
 	public void setSlot(String slot)
 	{
-		if(this.getMode() == null || !this.getMode().equals("setdisplay"))
+		if(this.getMode() == null || !this.getMode().equals(EnumMode.SETDISPLAY))
 		{
-			this.setMode("setdisplay");
+			this.setMode(EnumMode.SETDISPLAY);
 		}
+		
 		this.setNode(2, slot);
 	}
 	
 	@Nullable
 	public String getSlot()
 	{
-		if(this.getMode() != null && this.getMode().equals("setdisplay"))
+		if(this.getMode() != null && this.getMode().equals(EnumMode.SETDISPLAY))
 		{
 			return this.getNodeAsString(2);
 		}
@@ -99,17 +101,18 @@ public class BuilderScoreboardObjectives extends BuilderScoreboard
 	@Nullable
 	public String getObjective()
 	{
-		String mode = this.getMode();
+		EnumMode mode = this.getMode();
 		
 		if(mode != null)
 		{
-			if(mode.equals("add") || mode.equals("remove"))
+			switch(mode)
 			{
-				return this.getNodeAsString(2);
-			}
-			else if(mode.equals("setdisplay"))
-			{
-				return this.getNodeAsString(3);
+				case ADD: case REMOVE:
+					return this.getNodeAsString(2);
+				case SETDISPLAY:
+					return this.getNodeAsString(3);
+				default:
+					break;
 			}
 		}
 		
@@ -117,43 +120,33 @@ public class BuilderScoreboardObjectives extends BuilderScoreboard
 	}
 	
 	@Nullable
-	private Syntax getSyntax(String mode)
+	private Syntax getSyntax(EnumMode mode)
 	{
-		if(mode.equals("add"))
-		{
-			Syntax syntax = new Syntax();
-			
-			syntax.addRequired("objectives", Type.STRING);
-			syntax.addRequired("add", Type.STRING);
-			syntax.addRequired("name", Type.STRING);
-			syntax.addRequired("criteria_type", Type.STRING);
-			syntax.addOptional("display_name...", Type.STRING);
-			
-			return syntax;
-		}
-		else if(mode.equals("remove"))
-		{
-			Syntax syntax = new Syntax();
-			
-			syntax.addRequired("objectives", Type.STRING);
-			syntax.addRequired("remove", Type.STRING);
-			syntax.addRequired("name", Type.STRING);
-			
-			return syntax;
-		}
-		else if(mode.equals("setdisplay"))
-		{
-			Syntax syntax = new Syntax();
-			
-			syntax.addRequired("objectives", Type.STRING);
-			syntax.addRequired("setdisplay", Type.STRING);
-			syntax.addRequired("slot", Type.STRING);
-			syntax.addOptional("objective", Type.STRING);
-			
-			return syntax;
-		}
+		Syntax syntax = new Syntax();
 		
-		return null;
+		switch(mode)
+		{
+			case ADD:
+				syntax.addRequired("objectives", Type.STRING);
+				syntax.addRequired("add", Type.STRING);
+				syntax.addRequired("name", Type.STRING);
+				syntax.addRequired("criteria_type", Type.STRING);
+				syntax.addOptional("display_name...", Type.GREEDY_STRING);
+				return syntax;
+			case REMOVE:
+				syntax.addRequired("objectives", Type.STRING);
+				syntax.addRequired("remove", Type.STRING);
+				syntax.addRequired("name", Type.STRING);
+				return syntax;
+			case SETDISPLAY:
+				syntax.addRequired("objectives", Type.STRING);
+				syntax.addRequired("setdisplay", Type.STRING);
+				syntax.addRequired("slot", Type.STRING);
+				syntax.addOptional("objective", Type.STRING);
+				return syntax;
+			default:
+				return null;
+		}
 	}
 	
 	@Override
@@ -166,5 +159,19 @@ public class BuilderScoreboardObjectives extends BuilderScoreboard
 		syntax.addOptional("...", Type.STRING);
 		
 		return syntax;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum EnumMode
+	{
+		ADD,
+		REMOVE,
+		SETDISPLAY;
+		
+		@Override
+		public String toString()
+		{
+			return this.name().toLowerCase();
+		}
 	}
 }

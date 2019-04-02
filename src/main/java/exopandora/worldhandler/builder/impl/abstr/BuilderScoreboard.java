@@ -1,10 +1,10 @@
 package exopandora.worldhandler.builder.impl.abstr;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class BuilderScoreboard extends CommandBuilder
 {
 	@Override

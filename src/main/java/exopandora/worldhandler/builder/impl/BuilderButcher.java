@@ -1,49 +1,60 @@
 package exopandora.worldhandler.builder.impl;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.TargetSelector;
 import exopandora.worldhandler.builder.types.Type;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderButcher extends CommandBuilder
 {
-	private final TargetSelector targetSelector;
+	private final TargetSelector targetSelector = new TargetSelector();
 	
 	public BuilderButcher()
 	{
-		this(new ResourceLocation("<entity_name>"), 0);
+		this("<entity_name>", 0);
 	}
 	
-	public BuilderButcher(ResourceLocation entity, int radius)
+	public BuilderButcher(ResourceLocation entity, int distance)
 	{
-		this.targetSelector = new TargetSelector();
+		this(entity.toString(), distance);
+	}
+	
+	private BuilderButcher(String entity, int distance)
+	{
 		this.setEntity(entity);
-		this.setRadius(radius);
+		this.setDistance(distance);
 	}
 	
-	public void setRadius(int radius)
+	public void setDistance(int distance)
 	{
-		this.targetSelector.set("r", radius);
+		this.targetSelector.set("distance", "0.." + distance);
 		this.setNode(0, this.targetSelector);
 	}
-
-	@Nonnull
-	public int getRadius()
+	
+	public int getDistance()
 	{
-		return this.targetSelector.<Integer>get("r");
+		return Integer.parseInt(this.targetSelector.<String>get("distance").substring(3));
 	}
-
+	
+	private void setEntity(String entity)
+	{
+		if(entity != null)
+		{
+			this.targetSelector.set("type", entity);
+		}
+		
+		this.setNode(0, this.targetSelector);
+	}
+	
 	public void setEntity(ResourceLocation entity)
 	{
-		this.targetSelector.set("type", entity.toString());
-		this.setNode(0, this.targetSelector);
+		this.setEntity(entity.toString());
 	}
 	
 	@Nonnull

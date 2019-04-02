@@ -1,24 +1,23 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderButcher;
-import exopandora.worldhandler.config.ConfigButcher;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
-import exopandora.worldhandler.gui.config.GuiConfigWorldHandler;
 import exopandora.worldhandler.gui.container.Container;
+import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
+import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
-import exopandora.worldhandler.helper.EntityHelper;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentButcher extends ContentChild
 {
 	private GuiTextFieldTooltip radiusField;
@@ -35,81 +34,85 @@ public class ContentButcher extends ContentChild
 	public void initGui(Container container, int x, int y)
 	{
 		this.radiusField = new GuiTextFieldTooltip(x + 116 / 2, y + 12, 116, 20, I18n.format("gui.worldhandler.butcher.radius"));
-		this.radiusField.setValidator(string -> string != null && string.matches("[0-9]{0,8}"));
+		this.radiusField.setValidator(string ->
+		{
+			if(string == null)
+			{
+				return false;
+			}
+			
+			if(!string.isEmpty())
+			{
+				try
+				{
+					Integer.parseInt(string);
+				}
+				catch(Exception e)
+				{
+					return false;
+				}
+			}
+			
+			return true;
+		});
 		this.radiusField.setText(this.radius);
+		this.radiusField.setTextAcceptHandler((id, text) ->
+		{
+			this.radius = text;
+			
+			if(!this.radius.isEmpty())
+			{
+				this.builderButcher.setDistance(Integer.valueOf(this.radius));
+			}
+			else
+			{
+				this.builderButcher.setDistance(0);
+			}
+			
+			container.initButtons();
+		});
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		GuiButtonWorldHandler slaughter;
+		GuiButtonBase slaughter;
 		
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonWorldHandler(3, x + 116 / 2, y + 36, 232 / 2, 20, I18n.format("gui.worldhandler.butcher.configure")));
-		container.add(slaughter = new GuiButtonWorldHandler(2, x + 116 / 2, y + 60, 232 / 2, 20, I18n.format("gui.worldhandler.butcher.slaughter")));
+		container.add(this.radiusField);
+		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 232 / 2, 20, I18n.format("gui.worldhandler.butcher.configure"), () ->
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.BUTCHER_SETTINGS.withParent(Contents.BUTCHER)));
+		}));
 		
-		slaughter.enabled = this.radius != null && !this.radius.isEmpty();
+		container.add(slaughter = new GuiButtonBase(2, x + 116 / 2, y + 60, 232 / 2, 20, I18n.format("gui.worldhandler.butcher.slaughter"), () ->
+		{
+			for(ResourceLocation entry : Config.getButcher().getEntities())
+			{
+				CommandHelper.sendCommand(new BuilderButcher(entry, Integer.valueOf(this.radius)));
+			}
+		}));
+		
+		slaughter.enabled = this.radius != null && !this.radius.isEmpty() && !Config.CLIENT.getButcher().getEntities().isEmpty();
 	}
 	
 	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
+	public void tick(Container container)
 	{
-		switch(button.id)
-		{
-			case 2:
-				for(ResourceLocation entity : EntityList.ENTITY_EGGS.keySet())
-				{
-					if(ConfigButcher.getEntitiyMap().get(EntityHelper.getEntityName(entity)))
-					{
-						WorldHandler.sendCommand(new BuilderButcher(entity, Integer.valueOf(this.radius)));
-					}
-				}
-				break;
-			case 3:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiConfigWorldHandler(container, ConfigButcher.CATEGORY));
-				break;
-			default:
-				break;
-		}
+		this.radiusField.tick();
 	}
 	
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.radiusField.drawTextBox();
+		this.radiusField.drawTextField(mouseX, mouseY, partialTicks);
 	}
 	
 	@Override
 	public String getTitle()
 	{
 		return I18n.format("gui.worldhandler.title.butcher");
-	}
-	
-	@Override
-	public void keyTyped(Container container, char typedChar, int keyCode)
-	{
-		if(this.radiusField.textboxKeyTyped(typedChar, keyCode))
-		{
-			this.radius = this.radiusField.getText();
-			
-			if(this.radius.length() > 0)
-			{
-				this.builderButcher.setRadius(Integer.valueOf(this.radius));
-			}
-			else
-			{
-				this.builderButcher.setRadius(0);
-			}
-			
-			container.initButtons();
-		}
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton)
-	{
-		this.radiusField.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 }

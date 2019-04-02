@@ -1,7 +1,7 @@
 {
     "pack":
     {
-        "description": "World Handler Resources",
-        "pack_format": 3
+        "description": "World Handler",
+        "pack_format": 4
     }
 }

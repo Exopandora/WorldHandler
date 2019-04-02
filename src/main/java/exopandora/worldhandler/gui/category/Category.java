@@ -10,14 +10,17 @@ import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.RegistryNamespaced;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.registry.IRegistry;
+import net.minecraft.util.registry.RegistryNamespacedDefaultedByKey;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
-@SideOnly(Side.CLIENT)
-public class Category
+@OnlyIn(Dist.CLIENT)
+public class Category extends ForgeRegistryEntry<Category>
 {
-	public static final RegistryNamespaced<ResourceLocation, Category> REGISTRY = new RegistryNamespaced<ResourceLocation, Category>(); 
+	public static final String NAMESPACE = String.join("_", new String[] {Main.MODID, "category"});
+	public static final IRegistry<Category> REGISTRY = IRegistry.func_212610_a(NAMESPACE, new RegistryNamespacedDefaultedByKey<Category>(new ResourceLocation(NAMESPACE, "main"))); 
 	
 	private final List<Content> contents;
 	

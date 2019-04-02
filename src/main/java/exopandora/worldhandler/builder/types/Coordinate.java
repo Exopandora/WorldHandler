@@ -1,63 +1,104 @@
 package exopandora.worldhandler.builder.types;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.function.Function;
 
-@SideOnly(Side.CLIENT)
-public class Coordinate
+import javax.annotation.Nullable;
+
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 {
-	private double value;
-	private boolean relative;
+	protected T value;
+	protected CoordinateType type;
 	
-	public Coordinate()
+	public Coordinate(T value)
 	{
-		this(0, true);
+		this(value, CoordinateType.ABSOLUTE);
 	}
 	
-	public Coordinate(double value)
+	public Coordinate(T value, CoordinateType type)
 	{
-		this(value, false);
-	}
-	
-	public Coordinate(double value, boolean relative)
-	{
-		this.relative = relative;
 		this.value = value;
+		this.type = type;
 	}
 	
-	public void setValue(double value)
+	public void setValue(T value)
 	{
 		this.value = value;
 	}
 	
-	public double getValue()
+	public T getValue()
 	{
 		return this.value;
 	}
 	
-	public void setRelative(boolean relative)
+	public void setType(CoordinateType type)
 	{
-		this.relative = relative;
+		this.type = type;
 	}
 	
-	public boolean isRelative()
+	public CoordinateType getType()
 	{
-		return this.relative;
-	}
-	
-	public static Coordinate valueOf(String value)
-	{
-		if(value.startsWith("~"))
-		{
-			return new Coordinate(Double.parseDouble(value.substring(1)), true);
-		}
-		
-		return new Coordinate(Double.parseDouble(value), false);
+		return this.type;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return String.valueOf(this.relative ? (this.value != 0 ? "~" + this.value : "~") : this.value);
+		return this.type.format(this.value, this.zero());
+	}
+	
+	@Nullable
+	public static <S extends Number, U extends Coordinate<S>> U parse(U coordiante, String input, Function<String, S> parser)
+	{
+		for(CoordinateType type : CoordinateType.values())
+		{
+			if(!type.prefix.isEmpty() && input.startsWith(type.prefix))
+			{
+				String numbers = input.substring(type.prefix.length());
+				
+				coordiante.setType(type);
+				coordiante.setValue(numbers.isEmpty() ? coordiante.zero() : parser.apply(numbers));
+				
+				return coordiante;
+			}
+		}
+		
+		coordiante.setType(CoordinateType.ABSOLUTE);
+		coordiante.setValue(parser.apply(input));
+		
+		return coordiante;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum CoordinateType
+	{
+		ABSOLUTE(""),
+		GLOBAL("~"),
+		LOCAL("^");
+		
+		private final String prefix;
+		
+		private CoordinateType(String prefix)
+		{
+			this.prefix = prefix;
+		}
+		
+		public <T extends Number> String format(T value, T zero)
+		{
+			if(value == null || value.equals(zero))
+			{
+				if(this.prefix.isEmpty())
+				{
+					return zero.toString();
+				}
+				
+				return this.prefix;
+			}
+			
+			return this.prefix + value;
+		}
 	}
 }

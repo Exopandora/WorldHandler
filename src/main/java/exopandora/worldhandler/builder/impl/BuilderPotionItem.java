@@ -6,10 +6,10 @@ import exopandora.worldhandler.builder.component.impl.ComponentPotionItem;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderPotionItem extends BuilderGive
 {
 	private final ComponentPotionItem potion;
@@ -27,62 +27,62 @@ public class BuilderPotionItem extends BuilderGive
 	
 	public void setAmplifier(Potion potion, byte amplifier)
 	{
-		this.potion.get(potion).setAmplifier(amplifier);
+		this.potion.setAmplifier(potion, amplifier);
 	}
 	
 	public void setSeconds(Potion potion, int seconds)
 	{
-		this.potion.get(potion).setSeconds(seconds);
+		this.potion.setSeconds(potion, seconds);
 	}
 	
 	public void setMinutes(Potion potion, int minutes)
 	{
-		this.potion.get(potion).setMinutes(minutes);
+		this.potion.setMinutes(potion, minutes);
 	}
 	
 	public void setHours(Potion potion, int hours)
 	{
-		this.potion.get(potion).setHours(hours);
+		this.potion.setHours(potion, hours);
 	}
 	
 	public void setShowParticles(Potion potion, boolean showParticles)
 	{
-		this.potion.get(potion).setShowParticles(showParticles);
+		this.potion.setShowParticles(potion, showParticles);
 	}
 	
 	public void setAmbient(Potion potion, boolean ambient)
 	{
-		this.potion.get(potion).setAmbient(ambient);
+		this.potion.setAmbient(potion, ambient);
 	}
 	
 	public byte getAmplifier(Potion potion)
 	{
-		return this.potion.get(potion).getAmplifier();
+		return this.potion.getAmplifier(potion);
 	}
 	
 	public int getSeconds(Potion potion)
 	{
-		return this.potion.get(potion).getSeconds();
+		return this.potion.getSeconds(potion);
 	}
 	
 	public int getMinutes(Potion potion)
 	{
-		return this.potion.get(potion).getMinutes();
+		return this.potion.getMinutes(potion);
 	}
 	
 	public int getHours(Potion potion)
 	{
-		return this.potion.get(potion).getHours();
+		return this.potion.getHours(potion);
 	}
 	
 	public boolean getShowParticles(Potion potion)
 	{
-		return this.potion.get(potion).getShowParticles();
+		return this.potion.getShowParticles(potion);
 	}
 	
 	public boolean getAmbient(Potion potion)
 	{
-		return this.potion.get(potion).getAmbient();
+		return this.potion.getAmbient(potion);
 	}
 	
 	public Set<Potion> getPotions()

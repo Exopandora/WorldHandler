@@ -2,14 +2,14 @@ package exopandora.worldhandler.builder.component;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.nbt.NBTBase;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.nbt.INBTBase;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public interface IBuilderComponent
 {
 	@Nullable
-	NBTBase serialize();
+	INBTBase serialize();
 	String getTag();
 }

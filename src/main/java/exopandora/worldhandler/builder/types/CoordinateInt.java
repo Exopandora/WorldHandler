@@ -1,0 +1,39 @@
+package exopandora.worldhandler.builder.types;
+
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class CoordinateInt extends Coordinate<Integer>
+{
+	public CoordinateInt()
+	{
+		super(0);
+	}
+	
+	public CoordinateInt(Integer value)
+	{
+		super(value);
+	}
+	
+	public CoordinateInt(CoordinateType type)
+	{
+		super(0, type);
+	}
+	
+	public CoordinateInt(Integer value, CoordinateType type)
+	{
+		super(value, type);
+	}
+	
+	public static CoordinateInt valueOf(String value)
+	{
+		return Coordinate.parse(new CoordinateInt(), value, Integer::parseInt);
+	}
+	
+	@Override
+	public Integer zero()
+	{
+		return 0;
+	}
+}

@@ -3,10 +3,10 @@ package exopandora.worldhandler.gui.content.impl.abstr;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class ContentChild extends Content
 {
 	protected Content parent;

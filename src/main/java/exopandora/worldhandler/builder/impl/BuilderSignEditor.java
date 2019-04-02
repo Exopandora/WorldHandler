@@ -6,16 +6,21 @@ import exopandora.worldhandler.builder.component.impl.ComponentTag;
 import exopandora.worldhandler.format.text.ColoredString;
 import exopandora.worldhandler.format.text.SignText;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class BuilderSignEditor extends BuilderBlockdata
+@OnlyIn(Dist.CLIENT)
+public class BuilderSignEditor extends BuilderData
 {
+	@SuppressWarnings("unchecked")
 	private final ComponentTag<SignText>[] sign = new ComponentTag[4];
 	
 	public BuilderSignEditor()
 	{
+		super();
+		this.setMode(EnumMode.MERGE);
+		this.setTarget(EnumTarget.BLOCK);
+		
 		for(int x = 0; x < 4; x++)
 		{
 			this.sign[x] = this.registerNBTComponent(new ComponentTag<SignText>("Text" + (x + 1), new SignText(x), text -> new NBTTagString(text.toString())));

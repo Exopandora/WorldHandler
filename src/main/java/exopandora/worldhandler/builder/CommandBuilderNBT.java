@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class CommandBuilderNBT extends CommandBuilder implements ICommandBuilderNBT
 {
 	private final List<IBuilderComponent> TAG_TO_COMPONENT = new ArrayList<IBuilderComponent>();
@@ -17,14 +17,32 @@ public abstract class CommandBuilderNBT extends CommandBuilder implements IComma
 	@Override
 	public String toCommand()
 	{
-		this.setNBT(this.buildNBT());
+		return this.toCommand(true);
+	}
+	
+	public String toCommand(boolean rebuildNBT)
+	{
+		if(rebuildNBT)
+		{
+			this.setNBT(this.buildNBT());
+		}
+		
 		return super.toCommand();
 	}
 	
 	@Override
 	public String toActualCommand()
 	{
-		this.setNBT(this.buildNBT());
+		return this.toActualCommand(true);
+	}
+	
+	public String toActualCommand(boolean rebuildNBT)
+	{
+		if(rebuildNBT)
+		{
+			this.setNBT(this.buildNBT());
+		}
+		
 		return super.toActualCommand();
 	}
 	
@@ -34,7 +52,7 @@ public abstract class CommandBuilderNBT extends CommandBuilder implements IComma
 		
 		for(IBuilderComponent component : this.TAG_TO_COMPONENT)
 		{
-			NBTBase serialized = component.serialize();
+			INBTBase serialized = component.serialize();
 			
 			if(serialized != null)
 			{
@@ -45,7 +63,7 @@ public abstract class CommandBuilderNBT extends CommandBuilder implements IComma
 			}
 		}
 		
-		if(nbt.hasNoTags())
+		if(nbt.isEmpty())
 		{
 			return null;
 		}

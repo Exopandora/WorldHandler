@@ -1,16 +1,13 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import org.lwjgl.input.Keyboard;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
-import exopandora.worldhandler.Main;
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderSignEditor;
-import exopandora.worldhandler.config.ConfigSkin;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
@@ -18,31 +15,28 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementColorMenu;
-import exopandora.worldhandler.gui.content.element.logic.ILogicColorMenu;
+import exopandora.worldhandler.gui.logic.ILogicColorMenu;
+import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.BlockHelper;
+import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentSignEditor extends Content
 {
-	private static final ResourceLocation LOGO = new ResourceLocation(Main.MODID, "textures/logo.png");
-	
 	private int selectedLine = 0;
 	private boolean editColor;
 	
 	private GuiTextFieldTooltip commandField;
-	private GuiTextFieldTooltip textlineField;
 	
 	private final BuilderSignEditor builderSignEditor = new BuilderSignEditor();
 	
@@ -57,7 +51,7 @@ public class ContentSignEditor extends Content
 	@Override
 	public void init(Container container)
 	{
-		this.isActive = BlockHelper.isFocusedBlockEqualTo(Blocks.STANDING_SIGN) || BlockHelper.isFocusedBlockEqualTo(Blocks.WALL_SIGN);
+		this.isActive = BlockHelper.isFocusedBlockEqualTo(Blocks.SIGN) || BlockHelper.isFocusedBlockEqualTo(Blocks.WALL_SIGN);
 		this.builderSignEditor.setPosition(BlockHelper.getFocusedBlockPos());
 	}
 	
@@ -65,30 +59,35 @@ public class ContentSignEditor extends Content
 	public void initGui(Container container, int x, int y)
 	{
 		if(this.isActive)
-		{			
+		{
 			this.commandField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.commmand"));
 			this.commandField.setValidator(Predicates.notNull());
 			this.commandField.setText(this.builderSignEditor.getCommand(this.selectedLine));
 			this.commandField.setCursorPositionEnd();
+			this.commandField.setTextAcceptHandler((id, text) ->
+			{
+				this.builderSignEditor.setCommand(this.selectedLine, text);
+				container.initButtons();
+			});
 			
-			ElementColorMenu colors = new ElementColorMenu(this, x, y, "gui.worldhandler.blocks.sign_editor.text_line_" + (this.selectedLine + 1), this.builderSignEditor.getColoredString(this.selectedLine), new int[] {8, 9, 10, 11, 12, 13}, new ILogicColorMenu()
+			ElementColorMenu colors = new ElementColorMenu(x, y, "gui.worldhandler.blocks.sign_editor.text_line_" + (this.selectedLine + 1), this.builderSignEditor.getColoredString(this.selectedLine), new ILogicColorMenu()
 			{
 				@Override
-				public Predicate<String> getValidator()
+				public boolean validate(String text)
 				{
-					return string -> Minecraft.getMinecraft().fontRenderer.getStringWidth(string) <= 90;
+					return Minecraft.getInstance().fontRenderer.getStringWidth(text) <= 90;
 				}
 				
 				@Override
-				public boolean drawButtons()
+				public boolean doDrawButtons()
 				{
-					return editColor;
+					return ContentSignEditor.this.editColor;
 				}
 				
 				@Override
 				public String getId()
 				{
-					return "color" + selectedLine;
+					return "color" + ContentSignEditor.this.selectedLine;
 				}
 			});
 			
@@ -99,71 +98,63 @@ public class ContentSignEditor extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		GuiButtonWorldHandler button3;
-		GuiButtonWorldHandler button4;
-		GuiButtonWorldHandler button5;
-		GuiButtonWorldHandler button6;
+		GuiButtonBase button1;
+		GuiButtonBase button2;
+		GuiButtonBase button3;
+		GuiButtonBase button4;
 		
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.isActive)
 		{
-			container.add(button3 = new GuiButtonWorldHandler(3, x, y, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_1")));
-			container.add(button4 = new GuiButtonWorldHandler(4, x, y + 24, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_2")));
-			container.add(button5 = new GuiButtonWorldHandler(5, x, y + 48, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_3")));
-			container.add(button6 = new GuiButtonWorldHandler(6, x, y + 72, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_4")));
+			container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_1"), () ->
+			{
+				this.selectedLine = 0;
+				container.initGui();
+			}));
+			container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_2"), () ->
+			{
+				this.selectedLine = 1;
+				container.initGui();
+			}));
+			container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_3"), () ->
+			{
+				this.selectedLine = 2;
+				container.initGui();
+			}));
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_4"), () ->
+			{
+				this.selectedLine = 3;
+				container.initGui();
+			}));
 			
 			if(this.editColor)
 			{
-				container.add(new GuiButtonWorldHandler(7, x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.done")));
+				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.done"), () -> this.toggleEditColor(container)));
 			}
 			else
 			{
-				container.add(new GuiButtonWorldHandler(7, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.format_text_line")));
-				container.add(new GuiButtonWorldHandler(2, x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.place_command_block")));
+				container.add(this.commandField);
+				container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.format_text_line"), () -> this.toggleEditColor(container)));
+				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.place_command_block"), () ->
+				{
+					CommandHelper.sendCommand(this.builderSignEditor, this.builderSignEditor.isSpecial());
+				}));
 			}
 			
-			button3.enabled = this.selectedLine != 0;
-			button4.enabled = this.selectedLine != 1;
-			button5.enabled = this.selectedLine != 2;
-			button6.enabled = this.selectedLine != 3;
+			button1.enabled = this.selectedLine != 0;
+			button2.enabled = this.selectedLine != 1;
+			button3.enabled = this.selectedLine != 2;
+			button4.enabled = this.selectedLine != 3;
 		}
 	}
 	
-	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
+	private void toggleEditColor(Container container)
 	{
-		switch(button.id)
-		{
-			case 2:
-				WorldHandler.sendCommand(this.builderSignEditor, this.builderSignEditor.isSpecial());
-				break;
-			case 3:
-				this.selectedLine = 0;
-				container.initGui();
-				break;
-			case 4:
-				this.selectedLine = 1;
-				container.initGui();
-				break;
-			case 5:
-				this.selectedLine = 2;
-				container.initGui();
-				break;
-			case 6:
-				this.selectedLine = 3;
-				container.initGui();
-				break;
-			case 7:
-				this.editColor = !this.editColor;
-				container.initGui();
-				break;
-			default:
-				break;
-		}
+		this.editColor = !this.editColor;
+		container.initGui();
 	}
-	
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
@@ -171,49 +162,27 @@ public class ContentSignEditor extends Content
 		{
 			if(!this.editColor)
 			{
-				this.commandField.drawTextBox();
+				this.commandField.drawTextField(mouseX, mouseY, partialTicks);
 			}
 		}
 		else
 		{
     		float scale = 4;
 			
-			GlStateManager.color(1.0F, 1.0F, 1.0F);
+			GlStateManager.color3f(1.0F, 1.0F, 1.0F);
 			GlStateManager.pushMatrix();
     		RenderHelper.enableGUIStandardItemLighting();
             
-    		GlStateManager.translate(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
-    		GlStateManager.scale(scale, scale, scale);
-    		Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(new ItemStack(Items.SIGN), 0, 0);
+    		GlStateManager.translatef(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
+    		GlStateManager.scalef(scale, scale, scale);
+    		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Items.SIGN), 0, 0);
             
     		RenderHelper.disableStandardItemLighting();
 			GlStateManager.popMatrix();
 			
-			String displayString = I18n.format("gui.worldhandler.blocks.sign_editor.look_at_sign", Keyboard.getKeyName(WorldHandler.KEY_WORLD_HANDLER.getKeyCode()));
-			FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-			fontRenderer.drawString(displayString, x + 116 - fontRenderer.getStringWidth(displayString) / 2, y + 70, ConfigSkin.getLabelColor());
-		}
-	}
-	
-	@Override
-	public void keyTyped(Container container, char charTyped, int keyCode)
-	{
-		if(this.isActive)
-		{
-			if(this.commandField.textboxKeyTyped(charTyped, keyCode))
-			{
-				this.builderSignEditor.setCommand(this.selectedLine, this.commandField.getText());
-				container.initButtons();
-			}
-		}
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton)
-	{
-		if(this.isActive)
-		{
-			this.commandField.mouseClicked(mouseX, mouseY, mouseButton);
+			String displayString = I18n.format("gui.worldhandler.blocks.sign_editor.look_at_sign", WorldHandler.KEY_WORLD_HANDLER.func_197978_k());
+			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+			fontRenderer.drawString(displayString, x + 116 - fontRenderer.getStringWidth(displayString) / 2, y + 70, Config.getSkin().getLabelColor());
 		}
 	}
 	

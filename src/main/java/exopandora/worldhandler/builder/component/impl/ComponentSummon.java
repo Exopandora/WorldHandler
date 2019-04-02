@@ -7,45 +7,20 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.helper.EntityHelper;
+import exopandora.worldhandler.helper.ResourceHelper;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityMinecartChest;
-import net.minecraft.entity.item.EntityMinecartCommandBlock;
-import net.minecraft.entity.item.EntityMinecartFurnace;
-import net.minecraft.entity.item.EntityMinecartHopper;
-import net.minecraft.entity.item.EntityMinecartMobSpawner;
-import net.minecraft.entity.item.EntityMinecartTNT;
-import net.minecraft.entity.monster.EntityEvoker;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntityMagmaCube;
-import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySnowman;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityVindicator;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.EntityMooshroom;
-import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.entity.EntityType;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ComponentSummon implements IBuilderComponent
 {
 	private final Random random = new Random();
@@ -86,7 +61,7 @@ public class ComponentSummon implements IBuilderComponent
 	}
 	
 	@Override
-	public NBTBase serialize()
+	public INBTBase serialize()
 	{
 		if(this.name != null)
 		{
@@ -128,7 +103,7 @@ public class ComponentSummon implements IBuilderComponent
 			
 			if(this.entity != null)
 			{
-				if(this.entity.equals(EntityHelper.getResourceLocation(EntityZombie.class)))
+				if(this.entity.equals(EntityType.ZOMBIE.getRegistryName()))
 				{
 					if(StringUtils.containsIgnoreCase(this.name, "Baby"))
 					{
@@ -136,30 +111,30 @@ public class ComponentSummon implements IBuilderComponent
 						return new NBTTagByte((byte) 1);
 					}
 				}
-				else if(this.entity.equals(EntityHelper.getResourceLocation(EntityChicken.class)))
+				else if(this.entity.equals(EntityType.CHICKEN.getRegistryName()))
 				{
 					if(StringUtils.containsIgnoreCase(this.name, "Jockey") && !this.hasPassenger)
 					{
 						NBTTagCompound passenger = new NBTTagCompound();
 						NBTTagList list = new NBTTagList();
 						
-						passenger.setString("id", EntityHelper.getResourceLocation(EntityZombie.class).toString());
+						passenger.setString("id", EntityType.ZOMBIE.getRegistryName().toString());
 						passenger.setBoolean("IsBaby", true);
-						list.appendTag(passenger);
+						list.add(passenger);
 						
 						this.tag = "Passengers";
 						return list;
 					}
 				}
-				else if(this.entity.equals(EntityHelper.getResourceLocation(EntitySpider.class)))
+				else if(this.entity.equals(EntityType.SPIDER.getRegistryName()))
 				{
 					if(StringUtils.containsIgnoreCase(this.name, "Jockey") && !this.hasPassenger)
 					{
 						NBTTagCompound passenger = new NBTTagCompound();
 						NBTTagList list = new NBTTagList();
 						
-						passenger.setString("id", EntityHelper.getResourceLocation(EntitySkeleton.class).toString());
-						list.appendTag(passenger);
+						passenger.setString("id", EntityType.SKELETON.getRegistryName().toString());
+						list.add(passenger);
 						
 						this.tag = "Passengers";
 						return list;
@@ -180,116 +155,117 @@ public class ComponentSummon implements IBuilderComponent
 	@Nullable
 	public static ResourceLocation resolve(String entityName)
 	{
-		String entity = entityName.replaceAll("_| ", "");
+		String name = ResourceHelper.stripToResourceLocation(entityName);
 		
-		for(ResourceLocation location : EntityList.ENTITY_EGGS.keySet())
+		for(EntityType<?> type : ForgeRegistries.ENTITIES.getValues())
 		{
-			if(entityName.equalsIgnoreCase(I18n.format("entity." + EntityHelper.getEntityName(location) + ".name")))
+			if(type.isSummonable() && entityName.equalsIgnoreCase(I18n.format(type.getTranslationKey())))
 			{
-				entity = location.getResourcePath();
-				break;
+				return type.getRegistryName();
 			}
 		}
 		
+		String entity = name.replaceAll("_", "");
+		
 		if(entity.equalsIgnoreCase("RedCow"))
 		{
-			return EntityHelper.getResourceLocation(EntityMooshroom.class);
+			return EntityType.MOOSHROOM.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("ChickenJockey"))
 		{
-			return EntityHelper.getResourceLocation(EntityChicken.class);
+			return EntityType.CHICKEN.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Pigman") || entity.equalsIgnoreCase("ZombiePig") || entity.equalsIgnoreCase("ZombiePigman"))
 		{
-			return EntityHelper.getResourceLocation(EntityPigZombie.class);
+			return EntityType.ZOMBIE_PIGMAN.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Wither"))
 		{
-			return EntityHelper.getResourceLocation(EntityWither.class);
+			return EntityType.WITHER.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Dog"))
 		{
-			return EntityHelper.getResourceLocation(EntityWolf.class);
+			return EntityType.WOLF.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Dragon"))
 		{
-			return EntityHelper.getResourceLocation(EntityDragon.class);
+			return EntityType.ENDER_DRAGON.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("minecraft:SnowGolem"))
 		{
-			return EntityHelper.getResourceLocation(EntitySnowman.class);
+			return EntityType.SNOW_GOLEM.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Horse") || entity.equalsIgnoreCase("ZombieHorse") || entity.equalsIgnoreCase("SkeletonHorse"))
 		{
-			return EntityHelper.getResourceLocation(EntityHorse.class);
+			return EntityType.HORSE.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("LavaCube")|| entity.equalsIgnoreCase("MagmaSlime") || entity.equalsIgnoreCase("MagmaCube"))
 		{
-			return EntityHelper.getResourceLocation(EntityMagmaCube.class);
+			return EntityType.MAGMA_CUBE.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("SpiderJockey"))
 		{
-			return EntityHelper.getResourceLocation(EntitySpider.class);
+			return EntityType.SPIDER.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("IronGolem"))
 		{
-			return EntityHelper.getResourceLocation(EntityIronGolem.class);
+			return EntityType.IRON_GOLEM.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Ozelot") || entity.equals("Ocelot") || entity.equalsIgnoreCase("Cat") || entity.equalsIgnoreCase("Kitty") || entity.equalsIgnoreCase("Kitten"))
 		{
-			return EntityHelper.getResourceLocation(EntityOcelot.class);
+			return EntityType.OCELOT.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("TESTIFICATE") || entity.equalsIgnoreCase("Blacksmith") || entity.equalsIgnoreCase("Farmer") || entity.equalsIgnoreCase("Fisherman") || entity.equalsIgnoreCase("Shepherd") || entity.equalsIgnoreCase("Fletcher") || entity.equalsIgnoreCase("Librarian") || entity.equalsIgnoreCase("Cleric") || entity.equalsIgnoreCase("Priest") || entity.equalsIgnoreCase("Armorer") || entity.equalsIgnoreCase("WeaponSmith") || entity.equalsIgnoreCase("ToolSmith") || entity.equalsIgnoreCase("Butcher") || entity.equalsIgnoreCase("Leatherworker") || entity.equalsIgnoreCase("Carthographer") || entity.equalsIgnoreCase("Nitwit"))
 		{
-			return EntityHelper.getResourceLocation(EntityVillager.class);
+			return EntityType.VILLAGER.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Octopus") || entity.equalsIgnoreCase("Kraken"))
 		{
-			return EntityHelper.getResourceLocation(EntitySquid.class);
+			return EntityType.SQUID.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Exwife"))
 		{
-			return EntityHelper.getResourceLocation(EntityGhast.class);
+			return EntityType.GHAST.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("TNTMinecart"))
 		{
-			return EntityHelper.getResourceLocation(EntityMinecartTNT.class);
+			return EntityType.TNT_MINECART.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Minecart"))
 		{
-			return EntityHelper.getResourceLocation(EntityMinecart.class);
+			return EntityType.MINECART.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("HopperMinecart"))
 		{
-			return EntityHelper.getResourceLocation(EntityMinecartHopper.class);
+			return EntityType.HOPPER_MINECART.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("ChestMinecart"))
 		{
-			return EntityHelper.getResourceLocation(EntityMinecartChest.class);
+			return EntityType.CHEST_MINECART.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("SpawnerMinecart"))
 		{
-			return EntityHelper.getResourceLocation(EntityMinecartMobSpawner.class);
+			return EntityType.SPAWNER_MINECART.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("FurnaceMinecart"))
 		{
-			return EntityHelper.getResourceLocation(EntityMinecartFurnace.class);
+			return EntityType.FURNACE_MINECART.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("CommandBlockMinecart") || entity.equalsIgnoreCase("MinecartCommand") || entity.equalsIgnoreCase("CommandMinecart"))
 		{
-			return EntityHelper.getResourceLocation(EntityMinecartCommandBlock.class);
+			return EntityType.COMMAND_BLOCK_MINECART.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Wizard"))
 		{
-			return EntityHelper.getResourceLocation(EntityEvoker.class);
+			return EntityType.EVOKER.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Johnny"))
 		{
-			return EntityHelper.getResourceLocation(EntityVindicator.class);
+			return EntityType.VINDICATOR.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("BabyZombie"))
 		{
-			return EntityHelper.getResourceLocation(EntityZombie.class);
+			return EntityType.ZOMBIE.getRegistryName();
 		}
 		
 		if(entity == null || entity.isEmpty())
@@ -297,6 +273,6 @@ public class ComponentSummon implements IBuilderComponent
 			return null;
 		}
 		
-		return new ResourceLocation(entity);
+		return ResourceHelper.stringToResourceLocation(name);
 	}
 }

@@ -3,10 +3,10 @@ package exopandora.worldhandler.format.text;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class SignText
 {
 	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(JsonSignLine.class, new JsonSignLineSerializer()).create();

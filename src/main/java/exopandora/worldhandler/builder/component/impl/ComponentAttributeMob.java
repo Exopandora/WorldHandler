@@ -7,13 +7,13 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.abstr.ComponentAttribute;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ComponentAttributeMob extends ComponentAttribute
 {
 	public ComponentAttributeMob(Function<EnumAttributes, Boolean> applyable)
@@ -23,7 +23,7 @@ public class ComponentAttributeMob extends ComponentAttribute
 	
 	@Override
 	@Nullable
-	public NBTBase serialize()
+	public INBTBase serialize()
 	{
 		NBTTagList attributes = new NBTTagList();
 		
@@ -36,16 +36,16 @@ public class ComponentAttributeMob extends ComponentAttribute
 				attribute.setString("Name", entry.getKey().getAttribute());
 				attribute.setDouble("Base", entry.getKey().calculate(entry.getValue()));
 				
-				attributes.appendTag(attribute);
+				attributes.add(attribute);
 			}
 		}
 		
-		if(!attributes.hasNoTags())
+		if(attributes.isEmpty())
 		{
-			return attributes;
+			return null;
 		}
 		
-		return null;
+		return attributes;
 	}
 	
 	@Override

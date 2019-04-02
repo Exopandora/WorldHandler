@@ -4,10 +4,10 @@ import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.impl.ContentContinue;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class Contents
 {
 	public static final Content MAIN;
@@ -40,50 +40,54 @@ public class Contents
 	
 	public static final ContentChild POTIONS;
 	public static final ContentChild BUTCHER;
+	public static final ContentChild BUTCHER_SETTINGS;
+	public static final ContentChild SETTINGS;
 	
 	static
 	{
-		MAIN = Contents.getRegisteredContainer("main");
-		CONTAINERS = Contents.getRegisteredContainer("containers");
-		MULTIPLAYER = Contents.getRegisteredContainer("multiplayer");
+		MAIN = Contents.getRegisteredContent("main");
+		CONTAINERS = Contents.getRegisteredContent("containers");
+		MULTIPLAYER = Contents.getRegisteredContent("multiplayer");
 		
-		SUMMON = Contents.getRegisteredContainer("summon");
+		SUMMON = Contents.getRegisteredContent("summon");
 		
-		CUSTOM_ITEM = Contents.getRegisteredContainer("custom_item");
-		ENCHANTMENT = Contents.getRegisteredContainer("enchantment");
+		CUSTOM_ITEM = Contents.getRegisteredContent("custom_item");
+		ENCHANTMENT = Contents.getRegisteredContent("enchantment");
 		
-		EDIT_BLOCKS = Contents.getRegisteredContainer("edit_blocks");
-		SIGN_EDITOR = Contents.getRegisteredContainer("sign_editor");
-		NOTE_EDITOR = Contents.getRegisteredContainer("note_editor");
+		EDIT_BLOCKS = Contents.getRegisteredContent("edit_blocks");
+		SIGN_EDITOR = Contents.getRegisteredContent("sign_editor");
+		NOTE_EDITOR = Contents.getRegisteredContent("note_editor");
 		
-		WORLD_INFO = Contents.getRegisteredContainer("world");
-		GAMERULES = Contents.getRegisteredContainer("gamerules");
-		RECIPES = Contents.getRegisteredContainer("recipes");
+		WORLD_INFO = Contents.getRegisteredContent("world");
+		GAMERULES = Contents.getRegisteredContent("gamerules");
+		RECIPES = Contents.getRegisteredContent("recipes");
 		
-		PLAYER = Contents.getRegisteredContainer("player");
-		EXPERIENCE = Contents.getRegisteredContainer("experience");
-		ADVANCEMENTS = Contents.getRegisteredContainer("advancements");
+		PLAYER = Contents.getRegisteredContent("player");
+		EXPERIENCE = Contents.getRegisteredContent("experience");
+		ADVANCEMENTS = Contents.getRegisteredContent("advancements");
 		
-		SCOREBOARD_OBJECTIVES = Contents.getRegisteredContainer("scoreboard_objectives");
-		SCOREBOARD_TEAMS = Contents.getRegisteredContainer("scoreboard_teams");
-		SCOREBOARD_PLAYERS = Contents.getRegisteredContainer("scoreboard_players");
+		SCOREBOARD_OBJECTIVES = Contents.getRegisteredContent("scoreboard_objectives");
+		SCOREBOARD_TEAMS = Contents.getRegisteredContent("scoreboard_teams");
+		SCOREBOARD_PLAYERS = Contents.getRegisteredContent("scoreboard_players");
 		
-		CHANGE_WORLD = Contents.getRegisteredContainer("change_world");
-		CONTINUE = Contents.getRegisteredContainer("continue");
+		CHANGE_WORLD = (ContentChild) Contents.getRegisteredContent("change_world");
+		CONTINUE = (ContentContinue) Contents.getRegisteredContent("continue");
 		
-		POTIONS = Contents.getRegisteredContainer("potions");
-		BUTCHER = Contents.getRegisteredContainer("butcher");
+		POTIONS = (ContentChild) Contents.getRegisteredContent("potions");
+		BUTCHER = (ContentChild) Contents.getRegisteredContent("butcher");
+		BUTCHER_SETTINGS = (ContentChild) Contents.getRegisteredContent("butcher_settings");
+		SETTINGS = (ContentChild) Contents.getRegisteredContent("settings");
 	}
 	
-	private static <T extends Content> T getRegisteredContainer(String name)
+	private static Content getRegisteredContent(String name)
 	{
-		Content content = Content.REGISTRY.getObject(new ResourceLocation(Main.MODID, name));
+		Content content = Content.REGISTRY.get(new ResourceLocation(Main.MODID, name));
 		
 		if(content == null)
 		{
-			throw new IllegalStateException("Invalid Container requested: " + name);
+			throw new IllegalStateException("Invalid Content requested: " + name);
 		}
 		
-		return (T) content;
+		return content;
 	}
 }

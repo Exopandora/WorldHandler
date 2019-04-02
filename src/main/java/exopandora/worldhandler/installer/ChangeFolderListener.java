@@ -8,10 +8,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 
 import exopandora.worldhandler.Main;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class ChangeFolderListener implements ActionListener
 {
 	private final JTextField textField;

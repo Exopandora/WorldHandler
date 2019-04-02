@@ -7,14 +7,14 @@ import java.util.Locale;
 import javax.swing.UIManager;
 
 import exopandora.worldhandler.installer.Window;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class Main
 {
 	public static final String NAME = "World Handler";
 	public static final String MODID = "worldhandler";
+	public static final String MC_VERSION = "1.13.2";
+	public static final String MOD_VERSION = "2.3";
+	public static final String URL = "https://minecraft.curseforge.com/projects/world-handler-command-gui";
 	
 	public static void main(String[] args)
 	{

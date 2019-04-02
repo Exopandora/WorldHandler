@@ -1,9 +1,9 @@
 package exopandora.worldhandler.builder.component.abstr;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class PotionMetadata
 {
 	private byte amplifier;
@@ -88,22 +88,22 @@ public class PotionMetadata
 		this.ambient = ambient;
 	}
 	
-	public int getDurationTicks()
+	public int toTicks()
 	{
-		return PotionMetadata.getDurationTicks(this.seconds, this.minutes, this.hours);
+		return PotionMetadata.toTicks(this.seconds, this.minutes, this.hours);
 	}
 	
-	public int getDurationSeconds()
+	public int toSeconds()
 	{
-		return PotionMetadata.getDurationSeconds(this.seconds, this.minutes, this.hours);
+		return PotionMetadata.toSeconds(this.seconds, this.minutes, this.hours);
 	}
 	
-	public static int getDurationTicks(int seconds, int minutes, int hours)
+	public static int toTicks(int seconds, int minutes, int hours)
 	{
 		return seconds * 20 + minutes * 1200 + hours * 72000;
 	}
 	
-	public static int getDurationSeconds(int seconds, int minutes, int hours)
+	public static int toSeconds(int seconds, int minutes, int hours)
 	{
 		return seconds + minutes * 60 + hours * 3600;
 	}
@@ -142,6 +142,12 @@ public class PotionMetadata
 	{
 		this.ambient = ambient;
 		return this;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "PotionMetadata [amplifier=" + amplifier + ", seconds=" + seconds + ", minutes=" + minutes + ", hours=" + hours + ", showParticles=" + showParticles + ", ambient=" + ambient + "]";
 	}
 }
 

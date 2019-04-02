@@ -1,14 +1,13 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import com.google.common.base.Predicates;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGamerule;
-import exopandora.worldhandler.gui.button.EnumTooltip;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
+import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
@@ -16,15 +15,17 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementPageList;
-import exopandora.worldhandler.gui.content.element.logic.ILogicPageList;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
+import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.GameRules.ValueType;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentGamerules extends Content
 {
 	private GuiTextFieldTooltip valueField;
@@ -47,56 +48,48 @@ public class ContentGamerules extends Content
 		this.valueField.setValidator(Predicates.notNull());
 		this.valueField.setText(this.value);
 		this.valueField.setCursorPositionEnd();
+		this.valueField.setTextAcceptHandler((id, text) ->
+		{
+			this.value = text;
+			this.builderGamerule.setValue(this.value);
+		});
 		
-		ElementPageList<String, String> rules = new ElementPageList<String, String>(x, y, Arrays.asList(Minecraft.getMinecraft().world.getGameRules().getRules()), null, 114, 20, 3, this, new int[] {5, 6, 7}, new ILogicPageList<String, String>()
+		ElementPageList<String> rules = new ElementPageList<String>(x, y, new ArrayList<String>(GameRules.getDefinitions().keySet()), 114, 20, 3, container, new ILogicPageList<String>()
 		{
 			@Override
-			public String translate(String key)
+			public String translate(String item)
 			{
-				String translated = I18n.format(key);
-				
-				if(!translated.equals(key))
-				{
-					return translated;
-				}
-				
-				return I18n.format("gui.worldhandler.gamerules.rule." + key);
+				return I18n.format("gui.worldhandler.gamerules.rule." + item);
 			}
 			
 			@Override
-			public void onClick(String clicked)
+			public String toTooltip(String item)
 			{
-				builderGamerule.setRule(clicked);
-				booleanValue = Minecraft.getMinecraft().world.getGameRules().areSameType(clicked, ValueType.BOOLEAN_VALUE);
+				return item;
+			}
+			
+			@Override
+			public void onClick(String item)
+			{
+				ContentGamerules.this.builderGamerule.setRule(item);
+				ContentGamerules.this.booleanValue = GameRules.getDefinitions().get(item).getType().equals(ValueType.BOOLEAN_VALUE);
 				
-				if(booleanValue)
+				if(ContentGamerules.this.booleanValue)
 				{
-					builderGamerule.setValue(null);
+					ContentGamerules.this.builderGamerule.setValue(null);
 				}
 				else
 				{
-					builderGamerule.setValue(value);
+					ContentGamerules.this.builderGamerule.setValue(ContentGamerules.this.value);
 				}
+				
+				container.initButtons();
 			}
 			
 			@Override
-			public String getRegistryName(String key)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, String item, ActionHandler actionHandler)
 			{
-				return key;
-			}
-			
-			@Override
-			public void onRegister(int id, int x, int y, int width, int height, String display, String registryKey, boolean enabled, String value, Container container)
-			{
-				GuiButtonWorldHandler button = new GuiButtonWorldHandler(id, x, y, width, height, display, registryKey, EnumTooltip.TOP_RIGHT);
-				button.enabled = enabled;
-				container.add(button);
-			}
-			
-			@Override
-			public String getObject(String object)
-			{
-				return object;
+				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
 			
 			@Override
@@ -112,36 +105,36 @@ public class ContentGamerules extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.booleanValue)
 		{
-			container.add(new GuiButtonWorldHandler(2, x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.generic.enable")));
-			container.add(new GuiButtonWorldHandler(3, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.generic.disable")));
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.generic.enable"), () ->
+			{
+				CommandHelper.sendCommand(this.builderGamerule.getBuilderForValue(String.valueOf(true)));
+			}));
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.generic.disable"), () ->
+			{
+				CommandHelper.sendCommand(this.builderGamerule.getBuilderForValue(String.valueOf(false)));
+			}));
 		}
 		else
 		{
-			container.add(new GuiButtonWorldHandler(4, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.actions.perform")));
+			container.add(this.valueField);
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
+			{
+				CommandHelper.sendCommand(this.builderGamerule);
+			}));
 		}
 	}
 	
 	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
+	public void tick(Container container)
 	{
-		switch(button.id)
+		if(!this.booleanValue)
 		{
-			case 2:
-				WorldHandler.sendCommand(this.builderGamerule.getBuilderForValue(String.valueOf(true)));
-				break;
-			case 3:
-				WorldHandler.sendCommand(this.builderGamerule.getBuilderForValue(String.valueOf(false)));
-				break;
-			case 4:
-				WorldHandler.sendCommand(this.builderGamerule);
-				break;
-			default:
-				break;
+			this.valueField.tick();
 		}
 	}
 	
@@ -150,26 +143,7 @@ public class ContentGamerules extends Content
 	{
 		if(!this.booleanValue)
 		{
-			this.valueField.drawTextBox();
-		}
-	}
-	
-	@Override
-	public void keyTyped(Container container, char typedChar, int keyCode)
-	{
-		if(this.valueField.textboxKeyTyped(typedChar, keyCode))
-		{
-			this.value = this.valueField.getText();
-			this.builderGamerule.setValue(this.value);
-		}
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton)
-	{
-		if(!this.booleanValue)
-		{
-			this.valueField.mouseClicked(mouseX, mouseY, mouseButton);
+			this.valueField.drawTextField(mouseX, mouseY, partialTicks);
 		}
 	}
 	

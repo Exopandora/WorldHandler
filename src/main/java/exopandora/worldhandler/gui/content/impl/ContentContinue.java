@@ -1,24 +1,22 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import org.lwjgl.input.Keyboard;
-
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.ICommandBuilderSyntax;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.container.impl.GuiWorldHandlerContainer;
+import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentContinue extends ContentChild
 {
 	private ICommandBuilder builder;
@@ -59,53 +57,30 @@ public class ContentContinue extends ContentChild
 		}
 		
 		this.commandField.setCursorPositionZero();
+		this.commandField.setValidator(text -> text.equals(this.commandField.getText()));
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonWorldHandler(2, x + 116 / 2, y + 36, 116, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.generic.yes")));
-		container.add(new GuiButtonWorldHandler(0, x + 116 / 2, y + 60, 116, 20, I18n.format("gui.worldhandler.generic.no")));
-	}
-	
-	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
-	{
-		switch(button.id)
+		container.add(this.commandField);
+		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.generic.yes"), () ->
 		{
-			case 2:
-				WorldHandler.sendCommand(this.builder, this.special);
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(this.parent));
-				break;
-			default:
-				break;
-		}
+			CommandHelper.sendCommand(this.builder, this.special);
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.parent));
+		}));
+		container.add(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, I18n.format("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
 	}
 	
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.commandField.drawTextBox();
+		this.commandField.drawTextField(mouseX, mouseY, partialTicks);
 	}
 	
-	@Override
-	public void keyTyped(Container container, char typedChar, int keyCode)
-	{
-		if(keyCode == Keyboard.KEY_RIGHT || keyCode == Keyboard.KEY_LEFT)
-		{
-			this.commandField.textboxKeyTyped(typedChar, keyCode);
-		}
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton)
-	{
-		this.commandField.mouseClicked(mouseX, mouseY, mouseButton);
-	}
-
 	@Override
 	public String getTitle()
 	{

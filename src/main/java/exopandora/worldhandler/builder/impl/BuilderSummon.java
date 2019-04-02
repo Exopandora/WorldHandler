@@ -14,22 +14,25 @@ import exopandora.worldhandler.builder.component.impl.ComponentSummon;
 import exopandora.worldhandler.builder.component.impl.ComponentTag;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes.Applyable;
-import exopandora.worldhandler.builder.types.Coordinate;
+import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
+import exopandora.worldhandler.builder.types.CoordinateDouble;
 import exopandora.worldhandler.builder.types.Type;
 import exopandora.worldhandler.format.text.ColoredString;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderSummon extends CommandBuilderNBT
 {
 	private final ComponentAttributeMob attribute;
@@ -51,45 +54,14 @@ public class BuilderSummon extends CommandBuilderNBT
 		this.handItems = this.registerNBTComponent(new ComponentTag<NBTTagList>("HandItems", this::itemListSerializer));
 		this.summon = this.registerNBTComponent(new ComponentSummon(), "summon");
 		this.potion = this.registerNBTComponent(new ComponentPotionMob());
-	}
-	
-	public BuilderSummon(int direction)
-	{
-		this();
-		this.setDirection(direction);
-	}
-	
-	public void setDirection(int direction)
-	{
-		if(direction == 0)
-		{
-			this.setX(new Coordinate(0, true));
-			this.setY(new Coordinate(0, true));
-			this.setZ(new Coordinate(2, true));
-		}
-		else if(direction == 1)
-		{
-			this.setX(new Coordinate(-2, true));
-			this.setY(new Coordinate(0, true));
-			this.setZ(new Coordinate(0, true));
-		}
-		else if(direction == 2)
-		{
-			this.setX(new Coordinate(0, true));
-			this.setY(new Coordinate(0, true));
-			this.setZ(new Coordinate(-2, true));
-		}
-		else if(direction == 3)
-		{
-			this.setX(new Coordinate(2, true));
-			this.setY(new Coordinate(0, true));
-			this.setZ(new Coordinate(0, true));
-		}
+		this.setX(new CoordinateDouble(0.0, CoordinateType.LOCAL));
+		this.setY(new CoordinateDouble(0.0, CoordinateType.LOCAL));
+		this.setZ(new CoordinateDouble(2.0, CoordinateType.LOCAL));
 	}
 	
 	public void setEntity(String entityName)
 	{
-		ResourceLocation location = this.summon.resolve(entityName);
+		ResourceLocation location = ComponentSummon.resolve(entityName);
 		
 		this.summon.setName(entityName);
 		this.summon.setEntity(location);
@@ -102,34 +74,34 @@ public class BuilderSummon extends CommandBuilderNBT
 		return this.getNodeAsResourceLocation(0);
 	}
 	
-	public void setX(Coordinate x)
+	public void setX(CoordinateDouble x)
 	{
 		this.setNode(1, x);
 	}
 	
-	public Coordinate getX()
+	public CoordinateDouble getX()
 	{
-		return this.getNodeAsCoordinate(1);
+		return this.getNodeAsCoordinateDouble(1);
 	}
 	
-	public void setY(Coordinate y)
+	public void setY(CoordinateDouble y)
 	{
 		this.setNode(2, y);
 	}
 	
-	public Coordinate getY()
+	public CoordinateDouble getY()
 	{
-		return this.getNodeAsCoordinate(2);
+		return this.getNodeAsCoordinateDouble(2);
 	}
 	
-	public void setZ(Coordinate z)
+	public void setZ(CoordinateDouble z)
 	{
 		this.setNode(3, z);
 	}
 	
-	public Coordinate getZ()
+	public CoordinateDouble getZ()
 	{
-		return this.getNodeAsCoordinate(3);
+		return this.getNodeAsCoordinateDouble(3);
 	}
 	
 	public void setAttribute(EnumAttributes attribute, double ammount)
@@ -175,7 +147,7 @@ public class BuilderSummon extends CommandBuilderNBT
 	
 	public void setPassenger(String entityName)
 	{
-		this.setPassenger(this.summon.resolve(entityName));
+		this.setPassenger(ComponentSummon.resolve(entityName));
 	}
 	
 	public void setPassenger(ResourceLocation entityName)
@@ -186,7 +158,7 @@ public class BuilderSummon extends CommandBuilderNBT
 			passenger.setString("id", entityName.toString());
 			
 			NBTTagList list = new NBTTagList();
-			list.appendTag(passenger);
+			list.add(passenger);
 			
 			this.passengers.setValue(list);
 		}
@@ -201,9 +173,9 @@ public class BuilderSummon extends CommandBuilderNBT
 	{
 		NBTTagList list = this.passengers.getValue();
 		
-		if(list != null && !list.hasNoTags())
+		if(list != null && !list.isEmpty())
 		{
-			return new ResourceLocation(list.getCompoundTagAt(0).getString("id"));
+			return new ResourceLocation(list.getCompound(0).getString("id"));
 		}
 		
 		return null;
@@ -232,8 +204,8 @@ public class BuilderSummon extends CommandBuilderNBT
 		{
 			NBTTagCompound compound = new NBTTagCompound();
 			compound.setString("id", item.toString());
-			compound.setInteger("Count", 1);
-			list.appendTag(compound);
+			compound.setInt("Count", 1);
+			list.add(compound);
 		}
 		
 		this.armorItems.setValue(list);
@@ -281,8 +253,8 @@ public class BuilderSummon extends CommandBuilderNBT
 		{
 			NBTTagCompound compound = new NBTTagCompound();
 			compound.setString("id", item.toString());
-			compound.setInteger("Count", 1);
-			list.appendTag(compound);
+			compound.setInt("Count", 1);
+			list.add(compound);
 		}
 		
 		this.handItems.setValue(list);
@@ -300,62 +272,62 @@ public class BuilderSummon extends CommandBuilderNBT
 	
 	public void setAmplifier(Potion potion, byte amplifier)
 	{
-		this.potion.get(potion).setAmplifier(amplifier);
+		this.potion.setAmplifier(potion, amplifier);
 	}
 	
 	public void setSeconds(Potion potion, int seconds)
 	{
-		this.potion.get(potion).setSeconds(seconds);
+		this.potion.setSeconds(potion, seconds);
 	}
 	
 	public void setMinutes(Potion potion, int minutes)
 	{
-		this.potion.get(potion).setMinutes(minutes);
+		this.potion.setMinutes(potion, minutes);
 	}
 	
 	public void setHours(Potion potion, int hours)
 	{
-		this.potion.get(potion).setHours(hours);
+		this.potion.setHours(potion, hours);
 	}
 	
 	public void setShowParticles(Potion potion, boolean showParticles)
 	{
-		this.potion.get(potion).setShowParticles(showParticles);
+		this.potion.setShowParticles(potion, showParticles);
 	}
 	
 	public void setAmbient(Potion potion, boolean ambient)
 	{
-		this.potion.get(potion).setAmbient(ambient);
+		this.potion.setAmbient(potion, ambient);
 	}
 	
 	public byte getAmplifier(Potion potion)
 	{
-		return this.potion.get(potion).getAmplifier();
+		return this.potion.getAmplifier(potion);
 	}
 
 	public int getSeconds(Potion potion)
 	{
-		return this.potion.get(potion).getSeconds();
+		return this.potion.getSeconds(potion);
 	}
 	
 	public int getMinutes(Potion potion)
 	{
-		return this.potion.get(potion).getMinutes();
+		return this.potion.getMinutes(potion);
 	}
 	
 	public int getHours(Potion potion)
 	{
-		return this.potion.get(potion).getHours();
+		return this.potion.getHours(potion);
 	}
 	
 	public boolean getShowParticles(Potion potion)
 	{
-		return this.potion.get(potion).getShowParticles();
+		return this.potion.getShowParticles(potion);
 	}
 	
 	public boolean getAmbient(Potion potion)
 	{
-		return this.potion.get(potion).getAmbient();
+		return this.potion.getAmbient(potion);
 	}
 	
 	public Set<Potion> getPotions()
@@ -363,11 +335,11 @@ public class BuilderSummon extends CommandBuilderNBT
 		return this.potion.getPotions();
 	}
 	
-	private NBTBase itemListSerializer(NBTTagList list)
+	private INBTBase itemListSerializer(NBTTagList list)
 	{
-		for(int x = 0; x < list.tagCount(); x++)
+		for(int x = 0; x < list.size(); x++)
 		{
-			if(!list.getCompoundTagAt(x).getString("id").equals(Blocks.AIR.getRegistryName().toString()))
+			if(!list.getCompound(x).getString("id").equals(Blocks.AIR.getRegistryName().toString()))
 			{
 				return list;
 			}
@@ -376,11 +348,11 @@ public class BuilderSummon extends CommandBuilderNBT
 		return null;
 	}
 	
-	private NBTBase colorStringSerializer(ColoredString string)
+	private INBTBase colorStringSerializer(ColoredString string)
 	{
 		if(string.getText() != null && !string.getText().isEmpty())
 		{
-			return new NBTTagString(string.toString());
+			return new NBTTagString(ITextComponent.Serializer.toJson(new TextComponentString(string.toString())));
 		}
 		
 		return null;
@@ -404,9 +376,9 @@ public class BuilderSummon extends CommandBuilderNBT
 		Syntax syntax = new Syntax();
 		
 		syntax.addRequired("entity_name", Type.RESOURCE_LOCATION);
-		syntax.addOptional("x", Type.COORDINATE);
-		syntax.addOptional("y", Type.COORDINATE);
-		syntax.addOptional("z", Type.COORDINATE);
+		syntax.addOptional("x", Type.COORDINATE_DOUBLE);
+		syntax.addOptional("y", Type.COORDINATE_DOUBLE);
+		syntax.addOptional("z", Type.COORDINATE_DOUBLE);
 		syntax.addOptional("nbt", Type.NBT);
 		
 		return syntax;

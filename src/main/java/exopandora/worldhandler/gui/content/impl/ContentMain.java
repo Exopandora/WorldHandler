@@ -1,105 +1,94 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.config.ConfigSettings;
+import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.button.EnumIcon;
-import exopandora.worldhandler.gui.button.EnumTooltip;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
+import exopandora.worldhandler.gui.button.GuiButtonIcon;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
-import exopandora.worldhandler.gui.config.GuiConfigWorldHandler;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.container.impl.GuiWorldHandlerContainer;
+import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
+import exopandora.worldhandler.helper.ActionHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreenResourcePacks;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentMain extends Content
 {
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonWorldHandler(-1, x, y, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.dawn", ConfigSettings.getDawn())), EnumTooltip.TOP_RIGHT, EnumIcon.TIME_DAWN));
-		container.add(new GuiButtonWorldHandler(-2, x + 26, y, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.noon", ConfigSettings.getNoon())), EnumTooltip.TOP_RIGHT, EnumIcon.TIME_NOON));
-		container.add(new GuiButtonWorldHandler(-3, x + 26 * 2, y, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.sunset", ConfigSettings.getSunset())), EnumTooltip.TOP_RIGHT, EnumIcon.TIME_SUNSET));
-		container.add(new GuiButtonWorldHandler(-4, x + 26 * 3, y, 23, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.midnight", ConfigSettings.getMidnight())), EnumTooltip.TOP_RIGHT, EnumIcon.TIME_MIDNIGHT));
-		container.add(new GuiButtonWorldHandler(-8, x + 26 * 4, y, 24, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.peaceful")), EnumTooltip.TOP_RIGHT, EnumIcon.DIFFICULTY_PEACEFUL));
-		container.add(new GuiButtonWorldHandler(-9, x + 26 * 5 + 2, y, 23, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.easy")), EnumTooltip.TOP_RIGHT, EnumIcon.DIFFICULTY_EASY));
-		container.add(new GuiButtonWorldHandler(-10, x + 26 * 6 + 2, y, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.normal")), EnumTooltip.TOP_RIGHT, EnumIcon.DIFFICULTY_NORMAL));
-		container.add(new GuiButtonWorldHandler(-11, x + 26 * 7 + 2, y, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.hard")), EnumTooltip.TOP_RIGHT, EnumIcon.DIFFICULTY_HARD));
-		container.add(new GuiButtonWorldHandler(10, x + 26 * 8 + 2, y, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.settings"), EnumTooltip.TOP_RIGHT, EnumIcon.SETTINGS));
-		
-		container.add(new GuiButtonWorldHandler(-5, x, y + 24, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.clear")), EnumTooltip.TOP_RIGHT, EnumIcon.WEATHER_SUN));
-		container.add(new GuiButtonWorldHandler(-6, x + 26, y + 24, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.rainy")), EnumTooltip.TOP_RIGHT, EnumIcon.WEATHER_RAIN));
-		container.add(new GuiButtonWorldHandler(-7, x + 26 * 2, y + 24, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.thunder")), EnumTooltip.TOP_RIGHT, EnumIcon.WEATHER_STORM));
-		container.add(new GuiButtonWorldHandler(11, x + 26 * 3, y + 24, 23, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.butcher"), EnumTooltip.TOP_RIGHT, EnumIcon.BUTCHER));
-		container.add(new GuiButtonWorldHandler(12, x + 26 * 4, y + 24, 24, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.potions"), EnumTooltip.TOP_RIGHT, EnumIcon.POTION));
-		container.add(new GuiButtonWorldHandler(-12, x + 26 * 5 + 2, y + 24, 23, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.survival")), EnumTooltip.TOP_RIGHT, EnumIcon.GAMEMODE_SURVIVAL));
-		container.add(new GuiButtonWorldHandler(-13, x + 26 * 6 + 2, y + 24, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.creative")), EnumTooltip.TOP_RIGHT, EnumIcon.GAMEMODE_CREATIVE));
-		container.add(new GuiButtonWorldHandler(-14, x + 26 * 7 + 2, y + 24, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.adventure")), EnumTooltip.TOP_RIGHT, EnumIcon.GAMEMODE_ADVENTURE));
-		container.add(new GuiButtonWorldHandler(-15, x + 26 * 8 + 2, y + 24, 22, 20, null, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.spectator")), EnumTooltip.TOP_RIGHT, EnumIcon.GAMEMODE_SPECTATOR));		
-		
-		container.add(new GuiButtonWorldHandler(2, x, y + 48, 74, 20, I18n.format("gui.worldhandler.items")));
-		container.add(new GuiButtonWorldHandler(3, x + 78, y + 48, 76, 20, I18n.format("gui.worldhandler.blocks")));
-		container.add(new GuiButtonWorldHandler(9, x + 158, y + 48, 74, 20, I18n.format("gui.worldhandler.entities")));
-		
-		container.add(new GuiButtonWorldHandler(7, x, y + 72, 74, 20, I18n.format("gui.worldhandler.world")));
-		container.add(new GuiButtonWorldHandler(8, x + 78, y + 72, 76, 20, I18n.format("gui.worldhandler.player")));
-		container.add(new GuiButtonWorldHandler(4, x + 158, y + 72, 74, 20, I18n.format("gui.worldhandler.scoreboard")));
-		
-		container.add(new GuiButtonWorldHandler(6, x, y + 96, 74, 20, I18n.format("gui.worldhandler.change_world")));
-		container.add(new GuiButtonWorldHandler(5, x + 78, y + 96, 76, 20, I18n.format("gui.worldhandler.resourcepack")));
-		container.add(new GuiButtonWorldHandler(1, x + 158, y + 96, 74, 20, I18n.format("gui.worldhandler.generic.backToGame")));
-	}
-	
-	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
-	{
-		switch(button.id)
+		container.add(new GuiButtonIcon(x, y, 22, 20, EnumIcon.TIME_DAWN, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.dawn", Config.getSettings().getDawn())), ActionHelper::timeDawn));
+		container.add(new GuiButtonIcon(x + 26, y, 22, 20, EnumIcon.TIME_NOON, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.noon", Config.getSettings().getNoon())), ActionHelper::timeNoon));
+		container.add(new GuiButtonIcon(x + 26 * 2, y, 22, 20, EnumIcon.TIME_SUNSET, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.sunset", Config.getSettings().getSunset())), ActionHelper::timeSunset));
+		container.add(new GuiButtonIcon(x + 26 * 3, y, 23, 20, EnumIcon.TIME_MIDNIGHT, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.midnight", Config.getSettings().getMidnight())), ActionHelper::timeMidnight));
+		container.add(new GuiButtonIcon(x + 26 * 4, y, 24, 20, EnumIcon.DIFFICULTY_PEACEFUL, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.peaceful")), ActionHelper::difficultyPeaceful));
+		container.add(new GuiButtonIcon(x + 26 * 5 + 2, y, 23, 20, EnumIcon.DIFFICULTY_EASY, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.easy")), ActionHelper::difficultyEasy));
+		container.add(new GuiButtonIcon(x + 26 * 6 + 2, y, 22, 20, EnumIcon.DIFFICULTY_NORMAL, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.normal")), ActionHelper::difficultyNormal));
+		container.add(new GuiButtonIcon(x + 26 * 7 + 2, y, 22, 20, EnumIcon.DIFFICULTY_HARD, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.hard")), ActionHelper::difficultyHard));
+		container.add(new GuiButtonIcon(x + 26 * 8 + 2, y, 22, 20, EnumIcon.SETTINGS, I18n.format("gui.worldhandler.shortcuts.tooltip.settings"), () ->
 		{
-			case 2:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.CUSTOM_ITEM));
-				break;
-			case 3:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.EDIT_BLOCKS));
-				break;
-			case 4:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.SCOREBOARD_OBJECTIVES));
-				break;
-			case 5:
-				Minecraft.getMinecraft().gameSettings.saveOptions();
-				Minecraft.getMinecraft().displayGuiScreen(new GuiScreenResourcePacks(container));
-				break;
-			case 6:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.CHANGE_WORLD.withParent(Contents.MAIN)));
-				break;
-			case 7:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.WORLD_INFO));
-				break;
-			case 8:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.PLAYER));
-				break;
-			case 9:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.SUMMON));
-				break;
-			case 10:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiConfigWorldHandler(container, ConfigSettings.CATEGORY));
-				break;
-			case 11:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.BUTCHER.withParent(Contents.MAIN)));
-				break;
-			case 12:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.POTIONS.withParent(Contents.MAIN)));
-				break;
-			default:
-				break;
-		}
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.SETTINGS.withParent(Contents.MAIN)));
+		}));
+		
+		container.add(new GuiButtonIcon(x, y + 24, 22, 20, EnumIcon.WEATHER_SUN, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.clear")), ActionHelper::weatherClear));
+		container.add(new GuiButtonIcon(x + 26, y + 24, 22, 20, EnumIcon.WEATHER_RAIN, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.rainy")), ActionHelper::weatherRain));
+		container.add(new GuiButtonIcon(x + 26 * 2, y + 24, 22, 20, EnumIcon.WEATHER_STORM, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.thunder")), ActionHelper::weatherThunder));
+		container.add(new GuiButtonIcon(x + 26 * 3, y + 24, 23, 20, EnumIcon.BUTCHER, I18n.format("gui.worldhandler.shortcuts.tooltip.butcher"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.BUTCHER.withParent(Contents.MAIN)));
+		}));
+		container.add(new GuiButtonIcon(x + 26 * 4, y + 24, 24, 20, EnumIcon.POTION, I18n.format("gui.worldhandler.shortcuts.tooltip.potions"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.POTIONS.withParent(Contents.MAIN)));
+		}));
+		container.add(new GuiButtonIcon(x + 26 * 5 + 2, y + 24, 23, 20, EnumIcon.GAMEMODE_SURVIVAL, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.survival")), ActionHelper::gamemodeSurvival));
+		container.add(new GuiButtonIcon(x + 26 * 6 + 2, y + 24, 22, 20, EnumIcon.GAMEMODE_CREATIVE, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.creative")), ActionHelper::gamemodeCreative));
+		container.add(new GuiButtonIcon(x + 26 * 7 + 2, y + 24, 22, 20, EnumIcon.GAMEMODE_ADVENTURE, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.adventure")), ActionHelper::gamemodeAdventure));
+		container.add(new GuiButtonIcon(x + 26 * 8 + 2, y + 24, 22, 20, EnumIcon.GAMEMODE_SPECTATOR, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.spectator")), ActionHelper::gamemodeSpectator));		
+		
+		container.add(new GuiButtonBase(x, y + 48, 74, 20, I18n.format("gui.worldhandler.items"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CUSTOM_ITEM));
+		}));
+		container.add(new GuiButtonBase(x + 78, y + 48, 76, 20, I18n.format("gui.worldhandler.blocks"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.EDIT_BLOCKS));
+		}));
+		container.add(new GuiButtonBase(x + 158, y + 48, 74, 20, I18n.format("gui.worldhandler.entities"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.SUMMON));
+		}));
+		
+		container.add(new GuiButtonBase(x, y + 72, 74, 20, I18n.format("gui.worldhandler.world"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.WORLD_INFO));
+		}));
+		container.add(new GuiButtonBase(x + 78, y + 72, 76, 20, I18n.format("gui.worldhandler.player"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.PLAYER));
+		}));
+		container.add(new GuiButtonBase(x + 158, y + 72, 74, 20, I18n.format("gui.worldhandler.scoreboard"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.SCOREBOARD_OBJECTIVES));
+		}));
+		
+		container.add(new GuiButtonBase(x, y + 96, 74, 20, I18n.format("gui.worldhandler.change_world"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CHANGE_WORLD.withParent(Contents.MAIN)));
+		}));
+		container.add(new GuiButtonBase(x + 78, y + 96, 76, 20, I18n.format("gui.worldhandler.resourcepack"), () -> 
+		{
+			Minecraft.getInstance().gameSettings.saveOptions();
+			Minecraft.getInstance().displayGuiScreen(new GuiScreenResourcePacks(container));
+		}));
+		container.add(new GuiButtonBase(x + 158, y + 96, 74, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 	}
 	
 	@Override

@@ -1,24 +1,20 @@
 package exopandora.worldhandler.gui.button;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiButtonTab extends GuiButton
 {
-	private final int index;
-	
-	public GuiButtonTab(int buttonId, int x, int y, int widthIn, int heightIn, int index)
+	public GuiButtonTab(int x, int y, int widthIn, int heightIn)
 	{
-		super(buttonId, x, y, widthIn, heightIn, null);
-		this.index = index;
+		super(0, x, y, widthIn, heightIn, null);
 	}
 	
     @Override
-    public void drawButton(Minecraft minecraft, int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
     	
     }
@@ -27,10 +23,5 @@ public class GuiButtonTab extends GuiButton
     public void playPressSound(SoundHandler soundHandlerIn)
     {
     	
-    }
-    
-    public int getIndex()
-    {
-    	return this.index;
     }
 }

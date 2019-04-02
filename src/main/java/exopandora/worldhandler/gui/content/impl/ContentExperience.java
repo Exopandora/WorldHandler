@@ -1,30 +1,30 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderExperience;
-import exopandora.worldhandler.config.ConfigSliders;
-import exopandora.worldhandler.gui.button.EnumTooltip;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
+import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.button.GuiSlider;
-import exopandora.worldhandler.gui.button.responder.SimpleResponder;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import exopandora.worldhandler.gui.logic.LogicSliderSimple;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentExperience extends Content
 {
 	private final BuilderExperience builderExperience = new BuilderExperience();
-	private GuiButtonWorldHandler addButton;
-	private GuiButtonWorldHandler removeButton;
+	
+	private GuiButtonBase buttonAdd;
+	private GuiButtonBase buttonRemove;
 	
 	@Override
 	public ICommandBuilder getCommandBuilder()
@@ -35,64 +35,51 @@ public class ContentExperience extends Content
 	@Override
 	public void init(Container container)
 	{
-		if(this.builderExperience.getLevel() > ConfigSliders.getMaxExperience())
+		if(this.builderExperience.getLevel() > Config.getSliders().getMaxExperience())
 		{
-			this.builderExperience.setLevel((int) ConfigSliders.getMaxExperience());
+			this.builderExperience.setLevel((int) Config.getSliders().getMaxExperience());
 		}
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiSlider<String>(this, container, "experience", x + 116 / 2, y, 114, 20, I18n.format("gui.worldhandler.title.player.experience"), 0, ConfigSliders.getMaxExperience(), 0, new SimpleResponder<String>(value -> 
+		container.add(new GuiSlider(x + 116 / 2, y, 114, 20, 0, Config.getSliders().getMaxExperience(), 0, container, new LogicSliderSimple("experience", I18n.format("gui.worldhandler.title.player.experience"), value -> 
 		{
 			this.builderExperience.setLevel(value);
 		})));
 		
-		container.add(this.addButton = new GuiButtonWorldHandler(3, x + 116 / 2, y + 24, 114, 20, I18n.format("gui.worldhandler.actions.add")));
-		container.add(this.removeButton = new GuiButtonWorldHandler(4, x + 116 / 2, y + 48, 114, 20, I18n.format("gui.worldhandler.actions.remove")));
-		container.add(new GuiButtonWorldHandler(5, x + 116 / 2, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.reset"), I18n.format("gui.worldhandler.actions.set_to_0"), EnumTooltip.TOP_RIGHT));
-		
-		boolean enabled = this.builderExperience.getLevel() > 0;
-		
-		this.addButton.enabled = enabled;
-		this.removeButton.enabled = enabled;
-	}
-	
-	@Override
-	public void updateScreen(Container container)
-	{
-		boolean enabled = this.builderExperience.getLevel() > 0;
-		
-		this.addButton.enabled = enabled;
-		this.removeButton.enabled = enabled;
-	}
-	
-	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
-	{
-		switch(button.id)
+		container.add(this.buttonAdd = new GuiButtonBase(x + 116 / 2, y + 24, 114, 20, I18n.format("gui.worldhandler.actions.add"), () ->
 		{
-			case 3:
-				WorldHandler.sendCommand(this.builderExperience);
-				container.initGui();
-				break;
-			case 4:
-				if(Minecraft.getMinecraft().player.experienceLevel >= this.builderExperience.getLevel())
-				{
-					WorldHandler.sendCommand(new BuilderExperience(-this.builderExperience.getLevel(), this.builderExperience.getPlayer()));
-					break;
-				}
-			case 5:
-				WorldHandler.sendCommand(new BuilderExperience(-Minecraft.getMinecraft().player.experienceLevel, this.builderExperience.getPlayer()));
-				container.initGui();
-				break;
-			default:
-				break;
-		}
+			CommandHelper.sendCommand(this.builderExperience.getBuilderForAddLevels());
+			container.initGui();
+		}));
+		container.add(this.buttonRemove = new GuiButtonBase(x + 116 / 2, y + 48, 114, 20, I18n.format("gui.worldhandler.actions.remove"), () ->
+		{
+			CommandHelper.sendCommand(this.builderExperience.getBuilderForRemoveLevels());
+		}));
+		container.add(new GuiButtonTooltip(x + 116 / 2, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.reset"), I18n.format("gui.worldhandler.actions.set_to_0"), () ->
+		{
+			CommandHelper.sendCommand(this.builderExperience.getBuilderForResetLevels());
+			container.initGui();
+		}));
+		
+		boolean enabled = this.builderExperience.getLevel() > 0;
+		
+		this.buttonAdd.enabled = enabled;
+		this.buttonRemove.enabled = enabled;
+	}
+	
+	@Override
+	public void tick(Container container)
+	{
+		boolean enabled = this.builderExperience.getLevel() > 0;
+		
+		this.buttonAdd.enabled = enabled;
+		this.buttonRemove.enabled = enabled;
 	}
 	
 	@Override

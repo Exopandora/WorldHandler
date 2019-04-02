@@ -7,10 +7,10 @@ import java.util.function.Function;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class ComponentAttribute implements IBuilderComponent
 {
 	protected Map<EnumAttributes, Double> attributes = new HashMap<EnumAttributes, Double>();

@@ -3,10 +3,14 @@ package exopandora.worldhandler.format.text;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import exopandora.worldhandler.format.EnumColor;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+/**
+ * XXX To be replaced with ITextComponent
+ */
+@Deprecated
+@OnlyIn(Dist.CLIENT)
 public class ColoredString extends FormattedString
 {
 	private EnumColor color = EnumColor.DEFAULT;
@@ -92,16 +96,6 @@ public class ColoredString extends FormattedString
 		return result;
 	}
 	
-	public String getTextFieldString()
-	{
-		if(this.text != null)
-		{
-			return this.getFormattedString(super.getPreformattedString(this.text));
-		}
-		
-		return null;
-	}
-	
 	@Override
 	public String toString()
 	{
@@ -123,5 +117,10 @@ public class ColoredString extends FormattedString
 		}
 		
 		return null;
+	}
+	
+	public String textFormatter(String string, Integer integer)
+	{
+		return this.getFormattedString(string);
 	}
 }

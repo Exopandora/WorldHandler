@@ -1,13 +1,13 @@
 package exopandora.worldhandler.builder.impl.abstr;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import exopandora.worldhandler.builder.types.Coordinate;
+import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.helper.BlockHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class BuilderDoubleBlockPos extends CommandBuilder
 {
 	public BuilderDoubleBlockPos()
@@ -23,52 +23,49 @@ public abstract class BuilderDoubleBlockPos extends CommandBuilder
 		this.setZ1(pos.getZ());
 	}
 	
-	public void setX1(float x)
+	public void setX1(int x)
 	{
-		this.setX1(new Coordinate(x));
+		this.setX1(new CoordinateInt(x));
 	}
 	
-	public void setY1(float y)
+	public void setY1(int y)
 	{
-		this.setY1(new Coordinate(y));
+		this.setY1(new CoordinateInt(y));
 	}
 	
-	public void setZ1(float z)
+	public void setZ1(int z)
 	{
-		this.setZ1(new Coordinate(z));
+		this.setZ1(new CoordinateInt(z));
 	}
 	
-	public void setX1(Coordinate x)
+	public void setX1(CoordinateInt x)
 	{
 		this.setNode(0, x);
-		BlockHelper.setPos1(BlockHelper.setX(BlockHelper.getPos1(), x.getValue()));
 	}
 	
-	public void setY1(Coordinate y)
+	public void setY1(CoordinateInt y)
 	{
 		this.setNode(1, y);
-		BlockHelper.setPos1(BlockHelper.setY(BlockHelper.getPos1(), y.getValue()));
 	}
 	
-	public void setZ1(Coordinate z)
+	public void setZ1(CoordinateInt z)
 	{
 		this.setNode(2, z);
-		BlockHelper.setPos1(BlockHelper.setZ(BlockHelper.getPos1(), z.getValue()));
 	}
 	
-	public Coordinate getX1Coordiante()
+	public CoordinateInt getX1Coordiante()
 	{
-		return this.getNodeAsCoordinate(0);
+		return this.getNodeAsCoordinateInt(0);
 	}
 	
-	public Coordinate getY1Coordiante()
+	public CoordinateInt getY1Coordiante()
 	{
-		return this.getNodeAsCoordinate(1);
+		return this.getNodeAsCoordinateInt(1);
 	}
 	
-	public Coordinate getZ1Coordiante()
+	public CoordinateInt getZ1Coordiante()
 	{
-		return this.getNodeAsCoordinate(2);
+		return this.getNodeAsCoordinateInt(2);
 	}
 	
 	public double getX1()
@@ -98,52 +95,49 @@ public abstract class BuilderDoubleBlockPos extends CommandBuilder
 		this.setZ2(pos.getZ());
 	}
 	
-	public void setX2(float x)
+	public void setX2(int x)
 	{
-		this.setX2(new Coordinate(x));
+		this.setX2(new CoordinateInt(x));
 	}
 	
-	public void setY2(float y)
+	public void setY2(int y)
 	{
-		this.setY2(new Coordinate(y));
+		this.setY2(new CoordinateInt(y));
 	}
 	
-	public void setZ2(float z)
+	public void setZ2(int z)
 	{
-		this.setZ2(new Coordinate(z));
+		this.setZ2(new CoordinateInt(z));
 	}
 	
-	public void setX2(Coordinate x)
+	public void setX2(CoordinateInt x)
 	{
 		this.setNode(3, x);
-		BlockHelper.setPos2(BlockHelper.setX(BlockHelper.getPos2(), x.getValue()));
 	}
 	
-	public void setY2(Coordinate y)
+	public void setY2(CoordinateInt y)
 	{
 		this.setNode(4, y);
-		BlockHelper.setPos2(BlockHelper.setY(BlockHelper.getPos2(), y.getValue()));
 	}
 	
-	public void setZ2(Coordinate z)
+	public void setZ2(CoordinateInt z)
 	{
 		this.setNode(5, z);
-		BlockHelper.setPos2(BlockHelper.setZ(BlockHelper.getPos2(), z.getValue()));
 	}
 	
-	public Coordinate getX2Coordiante()
+	public CoordinateInt getX2Coordiante()
 	{
-		return this.getNodeAsCoordinate(3);
+		return this.getNodeAsCoordinateInt(3);
 	}
 	
-	public Coordinate getY2Coordiante()
+	public CoordinateInt getY2Coordiante()
 	{
-		return this.getNodeAsCoordinate(4);
+		return this.getNodeAsCoordinateInt(4);
 	}
 	
-	public Coordinate getZ2Coordiante()
+	public CoordinateInt getZ2Coordiante()
 	{
-		return this.getNodeAsCoordinate(5);
+		return this.getNodeAsCoordinateInt(5);
 	}
 	
 	public double getX2()
@@ -164,13 +158,5 @@ public abstract class BuilderDoubleBlockPos extends CommandBuilder
 	public BlockPos getBlockPos2()
 	{
 		return new BlockPos(this.getX2(), this.getY2(), this.getZ2());
-	}
-	
-	public <T extends BuilderDoubleBlockPos> T addPositionObservers()
-	{
-		BlockHelper.addPos1Observer(this::setPosition1);
-		BlockHelper.addPos2Observer(this::setPosition2);
-		
-		return (T) this;
 	}
 }

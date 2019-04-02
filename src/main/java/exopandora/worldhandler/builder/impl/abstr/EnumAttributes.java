@@ -6,10 +6,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public enum EnumAttributes
 {
 	MAX_HEALTH("generic.maxHealth", EnumOperation.ADDITIVE, Applyable.BOTH),
@@ -27,8 +27,9 @@ public enum EnumAttributes
 	private String attribute;
 	private EnumOperation operation;
 	private Applyable applyable;
-	
-	public enum Applyable
+
+	@OnlyIn(Dist.CLIENT)
+	public static enum Applyable
 	{
 		BOTH,
 		PLAYER,
@@ -72,7 +73,8 @@ public enum EnumAttributes
 		return this.operation.getOperation().apply(value);
 	}
 	
-	public enum EnumOperation
+	@OnlyIn(Dist.CLIENT)
+	public static enum EnumOperation
 	{
 		ADDITIVE(value -> value, "(+)"),
 		PERCENTAGE(value -> value / 100, "%");

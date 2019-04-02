@@ -1,46 +1,55 @@
 package exopandora.worldhandler.gui.button;
 
+import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class GuiButtonItem extends GuiButtonWorldHandler
+@OnlyIn(Dist.CLIENT)
+public class GuiButtonItem extends GuiButtonBase
 {
-    private final ItemStack item;
+    private final ItemStack stack;
 	
-    public GuiButtonItem(int id, int x, int y, int width, int height, Item item)
+    public GuiButtonItem(int x, int y, int width, int height, Item item, ActionHandler actionHandler)
     {
-    	this(id, x, y, width, height, new ItemStack(item));
+    	this(0, x, y, width, height, item, actionHandler);
     }
     
-    public GuiButtonItem(int id, int x, int y, int width, int height, ItemStack item)
+    public GuiButtonItem(int id, int x, int y, int width, int height, Item item, ActionHandler actionHandler)
     {
-    	super(id, x, y, width, height, null);
-    	this.item = item;
+    	this(id, x, y, width, height, new ItemStack(item), actionHandler);
+    }
+    
+    public GuiButtonItem(int x, int y, int width, int height, ItemStack stack, ActionHandler actionHandler)
+    {
+    	this(0, x, y, width, height, stack, actionHandler);
+    }
+    
+    public GuiButtonItem(int id, int x, int y, int width, int height, ItemStack stack, ActionHandler actionHandler)
+    {
+    	super(id, x, y, width, height, null, actionHandler);
+    	this.stack = stack;
     }
     
     @Override
-    public void drawButton(Minecraft minecraft, int mouseX, int mouseY, float partialTicks)
+    public void render(int mouseX, int mouseY, float partialTicks)
     {
     	if(this.visible)
     	{
-            super.drawBackground(minecraft, mouseX, mouseY);
+            super.drawBackground(mouseX, mouseY);
             
             GlStateManager.enableRescaleNormal();
     		RenderHelper.enableGUIStandardItemLighting();
             
-    		Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(this.item, this.x + this.width / 2 - 8, this.y + 2);
+    		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(this.stack, this.x + this.width / 2 - 8, this.y + 2);
             
     		RenderHelper.disableStandardItemLighting();
             GlStateManager.disableRescaleNormal();
     		GlStateManager.disableBlend();
-            
-			this.isActive = true;
     	}
     }
 }

@@ -1,31 +1,31 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderRecipe;
 import exopandora.worldhandler.builder.impl.BuilderRecipe.EnumMode;
-import exopandora.worldhandler.builder.types.Type;
-import exopandora.worldhandler.gui.button.EnumTooltip;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
+import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementPageList;
-import exopandora.worldhandler.gui.content.element.logic.ILogicPageList;
-import net.minecraft.client.gui.GuiButton;
+import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
+import exopandora.worldhandler.util.ActionHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentRecipes extends Content
 {
 	private final BuilderRecipe builderRecipe = new BuilderRecipe();
@@ -39,53 +39,41 @@ public class ContentRecipes extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<IRecipe> recipes = new ArrayList<IRecipe>();
+		List<IRecipe> recipes = Minecraft.getInstance().player.getRecipeBook().getRecipes().stream()
+				.flatMap(recipe -> recipe.getRecipes().stream())
+				.filter(recipe -> !recipe.isDynamic())
+				.collect(Collectors.toList());
 		
-		for(IRecipe recipe : CraftingManager.REGISTRY)
-		{
-			if(!recipe.isDynamic())
-			{
-				recipes.add(recipe);
-			}
-		}
-		
-		ElementPageList<IRecipe, String> list = new ElementPageList<IRecipe, String>(x, y, recipes, null, 114, 20, 3, this, new int[] {4, 5, 6}, new ILogicPageList<IRecipe, String>()
+		ElementPageList<IRecipe> list = new ElementPageList<IRecipe>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<IRecipe>()
 		{
 			@Override
-			public String translate(IRecipe key)
+			public String translate(IRecipe item)
 			{
-				if(!key.getRecipeOutput().equals(ItemStack.EMPTY))
+				if(!item.getRecipeOutput().equals(ItemStack.EMPTY))
 				{
-					return key.getRecipeOutput().getDisplayName();
+					return item.getRecipeOutput().getDisplayName().getFormattedText();
 				}
 				
-				return key.getRegistryName().toString();
+				return item.getId().toString();
 			}
 			
 			@Override
-			public void onClick(IRecipe clicked)
+			public String toTooltip(IRecipe item)
 			{
-				builderRecipe.setRecipe(clicked.getRegistryName());
+				return item.getId().toString();
 			}
 			
 			@Override
-			public String getRegistryName(IRecipe key)
+			public void onClick(IRecipe item)
 			{
-				return key.getRegistryName().toString();
+				ContentRecipes.this.builderRecipe.setRecipe(item);
+				container.initButtons();
 			}
 			
 			@Override
-			public void onRegister(int id, int x, int y, int width, int height, String display, String registry, boolean enabled, IRecipe value, Container container)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, IRecipe item, ActionHandler actionHandler)
 			{
-				GuiButtonWorldHandler button;
-				container.add(button = new GuiButtonWorldHandler(id, x, y, width, height, display, value.getRegistryName().toString(), EnumTooltip.TOP_RIGHT));
-				button.enabled = enabled;
-			}
-			
-			@Override
-			public IRecipe getObject(String object)
-			{
-				return CraftingManager.REGISTRY.getObject(Type.parseResourceLocation(object));
+				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
 			
 			@Override
@@ -101,29 +89,19 @@ public class ContentRecipes extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonWorldHandler(2, x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.recipes.give")));
-		container.add(new GuiButtonWorldHandler(3, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.recipes.take")));
-	}
-	
-	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
-	{
-		switch(button.id)
+		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.recipes.give"), () ->
 		{
-			case 2:
-				WorldHandler.sendCommand(this.builderRecipe.getBuilderForMode(EnumMode.GIVE));
-				container.initButtons();
-				break;
-			case 3:
-				WorldHandler.sendCommand(this.builderRecipe.getBuilderForMode(EnumMode.TAKE));
-				container.initButtons();
-				break;
-			default:
-				break;
-		}
+			CommandHelper.sendCommand(this.builderRecipe.getBuilderForMode(EnumMode.GIVE));
+			container.initButtons();
+		}));
+		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.recipes.take"), () ->
+		{
+			CommandHelper.sendCommand(this.builderRecipe.getBuilderForMode(EnumMode.TAKE));
+			container.initButtons();
+		}));
 	}
 	
 	@Override

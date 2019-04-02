@@ -8,13 +8,13 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.abstr.ComponentAttribute;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ComponentAttributeItem extends ComponentAttribute
 {
 	public ComponentAttributeItem(Function<EnumAttributes, Boolean> applyable)
@@ -24,7 +24,7 @@ public class ComponentAttributeItem extends ComponentAttribute
 	
 	@Override
 	@Nullable
-	public NBTBase serialize()
+	public INBTBase serialize()
 	{
 		NBTTagList attributes = new NBTTagList();
 		
@@ -37,20 +37,20 @@ public class ComponentAttributeItem extends ComponentAttribute
 				attribute.setString("AttributeName", entry.getKey().getAttribute());
 				attribute.setString("Name", entry.getKey().getAttribute());
 				attribute.setDouble("Amount", entry.getKey().calculate(entry.getValue()));
-				attribute.setInteger("Operation", entry.getKey().getOperation().ordinal());
+				attribute.setInt("Operation", entry.getKey().getOperation().ordinal());
 				attribute.setLong("UUIDLeast", UUID.nameUUIDFromBytes(entry.getKey().getAttribute().getBytes()).getLeastSignificantBits());
 				attribute.setLong("UUIDMost", UUID.nameUUIDFromBytes(entry.getKey().getAttribute().getBytes()).getMostSignificantBits());
 				
-				attributes.appendTag(attribute);
+				attributes.add(attribute);
 			}
 		}
 		
-		if(!attributes.hasNoTags())
+		if(attributes.isEmpty())
 		{
-			return attributes;
+			return null;
 		}
 		
-		return null;
+		return attributes;
 	}
 	
 	@Override

@@ -3,9 +3,10 @@ package exopandora.worldhandler.builder.impl;
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.Type;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class BuilderGamemode extends CommandBuilder
 {
 	public BuilderGamemode()
@@ -51,7 +52,7 @@ public class BuilderGamemode extends CommandBuilder
 		return syntax;
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static enum EnumGamemode
 	{
 		SURVIVAL,

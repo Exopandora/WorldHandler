@@ -1,28 +1,29 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.google.common.base.Predicates;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderScoreboardTeams;
-import exopandora.worldhandler.builder.impl.BuilderScoreboardTeams.EnumMode;
+import exopandora.worldhandler.builder.impl.BuilderTeams;
+import exopandora.worldhandler.builder.impl.BuilderTeams.EnumMode;
 import exopandora.worldhandler.format.EnumColor;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.content.element.impl.ElementClickList;
-import exopandora.worldhandler.gui.content.element.logic.ILogicClickList;
+import exopandora.worldhandler.gui.content.element.impl.ElementMultiButtonList;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentScoreboard;
-import net.minecraft.client.gui.GuiButton;
+import exopandora.worldhandler.gui.logic.ILogicClickList;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentScoreboardTeams extends ContentScoreboard
 {
 	private GuiTextFieldTooltip teamField;
@@ -30,7 +31,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	private String team;
 	private String selectedTeam = "add";
 	
-	private final BuilderScoreboardTeams builderTeams = new BuilderScoreboardTeams();
+	private final BuilderTeams builderTeams = new BuilderTeams();
 	
 	@Override
 	public ICommandBuilder getCommandBuilder()
@@ -44,39 +45,53 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		this.teamField = new GuiTextFieldTooltip(x + 118, y + (this.selectedTeam.equals("option") ? 0 : (this.selectedTeam.equals("add") ? 24 : 12)), 114, 20, I18n.format("gui.worldhandler.scoreboard.team.team"));
 		this.teamField.setValidator(Predicates.notNull());
 		this.teamField.setText(this.team);
+		this.teamField.setTextAcceptHandler((id, text) ->
+		{
+			this.team = text;
+			this.builderTeams.setTeam(this.team);
+			container.initButtons();
+		});
 		
 		if(this.selectedTeam.equals("option"))
 		{
-			ElementClickList options = new ElementClickList(x + 118, y + 24, HELPER.getOptions(), new int[] {6, 7}, this, new ILogicClickList()
+			ElementMultiButtonList options = new ElementMultiButtonList(x + 118, y + 24, HELPER.getOptions(), 2, new ILogicClickList()
 			{
 				@Override
-				public String translate(String... keys)
+				public String translate(String key, int depth)
 				{
-					if(keys.length > 1)
+					if(depth == 0)
 					{
-						if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(keys[1])))
+						return I18n.format("gui.worldhandler.scoreboard.team.options." + key);
+					}
+					else if(depth == 1)
+					{
+						if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(key)))
 						{
-							return I18n.format("gui.worldhandler.color." + keys[1]);
+							return I18n.format("gui.worldhandler.color." + key);
 						}
 						
-						return I18n.format("gui.worldhandler.scoreboard.team.suboption." + keys[1]);
+						return I18n.format("gui.worldhandler.scoreboard.team.suboption." + key);
 					}
-					else
-					{
-						return I18n.format("gui.worldhandler.scoreboard.team.options." + keys[0]);
-					}
+					
+					return key;
 				}
 				
 				@Override
-				public void consumeKey(String... keys)
+				public String buildEventKey(List<String> keys, int depth)
 				{
-					if(keys.length > 1)
+					return ILogicClickList.super.buildTranslationKey(keys, depth);
+				}
+				
+				@Override
+				public void onClick(String key, int depth)
+				{
+					if(depth == 0)
 					{
-						builderTeams.setValue(keys[1]);
+						ContentScoreboardTeams.this.builderTeams.setRule(key);
 					}
-					else
+					else if(depth == 1)
 					{
-						builderTeams.setRule(keys[0]);
+						ContentScoreboardTeams.this.builderTeams.setValue(key);
 					}
 				}
 				
@@ -94,23 +109,39 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		GuiButtonWorldHandler button3;
-		GuiButtonWorldHandler button4;
-		GuiButtonWorldHandler button5;
-		GuiButtonWorldHandler button6;
+		GuiButtonBase button1;
+		GuiButtonBase button2;
+		GuiButtonBase button3;
+		GuiButtonBase button4;
 		
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button3 = new GuiButtonWorldHandler(2, x, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.create")));
-		container.add(button4 = new GuiButtonWorldHandler(3, x, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.join") + " / " + I18n.format("gui.worldhandler.scoreboard.team.leave")));
-		container.add(button5 = new GuiButtonWorldHandler(4, x, y + 48, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.format("gui.worldhandler.scoreboard.team.empty")));
-		container.add(button6 = new GuiButtonWorldHandler(5, x, y + 72, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.options")));
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.create"), () ->
+		{
+			this.selectedTeam = "add";
+			container.initGui();
+		}));
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.join") + " / " + I18n.format("gui.worldhandler.scoreboard.team.leave"), () ->
+		{
+			this.selectedTeam = "join|leave";
+			container.initGui();
+		}));
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.format("gui.worldhandler.scoreboard.team.empty"), () ->
+		{
+			this.selectedTeam = "remove|empty";
+			container.initGui();
+		}));
+		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.options"), () ->
+		{
+			this.selectedTeam = "option";
+			container.initGui();
+		}));
 		
-		button3.enabled = !this.selectedTeam.equals("add");
-		button4.enabled = !this.selectedTeam.equals("join|leave");
-		button5.enabled = !this.selectedTeam.equals("remove|empty");
-		button6.enabled = !this.selectedTeam.equals("option");
+		button1.enabled = !this.selectedTeam.equals("add");
+		button2.enabled = !this.selectedTeam.equals("join|leave");
+		button3.enabled = !this.selectedTeam.equals("remove|empty");
+		button4.enabled = !this.selectedTeam.equals("option");
 		
 		this.builderTeams.setMode(this.selectedTeam);
 		
@@ -124,96 +155,61 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		{
 			this.builderTeams.setPlayer(container.getPlayer());
 			
-			container.add(button3 = new GuiButtonWorldHandler(9, x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.join")));
-			container.add(new GuiButtonWorldHandler(10, x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.leave")));
+			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.join"), () ->
+			{
+				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.JOIN));
+				container.initButtons();
+			}));
+			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.leave"), () ->
+			{
+				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.LEAVE));
+				container.initButtons();
+			}));
 			
-			button3.enabled = enabled;
+			button1.enabled = enabled;
 		}
 		else if(this.selectedTeam.equals("remove|empty"))
 		{
-			container.add(button3 = new GuiButtonWorldHandler(11, x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.remove")));
-			container.add(button4 = new GuiButtonWorldHandler(12, x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.empty")));
+			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.remove"), () ->
+			{
+				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.REMOVE));
+				container.initButtons();
+			}));
+			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.empty"), () ->
+			{
+				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.EMPTY));
+				container.initButtons();
+			}));
 			
-			button3.enabled = enabled;
-			button4.enabled = enabled;
+			button1.enabled = enabled;
+			button2.enabled = enabled;
 		}
 		
 		if(!this.selectedTeam.equals("join|leave") && !this.selectedTeam.equals("remove|empty"))
 		{
 			int yOffset = this.selectedTeam.equals("option") ? 24 : 0;
 			
-			container.add(button3 = new GuiButtonWorldHandler(8, x + 118, y + 48 + yOffset, 114, 20, I18n.format("gui.worldhandler.actions.perform")));
-			button3.enabled = enabled;
+			container.add(button1 = new GuiButtonBase(x + 118, y + 48 + yOffset, 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
+			{
+				CommandHelper.sendCommand(this.builderTeams);
+				container.initButtons();
+			}));
+			button1.enabled = enabled;
 		}
+		
+		container.add(this.teamField);
 	}
 	
 	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
+	public void tick(Container container)
 	{
-		switch(button.id)
-		{
-			case 2:
-				this.selectedTeam = "add";
-				container.initGui();
-				break;
-			case 3:
-				this.selectedTeam = "join|leave";
-				container.initGui();
-				break;
-			case 4:
-				this.selectedTeam = "remove|empty";
-				container.initGui();
-				break;
-			case 5:
-				this.selectedTeam = "option";
-				container.initGui();
-				break;
-			case 8:
-				WorldHandler.sendCommand(this.builderTeams);
-				container.initButtons();
-				break;
-			case 9:
-				WorldHandler.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.JOIN));
-				container.initButtons();
-				break;
-			case 10:
-				WorldHandler.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.LEAVE));
-				container.initButtons();
-				break;
-			case 11:
-				WorldHandler.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.REMOVE));
-				container.initButtons();
-				break;
-			case 12:
-				WorldHandler.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.EMPTY));
-				container.initButtons();
-				break;
-			default:
-				break;
-		}
+		this.teamField.tick();
 	}
 	
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.teamField.drawTextBox();
-	}
-	
-	@Override
-	public void keyTyped(Container container, char typedChar, int keyCode)
-	{
-		if(this.teamField.textboxKeyTyped(typedChar, keyCode))
-		{
-			this.team = this.teamField.getText();
-			this.builderTeams.setTeam(this.team);
-			container.initButtons();
-		}
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton)
-	{
-		this.teamField.mouseClicked(mouseX, mouseY, mouseButton);
+		this.teamField.drawTextField(mouseX, mouseY, partialTicks);
 	}
 	
 	@Override

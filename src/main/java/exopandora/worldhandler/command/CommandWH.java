@@ -1,231 +1,89 @@
 package exopandora.worldhandler.command;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderClone;
 import exopandora.worldhandler.builder.impl.BuilderClone.EnumMask;
 import exopandora.worldhandler.builder.impl.BuilderFill;
-import exopandora.worldhandler.builder.impl.BuilderWH;
 import exopandora.worldhandler.helper.BlockHelper;
-import exopandora.worldhandler.helper.EnumHelper;
-import exopandora.worldhandler.helper.ResourceHelper;
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.NumberInvalidException;
-import net.minecraft.command.WrongUsageException;
-import net.minecraft.server.MinecraftServer;
+import exopandora.worldhandler.helper.CommandHelper;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.command.arguments.BlockStateArgument;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.ForgeRegistries;
 
-@SideOnly(Side.CLIENT)
-public class CommandWH extends CommandBase
+public class CommandWH
 {
-	@Override
-	public String getName()
+	public static void register(CommandDispatcher<CommandSource> dispatcher)
 	{
-		return "wh";
+		dispatcher.register(Commands.literal("wh")
+				.then(Commands.literal("pos1")
+					.executes(context -> pos1(context.getSource())))
+				.then(Commands.literal("pos2")
+					.executes(context -> pos2(context.getSource())))
+				.then(Commands.literal("fill")
+					.then(Commands.argument("block", BlockStateArgument.blockState())
+						.executes(context -> fill(context.getSource(), StringArgumentType.getString(context, "block")))))
+				.then(Commands.literal("replace")
+					.then(Commands.argument("block", BlockStateArgument.blockState())
+						.then(Commands.argument("replace", BlockStateArgument.blockState())
+							.executes(context -> replace(context.getSource(), StringArgumentType.getString(context, "block"), StringArgumentType.getString(context, "replace"))))))
+				.then(Commands.literal("clone")
+						.then(Commands.literal("replace")
+							.executes(context -> clone(context.getSource(), EnumMask.REPLACE)))
+						.then(Commands.literal("masked")
+							.executes(context -> clone(context.getSource(), EnumMask.MASKED)))
+						.then(Commands.literal("filtered")
+							.executes(context -> clone(context.getSource(), EnumMask.FILTERED)))));
 	}
 	
-	@Override
-	public int getRequiredPermissionLevel()
+	private static int pos1(CommandSource source) throws CommandSyntaxException
 	{
-		return 0;
+		BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
+		BlockPos pos = BlockHelper.getPos1();
+		ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+		CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+		return 1;
 	}
 	
-	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+	private static int pos2(CommandSource source) throws CommandSyntaxException
 	{
-		if(args.length > 0)
-		{
-			if(args[0].equals("pos1"))
-			{
-				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
-				sender.sendMessage(new TextComponentString("Set first position to " + BlockHelper.getPos1().getX() + ", " + BlockHelper.getPos1().getY() + ", " + BlockHelper.getPos1().getZ() + " (" + Block.REGISTRY.getNameForObject(BlockHelper.getFocusedBlock()) + ")"));
-			}
-			else if(args[0].equals("pos2"))
-			{
-				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
-				sender.sendMessage(new TextComponentString("Set second position to " + BlockHelper.getPos2().getX() + ", " + BlockHelper.getPos2().getY() + ", " + BlockHelper.getPos2().getZ() + " (" + Block.REGISTRY.getNameForObject(BlockHelper.getFocusedBlock()) + ")"));
-			}
-			else if(args[0].equals("fill"))
-			{
-				final String usage = "/wh fill <block> [meta]";
-				
-				if(args.length > 1)
-				{
-					ResourceLocation id = new ResourceLocation(args[1]);
-					int meta = 0;
-					
-					if(args.length > 2)
-					{
-						try
-						{
-							meta = Integer.parseInt(args[2]);
-						}
-						catch(Exception e)
-						{
-							throw new WrongUsageException(usage);
-						}
-					}
-					
-					if(!ResourceHelper.isRegisteredBlock(id.toString()))
-					{
-						throw new NumberInvalidException(usage);
-					}
-					
-					BuilderFill builder = new BuilderFill();
-					builder.setBlock1(id);
-					builder.setMeta1(meta);
-					
-					WorldHandler.sendCommand(builder);
-				}
-				else
-				{
-					throw new WrongUsageException(usage);
-				}
-			}
-			else if(args[0].equals("replace"))
-			{
-				final String usage = "/wh replace <block1> <meta1> <block2> [meta2]";
-				
-				if(args.length > 1)
-				{
-					ResourceLocation id1 = new ResourceLocation(args[1]);
-					
-					if(args.length > 2)
-					{
-						ResourceLocation id2 = new ResourceLocation(args[3]);
-						int meta1 = 0;
-						int meta2 = 0;
-						
-						try
-						{
-							meta1 = Integer.parseInt(args[2]);
-						}
-						catch(Exception e)
-						{
-							throw new WrongUsageException(usage);
-						}
-						
-						if(args.length > 4)
-						{
-							try
-							{
-								meta2 = Integer.parseInt(args[4]);
-							}
-							catch(Exception e)
-							{
-								throw new WrongUsageException(usage);
-							}
-						}
-						
-						if(!ResourceHelper.isRegisteredBlock(id1.toString()) || !ResourceHelper.isRegisteredBlock(id2.toString()))
-						{
-							throw new WrongUsageException(usage);
-						}
-						
-						BuilderFill builder = new BuilderFill();
-						builder.setPosition1(BlockHelper.getPos1());
-						builder.setPosition2(BlockHelper.getPos2());
-						builder.setBlock1(id1);
-						builder.setMeta1(meta1);
-						builder.setBlock2(id2);
-						builder.setMeta2(meta2);
-						
-						Minecraft.getMinecraft().player.sendChatMessage(builder.getBuilderForReplace().toActualCommand());
-					}
-					else
-					{
-						throw new WrongUsageException(usage);
-					}
-				}
-				else
-				{
-					throw new WrongUsageException(usage);
-				}
-			}
-			else if(args[0].equals("clone"))
-			{
-				final String usage = "/wh clone [" + String.join("|", Arrays.stream(EnumMask.MASKED.values()).map(EnumMask::toString).collect(Collectors.toList())) + "]";
-				EnumMask mask = EnumMask.MASKED;
-				
-				if(args.length > 1)
-				{
-					mask = EnumHelper.valueOf(EnumMask.class, args[1]);
-				}
-				
-				if(mask == null)
-				{
-					throw new WrongUsageException(usage);
-				}
-				
-				BuilderClone builder = new BuilderClone();
-				builder.setPosition1(BlockHelper.getPos1());
-				builder.setPosition2(BlockHelper.getPos2());
-				builder.setMask(mask);
-				
-				Minecraft.getMinecraft().player.sendChatMessage(builder.toActualCommand());
-			}
-			else
-			{
-				throw new WrongUsageException(new BuilderWH().toCommand());
-			}
-		}
-		else
-		{
-			throw new WrongUsageException(new BuilderWH().toCommand());
-		}
-	}
-
-	@Override
-	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
-	{
-		if(args.length == 1)
-		{
-			return this.getListOfStringsMatchingLastWord(args, new String[]{"pos1", "pos2", "fill", "replace", "clone"});
-		}
-		else if(args.length == 2)
-		{
-			if(args[0].equals("fill") || args[0].equals("replace"))
-			{
-				return this.getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
-			}
-			else if(args[0].equals("clone"))
-			{
-				return this.getListOfStringsMatchingLastWord(args, new String[]{"replace", "masked", "filtered"});
-			}
-		}
-		else if(args.length == 3)
-		{
-			if(args[0].equals("fill") || args[0].equals("replace"))
-			{
-				return this.getListOfStringsMatchingLastWord(args, new String[] {"0"});
-			}
-		}
-		else if(args.length == 4)
-		{
-			if(args[0].equals("replace"))
-			{
-				return this.getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
-			}
-		}
-		
-		return Collections.<String>emptyList();
+		BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
+		BlockPos pos = BlockHelper.getPos2();
+		ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+		CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+		return 1;
 	}
 	
-	@Override
-	public String getUsage(ICommandSender sender)
+	private static int fill(CommandSource source, String block)
 	{
-		return new BuilderWH().toCommand();
+		BuilderFill builder = new BuilderFill();
+		builder.setBlock1(block);
+		CommandHelper.sendCommand(builder);
+		return 1;
+	}
+	
+	private static int replace(CommandSource source, String block, String replace)
+	{
+		BuilderFill builder = new BuilderFill();
+		builder.setPosition1(BlockHelper.getPos1());
+		builder.setPosition2(BlockHelper.getPos2());
+		builder.setBlock1(block);
+		builder.setBlock2(replace);
+		CommandHelper.sendCommand(builder);
+		return 1;
+	}
+	
+	private static int clone(CommandSource source, EnumMask mask)
+	{
+		BuilderClone builder = new BuilderClone();
+		builder.setPosition1(BlockHelper.getPos1());
+		builder.setPosition2(BlockHelper.getPos2());
+		builder.setMask(mask);
+		return 1;
 	}
 }

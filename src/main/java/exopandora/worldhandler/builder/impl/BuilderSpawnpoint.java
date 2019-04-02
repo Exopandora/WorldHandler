@@ -2,19 +2,20 @@ package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.types.Coordinate;
+import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.Type;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderSpawnpoint extends CommandBuilder
 {
 	public BuilderSpawnpoint(String player)
 	{
-		this.setX(new Coordinate(0, true));
-		this.setY(new Coordinate(0, true));
-		this.setZ(new Coordinate(0, true));
+		this.setX(new CoordinateInt(CoordinateType.LOCAL));
+		this.setY(new CoordinateInt(CoordinateType.LOCAL));
+		this.setZ(new CoordinateInt(CoordinateType.LOCAL));
 	}
 	
 	@Override
@@ -28,17 +29,17 @@ public class BuilderSpawnpoint extends CommandBuilder
 		this.setNode(0, player);
 	}
 	
-	public void setX(Coordinate x)
+	public void setX(CoordinateInt x)
 	{
 		this.setNode(1, x);
 	}
 	
-	public void setY(Coordinate y)
+	public void setY(CoordinateInt y)
 	{
 		this.setNode(2, y);
 	}
 	
-	public void setZ(Coordinate z)
+	public void setZ(CoordinateInt z)
 	{
 		this.setNode(3, z);
 	}
@@ -49,9 +50,9 @@ public class BuilderSpawnpoint extends CommandBuilder
 		Syntax syntax = new Syntax();
 		
 		syntax.addRequired("player", Type.STRING);
-		syntax.addRequired("x", Type.COORDINATE);
-		syntax.addRequired("y", Type.COORDINATE);
-		syntax.addRequired("z", Type.COORDINATE);
+		syntax.addRequired("x", Type.COORDINATE_INT);
+		syntax.addRequired("y", Type.COORDINATE_INT);
+		syntax.addRequired("z", Type.COORDINATE_INT);
 		
 		return syntax;
 	}

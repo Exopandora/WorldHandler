@@ -4,112 +4,89 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.impl.abstr.BuilderDoubleBlockPos;
+import exopandora.worldhandler.builder.types.BlockResourceLocation;
+import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.Type;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.EnumHelper;
-import exopandora.worldhandler.helper.ResourceHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderFill extends BuilderDoubleBlockPos
 {
-	public BuilderFill(ResourceLocation block1, EnumBlockHandling handling, ResourceLocation block2)
+	public BuilderFill()
 	{
-		this.setPosition1(BlockHelper.getPos1());
-		this.setPosition2(BlockHelper.getPos2());
+		
+	}
+	
+	public BuilderFill(BlockResourceLocation block1, EnumBlockFilter filter, BlockResourceLocation block2)
+	{
+		this(BlockHelper.getPos1(), BlockHelper.getPos2(), block1, filter, block2);
+	}
+	
+	public BuilderFill(BlockPos pos1, BlockPos pos2, BlockResourceLocation block1, EnumBlockFilter handling, BlockResourceLocation block2)
+	{
+		this.setPosition1(pos1);
+		this.setPosition2(pos2);
 		this.setBlock1(block1);
-		this.setMeta1(0);
 		this.setBlockHandling(handling);
 		this.setBlock2(block2);
 	}
 	
-	public BuilderFill()
+	public BuilderFill(CoordinateInt x1, CoordinateInt y1, CoordinateInt z1, CoordinateInt x2, CoordinateInt y2, CoordinateInt z2, BlockResourceLocation block1)
 	{
-		this.init();
-	}
-	
-	private void init()
-	{
-		this.setMeta1(0);
-	}
-	
-	@Deprecated
-	public void setMeta1(int meta)
-	{
-		this.setNode(7, meta);
-	}
-	
-	@Deprecated
-	public void setMeta2(int meta)
-	{
-		this.setNode(10, meta);
+		this.setX1(x1);
+		this.setY1(y1);
+		this.setZ1(z1);
+		this.setX2(x2);
+		this.setY2(y2);
+		this.setZ2(z2);
+		this.setBlock1(block1);
 	}
 	
 	public void setBlock1(String block)
 	{
-		this.setBlock1(ResourceHelper.stringToResourceLocationNullable(block, ResourceHelper::isRegisteredBlock));
+		this.setBlock1(BlockResourceLocation.valueOf(block));
 	}
 	
-	public void setBlock1(ResourceLocation location)
+	public void setBlock1(BlockResourceLocation resource)
 	{
-		this.setNode(6, location);
+		this.setNode(6, resource);
 	}
 	
-	public ResourceLocation getBlock1()
+	@Nullable
+	public BlockResourceLocation getBlock1()
 	{
-		return this.getNodeAsResourceLocation(6);
+		return this.getNodeAsBlockResourceLocation(6);
 	}
 	
-	public String getBlock1String()
+	public void setBlockHandling(EnumBlockFilter filter)
 	{
-		ResourceLocation location = this.getBlock1();
-		
-		if(location != null)
-		{
-			return location.toString();
-		}
-		
-		return null;
-	}
-	
-	public void setBlockHandling(EnumBlockHandling blockHandling)
-	{
-		this.setNode(8, blockHandling != null ? blockHandling.toString() : null);
+		this.setNode(7, filter != null ? filter.toString() : null);
 	}
 	
 	public void setBlock2(String block)
 	{
-		this.setBlock2(ResourceHelper.stringToResourceLocationNullable(block, ResourceHelper::isRegisteredBlock));
+		this.setBlock2(BlockResourceLocation.valueOf(block));
 	}
 	
-	public void setBlock2(ResourceLocation location)
+	public void setBlock2(BlockResourceLocation resource)
 	{
-		this.setNode(9, location);
-	}
-	
-	public String getBlock2String()
-	{
-		ResourceLocation location = this.getBlock2();
-		
-		if(location != null)
-		{
-			return location.toString();
-		}
-		
-		return null;
-	}
-	
-	public ResourceLocation getBlock2()
-	{
-		return this.getNodeAsResourceLocation(9);
+		this.setNode(8, resource);
 	}
 	
 	@Nullable
-	public EnumBlockHandling getBlockHandling()
+	public BlockResourceLocation getBlock2()
 	{
-		return EnumHelper.valueOf(EnumBlockHandling.class, this.getNodeAsString(8));
+		return this.getNodeAsBlockResourceLocation(8);
+	}
+	
+	@Nullable
+	public EnumBlockFilter getBlockFilter()
+	{
+		return EnumHelper.valueOf(this.getNodeAsString(7), EnumBlockFilter.class);
 	}
 	
 	public BuilderFill getBuilderForFill()
@@ -119,7 +96,7 @@ public class BuilderFill extends BuilderDoubleBlockPos
 	
 	public BuilderFill getBuilderForReplace()
 	{
-		return new BuilderFill(this.getBlock2(), EnumBlockHandling.REPLACE, this.getBlock1());
+		return new BuilderFill(this.getBlock2(), EnumBlockFilter.REPLACE, this.getBlock1());
 	}
 	
 	@Override
@@ -133,23 +110,21 @@ public class BuilderFill extends BuilderDoubleBlockPos
 	{
 		Syntax syntax = new Syntax();
 		
-		syntax.addRequired("x1", Type.COORDINATE);
-		syntax.addRequired("y1", Type.COORDINATE);
-		syntax.addRequired("z1", Type.COORDINATE);
-		syntax.addRequired("x2", Type.COORDINATE);
-		syntax.addRequired("y2", Type.COORDINATE);
-		syntax.addRequired("z2", Type.COORDINATE);
-		syntax.addRequired("block", Type.RESOURCE_LOCATION);
-		syntax.addOptional("data_value", Type.INT);
-		syntax.addOptional("old_block_handling", Type.STRING);
-		syntax.addOptional("block_2|nbt", Type.RESOURCE_LOCATION, "block_2|nbt");
-		syntax.addOptional("data_value", Type.INT, "data_value");
+		syntax.addRequired("x1", Type.COORDINATE_INT);
+		syntax.addRequired("y1", Type.COORDINATE_INT);
+		syntax.addRequired("z1", Type.COORDINATE_INT);
+		syntax.addRequired("x2", Type.COORDINATE_INT);
+		syntax.addRequired("y2", Type.COORDINATE_INT);
+		syntax.addRequired("z2", Type.COORDINATE_INT);
+		syntax.addRequired("block", Type.BLOCK_RESOURCE_LOCATION);
+		syntax.addOptional("filter", Type.STRING);
+		syntax.addOptional("block", Type.BLOCK_RESOURCE_LOCATION, "block");
 		
 		return syntax;
 	}
 	
-	@SideOnly(Side.CLIENT)
-	public static enum EnumBlockHandling
+	@OnlyIn(Dist.CLIENT)
+	public static enum EnumBlockFilter
 	{
 		REPLACE,
 		DESTROY,

@@ -2,10 +2,10 @@ package exopandora.worldhandler.format;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class TextFormatting
 {
 	public static String shortenString(String str, int maxWidth, FontRenderer fontRenderer)
@@ -88,7 +88,7 @@ public class TextFormatting
 		return minute;
 	}
 	
-	public static String getWorldTime(long tick)
+	public static String formatWorldTime(long tick)
 	{
 		int hour = TextFormatting.getHour(tick);
 		int minute = TextFormatting.getMinute(tick);

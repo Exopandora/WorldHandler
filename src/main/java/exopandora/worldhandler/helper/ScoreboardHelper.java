@@ -8,13 +8,17 @@ import java.util.function.Predicate;
 import com.google.common.base.Predicates;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import net.minecraft.scoreboard.IScoreCriteria;
+import net.minecraft.scoreboard.ScoreCriteria;
 import net.minecraft.scoreboard.Team.CollisionRule;
 import net.minecraft.scoreboard.Team.EnumVisible;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.stats.StatList;
+import net.minecraft.stats.StatType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.IRegistry;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ScoreboardHelper
 {
 	private final Node objectives = new Node();
@@ -37,13 +41,28 @@ public class ScoreboardHelper
 		
 		//Objectives
 		
-		for(String criteria : IScoreCriteria.INSTANCES.keySet())
+		for(String scoreCriteria : ScoreCriteria.INSTANCES.keySet())
 		{
-			this.objectives.insertNode(criteria.split("[.]"));
+			this.objectives.insertNode(scoreCriteria.split("[.:]"));
 		}
 		
-		this.objectives.merge("stat", (parent, child) -> parent + "." + child);
-		this.objectives.mergeItems();
+		this.objectives.merge("minecraft", (parent, child) -> parent + "." + child);
+		
+		for(StatType<?> type : IRegistry.field_212634_w)
+		{
+			if(!type.equals(StatList.CUSTOM))
+			{
+				List<Node> entries = new ArrayList<Node>();
+				
+				for(ResourceLocation key : type.getRegistry().getKeys())
+				{
+					entries.add(new Node(this.buildKey(key)));
+				}
+				
+				this.objectives.addNode(this.buildKey(IRegistry.field_212634_w.getKey(type)), entries);
+			}
+		}
+		
 		this.objectives.sort();
 		
 		//Slots
@@ -59,10 +78,16 @@ public class ScoreboardHelper
 		this.options.addNode("color", colors);
 		this.options.addNode("nametagVisibility", visibility);
 		this.options.addNode("deathMessageVisibility", visibility);
-		this.options.addNode("friendlyfire", bool);
+		this.options.addNode("friendlyFire", bool);
 		this.options.addNode("seeFriendlyInvisibles", bool);
 		this.options.addNode("collisionRule", collision);
+		
 		this.options.sort();
+	}
+	
+	private String buildKey(ResourceLocation key)
+	{
+		return key.toString().replace(":", ".");
 	}
 	
 	private <T> List<Node> createList(T[] array, Function<T, String> mapper)

@@ -8,10 +8,11 @@ import exopandora.worldhandler.builder.component.abstr.PotionMetadata;
 import exopandora.worldhandler.builder.types.Type;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderPotionEffect extends CommandBuilder
 {
 	private int seconds;
@@ -20,16 +21,17 @@ public class BuilderPotionEffect extends CommandBuilder
 	
 	public BuilderPotionEffect()
 	{
-		this(null, null);
+		this(null, null, null);
 	}
 	
-	public BuilderPotionEffect(String player, ResourceLocation effect)
+	public BuilderPotionEffect(EnumMode mode, String player, ResourceLocation effect)
 	{
-		this(player, effect, 0, (byte) 0, false);
+		this(mode, player, effect, 0, (byte) 0, false);
 	}
 	
-	public BuilderPotionEffect(String player, ResourceLocation effect, int duration, byte amplifier, boolean hideParticles)
+	public BuilderPotionEffect(EnumMode mode, String player, ResourceLocation effect, int duration, byte amplifier, boolean hideParticles)
 	{
+		this.setMode(mode);
 		this.setPlayer(player);
 		this.setEffect(effect);
 		this.setDuration(duration);
@@ -37,29 +39,42 @@ public class BuilderPotionEffect extends CommandBuilder
 		this.setHideParticles(hideParticles);
 	}
 	
+	public void setMode(EnumMode mode)
+	{
+		if(mode != null)
+		{
+			this.setNode(0, mode.toString());
+		}
+	}
+	
 	public void setPlayer(String player)
 	{
-		this.setNode(0, player);
+		this.setNode(1, player);
 	}
 	
 	public String getPlayer()
 	{
-		return this.getNodeAsString(0);
+		return this.getNodeAsString(1);
+	}
+	
+	public void setEffect(Potion effect)
+	{
+		this.setEffect(effect.getRegistryName());
 	}
 	
 	public void setEffect(ResourceLocation effect)
 	{
-		this.setNode(1, effect);
+		this.setNode(2, effect);
 	}
 	
 	@Nullable
 	public Potion getEffectAsPotion()
 	{
-		ResourceLocation location = this.getNodeAsResourceLocation(1);
+		ResourceLocation location = this.getNodeAsResourceLocation(2);
 		
 		if(location != null)
 		{
-			return Potion.getPotionFromResourceLocation(location.toString());
+			return ForgeRegistries.POTIONS.getValue(location);
 		}
 		
 		return null;
@@ -67,37 +82,37 @@ public class BuilderPotionEffect extends CommandBuilder
 	
 	public ResourceLocation getEffect()
 	{
-		return this.getNodeAsResourceLocation(1);
+		return this.getNodeAsResourceLocation(2);
 	}
 	
 	public void setDuration(int duration)
 	{
-		this.setNode(2, Math.min(duration, 1000000));
+		this.setNode(3, Math.min(duration, 1000000));
 	}
 	
 	public int getDuration()
 	{
-		return this.getNodeAsInt(2);
+		return this.getNodeAsInt(3);
 	}
 	
 	public void setAmplifier(byte amplifier)
 	{
-		this.setNode(3, (byte) (amplifier - 1));
+		this.setNode(4, (byte) (amplifier - 1));
 	}
 	
 	public int getAmplifier()
 	{
-		return this.getNodeAsByte(3);
+		return this.getNodeAsByte(4);
 	}
 	
 	public void setHideParticles(boolean hideParticles)
 	{
-		this.setNode(4, hideParticles);
+		this.setNode(5, hideParticles);
 	}
 	
 	public boolean getHideParticles()
 	{
-		return this.getNodeAsBoolean(4);
+		return this.getNodeAsBoolean(5);
 	}
 	
 	public int getSeconds()
@@ -108,7 +123,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setSeconds(int seconds)
 	{
 		this.seconds = seconds;
-		this.setDuration(PotionMetadata.getDurationSeconds(this.seconds, this.minutes, this.hours));
+		this.setDuration(PotionMetadata.toSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public int getMinutes()
@@ -119,7 +134,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setMinutes(int minutes)
 	{
 		this.minutes = minutes;
-		this.setDuration(PotionMetadata.getDurationSeconds(this.seconds, this.minutes, this.hours));
+		this.setDuration(PotionMetadata.toSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public int getHours()
@@ -130,17 +145,22 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setHours(int hours)
 	{
 		this.hours = hours;
-		this.setDuration(PotionMetadata.getDurationSeconds(this.seconds, this.minutes, this.hours));
+		this.setDuration(PotionMetadata.toSeconds(this.seconds, this.minutes, this.hours));
+	}
+	
+	public BuilderGeneric getGiveCommand()
+	{
+		return new BuilderGeneric(this.getCommandName(), EnumMode.GIVE.toString(), this.getPlayer(), this.getEffect().toString(), String.valueOf(this.getDuration()), String.valueOf(this.getAmplifier()), String.valueOf(this.getHideParticles()));
 	}
 	
 	public BuilderGeneric getRemoveCommand()
 	{
-		return new BuilderGeneric(this.getCommandName(), this.getPlayer(), this.getEffect().toString(), "0");
+		return new BuilderGeneric(this.getCommandName(), EnumMode.CLEAR.toString(), this.getPlayer(), this.getEffect().toString());
 	}
 	
 	public BuilderGeneric getClearCommand()
 	{
-		return new BuilderGeneric(this.getCommandName(), this.getPlayer(), "clear");
+		return new BuilderGeneric(this.getCommandName(), EnumMode.CLEAR.toString(), this.getPlayer());
 	}
 	
 	@Override
@@ -154,6 +174,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	{
 		Syntax syntax = new Syntax();
 		
+		syntax.addRequired("give|clear", Type.STRING);
 		syntax.addRequired("player", Type.STRING);
 		syntax.addRequired("effect", Type.RESOURCE_LOCATION);
 		syntax.addOptional("seconds", Type.INT, 0);
@@ -161,5 +182,18 @@ public class BuilderPotionEffect extends CommandBuilder
 		syntax.addOptional("hideParticles", Type.BOOLEAN, false);
 		
 		return syntax;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum EnumMode
+	{
+		GIVE,
+		CLEAR;
+		
+		@Override
+		public String toString()
+		{
+			return this.name().toLowerCase();
+		}
 	}
 }

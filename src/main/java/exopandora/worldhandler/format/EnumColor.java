@@ -2,11 +2,14 @@ package exopandora.worldhandler.format;
 
 import javax.annotation.Nullable;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+/**
+ * XXX To be replaced with TextFormatting
+ */
 @Deprecated
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public enum EnumColor
 {
 	DEFAULT("reset", "r"),
@@ -30,7 +33,7 @@ public enum EnumColor
 	OBFUSCATED("obfuscated", "k"),
 	BOLD("bold", "l"),
 	STRIKETHROUGH("strikethrough", "m"),
-	UNDERLINED("underlined", "n"),
+	UNDERLINE("underline", "n"),
 	ITALIC("italic", "o");
 	
 	private String format;

@@ -1,110 +1,80 @@
 package exopandora.worldhandler.gui.button;
 
+import java.util.List;
+
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import exopandora.worldhandler.format.TextFormatting;
-import exopandora.worldhandler.gui.button.logic.IListButtonLogic;
-import exopandora.worldhandler.gui.button.persistence.ButtonValue;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.content.Content;
+import exopandora.worldhandler.gui.logic.ILogicMapped;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class GuiButtonList<T> extends GuiButtonWorldHandler
+@OnlyIn(Dist.CLIENT)
+public class GuiButtonList<T> extends GuiButtonTooltip
 {
-	private final IListButtonLogic<T> logic;
-	private final ButtonValue<T> persistence;
-	private int mouseX;
-	private int mouseY;
+	private final ILogicMapped<T> logic;
+	private final Persistence persistence;
+	private final List<T> items;
 	
-	public GuiButtonList(int id, int x, int y, int width, int height, Content content, IListButtonLogic<T> logic)
+	public GuiButtonList(int x, int y, List<T> items, int widthIn, int heightIn, Container container, ILogicMapped<T> logic)
 	{
-		this(id, x, y, width, height, null, content, logic);
+		this(0, x, y, items, widthIn, heightIn, container, logic);
 	}
 	
-	public GuiButtonList(int id, int x, int y, int width, int height, EnumTooltip tooltipType, Content content, IListButtonLogic<T> logic)
+	public GuiButtonList(int id, int x, int y, List<T> items, int widthIn, int heightIn, Container container, ILogicMapped<T> logic)
 	{
-		super(id, x, y, width, height, null, null, tooltipType);
+		super(id, x, y, widthIn, heightIn, null, null, null);
+		this.items = items;
 		this.logic = logic;
-		this.persistence = content.getPersistence(this.logic.getId());
-		this.updatePersistenceObject();
+		this.persistence = container.getContent().getPersistence(this.logic.getId(), Persistence::new);
 	}
 	
 	@Override
-	public void drawButton(Minecraft minecraft, int mouseX, int mouseY, float partialTicks)
+	public void render(int mouseX, int mouseY, float partialTicks)
 	{
-		super.drawBackground(minecraft, mouseX, mouseY);
-		
 		if(this.visible)
 		{
-			FontRenderer fontRenderer = minecraft.fontRenderer;
+			this.drawBackground(mouseX, mouseY);
 			
-			this.mouseX = mouseX;
-			this.mouseY = mouseY;
+			String displayString = this.logic.translate(this.items.get(this.persistence.getIndex()));
+			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 			
-			this.displayString = this.logic.getDisplayString(this.persistence);
-			
-			if(this.displayString != null && !this.displayString.isEmpty())
+			if(displayString != null && !displayString.isEmpty())
 			{
 				String leftArrow = this.isHoveringLeft(mouseX, mouseY) ? ChatFormatting.BOLD + "<" + ChatFormatting.RESET : "<";
 				String rightArrow = this.isHoveringRight(mouseX, mouseY) ? ChatFormatting.BOLD + ">" + ChatFormatting.RESET : ">";
 				
-				int leftArrowWidth = fontRenderer.getStringWidth(leftArrow);
-				int rightArrowWidth = fontRenderer.getStringWidth(rightArrow);
-				
-	            int maxWidth = Math.max(0, this.width - (fontRenderer.getStringWidth("<   >")));
-	            int spaceWidth = fontRenderer.getCharWidth(' ');
+	            int maxWidth = Math.max(0, this.width - fontRenderer.getStringWidth("<   >"));
+	            int spaceWidth = fontRenderer.getStringWidth(" ");
 	            
-	            String display = TextFormatting.shortenString(this.displayString, maxWidth, fontRenderer);
-	            int displayWidth = fontRenderer.getStringWidth(display);
+	            String display = TextFormatting.shortenString(displayString, maxWidth, fontRenderer);
 	            int yPos = this.y + (this.height - 8) / 2;
 	            
 				this.drawCenteredString(fontRenderer, display, this.x + this.width / 2, yPos, this.getTextColor());
 				this.drawCenteredString(fontRenderer, leftArrow, this.x + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getTextColor());
 				this.drawCenteredString(fontRenderer, rightArrow, this.x + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getTextColor());
 			}
-			
-			this.isActive = true;
 		}
 	}
 	
 	@Override
-	public void drawTooltip(int mouseX, int mouseY, int width, int height)
+	public void renderTooltip(int mouseX, int mouseY)
 	{
-		if(this.tooltipType != null)
-		{
-			this.displayTooltip = this.logic.getTooltipString(this.persistence);
-		}
-		
-		super.drawTooltip(mouseX, mouseY, width, height);
+		this.tooltip = this.logic.formatTooltip(this.items.get(this.persistence.getIndex()), this.persistence.getIndex() + 1, this.items.size());
+		super.renderTooltip(mouseX, mouseY);
 	}
 	
-	private boolean isHoveringLeft(int mouseX, int mouseY)
+	@Override
+	public void onClick(double mouseX, double mouseY)
 	{
-		return this.isHoveringVertical(mouseY) && mouseX >= this.x && mouseX < this.x + Math.ceil(this.width / 2);
-	}
-	
-	private boolean isHoveringRight(int mouseX, int mouseY)
-	{
-		return this.isHoveringVertical(mouseY) && mouseX >= this.x + Math.ceil(this.width / 2) && mouseX < this.x + this.width;
-	}
-	
-	private boolean isHoveringVertical(int mouseY)
-	{
-		return mouseY >= this.y && mouseY < this.y + this.height;
-	}
-	
-	public void actionPerformed(Container container, GuiButton button)
-	{
-		int max = this.logic.getMax() - 1;
+		int max = this.items.size() - 1;
 		int index = this.persistence.getIndex();
 		
-		if(this.isHoveringLeft(this.mouseX, this.mouseY))
+		if(this.isHoveringLeft(mouseX, mouseY))
 		{
 			if(GuiScreen.isShiftKeyDown())
 			{
@@ -129,7 +99,7 @@ public class GuiButtonList<T> extends GuiButtonWorldHandler
 				}
 			}
 		}
-		else if(this.isHoveringRight(this.mouseX, this.mouseY))
+		else if(this.isHoveringRight(mouseX, mouseY))
 		{
 			if(GuiScreen.isShiftKeyDown())
 			{
@@ -155,17 +125,67 @@ public class GuiButtonList<T> extends GuiButtonWorldHandler
 			}
 		}
 		
-		this.updatePersistenceObject();
-		this.logic.actionPerformed(container, button, this.persistence);
+		this.logic.onClick(this.items.get(this.persistence.getIndex()));
 	}
 	
-	private void updatePersistenceObject()
+	private boolean isHoveringLeft(double mouseX, double mouseY)
 	{
-		this.persistence.setObject(this.logic.getObject(this.persistence.getIndex()));
+		return this.isHoveringVertical(mouseY) && mouseX >= this.x && mouseX < this.x + Math.ceil(this.width / 2);
 	}
 	
-	public IListButtonLogic<T> getLogic()
+	private boolean isHoveringRight(double mouseX, double mouseY)
 	{
-		return this.logic;
+		return this.isHoveringVertical(mouseY) && mouseX >= this.x + Math.ceil(this.width / 2) && mouseX < this.x + this.width;
+	}
+	
+	private boolean isHoveringVertical(double mouseY)
+	{
+		return mouseY >= this.y && mouseY < this.y + this.height;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static class Persistence
+	{
+		private int index;
+		
+		public Persistence()
+		{
+			this(0);
+		}
+		
+		public Persistence(int index)
+		{
+			this.index = index;
+		}
+		
+		public void setIndex(int index)
+		{
+			this.index = index;
+		}
+		
+		public int getIndex()
+		{
+			return this.index;
+		}
+		
+		public void incrementIndex()
+		{
+			this.index++;
+		}
+		
+		public void incrementIndex(int amount)
+		{
+			this.index += amount;
+		}
+		
+		public void decrementIndex()
+		{
+			this.index--;
+		}
+		
+		public void decrementIndex(int amount)
+		{
+			this.index -= amount;
+		}
 	}
 }

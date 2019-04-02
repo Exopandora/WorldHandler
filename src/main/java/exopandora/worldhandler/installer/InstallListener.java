@@ -12,10 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import exopandora.worldhandler.Main;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class InstallListener implements ActionListener
 {
 	private final JFrame parent;
@@ -37,7 +34,7 @@ public class InstallListener implements ActionListener
 			File mods = new File(directory, "mods");
 			File versions = new File(directory, "versions");
 			
-			if(!this.isPartialFileNameInFolder(versions, "$mcversion", "Forge"))
+			if(!this.isPartialFileNameInFolder(versions, Main.MC_VERSION, "Forge"))
 			{
 				JOptionPane.showMessageDialog(null, "Please install Mineceaft Forge", null, JOptionPane.ERROR_MESSAGE);
 			}
@@ -54,8 +51,8 @@ public class InstallListener implements ActionListener
 				try
 				{
 					Path path = new File(InstallListener.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).toPath();
-					Files.copy(path, new File(mods, "WorldHandler-$mcversion-$version-Universal.jar").toPath(), StandardCopyOption.REPLACE_EXISTING);
-					JOptionPane.showMessageDialog(null, Main.NAME + " $mcversion-$version has been successfully installed", null, JOptionPane.INFORMATION_MESSAGE);
+					Files.copy(path, new File(mods, "WorldHandler-" + Main.MC_VERSION + "-" + Main.MOD_VERSION + "-Universal.jar").toPath(), StandardCopyOption.REPLACE_EXISTING);
+					JOptionPane.showMessageDialog(null, Main.NAME + " " + Main.MC_VERSION + "-" + Main.MOD_VERSION + " has been successfully installed", null, JOptionPane.INFORMATION_MESSAGE);
 				}
 				catch(Exception e)
 				{

@@ -2,7 +2,6 @@ package exopandora.worldhandler.gui.content.impl;
 
 import com.google.common.base.Predicates;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGeneric;
 import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
@@ -11,23 +10,25 @@ import exopandora.worldhandler.builder.impl.BuilderPlayerReason;
 import exopandora.worldhandler.builder.impl.BuilderWhitelist;
 import exopandora.worldhandler.builder.impl.BuilderWhitelist.EnumMode;
 import exopandora.worldhandler.gui.button.EnumIcon;
-import exopandora.worldhandler.gui.button.EnumTooltip;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
+import exopandora.worldhandler.gui.button.GuiButtonIcon;
+import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.container.impl.GuiWorldHandlerContainer;
+import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentMultiplayer extends Content
 {
 	private GuiTextFieldTooltip playerField;
@@ -87,172 +88,191 @@ public class ContentMultiplayer extends Content
 		this.playerField.setFocused(false);
 		this.playerField.setText(this.builderKick.getPlayer());
 		this.playerField.setMaxStringLength(16);
+		this.playerField.setTextAcceptHandler((id, text) ->
+		{
+			this.setPlayer(this.playerField.getText());
+			container.initButtons();
+		});
 		
 		this.reasonField = new GuiTextFieldTooltip(x + 118, y + 24 + this.shiftDown, 114, 20, I18n.format("gui.worldhandler.multiplayer.kick_ban.reason"));
 		this.reasonField.setValidator(Predicates.notNull());
 		this.reasonField.setFocused(false);
 		this.reasonField.setText(this.builderKick.getReason());
+		this.reasonField.setTextAcceptHandler((id, text) ->
+		{
+			this.setReason(this.reasonField.getText());
+			container.initButtons();
+		});
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		GuiButtonWorldHandler button3;
-		GuiButtonWorldHandler button4;
-		GuiButtonWorldHandler button5;
-		GuiButtonWorldHandler button6;
-		GuiButtonWorldHandler button7;
-		GuiButtonWorldHandler button8;
-		GuiButtonWorldHandler button9;
+		GuiButtonBase button1;
+		GuiButtonBase button2;
+		GuiButtonBase button3;
+		GuiButtonBase button4;
+		GuiButtonBase button5;
+		GuiButtonBase button6;
+		GuiButtonBase button7;
 		
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button3 = new GuiButtonWorldHandler(3, x, y, 114, 20, I18n.format("gui.worldhandler.multiplayer.kick") + " / " + I18n.format("gui.worldhandler.multiplayer.ban")));
-		container.add(button4 = new GuiButtonWorldHandler(4, x, y + 24, 114, 20, I18n.format("gui.worldhandler.multiplayer.pardon")));
-		container.add(button5 = new GuiButtonWorldHandler(5, x, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.permissions")));
-		container.add(button6 = new GuiButtonWorldHandler(6, x, y + 72, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime")));
-		container.add(button7 = new GuiButtonWorldHandler(7, x, y + 96, 114, 20, I18n.format("gui.worldhandler.multiplayer.whitelist")));
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.multiplayer.kick") + " / " + I18n.format("gui.worldhandler.multiplayer.ban"), () ->
+		{
+			this.selected = "kickBan";
+			this.shiftDown = 0;
+			container.initGui();
+		}));
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.multiplayer.pardon"), () ->
+		{
+			this.selected = "pardon";
+			this.shiftDown = 24;
+			container.initGui();
+		}));
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.permissions"), () ->
+		{
+			this.selected = "permissions";
+			this.shiftDown = 12;
+			container.initGui();
+		}));
+		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime"), () ->
+		{
+			this.selected = "runtime";
+			this.shiftDown = 0;
+			container.initGui();
+		}));
+		container.add(button5 = new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.multiplayer.whitelist"), () ->
+		{
+			this.selected = "whitelist";
+			this.shiftDown = 0;
+			container.initGui();
+		}));
 		
 		if(this.selected.equals("kickBan"))
 		{
-			container.add(button8 = new GuiButtonWorldHandler(8, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.kick"), this.builderKick.toActualCommand(), EnumTooltip.TOP_RIGHT));
-			container.add(button9 = new GuiButtonWorldHandler(9, x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.multiplayer.ban"), this.builderBan.toActualCommand(), EnumTooltip.TOP_RIGHT));
+			container.add(this.playerField);
+			container.add(this.reasonField);
+			container.add(button6 = new GuiButtonTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.kick"), this.builderKick.toActualCommand(), () ->
+			{
+				CommandHelper.sendCommand(this.builderKick);
+			}));
+			container.add(button7 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.multiplayer.ban"), this.builderBan.toActualCommand(), () ->
+			{
+				CommandHelper.sendCommand(this.builderBan);
+			}));
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button8.enabled = false;
-				button9.enabled = false;
+				button6.enabled = false;
+				button7.enabled = false;
+			}
+			
+			button1.enabled = false;
+		}
+		else if(this.selected.equals("pardon"))
+		{
+			container.add(this.playerField);
+			container.add(button6 = new GuiButtonTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.pardon"), this.builderPardon.toActualCommand(), () ->
+			{
+				CommandHelper.sendCommand(this.builderPardon);
+			}));
+			
+			if(this.playerField.getText().isEmpty())
+			{
+				button6.enabled = false;
+			}
+			
+			button2.enabled = false;
+		}
+		else if(this.selected.equals("permissions"))
+		{
+			container.add(this.playerField);
+			container.add(button6 = new GuiButtonTooltip(x + 118, y + 24 + 12, 114, 20, I18n.format("gui.worldhandler.multiplayer.permissions.give"), this.builderOp.toActualCommand(), () ->
+			{
+				CommandHelper.sendCommand(this.builderOp);
+			}));
+			container.add(button7 = new GuiButtonTooltip(x + 118, y + 48 + 12, 114, 20, I18n.format("gui.worldhandler.multiplayer.permissions.take"), this.builderDeop.toActualCommand(), () ->
+			{
+				CommandHelper.sendCommand(this.builderDeop);
+			}));
+			
+			if(this.playerField.getText().isEmpty())
+			{
+				button6.enabled = false;
+				button7.enabled = false;
 			}
 			
 			button3.enabled = false;
 		}
-		else if(this.selected.equals("pardon"))
+		else if(this.selected.equals("runtime"))
 		{
-			container.add(button8 = new GuiButtonWorldHandler(10, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.pardon"), this.builderPardon.toActualCommand(), EnumTooltip.TOP_RIGHT));
-			
-			if(this.playerField.getText().isEmpty())
+			container.add(new GuiButtonTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime.save_world"), this.builderSaveAll.toActualCommand(), () ->
 			{
-				button8.enabled = false;
-			}
+				CommandHelper.sendCommand(this.builderSaveAll);
+			}));
+			container.add(new GuiButtonTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime.autosave", I18n.format("gui.worldhandler.generic.on")), this.builderSaveOn.toActualCommand(), () ->
+			{
+				CommandHelper.sendCommand(this.builderSaveOn);
+			}));
+			container.add(new GuiButtonTooltip(x + 118, y + 48, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.multiplayer.runtime.autosave", I18n.format("gui.worldhandler.generic.off")), this.builderSaveOff.toActualCommand(), () ->
+			{
+				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSaveOff).withParent(Contents.MULTIPLAYER)));
+			}));
+			container.add(new GuiButtonTooltip(x + 118, y + 72, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.multiplayer.runtime.stop_server"), this.builderStop.toActualCommand(), () ->
+			{
+				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderStop).withParent(Contents.MULTIPLAYER)));
+			}));
 			
 			button4.enabled = false;
 		}
-		else if(this.selected.equals("permissions"))
+		else if(this.selected.equals("whitelist"))
 		{
-			container.add(button8 = new GuiButtonWorldHandler(11, x + 118, y + 24 + 12, 114, 20, I18n.format("gui.worldhandler.multiplayer.permissions.give"), this.builderOp.toActualCommand(), EnumTooltip.TOP_RIGHT));
-			container.add(button9 = new GuiButtonWorldHandler(12, x + 118, y + 48 + 12, 114, 20, I18n.format("gui.worldhandler.multiplayer.permissions.take"), this.builderDeop.toActualCommand(), EnumTooltip.TOP_RIGHT));
+			container.add(this.playerField);
+			container.add(button6 = new GuiButtonBase(x + 118, y + 24, 44, 20, I18n.format("gui.worldhandler.multiplayer.whitelist.add"), () ->
+			{
+				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.ADD));
+			}));
+			container.add(button7 = new GuiButtonBase(x + 118 + 47, y + 24, 44, 20, I18n.format("gui.worldhandler.multiplayer.whitelist.remove"), () ->
+			{
+				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.REMOVE));
+			}));
+			
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.whitelist.whitelist", I18n.format("gui.worldhandler.generic.on")), () ->
+			{
+				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.ON));
+			}));
+			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.multiplayer.whitelist.whitelist", I18n.format("gui.worldhandler.generic.off")), () ->
+			{
+				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.OFF));
+			}));
+			
+			container.add(new GuiButtonIcon(x + 232 - 20, y + 24, 20, 20, EnumIcon.RELOAD, I18n.format("gui.worldhandler.multiplayer.whitelist.reload"), () ->
+			{
+				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.RELOAD));
+			}));
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button8.enabled = false;
-				button9.enabled = false;
+				button6.enabled = false;
+				button7.enabled = false;
 			}
 			
 			button5.enabled = false;
 		}
-		else if(this.selected.equals("runtime"))
-		{
-			container.add(new GuiButtonWorldHandler(13, x + 118, y, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime.save_world"), this.builderSaveAll.toActualCommand(), EnumTooltip.TOP_RIGHT));
-			container.add(new GuiButtonWorldHandler(14, x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime.autosave", I18n.format("gui.worldhandler.generic.on")), this.builderSaveOn.toActualCommand(), EnumTooltip.TOP_RIGHT));
-			container.add(new GuiButtonWorldHandler(15, x + 118, y + 48, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.multiplayer.runtime.autosave", I18n.format("gui.worldhandler.generic.off")), this.builderSaveOff.toActualCommand(), EnumTooltip.TOP_RIGHT));
-			container.add(new GuiButtonWorldHandler(16, x + 118, y + 72, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.multiplayer.runtime.stop_server"), this.builderStop.toActualCommand(), EnumTooltip.TOP_RIGHT));
-			
-			button6.enabled = false;
-		}
-		else if(this.selected.equals("whitelist"))
-		{
-			container.add(button8 = new GuiButtonWorldHandler(17, x + 118, y + 24, 44, 20, I18n.format("gui.worldhandler.multiplayer.whitelist.add")));
-			container.add(button9 = new GuiButtonWorldHandler(18, x + 118 + 47, y + 24, 44, 20, I18n.format("gui.worldhandler.multiplayer.whitelist.remove")));
-			
-			container.add(new GuiButtonWorldHandler(19, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.whitelist.whitelist", I18n.format("gui.worldhandler.generic.on"))));
-			container.add(new GuiButtonWorldHandler(20, x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.multiplayer.whitelist.whitelist", I18n.format("gui.worldhandler.generic.off"))));
-			
-			container.add(new GuiButtonWorldHandler(21, x + 232 - 20, y + 24, 20, 20, null, I18n.format("gui.worldhandler.multiplayer.whitelist.reload"), EnumTooltip.TOP_RIGHT, EnumIcon.RELOAD));
-			
-			if(this.playerField.getText().isEmpty())
-			{
-				button8.enabled = false;
-				button9.enabled = false;
-			}
-			
-			button7.enabled = false;
-		}
 	}
 	
 	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
+	public void tick(Container container)
 	{
-		switch(button.id)
+		if(this.selected.equals("kickBan"))
 		{
-			case 3:
-				this.selected = "kickBan";
-				this.shiftDown = 0;
-				container.initGui();
-				break;
-			case 4:
-				this.selected = "pardon";
-				this.shiftDown = 24;
-				container.initGui();
-				break;
-			case 5:
-				this.selected = "permissions";
-				this.shiftDown = 12;
-				container.initGui();
-				break;
-			case 6:
-				this.selected = "runtime";
-				this.shiftDown = 0;
-				container.initGui();
-				break;
-			case 7:
-				this.selected = "whitelist";
-				this.shiftDown = 0;
-				container.initGui();
-				break;
-			case 8:
-				WorldHandler.sendCommand(this.builderKick);
-				break;
-			case 9:
-				WorldHandler.sendCommand(this.builderBan);
-				break;
-			case 10:
-				WorldHandler.sendCommand(this.builderPardon);
-				break;
-			case 11:
-				WorldHandler.sendCommand(this.builderOp);
-				break;
-			case 12:
-				WorldHandler.sendCommand(this.builderDeop);
-				break;
-			case 13:
-				WorldHandler.sendCommand(this.builderSaveAll);
-				break;
-			case 14:
-				WorldHandler.sendCommand(this.builderSaveOn);
-				break;
-			case 15:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.CONTINUE.withBuilder(this.builderSaveOff).withParent(Contents.MULTIPLAYER)));
-				break;
-			case 16:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.CONTINUE.withBuilder(this.builderStop).withParent(Contents.MULTIPLAYER)));
-				break;
-			case 17:
-				WorldHandler.sendCommand(this.builderWhitelist.getBuilder(EnumMode.ADD));
-				break;
-			case 18:
-				WorldHandler.sendCommand(this.builderWhitelist.getBuilder(EnumMode.REMOVE));
-				break;
-			case 19:
-				WorldHandler.sendCommand(this.builderWhitelist.getBuilder(EnumMode.ON));
-				break;
-			case 20:
-				WorldHandler.sendCommand(this.builderWhitelist.getBuilder(EnumMode.OFF));
-				break;
-			case 21:
-				WorldHandler.sendCommand(this.builderWhitelist.getBuilder(EnumMode.RELOAD));
-				break;
-			default:
-				break;
+			this.reasonField.tick();
+		}
+		
+		if(!this.selected.equals("runtime"))
+		{
+			this.playerField.tick();
 		}
 	}
 	
@@ -261,12 +281,12 @@ public class ContentMultiplayer extends Content
 	{
 		if(this.selected.equals("kickBan"))
 		{
-			this.reasonField.drawTextBox();
+			this.reasonField.drawTextField(mouseX, mouseY, partialTicks);
 		}
 		
 		if(!this.selected.equals("runtime"))
 		{
-			this.playerField.drawTextBox();
+			this.playerField.drawTextField(mouseX, mouseY, partialTicks);
 		}
 	}
 	
@@ -310,29 +330,6 @@ public class ContentMultiplayer extends Content
 	public Content getActiveContent()
 	{
 		return Contents.MULTIPLAYER;
-	}
-	
-	@Override
-	public void keyTyped(Container container, char typedChar, int keyCode)
-	{
-		if(this.playerField.textboxKeyTyped(typedChar, keyCode))
-		{
-			this.setPlayer(this.playerField.getText());
-			container.initButtons();
-		}
-		
-		if(this.reasonField.textboxKeyTyped(typedChar, keyCode))
-		{
-			this.setReason(this.reasonField.getText());
-			container.initButtons();
-		}
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton)
-	{
-		this.playerField.mouseClicked(mouseX, mouseY, mouseButton);
-		this.reasonField.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 	
 	@Override

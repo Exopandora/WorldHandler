@@ -2,10 +2,10 @@ package exopandora.worldhandler.gui.category;
 
 import exopandora.worldhandler.Main;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class Categories
 {
 	public static final Category MAIN;
@@ -29,7 +29,7 @@ public class Categories
 	
 	private static Category getRegisteredCategory(String name)
 	{
-		Category category = Category.REGISTRY.getObject(new ResourceLocation(Main.MODID, name));
+		Category category = Category.REGISTRY.get(new ResourceLocation(Main.MODID, name));
 		
 		if(category == null)
 		{

@@ -6,25 +6,27 @@ import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGeneric;
 import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
+import exopandora.worldhandler.builder.impl.BuilderPlayer;
 import exopandora.worldhandler.builder.impl.BuilderSpawnpoint;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.container.impl.GuiWorldHandlerContainer;
+import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
+import exopandora.worldhandler.helper.ActionHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentPlayer extends Content
 {
 	private String selectedMain = "start";
@@ -39,7 +41,7 @@ public class ContentPlayer extends Content
 	
 	private final BuilderGeneric builderSetworldspawn = new BuilderGeneric("setworldspawn");
 	private final BuilderSpawnpoint builderSpawnpoint = new BuilderSpawnpoint(WorldHandler.USERNAME);
-	private final BuilderGeneric builderKill = new BuilderGeneric("kill");
+	private final BuilderPlayer builderKill = new BuilderPlayer("kill");
 	private final BuilderGeneric builderClear = new BuilderGeneric("clear");
 	
 	private final BuilderMultiCommand builderMiscellaneous = new BuilderMultiCommand(this.builderSetworldspawn, this.builderSpawnpoint, this.builderKill, this.builderClear);
@@ -65,104 +67,94 @@ public class ContentPlayer extends Content
 		this.coinsField = new GuiTextFieldTooltip(x + 118, y + 36, 114, 20);
 		this.xpField = new GuiTextFieldTooltip(x + 118, y + 60, 114, 20);
 		
-		this.updateScreen(container);
+		this.tick(container);
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		GuiButtonWorldHandler button3;
-		GuiButtonWorldHandler button4;
-		GuiButtonWorldHandler button5;
-		GuiButtonWorldHandler button6;
+		GuiButtonBase button1;
+		GuiButtonBase button2;
+		GuiButtonBase button3;
+		GuiButtonBase button4;
 		
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
-				
-		container.add(button3 = new GuiButtonWorldHandler(4, x, y, 114, 20, I18n.format("gui.worldhandler.entities.player.start")));
-		container.add(button4 = new GuiButtonWorldHandler(5, x, y + 24, 114, 20, I18n.format("gui.worldhandler.entities.player.score")));
-		container.add(button5 = new GuiButtonWorldHandler(6, x, y + 48, 114, 20, I18n.format("gui.worldhandler.entities.player.position")));
-		container.add(button6 = new GuiButtonWorldHandler(7, x, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.player.miscellaneous")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.entities.player.start"), () ->
+		{
+			this.selectedMain = "start";
+			container.initGui();
+		}));
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.entities.player.score"), () ->
+		{
+			this.selectedMain = "score";
+			container.initGui();
+		}));
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.entities.player.position"), () ->
+		{
+			this.selectedMain = "position";
+			container.initGui();
+		}));
+		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.player.miscellaneous"), () ->
+		{
+			this.selectedMain = "miscellaneous";
+			container.initGui();
+		}));
 		
 		if(this.selectedMain.equals("start"))
 		{
-			button3.enabled = false;
+			button1.enabled = false;
 		}
 		else if(this.selectedMain.equals("score"))
 		{
-			button4.enabled = false;
+			button2.enabled = false;
 		}
 		else if(this.selectedMain.equals("position"))
 		{
-			button5.enabled = false;
+			button3.enabled = false;
 			
-			container.add(new GuiButtonWorldHandler(8, x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.player.position.copy_position")));
+			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.player.position.copy_position"), () ->
+			{
+				int posX = MathHelper.floor(Minecraft.getInstance().player.posX);
+				int posY = MathHelper.floor(Minecraft.getInstance().player.posY);
+				int posZ = MathHelper.floor(Minecraft.getInstance().player.posZ);
+				
+				Minecraft.getInstance().keyboardListener.setClipboardString(posX + " " + posY + " " + posZ);
+			}));
 		}
 		else if(this.selectedMain.equals("miscellaneous"))
 		{
-			button6.enabled = false;
+			button4.enabled = false;
 			
-			container.add(new GuiButtonWorldHandler(9, x + 118, y, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.set_spawn")));
-			container.add(new GuiButtonWorldHandler(10, x + 118, y + 24, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.set_global_spawn")));
-			container.add(new GuiButtonWorldHandler(11, x + 118, y + 48, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.kill")));
-			container.add(new GuiButtonWorldHandler(12, x + 118, y + 72, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.clear_inventory")));
+			container.add(new GuiButtonBase(x + 118, y, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.set_spawn"), () ->
+			{
+				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSpawnpoint).withParent(Contents.PLAYER)));
+			}));
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.set_global_spawn"), () ->
+			{
+				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSetworldspawn).withParent(Contents.PLAYER)));
+			}));
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.kill"), () ->
+			{
+				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderKill).withParent(Contents.PLAYER)));
+			}));
+			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.clear_inventory"), () ->
+			{
+				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderClear).withParent(Contents.PLAYER)));
+			}));
 		}
 	}
 	
 	@Override
-	public void updateScreen(Container container)
+	public void tick(Container container)
 	{
-		this.posXField.setText("X: " + MathHelper.floor(Minecraft.getMinecraft().player.posX));
-		this.posYField.setText("Y: " + MathHelper.floor(Minecraft.getMinecraft().player.posY));
-		this.posZField.setText("Z: " + MathHelper.floor(Minecraft.getMinecraft().player.posZ));
-		this.scoreField.setText(I18n.format("gui.worldhandler.entities.player.score") + ": " + Minecraft.getMinecraft().player.getScore());
-		this.coinsField.setText(I18n.format("gui.worldhandler.entities.player.score.experience") + ": " + Minecraft.getMinecraft().player.experienceLevel + "L");
-		this.xpField.setText(I18n.format("gui.worldhandler.entities.player.score.experience_coins") + ": " + Minecraft.getMinecraft().player.experienceTotal);
-	}
-	
-	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
-	{
-		switch(button.id)
-		{
-			case 4:
-				this.selectedMain = "start";
-				container.initGui();
-				break;
-			case 5:
-				this.selectedMain = "score";
-				container.initGui();
-				break;
-			case 6:
-				this.selectedMain = "position";
-				container.initGui();
-				break;
-			case 7:
-				this.selectedMain = "miscellaneous";
-				container.initGui();
-				break;
-			case 8:
-				int posX = MathHelper.floor(Minecraft.getMinecraft().player.posX);
-				int posY = MathHelper.floor(Minecraft.getMinecraft().player.posY);
-				int posZ = MathHelper.floor(Minecraft.getMinecraft().player.posZ);
-				
-				container.setClipboardString(posX + " " + posY + " " + posZ);
-				break;
-			case 9:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.CONTINUE.withBuilder(this.builderSpawnpoint).withParent(Contents.PLAYER)));
-				break;
-			case 10:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.CONTINUE.withBuilder(this.builderSetworldspawn).withParent(Contents.PLAYER)));
-				break;
-			case 11:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.CONTINUE.withBuilder(this.builderKill).withParent(Contents.PLAYER)));
-				break;
-			case 12:
-				Minecraft.getMinecraft().displayGuiScreen(new GuiWorldHandlerContainer(Contents.CONTINUE.withBuilder(this.builderClear).withParent(Contents.PLAYER)));
-				break;
-			default:
-				break;
-		}
+		this.posXField.setText("X: " + MathHelper.floor(Minecraft.getInstance().player.posX));
+		this.posYField.setText("Y: " + MathHelper.floor(Minecraft.getInstance().player.posY));
+		this.posZField.setText("Z: " + MathHelper.floor(Minecraft.getInstance().player.posZ));
+		this.scoreField.setText(I18n.format("gui.worldhandler.entities.player.score") + ": " + Minecraft.getInstance().player.getScore());
+		this.coinsField.setText(I18n.format("gui.worldhandler.entities.player.score.experience") + ": " + Minecraft.getInstance().player.experienceLevel + "L");
+		this.xpField.setText(I18n.format("gui.worldhandler.entities.player.score.experience_coins") + ": " + Minecraft.getInstance().player.experienceTotal);
 	}
 	
 	@Override
@@ -172,25 +164,26 @@ public class ContentPlayer extends Content
 		{
 			int xPos = x + 175;
 			int yPos = y + 82;
-			int playerNameWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(Minecraft.getMinecraft().player.getName()) / 2;
+			int playerNameWidth = Minecraft.getInstance().fontRenderer.getStringWidth(Minecraft.getInstance().player.getName().getFormattedText()) / 2;
 			
-			container.drawRect(container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
-			Minecraft.getMinecraft().fontRenderer.drawString(Minecraft.getMinecraft().player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
+			Gui.drawRect(container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
+			Minecraft.getInstance().fontRenderer.drawString(Minecraft.getInstance().player.getName().getFormattedText(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
-			GuiInventory.drawEntityOnScreen(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getMinecraft().player);
-			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			GuiInventory.drawEntityOnScreen(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
+			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		}
 		else if(this.selectedMain.equals("score"))
 		{
-			this.scoreField.drawTextBox();
-			this.xpField.drawTextBox();
-			this.coinsField.drawTextBox();
+			this.scoreField.drawTextField(mouseX, mouseY, partialTicks);
+			this.xpField.drawTextField(mouseX, mouseY, partialTicks);
+			this.coinsField.drawTextField(mouseX, mouseY, partialTicks);
 		}
 		else if(this.selectedMain.equals("position"))
 		{
-			this.posXField.drawTextBox();
-			this.posYField.drawTextBox();
-			this.posZField.drawTextBox();
+			this.posXField.drawTextField(mouseX, mouseY, partialTicks);
+			this.posYField.drawTextField(mouseX, mouseY, partialTicks);
+			this.posZField.drawTextField(mouseX, mouseY, partialTicks);
 		}
 	}
 	
@@ -198,6 +191,7 @@ public class ContentPlayer extends Content
 	public void onPlayerNameChanged(String username)
 	{
 		this.builderSpawnpoint.setPlayer(username);
+		this.builderKill.setPlayer(username);
 	}
 	
 	@Override

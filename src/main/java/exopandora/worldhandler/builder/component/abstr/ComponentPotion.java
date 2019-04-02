@@ -1,28 +1,28 @@
 package exopandora.worldhandler.builder.component.abstr;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class ComponentPotion implements IBuilderComponent 
 {
-	protected final Map<Potion, PotionMetadata> potions = Potion.REGISTRY.getKeys().stream().collect(Collectors.toMap(Potion.REGISTRY::getObject, key -> new PotionMetadata()));
+	protected final Map<Potion, PotionMetadata> potions = new HashMap<Potion, PotionMetadata>();
 	
 	@Override
 	@Nullable
-	public NBTBase serialize()
+	public INBTBase serialize()
 	{
 		NBTTagList list = new NBTTagList();
 		
@@ -36,149 +36,100 @@ public abstract class ComponentPotion implements IBuilderComponent
 				
 				compound.setByte("Id", (byte) Potion.getIdFromPotion(entry.getKey()));
 				compound.setByte("Amplifier", (byte) (potion.getAmplifier() - 1));
-				compound.setInteger("Duration", potion.getDurationTicks() > 0 ? Math.min(potion.getDurationTicks(), 1000000) : 1000000);
+				compound.setInt("Duration", Math.min(potion.toTicks(), 1000000));
 				compound.setBoolean("Ambient", potion.getAmbient());
 				compound.setBoolean("ShowParticles", potion.getShowParticles());
 				
-				list.appendTag(compound);
+				list.add(compound);
 			}
 		}
 		
-		if(!list.hasNoTags())
+		if(list.isEmpty())
 		{
-			return list;
+			return null;
 		}
 		
-		return null;
-	}
-	
-	public void set(Potion potion, PotionMetadata metadata)
-	{
-		this.potions.put(potion, metadata);
-	}
-	
-	public void set(Potion potion, byte amplifier, int seconds, int minutes, int hours, boolean showParticles, boolean ambient)
-	{
-		this.set(potion, new PotionMetadata(amplifier, seconds, minutes, hours, showParticles, ambient));
+		return list;
 	}
 	
 	public void setAmplifier(Potion potion, byte amplifier)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			this.potions.get(potion).setAmplifier(amplifier);
-		}
+		this.getMetadata(potion).setAmplifier(amplifier);
 	}
 	
 	public byte getAmplifier(Potion potion)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			return this.potions.get(potion).getAmplifier();
-		}
-		
-		return 0;
+		return this.getMetadata(potion).getAmplifier();
 	}
 	
 	public void setSeconds(Potion potion, int seconds)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			this.potions.get(potion).setSeconds(seconds);;
-		}
+		this.getMetadata(potion).setSeconds(seconds);
 	}
 	
 	public int getSeconds(Potion potion)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			return this.potions.get(potion).getSeconds();
-		}
-		
-		return 0;
+		return this.getMetadata(potion).getSeconds();
 	}
 	
 	public void setMinutes(Potion potion, int minutes)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			this.potions.get(potion).setSeconds(minutes);;
-		}
+		this.getMetadata(potion).setMinutes(minutes);
 	}
 	
 	public int getMinutes(Potion potion)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			return this.potions.get(potion).getMinutes();
-		}
-		
-		return 0;
+		return this.getMetadata(potion).getMinutes();
 	}
 	
 	public void setHours(Potion potion, int hours)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			this.potions.get(potion).setSeconds(hours);;
-		}
+		this.getMetadata(potion).setHours(hours);
 	}
 	
 	public int getHours(Potion potion)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			return this.potions.get(potion).getHours();
-		}
-		
-		return 0;
+		return this.getMetadata(potion).getHours();
 	}
 	
 	public void setShowParticles(Potion potion, boolean showParticles)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			this.potions.get(potion).setShowParticles(showParticles);
-		}
+		this.getMetadata(potion).setShowParticles(showParticles);
 	}
 	
 	public boolean getShowParticles(Potion potion)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			return this.potions.get(potion).getShowParticles();
-		}
-		
-		return true;
+		return this.getMetadata(potion).getShowParticles();
 	}
 	
 	public void setAmbient(Potion potion, boolean ambient)
 	{
-		if(this.potions.containsKey(potion))
-		{
-			this.potions.get(potion).setAmbient(ambient);
-		}
+		this.getMetadata(potion).setAmbient(ambient);
 	}
 	
 	public boolean getAmbient(Potion potion)
 	{
-		if(this.potions.containsKey(potion))
+		return this.getMetadata(potion).getAmbient();
+	}
+	
+	private PotionMetadata getMetadata(Potion potion)
+	{
+		return this.potions.get(this.validate(potion));
+	}
+	
+	private Potion validate(Potion potion)
+	{
+		if(!this.potions.containsKey(potion))
 		{
-			return this.potions.get(potion).getAmbient();
+			this.potions.put(potion, new PotionMetadata());
 		}
 		
-		return false;
+		return potion;
 	}
 	
 	public Set<Potion> getPotions()
 	{
 		return this.potions.keySet();
-	}
-	
-	@Nullable
-	public PotionMetadata get(Potion potion)
-	{
-		return this.potions.get(potion);
 	}
 	
 	public void remove(Potion potion)

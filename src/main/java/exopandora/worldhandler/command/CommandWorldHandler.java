@@ -1,100 +1,51 @@
 package exopandora.worldhandler.command;
 
-import java.util.Collections;
-import java.util.List;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.WorldHandler;
-import exopandora.worldhandler.builder.impl.BuilderWorldHandler;
-import exopandora.worldhandler.event.EventListener;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.common.ForgeVersion;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.versioning.ComparableVersion;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.VersionChecker;
 
-@SideOnly(Side.CLIENT)
-public class CommandWorldHandler extends CommandBase
+public class CommandWorldHandler
 {
-	@Override
-	public String getName()
+	public static void register(CommandDispatcher<CommandSource> dispatcher)
 	{
-		return "worldhandler";
+		dispatcher.register(Commands.literal("worldhandler")
+				.then(Commands.literal("help")
+					.executes(context -> help(context.getSource())))
+				.then(Commands.literal("display")
+					.executes(context -> display()))
+				.then(Commands.literal("version")
+					.executes(context -> version(context.getSource()))));
 	}
 	
-	@Override
-	public int getRequiredPermissionLevel()
+	private static int help(CommandSource source) throws CommandSyntaxException
 	{
-		return 0;
+		CommandHelper.sendFeedback(source, "/worldhandler help");
+		CommandHelper.sendFeedback(source, "/worldhandler display");
+		CommandHelper.sendFeedback(source, "/worldhandler version");
+		return 1;
 	}
 	
-	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+	private static int display() throws CommandSyntaxException
 	{
-		if(args.length > 0)
-		{
-			if(args[0].equalsIgnoreCase("help"))
-			{
-				this.printHelp(sender);
-			}
-			else if(args[0].equalsIgnoreCase("display"))
-			{
-				Minecraft.getMinecraft().addScheduledTask(EventListener::displayGui);
-			}
-			else if(args[0].equalsIgnoreCase("version"))
-			{
-				sender.sendMessage(new TextComponentString("Installed: $mcversion-$version"));
-				ComparableVersion target = ForgeVersion.getResult(Loader.instance().getIndexedModList().get(Main.MODID)).target;
-				sender.sendMessage(new TextComponentString("Latest: $mcversion-" + (target != null ? target : "$version")));
-			}
-			else
-			{
-				throw new WrongUsageException(this.getUsage(sender));
-			}
-		}
-		else if(args.length == 0)
-		{
-			this.printHelp(sender);
-		}
-		else
-		{
-			throw new WrongUsageException(this.getUsage(sender));
-		}
+		Minecraft.getInstance().addScheduledTask(ActionHelper::displayGui);
+		return 1;
 	}
 	
-	private void printHelp(ICommandSender player)
+	private static int version(CommandSource source) throws CommandSyntaxException
 	{
-		player.sendMessage(new TextComponentString(ChatFormatting.DARK_GREEN + "--- Showing help page 1 of 1 (/worldhandler help) ---"));
-		player.sendMessage(new TextComponentString("/worldhandler help"));
-		player.sendMessage(new TextComponentString("/worldhandler display"));
-		player.sendMessage(new TextComponentString("/worldhandler version"));
-		player.sendMessage(new TextComponentString(ChatFormatting.GREEN + "Tip: Press '" + WorldHandler.KEY_WORLD_HANDLER.getDisplayName() + "' to open the World Handler"));
-	}
-	
-	@Override
-	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
-	{
-		if(args.length == 1)
-		{
-			return this.getListOfStringsMatchingLastWord(args, new String[]{"help", "display", "version"});
-		}
-		
-		return Collections.<String>emptyList();
-	}
-	
-	@Override
-	public String getUsage(ICommandSender sender)
-	{
-		return new BuilderWorldHandler().toCommand();
+		CommandHelper.sendFeedback(source, "Installed: $mcversion-$version");
+		ComparableVersion target = VersionChecker.getResult(ModList.get().getModContainerById(Main.MODID).get().getModInfo()).target;
+		CommandHelper.sendFeedback(source, "Latest: " + Main.MC_VERSION + "-" + (target != null ? target : Main.MOD_VERSION));
+		return 1;
 	}
 }

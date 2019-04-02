@@ -4,14 +4,14 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.impl.BuilderAdvancement.EnumActionType;
 import exopandora.worldhandler.builder.types.Type;
 import exopandora.worldhandler.helper.EnumHelper;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderRecipe extends CommandBuilder
 {
 	public BuilderRecipe()
@@ -34,7 +34,7 @@ public class BuilderRecipe extends CommandBuilder
 	@Nullable
 	public EnumMode getMode()
 	{
-		return EnumHelper.valueOf(EnumMode.class, this.getNodeAsString(0));
+		return EnumHelper.valueOf(this.getNodeAsString(0), EnumMode.class);
 	}
 	
 	public void setPlayer(String player)
@@ -46,6 +46,11 @@ public class BuilderRecipe extends CommandBuilder
 	public String getPlayer()
 	{
 		return this.getNodeAsString(1);
+	}
+	
+	public void setRecipe(IRecipe recipe)
+	{
+		this.setRecipe(recipe.getId());
 	}
 	
 	public void setRecipe(ResourceLocation recipe)
@@ -82,7 +87,7 @@ public class BuilderRecipe extends CommandBuilder
 		return syntax;
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		GIVE,

@@ -3,10 +3,10 @@ package exopandora.worldhandler.builder.impl;
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.Type;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderDifficulty extends CommandBuilder
 {
 	public BuilderDifficulty()
@@ -21,7 +21,10 @@ public class BuilderDifficulty extends CommandBuilder
 	
 	public void setDifficulty(EnumDifficulty difficulty)
 	{
-		this.setNode(0, difficulty.toString());
+		if(difficulty != null)
+		{
+			this.setNode(0, difficulty.toString());
+		}
 	}
 	
 	@Override
@@ -29,7 +32,7 @@ public class BuilderDifficulty extends CommandBuilder
 	{
 		return "difficulty";
 	}
-
+	
 	@Override
 	public final Syntax getSyntax()
 	{
@@ -41,7 +44,7 @@ public class BuilderDifficulty extends CommandBuilder
 	}
 	
 	@Deprecated
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static enum EnumDifficulty
 	{
 		PEACEFUL,

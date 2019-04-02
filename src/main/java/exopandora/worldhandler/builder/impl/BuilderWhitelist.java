@@ -5,10 +5,10 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.Type;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderWhitelist extends CommandBuilder
 {
 	public BuilderWhitelist()
@@ -76,7 +76,7 @@ public class BuilderWhitelist extends CommandBuilder
 		return syntax;
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		ADD,

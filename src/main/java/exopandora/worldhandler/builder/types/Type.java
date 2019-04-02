@@ -4,14 +4,15 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public enum Type
 {
 	SHORT(Short::valueOf),
@@ -22,11 +23,14 @@ public enum Type
 	LONG(Long::valueOf),
 	BOOLEAN(Boolean::valueOf),
 	STRING(String::valueOf),
+	GREEDY_STRING(GreedyString::valueOf),
 	RESOURCE_LOCATION(Type::parseResourceLocation),
+	ITEM_RESOURCE_LOCATION(ItemResourceLocation::valueOf),
+	BLOCK_RESOURCE_LOCATION(BlockResourceLocation::valueOf),
 	NBT(Type::parseNBTTagCompound),
-	COORDINATE(Coordinate::valueOf),
-	TARGET_SELECTOR(TargetSelector::valueOf),
-	LEVEL(Level::valueOf);
+	COORDINATE_INT(CoordinateInt::valueOf),
+	COORDINATE_DOUBLE(CoordinateDouble::valueOf),
+	TARGET_SELECTOR(TargetSelector::valueOf);
 	
 	private final Function<String, Object> parser;
 	
@@ -36,6 +40,7 @@ public enum Type
 	}
 	
 	@Nullable
+	@SuppressWarnings("unchecked")
 	public <T> T parse(String object)
 	{
 		return (T) this.parser.apply(object);
@@ -56,7 +61,7 @@ public enum Type
 	        {
 				return JsonToNBT.getTagFromJson(value);
 	        }
-	        catch(NBTException nbtexception)
+	        catch(CommandSyntaxException e)
 	        {
 	    		return null;
 	        }

@@ -2,59 +2,66 @@ package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.impl.abstr.BuilderBlockPos;
-import exopandora.worldhandler.builder.types.Coordinate;
+import exopandora.worldhandler.builder.types.BlockResourceLocation;
+import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.Type;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.state.IProperty;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BuilderSetblock extends BuilderBlockPos
+@OnlyIn(Dist.CLIENT)
+public class BuilderSetBlock extends BuilderBlockPos
 {
-	@Deprecated
-	public BuilderSetblock(BlockPos pos, ResourceLocation block, int meta, String mode)
+	private final BlockResourceLocation blockResourceLocation = new BlockResourceLocation();
+	
+	public BuilderSetBlock()
 	{
+		super(0);
+	}
+	
+	public BuilderSetBlock(BlockPos pos, ResourceLocation block, String mode)
+	{
+		this();
 		this.setPosition(pos);
 		this.setBlock(block);
-		this.setMetadata(meta);
 		this.setMode(mode);
 	}
 	
-	@Deprecated
-	public BuilderSetblock(Coordinate x, Coordinate y, Coordinate z, ResourceLocation block, int meta, String mode)
+	public BuilderSetBlock(CoordinateInt x, CoordinateInt y, CoordinateInt z, ResourceLocation block, String mode)
 	{
+		this();
 		this.setX(x);
 		this.setY(y);
 		this.setZ(z);
 		this.setBlock(block);
-		this.setMetadata(meta);
 		this.setMode(mode);
 	}
 	
-	public BuilderSetblock(Coordinate x, Coordinate y, Coordinate z, ResourceLocation block, String mode)
+	public <T extends Comparable<T>> BuilderSetBlock withState(IProperty<T> property, T value)
 	{
-		this(x, y, z, block, 0, mode);
+		this.blockResourceLocation.withState(property, value);
+		return this;
 	}
 	
 	public void setBlock(ResourceLocation block)
 	{
-		this.setNode(3, block);
-	}
-	
-	@Deprecated
-	public void setMetadata(int meta)
-	{
-		this.setNode(4, meta);
+		this.blockResourceLocation.setResourceLocation(block);
+		this.setNode(3, this.blockResourceLocation);
 	}
 	
 	public void setMode(String mode)
 	{
-		this.setNode(5, mode);
+		this.setNode(4, mode);
 	}
 	
 	@Override
 	public void setNBT(NBTTagCompound nbt)
 	{
-		this.setNode(6, nbt);
+		this.blockResourceLocation.setNBT(nbt);
+		this.setNode(3, this.blockResourceLocation);
 	}
 	
 	@Override
@@ -68,13 +75,11 @@ public class BuilderSetblock extends BuilderBlockPos
 	{
 		Syntax syntax = new Syntax();
 		
-		syntax.addRequired("x", Type.COORDINATE);
-		syntax.addRequired("y", Type.COORDINATE);
-		syntax.addRequired("z", Type.COORDINATE);
-		syntax.addRequired("block", Type.RESOURCE_LOCATION);
-		syntax.addOptional("data_value", Type.INT);
+		syntax.addRequired("x", Type.COORDINATE_INT);
+		syntax.addRequired("y", Type.COORDINATE_INT);
+		syntax.addRequired("z", Type.COORDINATE_INT);
+		syntax.addRequired("block", Type.BLOCK_RESOURCE_LOCATION);
 		syntax.addOptional("mode", Type.STRING);
-		syntax.addOptional("nbt", Type.NBT);
 		
 		return syntax;
 	}

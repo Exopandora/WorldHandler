@@ -7,18 +7,31 @@ import exopandora.worldhandler.gui.content.element.Element;
 import exopandora.worldhandler.gui.content.element.IElement;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class Container extends GuiScreen implements IContainer
 {
 	protected final List<IElement> elements = new ArrayList<IElement>();
 	
 	@Override
-	public void add(GuiButton button)
+	public <T extends GuiButton> T add(T button)
 	{
-		this.buttonList.add(button);
+		return super.addButton(button);
+	}
+	
+	public <T extends GuiTextField> T add(T textfield)
+	{
+		this.children.add(textfield);
+		return textfield;
+	}
+	
+	@Override
+	public void initGui()
+	{
+		super.initGui();
 	}
 	
 	@Override

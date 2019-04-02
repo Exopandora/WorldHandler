@@ -1,0 +1,24 @@
+modLoader="javafml"
+loaderVersion="[24,)"
+updateJSONURL="https://raw.githubusercontent.com/Exopandora/worldhandler/master/version.json"
+issueTrackerURL="https://github.com/Exopandora/WorldHandler/issues"
+displayURL="https://minecraft.curseforge.com/projects/world-handler-command-gui"
+logoFile="logo.png"
+credits="Author: Exopandora, Simplified Chinese Translation: fhfuih (samhzy)"
+authors="Exopandora"
+
+[[mods]]
+modId="worldhandler"
+version="1.13.2-2.3"
+displayName="World Handler"
+description='''
+The World Handler provides a smart Gui for people without having to know any complex commands and gives them a look inside the art of Minecraft map and world making.
+Now anyone can easily create maps or just save a few ammount of time and provides an easy to use interface.
+'''
+
+[[dependencies.worldhandler]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.13,)"
+    ordering="NONE"
+    side="BOTH"

@@ -2,14 +2,14 @@ package exopandora.worldhandler.helper;
 
 import javax.annotation.Nullable;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class EnumHelper
 {
 	@Nullable
-	public static <T extends Enum<T>> T valueOf(Class<T> klass, String name)
+	public static <T extends Enum<T>> T valueOf(String name, Class<T> klass)
 	{
 		try
 		{

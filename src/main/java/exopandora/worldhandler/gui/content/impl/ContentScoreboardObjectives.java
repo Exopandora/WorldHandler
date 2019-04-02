@@ -1,31 +1,38 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderScoreboardObjectives;
+import exopandora.worldhandler.builder.impl.BuilderScoreboardObjectives.EnumMode;
 import exopandora.worldhandler.format.EnumColor;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.content.element.impl.ElementClickList;
-import exopandora.worldhandler.gui.content.element.logic.ILogicClickList;
+import exopandora.worldhandler.gui.content.element.impl.ElementMultiButtonList;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentScoreboard;
-import exopandora.worldhandler.helper.EntityHelper;
-import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiButton;
+import exopandora.worldhandler.gui.logic.ILogicClickList;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
+import exopandora.worldhandler.helper.RegistryTranslator;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.Item;
+import net.minecraft.stats.StatList;
+import net.minecraft.stats.StatType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.registry.IRegistry;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentScoreboardObjectives extends ContentScoreboard
 {
 	private GuiTextFieldTooltip objectField;
@@ -44,65 +51,76 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	{
 		this.objectField = new GuiTextFieldTooltip(x + 118, y + (this.selectedObjective.equals("remove") ? 24 : 0), 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setValidator(Predicates.notNull());
-		this.objectField.setText(this.objective);
+		this.objectField.setText(ContentScoreboard.getObjective());
+		this.objectField.setTextAcceptHandler((id, text) ->
+		{
+			ContentScoreboard.setObjective(text);
+			this.builderObjectives.setObjective(ContentScoreboard.getObjective());
+			container.initButtons();
+		});
 		
 		if(this.selectedObjective.equals("create"))
 		{
-			ElementClickList objectives = new ElementClickList(x + 118, y + 24, HELPER.getObjectives(), new int[] {7, 8}, this, new ILogicClickList()
+			ElementMultiButtonList objectives = new ElementMultiButtonList(x + 118, y + 24, HELPER.getObjectives(), 2, new ILogicClickList()
 			{
 				@Override
-				public void consumeKey(String... keys)
+				public String translate(String key, int depth)
 				{
-					if(keys.length > 1)
+					ResourceLocation resource = this.makeResourceLocation(key);
+					
+					if(resource != null)
 					{
-						this.consumeKeyImpl(keys);
+						StatType<?> type = IRegistry.field_212634_w.func_212608_b(resource);
+						
+						if(type != null)
+						{
+							if(type.equals(StatList.CUSTOM))
+							{
+								return I18n.format("gui.worldhandler.scoreboard.objectives.stat.custom");
+							}
+							else if(type.equals(StatList.ENTITY_KILLED))
+							{
+								return I18n.format("gui.worldhandler.scoreboard.objectives.stat.killed");
+							}
+							else if(type.equals(StatList.ENTITY_KILLED_BY))
+							{
+								return I18n.format("gui.worldhandler.scoreboard.objectives.stat.killed_by");
+							}
+							
+							return I18n.format(type.getTranslationKey());
+						}
+						
+						String translation = RegistryTranslator.translate(resource);
+						
+						if(translation != null)
+						{
+							return I18n.format(translation);
+						}
 					}
-					else
+					
+					if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(key)))
 					{
-						builderObjectives.setCriteria(keys[0]);
+						return I18n.format("gui.worldhandler.color." + key);
 					}
+					
+					return I18n.format("gui.worldhandler.scoreboard.objectives.stat." + key);
 				}
 				
 				@Override
-				public String translate(String... keys)
+				public void onClick(String key, int depth)
 				{
-					if(keys.length > 1)
+					ContentScoreboardObjectives.this.builderObjectives.setCriteria(key);
+				}
+				
+				@Override
+				public String buildEventKey(List<String> keys, int depth)
+				{
+					if(this.isRegistryItem(keys.get(keys.size() - 1)))
 					{
-						return this.translate(keys[1]);
+						return String.join(":", keys);
 					}
-					else
-					{
-						String format = "gui.worldhandler.scoreboard.objectives.criteria." + keys[0];
-						String result = I18n.format(format);
-						
-						if(result.equals(format))
-						{
-							ResourceLocation location = new ResourceLocation(keys[0]);
-							
-							if(Item.REGISTRY.containsKey(location))
-							{
-								result = I18n.format(Item.REGISTRY.getObject(location).getUnlocalizedName() + ".name");
-							}
-							else if(Block.REGISTRY.containsKey(location))
-							{
-								result = Block.REGISTRY.getObject(location).getLocalizedName();
-							}
-							else if(EntityHelper.doesExist(keys[0]))
-							{
-								result = I18n.format("entity." + keys[0] + ".name");
-							}
-							else if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(keys[0])))
-							{
-								result = I18n.format("gui.worldhandler.color." + keys[0]);
-							}
-							else
-							{
-								result = I18n.format(keys[0]);
-							}
-						}
-						
-						return result;
-					}
+					
+					return ILogicClickList.super.buildEventKey(keys, depth);
 				}
 				
 				@Override
@@ -110,38 +128,66 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				{
 					return "objectives";
 				}
+				
+				@Nullable
+				private ResourceLocation makeResourceLocation(String key)
+				{
+					return ResourceLocation.makeResourceLocation(key.replace(".", ":"));
+				}
+				
+				@Nullable
+				private boolean isRegistryItem(String key)
+				{
+					return this.isRegistryItem(this.makeResourceLocation(key));
+				}
+				
+				@Nullable
+				private boolean isRegistryItem(ResourceLocation resource)
+				{
+					IForgeRegistry<?>[] registries = new IForgeRegistry<?>[] {ForgeRegistries.BLOCKS, ForgeRegistries.ITEMS, ForgeRegistries.ENTITIES};
+					
+					for(IForgeRegistry<?> registry : registries)
+					{
+						if(registry.containsKey(resource))
+						{
+							return true;
+						}
+					}
+					
+					if(IRegistry.field_212623_l.func_212607_c(resource))
+					{
+						return true;
+					}
+					
+					return false;
+				}
 			});
 			
 			container.add(objectives);
 		}
 		else if(this.selectedObjective.equals("display") || this.selectedObjective.equals("undisplay"))
 		{
-			ElementClickList slots = new ElementClickList(x + 118, y + 24 + (this.selectedObjective.equals("undisplay") ? -12 : 0), HELPER.getSlots(), new int[] {9, 10}, this, new ILogicClickList()
+			ElementMultiButtonList slots = new ElementMultiButtonList(x + 118, y + 24 + (this.selectedObjective.equals("undisplay") ? -12 : 0), HELPER.getSlots(), 2, new ILogicClickList()
 			{
 				@Override
-				public String translate(String... keys)
+				public String translate(String key, int depth)
 				{
-					if(keys.length > 1)
+					if(depth == 0)
 					{
-						return I18n.format("gui.worldhandler.color." + keys[1]);
+						return I18n.format("gui.worldhandler.scoreboard.slot." + key);
 					}
-					else
+					else if(depth == 1)
 					{
-						return I18n.format("gui.worldhandler.scoreboard.slot." + keys[0]);
+						return I18n.format("gui.worldhandler.color." + key); 
 					}
+					
+					return key;
 				}
 				
 				@Override
-				public void consumeKey(String... keys)
+				public void onClick(String key, int depth)
 				{
-					if(keys.length > 1)
-					{
-						this.consumeKeyImpl(keys);
-					}
-					else
-					{
-						builderObjectives.setSlot(keys[0]);
-					}
+					ContentScoreboardObjectives.this.builderObjectives.setSlot(key);
 				}
 				
 				@Override
@@ -158,73 +204,71 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		GuiButtonWorldHandler button3;
-		GuiButtonWorldHandler button4;
-		GuiButtonWorldHandler button5;
-		GuiButtonWorldHandler button6;
+		GuiButtonBase button1;
+		GuiButtonBase button2;
+		GuiButtonBase button3;
+		GuiButtonBase button4;
 		
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button3 = new GuiButtonWorldHandler(2, x, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.create")));
-		container.add(button4 = new GuiButtonWorldHandler(3, x, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.display")));
-		container.add(button5 = new GuiButtonWorldHandler(4, x, y + 48, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.undisplay")));
-		container.add(button6 = new GuiButtonWorldHandler(5, x, y + 72, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.remove")));
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.create"), () ->
+		{
+			this.selectedObjective = "create";
+			container.initGui();
+		}));
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.display"), () ->
+		{
+			this.selectedObjective = "display";
+			container.initGui();
+		}));
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.undisplay"), () ->
+		{
+			this.selectedObjective = "undisplay";
+			container.initGui();
+		}));
+		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.remove"), () ->
+		{
+			this.selectedObjective = "remove";
+			container.initGui();
+		}));
 		
-		button3.enabled = !this.selectedObjective.equals("create");
-		button4.enabled = !this.selectedObjective.equals("display");
-		button5.enabled = !this.selectedObjective.equals("undisplay");
-		button6.enabled = !this.selectedObjective.equals("remove");
+		button1.enabled = !this.selectedObjective.equals("create");
+		button2.enabled = !this.selectedObjective.equals("display");
+		button3.enabled = !this.selectedObjective.equals("undisplay");
+		button4.enabled = !this.selectedObjective.equals("remove");
 		
-		boolean enabled = this.builderObjectives.getObjective() != null && this.builderObjectives.getObjective().length() > 0;
 		int yOffset = this.selectedObjective.equals("undisplay") ? -12 : (this.selectedObjective.equals("remove") ? -24 : 0);
 		
 		if(this.selectedObjective.equals("undisplay"))
 		{
 			this.builderObjectives.setObjective(null);
-			enabled = true;
 		}
 		else if(this.selectedObjective.equals("remove"))
 		{
-			this.builderObjectives.setMode("remove");
+			this.builderObjectives.setMode(EnumMode.REMOVE);
 		}
 		
 		if(!this.selectedObjective.equals("undisplay"))
 		{
-			this.builderObjectives.setObjective(this.objective);
+			container.add(this.objectField);
+			this.builderObjectives.setObjective(ContentScoreboard.getObjective());
 		}
 		
-		container.add(button3 = new GuiButtonWorldHandler(6, x + 118, y + 72 + yOffset, 114, 20, I18n.format("gui.worldhandler.actions.perform")));
-		button3.enabled = enabled;
+		container.add(button1 = new GuiButtonBase(x + 118, y + 72 + yOffset, 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
+		{
+			CommandHelper.sendCommand(this.builderObjectives);
+			container.initGui();
+		}));
+		button1.enabled = this.selectedObjective.equals("undisplay") || ContentScoreboard.isObjectiveValid();
 	}
 	
 	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
+	public void tick(Container container)
 	{
-		switch(button.id)
+		if(!this.selectedObjective.equals("undisplay"))
 		{
-			case 2:
-				this.selectedObjective = "create";
-				container.initGui();
-				break;
-			case 3:
-				this.selectedObjective = "display";
-				container.initGui();
-				break;
-			case 4:
-				this.selectedObjective = "undisplay";
-				container.initGui();
-				break;
-			case 5:
-				this.selectedObjective = "remove";
-				container.initGui();
-				break;
-			case 6:
-				WorldHandler.sendCommand(this.builderObjectives);
-				container.initGui();
-				break;
-			default:
-				break;
+			this.objectField.tick();
 		}
 	}
 	
@@ -233,27 +277,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	{
 		if(!this.selectedObjective.equals("undisplay"))
 		{
-			this.objectField.drawTextBox();
-		}
-	}
-	
-	@Override
-	public void keyTyped(Container container, char typedChar, int keyCode)
-	{
-		if(this.objectField.textboxKeyTyped(typedChar, keyCode))
-		{
-			this.objective = this.objectField.getText();
-			this.builderObjectives.setObjective(this.objective);
-			container.initButtons();
-		}
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton)
-	{
-		if(!this.selectedObjective.equals("undisplay"))
-		{
-			this.objectField.mouseClicked(mouseX, mouseY, mouseButton);
+			this.objectField.drawTextField(mouseX, mouseY, partialTicks);
 		}
 	}
 	

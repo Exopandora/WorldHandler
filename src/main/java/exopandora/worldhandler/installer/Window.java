@@ -18,10 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import exopandora.worldhandler.Main;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class Window implements Runnable
 {
 	private final JFrame frame = new JFrame();
@@ -29,7 +26,7 @@ public class Window implements Runnable
 	@Override
 	public void run()
 	{
-		String titleString = Main.NAME + " $mcversion-$version Installer";
+		String titleString = Main.NAME + " " + Main.MC_VERSION + "-" + Main.MOD_VERSION + " Installer";
 		
 		this.frame.setResizable(false);
 		this.frame.setTitle(titleString);

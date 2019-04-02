@@ -1,12 +1,13 @@
 package exopandora.worldhandler.builder.component.impl;
 
+import java.util.Collection;
 import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagByteArray;
 import net.minecraft.nbt.NBTTagDouble;
@@ -16,24 +17,24 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagLongArray;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ComponentTag<T> implements IBuilderComponent
 {
-	private final Function<T, NBTBase> serializer;
+	private final Function<T, INBTBase> serializer;
 	private final String tag;
 	private T value;
 	
-	public ComponentTag(String tag, T value, Function<T, NBTBase> serializer)
+	public ComponentTag(String tag, T value, Function<T, INBTBase> serializer)
 	{
 		this.tag = tag;
 		this.value = value;
 		this.serializer = serializer;
 	}
 	
-	public ComponentTag(String tag, Function<T, NBTBase> serializer)
+	public ComponentTag(String tag, Function<T, INBTBase> serializer)
 	{
 		this(tag, null, serializer);
 	}
@@ -61,7 +62,7 @@ public class ComponentTag<T> implements IBuilderComponent
 	
 	@Override
 	@Nullable
-	public NBTBase serialize()
+	public INBTBase serialize()
 	{
 		if(this.value != null)
 		{
@@ -80,16 +81,19 @@ public class ComponentTag<T> implements IBuilderComponent
 				
 				return new NBTTagString(string);
 			}
-			else if(this.value instanceof NBTBase)
+			else if(this.value instanceof INBTBase)
 			{
-				NBTBase base = (NBTBase) this.value;
-				
-				if(base.hasNoTags())
+				if(this.value instanceof Collection<?>)
 				{
-					return null;
+					Collection<?> collection = (Collection<?>) this.value;
+					
+					if(collection.isEmpty())
+					{
+						return null;
+					}
 				}
 				
-				return (NBTBase) this.value;
+				return (INBTBase) this.value;
 			}
 			else if(this.value instanceof Integer)
 			{

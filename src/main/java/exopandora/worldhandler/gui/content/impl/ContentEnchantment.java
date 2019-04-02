@@ -2,29 +2,29 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.ArrayList;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderEnchantment;
-import exopandora.worldhandler.builder.types.Type;
-import exopandora.worldhandler.gui.button.EnumTooltip;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
+import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.button.GuiSlider;
-import exopandora.worldhandler.gui.button.responder.SimpleResponder;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.element.impl.ElementPageList;
-import exopandora.worldhandler.gui.content.element.logic.ILogicPageList;
-import net.minecraft.client.gui.GuiButton;
+import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.gui.logic.LogicSliderSimple;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
+import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentEnchantment extends Content
 {
 	private final BuilderEnchantment builderEnchantment = new BuilderEnchantment();
@@ -38,39 +38,32 @@ public class ContentEnchantment extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		ElementPageList<ResourceLocation, String> enchantments = new ElementPageList<ResourceLocation, String>(x, y, new ArrayList<ResourceLocation>(Enchantment.REGISTRY.getKeys()), null, 114, 20, 3, this, new int[] {3, 4, 5}, new ILogicPageList<ResourceLocation, String>()
+		ElementPageList<Enchantment> enchantments = new ElementPageList<Enchantment>(x, y, new ArrayList<Enchantment>(ForgeRegistries.ENCHANTMENTS.getValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
 		{
 			@Override
-			public String translate(ResourceLocation key)
+			public String translate(Enchantment item)
 			{
-				return I18n.format(Enchantment.REGISTRY.getObject(key).getName());
+				return I18n.format(item.getName());
 			}
 			
 			@Override
-			public String getRegistryName(ResourceLocation key)
+			public String toTooltip(Enchantment item)
 			{
-				return key.toString();
+				return item.getRegistryName().toString();
 			}
 			
 			@Override
-			public void onClick(ResourceLocation clicked)
+			public void onClick(Enchantment item)
 			{
-				builderEnchantment.setEnchantment(clicked);
-				builderEnchantment.setLevel(1);
+				ContentEnchantment.this.builderEnchantment.setEnchantment(item);
+				ContentEnchantment.this.builderEnchantment.setLevel(1);
+				container.initButtons();
 			}
 			
 			@Override
-			public void onRegister(int id, int x, int y, int width, int height, String display, String registry, boolean enabled, ResourceLocation value, Container container)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, Enchantment item, ActionHandler actionHandler)
 			{
-				GuiButtonWorldHandler button = new GuiButtonWorldHandler(id, x, y, width, height, display, registry, EnumTooltip.TOP_RIGHT);
-				button.enabled = enabled;
-				container.add(button);
-			}
-			
-			@Override
-			public ResourceLocation getObject(String object)
-			{
-				return Type.parseResourceLocation(object);
+				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
 			
 			@Override
@@ -86,29 +79,18 @@ public class ContentEnchantment extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiSlider<String>(this, container, "enchantment", x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.items.enchantment.level"), 1, Enchantment.REGISTRY.getObject(this.builderEnchantment.getEnchantment()).getMaxLevel(), 1, new SimpleResponder<String>(value ->
+		container.add(new GuiSlider(x + 118, y + 24, 114, 20, 1, ForgeRegistries.ENCHANTMENTS.getValue(this.builderEnchantment.getEnchantment()).getMaxLevel(), 1, container, new LogicSliderSimple("enchantment", I18n.format("gui.worldhandler.items.enchantment.level"), value ->
 		{
 			this.builderEnchantment.setLevel(value.intValue());
 		})));
 		
-		container.add(new GuiButtonWorldHandler(2, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.items.enchantment.enchant")));
-	}
-	
-	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
-	{
-		switch(button.id)
+		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.items.enchantment.enchant"), () ->
 		{
-			case 2:
-				WorldHandler.sendCommand(this.builderEnchantment);
-				container.initGui();
-				break;
-			default:
-				break;
-		}
+			CommandHelper.sendCommand(this.builderEnchantment);
+		}));
 	}
 	
 	@Override

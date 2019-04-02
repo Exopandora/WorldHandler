@@ -1,9 +1,13 @@
 package exopandora.worldhandler.gui.button;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+/**
+ * XXX To be replaced by a proper registry object
+ */
+@Deprecated
+@OnlyIn(Dist.CLIENT)
 public enum EnumIcon
 {
 	WEATHER_SUN(0, 0),

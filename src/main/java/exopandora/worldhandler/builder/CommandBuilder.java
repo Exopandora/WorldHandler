@@ -9,16 +9,19 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.Syntax.SyntaxEntry;
-import exopandora.worldhandler.builder.types.Coordinate;
-import exopandora.worldhandler.builder.types.Level;
+import exopandora.worldhandler.builder.types.BlockResourceLocation;
+import exopandora.worldhandler.builder.types.CoordinateDouble;
+import exopandora.worldhandler.builder.types.CoordinateInt;
+import exopandora.worldhandler.builder.types.GreedyString;
+import exopandora.worldhandler.builder.types.ItemResourceLocation;
 import exopandora.worldhandler.builder.types.TargetSelector;
 import exopandora.worldhandler.builder.types.Type;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class CommandBuilder implements ICommandBuilderSyntax
 {
 	private List<Entry<SyntaxEntry, String>> command;
@@ -31,6 +34,11 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	protected void setNode(int index, String node)
 	{
 		this.set(index, node != null ? (node.isEmpty() ? null : node) : null, Type.STRING);
+	}
+	
+	protected void setNode(int index, GreedyString node)
+	{
+		this.set(index, node != null ? (node.isEmpty() ? null : node) : null, Type.GREEDY_STRING);
 	}
 	
 	protected void setNode(int index, boolean node)
@@ -73,14 +81,14 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		this.set(index, node, Type.RESOURCE_LOCATION);
 	}
 	
-	protected void setNode(int index, NBTTagCompound nbt)
+	protected void setNode(int index, CoordinateInt coordinate)
 	{
-		this.set(index, nbt, Type.NBT);
+		this.set(index, coordinate, Type.COORDINATE_INT);
 	}
 	
-	protected void setNode(int index, Coordinate coordinate)
+	protected void setNode(int index, CoordinateDouble coordinate)
 	{
-		this.set(index, coordinate, Type.COORDINATE);
+		this.set(index, coordinate, Type.COORDINATE_DOUBLE);
 	}
 	
 	protected void setNode(int index, TargetSelector target)
@@ -88,9 +96,19 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		this.set(index, target, Type.TARGET_SELECTOR);
 	}
 	
-	protected void setNode(int index, Level level)
+	protected void setNode(int index, ItemResourceLocation resource)
 	{
-		this.set(index, level, Type.LEVEL);
+		this.set(index, resource != null ? resource.get() : null, Type.ITEM_RESOURCE_LOCATION);
+	}
+	
+	protected void setNode(int index, BlockResourceLocation resource)
+	{
+		this.set(index, resource != null ? resource.get() : null, Type.BLOCK_RESOURCE_LOCATION);
+	}
+	
+	protected void setNode(int index, NBTTagCompound nbt)
+	{
+		this.set(index, nbt, Type.NBT);
 	}
 	
 	private void set(int index, Object value, Type type)
@@ -125,6 +143,12 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	protected String getNodeAsString(int index)
 	{
 		return this.get(index, Type.STRING);
+	}
+	
+	@Nullable
+	protected String getNodeAsGreedyString(int index)
+	{
+		return this.get(index, Type.GREEDY_STRING);
 	}
 	
 	protected boolean getNodeAsBoolean(int index)
@@ -162,9 +186,14 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		return this.get(index, Type.LONG);
 	}
 	
-	protected Coordinate getNodeAsCoordinate(int index)
+	protected CoordinateInt getNodeAsCoordinateInt(int index)
 	{
-		return this.get(index, Type.COORDINATE);
+		return this.get(index, Type.COORDINATE_INT);
+	}
+	
+	protected CoordinateDouble getNodeAsCoordinateDouble(int index)
+	{
+		return this.get(index, Type.COORDINATE_DOUBLE);
 	}
 	
 	@Nullable
@@ -179,9 +208,15 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	}
 	
 	@Nullable
-	protected Level getNodeAsLevel(int index)
+	protected ItemResourceLocation getNodeAsItemResourceLocation(int index)
 	{
-		return this.get(index, Type.LEVEL);
+		return this.get(index, Type.ITEM_RESOURCE_LOCATION);
+	}
+	
+	@Nullable
+	protected BlockResourceLocation getNodeAsBlockResourceLocation(int index)
+	{
+		return this.get(index, Type.BLOCK_RESOURCE_LOCATION);
 	}
 	
 	@Nullable

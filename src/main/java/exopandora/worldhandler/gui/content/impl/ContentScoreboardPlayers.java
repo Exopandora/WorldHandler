@@ -1,191 +1,247 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
+import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
 import exopandora.worldhandler.builder.impl.BuilderScoreboardPlayers;
-import exopandora.worldhandler.builder.impl.BuilderScoreboardPlayers.EnumPoints;
-import exopandora.worldhandler.builder.impl.BuilderScoreboardPlayers.EnumTag;
-import exopandora.worldhandler.config.ConfigSliders;
-import exopandora.worldhandler.gui.button.EnumTooltip;
-import exopandora.worldhandler.gui.button.GuiButtonWorldHandler;
+import exopandora.worldhandler.builder.impl.BuilderScoreboardPlayers.EnumMode;
+import exopandora.worldhandler.builder.impl.BuilderTag;
+import exopandora.worldhandler.builder.impl.BuilderTrigger;
+import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.gui.button.GuiButtonBase;
+import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.button.GuiSlider;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
-import exopandora.worldhandler.gui.button.responder.SimpleResponder;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentScoreboard;
-import net.minecraft.client.gui.GuiButton;
+import exopandora.worldhandler.gui.logic.LogicSliderSimple;
+import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ContentScoreboardPlayers extends ContentScoreboard
 {
 	private GuiTextFieldTooltip objectField;
 	private GuiTextFieldTooltip tagField;
 	
 	private final BuilderScoreboardPlayers builderPlayers = new BuilderScoreboardPlayers();
-	private final Predicate<String> nonNullNoSpace = string -> string != null && !string.matches("(.* .*)+");
+	private final BuilderTag builderTag = new BuilderTag();
+	private final BuilderTrigger builderTrigger = new BuilderTrigger();
+	private final BuilderMultiCommand builderTriggerMulti = new BuilderMultiCommand(this.builderTrigger, this.builderPlayers);
 	
 	private String selectedPlayer = "add|set|remove";
 	private String tag;
 	
-	private GuiButtonWorldHandler addButton;
-	private GuiButtonWorldHandler removeButton;
+	private GuiButtonBase addButton;
+	private GuiButtonBase removeButton;
 	
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
-		return this.builderPlayers;
+		if(this.selectedPlayer.equals("add|set|remove"))
+		{
+			return this.builderPlayers;
+		}
+		else if(this.selectedPlayer.equals("tag"))
+		{
+			return this.builderTag;
+		}
+		else if(this.selectedPlayer.equals("enable"))
+		{
+			return this.builderTriggerMulti;
+		}
+		
+		return null;
 	}
 	
 	@Override
 	public void init(Container container)
 	{
-		if(this.builderPlayers.getPoints() > ConfigSliders.getMaxPlayerPoints())
+		if(this.builderPlayers.getPoints() > Config.getSliders().getMaxPlayerPoints())
 		{
-			this.builderPlayers.setPoints((int) ConfigSliders.getMaxPlayerPoints());
+			this.builderPlayers.setPoints((int) Config.getSliders().getMaxPlayerPoints());
+		}
+		
+		if(this.builderTrigger.getValue() > Config.getSliders().getMaxTriggerValue())
+		{
+			this.builderTrigger.setValue((int) Config.getSliders().getMaxTriggerValue());
 		}
 	}
 	
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.objectField = new GuiTextFieldTooltip(x + 118, y + (this.selectedPlayer.equals("enable") ? 24 : 0), 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.objective"));
-		this.objectField.setValidator(this.nonNullNoSpace);
-		this.objectField.setText(this.objective);
+		this.objectField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.objective"));
+		this.objectField.setValidator(Predicates.notNull());
+		this.objectField.setText(ContentScoreboard.getObjective());
+		this.objectField.setTextAcceptHandler((id, text) ->
+		{
+			ContentScoreboard.setObjective(text);
+			this.builderPlayers.setObjective(ContentScoreboard.getObjective());
+			this.builderTrigger.setObjective(ContentScoreboard.getObjective());
+			container.initButtons();
+		});
 		
 		this.tagField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.tag"));
-		this.tagField.setValidator(this.nonNullNoSpace);
+		this.tagField.setValidator(string -> string != null && !string.contains(" "));
 		this.tagField.setText(this.tag);
+		this.tagField.setTextAcceptHandler((id, text) ->
+		{
+			this.tag = text;
+			this.builderTag.setName(this.tag);
+			container.initButtons();
+		});
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		GuiButtonWorldHandler button3;
-		GuiButtonWorldHandler button4;
-		GuiButtonWorldHandler button5;
+		GuiButtonBase button1;
+		GuiButtonBase button2;
+		GuiButtonBase button3;
 		
-		container.add(new GuiButtonWorldHandler(0, x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back")));
-		container.add(new GuiButtonWorldHandler(1, x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame")));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button3 = new GuiButtonWorldHandler(2, x, y + 12, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.points")));
-		container.add(button4 = new GuiButtonWorldHandler(3, x, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.tag")));
-		container.add(button5 = new GuiButtonWorldHandler(4, x, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.trigger")));
+		container.add(button1 = new GuiButtonBase(x, y + 12, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.points"), () ->
+		{
+			this.selectedPlayer = "add|set|remove";
+			container.initGui();
+		}));
+		container.add(button2 = new GuiButtonBase(x, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.tag"), () ->
+		{
+			this.selectedPlayer = "tag";
+			container.initGui();
+		}));
+		container.add(button3 = new GuiButtonBase(x, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.trigger"), () ->
+		{
+			this.selectedPlayer = "enable";
+			container.initGui();
+		}));
 		
-		button3.enabled = !this.selectedPlayer.equals("add|set|remove");
-		button4.enabled = !this.selectedPlayer.equals("tag");
-		button5.enabled = !this.selectedPlayer.equals("enable");
+		button1.enabled = !this.selectedPlayer.equals("add|set|remove");
+		button2.enabled = !this.selectedPlayer.equals("tag");
+		button3.enabled = !this.selectedPlayer.equals("enable");
 		
+		boolean enabled = ContentScoreboard.isObjectiveValid();
 		this.builderPlayers.setMode(this.selectedPlayer);
-		
-		boolean objective = this.builderPlayers.getObjective() != null && !this.builderPlayers.getObjective().isEmpty();
 		
 		if(this.selectedPlayer.equals("add|set|remove"))
 		{
-			container.add(new GuiSlider<String>(this, container, "points", x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.points"), 0, ConfigSliders.getMaxPlayerPoints(), 0, new SimpleResponder<String>(value ->
+			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxPlayerPoints(), 0, container, new LogicSliderSimple("points", I18n.format("gui.worldhandler.scoreboard.players.points"), value ->
 			{
 				this.builderPlayers.setPoints(value);
 			})));
+			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.add"), () ->
+			{
+				CommandHelper.sendCommand(this.builderPlayers.getBuilderForPoints(EnumMode.ADD));
+				container.initGui();
+			}));
+			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.remove"), () ->
+			{
+				CommandHelper.sendCommand(this.builderPlayers.getBuilderForPoints(EnumMode.REMOVE));
+				container.initGui();
+			}));
+			container.add(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.reset"), I18n.format("gui.worldhandler.actions.set_to_0"), () ->
+			{
+				CommandHelper.sendCommand(this.builderPlayers.getBuilderForPoints(EnumMode.SET, 0));
+				container.initGui();
+			}));
 			
-			container.add(this.addButton = new GuiButtonWorldHandler(5, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.actions.add")));
-			container.add(this.removeButton = new GuiButtonWorldHandler(6, x + 118, y + 72, 56, 20, I18n.format("gui.worldhandler.actions.remove")));
-			container.add(button5 = new GuiButtonWorldHandler(7, x + 118 + 114 / 2 + 1, y + 72, 56, 20, I18n.format("gui.worldhandler.actions.reset"), I18n.format("gui.worldhandler.actions.set_to_0"), EnumTooltip.TOP_RIGHT));
+			boolean points = enabled && this.builderPlayers.getPoints() > 0;
 			
-			boolean enabled = objective && this.builderPlayers.getPoints() > 0;
-			
-			this.addButton.enabled = enabled;
-			this.removeButton.enabled = enabled;
-			button5.enabled = objective;
+			this.addButton.enabled = points;
+			this.removeButton.enabled = points;
+			button1.enabled = enabled;
 		}
 		else if(this.selectedPlayer.equals("tag"))
 		{
-			container.add(button3 = new GuiButtonWorldHandler(8, x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.actions.add")));
-			container.add(button4 = new GuiButtonWorldHandler(9, x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.actions.remove")));
+			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.actions.add"), () ->
+			{
+				CommandHelper.sendCommand(this.builderTag.getBuilderForMode(BuilderTag.EnumMode.ADD));
+				container.initGui();
+			}));
+			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.actions.remove"), () ->
+			{
+				CommandHelper.sendCommand(this.builderTag.getBuilderForMode(BuilderTag.EnumMode.REMOVE));
+				container.initGui();
+			}));
 			
-			boolean enabled = this.tag != null && !this.tag.isEmpty();
+			boolean tag = this.tag != null && !this.tag.isEmpty();
 			
-			button3.enabled = enabled;
-			button4.enabled = enabled;
+			button1.enabled = tag;
+			button2.enabled = tag;
 		}
 		else if(this.selectedPlayer.equals("enable"))
 		{
-			container.add(button3 = new GuiButtonWorldHandler(10, x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.generic.enable")));
+			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxTriggerValue(), 0, container, new LogicSliderSimple("enable", I18n.format("gui.worldhandler.generic.value"), value ->
+			{
+				this.builderTrigger.setValue(value.intValue());
+			})));
+			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.add"), () ->
+			{
+				CommandHelper.sendCommand(this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.ADD));
+				container.initGui();
+			}));
+			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.set"), () ->
+			{
+				CommandHelper.sendCommand(this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.SET));
+				container.initGui();
+			}));
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.generic.enable"), () ->
+			{
+				CommandHelper.sendCommand(this.builderPlayers.getBuilderForEnable());
+				container.initGui();
+			}));
 			
-			button3.enabled = objective;
+			this.addButton.enabled = enabled && this.builderTrigger.getValue() > 0;
+			this.removeButton.enabled = enabled;
+			button1.enabled = enabled;
 		}
 		
 		if(this.selectedPlayer.equals("tag"))
 		{
-			this.builderPlayers.setTag(this.tag);
+			container.add(this.tagField);
 		}
 		else
 		{
-			this.builderPlayers.setObjective(this.objective);
+			container.add(this.objectField);
+			this.builderPlayers.setObjective(ContentScoreboard.getObjective());
+			this.builderTrigger.setObjective(ContentScoreboard.getObjective());
 		}
 	}
 	
 	@Override
-	public void updateScreen(Container container)
+	public void tick(Container container)
 	{
-		if(this.selectedPlayer.equals("add|set|remove"))
+		if(this.selectedPlayer.equals("tag"))
 		{
-			boolean objective = this.builderPlayers.getObjective() != null && !this.builderPlayers.getObjective().isEmpty();
-			boolean enabled = objective && this.builderPlayers.getPoints() > 0;
+			this.tagField.tick();
+		}
+		else
+		{
+			boolean enabled = ContentScoreboard.isObjectiveValid();
 			
-			this.addButton.enabled = enabled;
-			this.removeButton.enabled = enabled;
-		}
-	}
-	
-	@Override
-	public void actionPerformed(Container container, GuiButton button) throws Exception
-	{
-		switch(button.id)
-		{
-			case 2:
-				this.selectedPlayer = "add|set|remove";
-				container.initGui();
-				break;
-			case 3:
-				this.selectedPlayer = "tag";
-				container.initGui();
-				break;
-			case 4:
-				this.selectedPlayer = "enable";
-				container.initGui();
-				break;
-			case 5:
-				WorldHandler.sendCommand(this.builderPlayers.getBuilderForPoints(EnumPoints.ADD));
-				container.initGui();
-				break;
-			case 6:
-				WorldHandler.sendCommand(this.builderPlayers.getBuilderForPoints(EnumPoints.REMOVE));
-				container.initGui();
-				break;
-			case 7:
-				WorldHandler.sendCommand(this.builderPlayers.getBuilderForPoints(EnumPoints.SET, 0));
-				container.initGui();
-				break;
-			case 8:
-				WorldHandler.sendCommand(this.builderPlayers.getBuilderForTag(EnumTag.ADD));
-				container.initGui();
-				break;
-			case 9:
-				WorldHandler.sendCommand(this.builderPlayers.getBuilderForTag(EnumTag.REMOVE));
-				container.initGui();
-				break;
-			case 10:
-				WorldHandler.sendCommand(this.builderPlayers);
-				container.initGui();
-				break;
-			default:
-				break;
+			if(this.selectedPlayer.equals("add|set|remove"))
+			{
+				boolean points = enabled && this.builderPlayers.getPoints() > 0;
+				
+				this.addButton.enabled = points;
+				this.removeButton.enabled = points;
+			}
+			else if(this.selectedPlayer.equals("enable"))
+			{
+				this.addButton.enabled = enabled && this.builderTrigger.getValue() > 0;
+				this.removeButton.enabled = enabled;
+			}
+				
+			this.objectField.tick();
 		}
 	}
 	
@@ -194,42 +250,11 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	{
 		if(this.selectedPlayer.equals("tag"))
 		{
-			this.tagField.drawTextBox();
+			this.tagField.drawTextField(mouseX, mouseY, partialTicks);
 		}
 		else
 		{
-			this.objectField.drawTextBox();
-		}
-	}
-	
-	@Override
-	public void keyTyped(Container container, char typedChar, int keyCode)
-	{
-		if(this.objectField.textboxKeyTyped(typedChar, keyCode))
-		{
-			this.objective = this.objectField.getText();
-			this.builderPlayers.setObjective(this.objective);
-			container.initButtons();
-		}
-		
-		if(this.tagField.textboxKeyTyped(typedChar, keyCode))
-		{
-			this.tag = this.tagField.getText();
-			this.builderPlayers.setTag(this.tag);
-			container.initButtons();
-		}
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton)
-	{
-		if(this.selectedPlayer.equals("tag"))
-		{
-			this.tagField.mouseClicked(mouseX, mouseY, mouseButton);
-		}
-		else
-		{
-			this.objectField.mouseClicked(mouseX, mouseY, mouseButton);
+			this.objectField.drawTextField(mouseX, mouseY, partialTicks);
 		}
 	}
 	
@@ -249,5 +274,6 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	public void onPlayerNameChanged(String username)
 	{
 		this.builderPlayers.setPlayer(username);
+		this.builderTag.setPlayer(username);
 	}
 }

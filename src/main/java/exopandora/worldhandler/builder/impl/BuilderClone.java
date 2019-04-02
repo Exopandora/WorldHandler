@@ -2,21 +2,22 @@ package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.impl.abstr.BuilderDoubleBlockPos;
-import exopandora.worldhandler.builder.types.Coordinate;
+import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
+import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.Type;
 import exopandora.worldhandler.helper.EnumHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BuilderClone extends BuilderDoubleBlockPos
 {
 	public BuilderClone()
 	{
-		this.setX(new Coordinate());
-		this.setY(new Coordinate());
-		this.setZ(new Coordinate());
+		this.setX(new CoordinateInt(CoordinateType.GLOBAL));
+		this.setY(new CoordinateInt(CoordinateType.GLOBAL));
+		this.setZ(new CoordinateInt(CoordinateType.GLOBAL));
 		this.setMask(EnumMask.values()[0]);
 		this.setNode(10, "force");
 	}
@@ -28,49 +29,49 @@ public class BuilderClone extends BuilderDoubleBlockPos
 		this.setZ(pos.getZ());
 	}
 	
-	public void setX(float x)
+	public void setX(int x)
 	{
-		this.setX(new Coordinate(x));
+		this.setX(new CoordinateInt(x));
 	}
 	
-	public void setY(float y)
+	public void setY(int y)
 	{
-		this.setY(new Coordinate(y));
+		this.setY(new CoordinateInt(y));
 	}
 	
-	public void setZ(float z)
+	public void setZ(int z)
 	{
-		this.setZ(new Coordinate(z));
+		this.setZ(new CoordinateInt(z));
 	}
 	
-	public void setX(Coordinate x)
+	public void setX(CoordinateInt x)
 	{
 		this.setNode(6, x);
 	}
 	
-	public void setY(Coordinate y)
+	public void setY(CoordinateInt y)
 	{
 		this.setNode(7, y);
 	}
 	
-	public void setZ(Coordinate z)
+	public void setZ(CoordinateInt z)
 	{
 		this.setNode(8, z);
 	}
 	
-	public Coordinate getXCoordiante()
+	public CoordinateInt getXCoordiante()
 	{
-		return this.getNodeAsCoordinate(6);
+		return this.getNodeAsCoordinateInt(6);
 	}
 	
-	public Coordinate getYCoordiante()
+	public CoordinateInt getYCoordiante()
 	{
-		return this.getNodeAsCoordinate(7);
+		return this.getNodeAsCoordinateInt(7);
 	}
 	
-	public Coordinate getZCoordiante()
+	public CoordinateInt getZCoordiante()
 	{
-		return this.getNodeAsCoordinate(8);
+		return this.getNodeAsCoordinateInt(8);
 	}
 	
 	public double getX()
@@ -100,7 +101,7 @@ public class BuilderClone extends BuilderDoubleBlockPos
 	
 	public EnumMask getMask()
 	{
-		return EnumHelper.valueOf(EnumMask.class, this.getNodeAsString(9));
+		return EnumHelper.valueOf(this.getNodeAsString(9), EnumMask.class);
 	}
 	
 	@Override
@@ -114,22 +115,22 @@ public class BuilderClone extends BuilderDoubleBlockPos
 	{
 		Syntax syntax = new Syntax();
 		
-		syntax.addRequired("x1", Type.COORDINATE);
-		syntax.addRequired("y1", Type.COORDINATE);
-		syntax.addRequired("z1", Type.COORDINATE);
-		syntax.addRequired("x2", Type.COORDINATE);
-		syntax.addRequired("y2", Type.COORDINATE);
-		syntax.addRequired("z2", Type.COORDINATE);
-		syntax.addRequired("x", Type.COORDINATE);
-		syntax.addRequired("y", Type.COORDINATE);
-		syntax.addRequired("z", Type.COORDINATE);
-		syntax.addOptional("mask_mode", Type.STRING);
-		syntax.addOptional("clone_mode", Type.STRING);
+		syntax.addRequired("x1", Type.COORDINATE_INT);
+		syntax.addRequired("y1", Type.COORDINATE_INT);
+		syntax.addRequired("z1", Type.COORDINATE_INT);
+		syntax.addRequired("x2", Type.COORDINATE_INT);
+		syntax.addRequired("y2", Type.COORDINATE_INT);
+		syntax.addRequired("z2", Type.COORDINATE_INT);
+		syntax.addRequired("x", Type.COORDINATE_INT);
+		syntax.addRequired("y", Type.COORDINATE_INT);
+		syntax.addRequired("z", Type.COORDINATE_INT);
+		syntax.addOptional("mask", Type.STRING);
+		syntax.addOptional("filter", Type.STRING);
 		
 		return syntax;
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMask
 	{
 		REPLACE,
