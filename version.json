@@ -53,6 +53,7 @@
 	},
 	"1.12.2":
 	{
+		"2.2.2": "- Fixed /effect command giving 20 times as much duration\n- Fixed crash for \"Butcher\"\n- Fixed tooltips not displaying for autosave buttons",
 		"2.2.1": "- Added crash recovery\n- Fixed crash when starting the game with certain mods",
 		"2.2.0": "- Added Recipe GUI\n- Added block highlighting for edit blocks\n- Added functionality to skip 10 pages while shift-clicking for lists\n- Changed logo\n- Fixed double space for multi-command syntax\n- Fixed item buttons not working for containers screen",
 		"2.1.4": "- Fixed enchantment level sliders",
@@ -68,6 +69,7 @@
 	},
 	"1.12.1":
 	{
+		"2.2.2": "- Fixed /effect command giving 20 times as much duration\n- Fixed crash for \"Butcher\"\n- Fixed tooltips not displaying for autosave buttons",
 		"2.2.0": "- Added Recipe GUI\n- Added block highlighting for edit blocks\n- Added functionality to skip 10 pages while shift-clicking for lists\n- Changed logo\n- Fixed double space for multi-command syntax\n- Fixed item buttons not working for containers screen",
 		"2.1.4": "- Fixed enchantment level sliders",
 		"2.1.3": "- Fixed crash when cancelling change to multiplayer server",
@@ -82,6 +84,7 @@
 	},
 	"1.12":
 	{
+		"2.2.2": "- Fixed /effect command giving 20 times as much duration\n- Fixed crash for \"Butcher\"\n- Fixed tooltips not displaying for autosave buttons",
 		"2.2.0": "- Added Recipe GUI\n- Added block highlighting for edit blocks\n- Added functionality to skip 10 pages while shift-clicking for lists\n- Changed logo\n- Fixed double space for multi-command syntax\n- Fixed item buttons not working for containers screen",
 		"2.1.4": "- Fixed enchantment level sliders",
 		"2.1.3": "- Fixed crash when cancelling change to multiplayer server",
