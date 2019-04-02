@@ -43,34 +43,34 @@ public abstract class BuilderBlockPos extends CommandBuilderNBT
 		this.setNode(2, z);
 	}
 	
-	public Coordinate getXCoordiante()
+	public Coordinate getXCoordinate()
 	{
 		return this.getNodeAsCoordinate(0);
 	}
 	
-	public Coordinate getYCoordiante()
+	public Coordinate getYCoordinate()
 	{
 		return this.getNodeAsCoordinate(1);
 	}
 	
-	public Coordinate getZCoordiante()
+	public Coordinate getZCoordinate()
 	{
 		return this.getNodeAsCoordinate(2);
 	}
 	
 	public double getX()
 	{
-		return this.getXCoordiante().getValue();
+		return this.getXCoordinate().getValue();
 	}
 	
 	public double getY()
 	{
-		return this.getYCoordiante().getValue();
+		return this.getYCoordinate().getValue();
 	}
 	
 	public double getZ()
 	{
-		return this.getZCoordiante().getValue();
+		return this.getZCoordinate().getValue();
 	}
 	
 	public BlockPos getBlockPos()
