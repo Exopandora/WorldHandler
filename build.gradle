@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 def mcversion = "1.12.2"
-def modversion = "2.2.1"
+def modversion = "2.2.2"
 def mccompatible = "1.12"
 def url = "https://minecraft.curseforge.com/projects/world-handler-command-gui"
 def update_url = "https://raw.githubusercontent.com/Exopandora/worldhandler/master/version.json"
