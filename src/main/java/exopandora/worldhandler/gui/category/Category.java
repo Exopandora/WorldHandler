@@ -1,10 +1,11 @@
 package exopandora.worldhandler.gui.category;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.Content;
@@ -36,7 +37,7 @@ public class Category extends ForgeRegistryEntry<Category>
 	
 	public Category(Content... contents)
 	{
-		this.contents = Arrays.asList(contents);
+		this.contents = Lists.newArrayList(contents);
 	}
 	
 	public Category add(Content content)
