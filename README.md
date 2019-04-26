@@ -41,6 +41,8 @@ Curseforge: https://minecraft.curseforge.com/projects/world-handler-command-gui
 				<li>/setworldspawn</li>
 				<li>/spawnpoint</li>
 				<li>/summon</li>
+				<li>/tag</li>
+				<li>/team</li>
 				<li>/time</li>
 				<li>/trigger</li>
 				<li>/weather</li>
@@ -70,12 +72,27 @@ Requires: Minecraft Forge (http://files.minecraftforge.net/)
 # Installation #
 Download World Handler or build from source
 
+## Prerequisites ##
+
 1. Make sure Minecraft Forge is installed
-2. Navigate to "%appdata%\.minecraft\mods"
+
+## Installer ##
+
+1. Run WorldHandler-[VERSION]-UNIVERSAL.jar
+2. Select your minecraft directory
+3. Click Install
+
+## Manual ##
+
+2. Navigate to "..\.minecraft\mods"
 3. Copy the WorldHandler-[VERSION]-UNIVERSAL.jar
-4. Edit your profile
-5. Select Forge as your profile
-6. Run Minecraft
-7. Press 'V' to open the World Handler
+4. Follow the steps below
+
+## Launcher Settings ##
+
+1. Select Forge as your profile
+2. Launch Minecraft
+3. Join a world or server
+4. Press 'V' to open the World Handler
 
 Source is provided **AS IS**
