@@ -10,6 +10,7 @@ import exopandora.worldhandler.util.UtilKeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.config.ModConfig.Type;
 
@@ -101,6 +102,7 @@ public class Config
 		}
 	}
 	
+	@SubscribeEvent
 	public static void configLoad(ModConfig.Loading event)
 	{
 		if(event.getConfig().getType().equals(Type.CLIENT))
@@ -111,6 +113,7 @@ public class Config
 		}
 	}
 	
+	@SubscribeEvent
 	public static void configReload(ModConfig.ConfigReloading event)
 	{
 		if(event.getConfig().getType().equals(Type.CLIENT) && Config.CONFIG_DATA != null)
