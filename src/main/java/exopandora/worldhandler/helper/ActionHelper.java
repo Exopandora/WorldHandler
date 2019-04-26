@@ -3,6 +3,7 @@ package exopandora.worldhandler.helper;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import exopandora.worldhandler.Main;
+import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderDifficulty;
 import exopandora.worldhandler.builder.impl.BuilderDifficulty.EnumDifficulty;
 import exopandora.worldhandler.builder.impl.BuilderGamemode;
@@ -47,14 +48,7 @@ public class ActionHelper
 	
 	public static void changeTab(Content content, int index)
 	{
-		try
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(content.getCategory().getContent(index)));
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		ActionHelper.tryRun(() -> Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(content.getCategory().getContent(index))));
 	}
 	
 	public static void timeDawn()
@@ -153,7 +147,7 @@ public class ActionHelper
 			message.setStyle(new Style().setColor(net.minecraft.util.text.TextFormatting.RED));
 			
 			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, message);
-			e.printStackTrace();
+			WorldHandler.LOGGER.throwing(e);
 		}
 	}
 	
