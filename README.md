@@ -84,9 +84,9 @@ Download World Handler or build from source
 
 ## Manual ##
 
-2. Navigate to "..\.minecraft\mods"
-3. Copy the WorldHandler-[VERSION]-UNIVERSAL.jar
-4. Follow the steps below
+1. Navigate to "..\.minecraft\mods"
+2. Copy the WorldHandler-[VERSION]-UNIVERSAL.jar
+3. Follow the steps below
 
 ## Launcher Settings ##
 
