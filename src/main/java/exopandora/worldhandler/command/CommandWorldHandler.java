@@ -43,7 +43,7 @@ public class CommandWorldHandler
 	
 	private static int version(CommandSource source) throws CommandSyntaxException
 	{
-		CommandHelper.sendFeedback(source, "Installed: $mcversion-$version");
+		CommandHelper.sendFeedback(source, "Installed: " + Main.MC_VERSION + "-" + Main.MOD_VERSION);
 		ComparableVersion target = VersionChecker.getResult(ModList.get().getModContainerById(Main.MODID).get().getModInfo()).target;
 		CommandHelper.sendFeedback(source, "Latest: " + Main.MC_VERSION + "-" + (target != null ? target : Main.MOD_VERSION));
 		return 1;
