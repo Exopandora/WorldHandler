@@ -34,7 +34,7 @@ public enum EnumIcon
 	
 	private int x;
 	private int y;
-
+	
 	private EnumIcon(int x, int y)
 	{
 		this.x = x;
