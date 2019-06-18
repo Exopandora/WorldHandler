@@ -27,7 +27,7 @@ public class BuilderNoteEditor extends BuilderSetBlock
 	{
 		this(note);
 		this.setPosition(pos);
-		this.withState(BlockStateProperties.NOTE_BLOCK_INSTRUMENT, NoteBlockInstrument.byState(Minecraft.getInstance().world.getBlockState(pos)));
+		this.withState(BlockStateProperties.NOTE_BLOCK_INSTRUMENT, NoteBlockInstrument.byState(Minecraft.getInstance().world.getBlockState(pos.down())));
 	}
 	
 	public void setNote(int note)
