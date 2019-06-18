@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagLongArray;
+import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -117,7 +118,7 @@ public class ComponentTag<T> implements IBuilderComponent
 			}
 			else if(this.value instanceof Short)
 			{
-				return new NBTTagLong((Short) this.value);
+				return new NBTTagShort((Short) this.value);
 			}
 			else if(this.value instanceof Byte[])
 			{
