@@ -52,7 +52,7 @@ public class JsonSignLineSerializer implements JsonSerializer<JsonSignLine>
 		
 		if(src.getColor() != null)
 		{
-			if(src.getColor().equals(EnumColor.DEFAULT.getFormat()))
+			if(src.getColor().equals(EnumColor.DEFAULT.getName()))
 			{
 				object.remove("color");
 			}

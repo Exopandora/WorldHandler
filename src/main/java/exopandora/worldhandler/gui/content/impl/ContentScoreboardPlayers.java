@@ -80,7 +80,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		this.objectField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setValidator(Predicates.notNull());
 		this.objectField.setText(ContentScoreboard.getObjective());
-		this.objectField.setTextAcceptHandler((id, text) ->
+		this.objectField.func_212954_a(text ->
 		{
 			ContentScoreboard.setObjective(text);
 			this.builderPlayers.setObjective(ContentScoreboard.getObjective());
@@ -91,7 +91,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		this.tagField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.tag"));
 		this.tagField.setValidator(string -> string != null && !string.contains(" "));
 		this.tagField.setText(this.tag);
-		this.tagField.setTextAcceptHandler((id, text) ->
+		this.tagField.func_212954_a(text ->
 		{
 			this.tag = text;
 			this.builderTag.setName(this.tag);
@@ -112,22 +112,22 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		container.add(button1 = new GuiButtonBase(x, y + 12, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.points"), () ->
 		{
 			this.selectedPlayer = "add|set|remove";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.tag"), () ->
 		{
 			this.selectedPlayer = "tag";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.trigger"), () ->
 		{
 			this.selectedPlayer = "enable";
-			container.initGui();
+			container.init();
 		}));
 		
-		button1.enabled = !this.selectedPlayer.equals("add|set|remove");
-		button2.enabled = !this.selectedPlayer.equals("tag");
-		button3.enabled = !this.selectedPlayer.equals("enable");
+		button1.active = !this.selectedPlayer.equals("add|set|remove");
+		button2.active = !this.selectedPlayer.equals("tag");
+		button3.active = !this.selectedPlayer.equals("enable");
 		
 		boolean enabled = ContentScoreboard.isObjectiveValid();
 		this.builderPlayers.setMode(this.selectedPlayer);
@@ -141,42 +141,42 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPlayers.getBuilderForPoints(EnumMode.ADD));
-				container.initGui();
+				container.init();
 			}));
 			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPlayers.getBuilderForPoints(EnumMode.REMOVE));
-				container.initGui();
+				container.init();
 			}));
 			container.add(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.reset"), I18n.format("gui.worldhandler.actions.set_to_0"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPlayers.getBuilderForPoints(EnumMode.SET, 0));
-				container.initGui();
+				container.init();
 			}));
 			
 			boolean points = enabled && this.builderPlayers.getPoints() > 0;
 			
-			this.addButton.enabled = points;
-			this.removeButton.enabled = points;
-			button1.enabled = enabled;
+			this.addButton.active = points;
+			this.removeButton.active = points;
+			button1.active = enabled;
 		}
 		else if(this.selectedPlayer.equals("tag"))
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTag.getBuilderForMode(BuilderTag.EnumMode.ADD));
-				container.initGui();
+				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTag.getBuilderForMode(BuilderTag.EnumMode.REMOVE));
-				container.initGui();
+				container.init();
 			}));
 			
 			boolean tag = this.tag != null && !this.tag.isEmpty();
 			
-			button1.enabled = tag;
-			button2.enabled = tag;
+			button1.active = tag;
+			button2.active = tag;
 		}
 		else if(this.selectedPlayer.equals("enable"))
 		{
@@ -187,22 +187,22 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.ADD));
-				container.initGui();
+				container.init();
 			}));
 			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.set"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.SET));
-				container.initGui();
+				container.init();
 			}));
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.generic.enable"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPlayers.getBuilderForEnable());
-				container.initGui();
+				container.init();
 			}));
 			
-			this.addButton.enabled = enabled && this.builderTrigger.getValue() > 0;
-			this.removeButton.enabled = enabled;
-			button1.enabled = enabled;
+			this.addButton.active = enabled && this.builderTrigger.getValue() > 0;
+			this.removeButton.active = enabled;
+			button1.active = enabled;
 		}
 		
 		if(this.selectedPlayer.equals("tag"))
@@ -232,13 +232,13 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			{
 				boolean points = enabled && this.builderPlayers.getPoints() > 0;
 				
-				this.addButton.enabled = points;
-				this.removeButton.enabled = points;
+				this.addButton.active = points;
+				this.removeButton.active = points;
 			}
 			else if(this.selectedPlayer.equals("enable"))
 			{
-				this.addButton.enabled = enabled && this.builderTrigger.getValue() > 0;
-				this.removeButton.enabled = enabled;
+				this.addButton.active = enabled && this.builderTrigger.getValue() > 0;
+				this.removeButton.active = enabled;
 			}
 				
 			this.objectField.tick();
@@ -250,11 +250,11 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	{
 		if(this.selectedPlayer.equals("tag"))
 		{
-			this.tagField.drawTextField(mouseX, mouseY, partialTicks);
+			this.tagField.renderButton(mouseX, mouseY, partialTicks);
 		}
 		else
 		{
-			this.objectField.drawTextField(mouseX, mouseY, partialTicks);
+			this.objectField.renderButton(mouseX, mouseY, partialTicks);
 		}
 	}
 	

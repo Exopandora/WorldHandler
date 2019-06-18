@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ItemResourceLocation
 {
 	protected ResourceLocation resource;
-	protected NBTTagCompound nbt;
+	protected CompoundNBT nbt;
 	
 	public ItemResourceLocation()
 	{
@@ -26,7 +26,7 @@ public class ItemResourceLocation
 		this(resource, null);
 	}
 	
-	public ItemResourceLocation(ResourceLocation resource, NBTTagCompound nbt)
+	public ItemResourceLocation(ResourceLocation resource, CompoundNBT nbt)
 	{
 		this.resource = resource;
 		this.nbt = nbt;
@@ -42,12 +42,12 @@ public class ItemResourceLocation
 		this.resource = resource;
 	}
 	
-	public NBTTagCompound getNBT()
+	public CompoundNBT getNBT()
 	{
 		return this.nbt;
 	}
 	
-	public void setNBT(NBTTagCompound nbt)
+	public void setNBT(CompoundNBT nbt)
 	{
 		this.nbt = nbt;
 	}
@@ -67,7 +67,7 @@ public class ItemResourceLocation
 	{
 		int start = input.indexOf("{");
 		ResourceLocation resource = new ResourceLocation(input.substring(0, start));
-		NBTTagCompound nbt = null;
+		CompoundNBT nbt = null;
 		
 		if(start > 0)
 		{

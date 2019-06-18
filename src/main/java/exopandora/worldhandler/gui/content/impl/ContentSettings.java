@@ -55,13 +55,13 @@ public class ContentSettings extends ContentChild
 			@Override
 			public String translate(Setting<?> item)
 			{
-				return I18n.format("gui.worldhandler.config.key.settings." + item.getKey());
+				return I18n.format("gui.worldhandler.config.settings." + item.getKey());
 			}
 			
 			@Override
 			public String toTooltip(Setting<?> item)
 			{
-				return I18n.format("gui.worldhandler.config.comment.settings." + item.getKey());
+				return null;
 			}
 			
 			@Override
@@ -126,18 +126,18 @@ public class ContentSettings extends ContentChild
 			container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.generic.enable"), () ->
 			{
 				setting.set(true);
-				container.initButtons();
+				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.generic.disable"), () ->
 			{
 				setting.set(false);
-				container.initButtons();
+				container.init();
 			}));
 			
 			boolean enabled = setting.get();
 			
-			button1.enabled = !enabled;
-			button2.enabled = enabled;
+			button1.active = !enabled;
+			button2.active = enabled;
 		}
 		else if(this.setting instanceof IntegerSetting)
 		{
@@ -158,7 +158,7 @@ public class ContentSettings extends ContentChild
 					setting.set(Integer.parseInt(text));
 				}
 				
-				container.initButtons();
+				container.init();
 			}));
 		}
 	}
@@ -177,7 +177,7 @@ public class ContentSettings extends ContentChild
 	{
 		if(this.setting instanceof IntegerSetting)
 		{
-			this.valueField.drawTextField(mouseX, mouseY, partialTicks);
+			this.valueField.renderButton(mouseX, mouseY, partialTicks);
 		}
 	}
 	

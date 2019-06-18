@@ -1,8 +1,9 @@
 package exopandora.worldhandler.gui.button;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,40 +17,27 @@ public class GuiButtonItem extends GuiButtonBase
 	
     public GuiButtonItem(int x, int y, int width, int height, Item item, ActionHandler actionHandler)
     {
-    	this(0, x, y, width, height, item, actionHandler);
-    }
-    
-    public GuiButtonItem(int id, int x, int y, int width, int height, Item item, ActionHandler actionHandler)
-    {
-    	this(id, x, y, width, height, new ItemStack(item), actionHandler);
+    	this(x, y, width, height, new ItemStack(item), actionHandler);
     }
     
     public GuiButtonItem(int x, int y, int width, int height, ItemStack stack, ActionHandler actionHandler)
     {
-    	this(0, x, y, width, height, stack, actionHandler);
-    }
-    
-    public GuiButtonItem(int id, int x, int y, int width, int height, ItemStack stack, ActionHandler actionHandler)
-    {
-    	super(id, x, y, width, height, null, actionHandler);
+    	super(x, y, width, height, stack.getTextComponent().getString(), actionHandler);
     	this.stack = stack;
     }
     
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks)
+    public void renderButton(int mouseX, int mouseY, float partialTicks)
     {
-    	if(this.visible)
-    	{
-            super.drawBackground(mouseX, mouseY);
-            
-            GlStateManager.enableRescaleNormal();
-    		RenderHelper.enableGUIStandardItemLighting();
-            
-    		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(this.stack, this.x + this.width / 2 - 8, this.y + 2);
-            
-    		RenderHelper.disableStandardItemLighting();
-            GlStateManager.disableRescaleNormal();
-    		GlStateManager.disableBlend();
-    	}
+    	super.renderBg(Minecraft.getInstance(), mouseX, mouseY);
+    	
+        GlStateManager.enableRescaleNormal();
+		RenderHelper.enableGUIStandardItemLighting();
+        
+		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(this.stack, this.x + this.width / 2 - 8, this.y + 2);
+        
+		RenderHelper.disableStandardItemLighting();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.enableAlphaTest();
     }
 }

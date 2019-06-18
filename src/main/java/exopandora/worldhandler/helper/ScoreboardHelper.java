@@ -6,17 +6,17 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.google.common.base.Predicates;
-import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.scoreboard.ScoreCriteria;
 import net.minecraft.scoreboard.Team.CollisionRule;
-import net.minecraft.scoreboard.Team.EnumVisible;
-import net.minecraft.stats.StatList;
+import net.minecraft.scoreboard.Team.Visible;
 import net.minecraft.stats.StatType;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.IRegistry;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @OnlyIn(Dist.CLIENT)
 public class ScoreboardHelper
@@ -33,9 +33,8 @@ public class ScoreboardHelper
 	private void init()
 	{
 		//Lists
-		
-		final List<Node> colors = this.createList(ChatFormatting.values(), ChatFormatting::getName, ChatFormatting::isColor);
-		final List<Node> visibility = this.createList(EnumVisible.values(), value -> value.internalName);
+		final List<Node> colors = this.createList(TextFormatting.values(), TextFormatting::getFriendlyName, TextFormatting::isColor);
+		final List<Node> visibility = this.createList(Visible.values(), value -> value.internalName);
 		final List<Node> collision = this.createList(CollisionRule.values(), value -> value.name);
 		final List<Node> bool = this.createList(new Boolean[] {true, false}, String::valueOf);
 		
@@ -48,18 +47,18 @@ public class ScoreboardHelper
 		
 		this.objectives.merge("minecraft", (parent, child) -> parent + "." + child);
 		
-		for(StatType<?> type : IRegistry.field_212634_w)
+		for(StatType<?> type : ForgeRegistries.STAT_TYPES)
 		{
-			if(!type.equals(StatList.CUSTOM))
+			if(!type.equals(Stats.CUSTOM))
 			{
 				List<Node> entries = new ArrayList<Node>();
 				
-				for(ResourceLocation key : type.getRegistry().getKeys())
+				for(ResourceLocation key : type.getRegistry().keySet())
 				{
 					entries.add(new Node(this.buildKey(key)));
 				}
 				
-				this.objectives.addNode(this.buildKey(IRegistry.field_212634_w.getKey(type)), entries);
+				this.objectives.addNode(this.buildKey(ForgeRegistries.STAT_TYPES.getKey(type)), entries);
 			}
 		}
 		

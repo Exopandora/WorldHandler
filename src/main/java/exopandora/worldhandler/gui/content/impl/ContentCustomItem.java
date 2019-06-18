@@ -87,7 +87,7 @@ public class ContentCustomItem extends Content
 		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.item_id"));
 		this.itemField.setValidator(Predicates.<String>notNull());
 		this.itemField.setText(this.item);
-		this.itemField.setTextAcceptHandler((id, text) ->
+		this.itemField.func_212954_a(text ->
 		{
 			this.item = text;
 			this.builderCutomItem.setItem(this.item);
@@ -97,7 +97,7 @@ public class ContentCustomItem extends Content
 		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.lore_1"));
 		this.itemLore1Field.setValidator(Predicates.<String>notNull());
 		this.itemLore1Field.setText(this.builderCutomItem.getLore1());
-		this.itemLore1Field.setTextAcceptHandler((id, text) ->
+		this.itemLore1Field.func_212954_a(text ->
 		{
 			this.builderCutomItem.setLore1(text);
 			container.initButtons();
@@ -106,7 +106,7 @@ public class ContentCustomItem extends Content
 		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.lore_2"));
 		this.itemLore2Field.setValidator(Predicates.<String>notNull());
 		this.itemLore2Field.setText(this.builderCutomItem.getLore2());
-		this.itemLore2Field.setTextAcceptHandler((id, text) ->
+		this.itemLore2Field.func_212954_a(text ->
 		{
 			this.builderCutomItem.setLore2(text);
 			container.initButtons();
@@ -228,53 +228,53 @@ public class ContentCustomItem extends Content
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start"), () ->
 		{
 			this.selectedPage = "start";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.items.custom_item.enchantment"), () ->
 		{
 			this.selectedPage = "enchant";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.items.custom_item.attributes"), () ->
 		{
 			this.selectedPage = "attributes";
-			container.initGui();
+			container.init();
 		}));
 		
 		if(this.selectedPage.equals("start"))
 		{
-			button1.enabled = false;
+			button1.active = false;
 			
 			container.add(button5 = new GuiButtonBase(x + 118, y + 72, 56, 20, "<", () ->
 			{
 				this.startPage--;
-				container.initGui();
+				container.init();
 			}));
 			container.add(button6 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, ">", () ->
 			{
 				this.startPage++;
-				container.initGui();
+				container.init();
 			}));
 			
 			if(this.startPage == 0)
 			{
-				button5.enabled = false;
+				button5.active = false;
 				container.add(this.itemField);
 				container.add(this.itemLore1Field);
 				container.add(this.itemLore2Field);
 			}
 			else if(this.startPage == 1)
 			{
-				button6.enabled = false;
+				button6.active = false;
 			}
 		}
 		else if(this.selectedPage.equals("enchant"))
 		{
-			button2.enabled = false;
+			button2.active = false;
 		}
 		else if(this.selectedPage.equals("attributes"))
 		{
-			button3.enabled = false;
+			button3.active = false;
 		}
 		
 		if(!this.builderCutomItem.needsCommandBlock() && !this.builderCutomItem.getName().isSpecial())
@@ -286,7 +286,7 @@ public class ContentCustomItem extends Content
 			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.place_command_block"), this::send));
 		}
 		
-		button4.enabled = ResourceHelper.isRegistered(ResourceHelper.stringToResourceLocation(this.item), ForgeRegistries.ITEMS);
+		button4.active = ResourceHelper.isRegistered(ResourceHelper.stringToResourceLocation(this.item), ForgeRegistries.ITEMS);
 	}
 	
 	private void send()
@@ -310,9 +310,9 @@ public class ContentCustomItem extends Content
 	{
 		if(this.selectedPage.equals("start") && this.startPage == 0)
 		{
-			this.itemField.drawTextField(mouseX, mouseY, partialTicks);
-			this.itemLore1Field.drawTextField(mouseX, mouseY, partialTicks);
-			this.itemLore2Field.drawTextField(mouseX, mouseY, partialTicks);
+			this.itemField.renderButton(mouseX, mouseY, partialTicks);
+			this.itemLore1Field.renderButton(mouseX, mouseY, partialTicks);
+			this.itemLore2Field.renderButton(mouseX, mouseY, partialTicks);
 		}
 	}
 	

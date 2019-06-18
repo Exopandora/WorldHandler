@@ -2,6 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
@@ -19,14 +20,13 @@ import exopandora.worldhandler.gui.logic.ILogicColorMenu;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.CommandHelper;
+import net.minecraft.block.AbstractSignBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -51,7 +51,7 @@ public class ContentSignEditor extends Content
 	@Override
 	public void init(Container container)
 	{
-		this.isActive = BlockHelper.isFocusedBlockEqualTo(Blocks.SIGN) || BlockHelper.isFocusedBlockEqualTo(Blocks.WALL_SIGN);
+		this.isActive = BlockHelper.getFocusedBlock() instanceof AbstractSignBlock;
 		this.builderSignEditor.setPosition(BlockHelper.getFocusedBlockPos());
 	}
 	
@@ -64,7 +64,7 @@ public class ContentSignEditor extends Content
 			this.commandField.setValidator(Predicates.notNull());
 			this.commandField.setText(this.builderSignEditor.getCommand(this.selectedLine));
 			this.commandField.setCursorPositionEnd();
-			this.commandField.setTextAcceptHandler((id, text) ->
+			this.commandField.func_212954_a(text ->
 			{
 				this.builderSignEditor.setCommand(this.selectedLine, text);
 				container.initButtons();
@@ -111,22 +111,22 @@ public class ContentSignEditor extends Content
 			container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_1"), () ->
 			{
 				this.selectedLine = 0;
-				container.initGui();
+				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_2"), () ->
 			{
 				this.selectedLine = 1;
-				container.initGui();
+				container.init();
 			}));
 			container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_3"), () ->
 			{
 				this.selectedLine = 2;
-				container.initGui();
+				container.init();
 			}));
 			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_4"), () ->
 			{
 				this.selectedLine = 3;
-				container.initGui();
+				container.init();
 			}));
 			
 			if(this.editColor)
@@ -143,18 +143,28 @@ public class ContentSignEditor extends Content
 				}));
 			}
 			
-			button1.enabled = this.selectedLine != 0;
-			button2.enabled = this.selectedLine != 1;
-			button3.enabled = this.selectedLine != 2;
-			button4.enabled = this.selectedLine != 3;
+			button1.active = this.selectedLine != 0;
+			button2.active = this.selectedLine != 1;
+			button3.active = this.selectedLine != 2;
+			button4.active = this.selectedLine != 3;
+		}
+	}
+	
+	@Override
+	public void tick(Container container)
+	{
+		if(this.editColor)
+		{
+			
 		}
 	}
 	
 	private void toggleEditColor(Container container)
 	{
 		this.editColor = !this.editColor;
-		container.initGui();
+		container.init();
 	}
+	
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
@@ -162,7 +172,7 @@ public class ContentSignEditor extends Content
 		{
 			if(!this.editColor)
 			{
-				this.commandField.drawTextField(mouseX, mouseY, partialTicks);
+				this.commandField.renderButton(mouseX, mouseY, partialTicks);
 			}
 		}
 		else
@@ -175,12 +185,12 @@ public class ContentSignEditor extends Content
             
     		GlStateManager.translatef(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
     		GlStateManager.scalef(scale, scale, scale);
-    		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Items.SIGN), 0, 0);
+    		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Items.field_222071_kr), 0, 0);
             
     		RenderHelper.disableStandardItemLighting();
 			GlStateManager.popMatrix();
 			
-			String displayString = I18n.format("gui.worldhandler.blocks.sign_editor.look_at_sign", WorldHandler.KEY_WORLD_HANDLER.func_197978_k());
+			String displayString = I18n.format("gui.worldhandler.blocks.sign_editor.look_at_sign", WorldHandler.KEY_WORLD_HANDLER.getLocalizedName());
 			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 			fontRenderer.drawString(displayString, x + 116 - fontRenderer.getStringWidth(displayString) / 2, y + 70, Config.getSkin().getLabelColor());
 		}

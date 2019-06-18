@@ -55,7 +55,7 @@ public class ContentExperience extends Content
 		container.add(this.buttonAdd = new GuiButtonBase(x + 116 / 2, y + 24, 114, 20, I18n.format("gui.worldhandler.actions.add"), () ->
 		{
 			CommandHelper.sendCommand(this.builderExperience.getBuilderForAddLevels());
-			container.initGui();
+			container.init();
 		}));
 		container.add(this.buttonRemove = new GuiButtonBase(x + 116 / 2, y + 48, 114, 20, I18n.format("gui.worldhandler.actions.remove"), () ->
 		{
@@ -64,13 +64,13 @@ public class ContentExperience extends Content
 		container.add(new GuiButtonTooltip(x + 116 / 2, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.reset"), I18n.format("gui.worldhandler.actions.set_to_0"), () ->
 		{
 			CommandHelper.sendCommand(this.builderExperience.getBuilderForResetLevels());
-			container.initGui();
+			container.init();
 		}));
 		
 		boolean enabled = this.builderExperience.getLevel() > 0;
 		
-		this.buttonAdd.enabled = enabled;
-		this.buttonRemove.enabled = enabled;
+		this.buttonAdd.active = enabled;
+		this.buttonRemove.active = enabled;
 	}
 	
 	@Override
@@ -78,8 +78,8 @@ public class ContentExperience extends Content
 	{
 		boolean enabled = this.builderExperience.getLevel() > 0;
 		
-		this.buttonAdd.enabled = enabled;
-		this.buttonRemove.enabled = enabled;
+		this.buttonAdd.active = enabled;
+		this.buttonRemove.active = enabled;
 	}
 	
 	@Override

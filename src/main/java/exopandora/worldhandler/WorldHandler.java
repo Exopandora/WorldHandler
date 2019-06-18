@@ -75,7 +75,7 @@ public class WorldHandler
 	public void loadComplete(FMLLoadCompleteEvent event)
 	{
 		Content.registerContents();
-		Category.registerCategories();
+		Category.register();
 		InterModComms.getMessages(Main.MODID, Predicates.equalTo("register"))
 			.map(imc -> (Runnable) imc.getMessageSupplier().get())
 			.forEach(Runnable::run);

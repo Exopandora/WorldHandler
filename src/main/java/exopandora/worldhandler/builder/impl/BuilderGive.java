@@ -7,7 +7,7 @@ import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.ItemResourceLocation;
 import exopandora.worldhandler.builder.types.Type;
 import exopandora.worldhandler.helper.ResourceHelper;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -68,13 +68,13 @@ public class BuilderGive extends CommandBuilderNBT
 	}
 	
 	@Override
-	public void setNBT(NBTTagCompound nbt)
+	public void setNBT(CompoundNBT nbt)
 	{
 		this.itemResourceLocation.setNBT(nbt);
 		this.setNode(1, this.itemResourceLocation);
 	}
 	
-	public NBTTagCompound getNBT()
+	public CompoundNBT getNBT()
 	{
 		return this.getNodeAsItemResourceLocation(1).getNBT();
 	}

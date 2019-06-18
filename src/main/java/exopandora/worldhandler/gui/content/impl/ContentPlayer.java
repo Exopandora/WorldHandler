@@ -1,6 +1,6 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
@@ -18,11 +18,11 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.helper.ActionHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -84,35 +84,35 @@ public class ContentPlayer extends Content
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.entities.player.start"), () ->
 		{
 			this.selectedMain = "start";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.entities.player.score"), () ->
 		{
 			this.selectedMain = "score";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.entities.player.position"), () ->
 		{
 			this.selectedMain = "position";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.player.miscellaneous"), () ->
 		{
 			this.selectedMain = "miscellaneous";
-			container.initGui();
+			container.init();
 		}));
 		
 		if(this.selectedMain.equals("start"))
 		{
-			button1.enabled = false;
+			button1.active = false;
 		}
 		else if(this.selectedMain.equals("score"))
 		{
-			button2.enabled = false;
+			button2.active = false;
 		}
 		else if(this.selectedMain.equals("position"))
 		{
-			button3.enabled = false;
+			button3.active = false;
 			
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.player.position.copy_position"), () ->
 			{
@@ -125,21 +125,21 @@ public class ContentPlayer extends Content
 		}
 		else if(this.selectedMain.equals("miscellaneous"))
 		{
-			button4.enabled = false;
+			button4.active = false;
 			
-			container.add(new GuiButtonBase(x + 118, y, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.set_spawn"), () ->
+			container.add(new GuiButtonBase(x + 118, y, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.set_spawn"), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSpawnpoint).withParent(Contents.PLAYER)));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.set_global_spawn"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.set_global_spawn"), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSetworldspawn).withParent(Contents.PLAYER)));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.kill"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.kill"), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderKill).withParent(Contents.PLAYER)));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.clear_inventory"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.entities.player.miscellaneous.clear_inventory"), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderClear).withParent(Contents.PLAYER)));
 			}));
@@ -166,24 +166,24 @@ public class ContentPlayer extends Content
 			int yPos = y + 82;
 			int playerNameWidth = Minecraft.getInstance().fontRenderer.getStringWidth(Minecraft.getInstance().player.getName().getFormattedText()) / 2;
 			
-			Gui.drawRect(container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
+			Screen.fill(container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
 			Minecraft.getInstance().fontRenderer.drawString(Minecraft.getInstance().player.getName().getFormattedText(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GuiInventory.drawEntityOnScreen(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
+			InventoryScreen.drawEntityOnScreen(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
 			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		}
 		else if(this.selectedMain.equals("score"))
 		{
-			this.scoreField.drawTextField(mouseX, mouseY, partialTicks);
-			this.xpField.drawTextField(mouseX, mouseY, partialTicks);
-			this.coinsField.drawTextField(mouseX, mouseY, partialTicks);
+			this.scoreField.renderButton(mouseX, mouseY, partialTicks);
+			this.xpField.renderButton(mouseX, mouseY, partialTicks);
+			this.coinsField.renderButton(mouseX, mouseY, partialTicks);
 		}
 		else if(this.selectedMain.equals("position"))
 		{
-			this.posXField.drawTextField(mouseX, mouseY, partialTicks);
-			this.posYField.drawTextField(mouseX, mouseY, partialTicks);
-			this.posZField.drawTextField(mouseX, mouseY, partialTicks);
+			this.posXField.renderButton(mouseX, mouseY, partialTicks);
+			this.posYField.renderButton(mouseX, mouseY, partialTicks);
+			this.posZField.renderButton(mouseX, mouseY, partialTicks);
 		}
 	}
 	

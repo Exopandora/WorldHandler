@@ -4,7 +4,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class PotionMetadata
+public class EffectData
 {
 	private byte amplifier;
 	private int seconds;
@@ -13,12 +13,12 @@ public class PotionMetadata
 	private boolean showParticles;
 	private boolean ambient;
 	
-	public PotionMetadata()
+	public EffectData()
 	{
 		this((byte) 0, 0, 0, 0, true, false);
 	}
 	
-	public PotionMetadata(byte amplifier, int seconds, int minutes, int hours, boolean showParticles, boolean ambient)
+	public EffectData(byte amplifier, int seconds, int minutes, int hours, boolean showParticles, boolean ambient)
 	{
 		this.amplifier = amplifier;
 		this.seconds = seconds;
@@ -90,12 +90,12 @@ public class PotionMetadata
 	
 	public int toTicks()
 	{
-		return PotionMetadata.toTicks(this.seconds, this.minutes, this.hours);
+		return EffectData.toTicks(this.seconds, this.minutes, this.hours);
 	}
 	
 	public int toSeconds()
 	{
-		return PotionMetadata.toSeconds(this.seconds, this.minutes, this.hours);
+		return EffectData.toSeconds(this.seconds, this.minutes, this.hours);
 	}
 	
 	public static int toTicks(int seconds, int minutes, int hours)
@@ -108,37 +108,37 @@ public class PotionMetadata
 		return seconds + minutes * 60 + hours * 3600;
 	}
 	
-	public PotionMetadata withAmplifier(byte amplifier)
+	public EffectData withAmplifier(byte amplifier)
 	{
 		this.amplifier = amplifier;
 		return this;
 	}
 	
-	public PotionMetadata withShowParticles(boolean showParticles)
+	public EffectData withShowParticles(boolean showParticles)
 	{
 		this.showParticles = showParticles;
 		return this;
 	}
 	
-	public PotionMetadata withSeconds(int seconds)
+	public EffectData withSeconds(int seconds)
 	{
 		this.seconds = seconds;
 		return this;
 	}
 	
-	public PotionMetadata withMinutes(int minutes)
+	public EffectData withMinutes(int minutes)
 	{
 		this.minutes = minutes;
 		return this;
 	}
 	
-	public PotionMetadata withHours(int hours)
+	public EffectData withHours(int hours)
 	{
 		this.hours = hours;
 		return this;
 	}
 	
-	public PotionMetadata withAmbient(boolean ambient)
+	public EffectData withAmbient(boolean ambient)
 	{
 		this.ambient = ambient;
 		return this;

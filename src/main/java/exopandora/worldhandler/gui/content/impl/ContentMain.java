@@ -13,7 +13,7 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.helper.ActionHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreenResourcePacks;
+import net.minecraft.client.gui.screen.ResourcePacksScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -86,7 +86,7 @@ public class ContentMain extends Content
 		container.add(new GuiButtonBase(x + 78, y + 96, 76, 20, I18n.format("gui.worldhandler.resourcepack"), () -> 
 		{
 			Minecraft.getInstance().gameSettings.saveOptions();
-			Minecraft.getInstance().displayGuiScreen(new GuiScreenResourcePacks(container));
+			Minecraft.getInstance().displayGuiScreen(new ResourcePacksScreen(container));
 		}));
 		container.add(new GuiButtonBase(x + 158, y + 96, 74, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 	}

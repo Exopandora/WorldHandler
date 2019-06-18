@@ -8,37 +8,37 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.Potion;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.potion.Effect;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class ComponentPotion implements IBuilderComponent 
 {
-	protected final Map<Potion, PotionMetadata> potions = new HashMap<Potion, PotionMetadata>();
+	protected final Map<Effect, EffectData> potions = new HashMap<Effect, EffectData>();
 	
 	@Override
 	@Nullable
-	public INBTBase serialize()
+	public INBT serialize()
 	{
-		NBTTagList list = new NBTTagList();
+		ListNBT list = new ListNBT();
 		
-		for(Entry<Potion, PotionMetadata> entry : this.potions.entrySet())
+		for(Entry<Effect, EffectData> entry : this.potions.entrySet())
 		{
-			PotionMetadata potion = entry.getValue();
+			EffectData potion = entry.getValue();
 			
 			if(potion.getAmplifier() > 0)
 			{
-				NBTTagCompound compound = new NBTTagCompound();
+				CompoundNBT compound = new CompoundNBT();
 				
-				compound.setByte("Id", (byte) Potion.getIdFromPotion(entry.getKey()));
-				compound.setByte("Amplifier", (byte) (potion.getAmplifier() - 1));
-				compound.setInt("Duration", Math.min(potion.toTicks(), 1000000));
-				compound.setBoolean("Ambient", potion.getAmbient());
-				compound.setBoolean("ShowParticles", potion.getShowParticles());
+				compound.putByte("Id", (byte) Effect.getIdFromPotion(entry.getKey()));
+				compound.putByte("Amplifier", (byte) (potion.getAmplifier() - 1));
+				compound.putInt("Duration", Math.min(potion.toTicks(), 1000000));
+				compound.putBoolean("Ambient", potion.getAmbient());
+				compound.putBoolean("ShowParticles", potion.getShowParticles());
 				
 				list.add(compound);
 			}
@@ -52,87 +52,87 @@ public abstract class ComponentPotion implements IBuilderComponent
 		return list;
 	}
 	
-	public void setAmplifier(Potion potion, byte amplifier)
+	public void setAmplifier(Effect potion, byte amplifier)
 	{
 		this.getMetadata(potion).setAmplifier(amplifier);
 	}
 	
-	public byte getAmplifier(Potion potion)
+	public byte getAmplifier(Effect potion)
 	{
 		return this.getMetadata(potion).getAmplifier();
 	}
 	
-	public void setSeconds(Potion potion, int seconds)
+	public void setSeconds(Effect potion, int seconds)
 	{
 		this.getMetadata(potion).setSeconds(seconds);
 	}
 	
-	public int getSeconds(Potion potion)
+	public int getSeconds(Effect potion)
 	{
 		return this.getMetadata(potion).getSeconds();
 	}
 	
-	public void setMinutes(Potion potion, int minutes)
+	public void setMinutes(Effect potion, int minutes)
 	{
 		this.getMetadata(potion).setMinutes(minutes);
 	}
 	
-	public int getMinutes(Potion potion)
+	public int getMinutes(Effect potion)
 	{
 		return this.getMetadata(potion).getMinutes();
 	}
 	
-	public void setHours(Potion potion, int hours)
+	public void setHours(Effect potion, int hours)
 	{
 		this.getMetadata(potion).setHours(hours);
 	}
 	
-	public int getHours(Potion potion)
+	public int getHours(Effect potion)
 	{
 		return this.getMetadata(potion).getHours();
 	}
 	
-	public void setShowParticles(Potion potion, boolean showParticles)
+	public void setShowParticles(Effect potion, boolean showParticles)
 	{
 		this.getMetadata(potion).setShowParticles(showParticles);
 	}
 	
-	public boolean getShowParticles(Potion potion)
+	public boolean getShowParticles(Effect potion)
 	{
 		return this.getMetadata(potion).getShowParticles();
 	}
 	
-	public void setAmbient(Potion potion, boolean ambient)
+	public void setAmbient(Effect potion, boolean ambient)
 	{
 		this.getMetadata(potion).setAmbient(ambient);
 	}
 	
-	public boolean getAmbient(Potion potion)
+	public boolean getAmbient(Effect potion)
 	{
 		return this.getMetadata(potion).getAmbient();
 	}
 	
-	private PotionMetadata getMetadata(Potion potion)
+	private EffectData getMetadata(Effect potion)
 	{
 		return this.potions.get(this.validate(potion));
 	}
 	
-	private Potion validate(Potion potion)
+	private Effect validate(Effect potion)
 	{
 		if(!this.potions.containsKey(potion))
 		{
-			this.potions.put(potion, new PotionMetadata());
+			this.potions.put(potion, new EffectData());
 		}
 		
 		return potion;
 	}
 	
-	public Set<Potion> getPotions()
+	public Set<Effect> getEffects()
 	{
 		return this.potions.keySet();
 	}
 	
-	public void remove(Potion potion)
+	public void remove(Effect potion)
 	{
 		this.potions.remove(potion);
 	}

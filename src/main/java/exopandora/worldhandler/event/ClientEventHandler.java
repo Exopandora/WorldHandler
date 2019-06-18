@@ -1,5 +1,6 @@
 package exopandora.worldhandler.event;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;
@@ -10,11 +11,10 @@ import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.command.CommandSource;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientChatEvent;
@@ -27,30 +27,26 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public static void renderWorldLastEvent(RenderWorldLastEvent event)
 	{
-		if(Config.getSettings().highlightBlocks() && Minecraft.getInstance().world != null)
+		if(Config.getSettings().highlightBlocks() && Minecraft.getInstance().world != null && Minecraft.getInstance().getRenderManager().field_217783_c != null)
 		{
 			GlStateManager.pushMatrix();
 			GlStateManager.disableAlphaTest();
 			GlStateManager.enableBlend();
 			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			GlStateManager.lineWidth(2.0F);
-			GlStateManager.disableTexture2D();
+			GlStateManager.disableTexture();
 			GlStateManager.depthMask(false);
 			
 			final double constant = 0.0020000000949949026D;
-			EntityPlayer player = Minecraft.getInstance().player;
+			Vec3d projected = Minecraft.getInstance().getRenderManager().field_217783_c.func_216785_c();
 			
-			double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * Minecraft.getInstance().getRenderPartialTicks();
-			double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * Minecraft.getInstance().getRenderPartialTicks();
-			double playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * Minecraft.getInstance().getRenderPartialTicks();
+			double minX = Math.min(BlockHelper.getPos1().getX(), BlockHelper.getPos2().getX()) - constant - projected.x;
+			double minY = Math.min(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY()) - constant - projected.y;
+			double minZ = Math.min(BlockHelper.getPos1().getZ(), BlockHelper.getPos2().getZ()) - constant - projected.z;
 			
-			double minX = Math.min(BlockHelper.getPos1().getX(), BlockHelper.getPos2().getX()) - constant - playerX;
-			double minY = Math.min(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY()) - constant - playerY;
-			double minZ = Math.min(BlockHelper.getPos1().getZ(), BlockHelper.getPos2().getZ()) - constant - playerZ;
-			
-			double maxX = Math.max(BlockHelper.getPos1().getX(), BlockHelper.getPos2().getX()) + constant - playerX + 1;
-			double maxY = Math.max(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY()) + constant - playerY + 1;
-			double maxZ = Math.max(BlockHelper.getPos1().getZ(), BlockHelper.getPos2().getZ()) + constant - playerZ + 1;
+			double maxX = Math.max(BlockHelper.getPos1().getX(), BlockHelper.getPos2().getX()) + constant - projected.x + 1;
+			double maxY = Math.max(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY()) + constant - projected.y + 1;
+			double maxZ = Math.max(BlockHelper.getPos1().getZ(), BlockHelper.getPos2().getZ()) + constant - projected.z + 1;
 			
 			Tessellator tesselator = Tessellator.getInstance();
 		    BufferBuilder buffer = tesselator.getBuffer();
@@ -83,7 +79,7 @@ public class ClientEventHandler
 			GlStateManager.lineWidth(1.0F);
 			
 			GlStateManager.depthMask(true);
-			GlStateManager.enableTexture2D();
+			GlStateManager.enableTexture();
 			GlStateManager.disableBlend();
 			GlStateManager.enableAlphaTest();
 			GlStateManager.popMatrix();

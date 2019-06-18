@@ -2,7 +2,6 @@ package exopandora.worldhandler.config;
 
 import java.util.Arrays;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -50,66 +49,66 @@ public class ConfigCategorySettings
 		builder.push("settings");
 		
 		this.valueCommandSyntax = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.command_syntax"))
-				.translation("gui.worldhandler.config.key.settings.command_syntax")
+				.translation("gui.worldhandler.config.settings.command_syntax")
+				.comment("Whether or not to display the current command at the bottom")
 				.define("command_syntax", false);
 		this.valueShortcuts = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.shortcuts"))
-				.translation("gui.worldhandler.config.key.settings.shortcuts")
+				.translation("gui.worldhandler.config.settings.shortcuts")
+				.comment("Whether or not to display a row of quick access buttons at the top")
 				.define("shortcuts", false);
 		this.valueShortcutKeys = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.key_shortcuts"))
-				.translation("gui.worldhandler.config.key.settings.key_shortcuts")
+				.translation("gui.worldhandler.config.settings.key_shortcuts")
+				.comment("Whether or not to enable button keys for pos1 and pos2")
 				.define("key_shortcuts", false);
 		this.valueTooltips = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.tooltips"))
-				.translation("gui.worldhandler.config.key.settings.tooltips")
+				.translation("gui.worldhandler.config.settings.tooltips")
+				.comment("Whether or not to display tooltips for buttons")
 				.define("tooltips", true);
 		this.valueWatch = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.watch"))
-				.translation("gui.worldhandler.config.key.settings.watch")
+				.translation("gui.worldhandler.config.settings.watch")
+				.comment("Whether or not to display a watch")
 				.define("watch", true);
 		this.valueSmoothWatch = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.smooth_watch"))
-				.translation("gui.worldhandler.config.key.settings.smooth_watch")
+				.translation("gui.worldhandler.config.settings.smooth_watch")
+				.comment("Whether or not the watch pointers move smoothly")
 				.define("smooth_watch", true);
 		this.valuePause = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.pause_game"))
-				.translation("gui.worldhandler.config.key.settings.pause_game")
+				.translation("gui.worldhandler.config.settings.pause_game")
+				.comment("Whether or not to pause the game when the gui is opened")
 				.define("pause_game", false);
 		this.valueCustomTimes = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.custom_times"))
-				.translation("gui.worldhandler.config.key.settings.custom_times")
+				.translation("gui.worldhandler.config.settings.custom_times")
+				.comment("Whether or not to use the custom times")
 				.define("custom_times", false);
 		this.valuePermissionQuery = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.permission_query"))
-				.translation("gui.worldhandler.config.key.settings.permission_query")
+				.translation("gui.worldhandler.config.settings.permission_query")
+				.comment("Whether or not the permission query is enabled")
 				.define("permission_query", true);
 		this.valueHighlightBlocks = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.highlight_blocks"))
-				.translation("gui.worldhandler.config.key.settings.highlight_blocks")
+				.translation("gui.worldhandler.config.settings.highlight_blocks")
+				.comment("Whether or not selected blocks will be highlighted")
 				.define("highlight_blocks", true);
 		
 		this.valueDawn = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.custom_time_dawn"))
-				.translation("gui.worldhandler.config.key.settings.custom_time_dawn")
+				.translation("gui.worldhandler.config.settings.custom_time_dawn")
+				.comment("Ticks upon dawn")
 				.defineInRange("custom_time_dawn", 1000, 0, 24000);
 		this.valueNoon = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.custom_time_noon"))
-				.translation("gui.worldhandler.config.key.settings.custom_time_noon")
+				.translation("gui.worldhandler.config.settings.custom_time_noon")
+				.comment("Ticks upon noon")
 				.defineInRange("custom_time_noon", 6000, 0, 24000);
 		this.valueSunset = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.custom_time_sunset"))
-				.translation("gui.worldhandler.config.key.settings.custom_time_sunset")
+				.translation("gui.worldhandler.config.settings.custom_time_sunset")
+				.comment("Ticks upon sunset")
 				.defineInRange("custom_time_sunset", 12500, 0, 24000);
 		this.valueMidnight = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.custom_time_midnight"))
-				.translation("gui.worldhandler.config.key.settings.custom_time_midnight")
+				.translation("gui.worldhandler.config.settings.custom_time_midnight")
+				.comment("Ticks upon midnight")
 				.defineInRange("custom_time_midnight", 18000, 0, 24000);
 		
 		this.valueBlockPlacingMode = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.block_placing_mode"))
-				.translation("gui.worldhandler.config.key.settings.block_placing_mode")
+				.translation("gui.worldhandler.config.settings.block_placing_mode")
+				.comment("Block placing mode (keep, replace, destroy)")
 				.defineInList("block_placing_mode", "keep", Arrays.asList("keep", "replace", "destroy"));
 		
 		builder.pop();

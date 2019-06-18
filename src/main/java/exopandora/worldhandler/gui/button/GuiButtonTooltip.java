@@ -16,26 +16,21 @@ public class GuiButtonTooltip extends GuiButtonBase
 	
 	public GuiButtonTooltip(int x, int y, int widthIn, int heightIn, String buttonText, String tooltip, ActionHandler actionHandler)
 	{
-		this(0, x, y, widthIn, heightIn, buttonText, tooltip, actionHandler);
-	}
-	
-	public GuiButtonTooltip(int id, int x, int y, int widthIn, int heightIn, String buttonText, String tooltip, ActionHandler actionHandler)
-	{
-		super(id, x, y, widthIn, heightIn, buttonText, actionHandler);
+		super(x, y, widthIn, heightIn, buttonText, actionHandler);
 		this.tooltip = tooltip;
 	}
 	
 	public void renderTooltip(int mouseX, int mouseY)
 	{
-		if(this.hovered && this.tooltip != null)
+		if(this.isHovered() && this.tooltip != null)
 		{
 			List<String> list = Arrays.asList(this.tooltip.split("\n"));
 			
 			if(!list.isEmpty())
 			{
 				int tooltipWidth = Minecraft.getInstance().fontRenderer.getStringWidth(this.tooltip) + 9;
-				int width = Minecraft.getInstance().currentScreen.width;
-				int height = Minecraft.getInstance().currentScreen.height;
+				int width = Minecraft.getInstance().field_71462_r.width;
+				int height = Minecraft.getInstance().field_71462_r.height;
 				
 				GuiUtils.drawHoveringText(list, mouseX, mouseY, width, height, tooltipWidth, Minecraft.getInstance().fontRenderer);
 			}

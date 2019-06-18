@@ -10,7 +10,7 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.element.Element;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -57,11 +57,11 @@ public class ElementPageList<T> extends Element
 			int buttonWidth = (this.width - 4) / 2;
 			
 			GuiButtonBase left = new GuiButtonBase(this.x, this.y + (this.height + 4) * this.length, buttonWidth + 1, this.height, "<", () -> this.goLeft(container));
-			left.enabled = this.persistence.getPage() > 0;
+			left.active = this.persistence.getPage() > 0;
 			container.add(left);
 			
 			GuiButtonBase right = new GuiButtonBase(this.x + 5 + buttonWidth, this.y + (this.height + 4) * this.length, buttonWidth, this.height, ">", () -> this.goRight(container));
-			right.enabled = this.persistence.getPage() < this.getTotalPages() - 1;
+			right.active = this.persistence.getPage() < this.getTotalPages() - 1;
 			container.add(right);
 		}
 		
@@ -84,13 +84,13 @@ public class ElementPageList<T> extends Element
 				
 				if(this.logic.doDisable())
 				{
-					button.enabled = this.persistence.getSelectedIndex() != index;
+					button.active = this.persistence.getSelectedIndex() != index;
 				}
 			}
 			else
 			{
 				button = new GuiButtonBase(this.x, this.y + (this.height + 4) * x, this.width, this.height, null, null);
-				button.enabled = false;
+				button.active = false;
 			}
 			
 			container.add(button);
@@ -113,7 +113,7 @@ public class ElementPageList<T> extends Element
 	{
 		int page = this.persistence.getPage();
 		
-		if(GuiScreen.isShiftKeyDown())
+		if(Screen.hasShiftDown())
 		{
 			this.persistence.setPage(page - Math.min(10, page));
 		}
@@ -129,7 +129,7 @@ public class ElementPageList<T> extends Element
 	{
 		int page = this.persistence.getPage();
 		
-		if(GuiScreen.isShiftKeyDown())
+		if(Screen.hasShiftDown())
 		{
 			this.persistence.setPage(page + Math.min(10, this.getTotalPages() - 1 - page));
 		}

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -46,19 +46,19 @@ public abstract class CommandBuilderNBT extends CommandBuilder implements IComma
 		return super.toActualCommand();
 	}
 	
-	private NBTTagCompound buildNBT()
+	private CompoundNBT buildNBT()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		
 		for(IBuilderComponent component : this.TAG_TO_COMPONENT)
 		{
-			INBTBase serialized = component.serialize();
+			INBT serialized = component.serialize();
 			
 			if(serialized != null)
 			{
-				if(!nbt.hasKey(component.getTag()))
+				if(!nbt.contains(component.getTag()))
 				{
-					nbt.setTag(component.getTag(), serialized);
+					nbt.put(component.getTag(), serialized);
 				}
 			}
 		}

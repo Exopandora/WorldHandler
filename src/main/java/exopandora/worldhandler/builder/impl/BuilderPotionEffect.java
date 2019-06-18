@@ -4,9 +4,9 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.component.abstr.PotionMetadata;
+import exopandora.worldhandler.builder.component.abstr.EffectData;
 import exopandora.worldhandler.builder.types.Type;
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -57,7 +57,7 @@ public class BuilderPotionEffect extends CommandBuilder
 		return this.getNodeAsString(1);
 	}
 	
-	public void setEffect(Potion effect)
+	public void setEffect(Effect effect)
 	{
 		this.setEffect(effect.getRegistryName());
 	}
@@ -68,7 +68,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	}
 	
 	@Nullable
-	public Potion getEffectAsPotion()
+	public Effect getEffectAsPotion()
 	{
 		ResourceLocation location = this.getNodeAsResourceLocation(2);
 		
@@ -123,7 +123,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setSeconds(int seconds)
 	{
 		this.seconds = seconds;
-		this.setDuration(PotionMetadata.toSeconds(this.seconds, this.minutes, this.hours));
+		this.setDuration(EffectData.toSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public int getMinutes()
@@ -134,7 +134,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setMinutes(int minutes)
 	{
 		this.minutes = minutes;
-		this.setDuration(PotionMetadata.toSeconds(this.seconds, this.minutes, this.hours));
+		this.setDuration(EffectData.toSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public int getHours()
@@ -145,7 +145,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setHours(int hours)
 	{
 		this.hours = hours;
-		this.setDuration(PotionMetadata.toSeconds(this.seconds, this.minutes, this.hours));
+		this.setDuration(EffectData.toSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public BuilderGeneric getGiveCommand()

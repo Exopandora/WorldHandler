@@ -5,33 +5,39 @@ import java.util.List;
 
 import exopandora.worldhandler.gui.content.element.Element;
 import exopandora.worldhandler.gui.content.element.IElement;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class Container extends GuiScreen implements IContainer
+public abstract class Container extends Screen implements IContainer
 {
+	protected Container(ITextComponent title)
+	{
+		super(title);
+	}
+	
 	protected final List<IElement> elements = new ArrayList<IElement>();
 	
 	@Override
-	public <T extends GuiButton> T add(T button)
+	public <T extends Widget> T add(T button)
 	{
 		return super.addButton(button);
 	}
 	
-	public <T extends GuiTextField> T add(T textfield)
+	public <T extends TextFieldWidget> T add(T textfield)
 	{
 		this.children.add(textfield);
 		return textfield;
 	}
 	
 	@Override
-	public void initGui()
+	public void init()
 	{
-		super.initGui();
+		super.init();
 	}
 	
 	@Override

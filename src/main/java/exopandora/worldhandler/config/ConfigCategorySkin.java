@@ -2,7 +2,6 @@ package exopandora.worldhandler.config;
 
 import java.util.Arrays;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -48,64 +47,64 @@ public class ConfigCategorySkin
 		builder.push("skin");
 		
 		this.valueIconSize = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.icon_size"))
-				.translation("gui.worldhandler.config.key.skin.icon_size")
+				.translation("gui.worldhandler.config.skin.icon_size")
+				.comment("Size of the icons")
 				.defineInList("icon_size", 16, Arrays.asList(16, 32, 64));
 		this.valueLabelColor = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.label_color"))
-				.translation("gui.worldhandler.config.key.skin.label_color")
+				.translation("gui.worldhandler.config.skin.label_color")
+				.comment("Label color")
 				.defineInRange("label_color", 0x1F1F1F, 0x80000000, 0x7FFFFFFF);
 		this.valueHeadlineColor = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.headline_color"))
-				.translation("gui.worldhandler.config.key.skin.headline_color")
+				.translation("gui.worldhandler.config.skin.headline_color")
+				.comment("Headline color")
 				.defineInRange("headline_color", 0x4F4F4F, 0x80000000, 0x7FFFFFFF);
 		
 		this.valueBackgroundRed = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.background_red"))
-				.translation("gui.worldhandler.config.key.skin.background_red")
+				.translation("gui.worldhandler.config.skin.background_red")
+				.comment("Background red")
 				.defineInRange("background_red", 255, 0, 255);
 		this.valueBackgroundGreen = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.background_green"))
-				.translation("gui.worldhandler.config.key.skin.background_green")
+				.translation("gui.worldhandler.config.skin.background_green")
+				.comment("Background green")
 				.defineInRange("background_green", 255, 0, 255);
 		this.valueBackgroundBlue = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.background_blue"))
-				.translation("gui.worldhandler.config.key.skin.background_blue")
+				.translation("gui.worldhandler.config.skin.background_blue")
+				.comment("Background blue")
 				.defineInRange("background_blue", 255, 0, 255);
 		this.valueBackgroundAlpha = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.background_alpha"))
-				.translation("gui.worldhandler.config.key.skin.background_alpha")
+				.translation("gui.worldhandler.config.skin.background_alpha")
+				.comment("Background alpha")
 				.defineInRange("background_alpha", 255, 0, 255);
 		
 		this.valueButtonRed = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.button_red"))
-				.translation("gui.worldhandler.config.key.skin.button_red")
+				.translation("gui.worldhandler.config.skin.button_red")
+				.comment("Button eed")
 				.defineInRange("button_red", 255, 0, 255);
 		this.valueButtonGreen = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.button_green"))
-				.translation("gui.worldhandler.config.key.skin.button_green")
+				.translation("gui.worldhandler.config.skin.button_green")
+				.comment("Button green")
 				.defineInRange("button_green", 255, 0, 255);
 		this.valueButtonBlue = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.button_blue"))
-				.translation("gui.worldhandler.config.key.skin.button_blue")
+				.translation("gui.worldhandler.config.skin.button_blue")
+				.comment("Button blue")
 				.defineInRange("button_blue", 255, 0, 255);
 		this.valueButtonAlpha = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.button_alpha"))
-				.translation("gui.worldhandler.config.key.skin.button_alpha")
+				.translation("gui.worldhandler.config.skin.button_alpha")
+				.comment("Button alpha")
 				.defineInRange("button_alpha", 255, 0, 255);
 
 		this.valueType = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.skin.textures"))
-				.translation("gui.worldhandler.config.key.skin.textures")
+				.translation("gui.worldhandler.config.skin.textures")
+				.comment("Background texture (resourcepack, vanilla)")
 				.defineInList("textures", "resourcepack", Arrays.asList("resourcepack", "vanilla"));
 		
 		this.valueSharpEdges = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.sharp_tab_edges"))
-				.translation("gui.worldhandler.config.key.settings.sharp_tab_edges")
+				.translation("gui.worldhandler.config.settings.sharp_tab_edges")
+				.comment("Whether or not the gui has sharp or smooth tab edges")
 				.define("sharp_tab_edges", false);
 		this.valueDrawBackground = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.settings.draw_background"))
-				.translation("gui.worldhandler.config.key.settings.draw_background")
+				.translation("gui.worldhandler.config.settings.draw_background")
+				.comment("Whether or not to enable background drawing")
 				.define("draw_background", true);
 		
 		builder.pop();

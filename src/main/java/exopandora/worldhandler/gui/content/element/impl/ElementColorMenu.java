@@ -3,8 +3,6 @@ package exopandora.worldhandler.gui.content.element.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
 import exopandora.worldhandler.format.EnumColor;
 import exopandora.worldhandler.format.text.ColoredString;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
@@ -15,6 +13,7 @@ import exopandora.worldhandler.gui.content.element.Element;
 import exopandora.worldhandler.gui.logic.ILogicColorMenu;
 import exopandora.worldhandler.gui.logic.ILogicMapped;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -69,7 +68,7 @@ public class ElementColorMenu extends Element
 		this.textField.setValidator(this.logic::validate);
 		this.textField.setTextFormatter(this.string::textFormatter);
 		this.textField.setText(this.string.getText());
-		this.textField.setTextAcceptHandler((id, text) ->
+		this.textField.func_212954_a(text ->
 		{
 			this.string.setText(text);
 		});
@@ -87,7 +86,7 @@ public class ElementColorMenu extends Element
 				@Override
 				public String translate(EnumColor item)
 				{
-					return item + I18n.format("gui.worldhandler.color") + ": " + I18n.format("gui.worldhandler.color." + item.getFormat());
+					return item + I18n.format("gui.worldhandler.color") + ": " + I18n.format("gui.worldhandler.color." + item.getName());
 				}
 				
 				@Override
@@ -115,30 +114,30 @@ public class ElementColorMenu extends Element
 				}
 			}));
 			
-			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, (this.string.isItalic() ? ChatFormatting.ITALIC : ChatFormatting.RESET) + "I", () ->
+			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, (this.string.isItalic() ? TextFormatting.ITALIC : TextFormatting.RESET) + "I", () ->
 			{
 				this.string.setItalic(!this.string.isItalic());
-				container.initGui();
+				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, (this.string.isBold() ? ChatFormatting.BOLD : ChatFormatting.RESET) + "B", () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, (this.string.isBold() ? TextFormatting.BOLD : TextFormatting.RESET) + "B", () ->
 			{
 				this.string.setBold(!this.string.isBold());
-				container.initGui();
+				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, (this.string.isUnderlined() ? ChatFormatting.UNDERLINE : ChatFormatting.RESET) + "U", () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, (this.string.isUnderlined() ? TextFormatting.UNDERLINE : TextFormatting.RESET) + "U", () ->
 			{
 				this.string.setUnderlined(!this.string.isUnderlined());
-				container.initGui();
+				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, (this.string.isStriked() ? ChatFormatting.STRIKETHROUGH : ChatFormatting.RESET) + "S", () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, (this.string.isStriked() ? TextFormatting.STRIKETHROUGH : TextFormatting.RESET) + "S", () ->
 			{
 				this.string.setStriked(!this.string.isStriked());
-				container.initGui();
+				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, (this.string.isObfuscated() ? ChatFormatting.OBFUSCATED : ChatFormatting.RESET) + "O", () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, (this.string.isObfuscated() ? TextFormatting.OBFUSCATED : TextFormatting.RESET) + "O", () ->
 			{
 				this.string.setObfuscated(!this.string.isObfuscated());
-				container.initGui();
+				container.init();
 			}));
 		}
 	}
@@ -152,6 +151,6 @@ public class ElementColorMenu extends Element
 	@Override
 	public void draw(int mouseX, int mouseY, float partialTicks)
 	{
-		this.textField.drawTextField(mouseX, mouseY, partialTicks);
+		this.textField.renderButton(mouseX, mouseY, partialTicks);
 	}
 }

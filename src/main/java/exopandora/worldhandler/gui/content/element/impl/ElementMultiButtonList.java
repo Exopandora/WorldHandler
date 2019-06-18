@@ -98,7 +98,7 @@ public class ElementMultiButtonList extends Element
 			for(int x = this.getDepth() + 1; x < this.maxDepth; x++)
 			{
 				GuiButtonBase button = new GuiButtonBase(this.x, this.y + 24 * x, 114, 20, null, null);
-				button.enabled = false;
+				button.active = false;
 				container.add(button);
 			}
 		}

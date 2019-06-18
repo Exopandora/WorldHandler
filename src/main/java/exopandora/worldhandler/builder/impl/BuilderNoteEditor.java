@@ -1,7 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.init.Blocks;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.NoteBlockInstrument;
 import net.minecraft.util.math.BlockPos;

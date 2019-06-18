@@ -19,8 +19,8 @@ import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Items;
-import net.minecraft.potion.Potion;
+import net.minecraft.item.Items;
+import net.minecraft.potion.Effect;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -47,7 +47,7 @@ public class ContentPotions extends ContentChild
 			this.builderPotion.setAmplifier((byte) Config.getSliders().getMaxPotionAmplifier());
 		}
 		
-		for(Potion potion : this.builderPotionItem.getPotions())
+		for(Effect potion : this.builderPotionItem.getEffects())
 		{
 			byte amplifier = this.builderPotionItem.getAmplifier(potion);
 			
@@ -61,29 +61,29 @@ public class ContentPotions extends ContentChild
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		ElementPageList<Potion> potions = new ElementPageList<Potion>(x, y, new ArrayList<Potion>(ForgeRegistries.POTIONS.getValues()), 114, 20, 3, container, new ILogicPageList<Potion>()
+		ElementPageList<Effect> potions = new ElementPageList<Effect>(x, y, new ArrayList<Effect>(ForgeRegistries.POTIONS.getValues()), 114, 20, 3, container, new ILogicPageList<Effect>()
 		{
 			@Override
-			public String translate(Potion item)
+			public String translate(Effect item)
 			{
 				return I18n.format(item.getName());
 			}
 			
 			@Override
-			public String toTooltip(Potion item)
+			public String toTooltip(Effect item)
 			{
 				return item.getRegistryName().toString();
 			}
 			
 			@Override
-			public void onClick(Potion item)
+			public void onClick(Effect item)
 			{
 				ContentPotions.this.builderPotion.setEffect(item);
 				container.initButtons();
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, Potion item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, Effect item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
@@ -119,28 +119,28 @@ public class ContentPotions extends ContentChild
 			container.add(new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.potions.effect.remove"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotion.getRemoveCommand());
-				container.initGui();
+				container.init();
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.potions.effect.remove_all"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotion.getClearCommand());
-				container.initGui();
+				container.init();
 			}));
 		}
 		else if(this.potionPage == 1)
 		{
-			Potion potion = this.builderPotion.getEffectAsPotion();
+			Effect potion = this.builderPotion.getEffectAsPotion();
 			
 			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.potions.effect.ambient", this.builderPotionItem.getAmbient(potion) ? I18n.format("gui.worldhandler.generic.on") : I18n.format("gui.worldhandler.generic.off")), () ->
 			{
 				this.builderPotionItem.setAmbient(potion, !this.builderPotionItem.getAmbient(potion));
-				container.initGui();
+				container.init();
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.potions.effect.particles", this.builderPotion.getHideParticles() ? I18n.format("gui.worldhandler.generic.off") : I18n.format("gui.worldhandler.generic.on")), () ->
 			{
 				this.builderPotion.setHideParticles(!this.builderPotion.getHideParticles());
 				this.builderPotionItem.setShowParticles(potion, !this.builderPotionItem.getShowParticles(potion));
-				container.initGui();
+				container.init();
 			}));
 			container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), I18n.format("gui.worldhandler.potions.effect.amplifier"), value ->
 			{
@@ -150,7 +150,7 @@ public class ContentPotions extends ContentChild
 		}
 		else if(this.potionPage == 2)
 		{
-			Potion potion = this.builderPotion.getEffectAsPotion();
+			Effect potion = this.builderPotion.getEffectAsPotion();
 			
 			container.add(new GuiSlider(x + 118, y, 114, 20, 0, 59, 0, container, new LogicSliderSimple("s" + potion.getRegistryName(), I18n.format("gui.worldhandler.potion.time.seconds"), value ->
 			{
@@ -174,62 +174,62 @@ public class ContentPotions extends ContentChild
 			{
 				CommandHelper.sendCommand(this.builderPotion.getGiveCommand());
 				this.potionPage = 0;
-				container.initGui();
+				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 24, 56, 20, I18n.format("gui.worldhandler.potions.effect.tipped_arrow"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotionItem.getBuilderForPotion(Items.TIPPED_ARROW));
 				this.potionPage = 0;
-				container.initGui();
+				container.init();
 			}));
 			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, I18n.format("gui.worldhandler.potions.effect.bottle"), I18n.format("gui.worldhandler.actions.place_command_block"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotionItem.getBuilderForPotion(Items.POTION));
 				this.potionPage = 0;
-				container.initGui();
+				container.init();
 			}));
 			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, I18n.format("gui.worldhandler.potions.effect.splash"), I18n.format("gui.worldhandler.actions.place_command_block"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotionItem.getBuilderForPotion(Items.SPLASH_POTION));
 				this.potionPage = 0;
-				container.initGui();
+				container.init();
 			}));
 			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, I18n.format("gui.worldhandler.potions.effect.lingering"), I18n.format("gui.worldhandler.actions.place_command_block"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotionItem.getBuilderForPotion(Items.LINGERING_POTION));
 				this.potionPage = 0;
-				container.initGui();
+				container.init();
 			}));
 			
 			boolean enabled = this.builderPotion.getAmplifier() >= 0;
 			
-			button1.enabled = enabled;
-			button2.enabled = enabled;
-			button3.enabled = enabled;
-			button4.enabled = enabled;
-			button5.enabled = enabled;
+			button1.active = enabled;
+			button2.active = enabled;
+			button3.active = enabled;
+			button4.active = enabled;
+			button5.active = enabled;
 		}
 		
 		if(this.potionPage > 0)
 		{
-			container.add(new GuiButtonBase(4, x + 118, y + 72, 56, 20, "<", () ->
+			container.add(new GuiButtonBase(x + 118, y + 72, 56, 20, "<", () ->
 			{
 				this.potionPage--;
-				container.initGui();
+				container.init();
 			}));
-			container.add(button1 = new GuiButtonBase(5, x + 118 + 60, y + 72, 55, 20, ">", () ->
+			container.add(button1 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, ">", () ->
 			{
 				this.next(container);
 			}));
 			
-			button1.enabled = this.potionPage < 3;
+			button1.active = this.potionPage < 3;
 		}
 	}
 	
 	private void next(Container container)
 	{
 		this.potionPage++;
-		container.initGui();
+		container.init();
 	}
 	
 	@Override

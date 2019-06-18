@@ -10,11 +10,11 @@ import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.helper.ResourceHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagByte;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ByteNBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.IntNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -61,44 +61,44 @@ public class ComponentSummon implements IBuilderComponent
 	}
 	
 	@Override
-	public INBTBase serialize()
+	public INBT serialize()
 	{
 		if(this.name != null)
 		{
 			if(this.name.equalsIgnoreCase("Cat"))
 			{
 				this.tag = "CatType";
-				return new NBTTagInt(this.random.nextInt(3) + 1);
+				return new IntNBT(this.random.nextInt(3) + 1);
 			}
 			else if(this.name.equalsIgnoreCase("Farmer") || this.name.equalsIgnoreCase("Fisherman") || this.name.equalsIgnoreCase("Shepherd") || this.name.equalsIgnoreCase("Fletcher"))
 			{
 				this.tag = "Profession";
-				return new NBTTagInt(0);
+				return new IntNBT(0);
 			}
 			else if(this.name.equalsIgnoreCase("Librarian") || this.name.equalsIgnoreCase("Carthographer"))
 			{
 				this.tag = "Profession";
-				return new NBTTagInt(1);
+				return new IntNBT(1);
 			}
 			else if(this.name.equalsIgnoreCase("Cleric") || this.name.equalsIgnoreCase("Priest"))
 			{
 				this.tag = "Profession";
-				return new NBTTagInt(2);
+				return new IntNBT(2);
 			}
 			else if(this.name.equalsIgnoreCase("Armorer") || this.name.equalsIgnoreCase("Blacksmith") || this.name.equalsIgnoreCase("WeaponSmith") || this.name.equalsIgnoreCase("ToolSmith"))
 			{
 				this.tag = "Profession";
-				return new NBTTagInt(3);
+				return new IntNBT(3);
 			}
 			else if(this.name.equalsIgnoreCase("Butcher") || this.name.equalsIgnoreCase("Leatherworker"))
 			{
 				this.tag = "Profession";
-				return new NBTTagInt(4);
+				return new IntNBT(4);
 			}
 			else if(this.name.equalsIgnoreCase("Nitwit"))
 			{
 				this.tag = "Profession";
-				return new NBTTagInt(5);
+				return new IntNBT(5);
 			}
 			
 			if(this.entity != null)
@@ -108,18 +108,18 @@ public class ComponentSummon implements IBuilderComponent
 					if(StringUtils.containsIgnoreCase(this.name, "Baby"))
 					{
 						this.tag = "IsBaby";
-						return new NBTTagByte((byte) 1);
+						return new ByteNBT((byte) 1);
 					}
 				}
 				else if(this.entity.equals(EntityType.CHICKEN.getRegistryName()))
 				{
 					if(StringUtils.containsIgnoreCase(this.name, "Jockey") && !this.hasPassenger)
 					{
-						NBTTagCompound passenger = new NBTTagCompound();
-						NBTTagList list = new NBTTagList();
+						CompoundNBT passenger = new CompoundNBT();
+						ListNBT list = new ListNBT();
 						
-						passenger.setString("id", EntityType.ZOMBIE.getRegistryName().toString());
-						passenger.setBoolean("IsBaby", true);
+						passenger.putString("id", EntityType.ZOMBIE.getRegistryName().toString());
+						passenger.putBoolean("IsBaby", true);
 						list.add(passenger);
 						
 						this.tag = "Passengers";
@@ -130,10 +130,10 @@ public class ComponentSummon implements IBuilderComponent
 				{
 					if(StringUtils.containsIgnoreCase(this.name, "Jockey") && !this.hasPassenger)
 					{
-						NBTTagCompound passenger = new NBTTagCompound();
-						NBTTagList list = new NBTTagList();
+						CompoundNBT passenger = new CompoundNBT();
+						ListNBT list = new ListNBT();
 						
-						passenger.setString("id", EntityType.SKELETON.getRegistryName().toString());
+						passenger.putString("id", EntityType.SKELETON.getRegistryName().toString());
 						list.add(passenger);
 						
 						this.tag = "Passengers";

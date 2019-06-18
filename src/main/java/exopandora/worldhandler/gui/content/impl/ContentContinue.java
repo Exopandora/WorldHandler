@@ -1,7 +1,5 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.ICommandBuilderSyntax;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
@@ -13,6 +11,7 @@ import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -45,7 +44,7 @@ public class ContentContinue extends ContentChild
 	public void initGui(Container container, int x, int y)
 	{
 		this.commandField = new GuiTextFieldTooltip(x + 116 / 2, y + 12, 116, 20);
-		this.commandField.setFocused(false);
+		this.commandField.setFocused2(false);
 		
 		if(this.builder instanceof ICommandBuilderSyntax)
 		{
@@ -67,7 +66,7 @@ public class ContentContinue extends ContentChild
 		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(this.commandField);
-		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.generic.yes"), () ->
+		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, TextFormatting.RED + I18n.format("gui.worldhandler.generic.yes"), () ->
 		{
 			CommandHelper.sendCommand(this.builder, this.special);
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.parent));
@@ -78,7 +77,7 @@ public class ContentContinue extends ContentChild
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.commandField.drawTextField(mouseX, mouseY, partialTicks);
+		this.commandField.renderButton(mouseX, mouseY, partialTicks);
 	}
 	
 	@Override

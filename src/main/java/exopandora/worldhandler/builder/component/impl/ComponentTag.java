@@ -7,35 +7,35 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagByte;
-import net.minecraft.nbt.NBTTagByteArray;
-import net.minecraft.nbt.NBTTagDouble;
-import net.minecraft.nbt.NBTTagFloat;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagIntArray;
-import net.minecraft.nbt.NBTTagLong;
-import net.minecraft.nbt.NBTTagLongArray;
-import net.minecraft.nbt.NBTTagShort;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.ByteArrayNBT;
+import net.minecraft.nbt.ByteNBT;
+import net.minecraft.nbt.DoubleNBT;
+import net.minecraft.nbt.FloatNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.IntArrayNBT;
+import net.minecraft.nbt.IntNBT;
+import net.minecraft.nbt.LongArrayNBT;
+import net.minecraft.nbt.LongNBT;
+import net.minecraft.nbt.ShortNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ComponentTag<T> implements IBuilderComponent
 {
-	private final Function<T, INBTBase> serializer;
+	private final Function<T, INBT> serializer;
 	private final String tag;
 	private T value;
 	
-	public ComponentTag(String tag, T value, Function<T, INBTBase> serializer)
+	public ComponentTag(String tag, T value, Function<T, INBT> serializer)
 	{
 		this.tag = tag;
 		this.value = value;
 		this.serializer = serializer;
 	}
 	
-	public ComponentTag(String tag, Function<T, INBTBase> serializer)
+	public ComponentTag(String tag, Function<T, INBT> serializer)
 	{
 		this(tag, null, serializer);
 	}
@@ -63,7 +63,7 @@ public class ComponentTag<T> implements IBuilderComponent
 	
 	@Override
 	@Nullable
-	public INBTBase serialize()
+	public INBT serialize()
 	{
 		if(this.value != null)
 		{
@@ -80,9 +80,9 @@ public class ComponentTag<T> implements IBuilderComponent
 					return null;
 				}
 				
-				return new NBTTagString(string);
+				return new StringNBT(string);
 			}
-			else if(this.value instanceof INBTBase)
+			else if(this.value instanceof INBT)
 			{
 				if(this.value instanceof Collection<?>)
 				{
@@ -94,43 +94,43 @@ public class ComponentTag<T> implements IBuilderComponent
 					}
 				}
 				
-				return (INBTBase) this.value;
+				return (INBT) this.value;
 			}
 			else if(this.value instanceof Integer)
 			{
-				return new NBTTagInt((Integer) this.value);
+				return new IntNBT((Integer) this.value);
 			}
 			else if(this.value instanceof Byte)
 			{
-				return new NBTTagByte((Byte) this.value);
+				return new ByteNBT((Byte) this.value);
 			}
 			else if(this.value instanceof Float)
 			{
-				return new NBTTagFloat((Float) this.value);
+				return new FloatNBT((Float) this.value);
 			}
 			else if(this.value instanceof Double)
 			{
-				return new NBTTagDouble((Double) this.value);
+				return new DoubleNBT((Double) this.value);
 			}
 			else if(this.value instanceof Long)
 			{
-				return new NBTTagLong((Long) this.value);
+				return new LongNBT((Long) this.value);
 			}
 			else if(this.value instanceof Short)
 			{
-				return new NBTTagShort((Short) this.value);
+				return new ShortNBT((Short) this.value);
 			}
 			else if(this.value instanceof Byte[])
 			{
-				return new NBTTagByteArray((byte[]) this.value);
+				return new ByteArrayNBT((byte[]) this.value);
 			}
 			else if(this.value instanceof Integer[])
 			{
-				return new NBTTagIntArray((int[]) this.value);
+				return new IntArrayNBT((int[]) this.value);
 			}
 			else if(this.value instanceof Long[])
 			{
-				return new NBTTagLongArray((long[]) this.value);
+				return new LongArrayNBT((long[]) this.value);
 			}
 			else
 			{

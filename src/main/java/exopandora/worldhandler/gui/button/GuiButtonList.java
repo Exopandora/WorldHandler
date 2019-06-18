@@ -2,14 +2,12 @@ package exopandora.worldhandler.gui.button;
 
 import java.util.List;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
-import exopandora.worldhandler.format.TextFormatting;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.logic.ILogicMapped;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -22,42 +20,35 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	
 	public GuiButtonList(int x, int y, List<T> items, int widthIn, int heightIn, Container container, ILogicMapped<T> logic)
 	{
-		this(0, x, y, items, widthIn, heightIn, container, logic);
-	}
-	
-	public GuiButtonList(int id, int x, int y, List<T> items, int widthIn, int heightIn, Container container, ILogicMapped<T> logic)
-	{
-		super(id, x, y, widthIn, heightIn, null, null, null);
+		super(x, y, widthIn, heightIn, null, null, null);
 		this.items = items;
 		this.logic = logic;
 		this.persistence = container.getContent().getPersistence(this.logic.getId(), Persistence::new);
+		this.updateMessage();
 	}
 	
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void renderButton(int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.visible)
+		super.renderBg(Minecraft.getInstance(), mouseX, mouseY);
+		this.updateMessage();
+		
+		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+		
+		if(this.getMessage() != null && !this.getMessage().isEmpty())
 		{
-			this.drawBackground(mouseX, mouseY);
+			String leftArrow = this.isHoveringLeft(mouseX, mouseY) ? TextFormatting.BOLD + "<" + TextFormatting.RESET : "<";
+			String rightArrow = this.isHoveringRight(mouseX, mouseY) ? TextFormatting.BOLD + ">" + TextFormatting.RESET : ">";
 			
-			String displayString = this.logic.translate(this.items.get(this.persistence.getIndex()));
-			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-			
-			if(displayString != null && !displayString.isEmpty())
-			{
-				String leftArrow = this.isHoveringLeft(mouseX, mouseY) ? ChatFormatting.BOLD + "<" + ChatFormatting.RESET : "<";
-				String rightArrow = this.isHoveringRight(mouseX, mouseY) ? ChatFormatting.BOLD + ">" + ChatFormatting.RESET : ">";
-				
-	            int maxWidth = Math.max(0, this.width - fontRenderer.getStringWidth("<   >"));
-	            int spaceWidth = fontRenderer.getStringWidth(" ");
-	            
-	            String display = TextFormatting.shortenString(displayString, maxWidth, fontRenderer);
-	            int yPos = this.y + (this.height - 8) / 2;
-	            
-				this.drawCenteredString(fontRenderer, display, this.x + this.width / 2, yPos, this.getTextColor());
-				this.drawCenteredString(fontRenderer, leftArrow, this.x + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getTextColor());
-				this.drawCenteredString(fontRenderer, rightArrow, this.x + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getTextColor());
-			}
+            int maxWidth = Math.max(0, this.width - fontRenderer.getStringWidth("<   >"));
+            int spaceWidth = fontRenderer.getStringWidth(" ");
+            
+            String display = exopandora.worldhandler.format.TextFormatting.shortenString(this.getMessage(), maxWidth, fontRenderer);
+            int yPos = this.y + (this.height - 8) / 2;
+            
+			this.drawCenteredString(fontRenderer, display, this.x + this.width / 2, yPos, this.getFGColor());
+			this.drawCenteredString(fontRenderer, leftArrow, this.x + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
+			this.drawCenteredString(fontRenderer, rightArrow, this.x + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
 		}
 	}
 	
@@ -76,7 +67,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 		
 		if(this.isHoveringLeft(mouseX, mouseY))
 		{
-			if(GuiScreen.isShiftKeyDown())
+			if(Screen.hasShiftDown())
 			{
 				if(index < 10)
 				{
@@ -101,7 +92,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 		}
 		else if(this.isHoveringRight(mouseX, mouseY))
 		{
-			if(GuiScreen.isShiftKeyDown())
+			if(Screen.hasShiftDown())
 			{
 				if(index > max - 10)
 				{
@@ -126,6 +117,11 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 		}
 		
 		this.logic.onClick(this.items.get(this.persistence.getIndex()));
+	}
+	
+	private void updateMessage()
+	{
+		this.setMessage(this.logic.translate(this.items.get(this.persistence.getIndex())));
 	}
 	
 	private boolean isHoveringLeft(double mouseX, double mouseY)

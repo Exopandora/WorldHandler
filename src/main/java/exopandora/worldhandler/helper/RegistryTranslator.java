@@ -10,9 +10,9 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.IRegistry;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,17 +24,17 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class RegistryTranslator
 {
 	private static final Map<IForgeRegistry<?>, Function<?, String>> FORGE = new HashMap<IForgeRegistry<?>, Function<?, String>>();
-	private static final Map<IRegistry<?>, Function<?, String>> VANILLA = new HashMap<IRegistry<?>, Function<?, String>>();
+	private static final Map<Registry<?>, Function<?, String>> VANILLA = new HashMap<Registry<?>, Function<?, String>>();
 	
 	static
 	{
 		register(ForgeRegistries.BLOCKS, Block::getTranslationKey);
 		register(ForgeRegistries.ITEMS, Item::getTranslationKey);
-		register(ForgeRegistries.POTIONS, Potion::getName);
+		register(ForgeRegistries.POTIONS, Effect::getName);
 		register(ForgeRegistries.BIOMES, Biome::getTranslationKey);
 		register(ForgeRegistries.ENCHANTMENTS, Enchantment::getName);
 		register(ForgeRegistries.ENTITIES, EntityType::getTranslationKey);
-		register(IRegistry.field_212623_l, stat -> "stat." + stat.toString().replace(':', '.'));
+		register(Registry.field_212623_l, stat -> "stat." + stat.toString().replace(':', '.'));
 	}
 	
 	private static <T extends ForgeRegistryEntry<T>> void register(IForgeRegistry<T> registry, Function<T, String> mapper)
@@ -42,7 +42,7 @@ public class RegistryTranslator
 		FORGE.put(registry, mapper);
 	}
 	
-	private static <T> void register(IRegistry<T> registry, Function<T, String> mapper)
+	private static <T> void register(Registry<T> registry, Function<T, String> mapper)
 	{
 		VANILLA.put(registry, mapper);
 	}
@@ -59,11 +59,11 @@ public class RegistryTranslator
 			}
 		}
 		
-		for(IRegistry<?> registry : VANILLA.keySet())
+		for(Registry<?> registry : VANILLA.keySet())
 		{
-			if(registry.func_212607_c(resource))
+			if(registry.containsKey(resource))
 			{
-				return ((Function<T, String>) VANILLA.get(registry)).apply((T) registry.func_212608_b(resource));
+				return ((Function<T, String>) VANILLA.get(registry)).apply((T) registry.getOrDefault(resource));
 			}
 		}
 		

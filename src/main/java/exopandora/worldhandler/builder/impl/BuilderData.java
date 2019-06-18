@@ -9,7 +9,7 @@ import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.TargetSelector;
 import exopandora.worldhandler.builder.types.Type;
 import exopandora.worldhandler.helper.EnumHelper;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,7 +25,7 @@ public class BuilderData extends BuilderBlockPos
 		super(2);
 	}
 	
-	public BuilderData(EnumMode mode, ResourceLocation entity, NBTTagCompound nbt)
+	public BuilderData(EnumMode mode, ResourceLocation entity, CompoundNBT nbt)
 	{
 		this();
 		this.setMode(mode);
@@ -33,7 +33,7 @@ public class BuilderData extends BuilderBlockPos
 		this.setNBT(nbt);
 	}
 	
-	public BuilderData(EnumMode mode, BlockPos pos, NBTTagCompound nbt)
+	public BuilderData(EnumMode mode, BlockPos pos, CompoundNBT nbt)
 	{
 		this();
 		this.setMode(mode);
@@ -129,7 +129,7 @@ public class BuilderData extends BuilderBlockPos
 	}
 	
 	@Override
-	public void setNBT(NBTTagCompound nbt)
+	public void setNBT(CompoundNBT nbt)
 	{
 		if(this.getMode() == null || !this.getMode().equals(EnumMode.MERGE))
 		{
@@ -155,7 +155,7 @@ public class BuilderData extends BuilderBlockPos
 	}
 	
 	@Nullable
-	public NBTTagCompound getNBT()
+	public CompoundNBT getNBT()
 	{
 		if(this.getMode() != null && this.getMode().equals(EnumMode.MERGE))
 		{

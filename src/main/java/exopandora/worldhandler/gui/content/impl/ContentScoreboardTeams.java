@@ -45,7 +45,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		this.teamField = new GuiTextFieldTooltip(x + 118, y + (this.selectedTeam.equals("option") ? 0 : (this.selectedTeam.equals("add") ? 24 : 12)), 114, 20, I18n.format("gui.worldhandler.scoreboard.team.team"));
 		this.teamField.setValidator(Predicates.notNull());
 		this.teamField.setText(this.team);
-		this.teamField.setTextAcceptHandler((id, text) ->
+		this.teamField.func_212954_a(text ->
 		{
 			this.team = text;
 			this.builderTeams.setTeam(this.team);
@@ -65,7 +65,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 					}
 					else if(depth == 1)
 					{
-						if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(key)))
+						if(Arrays.stream(EnumColor.values()).map(EnumColor::getName).anyMatch(Predicates.equalTo(key)))
 						{
 							return I18n.format("gui.worldhandler.color." + key);
 						}
@@ -120,28 +120,28 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.create"), () ->
 		{
 			this.selectedTeam = "add";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.join") + " / " + I18n.format("gui.worldhandler.scoreboard.team.leave"), () ->
 		{
 			this.selectedTeam = "join|leave";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.format("gui.worldhandler.scoreboard.team.empty"), () ->
 		{
 			this.selectedTeam = "remove|empty";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.options"), () ->
 		{
 			this.selectedTeam = "option";
-			container.initGui();
+			container.init();
 		}));
 		
-		button1.enabled = !this.selectedTeam.equals("add");
-		button2.enabled = !this.selectedTeam.equals("join|leave");
-		button3.enabled = !this.selectedTeam.equals("remove|empty");
-		button4.enabled = !this.selectedTeam.equals("option");
+		button1.active = !this.selectedTeam.equals("add");
+		button2.active = !this.selectedTeam.equals("join|leave");
+		button3.active = !this.selectedTeam.equals("remove|empty");
+		button4.active = !this.selectedTeam.equals("option");
 		
 		this.builderTeams.setMode(this.selectedTeam);
 		
@@ -166,7 +166,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 				container.initButtons();
 			}));
 			
-			button1.enabled = enabled;
+			button1.active = enabled;
 		}
 		else if(this.selectedTeam.equals("remove|empty"))
 		{
@@ -181,8 +181,8 @@ public class ContentScoreboardTeams extends ContentScoreboard
 				container.initButtons();
 			}));
 			
-			button1.enabled = enabled;
-			button2.enabled = enabled;
+			button1.active = enabled;
+			button2.active = enabled;
 		}
 		
 		if(!this.selectedTeam.equals("join|leave") && !this.selectedTeam.equals("remove|empty"))
@@ -194,7 +194,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 				CommandHelper.sendCommand(this.builderTeams);
 				container.initButtons();
 			}));
-			button1.enabled = enabled;
+			button1.active = enabled;
 		}
 		
 		container.add(this.teamField);
@@ -209,7 +209,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.teamField.drawTextField(mouseX, mouseY, partialTicks);
+		this.teamField.renderButton(mouseX, mouseY, partialTicks);
 	}
 	
 	@Override

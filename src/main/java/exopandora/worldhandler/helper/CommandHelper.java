@@ -9,7 +9,7 @@ import exopandora.worldhandler.command.CommandWH;
 import exopandora.worldhandler.command.CommandWorldHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -18,7 +18,7 @@ public class CommandHelper
 {
 	public static void sendFeedback(CommandSource source, String message)
 	{
-		source.sendFeedback(new TextComponentString(message), false);
+		source.sendFeedback(new StringTextComponent(message), false);
 	}
 	
 	public static boolean canPlayerIssueCommand()

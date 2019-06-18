@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -27,7 +27,7 @@ public enum Type
 	RESOURCE_LOCATION(Type::parseResourceLocation),
 	ITEM_RESOURCE_LOCATION(ItemResourceLocation::valueOf),
 	BLOCK_RESOURCE_LOCATION(BlockResourceLocation::valueOf),
-	NBT(Type::parseNBTTagCompound),
+	NBT(Type::parseCompoundNBT),
 	COORDINATE_INT(CoordinateInt::valueOf),
 	COORDINATE_DOUBLE(CoordinateDouble::valueOf),
 	TARGET_SELECTOR(TargetSelector::valueOf);
@@ -53,7 +53,7 @@ public enum Type
 	}
 	
 	@Nullable
-	public static NBTTagCompound parseNBTTagCompound(String value)
+	public static CompoundNBT parseCompoundNBT(String value)
 	{
 		if(value != null)
 		{

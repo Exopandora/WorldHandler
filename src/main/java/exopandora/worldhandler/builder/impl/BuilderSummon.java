@@ -19,16 +19,16 @@ import exopandora.worldhandler.builder.types.CoordinateDouble;
 import exopandora.worldhandler.builder.types.Type;
 import exopandora.worldhandler.format.text.ColoredString;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.potion.Potion;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -37,9 +37,9 @@ public class BuilderSummon extends CommandBuilderNBT
 {
 	private final ComponentAttributeMob attribute;
 	private final ComponentTag<ColoredString> customName;
-	private final ComponentTag<NBTTagList> passengers;
-	private final ComponentTag<NBTTagList> armorItems;
-	private final ComponentTag<NBTTagList> handItems;
+	private final ComponentTag<ListNBT> passengers;
+	private final ComponentTag<ListNBT> armorItems;
+	private final ComponentTag<ListNBT> handItems;
 	private final ComponentPotionMob potion;
 	private final ComponentSummon summon;
 	private final ResourceLocation[] armorItemsArray = {Blocks.AIR.getRegistryName(), Blocks.AIR.getRegistryName(), Blocks.AIR.getRegistryName(), Blocks.AIR.getRegistryName()};
@@ -49,9 +49,9 @@ public class BuilderSummon extends CommandBuilderNBT
 	{
 		this.attribute = this.registerNBTComponent(new ComponentAttributeMob(attribute -> attribute.getApplyable().equals(Applyable.BOTH) || attribute.getApplyable().equals(Applyable.MOB)));
 		this.customName = this.registerNBTComponent(new ComponentTag<ColoredString>("CustomName", new ColoredString(), this::colorStringSerializer));
-		this.passengers = this.registerNBTComponent(new ComponentTag<NBTTagList>("Passengers"));
-		this.armorItems = this.registerNBTComponent(new ComponentTag<NBTTagList>("ArmorItems", this::itemListSerializer));
-		this.handItems = this.registerNBTComponent(new ComponentTag<NBTTagList>("HandItems", this::itemListSerializer));
+		this.passengers = this.registerNBTComponent(new ComponentTag<ListNBT>("Passengers"));
+		this.armorItems = this.registerNBTComponent(new ComponentTag<ListNBT>("ArmorItems", this::itemListSerializer));
+		this.handItems = this.registerNBTComponent(new ComponentTag<ListNBT>("HandItems", this::itemListSerializer));
 		this.summon = this.registerNBTComponent(new ComponentSummon(), "summon");
 		this.potion = this.registerNBTComponent(new ComponentPotionMob());
 		this.setX(new CoordinateDouble(0.0, CoordinateType.LOCAL));
@@ -154,10 +154,10 @@ public class BuilderSummon extends CommandBuilderNBT
 	{
 		if(entityName != null)
 		{
-			NBTTagCompound passenger = new NBTTagCompound();
-			passenger.setString("id", entityName.toString());
+			CompoundNBT passenger = new CompoundNBT();
+			passenger.putString("id", entityName.toString());
 			
-			NBTTagList list = new NBTTagList();
+			ListNBT list = new ListNBT();
 			list.add(passenger);
 			
 			this.passengers.setValue(list);
@@ -171,7 +171,7 @@ public class BuilderSummon extends CommandBuilderNBT
 	@Nullable
 	public ResourceLocation getPassenger()
 	{
-		NBTTagList list = this.passengers.getValue();
+		ListNBT list = this.passengers.getValue();
 		
 		if(list != null && !list.isEmpty())
 		{
@@ -198,13 +198,13 @@ public class BuilderSummon extends CommandBuilderNBT
 	
 	public void setArmorItems(ResourceLocation[] armor)
 	{
-		NBTTagList list = new NBTTagList();
+		ListNBT list = new ListNBT();
 		
 		for(ResourceLocation item : armor)
 		{
-			NBTTagCompound compound = new NBTTagCompound();
-			compound.setString("id", item.toString());
-			compound.setInt("Count", 1);
+			CompoundNBT compound = new CompoundNBT();
+			compound.putString("id", item.toString());
+			compound.putInt("Count", 1);
 			list.add(compound);
 		}
 		
@@ -247,13 +247,13 @@ public class BuilderSummon extends CommandBuilderNBT
 	
 	public void setHandItems(ResourceLocation[] armor)
 	{
-		NBTTagList list = new NBTTagList();
+		ListNBT list = new ListNBT();
 		
 		for(ResourceLocation item : armor)
 		{
-			NBTTagCompound compound = new NBTTagCompound();
-			compound.setString("id", item.toString());
-			compound.setInt("Count", 1);
+			CompoundNBT compound = new CompoundNBT();
+			compound.putString("id", item.toString());
+			compound.putInt("Count", 1);
 			list.add(compound);
 		}
 		
@@ -270,72 +270,72 @@ public class BuilderSummon extends CommandBuilderNBT
 		return Blocks.AIR.getRegistryName();
 	}
 	
-	public void setAmplifier(Potion potion, byte amplifier)
+	public void setAmplifier(Effect potion, byte amplifier)
 	{
 		this.potion.setAmplifier(potion, amplifier);
 	}
 	
-	public void setSeconds(Potion potion, int seconds)
+	public void setSeconds(Effect potion, int seconds)
 	{
 		this.potion.setSeconds(potion, seconds);
 	}
 	
-	public void setMinutes(Potion potion, int minutes)
+	public void setMinutes(Effect potion, int minutes)
 	{
 		this.potion.setMinutes(potion, minutes);
 	}
 	
-	public void setHours(Potion potion, int hours)
+	public void setHours(Effect potion, int hours)
 	{
 		this.potion.setHours(potion, hours);
 	}
 	
-	public void setShowParticles(Potion potion, boolean showParticles)
+	public void setShowParticles(Effect potion, boolean showParticles)
 	{
 		this.potion.setShowParticles(potion, showParticles);
 	}
 	
-	public void setAmbient(Potion potion, boolean ambient)
+	public void setAmbient(Effect potion, boolean ambient)
 	{
 		this.potion.setAmbient(potion, ambient);
 	}
 	
-	public byte getAmplifier(Potion potion)
+	public byte getAmplifier(Effect potion)
 	{
 		return this.potion.getAmplifier(potion);
 	}
 
-	public int getSeconds(Potion potion)
+	public int getSeconds(Effect potion)
 	{
 		return this.potion.getSeconds(potion);
 	}
 	
-	public int getMinutes(Potion potion)
+	public int getMinutes(Effect potion)
 	{
 		return this.potion.getMinutes(potion);
 	}
 	
-	public int getHours(Potion potion)
+	public int getHours(Effect potion)
 	{
 		return this.potion.getHours(potion);
 	}
 	
-	public boolean getShowParticles(Potion potion)
+	public boolean getShowParticles(Effect potion)
 	{
 		return this.potion.getShowParticles(potion);
 	}
 	
-	public boolean getAmbient(Potion potion)
+	public boolean getAmbient(Effect potion)
 	{
 		return this.potion.getAmbient(potion);
 	}
 	
-	public Set<Potion> getPotions()
+	public Set<Effect> getEffects()
 	{
-		return this.potion.getPotions();
+		return this.potion.getEffects();
 	}
 	
-	private INBTBase itemListSerializer(NBTTagList list)
+	private INBT itemListSerializer(ListNBT list)
 	{
 		for(int x = 0; x < list.size(); x++)
 		{
@@ -348,18 +348,18 @@ public class BuilderSummon extends CommandBuilderNBT
 		return null;
 	}
 	
-	private INBTBase colorStringSerializer(ColoredString string)
+	private INBT colorStringSerializer(ColoredString string)
 	{
 		if(string.getText() != null && !string.getText().isEmpty())
 		{
-			return new NBTTagString(ITextComponent.Serializer.toJson(new TextComponentString(string.toString())));
+			return new StringNBT(ITextComponent.Serializer.toJson(new StringTextComponent(string.toString())));
 		}
 		
 		return null;
 	}
 	
 	@Override
-	public void setNBT(NBTTagCompound nbt)
+	public void setNBT(CompoundNBT nbt)
 	{
 		this.setNode(4, nbt);
 	}

@@ -35,14 +35,7 @@ public class ContentButcherSettings extends ContentChild
 			@Override
 			public String translate(EntityType<?> item)
 			{
-				TextFormatting color = TextFormatting.RED;
-				
-				if(Config.CLIENT.getButcher().containsEntity(item.getRegistryName()))
-				{
-					color = TextFormatting.GREEN;
-				}
-				
-				return color + I18n.format(item.getTranslationKey());
+				return I18n.format(item.getTranslationKey());
 			}
 			
 			@Override
@@ -96,8 +89,8 @@ public class ContentButcherSettings extends ContentChild
 		
 		boolean contains = Config.CLIENT.getButcher().containsEntity(this.entity);
 		
-		button1.enabled = !contains;
-		button2.enabled = contains;
+		button1.active = !contains;
+		button2.active = contains;
 	}
 	
 	@Override

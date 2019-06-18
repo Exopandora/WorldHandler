@@ -29,7 +29,7 @@ public class Categories
 	
 	private static Category getRegisteredCategory(String name)
 	{
-		Category category = Category.REGISTRY.get(new ResourceLocation(Main.MODID, name));
+		Category category = Category.REGISTRY.getValue(new ResourceLocation(Main.MODID, name));
 		
 		if(category == null)
 		{

@@ -5,14 +5,14 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
 import exopandora.worldhandler.helper.ActionHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiConnecting;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiWorldSelection;
+import net.minecraft.client.gui.screen.ConnectingScreen;
+import net.minecraft.client.gui.screen.MainMenuScreen;
+import net.minecraft.client.gui.screen.MultiplayerScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.WorldSelectionScreen;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -27,7 +27,7 @@ public class ContentChangeWorld extends ContentChild
 		
 		container.add(new GuiButtonBase(x + 116 / 2, y + 24, 232 / 2, 20, I18n.format("gui.worldhandler.change_world.singleplayer"), () ->
 		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldSelection(container));
+			Minecraft.getInstance().displayGuiScreen(new WorldSelectionScreen(container));
 		}));
 		container.add(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, I18n.format("gui.worldhandler.change_world.multiplayer"), () ->
 		{
@@ -36,14 +36,14 @@ public class ContentChangeWorld extends ContentChild
 			if(server != null)
 			{
 				Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
-				Minecraft.getInstance().loadWorld((WorldClient)null);
+				Minecraft.getInstance().loadWorld(null);
 				
-				Minecraft.getInstance().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
+				Minecraft.getInstance().displayGuiScreen(new MultiplayerScreen(new Screen(new StringTextComponent(""))
 				{
 					@Override
-					public void initGui()
+					public void init()
 					{
-						Minecraft.getInstance().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getInstance(), server));
+						Minecraft.getInstance().displayGuiScreen(new ConnectingScreen(new MainMenuScreen(), Minecraft.getInstance(), server));
 						Minecraft.getInstance().mouseHelper.grabMouse();
 					}
 				}));
@@ -56,10 +56,10 @@ public class ContentChangeWorld extends ContentChild
 				Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
 				Minecraft.getInstance().loadWorld(null);
 				
-				Minecraft.getInstance().displayGuiScreen(new GuiMultiplayer(new GuiScreen()
+				Minecraft.getInstance().displayGuiScreen(new MultiplayerScreen(new Screen(new StringTextComponent(""))
 				{
 					@Override
-					public void initGui()
+					public void init()
 					{
 						Minecraft.getInstance().launchIntegratedServer(folderName, worldName, null);
 						Minecraft.getInstance().displayGuiScreen(null);

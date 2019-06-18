@@ -76,7 +76,7 @@ public class ContentEditBlocks extends Content
 		this.x1Field = new GuiTextFieldTooltip(x + 118, y, 55, 20);
 		this.x1Field.setValidator(this.getCoordinatePredicate("X1"));
 		this.x1Field.setText("X1: " + BlockHelper.getPos1().getX());
-		this.x1Field.setTextAcceptHandler((id, text) ->
+		this.x1Field.func_212954_a(text ->
 		{
 			BlockHelper.setPos1(BlockHelper.setX(BlockHelper.getPos1(), this.parseCoordinate(text)));
 		});
@@ -84,7 +84,7 @@ public class ContentEditBlocks extends Content
 		this.y1Field = new GuiTextFieldTooltip(x + 118, y + 24, 55, 20);
 		this.y1Field.setValidator(this.getCoordinatePredicate("Y1"));
 		this.y1Field.setText("Y1: " + BlockHelper.getPos1().getY());
-		this.y1Field.setTextAcceptHandler((id, text) ->
+		this.y1Field.func_212954_a(text ->
 		{
 			BlockHelper.setPos1(BlockHelper.setY(BlockHelper.getPos1(), this.parseCoordinate(text)));
 		});
@@ -92,7 +92,7 @@ public class ContentEditBlocks extends Content
 		this.z1Field = new GuiTextFieldTooltip(x + 118, y + 48, 55, 20);
 		this.z1Field.setValidator(this.getCoordinatePredicate("Z1"));
 		this.z1Field.setText("Z1: " + BlockHelper.getPos1().getZ());
-		this.z1Field.setTextAcceptHandler((id, text) ->
+		this.z1Field.func_212954_a(text ->
 		{
 			BlockHelper.setPos1(BlockHelper.setZ(BlockHelper.getPos1(), this.parseCoordinate(text)));
 		});
@@ -100,7 +100,7 @@ public class ContentEditBlocks extends Content
 		this.x2Field = new GuiTextFieldTooltip(x + 118 + 59, y, 55, 20);
 		this.x2Field.setValidator(this.getCoordinatePredicate("X2"));
 		this.x2Field.setText("X2: " + BlockHelper.getPos2().getX());
-		this.x2Field.setTextAcceptHandler((id, text) ->
+		this.x2Field.func_212954_a(text ->
 		{
 			BlockHelper.setPos2(BlockHelper.setX(BlockHelper.getPos2(), this.parseCoordinate(text)));
 		});
@@ -108,7 +108,7 @@ public class ContentEditBlocks extends Content
 		this.y2Field = new GuiTextFieldTooltip(x + 118 + 59, y + 24, 55, 20);
 		this.y2Field.setValidator(this.getCoordinatePredicate("Y2"));
 		this.y2Field.setText("Y2: " + BlockHelper.getPos2().getY());
-		this.y2Field.setTextAcceptHandler((id, text) ->
+		this.y2Field.func_212954_a(text ->
 		{
 			BlockHelper.setPos2(BlockHelper.setY(BlockHelper.getPos2(), this.parseCoordinate(text)));
 		});
@@ -116,7 +116,7 @@ public class ContentEditBlocks extends Content
 		this.z2Field = new GuiTextFieldTooltip(x + 118 + 59, y + 48, 55, 20);
 		this.z2Field.setValidator(this.getCoordinatePredicate("Z2"));
 		this.z2Field.setText("Z2: " + BlockHelper.getPos2().getZ());
-		this.z2Field.setTextAcceptHandler((id, text) ->
+		this.z2Field.func_212954_a(text ->
 		{
 			BlockHelper.setPos2(BlockHelper.setZ(BlockHelper.getPos2(), this.parseCoordinate(text)));
 		});
@@ -124,7 +124,7 @@ public class ContentEditBlocks extends Content
 		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, this.selectedPage.equals("fill") ? I18n.format("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : I18n.format("gui.worldhandler.edit_blocks.replace.block_id_replace"));
 		this.block1Field.setValidator(Predicates.notNull());
 		this.block1Field.setText(this.block1);
-		this.block1Field.setTextAcceptHandler((id, text) ->
+		this.block1Field.func_212954_a(text ->
 		{
 			this.block1 = text;
 			this.builderFill.setBlock1(this.block1);
@@ -134,7 +134,7 @@ public class ContentEditBlocks extends Content
 		this.block2Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.edit_blocks.replace.block_id_place"));
 		this.block2Field.setValidator(Predicates.notNull());
 		this.block2Field.setText(this.block2);
-		this.block2Field.setTextAcceptHandler((id, text) ->
+		this.block2Field.func_212954_a(text ->
 		{
 			this.block2 = text;
 			this.builderFill.setBlock2(this.block2);
@@ -156,22 +156,22 @@ public class ContentEditBlocks extends Content
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.edit_blocks.coordinates"), () ->
 		{
 			this.selectedPage = "coordinates";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.edit_blocks.fill"), () ->
 		{
 			this.selectedPage = "fill";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.edit_blocks.replace"), () ->
 		{
 			this.selectedPage = "replace";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.clone"), () ->
 		{
 			this.selectedPage = "clone";
-			container.initGui();
+			container.init();
 		}));
 		
 		int yOffset1 = 0;
@@ -182,7 +182,7 @@ public class ContentEditBlocks extends Content
 		
 		if(this.selectedPage.equals("coordinates"))
 		{
-			button1.enabled = false;
+			button1.active = false;
 			
 			yOffset1 = 72;
 			yOffset2 = 72;
@@ -199,7 +199,7 @@ public class ContentEditBlocks extends Content
 		}
 		else if(this.selectedPage.equals("fill"))
 		{
-			button2.enabled = false;
+			button2.active = false;
 			
 			yOffset1 = 24;
 			yOffset2 = 48;
@@ -212,11 +212,11 @@ public class ContentEditBlocks extends Content
 			{
 				CommandHelper.sendCommand(this.builderFill.getBuilderForFill());
 			}));
-			button1.enabled = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS);
+			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS);
 		}
 		else if(this.selectedPage.equals("replace"))
 		{
-			button3.enabled = false;
+			button3.active = false;
 			
 			yOffset1 = 48;
 			yOffset2 = 48;
@@ -226,15 +226,15 @@ public class ContentEditBlocks extends Content
 			
 			container.add(this.block1Field);
 			container.add(this.block2Field);
-			container.add(button1 = new GuiButtonBase(8, x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.replace"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.replace"), () ->
 			{
 				CommandHelper.sendCommand(this.builderFill.getBuilderForReplace());
 			}));
-			button1.enabled = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS) && ResourceHelper.isRegistered(this.builderFill.getBlock2(), ForgeRegistries.BLOCKS);
+			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS) && ResourceHelper.isRegistered(this.builderFill.getBlock2(), ForgeRegistries.BLOCKS);
 		}
 		else if(this.selectedPage.equals("clone"))
 		{
-			button4.enabled = false;
+			button4.active = false;
 			
 			yOffset1 = 24;
 			yOffset2 = 48;
@@ -278,12 +278,12 @@ public class ContentEditBlocks extends Content
 		container.add(new GuiButtonBase(x + 118, y + yOffset1, width1, 20, I18n.format("gui.worldhandler.edit_blocks.pos.set_pos_1"), () ->
 		{
 			BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
-			container.initGui();
+			container.init();
 		}));
 		container.add(new GuiButtonBase(x + 118 + xOffset2, y + yOffset2, width2, 20, I18n.format("gui.worldhandler.edit_blocks.pos.set_pos_2"), () ->
 		{
 			BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
-			container.initGui();
+			container.init();
 		}));
 	}
 	
@@ -316,22 +316,22 @@ public class ContentEditBlocks extends Content
 	{
 		if(this.selectedPage.equals("coordinates"))
 		{
-			this.x1Field.drawTextField(mouseX, mouseY, partialTicks);
-			this.y1Field.drawTextField(mouseX, mouseY, partialTicks);
-			this.z1Field.drawTextField(mouseX, mouseY, partialTicks);
+			this.x1Field.renderButton(mouseX, mouseY, partialTicks);
+			this.y1Field.renderButton(mouseX, mouseY, partialTicks);
+			this.z1Field.renderButton(mouseX, mouseY, partialTicks);
 			
-			this.x2Field.drawTextField(mouseX, mouseY, partialTicks);
-			this.y2Field.drawTextField(mouseX, mouseY, partialTicks);
-			this.z2Field.drawTextField(mouseX, mouseY, partialTicks);
+			this.x2Field.renderButton(mouseX, mouseY, partialTicks);
+			this.y2Field.renderButton(mouseX, mouseY, partialTicks);
+			this.z2Field.renderButton(mouseX, mouseY, partialTicks);
 		}
 		else if(this.selectedPage.equals("fill"))
 		{
-			this.block1Field.drawTextField(mouseX, mouseY, partialTicks);
+			this.block1Field.renderButton(mouseX, mouseY, partialTicks);
 		}
 		else if(this.selectedPage.equals("replace"))
 		{
-			this.block1Field.drawTextField(mouseX, mouseY, partialTicks);
-			this.block2Field.drawTextField(mouseX, mouseY, partialTicks);
+			this.block1Field.renderButton(mouseX, mouseY, partialTicks);
+			this.block2Field.renderButton(mouseX, mouseY, partialTicks);
 		}
 	}
 	

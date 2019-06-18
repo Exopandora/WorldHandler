@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
-import com.mojang.realmsclient.gui.ChatFormatting;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.WorldHandler;
@@ -29,11 +29,11 @@ import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.ResourceHelper;
 import exopandora.worldhandler.util.UtilRender;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.config.GuiUtils;
@@ -51,7 +51,7 @@ public class GuiWorldHandler extends Container
 	private final double tabHalf;
 	private final double tabEpsilon;
 	private final String splash = this.getSplash();
-	private final List<GuiButton> finalButtons = new ArrayList<GuiButton>();
+	private final List<Widget> finalButtons = new ArrayList<Widget>();
 	
 	private GuiTextFieldTooltip syntaxField;
 	private GuiTextFieldTooltip nameField;
@@ -60,6 +60,7 @@ public class GuiWorldHandler extends Container
 	
 	public GuiWorldHandler(Content content) throws Exception
 	{
+		super(new StringTextComponent(content.getTitle()));
 		this.content = content;
 		this.tabSize = this.content.getCategory().getSize();
 		this.tabDistanceTotal = Math.max(this.tabSize - 1, 1) * this.tabDistance;
@@ -70,9 +71,9 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void initGui()
+	public void init()
 	{
-		super.initGui();
+		super.init();
 		
 		ActionHelper.tryRun(() ->
 		{
@@ -129,7 +130,7 @@ public class GuiWorldHandler extends Container
 			this.nameField = new GuiTextFieldTooltip(0, 0, 0, 11);
 			this.nameField.setMaxStringLength(16);
 			this.nameField.setText(this.getPlayer());
-			this.nameField.setTextAcceptHandler((id, text) -> 
+			this.nameField.func_212954_a(text -> 
 			{
 				WorldHandler.USERNAME = text;
 				this.updateNameField();
@@ -145,10 +146,10 @@ public class GuiWorldHandler extends Container
 				
 				if(!this.content.getActiveContent().equals(tab))
 				{
-					this.finalButtons.add(new GuiButtonTab((int) (backgroundX + xOffset), backgroundY - 20, (int) this.tabWidth + (int) Math.ceil(this.tabEpsilon / this.tabSize), 21)
+					this.finalButtons.add(new GuiButtonTab((int) (backgroundX + xOffset), backgroundY - 20, (int) this.tabWidth + (int) Math.ceil(this.tabEpsilon / this.tabSize), 21, tab.getTabTitle())
 					{
 						@Override
-						public void onClick(double mouseX, double mouseY)
+						public void onPress()
 						{
 							ActionHelper.changeTab(GuiWorldHandler.this.content, index);
 						}
@@ -282,13 +283,13 @@ public class GuiWorldHandler extends Container
 		
 		if(WorldHandler.USERNAME.isEmpty())
 		{
-			int width = this.fontRenderer.getStringWidth(I18n.format("gui.worldhandler.generic.edit_username")) + 2;
+			int width = this.font.getStringWidth(I18n.format("gui.worldhandler.generic.edit_username")) + 2;
 			this.nameField.setWidth(width);
-			this.nameField.setPosition(backgroundX  + this.bgTextureWidth - this.getWatchOffset() - 7 - (this.fontRenderer.getStringWidth(this.content.getTitle()) + 2), backgroundY + 6);
+			this.nameField.setPosition(backgroundX  + this.bgTextureWidth - this.getWatchOffset() - 7 - (this.font.getStringWidth(this.content.getTitle()) + 2), backgroundY + 6);
 		}
 		else
 		{
-			int width = this.fontRenderer.getStringWidth(WorldHandler.USERNAME) + 2;
+			int width = this.font.getStringWidth(WorldHandler.USERNAME) + 2;
 			this.nameField.setWidth(width);
 			this.nameField.setPosition(backgroundX + this.bgTextureWidth - this.getWatchOffset() - 7 - width, backgroundY + 6);
 		}
@@ -357,7 +358,7 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSkin().drawBackground())
 			{
-				super.drawDefaultBackground();
+				super.renderBackground();
 			}
 			
 			//COLOR
@@ -367,7 +368,7 @@ public class GuiWorldHandler extends Container
 			//BACKGROUND
 			
 			this.bindBackground();
-			this.drawTexturedModalRect(backgroundX, backgroundY, 0, 0, this.bgTextureWidth, this.bgTextureHeight);
+			this.blit(backgroundX, backgroundY, 0, 0, this.bgTextureWidth, this.bgTextureHeight);
 			
 			//TABS
 			
@@ -394,8 +395,8 @@ public class GuiWorldHandler extends Container
 				}
 				
 				this.bindBackground();
-				this.drawTexturedModalRect((int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
-				this.drawTexturedModalRect((int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.ceil(this.tabHalf), 0, (int) Math.ceil(this.tabHalf), fHeight);
+				this.blit((int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
+				this.blit((int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.ceil(this.tabHalf), 0, (int) Math.ceil(this.tabHalf), fHeight);
 				
 				if(!Config.getSkin().sharpEdges())
 				{
@@ -409,7 +410,7 @@ public class GuiWorldHandler extends Container
 							
 							for(int x = 0; x < factor; x++)
 							{
-								this.drawTexturedModalRect((int) (backgroundX + this.tabWidth + xOffset - x - 1), (int) (backgroundY + x + 1), (int) (this.tabWidth - x - 1), x + 1, x + 1, 1);
+								this.blit((int) (backgroundX + this.tabWidth + xOffset - x - 1), (int) (backgroundY + x + 1), (int) (this.tabWidth - x - 1), x + 1, x + 1, 1);
 							}
 						}
 						
@@ -421,7 +422,7 @@ public class GuiWorldHandler extends Container
 							
 							for(int x = 0; x < factor; x++)
 							{
-								this.drawTexturedModalRect((int) (backgroundX + xOffset), (int) (backgroundY + x + 1), xOffset.intValue(), x + 1, x + 1, 1);
+								this.blit((int) (backgroundX + xOffset), (int) (backgroundY + x + 1), xOffset.intValue(), x + 1, x + 1, 1);
 							}
 						}
 						
@@ -435,7 +436,7 @@ public class GuiWorldHandler extends Container
 							for(int x = 0; x < width; x += interval)
 							{
 								this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-								this.drawTexturedModalRect((int) (backgroundX + xOffset), (int) (backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
+								this.blit((int) (backgroundX + xOffset), (int) (backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
 							}
 						}
 						
@@ -448,7 +449,7 @@ public class GuiWorldHandler extends Container
 							for(int x = 0; x < width; x += interval)
 							{
 								this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-								this.drawTexturedModalRect((int) (backgroundX + Math.ceil(xOffset) + x + offset), (int) (backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
+								this.blit((int) (backgroundX + Math.ceil(xOffset) + x + offset), (int) (backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
 							}
 						}
 					}
@@ -462,7 +463,7 @@ public class GuiWorldHandler extends Container
 							
 							for(int x = 0; x < factor; x++)
 							{
-								this.drawTexturedModalRect(backgroundX, backgroundY + x, 0, fHeight, factor - x, 1);
+								this.blit(backgroundX, backgroundY + x, 0, fHeight, factor - x, 1);
 							}
 						}
 						
@@ -474,13 +475,13 @@ public class GuiWorldHandler extends Container
 							
 							for(int x = 0; x < factor + 1; x++)
 							{
-								this.drawTexturedModalRect(backgroundX + this.bgTextureWidth - x, backgroundY + factor - x, this.bgTextureWidth - x, fHeight, x, 1);
+								this.blit(backgroundX + this.bgTextureWidth - x, backgroundY + factor - x, this.bgTextureWidth - x, fHeight, x, 1);
 							}
 						}
 					}
 				}
 				
-				this.drawCenteredString(this.fontRenderer, ChatFormatting.UNDERLINE + tab.getTabTitle(), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color);
+				this.drawCenteredString(this.font, net.minecraft.util.text.TextFormatting.UNDERLINE + tab.getTabTitle(), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color);
 			});
 			
 			this.defaultColor();
@@ -490,15 +491,15 @@ public class GuiWorldHandler extends Container
 			final String label = Main.MC_VERSION + "-" + Main.MOD_VERSION;
 			final int hexAlpha = (int) (0xFF * 0.2) << 24;
 			final int color = Config.getSkin().getLabelColor() + hexAlpha;
-			final int versionWidth = this.width - this.fontRenderer.getStringWidth(label) - 2;
+			final int versionWidth = this.width - this.font.getStringWidth(label) - 2;
 			final int versionHeight = this.height - 10;
 			
-			this.fontRenderer.drawString(label, versionWidth, versionHeight, color);
+			this.font.drawString(label, versionWidth, versionHeight, color);
 			
 			//TITLE
 			
-			final int maxWidth = this.bgTextureWidth - 7 - 2 - this.fontRenderer.getStringWidth(WorldHandler.USERNAME) - 2 - this.getWatchOffset() - 7;
-			this.fontRenderer.drawString(TextFormatting.shortenString(this.content.getTitle(), maxWidth, this.fontRenderer), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
+			final int maxWidth = this.bgTextureWidth - 7 - 2 - this.font.getStringWidth(WorldHandler.USERNAME) - 2 - this.getWatchOffset() - 7;
+			this.font.drawString(TextFormatting.shortenString(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			//HEADLINE
 			
@@ -506,19 +507,19 @@ public class GuiWorldHandler extends Container
 			{
 				if(this.content.getHeadline().length > 0)
 				{
-					this.fontRenderer.drawString(this.content.getHeadline()[0], backgroundX + 8, backgroundY + 22, Config.getSkin().getHeadlineColor());
+					this.font.drawString(this.content.getHeadline()[0], backgroundX + 8, backgroundY + 22, Config.getSkin().getHeadlineColor());
 				}
 				
 				if(this.content.getHeadline().length > 1)
 				{
-					this.fontRenderer.drawString(this.content.getHeadline()[1], backgroundX + 126, backgroundY + 22, Config.getSkin().getHeadlineColor());
+					this.font.drawString(this.content.getHeadline()[1], backgroundX + 126, backgroundY + 22, Config.getSkin().getHeadlineColor());
 				}
 			}
 			
 			//NAME FIELD
 			
 			final String username = WorldHandler.USERNAME.isEmpty() && !this.nameField.isFocused() ? I18n.format("gui.worldhandler.generic.edit_username") : WorldHandler.USERNAME;
-			this.fontRenderer.drawString(username, backgroundX + 232 - this.fontRenderer.getStringWidth(username), backgroundY + 7, Config.getSkin().getLabelColor());
+			this.font.drawString(username, backgroundX + 232 - this.font.getStringWidth(username), backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			//WATCH
 			
@@ -533,7 +534,7 @@ public class GuiWorldHandler extends Container
 				{
 					if(mouseX >= watchX && mouseX <= watchX + 9 && mouseY >= watchY && mouseY <= watchY + 9)
 					{
-						GuiUtils.drawHoveringText(Arrays.asList(TextFormatting.formatWorldTime(Minecraft.getInstance().world.getDayTime())), mouseX, mouseY + 9, this.width, this.height, this.width, this.fontRenderer);
+						GuiUtils.drawHoveringText(Arrays.asList(TextFormatting.formatWorldTime(Minecraft.getInstance().world.getDayTime())), mouseX, mouseY + 9, this.width, this.height, this.width, this.font);
 						GlStateManager.disableLighting();
 					}
 				}
@@ -544,11 +545,6 @@ public class GuiWorldHandler extends Container
 			for(int x = 0; x < this.buttons.size(); x++)
 			{
 				this.buttons.get(x).render(mouseX, mouseY, partialTicks);
-			}
-			
-			for(int x = 0; x < this.labels.size(); x++)
-			{
-				this.labels.get(x).render(mouseX, mouseY, partialTicks);
 			}
 			
 			//CONTAINER
@@ -566,7 +562,7 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSettings().commandSyntax() && this.syntaxField != null)
 			{
-				this.syntaxField.drawTextField(mouseX, mouseY, partialTicks);
+				this.syntaxField.renderButton(mouseX, mouseY, partialTicks);
 			}
 			
 			//SPLASHTEXT
@@ -580,10 +576,10 @@ public class GuiWorldHandler extends Container
 				GlStateManager.rotatef(17.0F, 0.0F, 0.0F, 1.0F);
 				
 				float scale = 1.1F - MathHelper.abs(MathHelper.sin((float) (System.currentTimeMillis() % 1000L) / 1000.0F * (float) Math.PI * 2.0F) * 0.1F);
-				scale = scale * 100.0F / this.fontRenderer.getStringWidth(this.splash);
+				scale = scale * 100.0F / this.font.getStringWidth(this.splash);
 				GlStateManager.scalef(scale, scale, scale);
 				
-				this.drawCenteredString(this.fontRenderer, this.splash, 0, (int) scale, 0xFFFF00);
+				this.drawCenteredString(this.font, this.splash, 0, (int) scale, 0xFFFF00);
 				
 				GlStateManager.popMatrix();
 			}
@@ -592,7 +588,7 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSettings().tooltips())
 			{
-				for(GuiButton button : this.buttons)
+				for(Widget button : this.buttons)
 				{
 					if(button instanceof GuiButtonTooltip)
 					{
@@ -605,7 +601,7 @@ public class GuiWorldHandler extends Container
 			
 			if(mouseX >= versionWidth && mouseY >= versionHeight)
 			{
-				GuiUtils.drawHoveringText(Arrays.asList(label), versionWidth - 12, versionHeight + 12, this.width + this.fontRenderer.getStringWidth(label), this.height + 10, this.width, this.fontRenderer);
+				GuiUtils.drawHoveringText(Arrays.asList(label), versionWidth - 12, versionHeight + 12, this.width + this.font.getStringWidth(label), this.height + 10, this.width, this.font);
 			}
 		});
 	}
@@ -633,13 +629,14 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void onGuiClosed()
+	public void onClose()
 	{
 		ActionHelper.tryRun(this.content::onGuiClosed);
+		super.onClose();
 	}
 	
 	@Override
-	public boolean doesGuiPauseGame()
+	public boolean isPauseScreen()
 	{
 		return Config.getSettings().pause();
 	}
@@ -654,5 +651,11 @@ public class GuiWorldHandler extends Container
 	public Content getContent()
 	{
 		return this.content;
+	}
+	
+	@Override
+	public boolean shouldCloseOnEsc()
+	{
+		return true;
 	}
 }

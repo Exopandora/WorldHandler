@@ -11,17 +11,21 @@ import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.IRegistry;
-import net.minecraft.util.registry.RegistryNamespacedDefaultedByKey;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryBuilder;
 
 @OnlyIn(Dist.CLIENT)
 public class Category extends ForgeRegistryEntry<Category>
 {
-	public static final String NAMESPACE = String.join("_", new String[] {Main.MODID, "category"});
-	public static final IRegistry<Category> REGISTRY = IRegistry.func_212610_a(NAMESPACE, new RegistryNamespacedDefaultedByKey<Category>(new ResourceLocation(NAMESPACE, "main"))); 
+	public static final IForgeRegistry<Category> REGISTRY = new RegistryBuilder<Category>()
+			.setType(Category.class)
+			.setName(new ResourceLocation(String.join("_", new String[] {Main.MODID, "category"})))
+			.disableSync()
+			.disableSaving()
+			.create();
 	
 	private final List<Content> contents;
 	
@@ -62,24 +66,25 @@ public class Category extends ForgeRegistryEntry<Category>
 		return this.contents.get(index);
 	}
 	
-	public static void registerCategories()
+	public static void register()
 	{
-		registerCategory(0, "main", new Category(Contents.MAIN, Contents.CONTAINERS, Contents.MULTIPLAYER));
-		registerCategory(1, "entities", new Category(Contents.SUMMON));
-		registerCategory(2, "items", new Category(Contents.CUSTOM_ITEM, Contents.ENCHANTMENT, Contents.RECIPES));
-		registerCategory(3, "blocks", new Category(Contents.EDIT_BLOCKS, Contents.SIGN_EDITOR, Contents.NOTE_EDITOR));
-		registerCategory(4, "world", new Category(Contents.WORLD_INFO, Contents.GAMERULES));
-		registerCategory(5, "player", new Category(Contents.PLAYER, Contents.EXPERIENCE, Contents.ADVANCEMENTS));
-		registerCategory(6, "scoreboard", new Category(Contents.SCOREBOARD_OBJECTIVES, Contents.SCOREBOARD_TEAMS, Contents.SCOREBOARD_PLAYERS));
+		Category.register("main", new Category(Contents.MAIN, Contents.CONTAINERS, Contents.MULTIPLAYER));
+		Category.register("entities", new Category(Contents.SUMMON));
+		Category.register("items", new Category(Contents.CUSTOM_ITEM, Contents.ENCHANTMENT, Contents.RECIPES));
+		Category.register("blocks", new Category(Contents.EDIT_BLOCKS, Contents.SIGN_EDITOR, Contents.NOTE_EDITOR));
+		Category.register("world", new Category(Contents.WORLD_INFO, Contents.GAMERULES));
+		Category.register("player", new Category(Contents.PLAYER, Contents.EXPERIENCE, Contents.ADVANCEMENTS));
+		Category.register("scoreboard", new Category(Contents.SCOREBOARD_OBJECTIVES, Contents.SCOREBOARD_TEAMS, Contents.SCOREBOARD_PLAYERS));
 	}
 	
-    private static void registerCategory(int id, String textualID, Category category)
+    private static void register(String name, Category category)
     {
-    	registerCategory(id, new ResourceLocation(Main.MODID, textualID), category);
+    	Category.register(new ResourceLocation(Main.MODID, name), category);
     }
     
-    private static void registerCategory(int id, ResourceLocation textualID, Category category)
+    private static void register(ResourceLocation name, Category category)
     {
-        REGISTRY.register(id, textualID, category);
+    	category.setRegistryName(name);
+        REGISTRY.register(category);
     }
 }

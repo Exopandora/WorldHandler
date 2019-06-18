@@ -37,7 +37,7 @@ public class CommandWorldHandler
 	
 	private static int display() throws CommandSyntaxException
 	{
-		Minecraft.getInstance().addScheduledTask(ActionHelper::displayGui);
+		Minecraft.getInstance().execute(ActionHelper::displayGui);
 		return 1;
 	}
 	

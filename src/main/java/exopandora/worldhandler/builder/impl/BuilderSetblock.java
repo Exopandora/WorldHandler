@@ -5,7 +5,7 @@ import exopandora.worldhandler.builder.impl.abstr.BuilderBlockPos;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.Type;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.IProperty;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -58,7 +58,7 @@ public class BuilderSetBlock extends BuilderBlockPos
 	}
 	
 	@Override
-	public void setNBT(NBTTagCompound nbt)
+	public void setNBT(CompoundNBT nbt)
 	{
 		this.blockResourceLocation.setNBT(nbt);
 		this.setNode(3, this.blockResourceLocation);

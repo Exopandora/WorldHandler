@@ -81,7 +81,7 @@ public class Contents
 	
 	private static Content getRegisteredContent(String name)
 	{
-		Content content = Content.REGISTRY.get(new ResourceLocation(Main.MODID, name));
+		Content content = Content.REGISTRY.getValue(new ResourceLocation(Main.MODID, name));
 		
 		if(content == null)
 		{

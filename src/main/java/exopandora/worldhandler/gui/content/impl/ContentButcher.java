@@ -56,7 +56,7 @@ public class ContentButcher extends ContentChild
 			return true;
 		});
 		this.radiusField.setText(this.radius);
-		this.radiusField.setTextAcceptHandler((id, text) ->
+		this.radiusField.func_212954_a(text ->
 		{
 			this.radius = text;
 			
@@ -87,7 +87,7 @@ public class ContentButcher extends ContentChild
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.BUTCHER_SETTINGS.withParent(Contents.BUTCHER)));
 		}));
 		
-		container.add(slaughter = new GuiButtonBase(2, x + 116 / 2, y + 60, 232 / 2, 20, I18n.format("gui.worldhandler.butcher.slaughter"), () ->
+		container.add(slaughter = new GuiButtonBase(x + 116 / 2, y + 60, 232 / 2, 20, I18n.format("gui.worldhandler.butcher.slaughter"), () ->
 		{
 			for(ResourceLocation entry : Config.getButcher().getEntities())
 			{
@@ -95,7 +95,7 @@ public class ContentButcher extends ContentChild
 			}
 		}));
 		
-		slaughter.enabled = this.radius != null && !this.radius.isEmpty() && !Config.CLIENT.getButcher().getEntities().isEmpty();
+		slaughter.active = this.radius != null && !this.radius.isEmpty() && !Config.CLIENT.getButcher().getEntities().isEmpty();
 	}
 	
 	@Override
@@ -107,7 +107,7 @@ public class ContentButcher extends ContentChild
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.radiusField.drawTextField(mouseX, mouseY, partialTicks);
+		this.radiusField.renderButton(mouseX, mouseY, partialTicks);
 	}
 	
 	@Override

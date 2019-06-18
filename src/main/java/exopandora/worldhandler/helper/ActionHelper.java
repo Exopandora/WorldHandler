@@ -1,7 +1,5 @@
 package exopandora.worldhandler.helper;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderDifficulty;
@@ -17,13 +15,15 @@ import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.util.ActionHandler;
+import net.minecraft.block.AbstractSignBlock;
+import net.minecraft.block.NoteBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.api.distmarker.Dist;
@@ -130,23 +130,23 @@ public class ActionHelper
 	{
 		try
 		{
-			action.run();
+			if(action != null)
+			{
+				action.run();
+			}
 		}
 		catch(Exception e)
 		{
-			if(!Minecraft.getInstance().isGameFocused())
-			{
-				Minecraft.getInstance().displayGuiScreen(null);
-				Minecraft.getInstance().mouseHelper.grabMouse();
-			}
+			Minecraft.getInstance().displayGuiScreen(null);
+			Minecraft.getInstance().mouseHelper.grabMouse();
 			
-			TextComponentString name = new TextComponentString(Main.NAME);
+			StringTextComponent name = new StringTextComponent(Main.NAME);
 			name.setStyle(new Style().setUnderlined(true).setClickEvent(new ClickEvent(Action.OPEN_URL, Main.URL)));
 			
-			TextComponentTranslation message = new TextComponentTranslation("worldhandler.error.gui", name);
+			TranslationTextComponent message = new TranslationTextComponent("worldhandler.error.gui", name);
 			message.setStyle(new Style().setColor(net.minecraft.util.text.TextFormatting.RED));
 			
-			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, message);
+			Minecraft.getInstance().field_71456_v.addChatMessage(ChatType.SYSTEM, message);
 			WorldHandler.LOGGER.throwing(e);
 		}
 	}
@@ -155,18 +155,18 @@ public class ActionHelper
 	{
 		if(!CommandHelper.canPlayerIssueCommand() && Config.getSettings().permissionQuery())
 		{
-			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, new TextComponentString(ChatFormatting.RED + I18n.format("worldhandler.permission.refused")));
-			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, new TextComponentString(ChatFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.key.settings.permission_query"))));
+			Minecraft.getInstance().field_71456_v.addChatMessage(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused")));
+			Minecraft.getInstance().field_71456_v.addChatMessage(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.key.settings.permission_query"))));
 		}
 		else
 		{
 			ActionHelper.tryRun(() ->
 			{
-				if(BlockHelper.isFocusedBlockEqualTo(Blocks.SIGN) || BlockHelper.isFocusedBlockEqualTo(Blocks.WALL_SIGN))
+				if(BlockHelper.getFocusedBlock() instanceof AbstractSignBlock)
 				{
 					Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.SIGN_EDITOR));
 				}
-				else if(BlockHelper.isFocusedBlockEqualTo(Blocks.NOTE_BLOCK))
+				else if(BlockHelper.getFocusedBlock() instanceof NoteBlock)
 				{
 					Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.NOTE_EDITOR));
 				}

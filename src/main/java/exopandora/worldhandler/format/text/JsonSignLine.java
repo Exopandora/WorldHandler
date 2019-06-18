@@ -17,7 +17,7 @@ public class JsonSignLine extends FormattedString
 	public JsonSignLine(ColoredString string)
 	{
 		this.text = super.getPreformattedString(string.getText());
-		this.color = string.getColor().getFormat();
+		this.color = string.getColor().getName();
 		this.bold = string.isBold();
 		this.strikethrough = string.isStriked();
 		this.underlined = string.isUnderlined();

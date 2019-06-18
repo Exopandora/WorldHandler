@@ -23,10 +23,9 @@ import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.helper.RegistryTranslator;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.stats.StatList;
 import net.minecraft.stats.StatType;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.IRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -52,7 +51,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		this.objectField = new GuiTextFieldTooltip(x + 118, y + (this.selectedObjective.equals("remove") ? 24 : 0), 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setValidator(Predicates.notNull());
 		this.objectField.setText(ContentScoreboard.getObjective());
-		this.objectField.setTextAcceptHandler((id, text) ->
+		this.objectField.func_212954_a(text ->
 		{
 			ContentScoreboard.setObjective(text);
 			this.builderObjectives.setObjective(ContentScoreboard.getObjective());
@@ -70,19 +69,19 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 					
 					if(resource != null)
 					{
-						StatType<?> type = IRegistry.field_212634_w.func_212608_b(resource);
+						StatType<?> type = ForgeRegistries.STAT_TYPES.getValue(resource);
 						
 						if(type != null)
 						{
-							if(type.equals(StatList.CUSTOM))
+							if(type.equals(Stats.CUSTOM))
 							{
 								return I18n.format("gui.worldhandler.scoreboard.objectives.stat.custom");
 							}
-							else if(type.equals(StatList.ENTITY_KILLED))
+							else if(type.equals(Stats.ENTITY_KILLED))
 							{
 								return I18n.format("gui.worldhandler.scoreboard.objectives.stat.killed");
 							}
-							else if(type.equals(StatList.ENTITY_KILLED_BY))
+							else if(type.equals(Stats.ENTITY_KILLED_BY))
 							{
 								return I18n.format("gui.worldhandler.scoreboard.objectives.stat.killed_by");
 							}
@@ -98,7 +97,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 						}
 					}
 					
-					if(Arrays.stream(EnumColor.values()).map(EnumColor::getFormat).anyMatch(Predicates.equalTo(key)))
+					if(Arrays.stream(EnumColor.values()).map(EnumColor::getName).anyMatch(Predicates.equalTo(key)))
 					{
 						return I18n.format("gui.worldhandler.color." + key);
 					}
@@ -132,7 +131,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				@Nullable
 				private ResourceLocation makeResourceLocation(String key)
 				{
-					return ResourceLocation.makeResourceLocation(key.replace(".", ":"));
+					return ResourceLocation.tryCreate(key.replace(".", ":"));
 				}
 				
 				@Nullable
@@ -154,12 +153,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 						}
 					}
 					
-					if(IRegistry.field_212623_l.func_212607_c(resource))
-					{
-						return true;
-					}
-					
-					return false;
+					return ForgeRegistries.STAT_TYPES.containsKey(resource);
 				}
 			});
 			
@@ -215,28 +209,28 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.create"), () ->
 		{
 			this.selectedObjective = "create";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.display"), () ->
 		{
 			this.selectedObjective = "display";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.undisplay"), () ->
 		{
 			this.selectedObjective = "undisplay";
-			container.initGui();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.remove"), () ->
 		{
 			this.selectedObjective = "remove";
-			container.initGui();
+			container.init();
 		}));
 		
-		button1.enabled = !this.selectedObjective.equals("create");
-		button2.enabled = !this.selectedObjective.equals("display");
-		button3.enabled = !this.selectedObjective.equals("undisplay");
-		button4.enabled = !this.selectedObjective.equals("remove");
+		button1.active = !this.selectedObjective.equals("create");
+		button2.active = !this.selectedObjective.equals("display");
+		button3.active = !this.selectedObjective.equals("undisplay");
+		button4.active = !this.selectedObjective.equals("remove");
 		
 		int yOffset = this.selectedObjective.equals("undisplay") ? -12 : (this.selectedObjective.equals("remove") ? -24 : 0);
 		
@@ -258,9 +252,9 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		container.add(button1 = new GuiButtonBase(x + 118, y + 72 + yOffset, 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
 		{
 			CommandHelper.sendCommand(this.builderObjectives);
-			container.initGui();
+			container.init();
 		}));
-		button1.enabled = this.selectedObjective.equals("undisplay") || ContentScoreboard.isObjectiveValid();
+		button1.active = this.selectedObjective.equals("undisplay") || ContentScoreboard.isObjectiveValid();
 	}
 	
 	@Override
@@ -277,7 +271,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	{
 		if(!this.selectedObjective.equals("undisplay"))
 		{
-			this.objectField.drawTextField(mouseX, mouseY, partialTicks);
+			this.objectField.renderButton(mouseX, mouseY, partialTicks);
 		}
 	}
 	

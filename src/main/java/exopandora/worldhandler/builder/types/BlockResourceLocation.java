@@ -5,9 +5,9 @@ import javax.annotation.Nullable;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.command.arguments.BlockStateParser;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.IProperty;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,7 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 @OnlyIn(Dist.CLIENT)
 public class BlockResourceLocation extends ItemResourceLocation
 {
-	private IBlockState state;
+	private BlockState state;
 	
 	public BlockResourceLocation()
 	{
@@ -29,13 +29,13 @@ public class BlockResourceLocation extends ItemResourceLocation
 		this(resource, null, null);
 	}
 	
-	public BlockResourceLocation(ResourceLocation resource, IBlockState state, NBTTagCompound nbt)
+	public BlockResourceLocation(ResourceLocation resource, BlockState state, CompoundNBT nbt)
 	{
 		super(resource, nbt);
 		this.state = this.findState(state, resource);
 	}
 	
-	private IBlockState findState(IBlockState state, ResourceLocation resource)
+	private BlockState findState(BlockState state, ResourceLocation resource)
 	{
 		boolean matchOld = this.state != null && this.state.getBlock().getRegistryName().equals(resource);
 		boolean matchNew = state != null && state.getBlock().getRegistryName().equals(resource);
@@ -65,7 +65,7 @@ public class BlockResourceLocation extends ItemResourceLocation
 		this.state = this.findState(null, resource);
 	}
 	
-	public IBlockState getState()
+	public BlockState getState()
 	{
 		return this.state;
 	}
@@ -94,7 +94,7 @@ public class BlockResourceLocation extends ItemResourceLocation
 				return null;
 			}
 			
-			IBlockState state = parser.getState();
+			BlockState state = parser.getState();
 			
 			if(state != null)
 			{

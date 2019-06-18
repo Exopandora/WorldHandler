@@ -44,7 +44,7 @@ public class ConfigCategoryButcher
 		
 		for(String entity : this.entities)
 		{
-			ResourceLocation resource = ResourceLocation.makeResourceLocation(entity);
+			ResourceLocation resource = ResourceLocation.tryCreate(entity);
 			
 			if(resource != null)
 			{
@@ -85,7 +85,7 @@ public class ConfigCategoryButcher
 	{
 		if(string != null)
 		{
-			return ForgeRegistries.ENTITIES.containsKey(ResourceLocation.makeResourceLocation(string.toString()));
+			return ForgeRegistries.ENTITIES.containsKey(ResourceLocation.tryCreate(string.toString()));
 		}
 		
 		return false;

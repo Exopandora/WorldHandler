@@ -1,6 +1,5 @@
 package exopandora.worldhandler.config;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -34,43 +33,43 @@ public class ConfigCategorySliders
 		builder.push("sliders");
 		
 		this.valueMaxPotionAmplifier = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.sliders.max_potion_amplifier"))
-				.translation("gui.worldhandler.config.key.sliders.max_potion_amplifier")
+				.translation("gui.worldhandler.config.sliders.max_potion_amplifier")
+				.comment("Maximum value for the potion amplifier")
 				.defineInRange("max_potion_amplifier", 100D, 0D, Byte.MAX_VALUE);
 		
 		this.valueMaxItemEnchantment = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.sliders.max_item_enchantment"))
-				.translation("gui.worldhandler.config.key.sliders.max_item_enchantment")
+				.translation("gui.worldhandler.config.sliders.max_item_enchantment")
+				.comment("Maximum value for an item enchantment")
 				.defineInRange("max_item_enchantment", 100D, 0D, Integer.MAX_VALUE);
 		this.valueMaxItemAttributes = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.sliders.max_item_attributes"))
-				.translation("gui.worldhandler.config.key.sliders.max_item_attributes")
+				.translation("gui.worldhandler.config.sliders.max_item_attributes")
+				.comment("Maximum value for an item attribute")
 				.defineInRange("max_item_attributes", 100D, 0D, Double.MAX_VALUE);
 		
 		this.valueMaxSummonPotionAmplifier = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.sliders.max_summon_potion_amplifier"))
-				.translation("gui.worldhandler.config.key.sliders.max_summon_potion_amplifier")
+				.translation("gui.worldhandler.config.sliders.max_summon_potion_amplifier")
+				.comment("Maximum value for the potion amplifier for summon")
 				.defineInRange("max_summon_potion_amplifier", 100D, 0D, Byte.MAX_VALUE);
 		this.valueMaxSummonPotionMinutes = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.sliders.max_summon_potion_minutes"))
-				.translation("gui.worldhandler.config.key.sliders.max_summon_potion_minutes")
+				.translation("gui.worldhandler.config.sliders.max_summon_potion_minutes")
+				.comment("Maximum value for the potion duration in minutes for summon")
 				.defineInRange("max_summon_potion_minutes", 100D, 0D, 16000);
 		this.valueMaxSummonAttributes = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.sliders.max_summon_attributes"))
-				.translation("gui.worldhandler.config.key.sliders.max_summon_attributes")
+				.translation("gui.worldhandler.config.sliders.max_summon_attributes")
+				.comment("Maximum value for attributes")
 				.defineInRange("max_summon_attributes", 100D, 0D, Double.MAX_VALUE);
 		
 		this.valueMaxExperience = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.sliders.max_experience"))
-				.translation("gui.worldhandler.config.key.sliders.max_experience")
+				.translation("gui.worldhandler.config.sliders.max_experience")
+				.comment("Maximum value for experience")
 				.defineInRange("max_experience", 100D, 0D, 100000D);
 		this.valueMaxPlayerPoints = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.sliders.max_player_points"))
-				.translation("gui.worldhandler.config.key.sliders.max_player_points")
+				.translation("gui.worldhandler.config.sliders.max_player_points")
+				.comment("Maximum value for player points")
 				.defineInRange("max_player_points", 100D, 0D, 100000D);
 		this.valueMaxTriggerValue = builder
-				.comment(I18n.format("gui.worldhandler.config.comment.sliders.max_trigger_value"))
-				.translation("gui.worldhandler.config.key.sliders.max_trigger_value")
+				.translation("gui.worldhandler.config.sliders.max_trigger_value")
+				.comment("Maximum value for triggers")
 				.defineInRange("max_trigger_value", 100D, 0D, 100000D);
 		
 		builder.pop();

@@ -36,18 +36,18 @@ public enum EnumColor
 	UNDERLINE("underline", "n"),
 	ITALIC("italic", "o");
 	
-	private String format;
+	private String name;
 	private String prefix;
 	
-	private EnumColor(String format, String prefix)
+	private EnumColor(String name, String prefix)
 	{
-		this.format = format;
+		this.name = name;
 		this.prefix = prefix;
 	}
 	
-	public String getFormat()
+	public String getName()
 	{
-		return this.format;
+		return this.name;
 	}
 	
 	public String getPrefix()

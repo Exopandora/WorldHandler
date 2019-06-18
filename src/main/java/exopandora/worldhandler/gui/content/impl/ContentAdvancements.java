@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderAdvancement;
 import exopandora.worldhandler.builder.impl.BuilderAdvancement.EnumActionType;
@@ -29,6 +27,7 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -129,7 +128,7 @@ public class ContentAdvancements extends Content
 		{
 			CommandHelper.sendCommand(this.builderAdvancement.getBuilderForAction(EnumActionType.REVOKE));
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, ChatFormatting.RED + I18n.format("gui.worldhandler.actions.reset"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.actions.reset"), () ->
 		{
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderAdvancement.getBuilder(EnumActionType.REVOKE, EnumMode.EVERYTHING)).withParent(Contents.ADVANCEMENTS)));
 		}));

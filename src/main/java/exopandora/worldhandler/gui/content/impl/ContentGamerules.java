@@ -48,7 +48,7 @@ public class ContentGamerules extends Content
 		this.valueField.setValidator(Predicates.notNull());
 		this.valueField.setText(this.value);
 		this.valueField.setCursorPositionEnd();
-		this.valueField.setTextAcceptHandler((id, text) ->
+		this.valueField.func_212954_a(text ->
 		{
 			this.value = text;
 			this.builderGamerule.setValue(this.value);
@@ -143,7 +143,7 @@ public class ContentGamerules extends Content
 	{
 		if(!this.booleanValue)
 		{
-			this.valueField.drawTextField(mouseX, mouseY, partialTicks);
+			this.valueField.renderButton(mouseX, mouseY, partialTicks);
 		}
 	}
 	

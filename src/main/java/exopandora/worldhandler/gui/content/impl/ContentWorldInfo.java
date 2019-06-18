@@ -53,7 +53,7 @@ public class ContentWorldInfo extends Content
 		this.worldField.setText(I18n.format("gui.worldhandler.world_info.world.name") + ": " + this.getWorldInfo(WorldInfo::getWorldName, world));
 		
 		this.terrainField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20);
-		this.terrainField.setText(I18n.format("gui.worldhandler.world_info.world.world_type") + ": " + this.getWorldInfo(info -> I18n.format(info.getTerrainType().getTranslationKey()), world));
+		this.terrainField.setText(I18n.format("gui.worldhandler.world_info.world.world_type") + ": " + this.getWorldInfo(info -> I18n.format(info.getGenerator().getTranslationKey()), world));
 		
 		this.seedField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20);
 		this.seedField.setText(I18n.format("gui.worldhandler.world_info.world.seed") + ": " + this.getSeed(world));
@@ -80,38 +80,38 @@ public class ContentWorldInfo extends Content
 		container.add(start = new GuiButtonBase(x, y + 12, 114, 20, I18n.format("gui.worldhandler.world_info.start"), () ->
 		{
 			this.selectedMain = "start";
-			container.initGui();
+			container.init();
 		}));
 		container.add(world = new GuiButtonBase(x, y + 36, 114, 20, I18n.format("gui.worldhandler.world_info.world"), () ->
 		{
 			this.selectedMain = "world";
-			container.initGui();
+			container.init();
 		}));
 		container.add(stats = new GuiButtonBase(x, y + 60, 114, 20, I18n.format("gui.worldhandler.world_info.statistics"), () ->
 		{
 			this.selectedMain = "stats";
-			container.initGui();
+			container.init();
 		}));
 		
 		if(this.selectedMain.equals("start"))
 		{
-			start.enabled = false;
+			start.active = false;
 		}
 		else if(this.selectedMain.equals("world"))
 		{
 			GuiButtonBase seed;
 			
-			world.enabled = false;
+			world.active = false;
 			container.add(seed = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.world_info.world.copy_seed"), () ->
 			{
 				Minecraft.getInstance().keyboardListener.setClipboardString(this.getSeed(this.getWorld()));
 			}));
 			
-			seed.enabled = Minecraft.getInstance().getIntegratedServer() != null;
+			seed.active = Minecraft.getInstance().getIntegratedServer() != null;
 		}
 		else if(this.selectedMain.equals("stats"))
 		{
-			stats.enabled = false;
+			stats.active = false;
 		}
 	}
 	
@@ -128,20 +128,20 @@ public class ContentWorldInfo extends Content
 	{
 		if(this.selectedMain.equals("start"))
 		{
-			this.posXField.drawTextField(mouseX, mouseY, partialTicks);
-			this.posYField.drawTextField(mouseX, mouseY, partialTicks);
-			this.posZField.drawTextField(mouseX, mouseY, partialTicks);
+			this.posXField.renderButton(mouseX, mouseY, partialTicks);
+			this.posYField.renderButton(mouseX, mouseY, partialTicks);
+			this.posZField.renderButton(mouseX, mouseY, partialTicks);
 		}
 		else if(this.selectedMain.equals("world"))
 		{
-			this.worldField.drawTextField(mouseX, mouseY, partialTicks);
-			this.terrainField.drawTextField(mouseX, mouseY, partialTicks);
-			this.seedField.drawTextField(mouseX, mouseY, partialTicks);
+			this.worldField.renderButton(mouseX, mouseY, partialTicks);
+			this.terrainField.renderButton(mouseX, mouseY, partialTicks);
+			this.seedField.renderButton(mouseX, mouseY, partialTicks);
 		}
 		else if(this.selectedMain.equals("stats"))
 		{
-			this.totalTimeField.drawTextField(mouseX, mouseY, partialTicks);
-			this.currentTimeField.drawTextField(mouseX, mouseY, partialTicks);
+			this.totalTimeField.renderButton(mouseX, mouseY, partialTicks);
+			this.currentTimeField.renderButton(mouseX, mouseY, partialTicks);
 		}
 	}
 	

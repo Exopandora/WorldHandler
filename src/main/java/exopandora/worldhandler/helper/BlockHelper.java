@@ -18,49 +18,52 @@ import exopandora.worldhandler.builder.types.CoordinateDouble;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.config.Config;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityType;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.play.client.CPacketUpdateCommandBlock;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.DoubleNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.network.play.client.CUpdateCommandBlockPacket;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntityCommandBlock;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.tileentity.CommandBlockTileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class BlockHelper
 {
-	private static BlockPos POS_1 = BlockPos.ORIGIN;
-	private static BlockPos POS_2 = BlockPos.ORIGIN;
+	private static BlockPos POS_1 = BlockPos.ZERO;
+	private static BlockPos POS_2 = BlockPos.ZERO;
 	private static final List<Consumer<BlockPos>> POS_1_OBSERVERS = new ArrayList<Consumer<BlockPos>>();
 	private static final List<Consumer<BlockPos>> POS_2_OBSERVERS = new ArrayList<Consumer<BlockPos>>();
 	private static final Block[] BLACKLIST = new Block[] {Blocks.AIR, Blocks.WATER, Blocks.LAVA};
 	
 	public static BlockPos getFocusedBlockPos()
 	{
-		RayTraceResult rayTrace = Minecraft.getInstance().objectMouseOver;
+		RayTraceResult result = Minecraft.getInstance().objectMouseOver;
 		
-		if(rayTrace != null && rayTrace.type.equals(RayTraceResult.Type.BLOCK))
+		if(result != null && result.getType().equals(Type.BLOCK))
 		{
-			BlockPos position = rayTrace.getBlockPos();
+			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
 			
-			if(!ArrayUtils.contains(BLACKLIST, Minecraft.getInstance().world.getBlockState(position).getBlock()))
+			if(!ArrayUtils.contains(BLACKLIST, Minecraft.getInstance().world.getBlockState(blockResult.getPos()).getBlock()))
 			{
-				return position;
+				return blockResult.getPos();
 			}
 		}
 		
 		return Minecraft.getInstance().player.getPosition();
 	}
 	
-	public static boolean isFocusedBlockEqualTo(Block block)
+	public static Block getFocusedBlock()
 	{
-		return getBlock(getFocusedBlockPos()) == block;
+		return Minecraft.getInstance().world.getBlockState(getFocusedBlockPos()).getBlock();
 	}
 	
 	public static Block getBlock(BlockPos pos)
@@ -148,19 +151,19 @@ public class BlockHelper
 		POS_2_OBSERVERS.add(observer);
 	}
 	
-	private static NBTTagCompound newCommandBlock(String command)
+	private static CompoundNBT newCommandBlock(String command)
 	{
-		NBTTagCompound blockState = new NBTTagCompound();
-		blockState.setString("Name", Blocks.COMMAND_BLOCK.getRegistryName().toString());
+		CompoundNBT blockState = new CompoundNBT();
+		blockState.putString("Name", Blocks.COMMAND_BLOCK.getRegistryName().toString());
 		
-		NBTTagCompound tileEntityData = new NBTTagCompound();
-		tileEntityData.setString("Command", command);
-		tileEntityData.setBoolean("auto", true);
+		CompoundNBT tileEntityData = new CompoundNBT();
+		tileEntityData.putString("Command", command);
+		tileEntityData.putBoolean("auto", true);
 		
-		NBTTagCompound commandBlock = new NBTTagCompound();
-		commandBlock.setInt("Time", 1);
-		commandBlock.setTag("BlockState", blockState);
-		commandBlock.setTag("TileEntityData", tileEntityData);
+		CompoundNBT commandBlock = new CompoundNBT();
+		commandBlock.putInt("Time", 1);
+		commandBlock.put("BlockState", blockState);
+		commandBlock.put("TileEntityData", tileEntityData);
 		
 		return commandBlock;
 	}
@@ -178,28 +181,34 @@ public class BlockHelper
 			fill.setZ2(new CoordinateInt(0, CoordinateType.GLOBAL));
 			fill.setBlock1(new BlockResourceLocation(Blocks.AIR.getRegistryName()));
 			
-			NBTTagCompound block = newCommandBlock(fill.toActualCommand());
-			block.setString("id", "falling_block");
+			CompoundNBT executer = newCommandBlock(command);
+			executer.putString("id", "falling_block");
 			
-			NBTTagList passengers = new NBTTagList();
-			passengers.add(block);
+			ListNBT passengers = new ListNBT();
+			passengers.add(executer);
 			
-			NBTTagCompound nbt = newCommandBlock(command);
-			nbt.setTag("Passengers", passengers);
+			CompoundNBT remover = newCommandBlock(fill.toActualCommand());
+			remover.put("Passengers", passengers);
+			
+			ListNBT motion = new ListNBT();
+			motion.add(new DoubleNBT(0.0D));
+			motion.add(new DoubleNBT(0.315D));
+			motion.add(new DoubleNBT(0.0D));
+			remover.put("Motion", motion);
 			
 			Minecraft.getInstance().displayGuiScreen(null);
 			Minecraft.getInstance().mouseHelper.grabMouse();
 			
 			BuilderSummon summon = new BuilderSummon();
 			summon.setEntity(EntityType.FALLING_BLOCK.getRegistryName().toString());
-			summon.setX(new CoordinateDouble(0.0, CoordinateType.LOCAL));
-			summon.setY(new CoordinateDouble(0.54, CoordinateType.LOCAL));
-			summon.setZ(new CoordinateDouble(0.0, CoordinateType.LOCAL));
-			summon.setNBT(nbt);
+			summon.setX(new CoordinateDouble(0.0, CoordinateType.GLOBAL));
+			summon.setY(new CoordinateDouble(0.5, CoordinateType.GLOBAL));
+			summon.setZ(new CoordinateDouble(0.0, CoordinateType.GLOBAL));
+			summon.setNBT(remover);
 			
 			BlockPos pos = Minecraft.getInstance().player.getPosition().add(0, 3, 0);
 			Minecraft.getInstance().player.sendChatMessage(new BuilderSetBlock(pos, Blocks.COMMAND_BLOCK.getRegistryName(), Config.CLIENT.getSettings().getBlockPlacingMode()).toActualCommand());
-			Minecraft.getInstance().getConnection().sendPacket(new CPacketUpdateCommandBlock(pos, summon.toActualCommand(false), TileEntityCommandBlock.Mode.REDSTONE, true, false, true));
+			Minecraft.getInstance().getConnection().sendPacket(new CUpdateCommandBlockPacket(pos, summon.toActualCommand(false), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
 			
 			return true;
 		}
@@ -212,16 +221,16 @@ public class BlockHelper
 		switch(Minecraft.getInstance().player.getHorizontalFacing())
 		{
 			case NORTH:
-				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, EnumFacing.SOUTH));
+				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH));
 				break;
 			case EAST:
-				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, EnumFacing.WEST));
+				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST));
 				break;
 			case SOUTH:
-				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, EnumFacing.NORTH));
+				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
 				break;
 			case WEST:
-				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, EnumFacing.EAST));
+				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST));
 				break;
 			default:
 				break;

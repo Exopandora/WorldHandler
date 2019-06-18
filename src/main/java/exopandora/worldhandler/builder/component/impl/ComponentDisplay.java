@@ -2,12 +2,12 @@ package exopandora.worldhandler.builder.component.impl;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.format.text.ColoredString;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -18,30 +18,30 @@ public class ComponentDisplay implements IBuilderComponent
 	private String[] lore = new String[2];
 	
 	@Override
-	public INBTBase serialize()
+	public INBT serialize()
 	{
-		NBTTagCompound display = new NBTTagCompound();
+		CompoundNBT display = new CompoundNBT();
 		
 		String name = this.name.getText();
 		
 		if(name != null && !name.isEmpty())
 		{
-			display.setString("Name", ITextComponent.Serializer.toJson(new TextComponentString(this.name.toString())));
+			display.putString("Name", ITextComponent.Serializer.toJson(new StringTextComponent(this.name.toString())));
 		}
 		
-		NBTTagList lore = new NBTTagList();
+		ListNBT lore = new ListNBT();
 		
 		for(int x = 0; x < this.lore.length; x++)
 		{
 			if(this.lore[x] != null && !this.lore[x].isEmpty())
 			{
-				lore.add(new NBTTagString(this.lore[x]));
+				lore.add(new StringNBT(this.lore[x]));
 			}
 		}
 		
 		if(!lore.isEmpty())
 		{
-			display.setTag("Lore", lore);
+			display.put("Lore", lore);
 		}
 		
 		if(!display.isEmpty())

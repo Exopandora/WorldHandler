@@ -48,7 +48,7 @@ public class BuilderRecipe extends CommandBuilder
 		return this.getNodeAsString(1);
 	}
 	
-	public void setRecipe(IRecipe recipe)
+	public void setRecipe(IRecipe<?> recipe)
 	{
 		this.setRecipe(recipe.getId());
 	}

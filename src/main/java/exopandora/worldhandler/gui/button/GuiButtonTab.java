@@ -1,16 +1,16 @@
 package exopandora.worldhandler.gui.button;
 
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiButtonTab extends GuiButton
+public abstract class GuiButtonTab extends AbstractButton
 {
-	public GuiButtonTab(int x, int y, int widthIn, int heightIn)
+	public GuiButtonTab(int x, int y, int widthIn, int heightIn, String narration)
 	{
-		super(0, x, y, widthIn, heightIn, null);
+		super(x, y, widthIn, heightIn, narration);
 	}
 	
     @Override
@@ -20,7 +20,7 @@ public class GuiButtonTab extends GuiButton
     }
     
     @Override
-    public void playPressSound(SoundHandler soundHandlerIn)
+    public void playDownSound(SoundHandler soundHandlerIn)
     {
     	
     }

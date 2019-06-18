@@ -1,9 +1,10 @@
 package exopandora.worldhandler.gui.button;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import exopandora.worldhandler.helper.ResourceHelper;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -14,19 +15,14 @@ public class GuiButtonIcon extends GuiButtonTooltip
 	
 	public GuiButtonIcon(int x, int y, int widthIn, int heightIn, EnumIcon icon, String tooltip, ActionHandler actionHandler)
 	{
-		this(0, x, y, widthIn, heightIn, icon, tooltip, actionHandler);
-	}
-	
-	public GuiButtonIcon(int id, int x, int y, int widthIn, int heightIn, EnumIcon icon, String tooltip, ActionHandler actionHandler)
-	{
-		super(id, x, y, widthIn, heightIn, null, tooltip, actionHandler);
+		super(x, y, widthIn, heightIn, tooltip, tooltip, actionHandler);
 		this.icon = icon;
 	}
 	
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void renderButton(int mouseX, int mouseY, float partialTicks)
 	{
-		super.render(mouseX, mouseY, partialTicks);
+		super.renderBg(Minecraft.getInstance(), mouseX, mouseY);
 		
 		if(this.icon != null)
 		{
@@ -38,9 +34,9 @@ public class GuiButtonIcon extends GuiButtonTooltip
 	{
 		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getIconTexture());
 		
-		if(this.enabled)
+		if(this.active)
 		{
-			if(this.hovered)
+			if(this.isHovered())
 			{
 				GlStateManager.color4f(1.0F, 1.0F, 0.6F, 1.0F);
 			}
@@ -54,6 +50,6 @@ public class GuiButtonIcon extends GuiButtonTooltip
 			GlStateManager.color4f(0.8F, 0.8F, 0.8F, 1.0F);
 		}
 		
-		this.drawTexturedModalRect(this.x + this.width / 2 - 4, this.y + 6, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);
+		this.blit(this.x + this.width / 2 - 4, this.y + 6, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);
 	}
 }

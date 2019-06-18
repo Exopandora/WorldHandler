@@ -85,10 +85,10 @@ public class ContentMultiplayer extends Content
 	{
 		this.playerField = new GuiTextFieldTooltip(x + 118, y + this.shiftDown, 114, 20, I18n.format("gui.worldhandler.multiplayer.username"));
 		this.playerField.setValidator(Predicates.notNull());
-		this.playerField.setFocused(false);
+		this.playerField.setFocused2(false);
 		this.playerField.setText(this.builderKick.getPlayer());
 		this.playerField.setMaxStringLength(16);
-		this.playerField.setTextAcceptHandler((id, text) ->
+		this.playerField.func_212954_a(text ->
 		{
 			this.setPlayer(this.playerField.getText());
 			container.initButtons();
@@ -96,9 +96,9 @@ public class ContentMultiplayer extends Content
 		
 		this.reasonField = new GuiTextFieldTooltip(x + 118, y + 24 + this.shiftDown, 114, 20, I18n.format("gui.worldhandler.multiplayer.kick_ban.reason"));
 		this.reasonField.setValidator(Predicates.notNull());
-		this.reasonField.setFocused(false);
+		this.reasonField.setFocused2(false);
 		this.reasonField.setText(this.builderKick.getReason());
-		this.reasonField.setTextAcceptHandler((id, text) ->
+		this.reasonField.func_212954_a(text ->
 		{
 			this.setReason(this.reasonField.getText());
 			container.initButtons();
@@ -122,31 +122,31 @@ public class ContentMultiplayer extends Content
 		{
 			this.selected = "kickBan";
 			this.shiftDown = 0;
-			container.initGui();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.multiplayer.pardon"), () ->
 		{
 			this.selected = "pardon";
 			this.shiftDown = 24;
-			container.initGui();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.permissions"), () ->
 		{
 			this.selected = "permissions";
 			this.shiftDown = 12;
-			container.initGui();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime"), () ->
 		{
 			this.selected = "runtime";
 			this.shiftDown = 0;
-			container.initGui();
+			container.init();
 		}));
 		container.add(button5 = new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.multiplayer.whitelist"), () ->
 		{
 			this.selected = "whitelist";
 			this.shiftDown = 0;
-			container.initGui();
+			container.init();
 		}));
 		
 		if(this.selected.equals("kickBan"))
@@ -164,11 +164,11 @@ public class ContentMultiplayer extends Content
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button6.enabled = false;
-				button7.enabled = false;
+				button6.active = false;
+				button7.active = false;
 			}
 			
-			button1.enabled = false;
+			button1.active = false;
 		}
 		else if(this.selected.equals("pardon"))
 		{
@@ -180,10 +180,10 @@ public class ContentMultiplayer extends Content
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button6.enabled = false;
+				button6.active = false;
 			}
 			
-			button2.enabled = false;
+			button2.active = false;
 		}
 		else if(this.selected.equals("permissions"))
 		{
@@ -199,11 +199,11 @@ public class ContentMultiplayer extends Content
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button6.enabled = false;
-				button7.enabled = false;
+				button6.active = false;
+				button7.active = false;
 			}
 			
-			button3.enabled = false;
+			button3.active = false;
 		}
 		else if(this.selected.equals("runtime"))
 		{
@@ -224,7 +224,7 @@ public class ContentMultiplayer extends Content
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderStop).withParent(Contents.MULTIPLAYER)));
 			}));
 			
-			button4.enabled = false;
+			button4.active = false;
 		}
 		else if(this.selected.equals("whitelist"))
 		{
@@ -254,11 +254,11 @@ public class ContentMultiplayer extends Content
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button6.enabled = false;
-				button7.enabled = false;
+				button6.active = false;
+				button7.active = false;
 			}
 			
-			button5.enabled = false;
+			button5.active = false;
 		}
 	}
 	
@@ -281,12 +281,12 @@ public class ContentMultiplayer extends Content
 	{
 		if(this.selected.equals("kickBan"))
 		{
-			this.reasonField.drawTextField(mouseX, mouseY, partialTicks);
+			this.reasonField.renderButton(mouseX, mouseY, partialTicks);
 		}
 		
 		if(!this.selected.equals("runtime"))
 		{
-			this.playerField.drawTextField(mouseX, mouseY, partialTicks);
+			this.playerField.renderButton(mouseX, mouseY, partialTicks);
 		}
 	}
 	

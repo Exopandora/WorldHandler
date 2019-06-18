@@ -1,8 +1,7 @@
 package exopandora.worldhandler.format.text;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
 import exopandora.worldhandler.format.EnumColor;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -28,7 +27,7 @@ public class ColoredString extends FormattedString
 	
 	public void setText(String string)
 	{
-		this.text = ChatFormatting.stripFormatting(string);
+		this.text = TextFormatting.getTextWithoutFormattingCodes(string);
 	}
 	
 	public EnumColor getColor()
@@ -64,27 +63,27 @@ public class ColoredString extends FormattedString
 		{
 			if(this.italic)
 			{
-				result = ChatFormatting.ITALIC + result;
+				result = TextFormatting.ITALIC + result;
 			}
 			
 			if(this.underlined)
 			{
-				result = ChatFormatting.UNDERLINE + result;
+				result = TextFormatting.UNDERLINE + result;
 			}
 			
 			if(this.strikethrough)
 			{
-				result = ChatFormatting.STRIKETHROUGH + result;
+				result = TextFormatting.STRIKETHROUGH + result;
 			}
 			
 			if(this.bold)
 			{
-				result = ChatFormatting.BOLD + result;
+				result = TextFormatting.BOLD + result;
 			}
 			
 			if(this.obfuscated)
 			{
-				result = ChatFormatting.OBFUSCATED + result;
+				result = TextFormatting.OBFUSCATED + result;
 			}
 			
 			if(this.color != null && !this.color.equals(EnumColor.DEFAULT))
@@ -110,7 +109,7 @@ public class ColoredString extends FormattedString
 			
 			if(result.contains("\u00A7"))
 			{
-				result += ChatFormatting.RESET;
+				result += TextFormatting.RESET;
 			}
 			
 			return result;

@@ -1,7 +1,6 @@
 package exopandora.worldhandler.builder;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -29,7 +28,7 @@ public class CommandString
 		}
 		else
 		{
-			this.command.append(" " + ChatFormatting.RED + "[error]" + ChatFormatting.RESET);
+			this.command.append(" " + TextFormatting.RED + "[error]" + TextFormatting.RESET);
 		}
 	}
 	

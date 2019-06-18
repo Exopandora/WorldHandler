@@ -1,5 +1,7 @@
 package exopandora.worldhandler.gui.content.impl;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
@@ -16,12 +18,12 @@ import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.CommandHelper;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.NoteBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.NoteBlockInstrument;
 import net.minecraft.util.ResourceLocation;
@@ -47,7 +49,7 @@ public class ContentNoteEditor extends Content
 	@Override
 	public void init(Container container)
 	{
-		this.isActive = BlockHelper.isFocusedBlockEqualTo(Blocks.NOTE_BLOCK);
+		this.isActive = BlockHelper.getFocusedBlock() instanceof NoteBlock;
 		this.builderNoteEditor.setPosition(BlockHelper.getFocusedBlockPos());
 	}
 	
@@ -179,14 +181,14 @@ public class ContentNoteEditor extends Content
 			GlStateManager.color3f(1.0F, 1.0F, 1.0F);
 			Minecraft.getInstance().getTextureManager().bindTexture(NOTE);
 			
-			container.drawTexturedModalRect(x - 1, y - 1, 0, 0, 8, 59);
-			container.drawTexturedModalRect(x - 1, y - 1 + 59, 0, 59, 13, 35);
+			container.blit(x - 1, y - 1, 0, 0, 8, 59);
+			container.blit(x - 1, y - 1 + 59, 0, 59, 13, 35);
 			
-			container.drawTexturedModalRect(x - 1 + 232 - 5, y - 1, 18, 0, 7, 59);
-			container.drawTexturedModalRect(x - 1 + 232 - 10, y - 1 + 59, 13, 59, 12, 35);
+			container.blit(x - 1 + 232 - 5, y - 1, 18, 0, 7, 59);
+			container.blit(x - 1 + 232 - 10, y - 1 + 59, 13, 59, 12, 35);
 			
-			container.drawTexturedModalRect(x - 1 + 8, y - 1, 0, 94, 219, 1);
-			container.drawTexturedModalRect(x - 1 + 13, y - 1 + 93, 0, 94, 209, 1);
+			container.blit(x - 1 + 8, y - 1, 0, 94, 219, 1);
+			container.blit(x - 1 + 13, y - 1 + 93, 0, 94, 209, 1);
 		}
 		else
 		{
@@ -203,7 +205,7 @@ public class ContentNoteEditor extends Content
     		RenderHelper.disableStandardItemLighting();
 			GlStateManager.popMatrix();
 			
-			String displayString = I18n.format("gui.worldhandler.blocks.note_block_editor.look_at_note_block", WorldHandler.KEY_WORLD_HANDLER.getKey().getName());
+			String displayString = I18n.format("gui.worldhandler.blocks.note_block_editor.look_at_note_block", WorldHandler.KEY_WORLD_HANDLER.getLocalizedName());
 			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 			fontRenderer.drawString(displayString, x + 116 - fontRenderer.getStringWidth(displayString) / 2, y + 70, Config.getSkin().getLabelColor());
 		}

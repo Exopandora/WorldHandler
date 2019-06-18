@@ -4,7 +4,7 @@ import java.util.Set;
 
 import exopandora.worldhandler.builder.component.impl.ComponentPotionItem;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,69 +25,69 @@ public class BuilderPotionItem extends BuilderGive
 		this.potion = this.registerNBTComponent(potion);
 	}
 	
-	public void setAmplifier(Potion potion, byte amplifier)
+	public void setAmplifier(Effect potion, byte amplifier)
 	{
 		this.potion.setAmplifier(potion, amplifier);
 	}
 	
-	public void setSeconds(Potion potion, int seconds)
+	public void setSeconds(Effect potion, int seconds)
 	{
 		this.potion.setSeconds(potion, seconds);
 	}
 	
-	public void setMinutes(Potion potion, int minutes)
+	public void setMinutes(Effect potion, int minutes)
 	{
 		this.potion.setMinutes(potion, minutes);
 	}
 	
-	public void setHours(Potion potion, int hours)
+	public void setHours(Effect potion, int hours)
 	{
 		this.potion.setHours(potion, hours);
 	}
 	
-	public void setShowParticles(Potion potion, boolean showParticles)
+	public void setShowParticles(Effect potion, boolean showParticles)
 	{
 		this.potion.setShowParticles(potion, showParticles);
 	}
 	
-	public void setAmbient(Potion potion, boolean ambient)
+	public void setAmbient(Effect potion, boolean ambient)
 	{
 		this.potion.setAmbient(potion, ambient);
 	}
 	
-	public byte getAmplifier(Potion potion)
+	public byte getAmplifier(Effect potion)
 	{
 		return this.potion.getAmplifier(potion);
 	}
 	
-	public int getSeconds(Potion potion)
+	public int getSeconds(Effect potion)
 	{
 		return this.potion.getSeconds(potion);
 	}
 	
-	public int getMinutes(Potion potion)
+	public int getMinutes(Effect potion)
 	{
 		return this.potion.getMinutes(potion);
 	}
 	
-	public int getHours(Potion potion)
+	public int getHours(Effect potion)
 	{
 		return this.potion.getHours(potion);
 	}
 	
-	public boolean getShowParticles(Potion potion)
+	public boolean getShowParticles(Effect potion)
 	{
 		return this.potion.getShowParticles(potion);
 	}
 	
-	public boolean getAmbient(Potion potion)
+	public boolean getAmbient(Effect potion)
 	{
 		return this.potion.getAmbient(potion);
 	}
 	
-	public Set<Potion> getPotions()
+	public Set<Effect> getEffects()
 	{
-		return this.potion.getPotions();
+		return this.potion.getEffects();
 	}
 	
 	public BuilderPotionItem getBuilderForPotion(Item item)

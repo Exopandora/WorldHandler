@@ -9,7 +9,7 @@ authors="Exopandora"
 
 [[mods]]
 modId="worldhandler"
-version="1.13.2-2.4.1"
+version="1.14.2-2.5"
 displayName="World Handler"
 description='''
 The World Handler provides a smart Gui for people without having to know any complex commands and gives them a look inside the art of Minecraft map and world making.
@@ -19,6 +19,6 @@ Now anyone can easily create maps or just save a few ammount of time and provide
 [[dependencies.worldhandler]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.13,)"
+    versionRange="[1.14,)"
     ordering="NONE"
     side="BOTH"

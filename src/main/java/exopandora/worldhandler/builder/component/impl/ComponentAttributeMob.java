@@ -7,9 +7,9 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.abstr.ComponentAttribute;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -23,18 +23,18 @@ public class ComponentAttributeMob extends ComponentAttribute
 	
 	@Override
 	@Nullable
-	public INBTBase serialize()
+	public INBT serialize()
 	{
-		NBTTagList attributes = new NBTTagList();
+		ListNBT attributes = new ListNBT();
 		
 		for(Entry<EnumAttributes, Double> entry : this.attributes.entrySet())
 		{
 			if(this.applyable.apply(entry.getKey()) && entry.getValue() != 0)
 			{
-				NBTTagCompound attribute = new NBTTagCompound();
+				CompoundNBT attribute = new CompoundNBT();
 				
-				attribute.setString("Name", entry.getKey().getAttribute());
-				attribute.setDouble("Base", entry.getKey().calculate(entry.getValue()));
+				attribute.putString("Name", entry.getKey().getAttribute());
+				attribute.putDouble("Base", entry.getKey().calculate(entry.getValue()));
 				
 				attributes.add(attribute);
 			}
