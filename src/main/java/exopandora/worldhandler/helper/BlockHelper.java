@@ -209,7 +209,6 @@ public class BlockHelper
 	
 	public static void setBlockNearPlayer(Block block)
 	{
-		System.out.println(Minecraft.getInstance().player.getHorizontalFacing());
 		switch(Minecraft.getInstance().player.getHorizontalFacing())
 		{
 			case NORTH:
