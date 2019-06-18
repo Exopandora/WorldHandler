@@ -1,12 +1,6 @@
 {
 	"gui.worldhandler.config.tooltip": "World Handler 设置",
 
-	"gui.worldhandler.config.category.settings": "设置",
-	"gui.worldhandler.config.category.skin": "皮肤样式",
-	"gui.worldhandler.config.category.butcher": "屠宰",
-	"gui.worldhandler.config.category.sliders": "滑块",
-
-	"gui.worldhandler.config.key.settings.biome_indicator": "生物群系指示器",
 	"gui.worldhandler.config.key.settings.command_syntax": "命令句法",
 	"gui.worldhandler.config.key.settings.shortcuts": "快捷键",
 	"gui.worldhandler.config.key.settings.key_shortcuts": "键盘快捷键",
@@ -23,7 +17,6 @@
 	"gui.worldhandler.config.key.settings.custom_time_midnight": "自定义午夜时间",
 	"gui.worldhandler.config.key.settings.block_placing_mode": "方块放置方式",
 
-	"gui.worldhandler.config.comment.settings.custom_time_dawn": "生物群系指示器开启",
 	"gui.worldhandler.config.comment.settings.command_syntax": "命令句法开启",
 	"gui.worldhandler.config.comment.settings.shortcuts": "快捷键开启",
 	"gui.worldhandler.config.comment.settings.key_shortcuts": "键盘快捷键开启",
@@ -70,8 +63,6 @@
 	"gui.worldhandler.config.comment.skin.background_alpha": "背景 Alpha",
 	"gui.worldhandler.config.comment.skin.button_alpha": "按钮 Alpha",
 
-	"gui.worldhandler.config.comment.butcher": "屠宰 %s 开启",
-
 	"gui.worldhandler.config.key.sliders.max_potion_amplifier": "药水倍率最大值",
 	"gui.worldhandler.config.key.sliders.max_item_enchantment": "物品附魔最大值",
 	"gui.worldhandler.config.key.sliders.max_item_attributes": "物品属性最大值",
@@ -80,6 +71,7 @@
 	"gui.worldhandler.config.key.sliders.max_summon_attributes": "召唤属性最大值",
 	"gui.worldhandler.config.key.sliders.max_experience": "经验最大值",
 	"gui.worldhandler.config.key.sliders.max_player_points": "玩家分数最大值",
+	"gui.worldhandler.config.key.sliders.max_trigger_value": "Max Trigger Value",
 
 	"gui.worldhandler.config.comment.sliders.max_potion_amplifier": "药水倍率最大值",
 	"gui.worldhandler.config.comment.sliders.max_item_enchantment": "物品附魔最大值",
@@ -89,6 +81,7 @@
 	"gui.worldhandler.config.comment.sliders.max_summon_attributes": "召唤属性最大值",
 	"gui.worldhandler.config.comment.sliders.max_experience": "经验最大值",
 	"gui.worldhandler.config.comment.sliders.max_player_points": "玩家分数最大值",
+	"gui.worldhandler.config.comment.sliders.max_trigger_value": "Maximum value for triggers",
 
 	"gui.worldhandler.tab.scoreboard.objectives": "变量",
 	"gui.worldhandler.tab.scoreboard.teams": "团队",

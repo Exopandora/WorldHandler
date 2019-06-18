@@ -1,12 +1,6 @@
 {
 	"gui.worldhandler.config.tooltip": "World Handler Einstellungen",
 
-	"gui.worldhandler.config.category.settings": "Einstellungen",
-	"gui.worldhandler.config.category.skin": "Skin",
-	"gui.worldhandler.config.category.butcher": "Metzler",
-	"gui.worldhandler.config.category.sliders": "Regler",
-
-	"gui.worldhandler.config.key.settings.biome_indicator": "Biome Indikator",
 	"gui.worldhandler.config.key.settings.command_syntax": "Befehlssyntax",
 	"gui.worldhandler.config.key.settings.shortcuts": "Schnellsteuerleiste",
 	"gui.worldhandler.config.key.settings.key_shortcuts": "Tasten Abkürzungen",
@@ -23,7 +17,6 @@
 	"gui.worldhandler.config.key.settings.custom_time_midnight": "Mitternachtszeit",
 	"gui.worldhandler.config.key.settings.block_placing_mode": "Platziermodus für Blöcke",
 
-	"gui.worldhandler.config.comment.settings.custom_time_dawn": "Aktiviert Biome Indikator",
 	"gui.worldhandler.config.comment.settings.command_syntax": "Aktiviert Befehlssyntax",
 	"gui.worldhandler.config.comment.settings.shortcuts": "Aktiviert Schnellsteuerleiste",
 	"gui.worldhandler.config.comment.settings.key_shortcuts": "Aktiviert Tasten Abkürzungen",
@@ -70,8 +63,6 @@
 	"gui.worldhandler.config.comment.skin.background_alpha": "Hintergrund Alpha",
 	"gui.worldhandler.config.comment.skin.button_alpha": "Schaltflächen Alpha",
 
-	"gui.worldhandler.config.comment.butcher": "Metzeln von %s Aktiviert",
-
 	"gui.worldhandler.config.key.sliders.max_potion_amplifier": "Max Trank Verstärker",
 	"gui.worldhandler.config.key.sliders.max_item_enchantment": "Max Item Verzauberung",
 	"gui.worldhandler.config.key.sliders.max_item_attributes": "Max Item Attribute",
@@ -80,6 +71,7 @@
 	"gui.worldhandler.config.key.sliders.max_summon_attributes": "Max Attribute (Beschwören)",
 	"gui.worldhandler.config.key.sliders.max_experience": "Max Erfahrungspunkte",
 	"gui.worldhandler.config.key.sliders.max_player_points": "Max Spielerpunkte",
+	"gui.worldhandler.config.key.sliders.max_trigger_value": "Max Auslöser",
 
 	"gui.worldhandler.config.comment.sliders.max_potion_amplifier": "Max Trank Verstärker",
 	"gui.worldhandler.config.comment.sliders.max_item_enchantment": "Max Item Verzauberung",
@@ -89,6 +81,7 @@
 	"gui.worldhandler.config.comment.sliders.max_summon_attributes": "Max Attribute (Beschwören)",
 	"gui.worldhandler.config.comment.sliders.max_experience": "Max Erfahrungspunkte",
 	"gui.worldhandler.config.comment.sliders.max_player_points": "Max Spielerpunkte",
+	"gui.worldhandler.config.comment.sliders.max_trigger_value": "Max Auslöser",
 
 	"gui.worldhandler.tab.scoreboard.objectives": "Objekte",
 	"gui.worldhandler.tab.scoreboard.teams": "Teams",

@@ -184,7 +184,7 @@ public class ContentSettings extends ContentChild
 	@Override
 	public String getTitle()
 	{
-		return I18n.format("gui.worldhandler.config.category.settings");
+		return I18n.format("gui.worldhandler.shortcuts.tooltip.settings");
 	}
 	
 	public abstract static class Setting<T>
