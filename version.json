@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.13.2-latest": "2.4",
-		"1.13.2-recommended": "2.4",
+		"1.13.2-latest": "2.4.1",
+		"1.13.2-recommended": "2.4.1",
 		"1.13-latest": "2.4",
 		"1.13-recommended": "2.4",
 		"1.12.2-latest": "2.2.2",
@@ -45,6 +45,7 @@
 	},
 	"1.13.2":
 	{
+		"2.4.1": "- Fixed \"/worldhandler version\" installed version\n- Fixed note blocks instrument after being changed with the gui\n- Fixed note block editor color issue\n- Cleaned up translation files\n- Removed debug code",
 		"2.4": "- Added IMC support for mods\n- Fixed event registration",
 		"2.3": "- Added 1.13.2 compatibility\n- Added new command block execution\n- Added /trigger command\n- Added \"Copy Seed\" button\n- Unified block highlighting\n- Removed \"Biome Indicator\""
 	},
