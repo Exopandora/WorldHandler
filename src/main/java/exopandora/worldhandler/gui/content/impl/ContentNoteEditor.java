@@ -176,6 +176,7 @@ public class ContentNoteEditor extends Content
 	{
 		if(this.isActive)
 		{
+			GlStateManager.color3f(1.0F, 1.0F, 1.0F);
 			Minecraft.getInstance().getTextureManager().bindTexture(NOTE);
 			
 			container.drawTexturedModalRect(x - 1, y - 1, 0, 0, 8, 59);
