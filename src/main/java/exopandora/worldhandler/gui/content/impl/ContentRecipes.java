@@ -39,15 +39,15 @@ public class ContentRecipes extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<IRecipe> recipes = Minecraft.getInstance().player.getRecipeBook().getRecipes().stream()
+		List<IRecipe<?>> recipes = Minecraft.getInstance().player.getRecipeBook().getRecipes().stream()
 				.flatMap(recipe -> recipe.getRecipes().stream())
 				.filter(recipe -> !recipe.isDynamic())
 				.collect(Collectors.toList());
 		
-		ElementPageList<IRecipe> list = new ElementPageList<IRecipe>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<IRecipe>()
+		ElementPageList<IRecipe<?>> list = new ElementPageList<IRecipe<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<IRecipe<?>>()
 		{
 			@Override
-			public String translate(IRecipe item)
+			public String translate(IRecipe<?> item)
 			{
 				if(!item.getRecipeOutput().equals(ItemStack.EMPTY))
 				{
@@ -58,20 +58,20 @@ public class ContentRecipes extends Content
 			}
 			
 			@Override
-			public String toTooltip(IRecipe item)
+			public String toTooltip(IRecipe<?> item)
 			{
 				return item.getId().toString();
 			}
 			
 			@Override
-			public void onClick(IRecipe item)
+			public void onClick(IRecipe<?> item)
 			{
 				ContentRecipes.this.builderRecipe.setRecipe(item);
 				container.initButtons();
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, IRecipe item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, IRecipe<?> item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
