@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.Main;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
@@ -19,30 +20,31 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 @OnlyIn(Dist.CLIENT)
-public class RegistryTranslator
+public class RegistryHelper
 {
 	private static final Map<IForgeRegistry<?>, Function<?, String>> FORGE = new HashMap<IForgeRegistry<?>, Function<?, String>>();
 	private static final Map<Registry<?>, Function<?, String>> VANILLA = new HashMap<Registry<?>, Function<?, String>>();
 	
 	static
 	{
-		register(ForgeRegistries.BLOCKS, Block::getTranslationKey);
-		register(ForgeRegistries.ITEMS, Item::getTranslationKey);
-		register(ForgeRegistries.POTIONS, Effect::getName);
-		register(ForgeRegistries.BIOMES, Biome::getTranslationKey);
-		register(ForgeRegistries.ENCHANTMENTS, Enchantment::getName);
-		register(ForgeRegistries.ENTITIES, EntityType::getTranslationKey);
-		register(Registry.field_212623_l, stat -> "stat." + stat.toString().replace(':', '.'));
+		registerRegistry(ForgeRegistries.BLOCKS, Block::getTranslationKey);
+		registerRegistry(ForgeRegistries.ITEMS, Item::getTranslationKey);
+		registerRegistry(ForgeRegistries.POTIONS, Effect::getName);
+		registerRegistry(ForgeRegistries.BIOMES, Biome::getTranslationKey);
+		registerRegistry(ForgeRegistries.ENCHANTMENTS, Enchantment::getName);
+		registerRegistry(ForgeRegistries.ENTITIES, EntityType::getTranslationKey);
+		registerRegistry(Registry.field_212623_l, stat -> "stat." + stat.toString().replace(':', '.'));
 	}
 	
-	private static <T extends ForgeRegistryEntry<T>> void register(IForgeRegistry<T> registry, Function<T, String> mapper)
+	private static <T extends ForgeRegistryEntry<T>> void registerRegistry(IForgeRegistry<T> registry, Function<T, String> mapper)
 	{
 		FORGE.put(registry, mapper);
 	}
 	
-	private static <T> void register(Registry<T> registry, Function<T, String> mapper)
+	private static <T> void registerRegistry(Registry<T> registry, Function<T, String> mapper)
 	{
 		VANILLA.put(registry, mapper);
 	}
@@ -68,5 +70,15 @@ public class RegistryTranslator
 		}
 		
 		return null;
+	}
+	
+	public static <T extends IForgeRegistryEntry<T>> void register(IForgeRegistry<T> registry, String name, T entry)
+	{
+		register(registry, Main.MODID, name, entry);
+	}
+	
+	public static <T extends IForgeRegistryEntry<T>> void register(IForgeRegistry<T> registry, String modid, String name, T entry)
+	{
+		registry.register(entry.setRegistryName(new ResourceLocation(modid, name)));
 	}
 }

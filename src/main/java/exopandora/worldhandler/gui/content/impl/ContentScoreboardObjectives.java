@@ -21,7 +21,7 @@ import exopandora.worldhandler.gui.content.impl.abstr.ContentScoreboard;
 import exopandora.worldhandler.gui.logic.ILogicClickList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
-import exopandora.worldhandler.helper.RegistryTranslator;
+import exopandora.worldhandler.helper.RegistryHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
@@ -89,7 +89,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 							return I18n.format(type.getTranslationKey());
 						}
 						
-						String translation = RegistryTranslator.translate(resource);
+						String translation = RegistryHelper.translate(resource);
 						
 						if(translation != null)
 						{

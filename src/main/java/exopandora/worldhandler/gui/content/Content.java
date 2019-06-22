@@ -29,9 +29,13 @@ import exopandora.worldhandler.gui.content.impl.ContentSettings;
 import exopandora.worldhandler.gui.content.impl.ContentSignEditor;
 import exopandora.worldhandler.gui.content.impl.ContentSummon;
 import exopandora.worldhandler.gui.content.impl.ContentWorldInfo;
+import exopandora.worldhandler.helper.RegistryHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.RegistryEvent.NewRegistry;
+import net.minecraftforge.event.RegistryEvent.Register;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -39,67 +43,63 @@ import net.minecraftforge.registries.RegistryBuilder;
 @OnlyIn(Dist.CLIENT)
 public abstract class Content extends ForgeRegistryEntry<Content> implements IContent
 {
-	public static final IForgeRegistry<Content> REGISTRY = new RegistryBuilder<Content>()
-			.setType(Content.class)
-			.setName(new ResourceLocation(String.join("_", new String[] {Main.MODID, "content"})))
-			.disableSync()
-			.disableSaving()
-			.create();
+	public static IForgeRegistry<Content> REGISTRY;
 	
-	public static void registerContents()
+	@SubscribeEvent
+	public static void createRegistry(NewRegistry event)
+	{
+		REGISTRY = new RegistryBuilder<Content>()
+				.setType(Content.class)
+				.setName(new ResourceLocation(String.join("_", new String[] {Main.MODID, "content"})))
+				.disableSaving()
+				.disableSync()
+				.create();
+	}
+	
+	@SubscribeEvent
+	public static void register(Register<Content> event)
 	{
 		//MAIN
-		Content.register("main", new ContentMain());
-		Content.register("containers", new ContentContainers());
-		Content.register("multiplayer", new ContentMultiplayer());
+		RegistryHelper.register(event.getRegistry(), "main", new ContentMain());
+		RegistryHelper.register(event.getRegistry(), "containers", new ContentContainers());
+		RegistryHelper.register(event.getRegistry(), "multiplayer", new ContentMultiplayer());
 		
 		//ENTITIES
-		Content.register("summon", new ContentSummon());
+		RegistryHelper.register(event.getRegistry(), "summon", new ContentSummon());
 		
 		//ITEMS
-		Content.register("custom_item", new ContentCustomItem());
-		Content.register("enchantment", new ContentEnchantment());
+		RegistryHelper.register(event.getRegistry(), "custom_item", new ContentCustomItem());
+		RegistryHelper.register(event.getRegistry(), "enchantment", new ContentEnchantment());
+		RegistryHelper.register(event.getRegistry(), "recipes", new ContentRecipes());
 		
 		//BLOCKS
-		Content.register("edit_blocks", new ContentEditBlocks());
-		Content.register("sign_editor", new ContentSignEditor());
-		Content.register("note_editor", new ContentNoteEditor());
+		RegistryHelper.register(event.getRegistry(), "edit_blocks", new ContentEditBlocks());
+		RegistryHelper.register(event.getRegistry(), "sign_editor", new ContentSignEditor());
+		RegistryHelper.register(event.getRegistry(), "note_editor", new ContentNoteEditor());
 		
 		//WORLD
-		Content.register("world", new ContentWorldInfo());
-		Content.register("gamerules", new ContentGamerules());
-		Content.register("recipes", new ContentRecipes());
+		RegistryHelper.register(event.getRegistry(), "world", new ContentWorldInfo());
+		RegistryHelper.register(event.getRegistry(), "gamerules", new ContentGamerules());
 		
 		//PLAYER
-		Content.register("player", new ContentPlayer());
-		Content.register("experience", new ContentExperience());
-		Content.register("advancements", new ContentAdvancements());
+		RegistryHelper.register(event.getRegistry(), "player", new ContentPlayer());
+		RegistryHelper.register(event.getRegistry(), "experience", new ContentExperience());
+		RegistryHelper.register(event.getRegistry(), "advancements", new ContentAdvancements());
 		
 		//SCOREBOARD
-		Content.register("scoreboard_objectives", new ContentScoreboardObjectives());
-		Content.register("scoreboard_teams", new ContentScoreboardTeams());
-		Content.register("scoreboard_players", new ContentScoreboardPlayers());
+		RegistryHelper.register(event.getRegistry(), "scoreboard_objectives", new ContentScoreboardObjectives());
+		RegistryHelper.register(event.getRegistry(), "scoreboard_teams", new ContentScoreboardTeams());
+		RegistryHelper.register(event.getRegistry(), "scoreboard_players", new ContentScoreboardPlayers());
 		
 		//MISC
-		Content.register("change_world", new ContentChangeWorld());
-		Content.register("continue", new ContentContinue());
+		RegistryHelper.register(event.getRegistry(), "change_world", new ContentChangeWorld());
+		RegistryHelper.register(event.getRegistry(), "continue", new ContentContinue());
 		
 		//NO CATEGORY
-		Content.register("potions", new ContentPotions());
-		Content.register("butcher", new ContentButcher());
-		Content.register("butcher_settings", new ContentButcherSettings());
-		Content.register("settings", new ContentSettings());
-	}
-	
-	private static void register(String name, Content content)
-	{
-		Content.registerContent(new ResourceLocation(Main.MODID, name), content);
-	}
-	
-	private static void registerContent(ResourceLocation name, Content content)
-	{
-		content.setRegistryName(name);
-		REGISTRY.register(content);
+		RegistryHelper.register(event.getRegistry(), "potions", new ContentPotions());
+		RegistryHelper.register(event.getRegistry(), "butcher", new ContentButcher());
+		RegistryHelper.register(event.getRegistry(), "butcher_settings", new ContentButcherSettings());
+		RegistryHelper.register(event.getRegistry(), "settings", new ContentSettings());
 	}
 	
 	private Map<String, Object> persistence;
