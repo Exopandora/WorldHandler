@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.14.2-latest": "2.5.1",
-		"1.14.2-recommended": "2.5.1",
+		"1.14.2-latest": "2.5.2",
+		"1.14.2-recommended": "2.5.2",
 		"1.13.2-latest": "2.4.1",
 		"1.13.2-recommended": "2.4.1",
 		"1.13-latest": "2.4",
@@ -47,6 +47,7 @@
 	},
 	"1.14.2":
 	{
+		"2.5.2": "- Faster command execution with command blocks",
 		"2.5.1": "- Changed key category from Miscellaneous to World Handler\n- Changed child mod registration from IMC to proper registry events",
 		"2.5": "- Added 1.14.2 compatibiltiy\n- Changed command block execution for longer commands due to MC-145113"
 	},
