@@ -11,19 +11,13 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import exopandora.worldhandler.builder.impl.BuilderFill;
 import exopandora.worldhandler.builder.impl.BuilderSetBlock;
-import exopandora.worldhandler.builder.impl.BuilderSummon;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
-import exopandora.worldhandler.builder.types.CoordinateDouble;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.config.Config;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.DoubleNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.play.client.CUpdateCommandBlockPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.CommandBlockTileEntity;
@@ -151,64 +145,29 @@ public class BlockHelper
 		POS_2_OBSERVERS.add(observer);
 	}
 	
-	private static CompoundNBT newCommandBlock(String command)
-	{
-		CompoundNBT blockState = new CompoundNBT();
-		blockState.putString("Name", Blocks.COMMAND_BLOCK.getRegistryName().toString());
-		
-		CompoundNBT tileEntityData = new CompoundNBT();
-		tileEntityData.putString("Command", command);
-		tileEntityData.putBoolean("auto", true);
-		
-		CompoundNBT commandBlock = new CompoundNBT();
-		commandBlock.putInt("Time", 1);
-		commandBlock.put("BlockState", blockState);
-		commandBlock.put("TileEntityData", tileEntityData);
-		
-		return commandBlock;
-	}
-	
 	public static boolean setCommandBlockNearPlayer(String command)
 	{
 		if(CommandHelper.canPlayerIssueCommand() && Minecraft.getInstance().getConnection() != null)
 		{
-			BuilderFill fill = new BuilderFill();
-			fill.setX1(new CoordinateInt(0, CoordinateType.GLOBAL));
-			fill.setY1(new CoordinateInt(-2, CoordinateType.GLOBAL));
-			fill.setZ1(new CoordinateInt(0, CoordinateType.GLOBAL));
-			fill.setX2(new CoordinateInt(0, CoordinateType.GLOBAL));
-			fill.setY2(new CoordinateInt(0, CoordinateType.GLOBAL));
-			fill.setZ2(new CoordinateInt(0, CoordinateType.GLOBAL));
-			fill.setBlock1(new BlockResourceLocation(Blocks.AIR.getRegistryName()));
-			
-			CompoundNBT executer = newCommandBlock(command);
-			executer.putString("id", "falling_block");
-			
-			ListNBT passengers = new ListNBT();
-			passengers.add(executer);
-			
-			CompoundNBT remover = newCommandBlock(fill.toActualCommand());
-			remover.put("Passengers", passengers);
-			
-			ListNBT motion = new ListNBT();
-			motion.add(new DoubleNBT(0.0D));
-			motion.add(new DoubleNBT(0.315D));
-			motion.add(new DoubleNBT(0.0D));
-			remover.put("Motion", motion);
-			
-			Minecraft.getInstance().displayGuiScreen(null);
-			Minecraft.getInstance().mouseHelper.grabMouse();
-			
-			BuilderSummon summon = new BuilderSummon();
-			summon.setEntity(EntityType.FALLING_BLOCK.getRegistryName().toString());
-			summon.setX(new CoordinateDouble(0.0, CoordinateType.GLOBAL));
-			summon.setY(new CoordinateDouble(0.5, CoordinateType.GLOBAL));
-			summon.setZ(new CoordinateDouble(0.0, CoordinateType.GLOBAL));
-			summon.setNBT(remover);
-			
 			BlockPos pos = Minecraft.getInstance().player.getPosition().add(0, 3, 0);
-			Minecraft.getInstance().player.sendChatMessage(new BuilderSetBlock(pos, Blocks.COMMAND_BLOCK.getRegistryName(), Config.CLIENT.getSettings().getBlockPlacingMode()).toActualCommand());
-			Minecraft.getInstance().getConnection().sendPacket(new CUpdateCommandBlockPacket(pos, summon.toActualCommand(false), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
+			
+			BuilderFill placeFill = new BuilderFill();
+			placeFill.setPosition1(pos);
+			placeFill.setPosition2(pos.up());
+			placeFill.setBlock1(new BlockResourceLocation(Blocks.COMMAND_BLOCK.getRegistryName()));
+			
+			BuilderFill removeFill = new BuilderFill();
+			removeFill.setX1(new CoordinateInt(0, CoordinateType.GLOBAL));
+			removeFill.setY1(new CoordinateInt(-1, CoordinateType.GLOBAL));
+			removeFill.setZ1(new CoordinateInt(0, CoordinateType.GLOBAL));
+			removeFill.setX2(new CoordinateInt(0, CoordinateType.GLOBAL));
+			removeFill.setY2(new CoordinateInt(0, CoordinateType.GLOBAL));
+			removeFill.setZ2(new CoordinateInt(0, CoordinateType.GLOBAL));
+			removeFill.setBlock1(new BlockResourceLocation(Blocks.AIR.getRegistryName()));
+			
+			Minecraft.getInstance().player.sendChatMessage(placeFill.toActualCommand());
+			Minecraft.getInstance().getConnection().sendPacket(new CUpdateCommandBlockPacket(pos, command, CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
+			Minecraft.getInstance().getConnection().sendPacket(new CUpdateCommandBlockPacket(pos.up(), removeFill.toActualCommand(), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
 			
 			return true;
 		}
