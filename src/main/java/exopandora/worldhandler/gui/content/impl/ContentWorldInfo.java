@@ -169,7 +169,7 @@ public class ContentWorldInfo extends Content
 	{
 		if(Minecraft.getInstance().getIntegratedServer() != null)
 		{
-			return Minecraft.getInstance().getIntegratedServer().getWorld(DimensionType.OVERWORLD);
+			return Minecraft.getInstance().getIntegratedServer().getWorld(DimensionType.field_223227_a_);
 		}
 		
 		return Minecraft.getInstance().world;

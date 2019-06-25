@@ -29,8 +29,8 @@ public class GuiButtonTooltip extends GuiButtonBase
 			if(!list.isEmpty())
 			{
 				int tooltipWidth = Minecraft.getInstance().fontRenderer.getStringWidth(this.tooltip) + 9;
-				int width = Minecraft.getInstance().field_71462_r.width;
-				int height = Minecraft.getInstance().field_71462_r.height;
+				int width = Minecraft.getInstance().currentScreen.width;
+				int height = Minecraft.getInstance().currentScreen.height;
 				
 				GuiUtils.drawHoveringText(list, mouseX, mouseY, width, height, tooltipWidth, Minecraft.getInstance().fontRenderer);
 			}

@@ -185,7 +185,7 @@ public class ContentSignEditor extends Content
             
     		GlStateManager.translatef(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
     		GlStateManager.scalef(scale, scale, scale);
-    		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Items.field_222071_kr), 0, 0);
+    		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Items.OAK_SIGN), 0, 0);
             
     		RenderHelper.disableStandardItemLighting();
 			GlStateManager.popMatrix();

@@ -271,7 +271,7 @@ public class ContentSummon extends Content
 			{
 				Effect potion = ForgeRegistries.POTIONS.getValue(location);
 				
-				if(!potion.equals(Effects.field_76432_h) && !potion.equals(Effects.field_76433_i))
+				if(!potion.equals(Effects.INSTANT_DAMAGE) && !potion.equals(Effects.INSTANT_HEALTH))
 				{
 					if(this.potionPage == 0)
 					{

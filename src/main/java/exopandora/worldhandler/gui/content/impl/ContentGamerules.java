@@ -1,8 +1,12 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.common.base.Predicates;
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGamerule;
@@ -21,7 +25,10 @@ import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.GameRules.ValueType;
+import net.minecraft.world.GameRules.IRuleEntryVisitor;
+import net.minecraft.world.GameRules.RuleKey;
+import net.minecraft.world.GameRules.RuleType;
+import net.minecraft.world.GameRules.RuleValue;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -54,7 +61,18 @@ public class ContentGamerules extends Content
 			this.builderGamerule.setValue(this.value);
 		});
 		
-		ElementPageList<String> rules = new ElementPageList<String>(x, y, new ArrayList<String>(GameRules.getDefinitions().keySet()), 114, 20, 3, container, new ILogicPageList<String>()
+		Map<String, ArgumentType<?>> map = new HashMap<String, ArgumentType<?>>();
+		
+		GameRules.func_223590_a(new IRuleEntryVisitor()
+		{
+			@Override
+			public <T extends RuleValue<T>> void func_223481_a(RuleKey<T> rule, RuleType<T> type)
+			{
+				map.put(rule.func_223576_a(), type.func_223581_a(null).getType());
+			}
+		});
+		
+		ElementPageList<String> rules = new ElementPageList<String>(x, y, new ArrayList<String>(map.keySet()), 114, 20, 3, container, new ILogicPageList<String>()
 		{
 			@Override
 			public String translate(String item)
@@ -72,7 +90,7 @@ public class ContentGamerules extends Content
 			public void onClick(String item)
 			{
 				ContentGamerules.this.builderGamerule.setRule(item);
-				ContentGamerules.this.booleanValue = GameRules.getDefinitions().get(item).getType().equals(ValueType.BOOLEAN_VALUE);
+				ContentGamerules.this.booleanValue = map.get(item) instanceof BoolArgumentType;
 				
 				if(ContentGamerules.this.booleanValue)
 				{

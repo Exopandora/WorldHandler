@@ -34,7 +34,7 @@ public abstract class ComponentPotion implements IBuilderComponent
 			{
 				CompoundNBT compound = new CompoundNBT();
 				
-				compound.putByte("Id", (byte) Effect.getIdFromPotion(entry.getKey()));
+				compound.putByte("Id", (byte) Effect.getId(entry.getKey()));
 				compound.putByte("Amplifier", (byte) (potion.getAmplifier() - 1));
 				compound.putInt("Duration", Math.min(potion.toTicks(), 1000000));
 				compound.putBoolean("Ambient", potion.getAmbient());

@@ -27,7 +27,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public static void renderWorldLastEvent(RenderWorldLastEvent event)
 	{
-		if(Config.getSettings().highlightBlocks() && Minecraft.getInstance().world != null && Minecraft.getInstance().getRenderManager().field_217783_c != null)
+		if(Config.getSettings().highlightBlocks() && Minecraft.getInstance().world != null && Minecraft.getInstance().getRenderManager().info != null)
 		{
 			GlStateManager.pushMatrix();
 			GlStateManager.disableAlphaTest();
@@ -38,7 +38,7 @@ public class ClientEventHandler
 			GlStateManager.depthMask(false);
 			
 			final double constant = 0.0020000000949949026D;
-			Vec3d projected = Minecraft.getInstance().getRenderManager().field_217783_c.func_216785_c();
+			Vec3d projected = Minecraft.getInstance().getRenderManager().info.getProjectedView();
 			
 			double minX = Math.min(BlockHelper.getPos1().getX(), BlockHelper.getPos2().getX()) - constant - projected.x;
 			double minY = Math.min(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY()) - constant - projected.y;

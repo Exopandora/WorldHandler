@@ -146,7 +146,7 @@ public class ActionHelper
 			TranslationTextComponent message = new TranslationTextComponent("worldhandler.error.gui", name);
 			message.setStyle(new Style().setColor(net.minecraft.util.text.TextFormatting.RED));
 			
-			Minecraft.getInstance().field_71456_v.addChatMessage(ChatType.SYSTEM, message);
+			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, message);
 			WorldHandler.LOGGER.throwing(e);
 		}
 	}
@@ -155,8 +155,8 @@ public class ActionHelper
 	{
 		if(!CommandHelper.canPlayerIssueCommand() && Config.getSettings().permissionQuery())
 		{
-			Minecraft.getInstance().field_71456_v.addChatMessage(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused")));
-			Minecraft.getInstance().field_71456_v.addChatMessage(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.key.settings.permission_query"))));
+			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused")));
+			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.key.settings.permission_query"))));
 		}
 		else
 		{

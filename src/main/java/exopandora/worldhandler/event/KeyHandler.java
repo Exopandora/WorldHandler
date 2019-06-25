@@ -16,7 +16,7 @@ public class KeyHandler
 	@SubscribeEvent
 	public static void keyInputEvent(KeyInputEvent event)
 	{
-		if(Minecraft.getInstance() != null && Minecraft.getInstance().field_71462_r == null)
+		if(Minecraft.getInstance() != null && Minecraft.getInstance().currentScreen == null)
 		{
 			if(WorldHandler.KEY_WORLD_HANDLER.isPressed())
 			{
