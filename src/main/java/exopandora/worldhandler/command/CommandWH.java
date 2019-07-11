@@ -1,17 +1,18 @@
 package exopandora.worldhandler.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.builder.impl.BuilderClone;
 import exopandora.worldhandler.builder.impl.BuilderClone.EnumMask;
 import exopandora.worldhandler.builder.impl.BuilderFill;
+import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockStateArgument;
+import net.minecraft.command.arguments.BlockStateInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -27,11 +28,11 @@ public class CommandWH
 					.executes(context -> pos2(context.getSource())))
 				.then(Commands.literal("fill")
 					.then(Commands.argument("block", BlockStateArgument.blockState())
-						.executes(context -> fill(context.getSource(), StringArgumentType.getString(context, "block")))))
+						.executes(context -> fill(context.getSource(), BlockStateArgument.getBlockState(context, "block")))))
 				.then(Commands.literal("replace")
 					.then(Commands.argument("block", BlockStateArgument.blockState())
 						.then(Commands.argument("replace", BlockStateArgument.blockState())
-							.executes(context -> replace(context.getSource(), StringArgumentType.getString(context, "block"), StringArgumentType.getString(context, "replace"))))))
+							.executes(context -> replace(context.getSource(), BlockStateArgument.getBlockState(context, "block"), BlockStateArgument.getBlockState(context, "replace"))))))
 				.then(Commands.literal("clone")
 						.then(Commands.literal("replace")
 							.executes(context -> clone(context.getSource(), EnumMask.REPLACE)))
@@ -59,21 +60,21 @@ public class CommandWH
 		return 1;
 	}
 	
-	private static int fill(CommandSource source, String block)
+	private static int fill(CommandSource source, BlockStateInput block)
 	{
 		BuilderFill builder = new BuilderFill();
-		builder.setBlock1(block);
+		builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
 		CommandHelper.sendCommand(builder);
 		return 1;
 	}
 	
-	private static int replace(CommandSource source, String block, String replace)
+	private static int replace(CommandSource source, BlockStateInput block, BlockStateInput replace)
 	{
 		BuilderFill builder = new BuilderFill();
 		builder.setPosition1(BlockHelper.getPos1());
 		builder.setPosition2(BlockHelper.getPos2());
-		builder.setBlock1(block);
-		builder.setBlock2(replace);
+		builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
+		builder.setBlock2(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
 		CommandHelper.sendCommand(builder);
 		return 1;
 	}
