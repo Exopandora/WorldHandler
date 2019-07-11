@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.14.3-2.6'
+version = '1.14.3-2.6.1'
 group = 'exopandora.worldhandler' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'WorldHandler'
 
@@ -28,7 +28,7 @@ minecraft {
     mappings channel: 'snapshot', version: '20190621-1.14.2'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
-    // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
