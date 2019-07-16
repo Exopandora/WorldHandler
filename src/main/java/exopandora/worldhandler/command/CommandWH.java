@@ -85,6 +85,7 @@ public class CommandWH
 		builder.setPosition1(BlockHelper.getPos1());
 		builder.setPosition2(BlockHelper.getPos2());
 		builder.setMask(mask);
+		CommandHelper.sendCommand(builder);
 		return 1;
 	}
 }
