@@ -80,7 +80,7 @@ public class Category extends ForgeRegistryEntry<Category>
 	{
 		REGISTRY = new RegistryBuilder<Category>()
 				.setType(Category.class)
-				.setName(new ResourceLocation(String.join("_", new String[] {Main.MODID, "category"})))
+				.setName(new ResourceLocation(Main.MODID + "_category"))
 				.disableSaving()
 				.disableSync()
 				.create();

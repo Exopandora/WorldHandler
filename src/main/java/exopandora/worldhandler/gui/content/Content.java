@@ -50,7 +50,7 @@ public abstract class Content extends ForgeRegistryEntry<Content> implements ICo
 	{
 		REGISTRY = new RegistryBuilder<Content>()
 				.setType(Content.class)
-				.setName(new ResourceLocation(String.join("_", new String[] {Main.MODID, "content"})))
+				.setName(new ResourceLocation(Main.MODID + "_content"))
 				.disableSaving()
 				.disableSync()
 				.create();
