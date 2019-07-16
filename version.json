@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.14.3-latest": "2.6.1",
-		"1.14.3-recommended": "2.6.1",
+		"1.14.3-latest": "2.6.2",
+		"1.14.3-recommended": "2.6.2",
 		"1.14.2-latest": "2.5.2",
 		"1.14.2-recommended": "2.5.2",
 		"1.13.2-latest": "2.4.1",
@@ -49,6 +49,7 @@
 	},
 	"1.14.3":
 	{
+		"2.6.2": "- Append /wh and /worldhandler to chat history in multiplayer\n- Fixed /wh clone",
 		"2.6.1": "- Fixed BlockState arguments for /wh",
 		"2.6": "- Added 1.14.3 compatibility"
 	},
