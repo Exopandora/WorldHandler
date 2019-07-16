@@ -76,8 +76,8 @@ public class ClientEventHandler
 			buffer.pos(maxX, minY, minZ).color(color1, color1, color1, alpha).endVertex();
 			buffer.pos(maxX, minY, minZ).color((float) color1, (float) color1, (float) color1, 0.0F).endVertex();
 			tesselator.draw();
-			GlStateManager.lineWidth(1.0F);
 			
+			GlStateManager.lineWidth(1.0F);
 			GlStateManager.depthMask(true);
 			GlStateManager.enableTexture();
 			GlStateManager.disableBlend();
@@ -104,6 +104,7 @@ public class ClientEventHandler
 				try
 				{
 					dispatcher.execute(result);
+					Minecraft.getInstance().ingameGUI.getChatGUI().addToSentMessages(event.getMessage());
 				}
 				catch(CommandSyntaxException e)
 				{
