@@ -8,33 +8,9 @@ It lets you create powerful and complex sub-commands alongside NBT-structures wi
 * GUI for commands
 * World and player information
 * /wh for a simplified /fill and /clone
+* Client Commands: advancement, blockdata, clear, clone, difficulty, effect, enchant, fill, gamemode, gamerule, give, kill, recipe, scoreboard, setworldspawn, spawnpoint, summon, tag, team, time, trigger, weather, xp
+* Server Commands: ban, deop, kick, op, pardon, save-all, save-off, save-on, whitelist
 * Client-side only
-
-| Client Commands | Server Commands |
-| --------------- | --------------- |
-| advancement     | ban             |
-| blockdata       | deop            |
-| clear           | kick            |
-| clone           | op              |
-| difficulty      | pardon          |
-| effect          | save-all        |
-| enchant         | save-off        |
-| fill            | save-on         |
-| gamemode        | whitelist       |
-| gamerule        |                 |
-| give            |                 |
-| kill            |                 |
-| recipe          |                 |
-| scoreboard      |                 |
-| setworldspawn   |                 |
-| spawnpoint      |                 |
-| summon          |                 |
-| tag             |                 |
-| team            |                 |
-| time            |                 |
-| trigger         |                 |
-| weather         |                 |
-| xp              |                 |
 
 # Download #
 
