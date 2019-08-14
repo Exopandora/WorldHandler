@@ -14,7 +14,7 @@ It lets you create powerful and complex sub-commands alongside NBT-structures wi
 
 # Download #
 
-CurseForge: https://minecraft.curseforge.com/projects/world-handler-command-gui/files
+CurseForge: https://www.curseforge.com/minecraft/mc-mods/world-handler-command-gui/files/
 
 # Installation #
 
@@ -38,7 +38,7 @@ Download World Handler or build from source
 
 ## Launcher Settings ##
 
-1. Select `Forge` as your profile
+1. Select Forge as your profile
 2. Launch Minecraft
 3. Join a world or server
 4. Press `V` to open the World Handler
@@ -59,6 +59,10 @@ Download World Handler or build from source
 
 **Q:** Can i add this to my modpack ?  
 **A:** Yes, as long as you give credit
+
+# Support #
+
+Only the latest game version will be supported and updated with new features
 
 # License #
 
