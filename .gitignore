@@ -8,5 +8,6 @@
 !gradlew
 !gradlew.bat
 !build.gradle
+!LICENSE.txt
 !README.md
 !version.json
