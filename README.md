@@ -1,4 +1,4 @@
-# World Handler #
+# World Handler - Command GUI#
 
 The World Handler provides a simple and easy to use graphical user interface for commands.
 It lets you create powerful and complex sub-commands alongside NBT-structures within seconds.
