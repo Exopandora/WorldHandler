@@ -5,9 +5,10 @@
 
 !/src/
 !/gradle/
+!build.gradle
+!curseforge.html
 !gradlew
 !gradlew.bat
-!build.gradle
 !LICENSE.txt
 !README.md
 !version.json
