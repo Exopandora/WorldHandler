@@ -14,7 +14,7 @@ It lets you create powerful and complex sub-commands alongside NBT-structures wi
 
 # Download #
 
-CurseForge: https://www.curseforge.com/minecraft/mc-mods/world-handler-command-gui/files/
+Curseforge: https://www.curseforge.com/minecraft/mc-mods/world-handler-command-gui/files/
 
 # Installation #
 
