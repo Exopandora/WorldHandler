@@ -43,6 +43,11 @@ Download World Handler or build from source
 3. Join a world or server
 4. Press `V` to open the World Handler
 
+## Configuration ##
+
+≥ 1.13: Edit `..\.minecraft\config\worldhandler.toml`  
+≤ 1.12: Edit `..\.minecraft\config\worldhandler.cfg`
+
 ## Installation with ModLoader (1.6.2) ##
 
 1. Navigate to `..\.minecraft\mods`
