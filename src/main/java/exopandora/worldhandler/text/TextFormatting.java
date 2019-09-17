@@ -1,4 +1,4 @@
-package exopandora.worldhandler.format;
+package exopandora.worldhandler.text;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.math.MathHelper;
@@ -15,29 +15,24 @@ public class TextFormatting
 	
 	public static String shortenString(String str, String prefix, int maxWidth, FontRenderer fontRenderer)
 	{
-	    String display = prefix;
-	    
-	    if(fontRenderer.getStringWidth(prefix + str) > (maxWidth - fontRenderer.getStringWidth(prefix)))
-	    {
-	    	for(int x = 0; x < str.length(); x++)
-	    	{
-	    		if(fontRenderer.getStringWidth(display + str.charAt(x) + "...") < maxWidth)
-	            {
-	    			display += str.charAt(x);
-	    		}
-	    		else
-	    		{
-	    			display += "...";
-	    			break;
-	    		}
-	    	}
-	    }
-	    else
-	    {
-	    	display += str;
-	    }
+		if(fontRenderer.getStringWidth(prefix + str) > (maxWidth - fontRenderer.getStringWidth(prefix)))
+		{
+			String result = prefix;
+			
+			for(char c : str.toCharArray())
+			{
+				if(fontRenderer.getStringWidth(result + c + "...") < maxWidth)
+				{
+					result += c;
+				}
+				else
+				{
+					return result + "...";
+				}
+			}
+		}
 		
-		return display;
+		return prefix + str;
 	}
 	
 	public static String getTotalTimePlayed(long tick)
