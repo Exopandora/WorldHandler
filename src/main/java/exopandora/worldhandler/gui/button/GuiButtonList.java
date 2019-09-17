@@ -43,7 +43,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
             int maxWidth = Math.max(0, this.width - fontRenderer.getStringWidth("<   >"));
             int spaceWidth = fontRenderer.getStringWidth(" ");
             
-            String display = exopandora.worldhandler.format.TextFormatting.shortenString(this.getMessage(), maxWidth, fontRenderer);
+            String display = exopandora.worldhandler.text.TextFormatting.shortenString(this.getMessage(), maxWidth, fontRenderer);
             int yPos = this.y + (this.height - 8) / 2;
             
 			this.drawCenteredString(fontRenderer, display, this.x + this.width / 2, yPos, this.getFGColor());
