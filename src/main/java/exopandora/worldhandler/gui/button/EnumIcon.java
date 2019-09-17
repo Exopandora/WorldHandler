@@ -3,10 +3,6 @@ package exopandora.worldhandler.gui.button;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-/**
- * XXX To be replaced by a proper registry object
- */
-@Deprecated
 @OnlyIn(Dist.CLIENT)
 public enum EnumIcon
 {
