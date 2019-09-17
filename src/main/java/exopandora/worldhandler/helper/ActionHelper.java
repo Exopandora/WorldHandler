@@ -3,7 +3,6 @@ package exopandora.worldhandler.helper;
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderDifficulty;
-import exopandora.worldhandler.builder.impl.BuilderDifficulty.EnumDifficulty;
 import exopandora.worldhandler.builder.impl.BuilderGamemode;
 import exopandora.worldhandler.builder.impl.BuilderGamemode.EnumGamemode;
 import exopandora.worldhandler.builder.impl.BuilderTime;
@@ -26,6 +25,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
+import net.minecraft.world.Difficulty;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -88,22 +88,22 @@ public class ActionHelper
 	
 	public static void difficultyPeaceful()
 	{
-		CommandHelper.sendCommand(new BuilderDifficulty(EnumDifficulty.PEACEFUL));
+		CommandHelper.sendCommand(new BuilderDifficulty(Difficulty.PEACEFUL));
 	}
 	
 	public static void difficultyEasy()
 	{
-		CommandHelper.sendCommand(new BuilderDifficulty(EnumDifficulty.EASY));
+		CommandHelper.sendCommand(new BuilderDifficulty(Difficulty.EASY));
 	}
 	
 	public static void difficultyNormal()
 	{
-		CommandHelper.sendCommand(new BuilderDifficulty(EnumDifficulty.NORMAL));
+		CommandHelper.sendCommand(new BuilderDifficulty(Difficulty.NORMAL));
 	}
 	
 	public static void difficultyHard()
 	{
-		CommandHelper.sendCommand(new BuilderDifficulty(EnumDifficulty.HARD));
+		CommandHelper.sendCommand(new BuilderDifficulty(Difficulty.HARD));
 	}
 	
 	public static void gamemodeSurvival()
