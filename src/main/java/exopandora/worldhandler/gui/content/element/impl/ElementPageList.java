@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Objects;
 
 import exopandora.worldhandler.config.Config;
-import exopandora.worldhandler.format.TextFormatting;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.element.Element;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.text.TextFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.api.distmarker.Dist;
