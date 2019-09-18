@@ -2,7 +2,6 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.function.Function;
 
-import exopandora.worldhandler.format.TextFormatting;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.category.Categories;
@@ -11,6 +10,7 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.text.TextFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
