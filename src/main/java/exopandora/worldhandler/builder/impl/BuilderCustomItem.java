@@ -7,7 +7,7 @@ import exopandora.worldhandler.builder.component.impl.ComponentDisplay;
 import exopandora.worldhandler.builder.component.impl.ComponentEnchantment;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes.Applyable;
-import exopandora.worldhandler.format.text.ColoredString;
+import exopandora.worldhandler.text.MutableStringTextComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -68,12 +68,12 @@ public class BuilderCustomItem extends BuilderGive
 		return this.attribute.getAttributes();
 	}
 	
-	public void setName(ColoredString name)
+	public void setName(MutableStringTextComponent name)
 	{
 		this.display.setName(name);
 	}
 	
-	public ColoredString getName()
+	public MutableStringTextComponent getName()
 	{
 		return this.display.getName();
 	}

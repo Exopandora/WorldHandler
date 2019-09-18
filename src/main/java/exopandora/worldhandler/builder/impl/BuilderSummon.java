@@ -15,9 +15,9 @@ import exopandora.worldhandler.builder.component.impl.ComponentTag;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
 import exopandora.worldhandler.builder.impl.abstr.EnumAttributes.Applyable;
 import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
+import exopandora.worldhandler.text.MutableStringTextComponent;
 import exopandora.worldhandler.builder.types.CoordinateDouble;
 import exopandora.worldhandler.builder.types.Type;
-import exopandora.worldhandler.format.text.ColoredString;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -27,8 +27,6 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -36,7 +34,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class BuilderSummon extends CommandBuilderNBT
 {
 	private final ComponentAttributeMob attribute;
-	private final ComponentTag<ColoredString> customName;
+	private final ComponentTag<MutableStringTextComponent> customName;
 	private final ComponentTag<ListNBT> passengers;
 	private final ComponentTag<ListNBT> armorItems;
 	private final ComponentTag<ListNBT> handItems;
@@ -48,7 +46,7 @@ public class BuilderSummon extends CommandBuilderNBT
 	public BuilderSummon()
 	{
 		this.attribute = this.registerNBTComponent(new ComponentAttributeMob(attribute -> attribute.getApplyable().equals(Applyable.BOTH) || attribute.getApplyable().equals(Applyable.MOB)));
-		this.customName = this.registerNBTComponent(new ComponentTag<ColoredString>("CustomName", new ColoredString(), this::colorStringSerializer));
+		this.customName = this.registerNBTComponent(new ComponentTag<MutableStringTextComponent>("CustomName", new MutableStringTextComponent(), this::textComponentSerializer));
 		this.passengers = this.registerNBTComponent(new ComponentTag<ListNBT>("Passengers"));
 		this.armorItems = this.registerNBTComponent(new ComponentTag<ListNBT>("ArmorItems", this::itemListSerializer));
 		this.handItems = this.registerNBTComponent(new ComponentTag<ListNBT>("HandItems", this::itemListSerializer));
@@ -124,7 +122,7 @@ public class BuilderSummon extends CommandBuilderNBT
 		return this.attribute.getAttributes();
 	}
 	
-	public void setCustomName(ColoredString name)
+	public void setCustomName(MutableStringTextComponent name)
 	{
 		this.customName.setValue(name);
 	}
@@ -135,7 +133,7 @@ public class BuilderSummon extends CommandBuilderNBT
 	}
 	
 	@Nonnull
-	public ColoredString getCustomName()
+	public MutableStringTextComponent getCustomName()
 	{
 		if(this.customName.getValue() != null)
 		{
@@ -348,11 +346,11 @@ public class BuilderSummon extends CommandBuilderNBT
 		return null;
 	}
 	
-	private INBT colorStringSerializer(ColoredString string)
+	private INBT textComponentSerializer(MutableStringTextComponent string)
 	{
-		if(string.getText() != null && !string.getText().isEmpty())
+		if(string.getUnformattedComponentText() != null && !string.getUnformattedComponentText().isEmpty())
 		{
-			return new StringNBT(ITextComponent.Serializer.toJson(new StringTextComponent(string.toString())));
+			return new StringNBT(string.serialize());
 		}
 		
 		return null;

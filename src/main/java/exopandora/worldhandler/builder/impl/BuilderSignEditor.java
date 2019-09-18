@@ -3,8 +3,8 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.impl.ComponentTag;
-import exopandora.worldhandler.format.text.ColoredString;
-import exopandora.worldhandler.format.text.SignText;
+import exopandora.worldhandler.text.MutableStringTextComponent;
+import exopandora.worldhandler.text.SignText;
 import net.minecraft.nbt.StringNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -40,16 +40,16 @@ public class BuilderSignEditor extends BuilderData
 	}
 	
 	@Nullable
-	public ColoredString getColoredString(int line)
+	public MutableStringTextComponent getColoredString(int line)
 	{
 		if(this.checkBounds(line))
 		{
-			return this.sign[line].getValue().getColoredString();
+			return this.sign[line].getValue().getString();
 		}
 		
 		return null;
 	}
-
+	
 	@Nullable
 	public String getCommand(int line)
 	{
@@ -60,7 +60,7 @@ public class BuilderSignEditor extends BuilderData
 		
 		return null;
 	}
-
+	
 	@Nullable
 	public void setCommand(int line, String command)
 	{

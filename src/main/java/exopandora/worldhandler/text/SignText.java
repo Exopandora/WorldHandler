@@ -1,18 +1,16 @@
-package exopandora.worldhandler.format.text;
+package exopandora.worldhandler.text;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import javax.annotation.Nullable;
 
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SignText
 {
-	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(JsonSignLine.class, new JsonSignLineSerializer()).create();
-	
-	private ColoredString text = new ColoredString();
-	private String command;
+	private MutableStringTextComponent text = new MutableStringTextComponent();
 	private final int line;
 	
 	public SignText(int line)
@@ -25,46 +23,57 @@ public class SignText
 		return this.line;
 	}
 	
-	public ColoredString getColoredString()
+	public MutableStringTextComponent getString()
 	{
 		return this.text;
 	}
 	
-	public void setColoredString(ColoredString coloredString)
+	public void setString(MutableStringTextComponent string)
 	{
-		this.text = coloredString;
-	}
-	
-	public String getCommand()
-	{
-		return this.command;
+		this.text = string;
 	}
 	
 	public void setCommand(String command)
 	{
-		this.command = command;
+		if(command != null && !command.isEmpty())
+		{
+			this.text.getStyle().setClickEvent(new ClickEvent(Action.RUN_COMMAND, command));
+		}
+		else
+		{
+			this.text.getStyle().setClickEvent(null);
+		}
+	}
+	
+	@Nullable
+	public String getCommand()
+	{
+		if(this.hasCommand())
+		{
+			return this.text.getStyle().getClickEvent().getValue();
+		}
+		
+		return null;
 	}
 	
 	public boolean hasCommand()
 	{
-		return this.command != null && !this.command.isEmpty();
+		return this.text.getStyle().getClickEvent() != null && this.text.getStyle().getClickEvent().getAction() == Action.RUN_COMMAND && this.text.getStyle().getClickEvent().getValue() != null;
 	}
 	
 	@Override
 	public String toString()
 	{
-		if(!this.text.isSpecial() && !this.hasCommand())
+		if(this.text.getUnformattedComponentText().isEmpty())
 		{
-			return this.text.getText();
+			return this.text.getUnformattedComponentText();
 		}
 		
-		JsonSignLine line = new JsonSignLine(this.text);
-		
-		if(this.hasCommand())
+		if(this.text.getStyle().isEmpty() && !this.hasCommand())
 		{
-			line.setClickEvent(new JsonClickEvent("run_command", FormattedString.getPreformattedString(this.command)));
+			return this.text.getFormattedText();
 		}
 		
-		return GSON.toJson(line);
+		return this.text.serialize();
 	}
 }

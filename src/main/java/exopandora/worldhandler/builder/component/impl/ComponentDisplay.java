@@ -1,7 +1,7 @@
 package exopandora.worldhandler.builder.component.impl;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.format.text.ColoredString;
+import exopandora.worldhandler.text.MutableStringTextComponent;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ComponentDisplay implements IBuilderComponent 
 {
-	private ColoredString name = new ColoredString();
+	private MutableStringTextComponent name = new MutableStringTextComponent();
 	private String[] lore = new String[2];
 	
 	@Override
@@ -22,9 +22,7 @@ public class ComponentDisplay implements IBuilderComponent
 	{
 		CompoundNBT display = new CompoundNBT();
 		
-		String name = this.name.getText();
-		
-		if(name != null && !name.isEmpty())
+		if(this.name.getText() != null && !this.name.getText().isEmpty())
 		{
 			display.putString("Name", ITextComponent.Serializer.toJson(new StringTextComponent(this.name.toString())));
 		}
@@ -52,12 +50,12 @@ public class ComponentDisplay implements IBuilderComponent
 		return null;
 	}
 	
-	public void setName(ColoredString name)
+	public void setName(MutableStringTextComponent name)
 	{
 		this.name = name;
 	}
 	
-	public ColoredString getName()
+	public MutableStringTextComponent getName()
 	{
 		return this.name;
 	}

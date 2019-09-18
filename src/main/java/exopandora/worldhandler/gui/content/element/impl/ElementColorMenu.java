@@ -3,8 +3,6 @@ package exopandora.worldhandler.gui.content.element.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import exopandora.worldhandler.format.EnumColor;
-import exopandora.worldhandler.format.text.ColoredString;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
@@ -12,6 +10,7 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.element.Element;
 import exopandora.worldhandler.gui.logic.ILogicColorMenu;
 import exopandora.worldhandler.gui.logic.ILogicMapped;
+import exopandora.worldhandler.text.MutableStringTextComponent;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,40 +19,40 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ElementColorMenu extends Element
 {
-	private static final List<EnumColor> COLORS = new ArrayList<EnumColor>();
+	private static final List<TextFormatting> COLORS = new ArrayList<TextFormatting>();
 	
 	static
 	{
-		COLORS.add(EnumColor.DEFAULT);
-		COLORS.add(EnumColor.YELLOW);
-		COLORS.add(EnumColor.GOLD);
-		COLORS.add(EnumColor.DARK_RED);
-		COLORS.add(EnumColor.RED);
-		COLORS.add(EnumColor.LIGHT_PURPLE);
-		COLORS.add(EnumColor.DARK_PURPLE);
-		COLORS.add(EnumColor.BLUE);
-		COLORS.add(EnumColor.DARK_BLUE);
-		COLORS.add(EnumColor.DARK_AQUA);
-		COLORS.add(EnumColor.AQUA);
-		COLORS.add(EnumColor.GREEN);
-		COLORS.add(EnumColor.DARK_GREEN);
-		COLORS.add(EnumColor.BLACK);
-		COLORS.add(EnumColor.DARK_GRAY);
-		COLORS.add(EnumColor.GRAY);
-		COLORS.add(EnumColor.WHITE);
+		COLORS.add(TextFormatting.RESET);
+		COLORS.add(TextFormatting.YELLOW);
+		COLORS.add(TextFormatting.GOLD);
+		COLORS.add(TextFormatting.DARK_RED);
+		COLORS.add(TextFormatting.RED);
+		COLORS.add(TextFormatting.LIGHT_PURPLE);
+		COLORS.add(TextFormatting.DARK_PURPLE);
+		COLORS.add(TextFormatting.BLUE);
+		COLORS.add(TextFormatting.DARK_BLUE);
+		COLORS.add(TextFormatting.DARK_AQUA);
+		COLORS.add(TextFormatting.AQUA);
+		COLORS.add(TextFormatting.GREEN);
+		COLORS.add(TextFormatting.DARK_GREEN);
+		COLORS.add(TextFormatting.BLACK);
+		COLORS.add(TextFormatting.DARK_GRAY);
+		COLORS.add(TextFormatting.GRAY);
+		COLORS.add(TextFormatting.WHITE);
 	}
 	
 	private GuiTextFieldTooltip textField;
-	private final ColoredString string;
+	private final MutableStringTextComponent string;
 	private final ILogicColorMenu logic;
 	private final String translationKey;
 	
-	public ElementColorMenu(int x, int y, String translationKey, ColoredString string)
+	public ElementColorMenu(int x, int y, String translationKey, MutableStringTextComponent string)
 	{
 		this(x, y, translationKey, string, new ILogicColorMenu(){});
 	}
 	
-	public ElementColorMenu(int x, int y, String translationKey, ColoredString string, ILogicColorMenu logic)
+	public ElementColorMenu(int x, int y, String translationKey, MutableStringTextComponent string, ILogicColorMenu logic)
 	{
 		super(x, y);
 		this.translationKey = translationKey;
@@ -66,7 +65,7 @@ public class ElementColorMenu extends Element
 	{
 		this.textField = new GuiTextFieldTooltip(this.x + 118, this.y, 114, 20, I18n.format(this.translationKey));
 		this.textField.setValidator(this.logic::validate);
-		this.textField.setTextFormatter(this.string::textFormatter);
+		this.textField.setTextFormatter(this.string::formatter);
 		this.textField.setText(this.string.getText());
 		this.textField.func_212954_a(text ->
 		{
@@ -81,30 +80,30 @@ public class ElementColorMenu extends Element
 		
 		if(this.logic.doDrawButtons())
 		{
-			container.add(new GuiButtonList<EnumColor>(this.x + 118, this.y + 24, COLORS, 114, 20, container, new ILogicMapped<EnumColor>()
+			container.add(new GuiButtonList<TextFormatting>(this.x + 118, this.y + 24, COLORS, 114, 20, container, new ILogicMapped<TextFormatting>()
 			{
 				@Override
-				public String translate(EnumColor item)
+				public String translate(TextFormatting item)
 				{
-					return item + I18n.format("gui.worldhandler.color") + ": " + I18n.format("gui.worldhandler.color." + item.getName());
+					return item + I18n.format("gui.worldhandler.color") + ": " + I18n.format("gui.worldhandler.color." + item.getFriendlyName());
 				}
 				
 				@Override
-				public String toTooltip(EnumColor item)
+				public String toTooltip(TextFormatting item)
 				{
 					return null;
 				}
 				
 				@Override
-				public String formatTooltip(EnumColor item, int index, int max)
+				public String formatTooltip(TextFormatting item, int index, int max)
 				{
 					return null;
 				}
 				
 				@Override
-				public void onClick(EnumColor item)
+				public void onClick(TextFormatting item)
 				{
-					ElementColorMenu.this.string.setColor(item);
+					ElementColorMenu.this.string.getStyle().setColor(item);
 				}
 				
 				@Override
@@ -114,29 +113,29 @@ public class ElementColorMenu extends Element
 				}
 			}));
 			
-			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, (this.string.isItalic() ? TextFormatting.ITALIC : TextFormatting.RESET) + "I", () ->
+			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, (this.string.getStyle().getItalic() ? TextFormatting.ITALIC : TextFormatting.RESET) + "I", () ->
 			{
-				this.string.setItalic(!this.string.isItalic());
+				this.string.getStyle().setItalic(!this.string.getStyle().getItalic());
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, (this.string.isBold() ? TextFormatting.BOLD : TextFormatting.RESET) + "B", () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, (this.string.getStyle().getBold() ? TextFormatting.BOLD : TextFormatting.RESET) + "B", () ->
 			{
-				this.string.setBold(!this.string.isBold());
+				this.string.getStyle().setBold(!this.string.getStyle().getBold());
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, (this.string.isUnderlined() ? TextFormatting.UNDERLINE : TextFormatting.RESET) + "U", () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, (this.string.getStyle().getUnderlined() ? TextFormatting.UNDERLINE : TextFormatting.RESET) + "U", () ->
 			{
-				this.string.setUnderlined(!this.string.isUnderlined());
+				this.string.getStyle().setUnderlined(!this.string.getStyle().getUnderlined());
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, (this.string.isStriked() ? TextFormatting.STRIKETHROUGH : TextFormatting.RESET) + "S", () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, (this.string.getStyle().getStrikethrough() ? TextFormatting.STRIKETHROUGH : TextFormatting.RESET) + "S", () ->
 			{
-				this.string.setStriked(!this.string.isStriked());
+				this.string.getStyle().setStrikethrough(!this.string.getStyle().getStrikethrough());
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, (this.string.isObfuscated() ? TextFormatting.OBFUSCATED : TextFormatting.RESET) + "O", () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, (this.string.getStyle().getObfuscated() ? TextFormatting.OBFUSCATED : TextFormatting.RESET) + "O", () ->
 			{
-				this.string.setObfuscated(!this.string.isObfuscated());
+				this.string.getStyle().setObfuscated(!this.string.getStyle().getObfuscated());
 				container.init();
 			}));
 		}

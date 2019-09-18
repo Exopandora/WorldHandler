@@ -153,9 +153,9 @@ public class ContentSignEditor extends Content
 	@Override
 	public void tick(Container container)
 	{
-		if(this.editColor)
+		if(!this.editColor)
 		{
-			
+			this.commandField.tick();
 		}
 	}
 	
