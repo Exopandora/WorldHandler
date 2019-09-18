@@ -10,7 +10,6 @@ import com.google.common.base.Predicates;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderScoreboardObjectives;
 import exopandora.worldhandler.builder.impl.BuilderScoreboardObjectives.EnumMode;
-import exopandora.worldhandler.format.EnumColor;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
@@ -26,6 +25,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -97,7 +97,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 						}
 					}
 					
-					if(Arrays.stream(EnumColor.values()).map(EnumColor::getName).anyMatch(Predicates.equalTo(key)))
+					if(Arrays.stream(TextFormatting.values()).map(TextFormatting::getFriendlyName).anyMatch(Predicates.equalTo(key)))
 					{
 						return I18n.format("gui.worldhandler.color." + key);
 					}
