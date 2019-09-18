@@ -8,7 +8,6 @@ import com.google.common.base.Predicates;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderTeams;
 import exopandora.worldhandler.builder.impl.BuilderTeams.EnumMode;
-import exopandora.worldhandler.format.EnumColor;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
@@ -20,6 +19,7 @@ import exopandora.worldhandler.gui.logic.ILogicClickList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -65,7 +65,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 					}
 					else if(depth == 1)
 					{
-						if(Arrays.stream(EnumColor.values()).map(EnumColor::getName).anyMatch(Predicates.equalTo(key)))
+						if(Arrays.stream(TextFormatting.values()).map(TextFormatting::getFriendlyName).anyMatch(Predicates.equalTo(key)))
 						{
 							return I18n.format("gui.worldhandler.color." + key);
 						}
