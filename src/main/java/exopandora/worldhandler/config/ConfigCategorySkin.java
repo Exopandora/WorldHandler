@@ -12,7 +12,7 @@ import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 @OnlyIn(Dist.CLIENT)
 public class ConfigCategorySkin
 {
-	private int iconSize;
+	private EnumIconSize iconSize;
 	private int labelColor;
 	private int headlineColor;
 	private int backgroundRed;
@@ -27,7 +27,7 @@ public class ConfigCategorySkin
 	private boolean sharpEdges;
 	private boolean drawBackground;
 	
-	private final ConfigValue<Integer> valueIconSize;
+	private final ConfigValue<EnumIconSize> valueIconSize;
 	private final IntValue valueLabelColor;
 	private final IntValue valueHeadlineColor;
 	private final IntValue valueBackgroundRed;
@@ -49,7 +49,7 @@ public class ConfigCategorySkin
 		this.valueIconSize = builder
 				.translation("gui.worldhandler.config.skin.icon_size")
 				.comment("Size of the icons")
-				.defineInList("icon_size", 16, Arrays.asList(16, 32, 64));
+				.defineEnum("icon_size", EnumIconSize.x16, EnumIconSize.values());
 		this.valueLabelColor = builder
 				.translation("gui.worldhandler.config.skin.label_color")
 				.comment("Label color")
@@ -146,12 +146,12 @@ public class ConfigCategorySkin
 		Config.set(this.valueDrawBackground, this.drawBackground);
 	}
 	
-	public int getIconSize()
+	public EnumIconSize getIconSize()
 	{
 		return this.iconSize;
 	}
 	
-	public void setIconSize(int size)
+	public void setIconSize(EnumIconSize size)
 	{
 		this.iconSize = size;
 		this.write();
@@ -338,5 +338,13 @@ public class ConfigCategorySkin
 	{
 		this.buttonAlpha = alpha;
 		this.write();
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum EnumIconSize
+	{
+		x16,
+		x32,
+		x64;
 	}
 }
