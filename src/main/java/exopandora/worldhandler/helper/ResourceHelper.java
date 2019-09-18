@@ -90,7 +90,7 @@ public class ResourceHelper
 	
 	public static ResourceLocation getIconTexture()
 	{
-		return new ResourceLocation(Main.MODID, "textures/icons/icons" + Config.getSkin().getIconSize() + ".png");
+		return new ResourceLocation(Main.MODID, "textures/icons/icons_" + Config.getSkin().getIconSize().name() + ".png");
 	}
 	
 	public static ResourceLocation getButtonTexture()
