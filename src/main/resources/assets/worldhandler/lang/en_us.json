@@ -249,6 +249,8 @@
 
 	"gui.worldhandler.edit_blocks.fill.block_id_to_fill": "Block ID To Fill",
 
+	"gui.worldhandler.edit_blocks.clone.filter": "Filter",
+
 	"gui.worldhandler.edit_blocks.clone.mode.replace": "Replace",
 	"gui.worldhandler.edit_blocks.clone.mode.masked": "Masked",
 	"gui.worldhandler.edit_blocks.clone.mode.filtered": "Filtered",

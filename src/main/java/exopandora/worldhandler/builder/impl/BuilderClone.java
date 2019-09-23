@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nullable;
+
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.impl.abstr.BuilderDoubleBlockPos;
 import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
@@ -19,7 +21,6 @@ public class BuilderClone extends BuilderDoubleBlockPos
 		this.setY(new CoordinateInt(CoordinateType.GLOBAL));
 		this.setZ(new CoordinateInt(CoordinateType.GLOBAL));
 		this.setMask(EnumMask.values()[0]);
-		this.setNode(10, "force");
 	}
 	
 	public void setPosition(BlockPos pos)
@@ -104,6 +105,30 @@ public class BuilderClone extends BuilderDoubleBlockPos
 		return EnumHelper.valueOf(this.getNodeAsString(9), EnumMask.class);
 	}
 	
+	public void setFilter(String filter)
+	{
+		if(filter != null)
+		{
+			this.setMask(EnumMask.FILTERED);
+			this.setNode(10, filter);
+		}
+		else
+		{
+			this.setNode(10, filter);
+		}
+	}
+	
+	@Nullable
+	public String getFilter()
+	{
+		if(EnumMask.FILTERED.equals(this.getMask()))
+		{
+			return this.getNodeAsString(10);
+		}
+		
+		return null;
+	}
+	
 	@Override
 	public String getCommandName()
 	{
@@ -133,9 +158,9 @@ public class BuilderClone extends BuilderDoubleBlockPos
 	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMask
 	{
-		REPLACE,
+		FILTERED,
 		MASKED,
-		FILTERED;
+		REPLACE;
 		
 		@Override
 		public String toString()

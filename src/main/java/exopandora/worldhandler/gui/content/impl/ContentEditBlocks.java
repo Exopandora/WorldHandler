@@ -4,12 +4,14 @@ import java.util.Arrays;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.mojang.brigadier.StringReader;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderClone;
 import exopandora.worldhandler.builder.impl.BuilderClone.EnumMask;
 import exopandora.worldhandler.builder.impl.BuilderFill;
 import exopandora.worldhandler.builder.impl.BuilderWH;
+import exopandora.worldhandler.command.CommandWH.StringBlockPredicateArgument;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
@@ -42,12 +44,15 @@ public class ContentEditBlocks extends Content
 	private GuiTextFieldTooltip block1Field;
 	private GuiTextFieldTooltip block2Field;
 	
+	private GuiTextFieldTooltip filterField;
+	
 	private final BuilderFill builderFill = BlockHelper.addPositionObservers(new BuilderFill(), builder -> builder::setPosition1, builder -> builder::setPosition2);
 	private final BuilderClone builderClone = BlockHelper.addPositionObservers(new BuilderClone(), builder -> builder::setPosition1, builder -> builder::setPosition2);
 	private final BuilderWH builderWH = new BuilderWH();
 	
 	private String block1;
 	private String block2;
+	private String filter;
 	
 	private String selectedPage = "coordinates";
 	
@@ -138,6 +143,16 @@ public class ContentEditBlocks extends Content
 		{
 			this.block2 = text;
 			this.builderFill.setBlock2(this.block2);
+			container.initButtons();
+		});
+		
+		this.filterField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.edit_blocks.clone.filter"));
+		this.filterField.setValidator(Predicates.notNull());
+		this.filterField.setText(this.filter);
+		this.filterField.func_212954_a(text ->
+		{
+			this.filter = text;
+			this.builderClone.setFilter(this.filter);
 			container.initButtons();
 		});
 	}
@@ -236,11 +251,23 @@ public class ContentEditBlocks extends Content
 		{
 			button4.active = false;
 			
-			yOffset1 = 24;
+			yOffset1 = 48;
 			yOffset2 = 48;
-			width1 = 114;
-			width2 = 114;
-			xOffset2 = 0;
+			width1 = 56;
+			width2 = 56;
+			xOffset2 = 58;
+			
+			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
+			{
+				this.builderClone.setFilter(this.filter);
+				container.add(this.filterField);
+			}
+			else
+			{
+				this.builderClone.setFilter(null);
+				container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, null, null));
+				button1.active = false;
+			}
 			
 			container.add(new GuiButtonList<EnumMask>(x + 118, y, Arrays.asList(EnumMask.values()), 114, 20, container, new ILogicMapped<EnumMask>()
 			{
@@ -260,6 +287,7 @@ public class ContentEditBlocks extends Content
 				public void onClick(EnumMask item)
 				{
 					ContentEditBlocks.this.builderClone.setMask(item);
+					container.init();
 				}
 				
 				@Override
@@ -269,10 +297,22 @@ public class ContentEditBlocks extends Content
 				}
 			}));
 			
-			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.clone"), () ->
+			container.add(button2 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.clone"), () ->
 			{
 				CommandHelper.sendCommand(this.builderClone);
 			}));
+			
+			try
+			{
+				if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
+				{
+					StringBlockPredicateArgument.blockPredicate().parse(new StringReader(this.builderClone.getFilter()));
+				}
+			}
+			catch(Exception e)
+			{
+				button2.active = false;
+			}
 		}
 		
 		container.add(new GuiButtonBase(x + 118, y + yOffset1, width1, 20, I18n.format("gui.worldhandler.edit_blocks.pos.set_pos_1"), () ->
@@ -309,6 +349,13 @@ public class ContentEditBlocks extends Content
 			this.block1Field.tick();
 			this.block2Field.tick();
 		}
+		else if(this.selectedPage.equals("clone"))
+		{
+			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
+			{
+				this.filterField.tick();
+			}
+		}
 	}
 	
 	@Override
@@ -332,6 +379,13 @@ public class ContentEditBlocks extends Content
 		{
 			this.block1Field.renderButton(mouseX, mouseY, partialTicks);
 			this.block2Field.renderButton(mouseX, mouseY, partialTicks);
+		}
+		else if(this.selectedPage.equals("clone"))
+		{
+			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
+			{
+				this.filterField.renderButton(mouseX, mouseY, partialTicks);
+			}
 		}
 	}
 	
