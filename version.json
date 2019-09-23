@@ -2,10 +2,10 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.14.4-latest": "2.6.2",
-		"1.14.4-recommended": "2.6.2",
-		"1.14.3-latest": "2.6.2",
-		"1.14.3-recommended": "2.6.2",
+		"1.14.4-latest": "2.6.3",
+		"1.14.4-recommended": "2.6.3",
+		"1.14.3-latest": "2.6.3",
+		"1.14.3-recommended": "2.6.3",
 		"1.14.2-latest": "2.5.2",
 		"1.14.2-recommended": "2.5.2",
 		"1.13.2-latest": "2.4.1",
@@ -51,6 +51,7 @@
 	},
 	"1.14.3":
 	{
+		"2.6.3": "- Updated mods.toml description\n- Fixed \"/wh clone filtered\"\n- Fixed wrong translation string for permission query message",
 		"2.6.2": "- Update to 1.14.4"
 	},
 	"1.14.3":
