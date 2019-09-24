@@ -110,12 +110,9 @@ public class BuilderClone extends BuilderDoubleBlockPos
 		if(filter != null)
 		{
 			this.setMask(EnumMask.FILTERED);
-			this.setNode(10, filter);
 		}
-		else
-		{
-			this.setNode(10, filter);
-		}
+		
+		this.setNode(10, filter);
 	}
 	
 	@Nullable
