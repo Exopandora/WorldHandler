@@ -6,7 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 
-import exopandora.worldhandler.util.UtilKeyBinding;
+import exopandora.worldhandler.event.KeyHandler;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -121,7 +121,7 @@ public class Config
 			Config.CONFIG_DATA.load();
 			Config.CLIENT.read();
 			
-			UtilKeyBinding.updatePosKeys();
+			KeyHandler.updatePosKeys();
 		}
 	}
 }

@@ -4,10 +4,10 @@ package exopandora.worldhandler.gui.content.impl;
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderSignEditor;
 import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.event.KeyHandler;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.category.Categories;
@@ -190,7 +190,7 @@ public class ContentSignEditor extends Content
     		RenderHelper.disableStandardItemLighting();
 			GlStateManager.popMatrix();
 			
-			String displayString = I18n.format("gui.worldhandler.blocks.sign_editor.look_at_sign", WorldHandler.KEY_WORLD_HANDLER.getLocalizedName());
+			String displayString = I18n.format("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.getLocalizedName());
 			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 			fontRenderer.drawString(displayString, x + 116 - fontRenderer.getStringWidth(displayString) / 2, y + 70, Config.getSkin().getLabelColor());
 		}

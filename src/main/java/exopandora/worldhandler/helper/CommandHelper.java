@@ -13,7 +13,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class CommandHelper
 {
 	public static void sendFeedback(CommandSource source, String message)
@@ -32,11 +31,13 @@ public class CommandHelper
 		CommandWH.register(dispatcher);
 	}
 	
+	@OnlyIn(Dist.CLIENT)
 	public static void sendCommand(ICommandBuilder builder)
 	{
 		CommandHelper.sendCommand(builder, false);
 	}
 	
+	@OnlyIn(Dist.CLIENT)
 	public static void sendCommand(ICommandBuilder builder, boolean special)
 	{
 		if(builder != null)

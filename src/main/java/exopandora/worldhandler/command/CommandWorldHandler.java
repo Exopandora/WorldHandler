@@ -11,6 +11,8 @@ import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 
@@ -22,7 +24,7 @@ public class CommandWorldHandler
 				.then(Commands.literal("help")
 					.executes(context -> help(context.getSource())))
 				.then(Commands.literal("display")
-					.executes(context -> display()))
+					.executes(context -> display(context.getSource())))
 				.then(Commands.literal("version")
 					.executes(context -> version(context.getSource()))));
 	}
@@ -35,9 +37,9 @@ public class CommandWorldHandler
 		return 1;
 	}
 	
-	private static int display() throws CommandSyntaxException
+	private static int display(CommandSource source) throws CommandSyntaxException
 	{
-		Minecraft.getInstance().execute(ActionHelper::displayGui);
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().execute(ActionHelper::displayGui));
 		return 1;
 	}
 	

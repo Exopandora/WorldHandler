@@ -16,6 +16,7 @@ import exopandora.worldhandler.builder.impl.BuilderFill;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.CommandHelper;
+import exopandora.worldhandler.helper.EnumHelper;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.BlockPredicateArgument;
@@ -24,6 +25,8 @@ import net.minecraft.command.arguments.BlockStateInput;
 import net.minecraft.command.arguments.BlockStateParser;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CommandWH
@@ -36,80 +39,105 @@ public class CommandWH
 				.then(Commands.literal("pos2")
 					.executes(context -> pos2(context.getSource())))
 				.then(Commands.literal("fill")
-					.requires(context -> context.hasPermissionLevel(2))
+					.requires(source -> source.hasPermissionLevel(2))
 						.then(Commands.argument("block", BlockStateArgument.blockState())
 							.executes(context -> fill(context.getSource(), BlockStateArgument.getBlockState(context, "block")))))
 				.then(Commands.literal("replace")
-					.requires(context -> context.hasPermissionLevel(2))
+					.requires(source -> source.hasPermissionLevel(2))
 						.then(Commands.argument("block", BlockStateArgument.blockState())
 							.then(Commands.argument("replace", BlockStateArgument.blockState())
 								.executes(context -> replace(context.getSource(), BlockStateArgument.getBlockState(context, "block"), BlockStateArgument.getBlockState(context, "replace"))))))
 				.then(Commands.literal("clone")
-					.requires(context -> context.hasPermissionLevel(2))
-					.executes(context -> clone(context.getSource(), EnumMask.MASKED))
+					.requires(source -> source.hasPermissionLevel(2))
+					.executes(context -> clone(context.getSource(), "masked"))
 						.then(Commands.literal("filtered")
 							.then(Commands.argument("filter", StringBlockPredicateArgument.blockPredicate())
-								.executes(context -> clone(context.getSource(), StringBlockPredicateArgument.getBlockPredicate(context, "filter")))))
+								.executes(context -> clone(context.getSource(), "filter", StringBlockPredicateArgument.getBlockPredicate(context, "filter")))))
 						.then(Commands.literal("masked")
-								.executes(context -> clone(context.getSource(), EnumMask.MASKED)))
+								.executes(context -> clone(context.getSource(), "masked")))
 						.then(Commands.literal("replace")
-							.executes(context -> clone(context.getSource(), EnumMask.REPLACE)))));
+							.executes(context -> clone(context.getSource(), "replace")))));
 	}
 	
 	private static int pos1(CommandSource source) throws CommandSyntaxException
 	{
-		BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
-		BlockPos pos = BlockHelper.getPos1();
-		ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
-		CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		{
+			BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
+			BlockPos pos = BlockHelper.getPos1();
+			ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+			CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+		});
+		
 		return 1;
 	}
 	
 	private static int pos2(CommandSource source) throws CommandSyntaxException
 	{
-		BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
-		BlockPos pos = BlockHelper.getPos2();
-		ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
-		CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		{
+			BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
+			BlockPos pos = BlockHelper.getPos2();
+			ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+			CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+		});
+		
 		return 1;
 	}
 	
 	private static int fill(CommandSource source, BlockStateInput block)
 	{
-		BuilderFill builder = new BuilderFill();
-		builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-		CommandHelper.sendCommand(builder);
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		{
+			BuilderFill builder = new BuilderFill();
+			builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
+			CommandHelper.sendCommand(builder);
+		});
+		
 		return 1;
 	}
 	
 	private static int replace(CommandSource source, BlockStateInput block, BlockStateInput replace)
 	{
-		BuilderFill builder = new BuilderFill();
-		builder.setPosition1(BlockHelper.getPos1());
-		builder.setPosition2(BlockHelper.getPos2());
-		builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-		builder.setBlock2(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
-		CommandHelper.sendCommand(builder);
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		{
+			BuilderFill builder = new BuilderFill();
+			builder.setPosition1(BlockHelper.getPos1());
+			builder.setPosition2(BlockHelper.getPos2());
+			builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
+			builder.setBlock2(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
+			CommandHelper.sendCommand(builder);
+		});
+		
 		return 1;
 	}
 	
-	private static int clone(CommandSource source, String filter)
+	private static int clone(CommandSource source, String mask, String filter)
 	{
-		BuilderClone builder = new BuilderClone();
-		builder.setPosition1(BlockHelper.getPos1());
-		builder.setPosition2(BlockHelper.getPos2());
-		builder.setFilter(filter);
-		CommandHelper.sendCommand(builder);
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		{
+			BuilderClone builder = new BuilderClone();
+			builder.setPosition1(BlockHelper.getPos1());
+			builder.setPosition2(BlockHelper.getPos2());
+			builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
+			builder.setFilter(filter);
+			CommandHelper.sendCommand(builder);
+		});
+		
 		return 1;
 	}
 	
-	private static int clone(CommandSource source, EnumMask mask)
+	private static int clone(CommandSource source, String mask)
 	{
-		BuilderClone builder = new BuilderClone();
-		builder.setPosition1(BlockHelper.getPos1());
-		builder.setPosition2(BlockHelper.getPos2());
-		builder.setMask(mask);
-		CommandHelper.sendCommand(builder);
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		{
+			BuilderClone builder = new BuilderClone();
+			builder.setPosition1(BlockHelper.getPos1());
+			builder.setPosition2(BlockHelper.getPos2());
+			builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
+			CommandHelper.sendCommand(builder);
+		});
+		
 		return 1;
 	}
 	
