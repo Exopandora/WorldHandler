@@ -15,6 +15,7 @@ import exopandora.worldhandler.Main;
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderWorldHandler;
 import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.event.KeyHandler;
 import exopandora.worldhandler.gui.button.EnumIcon;
 import exopandora.worldhandler.gui.button.GuiButtonIcon;
 import exopandora.worldhandler.gui.button.GuiButtonTab;
@@ -626,6 +627,25 @@ public class GuiWorldHandler extends Container
 		}
 		
 		return super.mouseClicked(mouseX, mouseY, keyCode);
+	}
+	
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
+	{
+		boolean focused = this.getFocused() != null;
+		
+		if(focused && this.getFocused() instanceof Widget)
+		{
+			focused = ((Widget) this.getFocused()).isFocused();
+		}
+		
+		if(!focused && KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER, keyCode))
+		{
+			this.onClose();
+			return true;
+		}
+		
+		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 	
 	@Override

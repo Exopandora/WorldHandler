@@ -12,6 +12,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
@@ -27,19 +28,29 @@ public class KeyHandler
 	{
 		if(Minecraft.getInstance() != null && Minecraft.getInstance().currentScreen == null)
 		{
-			if(KeyHandler.KEY_WORLD_HANDLER.isPressed())
+			if(KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER))
 			{
 				ActionHelper.displayGui();
 			}
-			else if(KeyHandler.KEY_WORLD_HANDLER_POS1.isPressed() && Config.getSettings().shortcutKeys())
+			else if(KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER_POS1) && Config.getSettings().shortcutKeys())
 			{
 				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
 			}
-			else if(KeyHandler.KEY_WORLD_HANDLER_POS2.isPressed() && Config.getSettings().shortcutKeys())
+			else if(KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER_POS2) && Config.getSettings().shortcutKeys())
 			{
 				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
 			}
 		}
+	}
+	
+	public static boolean isPressed(KeyBinding keyBinding)
+	{
+		return keyBinding.isPressed() && (KeyModifier.NONE.equals(keyBinding.getKeyModifier()) || KeyModifier.getActiveModifier().equals(keyBinding.getKeyModifier()));
+	}
+	
+	public static boolean isPressed(KeyBinding keyBinding, int keyCode)
+	{
+		return keyCode == keyBinding.getKey().getKeyCode() && (KeyModifier.NONE.equals(keyBinding.getKeyModifier()) || KeyModifier.getActiveModifier().equals(keyBinding.getKeyModifier()));
 	}
 	
 	public static void updatePosKeys()
