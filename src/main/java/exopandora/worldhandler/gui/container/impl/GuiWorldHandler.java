@@ -12,7 +12,6 @@ import com.google.common.base.Predicates;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.impl.BuilderWorldHandler;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.event.KeyHandler;
@@ -56,6 +55,8 @@ public class GuiWorldHandler extends Container
 	
 	private GuiTextFieldTooltip syntaxField;
 	private GuiTextFieldTooltip nameField;
+	
+	private static String player = Minecraft.getInstance().getSession().getUsername();
 	
 	private static final BuilderWorldHandler BUILDER_WORLD_HANDLER = new BuilderWorldHandler();
 	
@@ -133,7 +134,7 @@ public class GuiWorldHandler extends Container
 			this.nameField.setText(this.getPlayer());
 			this.nameField.setResponder(text -> 
 			{
-				WorldHandler.USERNAME = text;
+				GuiWorldHandler.player = text;
 				this.updateNameField();
 			});
 			this.updateNameField();
@@ -282,7 +283,7 @@ public class GuiWorldHandler extends Container
 		final int backgroundX = this.getBackgroundX();
 		final int backgroundY = this.getBackgroundY();
 		
-		if(WorldHandler.USERNAME.isEmpty())
+		if(GuiWorldHandler.player.isEmpty())
 		{
 			int width = this.font.getStringWidth(I18n.format("gui.worldhandler.generic.edit_username")) + 2;
 			this.nameField.setWidth(width);
@@ -290,12 +291,12 @@ public class GuiWorldHandler extends Container
 		}
 		else
 		{
-			int width = this.font.getStringWidth(WorldHandler.USERNAME) + 2;
+			int width = this.font.getStringWidth(GuiWorldHandler.player) + 2;
 			this.nameField.setWidth(width);
 			this.nameField.setPosition(backgroundX + this.bgTextureWidth - this.getWatchOffset() - 7 - width, backgroundY + 6);
 		}
 		
-		this.content.onPlayerNameChanged(WorldHandler.USERNAME);
+		this.content.onPlayerNameChanged(GuiWorldHandler.player);
 	}
 	
 	private void defaultColor()
@@ -499,7 +500,7 @@ public class GuiWorldHandler extends Container
 			
 			//TITLE
 			
-			final int maxWidth = this.bgTextureWidth - 7 - 2 - this.font.getStringWidth(WorldHandler.USERNAME) - 2 - this.getWatchOffset() - 7;
+			final int maxWidth = this.bgTextureWidth - 7 - 2 - this.font.getStringWidth(GuiWorldHandler.player) - 2 - this.getWatchOffset() - 7;
 			this.font.drawString(TextFormatting.shortenString(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			//HEADLINE
@@ -519,7 +520,7 @@ public class GuiWorldHandler extends Container
 			
 			//NAME FIELD
 			
-			final String username = WorldHandler.USERNAME.isEmpty() && !this.nameField.isFocused() ? I18n.format("gui.worldhandler.generic.edit_username") : WorldHandler.USERNAME;
+			final String username = GuiWorldHandler.player.isEmpty() && !this.nameField.isFocused() ? I18n.format("gui.worldhandler.generic.edit_username") : GuiWorldHandler.player;
 			this.font.drawString(username, backgroundX + 232 - this.font.getStringWidth(username), backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			//WATCH
@@ -664,7 +665,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public String getPlayer()
 	{
-		return WorldHandler.USERNAME;
+		return GuiWorldHandler.player;
 	}
 	
 	@Override

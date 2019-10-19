@@ -3,19 +3,19 @@ package exopandora.worldhandler.builder.impl;
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.Syntax;
 import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.Type;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class BuilderSpawnpoint extends CommandBuilder
 {
-	public BuilderSpawnpoint(String player)
+	public BuilderSpawnpoint()
 	{
-		this.setX(new CoordinateInt(CoordinateType.LOCAL));
-		this.setY(new CoordinateInt(CoordinateType.LOCAL));
-		this.setZ(new CoordinateInt(CoordinateType.LOCAL));
+		this.setX(new CoordinateInt(CoordinateType.GLOBAL));
+		this.setY(new CoordinateInt(CoordinateType.GLOBAL));
+		this.setZ(new CoordinateInt(CoordinateType.GLOBAL));
 	}
 	
 	@Override

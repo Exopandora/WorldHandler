@@ -2,7 +2,6 @@ package exopandora.worldhandler.gui.content.impl;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGeneric;
 import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
@@ -40,7 +39,7 @@ public class ContentPlayer extends Content
 	private GuiTextFieldTooltip xpField;
 	
 	private final BuilderGeneric builderSetworldspawn = new BuilderGeneric("setworldspawn");
-	private final BuilderSpawnpoint builderSpawnpoint = new BuilderSpawnpoint(WorldHandler.USERNAME);
+	private final BuilderSpawnpoint builderSpawnpoint = new BuilderSpawnpoint();
 	private final BuilderPlayer builderKill = new BuilderPlayer("kill");
 	private final BuilderGeneric builderClear = new BuilderGeneric("clear");
 	

@@ -9,7 +9,6 @@ import exopandora.worldhandler.event.KeyHandler;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.helper.CommandHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -27,7 +26,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class WorldHandler
 {
 	public static final Logger LOGGER = LogManager.getLogger();
-	public static String USERNAME = null;
 	
 	public WorldHandler()
 	{
@@ -43,6 +41,11 @@ public class WorldHandler
 			modEventBus.addGenericListener(Content.class, Content::register);
 			modEventBus.addGenericListener(Category.class, Category::register);
 		});
+//		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () ->
+//		{
+//			GuiFactoryWorldHandler factory = new GuiFactoryWorldHandler();
+//			return (minecraft, parentScreen) -> factory.createConfigGui(parentScreen);
+//		});
 	}
 	
 	@SubscribeEvent
@@ -52,7 +55,6 @@ public class WorldHandler
 		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::renderWorldLastEvent);
 		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::clientChatEvent);
 		
-		USERNAME = Minecraft.getInstance().getSession().getUsername();
 		ClientRegistry.registerKeyBinding(KeyHandler.KEY_WORLD_HANDLER);
 		KeyHandler.updatePosKeys();
 	}
