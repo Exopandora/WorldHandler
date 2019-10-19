@@ -87,7 +87,7 @@ public class ContentCustomItem extends Content
 		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.item_id"));
 		this.itemField.setValidator(Predicates.<String>notNull());
 		this.itemField.setText(this.item);
-		this.itemField.func_212954_a(text ->
+		this.itemField.setResponder(text ->
 		{
 			this.item = text;
 			this.builderCutomItem.setItem(this.item);
@@ -97,7 +97,7 @@ public class ContentCustomItem extends Content
 		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.lore_1"));
 		this.itemLore1Field.setValidator(Predicates.<String>notNull());
 		this.itemLore1Field.setText(this.builderCutomItem.getLore1());
-		this.itemLore1Field.func_212954_a(text ->
+		this.itemLore1Field.setResponder(text ->
 		{
 			this.builderCutomItem.setLore1(text);
 			container.initButtons();
@@ -106,7 +106,7 @@ public class ContentCustomItem extends Content
 		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.lore_2"));
 		this.itemLore2Field.setValidator(Predicates.<String>notNull());
 		this.itemLore2Field.setText(this.builderCutomItem.getLore2());
-		this.itemLore2Field.func_212954_a(text ->
+		this.itemLore2Field.setResponder(text ->
 		{
 			this.builderCutomItem.setLore2(text);
 			container.initButtons();

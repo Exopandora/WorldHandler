@@ -51,7 +51,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		this.objectField = new GuiTextFieldTooltip(x + 118, y + (this.selectedObjective.equals("remove") ? 24 : 0), 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setValidator(Predicates.notNull());
 		this.objectField.setText(ContentScoreboard.getObjective());
-		this.objectField.func_212954_a(text ->
+		this.objectField.setResponder(text ->
 		{
 			ContentScoreboard.setObjective(text);
 			this.builderObjectives.setObjective(ContentScoreboard.getObjective());

@@ -103,7 +103,7 @@ public class ContentSummon extends Content
 		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.entities.summon.start.mob_id") + " (" + I18n.format("gui.worldhandler.generic.name") + ")");
 		this.mobField.setValidator(Predicates.notNull());
 		this.mobField.setText(this.mob);
-		this.mobField.func_212954_a(text ->
+		this.mobField.setResponder(text ->
 		{
 			this.mob = text;
 			this.builderSummon.setEntity(this.mob);
@@ -113,7 +113,7 @@ public class ContentSummon extends Content
 		this.customNameField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.entities.summon.start.custom_name"));
 		this.customNameField.setValidator(Predicates.notNull());
 		this.customNameField.setText(this.name);
-		this.customNameField.func_212954_a(text ->
+		this.customNameField.setResponder(text ->
 		{
 			this.name = text;
 			this.builderSummon.setCustomName(this.name);
@@ -123,7 +123,7 @@ public class ContentSummon extends Content
 		this.passengerField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.entities.summon.start.passenger_mob_id"));
 		this.passengerField.setValidator(Predicates.notNull());
 		this.passengerField.setText(this.passenger);
-		this.passengerField.func_212954_a(text ->
+		this.passengerField.setResponder(text ->
 		{
 			this.passenger = this.passengerField.getText();
 			this.builderSummon.setPassenger(this.passenger);

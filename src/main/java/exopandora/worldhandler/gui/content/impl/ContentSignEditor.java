@@ -64,7 +64,7 @@ public class ContentSignEditor extends Content
 			this.commandField.setValidator(Predicates.notNull());
 			this.commandField.setText(this.builderSignEditor.getCommand(this.selectedLine));
 			this.commandField.setCursorPositionEnd();
-			this.commandField.func_212954_a(text ->
+			this.commandField.setResponder(text ->
 			{
 				this.builderSignEditor.setCommand(this.selectedLine, text);
 				container.initButtons();

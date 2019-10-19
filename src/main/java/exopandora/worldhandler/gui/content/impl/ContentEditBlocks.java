@@ -81,7 +81,7 @@ public class ContentEditBlocks extends Content
 		this.x1Field = new GuiTextFieldTooltip(x + 118, y, 55, 20);
 		this.x1Field.setValidator(this.getCoordinatePredicate("X1"));
 		this.x1Field.setText("X1: " + BlockHelper.getPos1().getX());
-		this.x1Field.func_212954_a(text ->
+		this.x1Field.setResponder(text ->
 		{
 			BlockHelper.setPos1(BlockHelper.setX(BlockHelper.getPos1(), this.parseCoordinate(text)));
 		});
@@ -89,7 +89,7 @@ public class ContentEditBlocks extends Content
 		this.y1Field = new GuiTextFieldTooltip(x + 118, y + 24, 55, 20);
 		this.y1Field.setValidator(this.getCoordinatePredicate("Y1"));
 		this.y1Field.setText("Y1: " + BlockHelper.getPos1().getY());
-		this.y1Field.func_212954_a(text ->
+		this.y1Field.setResponder(text ->
 		{
 			BlockHelper.setPos1(BlockHelper.setY(BlockHelper.getPos1(), this.parseCoordinate(text)));
 		});
@@ -97,7 +97,7 @@ public class ContentEditBlocks extends Content
 		this.z1Field = new GuiTextFieldTooltip(x + 118, y + 48, 55, 20);
 		this.z1Field.setValidator(this.getCoordinatePredicate("Z1"));
 		this.z1Field.setText("Z1: " + BlockHelper.getPos1().getZ());
-		this.z1Field.func_212954_a(text ->
+		this.z1Field.setResponder(text ->
 		{
 			BlockHelper.setPos1(BlockHelper.setZ(BlockHelper.getPos1(), this.parseCoordinate(text)));
 		});
@@ -105,7 +105,7 @@ public class ContentEditBlocks extends Content
 		this.x2Field = new GuiTextFieldTooltip(x + 118 + 59, y, 55, 20);
 		this.x2Field.setValidator(this.getCoordinatePredicate("X2"));
 		this.x2Field.setText("X2: " + BlockHelper.getPos2().getX());
-		this.x2Field.func_212954_a(text ->
+		this.x2Field.setResponder(text ->
 		{
 			BlockHelper.setPos2(BlockHelper.setX(BlockHelper.getPos2(), this.parseCoordinate(text)));
 		});
@@ -113,7 +113,7 @@ public class ContentEditBlocks extends Content
 		this.y2Field = new GuiTextFieldTooltip(x + 118 + 59, y + 24, 55, 20);
 		this.y2Field.setValidator(this.getCoordinatePredicate("Y2"));
 		this.y2Field.setText("Y2: " + BlockHelper.getPos2().getY());
-		this.y2Field.func_212954_a(text ->
+		this.y2Field.setResponder(text ->
 		{
 			BlockHelper.setPos2(BlockHelper.setY(BlockHelper.getPos2(), this.parseCoordinate(text)));
 		});
@@ -121,7 +121,7 @@ public class ContentEditBlocks extends Content
 		this.z2Field = new GuiTextFieldTooltip(x + 118 + 59, y + 48, 55, 20);
 		this.z2Field.setValidator(this.getCoordinatePredicate("Z2"));
 		this.z2Field.setText("Z2: " + BlockHelper.getPos2().getZ());
-		this.z2Field.func_212954_a(text ->
+		this.z2Field.setResponder(text ->
 		{
 			BlockHelper.setPos2(BlockHelper.setZ(BlockHelper.getPos2(), this.parseCoordinate(text)));
 		});
@@ -129,7 +129,7 @@ public class ContentEditBlocks extends Content
 		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, this.selectedPage.equals("fill") ? I18n.format("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : I18n.format("gui.worldhandler.edit_blocks.replace.block_id_replace"));
 		this.block1Field.setValidator(Predicates.notNull());
 		this.block1Field.setText(this.block1);
-		this.block1Field.func_212954_a(text ->
+		this.block1Field.setResponder(text ->
 		{
 			this.block1 = text;
 			this.builderFill.setBlock1(this.block1);
@@ -139,7 +139,7 @@ public class ContentEditBlocks extends Content
 		this.block2Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.edit_blocks.replace.block_id_place"));
 		this.block2Field.setValidator(Predicates.notNull());
 		this.block2Field.setText(this.block2);
-		this.block2Field.func_212954_a(text ->
+		this.block2Field.setResponder(text ->
 		{
 			this.block2 = text;
 			this.builderFill.setBlock2(this.block2);
@@ -149,7 +149,7 @@ public class ContentEditBlocks extends Content
 		this.filterField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.edit_blocks.clone.filter"));
 		this.filterField.setValidator(Predicates.notNull());
 		this.filterField.setText(this.filter);
-		this.filterField.func_212954_a(text ->
+		this.filterField.setResponder(text ->
 		{
 			this.filter = text;
 			this.builderClone.setFilter(this.filter);

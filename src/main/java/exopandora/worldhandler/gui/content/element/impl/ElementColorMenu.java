@@ -67,7 +67,7 @@ public class ElementColorMenu extends Element
 		this.textField.setValidator(this.logic::validate);
 		this.textField.setTextFormatter(this.string::formatter);
 		this.textField.setText(this.string.getText());
-		this.textField.func_212954_a(text ->
+		this.textField.setResponder(text ->
 		{
 			this.string.setText(text);
 		});

@@ -56,7 +56,7 @@ public class ContentButcher extends ContentChild
 			return true;
 		});
 		this.radiusField.setText(this.radius);
-		this.radiusField.func_212954_a(text ->
+		this.radiusField.setResponder(text ->
 		{
 			this.radius = text;
 			

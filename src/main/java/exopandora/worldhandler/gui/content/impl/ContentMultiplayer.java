@@ -88,7 +88,7 @@ public class ContentMultiplayer extends Content
 		this.playerField.setFocused2(false);
 		this.playerField.setText(this.builderKick.getPlayer());
 		this.playerField.setMaxStringLength(16);
-		this.playerField.func_212954_a(text ->
+		this.playerField.setResponder(text ->
 		{
 			this.setPlayer(this.playerField.getText());
 			container.initButtons();
@@ -98,7 +98,7 @@ public class ContentMultiplayer extends Content
 		this.reasonField.setValidator(Predicates.notNull());
 		this.reasonField.setFocused2(false);
 		this.reasonField.setText(this.builderKick.getReason());
-		this.reasonField.func_212954_a(text ->
+		this.reasonField.setResponder(text ->
 		{
 			this.setReason(this.reasonField.getText());
 			container.initButtons();

@@ -45,7 +45,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		this.teamField = new GuiTextFieldTooltip(x + 118, y + (this.selectedTeam.equals("option") ? 0 : (this.selectedTeam.equals("add") ? 24 : 12)), 114, 20, I18n.format("gui.worldhandler.scoreboard.team.team"));
 		this.teamField.setValidator(Predicates.notNull());
 		this.teamField.setText(this.team);
-		this.teamField.func_212954_a(text ->
+		this.teamField.setResponder(text ->
 		{
 			this.team = text;
 			this.builderTeams.setTeam(this.team);

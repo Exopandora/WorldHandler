@@ -131,7 +131,7 @@ public class GuiWorldHandler extends Container
 			this.nameField = new GuiTextFieldTooltip(0, 0, 0, 11);
 			this.nameField.setMaxStringLength(16);
 			this.nameField.setText(this.getPlayer());
-			this.nameField.func_212954_a(text -> 
+			this.nameField.setResponder(text -> 
 			{
 				WorldHandler.USERNAME = text;
 				this.updateNameField();

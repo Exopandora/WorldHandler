@@ -55,7 +55,7 @@ public class ContentGamerules extends Content
 		this.valueField.setValidator(Predicates.notNull());
 		this.valueField.setText(this.value);
 		this.valueField.setCursorPositionEnd();
-		this.valueField.func_212954_a(text ->
+		this.valueField.setResponder(text ->
 		{
 			this.value = text;
 			this.builderGamerule.setValue(this.value);
