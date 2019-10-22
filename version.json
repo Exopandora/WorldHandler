@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.14.4-latest": "2.6.4",
-		"1.14.4-recommended": "2.6.4",
+		"1.14.4-latest": "2.6.5",
+		"1.14.4-recommended": "2.6.5",
 		"1.14.3-latest": "2.6.2",
 		"1.14.3-recommended": "2.6.2",
 		"1.14.2-latest": "2.5.2",
@@ -51,6 +51,7 @@
 	},
 	"1.14.4":
 	{
+		"2.6.5": "- Added support for key modifiers\n- The GUI can now be opened and closed with the same button",
 		"2.6.4": "- Fixed crash when installed on a dedicated server",
 		"2.6.3": "- Updated mods.toml description\n- Fixed \"/wh clone filtered\"\n- Fixed wrong translation string for permission query message",
 		"2.6.2": "- Update to 1.14.4"
