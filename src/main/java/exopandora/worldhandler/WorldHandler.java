@@ -8,7 +8,10 @@ import exopandora.worldhandler.event.ClientEventHandler;
 import exopandora.worldhandler.event.KeyHandler;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
+import exopandora.worldhandler.helper.AdvancementHelper;
 import exopandora.worldhandler.helper.CommandHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.SimpleReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -34,6 +37,8 @@ public class WorldHandler
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
 		{
+			SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getInstance().getResourceManager();
+			manager.addReloadListener(AdvancementHelper.getInstance());
 			ModLoadingContext.get().registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + ".toml");
 			modEventBus.register(Config.class);
 			modEventBus.addListener(Content::createRegistry);

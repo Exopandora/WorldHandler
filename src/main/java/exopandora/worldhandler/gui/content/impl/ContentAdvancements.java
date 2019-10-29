@@ -21,10 +21,10 @@ import exopandora.worldhandler.gui.content.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.logic.ILogicMapped;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
 import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.helper.AdvancementHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
@@ -46,7 +46,7 @@ public class ContentAdvancements extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<Advancement> advancements = new AdvancementManager().getAllAdvancements().stream()
+		List<Advancement> advancements = AdvancementHelper.getInstance().getAdvancements().stream()
 				.filter(advancement -> advancement.getDisplay() != null)
 				.collect(Collectors.toList());
 		
