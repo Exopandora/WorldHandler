@@ -2,6 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
+		"1.14.4-latest": "2.7",
+		"1.14.4-recommended": "2.7",
 		"1.14.4-latest": "2.6.6",
 		"1.14.4-recommended": "2.6.6",
 		"1.14.3-latest": "2.6.2",
@@ -51,6 +53,7 @@
 	},
 	"1.14.4":
 	{
+		"2.7": "- Added custom usercontent which are configurable via json and js files\n- Added mod support for public gui announcements\n- Moved config file from ./config/ to ./config/worldhandler/",
 		"2.6.5": "- Fixed empty advancements list\n- Fixed soft crash when not looking at a sign with the sign editor",
 		"2.6.5": "- Added support for key modifiers\n- The GUI can now be opened and closed with the same button",
 		"2.6.4": "- Fixed crash when installed on a dedicated server",
