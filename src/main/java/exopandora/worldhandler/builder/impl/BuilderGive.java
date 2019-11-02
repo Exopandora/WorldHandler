@@ -3,9 +3,9 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilderNBT;
-import exopandora.worldhandler.builder.Syntax;
+import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ItemResourceLocation;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.helper.ResourceHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -86,13 +86,13 @@ public class BuilderGive extends CommandBuilderNBT
 	}
 	
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("player", Type.STRING);
-		syntax.addRequired("item", Type.ITEM_RESOURCE_LOCATION);
-		syntax.addRequired("count", Type.INT);
+		syntax.addRequired("player", ArgumentType.STRING);
+		syntax.addRequired("item", ArgumentType.ITEM_RESOURCE_LOCATION);
+		syntax.addRequired("count", ArgumentType.INT);
 		
 		return syntax;
 	}

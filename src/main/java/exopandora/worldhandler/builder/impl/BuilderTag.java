@@ -1,8 +1,8 @@
 package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -56,13 +56,13 @@ public class BuilderTag extends CommandBuilder
 	}
 	
 	@Override
-	public Syntax getSyntax()
+	public CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("player", Type.STRING);
-		syntax.addRequired("add|list|remove", Type.STRING);
-		syntax.addRequired("name", Type.STRING);
+		syntax.addRequired("player", ArgumentType.STRING);
+		syntax.addRequired("add|list|remove", ArgumentType.STRING);
+		syntax.addRequired("name", ArgumentType.STRING);
 		
 		return syntax;
 	}

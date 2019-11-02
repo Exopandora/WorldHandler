@@ -15,7 +15,7 @@ import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.content.element.impl.ElementColorMenu;
+import exopandora.worldhandler.gui.element.impl.ElementColorMenu;
 import exopandora.worldhandler.gui.logic.ILogicColorMenu;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.BlockHelper;

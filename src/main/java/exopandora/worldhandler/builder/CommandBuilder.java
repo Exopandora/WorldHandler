@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.WorldHandler;
-import exopandora.worldhandler.builder.Syntax.SyntaxEntry;
+import exopandora.worldhandler.builder.CommandSyntax.Argument;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.builder.types.CoordinateDouble;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.GreedyString;
 import exopandora.worldhandler.builder.types.ItemResourceLocation;
 import exopandora.worldhandler.builder.types.TargetSelector;
-import exopandora.worldhandler.builder.types.Type;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,7 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public abstract class CommandBuilder implements ICommandBuilderSyntax
 {
-	private List<Entry<SyntaxEntry, String>> command;
+	private List<Entry<Argument, String>> command;
 	
 	public CommandBuilder()
 	{
@@ -33,93 +33,98 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	
 	protected void setNode(int index, String node)
 	{
-		this.set(index, node != null ? (node.isEmpty() ? null : node) : null, Type.STRING);
+		this.set(index, node != null ? (node.isEmpty() ? null : node) : null, ArgumentType.STRING);
 	}
 	
 	protected void setNode(int index, GreedyString node)
 	{
-		this.set(index, node != null ? (node.isEmpty() ? null : node) : null, Type.GREEDY_STRING);
+		this.set(index, node != null ? (node.isEmpty() ? null : node) : null, ArgumentType.GREEDY_STRING);
 	}
 	
 	protected void setNode(int index, boolean node)
 	{
-		this.set(index, node, Type.BOOLEAN);
+		this.set(index, node, ArgumentType.BOOLEAN);
 	}
 	
 	protected void setNode(int index, short node)
 	{
-		this.set(index, node, Type.SHORT);
+		this.set(index, node, ArgumentType.SHORT);
 	}
 	
 	protected void setNode(int index, byte node)
 	{
-		this.set(index, node, Type.BYTE);
+		this.set(index, node, ArgumentType.BYTE);
 	}
 	
 	protected void setNode(int index, int node)
 	{
-		this.set(index, node, Type.INT);
+		this.set(index, node, ArgumentType.INT);
 	}
 	
 	protected void setNode(int index, float node)
 	{
-		this.set(index, node, Type.FLOAT);
+		this.set(index, node, ArgumentType.FLOAT);
 	}
 	
 	protected void setNode(int index, double node)
 	{
-		this.set(index, node, Type.DOUBLE);
+		this.set(index, node, ArgumentType.DOUBLE);
 	}
 	
 	protected void setNode(int index, long node)
 	{
-		this.set(index, node, Type.LONG);
+		this.set(index, node, ArgumentType.LONG);
 	}
 	
 	protected void setNode(int index, ResourceLocation node)
 	{
-		this.set(index, node, Type.RESOURCE_LOCATION);
+		this.set(index, node, ArgumentType.RESOURCE_LOCATION);
 	}
 	
 	protected void setNode(int index, CoordinateInt coordinate)
 	{
-		this.set(index, coordinate, Type.COORDINATE_INT);
+		this.set(index, coordinate, ArgumentType.COORDINATE_INT);
 	}
 	
 	protected void setNode(int index, CoordinateDouble coordinate)
 	{
-		this.set(index, coordinate, Type.COORDINATE_DOUBLE);
+		this.set(index, coordinate, ArgumentType.COORDINATE_DOUBLE);
 	}
 	
 	protected void setNode(int index, TargetSelector target)
 	{
-		this.set(index, target, Type.TARGET_SELECTOR);
+		this.set(index, target, ArgumentType.TARGET_SELECTOR);
 	}
 	
 	protected void setNode(int index, ItemResourceLocation resource)
 	{
-		this.set(index, resource != null ? resource.get() : null, Type.ITEM_RESOURCE_LOCATION);
+		this.set(index, resource != null ? resource.get() : null, ArgumentType.ITEM_RESOURCE_LOCATION);
 	}
 	
 	protected void setNode(int index, BlockResourceLocation resource)
 	{
-		this.set(index, resource != null ? resource.get() : null, Type.BLOCK_RESOURCE_LOCATION);
+		this.set(index, resource != null ? resource.get() : null, ArgumentType.BLOCK_RESOURCE_LOCATION);
 	}
 	
 	protected void setNode(int index, CompoundNBT nbt)
 	{
-		this.set(index, nbt, Type.NBT);
+		this.set(index, nbt, ArgumentType.NBT);
 	}
 	
-	private void set(int index, Object value, Type type)
+	protected void setPlayerName(int index, String username)
+	{
+		this.set(index, username, ArgumentType.PLAYER);
+	}
+	
+	private void set(int index, Object value, ArgumentType type)
 	{
 		if(index < this.command.size())
 		{
-			SyntaxEntry entry = this.command.get(index).getKey();
-			Type expected = entry.getType();
-			boolean flag = expected.equals(type);
+			Argument entry = this.command.get(index).getKey();
+			ArgumentType expectedType = entry.getType();
+			boolean typeMatch = expectedType.equals(type);
 			
-			if(value != null && flag)
+			if(value != null && typeMatch)
 			{
 				this.command.get(index).setValue(value.toString());
 			}
@@ -127,9 +132,9 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 			{
 				this.command.get(index).setValue(entry.toString());
 				
-				if(!flag)
+				if(!typeMatch)
 				{
-					this.warn("set", expected, type, index);
+					this.warn("set", expectedType, type, index);
 				}
 			}
 		}
@@ -142,96 +147,96 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	@Nullable
 	protected String getNodeAsString(int index)
 	{
-		return this.get(index, Type.STRING);
+		return this.get(index, ArgumentType.STRING);
 	}
 	
 	@Nullable
 	protected String getNodeAsGreedyString(int index)
 	{
-		return this.get(index, Type.GREEDY_STRING);
+		return this.get(index, ArgumentType.GREEDY_STRING);
 	}
 	
 	protected boolean getNodeAsBoolean(int index)
 	{
-		return this.get(index, Type.BOOLEAN);
+		return this.get(index, ArgumentType.BOOLEAN);
 	}
 	
 	protected short getNodeAsShort(int index)
 	{
-		return this.get(index, Type.SHORT);
+		return this.get(index, ArgumentType.SHORT);
 	}
 	
 	protected byte getNodeAsByte(int index)
 	{
-		return this.get(index, Type.BYTE);
+		return this.get(index, ArgumentType.BYTE);
 	}
 	
 	protected int getNodeAsInt(int index)
 	{
-		return this.get(index, Type.INT);
+		return this.get(index, ArgumentType.INT);
 	}
 	
 	protected float getNodeAsFloat(int index)
 	{
-		return this.get(index, Type.FLOAT);
+		return this.get(index, ArgumentType.FLOAT);
 	}
 	
 	protected double getNodeAsDouble(int index)
 	{
-		return this.get(index, Type.DOUBLE);
+		return this.get(index, ArgumentType.DOUBLE);
 	}
 	
 	protected long getNodeAsLong(int index)
 	{
-		return this.get(index, Type.LONG);
+		return this.get(index, ArgumentType.LONG);
 	}
 	
 	protected CoordinateInt getNodeAsCoordinateInt(int index)
 	{
-		return this.get(index, Type.COORDINATE_INT);
+		return this.get(index, ArgumentType.COORDINATE_INT);
 	}
 	
 	protected CoordinateDouble getNodeAsCoordinateDouble(int index)
 	{
-		return this.get(index, Type.COORDINATE_DOUBLE);
+		return this.get(index, ArgumentType.COORDINATE_DOUBLE);
 	}
 	
 	@Nullable
 	protected ResourceLocation getNodeAsResourceLocation(int index)
 	{
-		return this.get(index, Type.RESOURCE_LOCATION);
+		return this.get(index, ArgumentType.RESOURCE_LOCATION);
 	}
 	
 	protected TargetSelector getNodeAsTargetSelector(int index)
 	{
-		return this.get(index, Type.TARGET_SELECTOR);
+		return this.get(index, ArgumentType.TARGET_SELECTOR);
 	}
 	
 	@Nullable
 	protected ItemResourceLocation getNodeAsItemResourceLocation(int index)
 	{
-		return this.get(index, Type.ITEM_RESOURCE_LOCATION);
+		return this.get(index, ArgumentType.ITEM_RESOURCE_LOCATION);
 	}
 	
 	@Nullable
 	protected BlockResourceLocation getNodeAsBlockResourceLocation(int index)
 	{
-		return this.get(index, Type.BLOCK_RESOURCE_LOCATION);
+		return this.get(index, ArgumentType.BLOCK_RESOURCE_LOCATION);
 	}
 	
 	@Nullable
 	protected CompoundNBT getNodeAsNBT(int index)
 	{
-		return this.get(index, Type.NBT);
+		return this.get(index, ArgumentType.NBT);
 	}
 	
 	@Nullable
-	private <T> T get(int index, Type type)
+	private <T> T get(int index, ArgumentType type)
 	{
 		if(index < this.command.size())
 		{
-			Entry<SyntaxEntry, String> entry = this.command.get(index);
-			Type expected = entry.getKey().getType();
+			Entry<Argument, String> entry = this.command.get(index);
+			ArgumentType expected = entry.getKey().getType();
 			String value = entry.getValue();
 			
 			if(expected.equals(type))
@@ -252,21 +257,21 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		return null;
 	}
 	
-	private void warn(String function, Type expected, Type type, int index)
+	private void warn(String function, ArgumentType expected, ArgumentType type, int index)
 	{
 		WorldHandler.LOGGER.warn("[" + function.toUpperCase() + "] Expected \"" + expected + "\" instead of \"" + type + "\" at index \"" + index + "\" for command \"" + this.getCommandName() + "\"");
 	}
 	
-	private boolean isDefaultEntry(Entry<SyntaxEntry, String> entry)
+	private boolean isDefaultEntry(Entry<Argument, String> entry)
 	{
 		return entry.getKey().getDefault() != null ? entry.getValue().equals(entry.getKey().getDefault().toString()) : false;
 	}
 	
-	protected void updateSyntax(Syntax syntax)
+	protected void updateSyntax(CommandSyntax syntax)
 	{
 		if(syntax != null)
 		{
-			this.command = syntax.getSyntaxEntries().stream().map(entry -> new SimpleEntry<SyntaxEntry, String>(entry, entry.toString())).collect(Collectors.toList());
+			this.command = syntax.getArguments().stream().map(entry -> new SimpleEntry<Argument, String>(entry, entry.toString())).collect(Collectors.toList());
 		}
 	}
 	
@@ -275,7 +280,7 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	{
 		CommandString command = new CommandString(this.getCommandName());
 		
-		for(Entry<SyntaxEntry, String> entry : this.command)
+		for(Entry<Argument, String> entry : this.command)
 		{
 			if(this.isDefaultEntry(entry))
 			{
@@ -295,14 +300,21 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	{
 		CommandString command = new CommandString(this.getCommandName());
 		
-		for(Entry<SyntaxEntry, String> entry : this.command)
+		for(Entry<Argument, String> entry : this.command)
 		{
 			if(!entry.getKey().isRequired() && (entry.getKey().toString().equals(entry.getValue()) || this.isDefaultEntry(entry)))
 			{
 				break;
 			}
 			
-			command.append(entry.getValue());
+			if(entry.getKey().isRequired() && entry.getKey().toString().equals(entry.getValue()) && entry.getKey().getDefault() != null)
+			{
+				command.append(entry.getKey().getDefault().toString());
+			}
+			else
+			{
+				command.append(entry.getValue());
+			}
 		}
 		
 		return command.toString();

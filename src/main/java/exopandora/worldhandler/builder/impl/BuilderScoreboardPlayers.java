@@ -1,8 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.impl.abstr.BuilderScoreboard;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -91,25 +90,25 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 		return 0;
 	}
 	
-	private Syntax getSyntax(String mode)
+	private CommandSyntax getSyntax(String mode)
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
 		if(mode.equals("enable"))
 		{
-			syntax.addRequired("players", Type.STRING);
-			syntax.addRequired("enable", Type.STRING);
-			syntax.addRequired("player", Type.STRING);
-			syntax.addRequired("objective", Type.STRING);
+			syntax.addRequired("players", ArgumentType.STRING);
+			syntax.addRequired("enable", ArgumentType.STRING);
+			syntax.addRequired("player", ArgumentType.STRING);
+			syntax.addRequired("objective", ArgumentType.STRING);
 			
 			return syntax;
 		}
 		
-		syntax.addRequired("players", Type.STRING);
-		syntax.addRequired("add|set|remove", Type.STRING, "add|set|remove");
-		syntax.addRequired("player", Type.STRING);
-		syntax.addRequired("objective", Type.STRING);
-		syntax.addRequired("score", Type.INT, 0);
+		syntax.addRequired("players", ArgumentType.STRING);
+		syntax.addRequired("add|set|remove", ArgumentType.STRING, "add|set|remove");
+		syntax.addRequired("player", ArgumentType.STRING);
+		syntax.addRequired("objective", ArgumentType.STRING);
+		syntax.addRequired("score", ArgumentType.INT, 0);
 		
 		return syntax;
 		
@@ -144,13 +143,13 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 	}
 	
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("players", Type.STRING);
-		syntax.addRequired("add|enable|get|list|operation|remove|reset|set", Type.STRING);
-		syntax.addOptional("...", Type.STRING);
+		syntax.addRequired("players", ArgumentType.STRING);
+		syntax.addRequired("add|enable|get|list|operation|remove|reset|set", ArgumentType.STRING);
+		syntax.addOptional("...", ArgumentType.STRING);
 		
 		return syntax;
 	}

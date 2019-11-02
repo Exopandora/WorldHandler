@@ -5,8 +5,7 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.builder.component.abstr.ComponentAttribute;
-import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
+import exopandora.worldhandler.builder.impl.EnumAttributes;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;

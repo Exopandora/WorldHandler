@@ -4,7 +4,7 @@ public interface ICommandBuilderSyntax extends ICommandBuilder
 {
 	String getCommandName();
 	String toActualCommand();
-	Syntax getSyntax();
+	CommandSyntax getSyntax();
 	
 	@Override
 	default boolean needsCommandBlock()

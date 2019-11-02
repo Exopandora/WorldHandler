@@ -1,5 +1,7 @@
 package exopandora.worldhandler;
 
+import java.nio.file.Path;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,6 +12,7 @@ import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.helper.AdvancementHelper;
 import exopandora.worldhandler.helper.CommandHelper;
+import exopandora.worldhandler.usercontent.UsercontentLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.SimpleReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,11 +27,13 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(Main.MODID)
 public class WorldHandler
 {
 	public static final Logger LOGGER = LogManager.getLogger();
+	public static final Path USERCONTENT_PATH = FMLPaths.CONFIGDIR.get().resolve(Main.MODID).resolve("usercontent");
 	
 	public WorldHandler()
 	{
@@ -39,7 +44,9 @@ public class WorldHandler
 		{
 			SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getInstance().getResourceManager();
 			manager.addReloadListener(AdvancementHelper.getInstance());
-			ModLoadingContext.get().registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + ".toml");
+			Config.setupDirectories(WorldHandler.USERCONTENT_PATH);
+			ModLoadingContext.get().registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
+			UsercontentLoader.load(WorldHandler.USERCONTENT_PATH);
 			modEventBus.register(Config.class);
 			modEventBus.addListener(Content::createRegistry);
 			modEventBus.addListener(Category::createRegistry);

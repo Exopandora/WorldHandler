@@ -6,7 +6,6 @@ import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
-import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.Minecraft;

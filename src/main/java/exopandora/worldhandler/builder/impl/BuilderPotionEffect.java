@@ -3,9 +3,9 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.component.abstr.EffectData;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.component.impl.EffectData;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -170,16 +170,16 @@ public class BuilderPotionEffect extends CommandBuilder
 	}
 	
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("give|clear", Type.STRING);
-		syntax.addRequired("player", Type.STRING);
-		syntax.addRequired("effect", Type.RESOURCE_LOCATION);
-		syntax.addOptional("seconds", Type.INT, 0);
-		syntax.addOptional("amplifier", Type.BYTE, (byte) -1);
-		syntax.addOptional("hideParticles", Type.BOOLEAN, false);
+		syntax.addRequired("give|clear", ArgumentType.STRING);
+		syntax.addRequired("player", ArgumentType.STRING);
+		syntax.addRequired("effect", ArgumentType.RESOURCE_LOCATION);
+		syntax.addOptional("seconds", ArgumentType.INT, 0);
+		syntax.addOptional("amplifier", ArgumentType.BYTE, (byte) -1);
+		syntax.addOptional("hideParticles", ArgumentType.BOOLEAN, false);
 		
 		return syntax;
 	}

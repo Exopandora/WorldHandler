@@ -11,6 +11,9 @@ import com.google.common.collect.Lists;
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.helper.RegistryHelper;
+import exopandora.worldhandler.usercontent.UsercontentConfig;
+import exopandora.worldhandler.usercontent.UsercontentLoader;
+import exopandora.worldhandler.usercontent.model.JsonTab;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -48,15 +51,15 @@ public class Category extends ForgeRegistryEntry<Category>
 		this(Arrays.stream(keys).map(key -> new ResourceLocation(Main.MODID, key)).collect(Collectors.toList()));
 	}
 	
-	public Category add(ResourceLocation content)
+	public Category add(int index, ResourceLocation content)
 	{
-		this.contents.add(content);
+		this.contents.add(Math.min(index, this.getSize()), content);
 		return this;
 	}
 	
-	public Category add(String key)
+	public Category add(int index, String key)
 	{
-		return this.add(new ResourceLocation(Main.MODID, key));
+		return this.add(index, new ResourceLocation(Main.MODID, key));
 	}
 	
 	public List<ResourceLocation> getContents()
@@ -96,5 +99,28 @@ public class Category extends ForgeRegistryEntry<Category>
 		RegistryHelper.register(event.getRegistry(), "world", new Category("world", "gamerules"));
 		RegistryHelper.register(event.getRegistry(), "player", new Category("player", "experience", "advancements"));
 		RegistryHelper.register(event.getRegistry(), "scoreboard", new Category("scoreboard_objectives", "scoreboard_teams", "scoreboard_players"));
+		
+		for(UsercontentConfig config : UsercontentLoader.CONFIGS)
+		{
+			if(config.getContent().getGui() != null && config.getContent().getGui().getTab() != null)
+			{
+				Category.registerCategory(event.getRegistry(), config.getId(), config.getContent().getGui().getTab());
+			}
+		}
+	}
+	
+	private static void registerCategory(IForgeRegistry<Category> registry, String id, JsonTab tab)
+	{
+		if(tab.getCategory() != null && !tab.getCategory().isEmpty())
+		{
+			if(!Categories.isRegistered(tab.getCategory()))
+			{
+				RegistryHelper.register(registry, tab.getCategory(), new Category(id));
+			}
+			else
+			{
+				Categories.getRegisteredCategory(tab.getCategory()).add(tab.getCategoryIndex(), id);
+			}
+		}
 	}
 }

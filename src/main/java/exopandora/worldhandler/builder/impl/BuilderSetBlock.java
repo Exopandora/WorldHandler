@@ -1,10 +1,9 @@
 package exopandora.worldhandler.builder.impl;
 
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.impl.abstr.BuilderBlockPos;
+import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.builder.types.CoordinateInt;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.IProperty;
 import net.minecraft.util.ResourceLocation;
@@ -71,15 +70,15 @@ public class BuilderSetBlock extends BuilderBlockPos
 	}
 	
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("x", Type.COORDINATE_INT);
-		syntax.addRequired("y", Type.COORDINATE_INT);
-		syntax.addRequired("z", Type.COORDINATE_INT);
-		syntax.addRequired("block", Type.BLOCK_RESOURCE_LOCATION);
-		syntax.addOptional("mode", Type.STRING);
+		syntax.addRequired("x", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("y", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("z", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("block", ArgumentType.BLOCK_RESOURCE_LOCATION);
+		syntax.addOptional("mode", ArgumentType.STRING);
 		
 		return syntax;
 	}

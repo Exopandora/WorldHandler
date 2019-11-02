@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.helper.ResourceHelper;
-import exopandora.worldhandler.text.TextFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.api.distmarker.Dist;

@@ -1,8 +1,8 @@
 package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.helper.EnumHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -62,13 +62,13 @@ public class BuilderTrigger extends CommandBuilder
 	}
 	
 	@Override
-	public Syntax getSyntax()
+	public CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("objective", Type.STRING);
-		syntax.addRequired("add|set", Type.STRING);
-		syntax.addRequired("value", Type.INT);
+		syntax.addRequired("objective", ArgumentType.STRING);
+		syntax.addRequired("add|set", ArgumentType.STRING);
+		syntax.addRequired("value", ArgumentType.INT);
 		
 		return syntax;
 	}

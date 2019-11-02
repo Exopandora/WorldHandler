@@ -2,7 +2,7 @@ package exopandora.worldhandler.gui.logic;
 
 import java.util.function.Consumer;
 
-import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
+import exopandora.worldhandler.builder.impl.EnumAttributes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

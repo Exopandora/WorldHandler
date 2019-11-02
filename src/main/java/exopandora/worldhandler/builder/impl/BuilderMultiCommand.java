@@ -11,9 +11,9 @@ public class BuilderMultiCommand implements ICommandBuilder
 {
 	private final ICommandBuilder[] builders;
 	
-	public BuilderMultiCommand(ICommandBuilder... builder)
+	public BuilderMultiCommand(ICommandBuilder... builders)
 	{
-		this.builders = builder;
+		this.builders = builders;
 	}
 	
 	@Override

@@ -3,9 +3,9 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import exopandora.worldhandler.builder.Syntax;
+import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.GreedyString;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -131,45 +131,45 @@ public class BuilderTeams extends CommandBuilder
 	}
 	
 	@Nullable
-	private Syntax getSyntax(String mode)
+	private CommandSyntax getSyntax(String mode)
 	{
 		if(mode.equals("add"))
 		{
-			Syntax syntax = new Syntax();
+			CommandSyntax syntax = new CommandSyntax();
 			
-			syntax.addRequired("add", Type.STRING);
-			syntax.addRequired("name", Type.STRING);
-			syntax.addOptional("display_name...", Type.GREEDY_STRING);
+			syntax.addRequired("add", ArgumentType.STRING);
+			syntax.addRequired("name", ArgumentType.STRING);
+			syntax.addOptional("display_name...", ArgumentType.GREEDY_STRING);
 			
 			return syntax;
 		}
 		else if(mode.equals("remove|empty"))
 		{
-			Syntax syntax = new Syntax();
+			CommandSyntax syntax = new CommandSyntax();
 			
-			syntax.addRequired("remove|empty", Type.STRING, "remove|empty");
-			syntax.addRequired("name", Type.STRING);
+			syntax.addRequired("remove|empty", ArgumentType.STRING, "remove|empty");
+			syntax.addRequired("name", ArgumentType.STRING);
 			
 			return syntax;
 		}
 		else if(mode.equals("join|leave"))
 		{
-			Syntax syntax = new Syntax();
+			CommandSyntax syntax = new CommandSyntax();
 			
-			syntax.addRequired("join|leave", Type.STRING, "join|leave");
-			syntax.addRequired("name", Type.STRING);
-			syntax.addOptional("player", Type.STRING);
+			syntax.addRequired("join|leave", ArgumentType.STRING, "join|leave");
+			syntax.addRequired("name", ArgumentType.STRING);
+			syntax.addOptional("player", ArgumentType.STRING);
 			
 			return syntax;
 		}
 		else if(mode.equals("modify"))
 		{
-			Syntax syntax = new Syntax();
+			CommandSyntax syntax = new CommandSyntax();
 			
-			syntax.addRequired("modify", Type.STRING);
-			syntax.addRequired("team", Type.STRING);
-			syntax.addRequired("friendlyfire|color|seeFriendlyInvisibles|nametagVisibility|deathMessageVisibility|collisionRule", Type.STRING);
-			syntax.addRequired("value", Type.STRING);
+			syntax.addRequired("modify", ArgumentType.STRING);
+			syntax.addRequired("team", ArgumentType.STRING);
+			syntax.addRequired("friendlyfire|color|seeFriendlyInvisibles|nametagVisibility|deathMessageVisibility|collisionRule", ArgumentType.STRING);
+			syntax.addRequired("value", ArgumentType.STRING);
 			
 			return syntax;
 		}
@@ -212,12 +212,12 @@ public class BuilderTeams extends CommandBuilder
 	}
 	
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("list|add|remove|empty|join|leave|modify", Type.STRING);
-		syntax.addOptional("...", Type.STRING);
+		syntax.addRequired("list|add|remove|empty|join|leave|modify", ArgumentType.STRING);
+		syntax.addOptional("...", ArgumentType.STRING);
 		
 		return syntax;
 	}

@@ -6,10 +6,11 @@ It lets you create powerful and complex sub-commands alongside NBT-structures wi
 # Features #
 
 * GUI for commands
-* World and player information
-* /wh for a simplified /fill and /clone
 * Client Commands: advancement, blockdata, clear, clone, difficulty, effect, enchant, fill, gamemode, gamerule, give, kill, recipe, scoreboard, setworldspawn, spawnpoint, summon, tag, team, time, trigger, weather, xp
 * Server Commands: ban, deop, kick, op, pardon, save-all, save-off, save-on, whitelist
+* World and player information
+* /wh for a simplified /fill and /clone
+* Expandable GUI with json files and child mods
 * Client-side only
 
 # Download #
@@ -54,6 +55,11 @@ Download World Handler or build from source
 1. Navigate to `..\.minecraft\mods`
 2. Copy all files of the `World_Handler_GUI_[VERSION].zip` into the `1.6.2ML.jar`
 3. Run Minecraft
+
+# Expansion #
+
+The World Handler GUI can also be expanded with custom tabs configured with json and javascript files or as a separate child mod in java.  
+A description on how to implement a custom json and javascript file can be found [here](https://github.com/Exopandora/WorldHandler/blob/master/README.md) and an example child mod can be found [here](https://github.com/Exopandora/WorldHandlerPlugin).
 
 # FAQ #
 

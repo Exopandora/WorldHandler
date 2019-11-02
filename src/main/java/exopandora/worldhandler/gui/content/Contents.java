@@ -1,8 +1,8 @@
 package exopandora.worldhandler.gui.content;
 
 import exopandora.worldhandler.Main;
+import exopandora.worldhandler.gui.content.impl.ContentChild;
 import exopandora.worldhandler.gui.content.impl.ContentContinue;
-import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -79,15 +79,20 @@ public class Contents
 		SETTINGS = (ContentChild) Contents.getRegisteredContent("settings");
 	}
 	
-	private static Content getRegisteredContent(String name)
+	public static Content getRegisteredContent(String name)
 	{
 		Content content = Content.REGISTRY.getValue(new ResourceLocation(Main.MODID, name));
 		
 		if(content == null)
 		{
-			throw new IllegalStateException("Invalid Content requested: " + name);
+			throw new IllegalStateException("Requested missing content: " + name);
 		}
 		
 		return content;
+	}
+	
+	public static boolean isRegistered(String name)
+	{
+		return Content.REGISTRY.containsKey(new ResourceLocation(Main.MODID, name));
 	}
 }

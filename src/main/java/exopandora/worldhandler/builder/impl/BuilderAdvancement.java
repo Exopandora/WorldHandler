@@ -3,8 +3,8 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.helper.EnumHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -87,14 +87,14 @@ public class BuilderAdvancement extends CommandBuilder
 	}
 	
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("grant|revoke|test", Type.STRING);
-		syntax.addRequired("player", Type.STRING);
-		syntax.addRequired("only|until|from|through|everything", Type.STRING);
-		syntax.addOptional("advancement", Type.RESOURCE_LOCATION);
+		syntax.addRequired("grant|revoke|test", ArgumentType.STRING);
+		syntax.addRequired("player", ArgumentType.STRING);
+		syntax.addRequired("only|until|from|through|everything", ArgumentType.STRING);
+		syntax.addOptional("advancement", ArgumentType.RESOURCE_LOCATION);
 		
 		return syntax;
 	}

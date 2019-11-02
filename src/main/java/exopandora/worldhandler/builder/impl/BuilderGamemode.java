@@ -1,8 +1,8 @@
 package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -42,12 +42,12 @@ public class BuilderGamemode extends CommandBuilder
 	}
 
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("mode", Type.STRING);
-		syntax.addOptional("player", Type.STRING);
+		syntax.addRequired("mode", ArgumentType.STRING);
+		syntax.addOptional("player", ArgumentType.STRING);
 		
 		return syntax;
 	}

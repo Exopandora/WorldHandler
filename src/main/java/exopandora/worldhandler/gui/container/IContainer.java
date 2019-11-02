@@ -1,7 +1,7 @@
 package exopandora.worldhandler.gui.container;
 
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.gui.content.element.Element;
+import exopandora.worldhandler.gui.element.Element;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

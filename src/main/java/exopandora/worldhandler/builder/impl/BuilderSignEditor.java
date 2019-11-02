@@ -3,8 +3,8 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.impl.ComponentTag;
-import exopandora.worldhandler.text.MutableStringTextComponent;
-import exopandora.worldhandler.text.SignText;
+import exopandora.worldhandler.util.MutableStringTextComponent;
+import exopandora.worldhandler.util.SignText;
 import net.minecraft.nbt.StringNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

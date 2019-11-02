@@ -22,7 +22,7 @@ public class GuiButtonTooltip extends GuiButtonBase
 	
 	public void renderTooltip(int mouseX, int mouseY)
 	{
-		if(this.isHovered() && this.tooltip != null)
+		if(this.isHovered() && this.tooltip != null && !this.tooltip.isEmpty())
 		{
 			List<String> list = Arrays.asList(this.tooltip.split("\n"));
 			

@@ -24,6 +24,12 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 		this.items = items;
 		this.logic = logic;
 		this.persistence = container.getContent().getPersistence(this.logic.getId(), Persistence::new);
+		this.init();
+	}
+	
+	private void init()
+	{
+		this.logic.onInit(this.items.get(this.persistence.getIndex()));
 		this.updateMessage();
 	}
 	
@@ -43,7 +49,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
             int maxWidth = Math.max(0, this.width - fontRenderer.getStringWidth("<   >"));
             int spaceWidth = fontRenderer.getStringWidth(" ");
             
-            String display = exopandora.worldhandler.text.TextFormatting.shortenString(this.getMessage(), maxWidth, fontRenderer);
+            String display = exopandora.worldhandler.util.TextFormatting.shortenString(this.getMessage(), maxWidth, fontRenderer);
             int yPos = this.y + (this.height - 8) / 2;
             
 			this.drawCenteredString(fontRenderer, display, this.x + this.width / 2, yPos, this.getFGColor());
@@ -71,7 +77,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 			{
 				if(index < 10)
 				{
-					this.persistence.setIndex(max - (9 - index));
+					this.persistence.setIndex((index - 9 + max) % max);
 				}
 				else
 				{
@@ -96,7 +102,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 			{
 				if(index > max - 10)
 				{
-					this.persistence.setIndex(9 - (max - index));
+					this.persistence.setIndex((index + 9 - max) % max);
 				}
 				else
 				{

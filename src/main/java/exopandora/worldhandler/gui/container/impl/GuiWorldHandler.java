@@ -23,10 +23,10 @@ import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.IContent;
-import exopandora.worldhandler.gui.content.element.IElement;
+import exopandora.worldhandler.gui.element.IElement;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.ResourceHelper;
-import exopandora.worldhandler.text.TextFormatting;
+import exopandora.worldhandler.util.TextFormatting;
 import exopandora.worldhandler.util.UtilRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
@@ -139,30 +139,31 @@ public class GuiWorldHandler extends Container
 			});
 			this.updateNameField();
 			
-			final int backgroundX = this.getBackgroundX();
-			final int backgroundY = this.getBackgroundY();
-			
-			this.forEachTab((index, xOffset) ->
-			{
-				IContent tab = this.content.getCategory().getContent(index);
-				
-				if(!this.content.getActiveContent().equals(tab))
-				{
-					this.finalButtons.add(new GuiButtonTab((int) (backgroundX + xOffset), backgroundY - 20, (int) this.tabWidth + (int) Math.ceil(this.tabEpsilon / this.tabSize), 21, tab.getTabTitle())
-					{
-						@Override
-						public void onPress()
-						{
-							ActionHelper.changeTab(GuiWorldHandler.this.content, index);
-						}
-					});
-				}
-			});
-			
 			//BUTTONS
 			
+			this.forEachTab(this::addTabButtons);
 			this.initButtons();
 		});
+	}
+	
+	private void addTabButtons(int index, double xOffset)
+	{
+		final int backgroundX = this.getBackgroundX();
+		final int backgroundY = this.getBackgroundY();
+		
+		IContent tab = this.content.getCategory().getContent(index);
+		
+		if(!tab.equals(this.content.getActiveContent()))
+		{
+			this.finalButtons.add(new GuiButtonTab((int) (backgroundX + xOffset), backgroundY - 20, (int) this.tabWidth + (int) Math.ceil(this.tabEpsilon / this.tabSize), 21, tab.getTabTitle())
+			{
+				@Override
+				public void onPress()
+				{
+					ActionHelper.changeTab(GuiWorldHandler.this.content, index);
+				}
+			});
+		}
 	}
 	
 	public void initButtons()
@@ -374,118 +375,7 @@ public class GuiWorldHandler extends Container
 			
 			//TABS
 			
-			this.forEachTab((index, xOffset) ->
-			{
-				IContent tab = this.content.getCategory().getContent(index);
-				int yOffset;
-				int fHeight;
-				int color;
-				
-				if(this.content.getActiveContent().equals(tab))
-				{
-					yOffset = -22;
-					fHeight = 25;
-					color = 0xFFFFFF;
-					this.defaultColor();
-				}
-				else
-				{
-					yOffset = -20;
-					fHeight = 20;
-					color = 0xE0E0E0;
-					this.darkColor();
-				}
-				
-				this.bindBackground();
-				this.blit((int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
-				this.blit((int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.ceil(this.tabHalf), 0, (int) Math.ceil(this.tabHalf), fHeight);
-				
-				if(!Config.getSkin().sharpEdges())
-				{
-					if(this.content.getActiveContent().equals(tab))
-					{
-						//RIGHT TAB CURVATURE
-						
-						if(index < this.tabSize - 1 || this.tabSize == 1)
-						{
-							int factor = 2;
-							
-							for(int x = 0; x < factor; x++)
-							{
-								this.blit((int) (backgroundX + this.tabWidth + xOffset - x - 1), (int) (backgroundY + x + 1), (int) (this.tabWidth - x - 1), x + 1, x + 1, 1);
-							}
-						}
-						
-						//LEFT TAB CURVATURE
-						
-						if(index > 0)
-						{
-							int factor = 2;
-							
-							for(int x = 0; x < factor; x++)
-							{
-								this.blit((int) (backgroundX + xOffset), (int) (backgroundY + x + 1), xOffset.intValue(), x + 1, x + 1, 1);
-							}
-						}
-						
-						int width = (int)(this.tabWidth - 3);
-						int interval = 5;
-						
-						//LEFT GRADIENT
-						
-						if(index == 0)
-						{
-							for(int x = 0; x < width; x += interval)
-							{
-								this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-								this.blit((int) (backgroundX + xOffset), (int) (backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
-							}
-						}
-						
-						//RIGHT GRADIENT
-						
-						if(index == this.tabSize - 1 && this.tabSize > 1)
-						{
-							int offset = 3;
-							
-							for(int x = 0; x < width; x += interval)
-							{
-								this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-								this.blit((int) (backgroundX + Math.ceil(xOffset) + x + offset), (int) (backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
-							}
-						}
-					}
-					else
-					{
-						//LEFT CORNER FILLER
-						
-						if(index == 0)
-						{
-							int factor = 2;
-							
-							for(int x = 0; x < factor; x++)
-							{
-								this.blit(backgroundX, backgroundY + x, 0, fHeight, factor - x, 1);
-							}
-						}
-						
-						//RIGHT CORNER FILLER
-						
-						if(index == this.tabSize - 1)
-						{
-							int factor = 3;
-							
-							for(int x = 0; x < factor + 1; x++)
-							{
-								this.blit(backgroundX + this.bgTextureWidth - x, backgroundY + factor - x, this.bgTextureWidth - x, fHeight, x, 1);
-							}
-						}
-					}
-				}
-				
-				this.drawCenteredString(this.font, net.minecraft.util.text.TextFormatting.UNDERLINE + tab.getTabTitle(), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color);
-			});
-			
+			this.forEachTab(this::drawTab);
 			this.defaultColor();
 			
 			//VERSION LABEL
@@ -606,6 +496,122 @@ public class GuiWorldHandler extends Container
 				GuiUtils.drawHoveringText(Arrays.asList(label), versionWidth - 12, versionHeight + 12, this.width + this.font.getStringWidth(label), this.height + 10, this.width, this.font);
 			}
 		});
+	}
+	
+	private void drawTab(int index, Double xOffset)
+	{
+		final IContent tab = this.content.getCategory().getContent(index);
+		
+		final int backgroundX = this.getBackgroundX();
+		final int backgroundY = this.getBackgroundY();
+		
+		int yOffset;
+		int fHeight;
+		int color;
+		
+		if(this.content.getActiveContent().equals(tab))
+		{
+			yOffset = -22;
+			fHeight = 25;
+			color = 0xFFFFFF;
+			this.defaultColor();
+		}
+		else
+		{
+			yOffset = -20;
+			fHeight = 20;
+			color = 0xE0E0E0;
+			this.darkColor();
+		}
+		
+		this.bindBackground();
+		this.blit((int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
+		this.blit((int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.floor(this.tabHalf + 1), 0, (int) Math.floor(this.tabHalf + 1), fHeight);
+		
+		if(!Config.getSkin().sharpEdges())
+		{
+			if(this.content.getActiveContent().equals(tab))
+			{
+				//RIGHT TAB CURVATURE
+				
+				if(index < this.tabSize - 1 || this.tabSize == 1)
+				{
+					int factor = 2;
+					
+					for(int x = 0; x < factor; x++)
+					{
+						this.blit((int) (backgroundX + xOffset - x - 1 + Math.floor(this.tabHalf + 1) + this.tabHalf), (int) (backgroundY + x + 1), (int) (this.tabWidth - x - 1), x + 1, x + 1, 1);
+					}
+				}
+				
+				//LEFT TAB CURVATURE
+				
+				if(index > 0)
+				{
+					int factor = 2;
+					
+					for(int x = 0; x < factor; x++)
+					{
+						this.blit((int) (backgroundX + xOffset), (int) (backgroundY + x + 1), xOffset.intValue(), x + 1, x + 1, 1);
+					}
+				}
+				
+				int width = (int)(this.tabWidth - 3);
+				int interval = 5;
+				
+				//LEFT GRADIENT
+				
+				if(index == 0)
+				{
+					for(int x = 0; x < width; x += interval)
+					{
+						this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
+						this.blit((int) (backgroundX + xOffset), (int) (backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
+					}
+				}
+				
+				//RIGHT GRADIENT
+				
+				if(index == this.tabSize - 1 && this.tabSize > 1)
+				{
+					int offset = 3;
+					
+					for(int x = 0; x < width; x += interval)
+					{
+						this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
+						this.blit((int) (backgroundX + Math.ceil(xOffset) + x + offset), (int) (backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
+					}
+				}
+			}
+			else
+			{
+				//LEFT CORNER FILLER
+				
+				if(index == 0)
+				{
+					int factor = 2;
+					
+					for(int x = 0; x < factor; x++)
+					{
+						this.blit(backgroundX, backgroundY + x, 0, fHeight, factor - x, 1);
+					}
+				}
+				
+				//RIGHT CORNER FILLER
+				
+				if(index == this.tabSize - 1)
+				{
+					int factor = 3;
+					
+					for(int x = 0; x < factor + 1; x++)
+					{
+						this.blit(backgroundX + this.bgTextureWidth - x, backgroundY + factor - x, this.bgTextureWidth - x, fHeight, x, 1);
+					}
+				}
+			}
+		}
+		
+		this.drawCenteredString(this.font, TextFormatting.shortenString(net.minecraft.util.text.TextFormatting.UNDERLINE + tab.getTabTitle(), (int) this.tabWidth, this.font), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color);
 	}
 	
 	@Override

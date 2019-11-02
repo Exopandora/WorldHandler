@@ -1,7 +1,7 @@
 package exopandora.worldhandler.builder.component.impl;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.text.MutableStringTextComponent;
+import exopandora.worldhandler.util.MutableStringTextComponent;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;

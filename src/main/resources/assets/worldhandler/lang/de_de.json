@@ -418,5 +418,5 @@
 	"worldhandler.permission.refused": "Du hast nicht die benötigte Berechtigung, um den World Handler zu benutzen",
 	"worldhandler.permission.refused.change": "Ändere \"%s\" um diese Nachricht zu umgehen",
 
-	"worldhandler.error.gui": "Ein unerwarteter Fehler ist aufgetreten. Bitte sende einen Unfallbericht mit deinen Protokolldateien an das %s Forum"
+	"worldhandler.error.gui": "Ein unerwarteter Fehler ist aufgetreten."
 }

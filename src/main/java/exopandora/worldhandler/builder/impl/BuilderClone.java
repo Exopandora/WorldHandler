@@ -2,11 +2,10 @@ package exopandora.worldhandler.builder.impl;
 
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.impl.abstr.BuilderDoubleBlockPos;
+import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
 import exopandora.worldhandler.builder.types.CoordinateInt;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.helper.EnumHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
@@ -133,21 +132,21 @@ public class BuilderClone extends BuilderDoubleBlockPos
 	}
 	
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("x1", Type.COORDINATE_INT);
-		syntax.addRequired("y1", Type.COORDINATE_INT);
-		syntax.addRequired("z1", Type.COORDINATE_INT);
-		syntax.addRequired("x2", Type.COORDINATE_INT);
-		syntax.addRequired("y2", Type.COORDINATE_INT);
-		syntax.addRequired("z2", Type.COORDINATE_INT);
-		syntax.addRequired("x", Type.COORDINATE_INT);
-		syntax.addRequired("y", Type.COORDINATE_INT);
-		syntax.addRequired("z", Type.COORDINATE_INT);
-		syntax.addOptional("mask", Type.STRING);
-		syntax.addOptional("filter", Type.STRING);
+		syntax.addRequired("x1", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("y1", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("z1", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("x2", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("y2", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("z2", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("x", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("y", ArgumentType.COORDINATE_INT);
+		syntax.addRequired("z", ArgumentType.COORDINATE_INT);
+		syntax.addOptional("mask", ArgumentType.STRING);
+		syntax.addOptional("filter", ArgumentType.STRING);
 		
 		return syntax;
 	}

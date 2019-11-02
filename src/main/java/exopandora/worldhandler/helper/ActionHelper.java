@@ -13,18 +13,19 @@ import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
+import exopandora.worldhandler.gui.content.impl.ContentChild;
+import exopandora.worldhandler.gui.content.impl.ContentContinue;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.block.AbstractSignBlock;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraft.world.Difficulty;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -38,17 +39,45 @@ public class ActionHelper
 		Minecraft.getInstance().mouseHelper.grabMouse();
 	}
 	
+	public static void back(String id) throws Exception
+	{
+		ActionHelper.back(Contents.getRegisteredContent(id));
+	}
+	
 	public static void back(Content content) throws Exception
 	{
 		if(content.getBackContent() != null)
 		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(content.getBackContent()));
+			ActionHelper.open(content.getBackContent());
 		}
 	}
 	
 	public static void changeTab(Content content, int index)
 	{
-		ActionHelper.tryRun(() -> Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(content.getCategory().getContent(index))));
+		ActionHelper.tryRun(() -> ActionHelper.open(content.getCategory().getContent(index)));
+	}
+	
+	public static void open(String id) throws Exception
+	{
+		if(id != null)
+		{
+			ActionHelper.open(Contents.getRegisteredContent(id));
+		}
+	}
+	
+	public static void open(Content content) throws Exception
+	{
+		if(content != null && !(content instanceof ContentContinue))
+		{
+			if(content instanceof ContentChild && Minecraft.getInstance().currentScreen != null && Minecraft.getInstance().currentScreen instanceof GuiWorldHandler)
+			{
+				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(((ContentChild) content).withParent(((GuiWorldHandler) Minecraft.getInstance().currentScreen).getContent())));
+			}
+			else
+			{
+				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(content));
+			}
+		}
 	}
 	
 	public static void timeDawn()
@@ -140,13 +169,14 @@ public class ActionHelper
 			Minecraft.getInstance().displayGuiScreen(null);
 			Minecraft.getInstance().mouseHelper.grabMouse();
 			
-			StringTextComponent name = new StringTextComponent(Main.NAME);
-			name.setStyle(new Style().setUnderlined(true).setClickEvent(new ClickEvent(Action.OPEN_URL, Main.URL)));
+			Style redColor = new Style().setColor(TextFormatting.RED);
 			
-			TranslationTextComponent message = new TranslationTextComponent("worldhandler.error.gui", name);
-			message.setStyle(new Style().setColor(net.minecraft.util.text.TextFormatting.RED));
+			ITextComponent message = new TranslationTextComponent("<" + Main.NAME + "> %s", new TranslationTextComponent("worldhandler.error.gui")).setStyle(redColor);
+			ITextComponent cause = new StringTextComponent(" " + e.getClass().getCanonicalName() + ": " + e.getMessage()).setStyle(redColor);
 			
 			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, message);
+			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, cause);
+			
 			WorldHandler.LOGGER.throwing(e);
 		}
 	}

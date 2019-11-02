@@ -3,11 +3,10 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.impl.abstr.BuilderBlockPos;
+import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.TargetSelector;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.helper.EnumHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -180,24 +179,24 @@ public class BuilderData extends BuilderBlockPos
 	}
 	
 	@Nullable
-	private final Syntax getSyntax(EnumMode mode, EnumTarget target)
+	private final CommandSyntax getSyntax(EnumMode mode, EnumTarget target)
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired(mode != null ? mode.toString() : "mode", Type.STRING);
-		syntax.addRequired(target != null ? target.toString() : "target", Type.STRING);
+		syntax.addRequired(mode != null ? mode.toString() : "mode", ArgumentType.STRING);
+		syntax.addRequired(target != null ? target.toString() : "target", ArgumentType.STRING);
 		
 		if(target != null)
 		{
 			switch(target)
 			{
 				case BLOCK:
-					syntax.addRequired("x", Type.COORDINATE_INT);
-					syntax.addRequired("y", Type.COORDINATE_INT);
-					syntax.addRequired("z", Type.COORDINATE_INT);
+					syntax.addRequired("x", ArgumentType.COORDINATE_INT);
+					syntax.addRequired("y", ArgumentType.COORDINATE_INT);
+					syntax.addRequired("z", ArgumentType.COORDINATE_INT);
 					break;
 				case ENTITY:
-					syntax.addRequired("entity", Type.TARGET_SELECTOR);
+					syntax.addRequired("entity", ArgumentType.TARGET_SELECTOR);
 					break;
 				default:
 					break;
@@ -208,10 +207,10 @@ public class BuilderData extends BuilderBlockPos
 				case GET:
 					break;
 				case MERGE:
-					syntax.addRequired("nbt", Type.NBT);
+					syntax.addRequired("nbt", ArgumentType.NBT);
 					break;
 				case REMOVE:
-					syntax.addRequired("path", Type.STRING);
+					syntax.addRequired("path", ArgumentType.STRING);
 					break;
 				default:
 					break;
@@ -219,7 +218,7 @@ public class BuilderData extends BuilderBlockPos
 		}
 		else
 		{
-			syntax.addOptional("...", Type.STRING);
+			syntax.addOptional("...", ArgumentType.STRING);
 		}
 		
 		return syntax;
@@ -283,13 +282,13 @@ public class BuilderData extends BuilderBlockPos
 	}
 	
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("get|merge|remove", Type.STRING);
-		syntax.addRequired("block|entity", Type.STRING);
-		syntax.addOptional("...", Type.STRING);
+		syntax.addRequired("get|merge|remove", ArgumentType.STRING);
+		syntax.addRequired("block|entity", ArgumentType.STRING);
+		syntax.addOptional("...", ArgumentType.STRING);
 		
 		return syntax;
 	}

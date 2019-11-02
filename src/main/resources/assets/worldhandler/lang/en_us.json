@@ -417,5 +417,5 @@
 	"worldhandler.permission.refused": "You do not have permission to use the World Handler",
 	"worldhandler.permission.refused.change": "Change \"%s\" to disable this message",
 
-	"worldhandler.error.gui": "An unexpected error occured. Please send a crash report with your log files to the %s forum"
+	"worldhandler.error.gui": "An unexpected error occured."
 }

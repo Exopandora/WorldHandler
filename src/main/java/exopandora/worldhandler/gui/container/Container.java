@@ -3,8 +3,8 @@ package exopandora.worldhandler.gui.container;
 import java.util.ArrayList;
 import java.util.List;
 
-import exopandora.worldhandler.gui.content.element.Element;
-import exopandora.worldhandler.gui.content.element.IElement;
+import exopandora.worldhandler.gui.element.Element;
+import exopandora.worldhandler.gui.element.IElement;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.Widget;

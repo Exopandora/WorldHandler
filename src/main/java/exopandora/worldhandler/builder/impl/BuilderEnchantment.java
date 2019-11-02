@@ -1,8 +1,8 @@
 package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -53,13 +53,13 @@ public class BuilderEnchantment extends CommandBuilder
 	}
 	
 	@Override
-	public Syntax getSyntax()
+	public CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("player", Type.STRING);
-		syntax.addRequired("enchantment", Type.RESOURCE_LOCATION);
-		syntax.addOptional("level", Type.INT, 1);
+		syntax.addRequired("player", ArgumentType.STRING);
+		syntax.addRequired("enchantment", ArgumentType.RESOURCE_LOCATION);
+		syntax.addOptional("level", ArgumentType.INT, 1);
 		
 		return syntax;
 	}

@@ -3,9 +3,9 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nonnull;
 
 import exopandora.worldhandler.builder.CommandBuilder;
-import exopandora.worldhandler.builder.Syntax;
+import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.TargetSelector;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -70,11 +70,11 @@ public class BuilderButcher extends CommandBuilder
 	}
 	
 	@Override
-	public Syntax getSyntax()
+	public CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("entity_name", Type.TARGET_SELECTOR);
+		syntax.addRequired("entity_name", ArgumentType.TARGET_SELECTOR);
 		
 		return syntax;
 	}

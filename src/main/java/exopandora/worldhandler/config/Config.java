@@ -1,5 +1,8 @@
 package exopandora.worldhandler.config;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -122,6 +125,21 @@ public class Config
 			Config.CLIENT.read();
 			
 			KeyHandler.updatePosKeys();
+		}
+	}
+	
+	public static void setupDirectories(Path path)
+	{
+		try
+		{
+			if(!Files.exists(path))
+			{
+				Files.createDirectories(path);
+			}
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

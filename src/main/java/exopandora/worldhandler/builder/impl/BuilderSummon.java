@@ -7,17 +7,16 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilderNBT;
-import exopandora.worldhandler.builder.Syntax;
+import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.component.impl.ComponentAttributeMob;
 import exopandora.worldhandler.builder.component.impl.ComponentPotionMob;
 import exopandora.worldhandler.builder.component.impl.ComponentSummon;
 import exopandora.worldhandler.builder.component.impl.ComponentTag;
-import exopandora.worldhandler.builder.impl.abstr.EnumAttributes;
-import exopandora.worldhandler.builder.impl.abstr.EnumAttributes.Applyable;
+import exopandora.worldhandler.builder.impl.EnumAttributes.Applyable;
 import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
-import exopandora.worldhandler.text.MutableStringTextComponent;
+import exopandora.worldhandler.util.MutableStringTextComponent;
 import exopandora.worldhandler.builder.types.CoordinateDouble;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -369,15 +368,15 @@ public class BuilderSummon extends CommandBuilderNBT
 	}
 	
 	@Override
-	public Syntax getSyntax()
+	public CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("entity_name", Type.RESOURCE_LOCATION);
-		syntax.addOptional("x", Type.COORDINATE_DOUBLE);
-		syntax.addOptional("y", Type.COORDINATE_DOUBLE);
-		syntax.addOptional("z", Type.COORDINATE_DOUBLE);
-		syntax.addOptional("nbt", Type.NBT);
+		syntax.addRequired("entity_name", ArgumentType.RESOURCE_LOCATION);
+		syntax.addOptional("x", ArgumentType.COORDINATE_DOUBLE);
+		syntax.addOptional("y", ArgumentType.COORDINATE_DOUBLE);
+		syntax.addOptional("z", ArgumentType.COORDINATE_DOUBLE);
+		syntax.addOptional("nbt", ArgumentType.NBT);
 		
 		return syntax;
 	}

@@ -22,4 +22,9 @@ public interface ILogicMapped<T> extends ILogic
 	}
 	
 	void onClick(T item);
+	
+	default void onInit(T item)
+	{
+		
+	}
 }

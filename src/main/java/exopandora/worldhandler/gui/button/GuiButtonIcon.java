@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class GuiButtonIcon extends GuiButtonTooltip
 {
-	private EnumIcon icon;
+	private final EnumIcon icon;
 	
 	public GuiButtonIcon(int x, int y, int widthIn, int heightIn, EnumIcon icon, String tooltip, ActionHandler actionHandler)
 	{

@@ -2,7 +2,6 @@ package exopandora.worldhandler.gui.content.impl;
 
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.content.impl.abstr.ContentChild;
 import exopandora.worldhandler.helper.ActionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ConnectingScreen;

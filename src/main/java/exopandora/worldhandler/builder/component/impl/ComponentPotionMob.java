@@ -1,6 +1,5 @@
 package exopandora.worldhandler.builder.component.impl;
 
-import exopandora.worldhandler.builder.component.abstr.ComponentPotion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

@@ -28,8 +28,11 @@ import exopandora.worldhandler.gui.content.impl.ContentScoreboardTeams;
 import exopandora.worldhandler.gui.content.impl.ContentSettings;
 import exopandora.worldhandler.gui.content.impl.ContentSignEditor;
 import exopandora.worldhandler.gui.content.impl.ContentSummon;
+import exopandora.worldhandler.gui.content.impl.ContentUsercontent;
 import exopandora.worldhandler.gui.content.impl.ContentWorldInfo;
 import exopandora.worldhandler.helper.RegistryHelper;
+import exopandora.worldhandler.usercontent.UsercontentConfig;
+import exopandora.worldhandler.usercontent.UsercontentLoader;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -100,6 +103,21 @@ public abstract class Content extends ForgeRegistryEntry<Content> implements ICo
 		RegistryHelper.register(event.getRegistry(), "butcher", new ContentButcher());
 		RegistryHelper.register(event.getRegistry(), "butcher_settings", new ContentButcherSettings());
 		RegistryHelper.register(event.getRegistry(), "settings", new ContentSettings());
+		
+		//USERCONTENT
+		UsercontentLoader.CONFIGS.forEach(config -> Content.registerContent(event.getRegistry(), config));
+	}
+	
+	private static void registerContent(IForgeRegistry<Content> registry, UsercontentConfig config)
+	{
+		try
+		{
+			RegistryHelper.register(registry, config.getId(), new ContentUsercontent(config));
+		}
+		catch(Exception e)
+		{
+			throw new RuntimeException("Error loading js for usercontent: " + config.getId(), e);
+		}
 	}
 	
 	private Map<String, Object> persistence;

@@ -2,10 +2,9 @@ package exopandora.worldhandler.builder.impl;
 
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.builder.Syntax;
-import exopandora.worldhandler.builder.impl.abstr.BuilderScoreboard;
+import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.GreedyString;
-import exopandora.worldhandler.builder.types.Type;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.helper.EnumHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -120,29 +119,29 @@ public class BuilderScoreboardObjectives extends BuilderScoreboard
 	}
 	
 	@Nullable
-	private Syntax getSyntax(EnumMode mode)
+	private CommandSyntax getSyntax(EnumMode mode)
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
 		switch(mode)
 		{
 			case ADD:
-				syntax.addRequired("objectives", Type.STRING);
-				syntax.addRequired("add", Type.STRING);
-				syntax.addRequired("name", Type.STRING);
-				syntax.addRequired("criteria_type", Type.STRING);
-				syntax.addOptional("display_name...", Type.GREEDY_STRING);
+				syntax.addRequired("objectives", ArgumentType.STRING);
+				syntax.addRequired("add", ArgumentType.STRING);
+				syntax.addRequired("name", ArgumentType.STRING);
+				syntax.addRequired("criteria_type", ArgumentType.STRING);
+				syntax.addOptional("display_name...", ArgumentType.GREEDY_STRING);
 				return syntax;
 			case REMOVE:
-				syntax.addRequired("objectives", Type.STRING);
-				syntax.addRequired("remove", Type.STRING);
-				syntax.addRequired("name", Type.STRING);
+				syntax.addRequired("objectives", ArgumentType.STRING);
+				syntax.addRequired("remove", ArgumentType.STRING);
+				syntax.addRequired("name", ArgumentType.STRING);
 				return syntax;
 			case SETDISPLAY:
-				syntax.addRequired("objectives", Type.STRING);
-				syntax.addRequired("setdisplay", Type.STRING);
-				syntax.addRequired("slot", Type.STRING);
-				syntax.addOptional("objective", Type.STRING);
+				syntax.addRequired("objectives", ArgumentType.STRING);
+				syntax.addRequired("setdisplay", ArgumentType.STRING);
+				syntax.addRequired("slot", ArgumentType.STRING);
+				syntax.addOptional("objective", ArgumentType.STRING);
 				return syntax;
 			default:
 				return null;
@@ -150,13 +149,13 @@ public class BuilderScoreboardObjectives extends BuilderScoreboard
 	}
 	
 	@Override
-	public final Syntax getSyntax()
+	public final CommandSyntax getSyntax()
 	{
-		Syntax syntax = new Syntax();
+		CommandSyntax syntax = new CommandSyntax();
 		
-		syntax.addRequired("objectives", Type.STRING);
-		syntax.addRequired("list|add|remove|setdisplay", Type.STRING);
-		syntax.addOptional("...", Type.STRING);
+		syntax.addRequired("objectives", ArgumentType.STRING);
+		syntax.addRequired("list|add|remove|setdisplay", ArgumentType.STRING);
+		syntax.addOptional("...", ArgumentType.STRING);
 		
 		return syntax;
 	}

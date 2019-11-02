@@ -27,15 +27,20 @@ public class Categories
 		SCOREBOARD = Categories.getRegisteredCategory("scoreboard");
 	}
 	
-	private static Category getRegisteredCategory(String name)
+	public static Category getRegisteredCategory(String name)
 	{
 		Category category = Category.REGISTRY.getValue(new ResourceLocation(Main.MODID, name));
 		
 		if(category == null)
 		{
-			throw new IllegalStateException("Invalid Category requested: " + name);
+			throw new IllegalStateException("Requested missing category: " + name);
 		}
 		
 		return category;
+	}
+	
+	public static boolean isRegistered(String name)
+	{
+		return Category.REGISTRY.containsKey(new ResourceLocation(Main.MODID, name));
 	}
 }
