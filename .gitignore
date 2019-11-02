@@ -6,7 +6,6 @@
 !/src/
 !/gradle/
 !/run/config/worldhandler/usercontent/
-!/doc/
 !build.gradle
 !curseforge.html
 !gradlew
