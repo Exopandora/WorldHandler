@@ -46,7 +46,8 @@ Download World Handler or build from source
 
 ## Configuration ##
 
-≥ 1.13: Manual: `..\.minecraft\config\worldhandler.toml`  
+≥ 1.14.4: Manual: `..\.minecraft\config\worldhandler\worldhandler.toml`  
+1.13-1.14.4: Manual: `..\.minecraft\config\worldhandler.toml`  
 1.9-1.12: Ingame: Mods -> World Handler -> Config (Manual: `..\.minecraft\config\worldhandler.cfg`)  
 ≤ 1.8: Manual: `..\.minecraft\config\worldhandler\[CONFIG].cfg`
 
