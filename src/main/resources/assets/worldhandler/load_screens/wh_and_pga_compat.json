@@ -3,7 +3,7 @@
 		{
 			"COMMENT": "WORLD HANDLER SUPPORT", 
 			"class": "exopandora.worldhandler.gui.container.impl.GuiWorldHandler", 
-			"texture": "worldhandler:textures/gui/modsupport/wordhandler_gui_publicguiannouncement.png", 
+			"texture": "worldhandler:textures/gui/public_gui_announcement.png", 
 			"size": [248, 188]
 		}
 	]
