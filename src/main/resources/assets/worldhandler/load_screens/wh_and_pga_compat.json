@@ -1,8 +1,10 @@
 {
-	"screens" : [{
-			"COMMENT" : "WORLD HANDLER SUPPORT", 
-			"class" : "exopandora.worldhandler.gui.container.impl.GuiWorldHandler", 
-			"texture" : "worldhandler:textures/gui/modsupport/wordhandler_gui_publicguiannouncement.png", 
-			"size" : [248, 188]
-		}]
+	"screens": [
+		{
+			"COMMENT": "WORLD HANDLER SUPPORT", 
+			"class": "exopandora.worldhandler.gui.container.impl.GuiWorldHandler", 
+			"texture": "worldhandler:textures/gui/modsupport/wordhandler_gui_publicguiannouncement.png", 
+			"size": [248, 188]
+		}
+	]
 }
