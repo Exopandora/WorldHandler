@@ -1,0 +1,351 @@
+{
+	"model": {
+		"commands": [
+			{
+				"name": "example",
+				"syntax": [
+					{
+						"name": "list_button",
+						"type": "resource_location",
+						"required": true
+					},
+					{
+						"name": "page_list",
+						"type": "resource_location",
+						"default": "minecraft:air",
+						"required": false
+					},
+					{
+						"name": "slider",
+						"type": "int",
+						"default": 0,
+						"required": false
+					},
+					{
+						"name": "player",
+						"type": "player",
+						"required": false
+					},
+					{
+						"name": "textfield",
+						"type": "string",
+						"required": false
+					}
+				],
+				"visible": {
+					"type": "bool",
+					"bool": true
+				}
+			},
+			{
+				"name": "example2",
+				"syntax": [
+					{
+						"name": "arg1",
+						"type": "float",
+						"default": 0,
+						"required": true
+					}
+				],
+				"visible": {
+					"type": "bool",
+					"bool": true
+				}
+			},
+			{
+				"name": "example3",
+				"syntax": [
+					{
+						"name": "arg1",
+						"type": "int",
+						"default": "0",
+						"required": false
+					}
+				],
+				"visible": {
+					"type": "bool",
+					"bool": false
+				}
+			}
+		]
+	},
+	"gui": {
+		"title": "Example Title",
+		"tab": {
+			"title": "Example",
+			"category": "main",
+			"category_index": 3,
+			"active_content": "example"
+		},
+		"buttons": [
+			{
+				"text": "Button",
+				"type": "button",
+				"dimensions": {
+					"x": 0,
+					"y": 0,
+					"width": 114,
+					"height": 20
+				},
+				"action": {
+					"type": "js",
+					"attributes": {
+						"function": "addChatMessage",
+						"value": "Example message"
+					}
+				},
+				"attributes": {
+					"visible": {
+						"type": "bool",
+						"bool": true
+					},
+					"enabled": {
+						"type": "bool",
+						"bool": true
+					}
+				}
+			},
+			{
+				"text": "Textfield",
+				"type": "textfield",
+				"action": {
+					"type": "js",
+					"attributes": {
+						"function": "updateText"
+					}
+				},
+				"dimensions": {
+					"x": 0,
+					"y": 48,
+					"width": 114,
+					"height": 20
+				},
+				"attributes": {
+					"visible": {
+						"type": "js",
+						"function": "isVisible"
+					},
+					"enabled": {
+						"type": "js",
+						"function": "isEnabled"
+					},
+					"id": "textfield_id"
+				}
+			},
+			{
+				"type": "item_button",
+				"action": {
+					"type": "run",
+					"attributes": {
+						"value": "/give @p minecraft:diamond_sword 1"
+					}
+				},
+				"dimensions": {
+					"x": 0,
+					"y": 24,
+					"width": 20,
+					"height": 20
+				},
+				"attributes": {
+					"item": "minecraft:diamond_sword"
+				}
+			},
+			{
+				"type": "icon_button",
+				"action": {
+					"type": "open",
+					"attributes": {
+						"value": "main"
+					}
+				},
+				"dimensions": {
+					"x": 24,
+					"y": 24,
+					"width": 20,
+					"height": 20
+				},
+				"attributes": {
+					"icon": "home"
+				}
+			},
+			{
+				"text": "ActionHelper",
+				"type": "button",
+				"action": {
+					"type": "js",
+					"attributes": {
+						"function": "openContent",
+						"value": "settings"
+					}
+				},
+				"dimensions": {
+					"x": 48,
+					"y": 24,
+					"width": 66,
+					"height": 20
+				},
+				"attributes": {
+					"tooltip": "Opens Settings"
+				}
+			},
+			{
+				"type": "list_button",
+				"action": {
+					"type": "set",
+					"attributes": {
+						"command": 0,
+						"index": 0
+					}
+				},
+				"dimensions": {
+					"x": 118,
+					"y": 72,
+					"width": 114,
+					"height": 20
+				},
+				"attributes": {
+					"items": [
+						{
+							"id": "minecraft:grass",
+							"translation": "block.minecraft.grass"
+						},
+						{
+							"id": "minecraft:stone",
+							"translation": "block.minecraft.stone"
+						},
+						{
+							"id": "minecraft:dirt",
+							"translation": "block.minecraft.dirt"
+						},
+						{
+							"id": "minecraft:cobblestone",
+							"translation": "block.minecraft.cobblestone"
+						}
+					]
+				}
+			},
+			{
+				"text": "Slider",
+				"type": "slider",
+				"action": {
+					"type": "set",
+					"attributes": {
+						"command": 0,
+						"index": 2
+					}
+				},
+				"dimensions": {
+					"x": 0,
+					"y": 96,
+					"width": 114,
+					"height": 20
+				},
+				"attributes": {
+					"id": "slider_id",
+					"min": 0.0,
+					"max": 100.0,
+					"start": 10.0
+				}
+			},
+			{
+				"text": "Visible",
+				"type": "button",
+				"action": {
+					"type": "js",
+					"attributes": {
+						"function": "toggleVisibility"
+					}
+				},
+				"dimensions": {
+					"x": 0,
+					"y": 72,
+					"width": 56,
+					"height": 20
+				},
+				"attributes": {
+					"tooltip": "Toggle Visibility State"
+				}
+			},
+			{
+				"text": "Enabled",
+				"type": "button",
+				"action": {
+					"type": "js",
+					"attributes": {
+						"function": "toggleEnabled"
+					}
+				},
+				"dimensions": {
+					"x": 58,
+					"y": 72,
+					"width": 56,
+					"height": 20
+				},
+				"attributes": {
+					"tooltip": "Toggle Enabled State"
+				}
+			},
+			{
+				"text": "gui.worldhandler.generic.backToGame",
+				"type": "button",
+				"action": {
+					"type": "back_to_game"
+				},
+				"dimensions": {
+					"x": 118,
+					"y": 96,
+					"width": 114,
+					"height": 20
+				}
+			}
+		],
+		"elements": [
+			{
+				"type": "page_list",
+				"dimensions": {
+					"x": 118,
+					"y": 0,
+					"width": 114,
+					"height": 20
+				},
+				"action": {
+					"type": "set",
+					"attributes": {
+						"command": 0,
+						"index": 1
+					}
+				},
+				"attributes": {
+					"id": "page_list",
+					"length": 2,
+					"items": [
+						{
+							"id": "minecraft:grass",
+							"translation": "block.minecraft.grass"
+						},
+						{
+							"id": "minecraft:stone",
+							"translation": "block.minecraft.stone"
+						},
+						{
+							"id": "minecraft:dirt",
+							"translation": "block.minecraft.dirt"
+						},
+						{
+							"id": "minecraft:cobblestone",
+							"translation": "block.minecraft.cobblestone"
+						}
+					]
+				}
+			}
+		],
+		"texts": [
+			{
+				"text": "Text",
+				"x": 0,
+				"y": -11,
+				"color": 2039583
+			}
+		]
+	}
+}

@@ -60,7 +60,7 @@ Download World Handler or build from source
 # Expansion #
 
 The World Handler GUI can also be expanded with custom tabs configured with json and javascript files or as a separate child mod in java.  
-A description on how to implement a custom json and javascript file can be found [here](https://github.com/Exopandora/WorldHandler/blob/master/README.md) and an example child mod can be found [here](https://github.com/Exopandora/WorldHandlerPlugin).
+A description on how to implement a custom json and javascript file can be found [here](./doc/Usercontent.md) and an example child mod can be found [here](https://github.com/Exopandora/WorldHandlerPlugin).
 
 # FAQ #
 

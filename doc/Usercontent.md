@@ -14,7 +14,7 @@ Example setup for a custom GUI with id `example`:
 `../.minecraft/config/worldhandler/usercontent/example/example.json`  
 `../.minecraft/config/worldhandler/usercontent/example/example.js`  
 
-An example GUI can be found [here](../../run/config/worldhandler/usercontent/)
+An example GUI can be found [here](../run/config/worldhandler/usercontent/)
 
 # Index #
 
