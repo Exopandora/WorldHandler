@@ -33,12 +33,12 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	
 	protected void setNode(int index, String node)
 	{
-		this.set(index, node != null ? (node.isEmpty() ? null : node) : null, ArgumentType.STRING);
+		this.set(index, node != null && !node.isEmpty() ? node : null, ArgumentType.STRING);
 	}
 	
 	protected void setNode(int index, GreedyString node)
 	{
-		this.set(index, node != null ? (node.isEmpty() ? null : node) : null, ArgumentType.GREEDY_STRING);
+		this.set(index, node != null && !node.isEmpty() ? node : null, ArgumentType.GREEDY_STRING);
 	}
 	
 	protected void setNode(int index, boolean node)
@@ -113,7 +113,7 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	
 	protected void setPlayerName(int index, String username)
 	{
-		this.set(index, username, ArgumentType.PLAYER);
+		this.set(index, username != null && !username.isEmpty() ? username : null, ArgumentType.PLAYER);
 	}
 	
 	private void set(int index, Object value, ArgumentType type)
