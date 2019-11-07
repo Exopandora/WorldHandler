@@ -39,16 +39,11 @@ public class ActionHelper
 		Minecraft.getInstance().mouseHelper.grabMouse();
 	}
 	
-	public static void back(String id) throws Exception
-	{
-		ActionHelper.back(Contents.getRegisteredContent(id));
-	}
-	
 	public static void back(Content content) throws Exception
 	{
 		if(content.getBackContent() != null)
 		{
-			ActionHelper.open(content.getBackContent());
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(content.getBackContent()));
 		}
 	}
 	
