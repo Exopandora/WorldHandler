@@ -48,14 +48,6 @@ public class Config
 			this.sliders = new ConfigCategorySliders(builder);
 		}
 		
-		public void read()
-		{
-			this.getSettings().read();
-			this.getButcher().read();
-			this.getSkin().read();
-			this.getSliders().read();
-		}
-		
 		public ConfigCategorySettings getSettings()
 		{
 			return this.settings;
@@ -112,7 +104,6 @@ public class Config
 		{
 			Config.MOD_CONFIG = event.getConfig();
 			Config.CONFIG_DATA = (CommentedFileConfig) Config.MOD_CONFIG.getConfigData();
-			Config.CLIENT.read();
 		}
 	}
 	
@@ -122,8 +113,6 @@ public class Config
 		if(event.getConfig().getType().equals(Type.CLIENT) && Config.CONFIG_DATA != null)
 		{
 			Config.CONFIG_DATA.load();
-			Config.CLIENT.read();
-			
 			KeyHandler.updatePosKeys();
 		}
 	}

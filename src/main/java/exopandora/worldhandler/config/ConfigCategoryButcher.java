@@ -1,8 +1,10 @@
 package exopandora.worldhandler.config;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import com.google.common.base.Predicates;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,68 +16,47 @@ import net.minecraftforge.registries.ForgeRegistries;
 @OnlyIn(Dist.CLIENT)
 public class ConfigCategoryButcher
 {
-	private final List<String> entities = new ArrayList<String>();
-	
-	private final ConfigValue<List<? extends String>> valueEntities;
+	private final ConfigValue<List<? extends String>> entities;
 	
 	public ConfigCategoryButcher(ForgeConfigSpec.Builder builder)
 	{
 		builder.push("butcher");
 		
-		this.valueEntities = builder.defineList("entities", Collections.<String>emptyList(), this::isValid);
+		this.entities = builder.defineList("entities", Collections.<String>emptyList(), this::isValid);
 		
 		builder.pop();
 	}
 	
-	public void read()
-	{
-		this.entities.clear();
-		this.entities.addAll(this.valueEntities.get());
-	}
-	
-	private void write()
-	{
-		Config.set(this.valueEntities, this.entities);
-	}
-	
 	public List<ResourceLocation> getEntities()
 	{
-		List<ResourceLocation> list = new ArrayList<ResourceLocation>();
-		
-		for(String entity : this.entities)
-		{
-			ResourceLocation resource = ResourceLocation.tryCreate(entity);
-			
-			if(resource != null)
-			{
-				list.add(resource);
-			}
-		}
-		
-		return list;
+		return this.entities.get().stream().map(ResourceLocation::tryCreate).filter(Predicates.notNull()).collect(Collectors.toList());
 	}
 	
 	public boolean containsEntity(ResourceLocation entity)
 	{
-		return this.entities.contains(entity.toString());
+		return this.getEntities().contains(entity);
 	}
 	
 	public void addEntity(ResourceLocation entity)
 	{
 		if(this.isValid(entity))
 		{
-			this.entities.add(entity.toString());
-			this.write();
+			@SuppressWarnings("unchecked")
+			List<String> entities = (List<String>) this.entities.get();
+			entities.add(entity.toString());
+			Config.set(this.entities, entities);
 		}
 	}
 	
 	public boolean removeEntity(ResourceLocation entity)
 	{
-		boolean removed = this.entities.remove(entity.toString());
+		@SuppressWarnings("unchecked")
+		List<String> entities = (List<String>) this.entities.get();
+		boolean removed = entities.remove(entity.toString());
 		
 		if(removed)
 		{
-			this.write();
+			Config.set(this.entities, entities);
 		}
 		
 		return removed;
