@@ -94,6 +94,6 @@ public class ContentButcherSettings extends ContentChild
 	@Override
 	public String getTitle()
 	{
-		return this.parent.getTitle();
+		return this.getParentContent().getTitle();
 	}
 }

@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public abstract class ContentChild extends Content
 {
-	protected Content parent;
+	private Content parent;
 	
 	public ContentChild withParent(Content parent)
 	{
@@ -52,6 +52,11 @@ public abstract class ContentChild extends Content
 	
 	@Override
 	public Content getBackContent()
+	{
+		return this.parent;
+	}
+	
+	public Content getParentContent()
 	{
 		return this.parent;
 	}

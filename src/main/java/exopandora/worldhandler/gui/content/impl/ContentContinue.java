@@ -68,7 +68,7 @@ public class ContentContinue extends ContentChild
 		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, TextFormatting.RED + I18n.format("gui.worldhandler.generic.yes"), () ->
 		{
 			CommandHelper.sendCommand(this.builder, this.special);
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.parent));
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.getParentContent()));
 		}));
 		container.add(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, I18n.format("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
 	}
@@ -82,6 +82,6 @@ public class ContentContinue extends ContentChild
 	@Override
 	public String getTitle()
 	{
-		return this.parent.getTitle();
+		return this.getParentContent().getTitle();
 	}
 }
