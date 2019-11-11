@@ -20,12 +20,16 @@ public class JsonTab
 	@SerializedName("active_content")
 	private String activeContent;
 	
-	public JsonTab(String title, String category, int categoryIndex, String activeContent)
+	@SerializedName("back_content")
+	private String backContent;
+	
+	public JsonTab(String title, String category, int categoryIndex, String activeContent, String backContent)
 	{
 		this.title = title;
 		this.category = category;
 		this.categoryIndex = categoryIndex;
 		this.activeContent = activeContent;
+		this.backContent = backContent;
 	}
 	
 	public String getTitle()
@@ -68,11 +72,29 @@ public class JsonTab
 		this.activeContent = activeContent;
 	}
 	
+	public String getBackContent()
+	{
+		return this.backContent;
+	}
+	
+	public void setBackContent(String backContent)
+	{
+		this.backContent = backContent;
+	}
+	
 	public void validate() throws IllegalStateException
 	{
 		if(this.category == null)
 		{
 			throw new IllegalStateException("tab.category is null");
+		}
+		else if(this.activeContent != null && this.activeContent.isEmpty())
+		{
+			throw new IllegalStateException("tab.active_content is empty");
+		}
+		else if(this.backContent != null && this.backContent.isEmpty())
+		{
+			throw new IllegalStateException("tab.back_content is empty");
 		}
 	}
 }

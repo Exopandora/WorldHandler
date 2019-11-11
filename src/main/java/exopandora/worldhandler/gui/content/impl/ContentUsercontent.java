@@ -181,6 +181,17 @@ public class ContentUsercontent extends Content
 	}
 	
 	@Override
+	public Content getBackContent()
+	{
+		if(this.content.getGui().getTab().getActiveContent() == null)
+		{
+			return super.getBackContent();
+		}
+		
+		return Contents.getRegisteredContent(this.content.getGui().getTab().getBackContent());
+	}
+	
+	@Override
 	public void onPlayerNameChanged(String username)
 	{
 		for(VisibleObject<BuilderUsercontent> visObj : this.builders)
