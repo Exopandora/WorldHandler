@@ -192,12 +192,12 @@ public class GuiWorldHandler extends Container
 	
 	private int getContentX()
 	{
-		return (this.width - this.bgTextureWidth) / 2 + 8 + this.getXOffset();
+		return this.getBackgroundX() + 8;
 	}
 	
 	private int getContentY()
 	{
-		return this.height / 2 - 50 + this.getYOffset();
+		return this.getBackgroundY() + 33;
 	}
 	
 	private int getXOffset()
@@ -392,21 +392,6 @@ public class GuiWorldHandler extends Container
 			
 			final int maxWidth = this.bgTextureWidth - 7 - 2 - this.font.getStringWidth(GuiWorldHandler.player) - 2 - this.getWatchOffset() - 7;
 			this.font.drawString(TextFormatting.shortenString(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
-			
-			//HEADLINE
-			
-			if(this.content.getHeadline() != null)
-			{
-				if(this.content.getHeadline().length > 0)
-				{
-					this.font.drawString(this.content.getHeadline()[0], backgroundX + 8, backgroundY + 22, Config.getSkin().getHeadlineColor());
-				}
-				
-				if(this.content.getHeadline().length > 1)
-				{
-					this.font.drawString(this.content.getHeadline()[1], backgroundX + 126, backgroundY + 22, Config.getSkin().getHeadlineColor());
-				}
-			}
 			
 			//NAME FIELD
 			

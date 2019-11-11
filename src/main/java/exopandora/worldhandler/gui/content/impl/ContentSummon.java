@@ -1,6 +1,5 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -588,6 +587,10 @@ public class ContentSummon extends Content
 			this.customNameField.renderButton(mouseX, mouseY, partialTicks);
 			this.passengerField.renderButton(mouseX, mouseY, partialTicks);
 		}
+		else if(this.page.equals("potionEffects"))
+		{
+			Minecraft.getInstance().fontRenderer.drawString((this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
+		}
 		else if(this.page.equals("equipment"))
 		{
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -597,15 +600,16 @@ public class ContentSummon extends Content
 		 	{
 		 		container.blit(x + 116 + 99, y + 2 + 24 * row, 112, 221, 16, 16);
 		 	}
+		 	
+			Minecraft.getInstance().fontRenderer.drawString((this.equipmentPage + 1) + "/2", x + 118, y - 11, Config.getSkin().getHeadlineColor());
 		}
 	}
 	
 	private List<ResourceLocation> getSortedPotionList()
 	{
-		List<ResourceLocation> potions = new ArrayList<ResourceLocation>(ForgeRegistries.POTIONS.getKeys());
-		potions.sort((a, b) -> I18n.format(ForgeRegistries.POTIONS.getValue(a).getName()).compareTo(I18n.format(ForgeRegistries.POTIONS.getValue(b).getName())));
-		
-		return potions;
+		return ForgeRegistries.POTIONS.getKeys().stream()
+				.sorted((a, b) -> I18n.format(ForgeRegistries.POTIONS.getValue(a).getName()).compareTo(I18n.format(ForgeRegistries.POTIONS.getValue(b).getName())))
+				.collect(Collectors.toList());
 	}
 	
 	@Override
@@ -624,23 +628,6 @@ public class ContentSummon extends Content
 	public String getTabTitle()
 	{
 		return I18n.format("gui.worldhandler.tab.entities.summon");
-	}
-	
-	@Override
-	public String[] getHeadline()
-	{
-		String[] headline = new String[2];
-		
-		if(this.page.equals("potionEffects"))
-		{
-			headline[1] = (this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2);
-		}
-		else if(this.page.equals("equipment"))
-		{
-			headline[1] = (this.equipmentPage + 1) + "/2";
-		}
-		
-		return headline;
 	}
 	
 	@Override

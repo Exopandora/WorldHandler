@@ -1,5 +1,6 @@
 package exopandora.worldhandler.gui.content;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
@@ -45,7 +46,7 @@ public interface IContent
 	
 	Content getActiveContent();
 	
-	@Nullable
+	@Nonnull
 	default Content getBackContent()
 	{
 		return Contents.MAIN;
@@ -53,12 +54,6 @@ public interface IContent
 	
 	@Nullable
 	default ICommandBuilder getCommandBuilder()
-	{
-		return null;
-	}
-	
-	@Nullable
-	default String[] getHeadline()
 	{
 		return null;
 	}
