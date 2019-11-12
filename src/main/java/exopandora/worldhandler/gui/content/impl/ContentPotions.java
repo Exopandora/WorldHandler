@@ -11,9 +11,9 @@ import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.button.GuiSlider;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
 import exopandora.worldhandler.gui.logic.LogicSliderSimple;
+import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.util.ActionHandler;
@@ -60,7 +60,7 @@ public class ContentPotions extends ContentChild
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		ElementPageList<Effect> potions = new ElementPageList<Effect>(x, y, new ArrayList<Effect>(ForgeRegistries.POTIONS.getValues()), 114, 20, 3, container, new ILogicPageList<Effect>()
+		MenuPageList<Effect> potions = new MenuPageList<Effect>(x, y, new ArrayList<Effect>(ForgeRegistries.POTIONS.getValues()), 114, 20, 3, container, new ILogicPageList<Effect>()
 		{
 			@Override
 			public String translate(Effect item)

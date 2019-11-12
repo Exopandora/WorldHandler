@@ -23,7 +23,7 @@ import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.IContent;
-import exopandora.worldhandler.gui.element.IElement;
+import exopandora.worldhandler.gui.menu.IMenu;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.ResourceHelper;
 import exopandora.worldhandler.util.TextFormatting;
@@ -80,7 +80,7 @@ public class GuiWorldHandler extends Container
 		ActionHelper.tryRun(() ->
 		{
 			this.finalButtons.clear();
-			this.elements.clear();
+			this.menus.clear();
 			this.buttons.clear();
 			this.children.clear();
 			
@@ -90,9 +90,9 @@ public class GuiWorldHandler extends Container
 			
 			//ELEMENTS
 			
-			for(IElement element : this.elements)
+			for(IMenu menu : this.menus)
 			{
-				element.initGui(this);
+				menu.initGui(this);
 			}
 			
 			//SHORTCUTS
@@ -184,9 +184,9 @@ public class GuiWorldHandler extends Container
 		
 		this.add(this.nameField);
 		
-		for(IElement element : this.elements)
+		for(IMenu menu : this.menus)
 		{
-			element.initButtons(this);
+			menu.initButtons(this);
 		}
 	}
 	
@@ -220,9 +220,9 @@ public class GuiWorldHandler extends Container
 	{
 		this.content.tick(this);
 		
-		for(IElement element : this.elements)
+		for(IMenu menu : this.menus)
 		{
-			element.tick();
+			menu.tick();
 		}
 		
 		this.updateSyntax();
@@ -430,9 +430,9 @@ public class GuiWorldHandler extends Container
 			
 			//CONTAINER ELEMENTS
 			
-			for(IElement element : this.elements)
+			for(IMenu menu : this.menus)
 			{
-				element.draw(mouseX, mouseY, partialTicks);
+				menu.draw(mouseX, mouseY, partialTicks);
 			}
 			
 			//SYNTAX

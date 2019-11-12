@@ -28,7 +28,7 @@ import exopandora.worldhandler.gui.button.EnumIcon;
 import exopandora.worldhandler.usercontent.model.Action;
 import exopandora.worldhandler.usercontent.model.BooleanExpression;
 import exopandora.worldhandler.usercontent.model.JsonButton;
-import exopandora.worldhandler.usercontent.model.JsonElement;
+import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import net.minecraft.util.ResourceLocation;
@@ -65,7 +65,7 @@ public class UsercontentLoader
 				.registerTypeAdapter(BooleanExpression.Type.class, new EnumTypeAdapter<BooleanExpression.Type>(BooleanExpression.Type.class))
 				.registerTypeAdapter(JsonButton.Type.class, new EnumTypeAdapter<JsonButton.Type>(JsonButton.Type.class))
 				.registerTypeAdapter(Action.Type.class, new EnumTypeAdapter<Action.Type>(Action.Type.class))
-				.registerTypeAdapter(JsonElement.Type.class, new EnumTypeAdapter<JsonElement.Type>(JsonElement.Type.class))
+				.registerTypeAdapter(JsonMenu.Type.class, new EnumTypeAdapter<JsonMenu.Type>(JsonMenu.Type.class))
 				.create();
 		final List<Path> folders = Files.list(path)
 				.filter(Files::isDirectory)

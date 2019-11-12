@@ -15,8 +15,8 @@ import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.element.impl.ElementMultiButtonList;
 import exopandora.worldhandler.gui.logic.ILogicClickList;
+import exopandora.worldhandler.gui.menu.impl.MenuButtonList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.helper.RegistryHelper;
@@ -59,7 +59,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		
 		if(Page.CREATE.equals(this.page))
 		{
-			ElementMultiButtonList objectives = new ElementMultiButtonList(x + 118, y + 24, HELPER.getObjectives(), 2, new ILogicClickList()
+			MenuButtonList objectives = new MenuButtonList(x + 118, y + 24, HELPER.getObjectives(), 2, new ILogicClickList()
 			{
 				@Override
 				public String translate(String key, int depth)
@@ -160,7 +160,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		}
 		else if(Page.DISPLAY.equals(this.page) || Page.UNDISPLAY.equals(this.page))
 		{
-			ElementMultiButtonList slots = new ElementMultiButtonList(x + 118, y + 24 - this.page.getShift(), HELPER.getSlots(), 2, new ILogicClickList()
+			MenuButtonList slots = new MenuButtonList(x + 118, y + 24 - this.page.getShift(), HELPER.getSlots(), 2, new ILogicClickList()
 			{
 				@Override
 				public String translate(String key, int depth)

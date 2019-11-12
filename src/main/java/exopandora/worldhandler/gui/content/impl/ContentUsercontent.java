@@ -23,10 +23,10 @@ import exopandora.worldhandler.usercontent.VisibleActiveObject;
 import exopandora.worldhandler.usercontent.VisibleObject;
 import exopandora.worldhandler.usercontent.factory.ActionHandlerFactory;
 import exopandora.worldhandler.usercontent.factory.ButtonFactory;
-import exopandora.worldhandler.usercontent.factory.ElementFactory;
+import exopandora.worldhandler.usercontent.factory.MenuFactory;
 import exopandora.worldhandler.usercontent.model.JsonButton;
 import exopandora.worldhandler.usercontent.model.JsonCommand;
-import exopandora.worldhandler.usercontent.model.JsonElement;
+import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonModel;
 import exopandora.worldhandler.usercontent.model.JsonText;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
@@ -52,7 +52,7 @@ public class ContentUsercontent extends Content
 	private final List<VisibleActiveObject<Widget>> buttons = new ArrayList<VisibleActiveObject<Widget>>();
 	private UsercontentAPI api;
 	private ButtonFactory buttonFactory;
-	private ElementFactory elementFactory;
+	private MenuFactory menuFactory;
 	
 	public ContentUsercontent(UsercontentConfig config) throws Exception
 	{
@@ -63,7 +63,7 @@ public class ContentUsercontent extends Content
 		this.api = new UsercontentAPI(this.builders.stream().map(VisibleObject::getObject).collect(Collectors.toList()));
 		ActionHandlerFactory actionHandlerFactory = new ActionHandlerFactory(this.api,this. builders, this.engineAdapter);
 		this.buttonFactory = new ButtonFactory(this.api, actionHandlerFactory);
-		this.elementFactory = new ElementFactory(this.api, actionHandlerFactory);
+		this.menuFactory = new MenuFactory(this.api, actionHandlerFactory);
 		this.engineAdapter.addObject("api", this.api);
 		this.engineAdapter.eval(config.getJs());
 	}
@@ -100,9 +100,9 @@ public class ContentUsercontent extends Content
 			}
 		}
 		
-		for(JsonElement element : this.getWidgets(this.content.getGui().getElements(), JsonWidget.Type.ELEMENT))
+		for(JsonMenu menu : this.getWidgets(this.content.getGui().getMenus(), JsonWidget.Type.ELEMENT))
 		{
-			container.add(this.elementFactory.createElement(element, this, container, x, y));
+			container.add(this.menuFactory.createMenu(menu, this, container, x, y));
 		}
 		
 		this.updateTextfields();

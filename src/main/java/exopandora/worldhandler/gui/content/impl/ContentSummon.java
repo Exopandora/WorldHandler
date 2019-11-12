@@ -22,10 +22,10 @@ import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
 import exopandora.worldhandler.gui.logic.LogicSliderAttribute;
 import exopandora.worldhandler.gui.logic.LogicSliderSimple;
+import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.util.ActionHandler;
@@ -132,7 +132,7 @@ public class ContentSummon extends Content
 		
 		if(Page.ATTRIBUTES.equals(this.page))
 		{
-			ElementPageList<EnumAttributes> attributes = new ElementPageList<EnumAttributes>(x + 118, y, this.attributes, 114, 20, 3, container, new ILogicPageList<EnumAttributes>()
+			MenuPageList<EnumAttributes> attributes = new MenuPageList<EnumAttributes>(x + 118, y, this.attributes, 114, 20, 3, container, new ILogicPageList<EnumAttributes>()
 			{
 				@Override
 				public String translate(EnumAttributes item)

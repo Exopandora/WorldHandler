@@ -7,8 +7,8 @@ import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.resources.I18n;
@@ -28,7 +28,7 @@ public class ContentButcherSettings extends ContentChild
 	{
 		List<EntityType<?>> list = ForgeRegistries.ENTITIES.getValues().stream().filter(EntityType::isSummonable).collect(Collectors.toList());
 		
-		ElementPageList<EntityType<?>> entities = new ElementPageList<EntityType<?>>(x, y, list, 114, 20, 3, container, new ILogicPageList<EntityType<?>>()
+		MenuPageList<EntityType<?>> entities = new MenuPageList<EntityType<?>>(x, y, list, 114, 20, 3, container, new ILogicPageList<EntityType<?>>()
 		{
 			@Override
 			public String translate(EntityType<?> item)

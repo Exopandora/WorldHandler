@@ -13,8 +13,8 @@ import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.element.impl.ElementMultiButtonList;
 import exopandora.worldhandler.gui.logic.ILogicClickList;
+import exopandora.worldhandler.gui.menu.impl.MenuButtonList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import net.minecraft.client.resources.I18n;
@@ -53,7 +53,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		
 		if(Page.OPTION.equals(this.page))
 		{
-			ElementMultiButtonList options = new ElementMultiButtonList(x + 118, y + 24, HELPER.getOptions(), 2, new ILogicClickList()
+			MenuButtonList options = new MenuButtonList(x + 118, y + 24, HELPER.getOptions(), 2, new ILogicClickList()
 			{
 				@Override
 				public String translate(String key, int depth)

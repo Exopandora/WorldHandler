@@ -17,9 +17,9 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.logic.ILogicMapped;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.AdvancementHelper;
 import exopandora.worldhandler.helper.CommandHelper;
@@ -50,7 +50,7 @@ public class ContentAdvancements extends Content
 				.filter(advancement -> advancement.getDisplay() != null)
 				.collect(Collectors.toList());
 		
-		ElementPageList<Advancement> list = new ElementPageList<Advancement>(x, y, advancements, 114, 20, 3, container, new ILogicPageList<Advancement>()
+		MenuPageList<Advancement> list = new MenuPageList<Advancement>(x, y, advancements, 114, 20, 3, container, new ILogicPageList<Advancement>()
 		{
 			@Override
 			public String translate(Advancement item)

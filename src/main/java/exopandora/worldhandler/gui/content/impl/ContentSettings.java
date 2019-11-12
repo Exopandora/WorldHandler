@@ -12,8 +12,8 @@ import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.impl.ContentSettings.Setting.BooleanSetting;
 import exopandora.worldhandler.gui.content.impl.ContentSettings.Setting.IntegerSetting;
-import exopandora.worldhandler.gui.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.resources.I18n;
@@ -49,7 +49,7 @@ public class ContentSettings extends ContentChild
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		ElementPageList<Setting<?>> settings = new ElementPageList<Setting<?>>(x, y, SETTINGS, 114, 20, 3, container, new ILogicPageList<Setting<?>>()
+		MenuPageList<Setting<?>> settings = new MenuPageList<Setting<?>>(x, y, SETTINGS, 114, 20, 3, container, new ILogicPageList<Setting<?>>()
 		{
 			@Override
 			public String translate(Setting<?> item)

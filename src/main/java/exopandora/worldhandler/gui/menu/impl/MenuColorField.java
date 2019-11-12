@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.element.impl;
+package exopandora.worldhandler.gui.menu.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,9 @@ import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.element.Element;
 import exopandora.worldhandler.gui.logic.ILogicColorMenu;
 import exopandora.worldhandler.gui.logic.ILogicMapped;
+import exopandora.worldhandler.gui.menu.Menu;
 import exopandora.worldhandler.util.MutableStringTextComponent;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ElementColorMenu extends Element
+public class MenuColorField extends Menu
 {
 	private static final List<TextFormatting> COLORS = new ArrayList<TextFormatting>();
 	
@@ -47,12 +47,12 @@ public class ElementColorMenu extends Element
 	private final ILogicColorMenu logic;
 	private final String translationKey;
 	
-	public ElementColorMenu(int x, int y, String translationKey, MutableStringTextComponent string)
+	public MenuColorField(int x, int y, String translationKey, MutableStringTextComponent string)
 	{
 		this(x, y, translationKey, string, new ILogicColorMenu(){});
 	}
 	
-	public ElementColorMenu(int x, int y, String translationKey, MutableStringTextComponent string, ILogicColorMenu logic)
+	public MenuColorField(int x, int y, String translationKey, MutableStringTextComponent string, ILogicColorMenu logic)
 	{
 		super(x, y);
 		this.translationKey = translationKey;
@@ -103,13 +103,13 @@ public class ElementColorMenu extends Element
 				@Override
 				public void onClick(TextFormatting item)
 				{
-					ElementColorMenu.this.string.getStyle().setColor(item);
+					MenuColorField.this.string.getStyle().setColor(item);
 				}
 				
 				@Override
 				public String getId()
 				{
-					return ElementColorMenu.this.logic.getId();
+					return MenuColorField.this.logic.getId();
 				}
 			}));
 			

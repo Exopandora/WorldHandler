@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.element.impl;
+package exopandora.worldhandler.gui.menu.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,28 +11,28 @@ import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonList.Persistence;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.element.Element;
 import exopandora.worldhandler.gui.logic.ILogicClickList;
 import exopandora.worldhandler.gui.logic.ILogicMapped;
+import exopandora.worldhandler.gui.menu.Menu;
 import exopandora.worldhandler.helper.Node;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ElementMultiButtonList extends Element
+public class MenuButtonList extends Menu
 {
 	private final List<Node> items;
 	private final ILogicClickList logic;
-	private final ElementMultiButtonList parent;
+	private final MenuButtonList parent;
 	private final int depth;
 	private final int maxDepth;
 	
-	public ElementMultiButtonList(int x, int y, List<Node> list, int maxDepth, ILogicClickList logic)
+	public MenuButtonList(int x, int y, List<Node> list, int maxDepth, ILogicClickList logic)
 	{
 		this(x, y, list, maxDepth, logic, null);
 	}
 	
-	private ElementMultiButtonList(int x, int y, List<Node> list, int maxDepth, ILogicClickList logic, ElementMultiButtonList parent)
+	private MenuButtonList(int x, int y, List<Node> list, int maxDepth, ILogicClickList logic, MenuButtonList parent)
 	{
 		super(x, y);
 		this.items = list;
@@ -56,7 +56,7 @@ public class ElementMultiButtonList extends Element
 			@Override
 			public String translate(Node item)
 			{
-				return ElementMultiButtonList.this.logic.translate(ElementMultiButtonList.this.buildKey(container, ElementMultiButtonList.this.logic::buildTranslationKey), ElementMultiButtonList.this.getDepth());
+				return MenuButtonList.this.logic.translate(MenuButtonList.this.buildKey(container, MenuButtonList.this.logic::buildTranslationKey), MenuButtonList.this.getDepth());
 			}
 			
 			@Override
@@ -74,14 +74,14 @@ public class ElementMultiButtonList extends Element
 			@Override
 			public void onClick(Node item)
 			{
-				ElementMultiButtonList.this.getPersistence(container, 1).setIndex(0);
+				MenuButtonList.this.getPersistence(container, 1).setIndex(0);
 				container.init();
 			}
 			
 			@Override
 			public String getId()
 			{
-				return ElementMultiButtonList.this.getId();
+				return MenuButtonList.this.getId();
 			}
 		}));
 		
@@ -90,7 +90,7 @@ public class ElementMultiButtonList extends Element
 		
 		if(node.getEntries() != null)
 		{
-			ElementMultiButtonList child = new ElementMultiButtonList(this.x, this.y + 24, node.getEntries(), this.maxDepth, this.logic, this);
+			MenuButtonList child = new MenuButtonList(this.x, this.y + 24, node.getEntries(), this.maxDepth, this.logic, this);
 			child.initButtons(container);
 		}
 		else
@@ -122,7 +122,7 @@ public class ElementMultiButtonList extends Element
 	}
 	
 	@Nullable
-	protected ElementMultiButtonList getParent()
+	protected MenuButtonList getParent()
 	{
 		return this.parent;
 	}
@@ -134,7 +134,7 @@ public class ElementMultiButtonList extends Element
 	
 	protected String getId(int offset)
 	{
-		return String.format("%s%d", ElementMultiButtonList.this.logic.getId(), ElementMultiButtonList.this.depth + offset);
+		return String.format("%s%d", MenuButtonList.this.logic.getId(), MenuButtonList.this.depth + offset);
 	}
 	
 	protected Persistence getPersistence(Container container)
@@ -154,16 +154,16 @@ public class ElementMultiButtonList extends Element
 	
 	protected String buildKey(Container container, BiFunction<List<String>, Integer, String> factory)
 	{
-		List<String> nodes = new ArrayList<String>(ElementMultiButtonList.this.depth + 1);
-		ElementMultiButtonList element = ElementMultiButtonList.this;
+		List<String> nodes = new ArrayList<String>(MenuButtonList.this.depth + 1);
+		MenuButtonList menu = MenuButtonList.this;
 		
-		while(element != null)
+		while(menu != null)
 		{
-			nodes.add(element.getNode(container).getKey());
-			element = element.getParent();
+			nodes.add(menu.getNode(container).getKey());
+			menu = menu.getParent();
 		}
 		
 		Collections.reverse(nodes);
-		return factory.apply(nodes, ElementMultiButtonList.this.depth);
+		return factory.apply(nodes, MenuButtonList.this.depth);
 	}
 }

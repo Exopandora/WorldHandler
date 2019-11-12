@@ -1,11 +1,11 @@
-package exopandora.worldhandler.gui.element;
+package exopandora.worldhandler.gui.menu;
 
 import exopandora.worldhandler.gui.container.Container;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public interface IElement
+public interface IMenu
 {
 	void initGui(Container container);
 	void initButtons(Container container);

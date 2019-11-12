@@ -20,11 +20,11 @@ import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.element.impl.ElementColorMenu;
-import exopandora.worldhandler.gui.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
 import exopandora.worldhandler.gui.logic.LogicSliderAttribute;
 import exopandora.worldhandler.gui.logic.LogicSliderSimple;
+import exopandora.worldhandler.gui.menu.impl.MenuColorField;
+import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.helper.ResourceHelper;
@@ -116,12 +116,12 @@ public class ContentCustomItem extends Content
 		{
 			if(this.startPage == 1)
 			{
-				container.add(new ElementColorMenu(x, y, "gui.worldhandler.items.custom_item.start.custom_name", this.builderCutomItem.getName()));
+				container.add(new MenuColorField(x, y, "gui.worldhandler.items.custom_item.start.custom_name", this.builderCutomItem.getName()));
 			}
 		}
 		else if(Page.ENCHANT.equals(this.page))
 		{
-			ElementPageList<Enchantment> enchantments = new ElementPageList<Enchantment>(x + 118, y, new ArrayList<Enchantment>(ForgeRegistries.ENCHANTMENTS.getValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
+			MenuPageList<Enchantment> enchantments = new MenuPageList<Enchantment>(x + 118, y, new ArrayList<Enchantment>(ForgeRegistries.ENCHANTMENTS.getValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
 			{
 				@Override
 				public String translate(Enchantment item)
@@ -166,7 +166,7 @@ public class ContentCustomItem extends Content
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
-			ElementPageList<EnumAttributes> attributes = new ElementPageList<EnumAttributes>(x + 118, y, this.attributes, 114, 20, 3, container, new ILogicPageList<EnumAttributes>()
+			MenuPageList<EnumAttributes> attributes = new MenuPageList<EnumAttributes>(x + 118, y, this.attributes, 114, 20, 3, container, new ILogicPageList<EnumAttributes>()
 			{
 				@Override
 				public String translate(EnumAttributes item)

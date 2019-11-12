@@ -13,8 +13,8 @@ import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.util.ActionHandler;
@@ -44,7 +44,7 @@ public class ContentRecipes extends Content
 				.filter(recipe -> !recipe.isDynamic())
 				.collect(Collectors.toList());
 		
-		ElementPageList<IRecipe<?>> list = new ElementPageList<IRecipe<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<IRecipe<?>>()
+		MenuPageList<IRecipe<?>> list = new MenuPageList<IRecipe<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<IRecipe<?>>()
 		{
 			@Override
 			public String translate(IRecipe<?> item)

@@ -6,11 +6,11 @@ import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.gui.element.Element;
-import exopandora.worldhandler.gui.element.impl.ElementPageList;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.gui.menu.Menu;
+import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
-import exopandora.worldhandler.usercontent.model.JsonElement;
+import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.ActionHandler;
@@ -18,28 +18,28 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ElementFactory extends WidgetFactory
+public class MenuFactory extends WidgetFactory
 {
-	public ElementFactory(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory)
+	public MenuFactory(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory)
 	{
 		super(api, actionHandlerFactory);
 	}
 	
 	@Nullable
-	public Element createElement(JsonElement element, Content content, Container container, int x, int y)
+	public Menu createMenu(JsonMenu menu, Content content, Container container, int x, int y)
 	{
-		if(JsonElement.Type.PAGE_LIST.equals(element.getType()))
+		if(JsonMenu.Type.PAGE_LIST.equals(menu.getType()))
 		{
-			return new ElementPageList<JsonItem>
+			return new MenuPageList<JsonItem>
 			(
-				element.getDimensions().getX() + x,
-				element.getDimensions().getY() + y,
-				element.getAttributes().getItems(),
-				element.getDimensions().getWidth(),
-				element.getDimensions().getHeight(),
-				element.getAttributes().getLength(),
+				menu.getDimensions().getX() + x,
+				menu.getDimensions().getY() + y,
+				menu.getAttributes().getItems(),
+				menu.getDimensions().getWidth(),
+				menu.getDimensions().getHeight(),
+				menu.getAttributes().getLength(),
 				container,
-				new UsercontentLogicPageList<JsonElement.Type>(this.getApi(), this.getActionHandlerFactory(), content, container, element)
+				new UsercontentLogicPageList<JsonMenu.Type>(this.getApi(), this.getActionHandlerFactory(), content, container, menu)
 			);
 		}
 		

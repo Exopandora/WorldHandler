@@ -15,8 +15,8 @@ import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.element.impl.ElementColorMenu;
 import exopandora.worldhandler.gui.logic.ILogicColorMenu;
+import exopandora.worldhandler.gui.menu.impl.MenuColorField;
 import exopandora.worldhandler.helper.ActionHelper;
 import exopandora.worldhandler.helper.BlockHelper;
 import exopandora.worldhandler.helper.CommandHelper;
@@ -70,7 +70,7 @@ public class ContentSignEditor extends Content
 				container.initButtons();
 			});
 			
-			ElementColorMenu colors = new ElementColorMenu(x, y, "gui.worldhandler.blocks.sign_editor.text_line_" + (this.selectedLine + 1), this.builderSignEditor.getColoredString(this.selectedLine), new ILogicColorMenu()
+			MenuColorField colors = new MenuColorField(x, y, "gui.worldhandler.blocks.sign_editor.text_line_" + (this.selectedLine + 1), this.builderSignEditor.getColoredString(this.selectedLine), new ILogicColorMenu()
 			{
 				@Override
 				public boolean validate(String text)

@@ -19,18 +19,18 @@ public class JsonGui
 	@SerializedName("buttons")
 	private List<JsonButton> buttons = null;
 	
-	@SerializedName("elements")
-	private List<JsonElement> elements = null;
+	@SerializedName("menus")
+	private List<JsonMenu> menus = null;
 	
 	@SerializedName("texts")
 	private List<JsonText> texts = null;
 	
-	public JsonGui(String title, JsonTab tab, List<JsonButton> buttons, List<JsonElement> elements, List<JsonText> texts)
+	public JsonGui(String title, JsonTab tab, List<JsonButton> buttons, List<JsonMenu> menus, List<JsonText> texts)
 	{
 		this.title = title;
 		this.tab = tab;
 		this.buttons = buttons;
-		this.elements = elements;
+		this.menus = menus;
 		this.texts = texts;
 	}
 	
@@ -64,14 +64,14 @@ public class JsonGui
 		this.buttons = buttons;
 	}
 	
-	public List<JsonElement> getElements()
+	public List<JsonMenu> getMenus()
 	{
-		return this.elements;
+		return this.menus;
 	}
 	
-	public void setElements(List<JsonElement> elements)
+	public void setMenus(List<JsonMenu> menus)
 	{
-		this.elements = elements;
+		this.menus = menus;
 	}
 	
 	public List<JsonText> getTexts()

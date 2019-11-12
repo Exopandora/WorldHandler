@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.element.impl;
+package exopandora.worldhandler.gui.menu.impl;
 
 import java.util.List;
 import java.util.Objects;
@@ -6,8 +6,8 @@ import java.util.Objects;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.element.Element;
 import exopandora.worldhandler.gui.logic.ILogicPageList;
+import exopandora.worldhandler.gui.menu.Menu;
 import exopandora.worldhandler.util.TextFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ElementPageList<T> extends Element
+public class MenuPageList<T> extends Menu
 {
 	private final List<T> items;
 	private final ILogicPageList<T> logic;
@@ -24,7 +24,7 @@ public class ElementPageList<T> extends Element
 	private final int height;
 	private final int length;
 	
-	public ElementPageList(int x, int y, List<T> items, int width, int height, int length, Container container, ILogicPageList<T> logic)
+	public MenuPageList(int x, int y, List<T> items, int width, int height, int length, Container container, ILogicPageList<T> logic)
 	{
 		super(x, y);
 		this.items = Objects.requireNonNull(items);
