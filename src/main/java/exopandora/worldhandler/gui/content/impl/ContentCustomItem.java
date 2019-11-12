@@ -46,7 +46,7 @@ public class ContentCustomItem extends Content
 	
 	private int startPage;
 	
-	private String selectedPage = "start";
+	private Page page = Page.START;
 	private String item;
 	
 	private final List<EnumAttributes> attributes = Stream.concat(EnumAttributes.getAttributesFor(Applyable.BOTH).stream(), EnumAttributes.getAttributesFor(Applyable.PLAYER).stream()).collect(Collectors.toList());
@@ -112,14 +112,14 @@ public class ContentCustomItem extends Content
 			container.initButtons();
 		});
 		
-		if(this.selectedPage.equals("start"))
+		if(Page.START.equals(this.page))
 		{
 			if(this.startPage == 1)
 			{
 				container.add(new ElementColorMenu(x, y, "gui.worldhandler.items.custom_item.start.custom_name", this.builderCutomItem.getName()));
 			}
 		}
-		else if(this.selectedPage.equals("enchant"))
+		else if(Page.ENCHANT.equals(this.page))
 		{
 			ElementPageList<Enchantment> enchantments = new ElementPageList<Enchantment>(x + 118, y, new ArrayList<Enchantment>(ForgeRegistries.ENCHANTMENTS.getValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
 			{
@@ -164,7 +164,7 @@ public class ContentCustomItem extends Content
 			});
 			container.add(enchantments);
 		}
-		else if(this.selectedPage.equals("attributes"))
+		else if(Page.ATTRIBUTES.equals(this.page))
 		{
 			ElementPageList<EnumAttributes> attributes = new ElementPageList<EnumAttributes>(x + 118, y, this.attributes, 114, 20, 3, container, new ILogicPageList<EnumAttributes>()
 			{
@@ -227,21 +227,21 @@ public class ContentCustomItem extends Content
 		
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start"), () ->
 		{
-			this.selectedPage = "start";
+			this.page = Page.START;
 			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.items.custom_item.enchantment"), () ->
 		{
-			this.selectedPage = "enchant";
+			this.page = Page.ENCHANT;
 			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.items.custom_item.attributes"), () ->
 		{
-			this.selectedPage = "attributes";
+			this.page = Page.ATTRIBUTES;
 			container.init();
 		}));
 		
-		if(this.selectedPage.equals("start"))
+		if(Page.START.equals(this.page))
 		{
 			button1.active = false;
 			
@@ -268,11 +268,11 @@ public class ContentCustomItem extends Content
 				button6.active = false;
 			}
 		}
-		else if(this.selectedPage.equals("enchant"))
+		else if(Page.ENCHANT.equals(this.page))
 		{
 			button2.active = false;
 		}
-		else if(this.selectedPage.equals("attributes"))
+		else if(Page.ATTRIBUTES.equals(this.page))
 		{
 			button3.active = false;
 		}
@@ -297,7 +297,7 @@ public class ContentCustomItem extends Content
 	@Override
 	public void tick(Container container)
 	{
-		if(this.selectedPage.equals("start") && this.startPage == 0)
+		if(Page.START.equals(this.page) && this.startPage == 0)
 		{
 			this.itemField.tick();
 			this.itemLore1Field.tick();
@@ -308,7 +308,7 @@ public class ContentCustomItem extends Content
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.selectedPage.equals("start") && this.startPage == 0)
+		if(Page.START.equals(this.page) && this.startPage == 0)
 		{
 			this.itemField.renderButton(mouseX, mouseY, partialTicks);
 			this.itemLore1Field.renderButton(mouseX, mouseY, partialTicks);
@@ -344,5 +344,13 @@ public class ContentCustomItem extends Content
 	public void onPlayerNameChanged(String username)
 	{
 		this.builderCutomItem.setPlayer(username);
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum Page
+	{
+		START,
+		ENCHANT,
+		ATTRIBUTES;
 	}
 }

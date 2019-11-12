@@ -50,7 +50,8 @@ public class ContentSummon extends Content
 	private int potionPage = 0;
 	private int equipmentPage = 0;
 	
-	private String page = "main";
+	private Page page = Page.START;
+	
 	private String mob;
 	private String name;
 	private String passenger;
@@ -129,7 +130,7 @@ public class ContentSummon extends Content
 			container.initButtons();
 		});
 		
-		if(this.page.equals("attributes"))
+		if(Page.ATTRIBUTES.equals(this.page))
 		{
 			ElementPageList<EnumAttributes> attributes = new ElementPageList<EnumAttributes>(x + 118, y, this.attributes, 114, 20, 3, container, new ILogicPageList<EnumAttributes>()
 			{
@@ -211,26 +212,26 @@ public class ContentSummon extends Content
 		
 		container.add(button4 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.entities.summon.start"), () ->
 		{
-			this.page = "main";
+			this.page = Page.START;
 			container.init();
 		}));
 		container.add(button5 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.entities.summon.potion_effects"), () ->
 		{
-			this.page = "potionEffects";
+			this.page = Page.POTIONS;
 			container.init();
 		}));
 		container.add(button6 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.entities.summon.attributes"), () ->
 		{
-			this.page = "attributes";
+			this.page = Page.ATTRIBUTES;
 			container.init();
 		}));
 		container.add(button7 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.summon.equipment"), () ->
 		{
-			this.page = "equipment";
+			this.page = Page.EQUIPMENT;
 			container.init();
 		}));
 		
-		if(this.page.equals("main"))
+		if(Page.START.equals(this.page))
 		{
 			button4.active = false;
 			
@@ -249,7 +250,7 @@ public class ContentSummon extends Content
 			
 			button3.active = ForgeRegistries.ENTITIES.containsKey(this.builderSummon.getEntity());
 		}
-		else if(this.page.equals("potionEffects"))
+		else if(Page.POTIONS.equals(this.page))
 		{
 			button5.active = false;
 			
@@ -304,11 +305,11 @@ public class ContentSummon extends Content
 				}
 			}
 		}
-		else if(this.page.equals("attributes"))
+		else if(Page.ATTRIBUTES.equals(this.page))
 		{
 			button6.active = false;
 		}
-		else if(this.page.equals("equipment"))
+		else if(Page.EQUIPMENT.equals(this.page))
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 56, 20, "<", () ->
 			{
@@ -570,7 +571,7 @@ public class ContentSummon extends Content
 	@Override
 	public void tick(Container container)
 	{
-		if(this.page.equals("main"))
+		if(Page.START.equals(this.page))
 		{
 			this.mobField.tick();
 			this.customNameField.tick();
@@ -581,17 +582,17 @@ public class ContentSummon extends Content
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.page.equals("main"))
+		if(Page.START.equals(this.page))
 		{
 			this.mobField.renderButton(mouseX, mouseY, partialTicks);
 			this.customNameField.renderButton(mouseX, mouseY, partialTicks);
 			this.passengerField.renderButton(mouseX, mouseY, partialTicks);
 		}
-		else if(this.page.equals("potionEffects"))
+		else if(Page.POTIONS.equals(this.page))
 		{
 			Minecraft.getInstance().fontRenderer.drawString((this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
 		}
-		else if(this.page.equals("equipment"))
+		else if(Page.EQUIPMENT.equals(this.page))
 		{
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		 	Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/beacon.png"));
@@ -634,5 +635,14 @@ public class ContentSummon extends Content
 	public Content getActiveContent()
 	{
 		return Contents.SUMMON;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum Page
+	{
+		START,
+		POTIONS,
+		ATTRIBUTES,
+		EQUIPMENT;
 	}
 }

@@ -34,7 +34,8 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	private final BuilderTrigger builderTrigger = new BuilderTrigger();
 	private final BuilderMultiCommand builderTriggerMulti = new BuilderMultiCommand(this.builderTrigger, this.builderPlayers);
 	
-	private String selectedPlayer = "add|set|remove";
+	private Page page = Page.ADD_SET_REMOVE;
+	
 	private String tag;
 	
 	private GuiButtonBase addButton;
@@ -43,15 +44,15 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
-		if(this.selectedPlayer.equals("add|set|remove"))
+		if(Page.ADD_SET_REMOVE.equals(this.page))
 		{
 			return this.builderPlayers;
 		}
-		else if(this.selectedPlayer.equals("tag"))
+		else if(Page.TAG.equals(this.page))
 		{
 			return this.builderTag;
 		}
-		else if(this.selectedPlayer.equals("enable"))
+		else if(Page.ENABLE.equals(this.page))
 		{
 			return this.builderTriggerMulti;
 		}
@@ -110,28 +111,28 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		
 		container.add(button1 = new GuiButtonBase(x, y + 12, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.points"), () ->
 		{
-			this.selectedPlayer = "add|set|remove";
+			this.page = Page.ADD_SET_REMOVE;
 			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.tag"), () ->
 		{
-			this.selectedPlayer = "tag";
+			this.page = Page.TAG;
 			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.trigger"), () ->
 		{
-			this.selectedPlayer = "enable";
+			this.page = Page.ENABLE;
 			container.init();
 		}));
 		
-		button1.active = !this.selectedPlayer.equals("add|set|remove");
-		button2.active = !this.selectedPlayer.equals("tag");
-		button3.active = !this.selectedPlayer.equals("enable");
+		button1.active = !Page.ADD_SET_REMOVE.equals(this.page);
+		button2.active = !Page.TAG.equals(this.page);
+		button3.active = !Page.ENABLE.equals(this.page);
 		
 		boolean enabled = ContentScoreboard.isObjectiveValid();
-		this.builderPlayers.setMode(this.selectedPlayer);
+		this.builderPlayers.setMode(this.page.getMode());
 		
-		if(this.selectedPlayer.equals("add|set|remove"))
+		if(Page.ADD_SET_REMOVE.equals(this.page))
 		{
 			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxPlayerPoints(), 0, container, new LogicSliderSimple("points", I18n.format("gui.worldhandler.scoreboard.players.points"), value ->
 			{
@@ -159,7 +160,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			this.removeButton.active = points;
 			button1.active = enabled;
 		}
-		else if(this.selectedPlayer.equals("tag"))
+		else if(Page.TAG.equals(this.page))
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.actions.add"), () ->
 			{
@@ -177,7 +178,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			button1.active = tag;
 			button2.active = tag;
 		}
-		else if(this.selectedPlayer.equals("enable"))
+		else if(Page.ENABLE.equals(this.page))
 		{
 			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxTriggerValue(), 0, container, new LogicSliderSimple("enable", I18n.format("gui.worldhandler.generic.value"), value ->
 			{
@@ -204,7 +205,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			button1.active = enabled;
 		}
 		
-		if(this.selectedPlayer.equals("tag"))
+		if(Page.TAG.equals(this.page))
 		{
 			container.add(this.tagField);
 		}
@@ -219,7 +220,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	@Override
 	public void tick(Container container)
 	{
-		if(this.selectedPlayer.equals("tag"))
+		if(Page.TAG.equals(this.page))
 		{
 			this.tagField.tick();
 		}
@@ -227,19 +228,19 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		{
 			boolean enabled = ContentScoreboard.isObjectiveValid();
 			
-			if(this.selectedPlayer.equals("add|set|remove"))
+			if(Page.ADD_SET_REMOVE.equals(this.page))
 			{
 				boolean points = enabled && this.builderPlayers.getPoints() > 0;
 				
 				this.addButton.active = points;
 				this.removeButton.active = points;
 			}
-			else if(this.selectedPlayer.equals("enable"))
+			else if(Page.ENABLE.equals(this.page))
 			{
 				this.addButton.active = enabled && this.builderTrigger.getValue() > 0;
 				this.removeButton.active = enabled;
 			}
-				
+			
 			this.objectField.tick();
 		}
 	}
@@ -247,7 +248,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.selectedPlayer.equals("tag"))
+		if(Page.TAG.equals(this.page))
 		{
 			this.tagField.renderButton(mouseX, mouseY, partialTicks);
 		}
@@ -274,5 +275,25 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	{
 		this.builderPlayers.setPlayer(username);
 		this.builderTag.setPlayer(username);
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum Page
+	{
+		ADD_SET_REMOVE("add|set|remove"),
+		TAG("tag"),
+		ENABLE("enable");
+		
+		private final String mode;
+		
+		private Page(String mode)
+		{
+			this.mode = mode;
+		}
+		
+		public String getMode()
+		{
+			return this.mode;
+		}
 	}
 }

@@ -28,7 +28,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ContentPlayer extends Content
 {
-	private String selectedMain = "start";
+	private Page page = Page.START;
 	
 	private GuiTextFieldTooltip posXField;
 	private GuiTextFieldTooltip posYField;
@@ -48,7 +48,7 @@ public class ContentPlayer extends Content
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
-		if(this.selectedMain.equals("miscellaneous"))
+		if(Page.MISC.equals(this.page))
 		{
 			return this.builderMiscellaneous;
 		}
@@ -82,34 +82,34 @@ public class ContentPlayer extends Content
 		
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.entities.player.start"), () ->
 		{
-			this.selectedMain = "start";
+			this.page = Page.START;
 			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.entities.player.score"), () ->
 		{
-			this.selectedMain = "score";
+			this.page = Page.SCORE;
 			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.entities.player.position"), () ->
 		{
-			this.selectedMain = "position";
+			this.page = Page.POSITION;
 			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.player.miscellaneous"), () ->
 		{
-			this.selectedMain = "miscellaneous";
+			this.page = Page.MISC;
 			container.init();
 		}));
 		
-		if(this.selectedMain.equals("start"))
+		if(Page.START.equals(this.page))
 		{
 			button1.active = false;
 		}
-		else if(this.selectedMain.equals("score"))
+		else if(Page.SCORE.equals(this.page))
 		{
 			button2.active = false;
 		}
-		else if(this.selectedMain.equals("position"))
+		else if(Page.POSITION.equals(this.page))
 		{
 			button3.active = false;
 			
@@ -122,7 +122,7 @@ public class ContentPlayer extends Content
 				Minecraft.getInstance().keyboardListener.setClipboardString(posX + " " + posY + " " + posZ);
 			}));
 		}
-		else if(this.selectedMain.equals("miscellaneous"))
+		else if(Page.MISC.equals(this.page))
 		{
 			button4.active = false;
 			
@@ -159,7 +159,7 @@ public class ContentPlayer extends Content
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.selectedMain.equals("start"))
+		if(Page.START.equals(this.page))
 		{
 			int xPos = x + 175;
 			int yPos = y + 82;
@@ -172,13 +172,13 @@ public class ContentPlayer extends Content
 			InventoryScreen.drawEntityOnScreen(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
 			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		}
-		else if(this.selectedMain.equals("score"))
+		else if(Page.SCORE.equals(this.page))
 		{
 			this.scoreField.renderButton(mouseX, mouseY, partialTicks);
 			this.xpField.renderButton(mouseX, mouseY, partialTicks);
 			this.coinsField.renderButton(mouseX, mouseY, partialTicks);
 		}
-		else if(this.selectedMain.equals("position"))
+		else if(Page.POSITION.equals(this.page))
 		{
 			this.posXField.renderButton(mouseX, mouseY, partialTicks);
 			this.posYField.renderButton(mouseX, mouseY, partialTicks);
@@ -215,5 +215,14 @@ public class ContentPlayer extends Content
 	public Content getActiveContent()
 	{
 		return Contents.PLAYER;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum Page
+	{
+		START,
+		SCORE,
+		POSITION,
+		MISC;
 	}
 }

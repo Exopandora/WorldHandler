@@ -186,6 +186,7 @@ public class ContentSettings extends ContentChild
 		return I18n.format("gui.worldhandler.shortcuts.tooltip.settings");
 	}
 	
+	@OnlyIn(Dist.CLIENT)
 	public abstract static class Setting<T>
 	{
 		private final String key;
@@ -214,6 +215,7 @@ public class ContentSettings extends ContentChild
 			this.setter.accept(value);
 		}
 		
+		@OnlyIn(Dist.CLIENT)
 		public static class BooleanSetting extends Setting<Boolean>
 		{
 			public BooleanSetting(String key, Supplier<Boolean> getter, Consumer<Boolean> setter)
@@ -222,6 +224,7 @@ public class ContentSettings extends ContentChild
 			}
 		}
 		
+		@OnlyIn(Dist.CLIENT)
 		public static class IntegerSetting extends Setting<Integer>
 		{
 			public IntegerSetting(String key, Supplier<Integer> getter, Consumer<Integer> setter)

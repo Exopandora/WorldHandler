@@ -34,9 +34,7 @@ public class ContentMultiplayer extends Content
 	private GuiTextFieldTooltip playerField;
 	private GuiTextFieldTooltip reasonField;
 	
-	private int shiftDown = 0;
-	
-	private String selected = "kickBan";
+	private Page page = Page.KICK_AND_BAN;
 	
 	private final BuilderPlayerReason builderKick = new BuilderPlayerReason("kick");
 	private final BuilderPlayerReason builderBan = new BuilderPlayerReason("ban");
@@ -56,23 +54,23 @@ public class ContentMultiplayer extends Content
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
-		if(this.selected.equals("kickBan"))
+		if(Page.KICK_AND_BAN.equals(this.page))
 		{
 			return this.builderKickBan;
 		}
-		else if(this.selected.equals("pardon"))
+		else if(Page.PARDON.equals(this.page))
 		{
 			return this.builderPardon;
 		}
-		else if(this.selected.equals("permissions"))
+		else if(Page.PERMISSIONS.equals(this.page))
 		{
 			return this.builderPermissions;
 		}
-		else if(this.selected.equals("runtime"))
+		else if(Page.RUNTIME.equals(this.page))
 		{
 			return this.builderRuntime;
 		}
-		else if(this.selected.equals("whitelist"))
+		else if(Page.WHITELIST.equals(this.page))
 		{
 			return this.builderWhitelist;
 		}
@@ -83,7 +81,7 @@ public class ContentMultiplayer extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.playerField = new GuiTextFieldTooltip(x + 118, y + this.shiftDown, 114, 20, I18n.format("gui.worldhandler.multiplayer.username"));
+		this.playerField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, I18n.format("gui.worldhandler.multiplayer.username"));
 		this.playerField.setValidator(Predicates.notNull());
 		this.playerField.setFocused2(false);
 		this.playerField.setText(this.builderKick.getPlayer());
@@ -94,7 +92,7 @@ public class ContentMultiplayer extends Content
 			container.initButtons();
 		});
 		
-		this.reasonField = new GuiTextFieldTooltip(x + 118, y + 24 + this.shiftDown, 114, 20, I18n.format("gui.worldhandler.multiplayer.kick_ban.reason"));
+		this.reasonField = new GuiTextFieldTooltip(x + 118, y + 24 + this.page.getShift(), 114, 20, I18n.format("gui.worldhandler.multiplayer.kick_ban.reason"));
 		this.reasonField.setValidator(Predicates.notNull());
 		this.reasonField.setFocused2(false);
 		this.reasonField.setText(this.builderKick.getReason());
@@ -120,36 +118,31 @@ public class ContentMultiplayer extends Content
 		
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.multiplayer.kick") + " / " + I18n.format("gui.worldhandler.multiplayer.ban"), () ->
 		{
-			this.selected = "kickBan";
-			this.shiftDown = 0;
+			this.page = Page.KICK_AND_BAN;
 			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.multiplayer.pardon"), () ->
 		{
-			this.selected = "pardon";
-			this.shiftDown = 24;
+			this.page = Page.PARDON;
 			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.permissions"), () ->
 		{
-			this.selected = "permissions";
-			this.shiftDown = 12;
+			this.page = Page.PERMISSIONS;
 			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime"), () ->
 		{
-			this.selected = "runtime";
-			this.shiftDown = 0;
+			this.page = Page.RUNTIME;
 			container.init();
 		}));
 		container.add(button5 = new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.multiplayer.whitelist"), () ->
 		{
-			this.selected = "whitelist";
-			this.shiftDown = 0;
+			this.page = Page.WHITELIST;
 			container.init();
 		}));
 		
-		if(this.selected.equals("kickBan"))
+		if(Page.KICK_AND_BAN.equals(this.page))
 		{
 			container.add(this.playerField);
 			container.add(this.reasonField);
@@ -170,7 +163,7 @@ public class ContentMultiplayer extends Content
 			
 			button1.active = false;
 		}
-		else if(this.selected.equals("pardon"))
+		else if(Page.PARDON.equals(this.page))
 		{
 			container.add(this.playerField);
 			container.add(button6 = new GuiButtonTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.multiplayer.pardon"), this.builderPardon.toActualCommand(), () ->
@@ -185,7 +178,7 @@ public class ContentMultiplayer extends Content
 			
 			button2.active = false;
 		}
-		else if(this.selected.equals("permissions"))
+		else if(Page.PERMISSIONS.equals(this.page))
 		{
 			container.add(this.playerField);
 			container.add(button6 = new GuiButtonTooltip(x + 118, y + 24 + 12, 114, 20, I18n.format("gui.worldhandler.multiplayer.permissions.give"), this.builderOp.toActualCommand(), () ->
@@ -205,7 +198,7 @@ public class ContentMultiplayer extends Content
 			
 			button3.active = false;
 		}
-		else if(this.selected.equals("runtime"))
+		else if(Page.RUNTIME.equals(this.page))
 		{
 			container.add(new GuiButtonTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.multiplayer.runtime.save_world"), this.builderSaveAll.toActualCommand(), () ->
 			{
@@ -226,7 +219,7 @@ public class ContentMultiplayer extends Content
 			
 			button4.active = false;
 		}
-		else if(this.selected.equals("whitelist"))
+		else if(Page.WHITELIST.equals(this.page))
 		{
 			container.add(this.playerField);
 			container.add(button6 = new GuiButtonBase(x + 118, y + 24, 44, 20, I18n.format("gui.worldhandler.multiplayer.whitelist.add"), () ->
@@ -265,12 +258,12 @@ public class ContentMultiplayer extends Content
 	@Override
 	public void tick(Container container)
 	{
-		if(this.selected.equals("kickBan"))
+		if(Page.KICK_AND_BAN.equals(this.page))
 		{
 			this.reasonField.tick();
 		}
 		
-		if(!this.selected.equals("runtime"))
+		if(!Page.RUNTIME.equals(this.page))
 		{
 			this.playerField.tick();
 		}
@@ -279,12 +272,12 @@ public class ContentMultiplayer extends Content
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.selected.equals("kickBan"))
+		if(Page.KICK_AND_BAN.equals(this.page))
 		{
 			this.reasonField.renderButton(mouseX, mouseY, partialTicks);
 		}
 		
-		if(!this.selected.equals("runtime"))
+		if(!Page.RUNTIME.equals(this.page))
 		{
 			this.playerField.renderButton(mouseX, mouseY, partialTicks);
 		}
@@ -336,5 +329,27 @@ public class ContentMultiplayer extends Content
 	public Content getBackContent()
 	{
 		return null;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum Page
+	{
+		KICK_AND_BAN(0),
+		PARDON(24),
+		PERMISSIONS(14),
+		RUNTIME(0),
+		WHITELIST(0);
+		
+		private final int shift;
+		
+		private Page(int shift)
+		{
+			this.shift = shift;
+		}
+		
+		public int getShift()
+		{
+			return this.shift;
+		}
 	}
 }

@@ -22,7 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ContentWorldInfo extends Content
 {
-	private String selectedMain = "start";
+	private Page page = Page.START;
 	
 	private GuiTextFieldTooltip posXField;
 	private GuiTextFieldTooltip posYField;
@@ -79,25 +79,25 @@ public class ContentWorldInfo extends Content
 		
 		container.add(start = new GuiButtonBase(x, y + 12, 114, 20, I18n.format("gui.worldhandler.world_info.start"), () ->
 		{
-			this.selectedMain = "start";
+			this.page = Page.START;
 			container.init();
 		}));
 		container.add(world = new GuiButtonBase(x, y + 36, 114, 20, I18n.format("gui.worldhandler.world_info.world"), () ->
 		{
-			this.selectedMain = "world";
+			this.page = Page.WORLD;
 			container.init();
 		}));
 		container.add(stats = new GuiButtonBase(x, y + 60, 114, 20, I18n.format("gui.worldhandler.world_info.statistics"), () ->
 		{
-			this.selectedMain = "stats";
+			this.page = Page.STATS;
 			container.init();
 		}));
 		
-		if(this.selectedMain.equals("start"))
+		if(Page.START.equals(this.page))
 		{
 			start.active = false;
 		}
-		else if(this.selectedMain.equals("world"))
+		else if(Page.WORLD.equals(this.page))
 		{
 			GuiButtonBase seed;
 			
@@ -109,7 +109,7 @@ public class ContentWorldInfo extends Content
 			
 			seed.active = Minecraft.getInstance().getIntegratedServer() != null;
 		}
-		else if(this.selectedMain.equals("stats"))
+		else if(Page.STATS.equals(this.page))
 		{
 			stats.active = false;
 		}
@@ -126,19 +126,19 @@ public class ContentWorldInfo extends Content
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.selectedMain.equals("start"))
+		if(Page.START.equals(this.page))
 		{
 			this.posXField.renderButton(mouseX, mouseY, partialTicks);
 			this.posYField.renderButton(mouseX, mouseY, partialTicks);
 			this.posZField.renderButton(mouseX, mouseY, partialTicks);
 		}
-		else if(this.selectedMain.equals("world"))
+		else if(Page.WORLD.equals(this.page))
 		{
 			this.worldField.renderButton(mouseX, mouseY, partialTicks);
 			this.terrainField.renderButton(mouseX, mouseY, partialTicks);
 			this.seedField.renderButton(mouseX, mouseY, partialTicks);
 		}
-		else if(this.selectedMain.equals("stats"))
+		else if(Page.STATS.equals(this.page))
 		{
 			this.totalTimeField.renderButton(mouseX, mouseY, partialTicks);
 			this.currentTimeField.renderButton(mouseX, mouseY, partialTicks);
@@ -202,5 +202,13 @@ public class ContentWorldInfo extends Content
 	public Content getActiveContent()
 	{
 		return Contents.WORLD_INFO;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum Page
+	{
+		START,
+		WORLD,
+		STATS;
 	}
 }

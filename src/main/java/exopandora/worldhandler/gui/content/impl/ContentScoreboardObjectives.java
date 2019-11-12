@@ -34,7 +34,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class ContentScoreboardObjectives extends ContentScoreboard
 {
 	private GuiTextFieldTooltip objectField;
-	private String selectedObjective = "create";
+	private Page page = Page.CREATE;
 	
 	private final BuilderScoreboardObjectives builderObjectives = new BuilderScoreboardObjectives();
 	
@@ -47,7 +47,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.objectField = new GuiTextFieldTooltip(x + 118, y + (this.selectedObjective.equals("remove") ? 24 : 0), 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.objective"));
+		this.objectField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setValidator(Predicates.notNull());
 		this.objectField.setText(ContentScoreboard.getObjective());
 		this.objectField.setResponder(text ->
@@ -57,7 +57,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 			container.initButtons();
 		});
 		
-		if(this.selectedObjective.equals("create"))
+		if(Page.CREATE.equals(this.page))
 		{
 			ElementMultiButtonList objectives = new ElementMultiButtonList(x + 118, y + 24, HELPER.getObjectives(), 2, new ILogicClickList()
 			{
@@ -158,9 +158,9 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 			
 			container.add(objectives);
 		}
-		else if(this.selectedObjective.equals("display") || this.selectedObjective.equals("undisplay"))
+		else if(Page.DISPLAY.equals(this.page) || Page.UNDISPLAY.equals(this.page))
 		{
-			ElementMultiButtonList slots = new ElementMultiButtonList(x + 118, y + 24 + (this.selectedObjective.equals("undisplay") ? -12 : 0), HELPER.getSlots(), 2, new ILogicClickList()
+			ElementMultiButtonList slots = new ElementMultiButtonList(x + 118, y + 24 - this.page.getShift(), HELPER.getSlots(), 2, new ILogicClickList()
 			{
 				@Override
 				public String translate(String key, int depth)
@@ -207,59 +207,57 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.create"), () ->
 		{
-			this.selectedObjective = "create";
+			this.page = Page.CREATE;
 			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.display"), () ->
 		{
-			this.selectedObjective = "display";
+			this.page = Page.DISPLAY;
 			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.undisplay"), () ->
 		{
-			this.selectedObjective = "undisplay";
+			this.page = Page.UNDISPLAY;
 			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.remove"), () ->
 		{
-			this.selectedObjective = "remove";
+			this.page = Page.REMOVE;
 			container.init();
 		}));
 		
-		button1.active = !this.selectedObjective.equals("create");
-		button2.active = !this.selectedObjective.equals("display");
-		button3.active = !this.selectedObjective.equals("undisplay");
-		button4.active = !this.selectedObjective.equals("remove");
+		button1.active = !Page.CREATE.equals(this.page);
+		button2.active = !Page.DISPLAY.equals(this.page);
+		button3.active = !Page.UNDISPLAY.equals(this.page);
+		button4.active = !Page.REMOVE.equals(this.page);
 		
-		int yOffset = this.selectedObjective.equals("undisplay") ? -12 : (this.selectedObjective.equals("remove") ? -24 : 0);
-		
-		if(this.selectedObjective.equals("undisplay"))
+		if(Page.UNDISPLAY.equals(this.page))
 		{
 			this.builderObjectives.setObjective(null);
 		}
-		else if(this.selectedObjective.equals("remove"))
+		else if(Page.REMOVE.equals(this.page))
 		{
 			this.builderObjectives.setMode(EnumMode.REMOVE);
 		}
 		
-		if(!this.selectedObjective.equals("undisplay"))
+		if(!Page.UNDISPLAY.equals(this.page))
 		{
 			container.add(this.objectField);
 			this.builderObjectives.setObjective(ContentScoreboard.getObjective());
 		}
 		
-		container.add(button1 = new GuiButtonBase(x + 118, y + 72 + yOffset, 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
+		container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
 		{
 			CommandHelper.sendCommand(this.builderObjectives);
 			container.init();
 		}));
-		button1.active = this.selectedObjective.equals("undisplay") || ContentScoreboard.isObjectiveValid();
+		button1.active = Page.UNDISPLAY.equals(this.page) || ContentScoreboard.isObjectiveValid();
 	}
 	
 	@Override
 	public void tick(Container container)
 	{
-		if(!this.selectedObjective.equals("undisplay"))
+		if(!Page.UNDISPLAY.equals(this.page))
 		{
 			this.objectField.tick();
 		}
@@ -268,7 +266,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(!this.selectedObjective.equals("undisplay"))
+		if(!Page.UNDISPLAY.equals(this.page))
 		{
 			this.objectField.renderButton(mouseX, mouseY, partialTicks);
 		}
@@ -284,5 +282,26 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	public Content getActiveContent()
 	{
 		return Contents.SCOREBOARD_OBJECTIVES;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum Page
+	{
+		CREATE(0),
+		DISPLAY(0),
+		UNDISPLAY(12),
+		REMOVE(24);
+		
+		private final int shift;
+		
+		private Page(int shift)
+		{
+			this.shift = shift;
+		}
+		
+		public int getShift()
+		{
+			return this.shift;
+		}
 	}
 }

@@ -28,7 +28,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	private GuiTextFieldTooltip teamField;
 	
 	private String team;
-	private String selectedTeam = "add";
+	private Page page = Page.ADD;
 	
 	private final BuilderTeams builderTeams = new BuilderTeams();
 	
@@ -41,7 +41,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.teamField = new GuiTextFieldTooltip(x + 118, y + (this.selectedTeam.equals("option") ? 0 : (this.selectedTeam.equals("add") ? 24 : 12)), 114, 20, I18n.format("gui.worldhandler.scoreboard.team.team"));
+		this.teamField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, I18n.format("gui.worldhandler.scoreboard.team.team"));
 		this.teamField.setValidator(Predicates.notNull());
 		this.teamField.setText(this.team);
 		this.teamField.setResponder(text ->
@@ -51,7 +51,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 			container.initButtons();
 		});
 		
-		if(this.selectedTeam.equals("option"))
+		if(Page.OPTION.equals(this.page))
 		{
 			ElementMultiButtonList options = new ElementMultiButtonList(x + 118, y + 24, HELPER.getOptions(), 2, new ILogicClickList()
 			{
@@ -118,39 +118,39 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.create"), () ->
 		{
-			this.selectedTeam = "add";
+			this.page = Page.ADD;
 			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.join") + " / " + I18n.format("gui.worldhandler.scoreboard.team.leave"), () ->
 		{
-			this.selectedTeam = "join|leave";
+			this.page = Page.JOIN_OR_LEAVE;
 			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.format("gui.worldhandler.scoreboard.team.empty"), () ->
 		{
-			this.selectedTeam = "remove|empty";
+			this.page = Page.REMOVE_OR_EMPTY;
 			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.options"), () ->
 		{
-			this.selectedTeam = "option";
+			this.page = Page.OPTION;
 			container.init();
 		}));
 		
-		button1.active = !this.selectedTeam.equals("add");
-		button2.active = !this.selectedTeam.equals("join|leave");
-		button3.active = !this.selectedTeam.equals("remove|empty");
-		button4.active = !this.selectedTeam.equals("option");
+		button1.active = !Page.ADD.equals(this.page);
+		button2.active = !Page.JOIN_OR_LEAVE.equals(this.page);
+		button3.active = !Page.REMOVE_OR_EMPTY.equals(this.page);
+		button4.active = !Page.OPTION.equals(this.page);
 		
-		this.builderTeams.setMode(this.selectedTeam);
+		this.builderTeams.setMode(this.page.getMode());
 		
 		boolean enabled = this.team != null && this.team.length() > 0;
 		
-		if(this.selectedTeam.equals("add"))
+		if(Page.ADD.equals(this.page))
 		{
 			this.builderTeams.setTeam(this.team);
 		}
-		else if(this.selectedTeam.equals("join|leave"))
+		else if(Page.JOIN_OR_LEAVE.equals(this.page))
 		{
 			this.builderTeams.setPlayer(container.getPlayer());
 			
@@ -167,7 +167,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 			
 			button1.active = enabled;
 		}
-		else if(this.selectedTeam.equals("remove|empty"))
+		else if(Page.REMOVE_OR_EMPTY.equals(this.page))
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.remove"), () ->
 			{
@@ -184,11 +184,9 @@ public class ContentScoreboardTeams extends ContentScoreboard
 			button2.active = enabled;
 		}
 		
-		if(!this.selectedTeam.equals("join|leave") && !this.selectedTeam.equals("remove|empty"))
+		if(Page.ADD.equals(this.page) || Page.OPTION.equals(this.page))
 		{
-			int yOffset = this.selectedTeam.equals("option") ? 24 : 0;
-			
-			container.add(button1 = new GuiButtonBase(x + 118, y + 48 + yOffset, 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTeams);
 				container.initButtons();
@@ -226,9 +224,37 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	@Override
 	public void onPlayerNameChanged(String username)
 	{
-		if(this.selectedTeam.equals("join|leave"))
+		if(Page.JOIN_OR_LEAVE.equals(this.page))
 		{
 			this.builderTeams.setPlayer(username);
+		}
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum Page
+	{
+		ADD("add", 24),
+		JOIN_OR_LEAVE("join|leave", 12),
+		REMOVE_OR_EMPTY("remove|empty", 12),
+		OPTION("option", 0);
+		
+		private final String mode;
+		private final int shift;
+		
+		private Page(String mode, int shift)
+		{
+			this.shift = shift;
+			this.mode = mode;
+		}
+		
+		public String getMode()
+		{
+			return this.mode;
+		}
+		
+		public int getShift()
+		{
+			return this.shift;
 		}
 	}
 }

@@ -54,20 +54,20 @@ public class ContentEditBlocks extends Content
 	private String block2;
 	private String filter;
 	
-	private String selectedPage = "coordinates";
+	private Page page = Page.COORDINATES;
 	
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
-		if(this.selectedPage.equals("coordinates"))
+		if(Page.COORDINATES.equals(this.page))
 		{
 			return this.builderWH;
 		}
-		else if(this.selectedPage.equals("fill") || this.selectedPage.equals("replace"))
+		else if(Page.FILL.equals(this.page) || Page.REPLACE.equals(this.page))
 		{
 			return this.builderFill;
 		}
-		else if(this.selectedPage.equals("clone"))
+		else if(Page.CLONE.equals(this.page))
 		{
 			return this.builderClone;
 		}
@@ -126,7 +126,7 @@ public class ContentEditBlocks extends Content
 			BlockHelper.setPos2(BlockHelper.setZ(BlockHelper.getPos2(), this.parseCoordinate(text)));
 		});
 		
-		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, this.selectedPage.equals("fill") ? I18n.format("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : I18n.format("gui.worldhandler.edit_blocks.replace.block_id_replace"));
+		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, Page.FILL.equals(this.page) ? I18n.format("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : I18n.format("gui.worldhandler.edit_blocks.replace.block_id_replace"));
 		this.block1Field.setValidator(Predicates.notNull());
 		this.block1Field.setText(this.block1);
 		this.block1Field.setResponder(text ->
@@ -170,22 +170,22 @@ public class ContentEditBlocks extends Content
 		
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.edit_blocks.coordinates"), () ->
 		{
-			this.selectedPage = "coordinates";
+			this.page = Page.COORDINATES;
 			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.edit_blocks.fill"), () ->
 		{
-			this.selectedPage = "fill";
+			this.page = Page.FILL;
 			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.edit_blocks.replace"), () ->
 		{
-			this.selectedPage = "replace";
+			this.page = Page.REPLACE;
 			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.clone"), () ->
 		{
-			this.selectedPage = "clone";
+			this.page = Page.CLONE;
 			container.init();
 		}));
 		
@@ -195,7 +195,7 @@ public class ContentEditBlocks extends Content
 		int width1 = 0;
 		int width2 = 0;
 		
-		if(this.selectedPage.equals("coordinates"))
+		if(Page.COORDINATES.equals(this.page))
 		{
 			button1.active = false;
 			
@@ -212,7 +212,7 @@ public class ContentEditBlocks extends Content
 			container.add(this.y2Field);
 			container.add(this.z2Field);
 		}
-		else if(this.selectedPage.equals("fill"))
+		else if(Page.FILL.equals(this.page))
 		{
 			button2.active = false;
 			
@@ -229,7 +229,7 @@ public class ContentEditBlocks extends Content
 			}));
 			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS);
 		}
-		else if(this.selectedPage.equals("replace"))
+		else if(Page.REPLACE.equals(this.page))
 		{
 			button3.active = false;
 			
@@ -247,7 +247,7 @@ public class ContentEditBlocks extends Content
 			}));
 			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS) && ResourceHelper.isRegistered(this.builderFill.getBlock2(), ForgeRegistries.BLOCKS);
 		}
-		else if(this.selectedPage.equals("clone"))
+		else if(Page.CLONE.equals(this.page))
 		{
 			button4.active = false;
 			
@@ -330,7 +330,7 @@ public class ContentEditBlocks extends Content
 	@Override
 	public void tick(Container container)
 	{
-		if(this.selectedPage.equals("coordinates"))
+		if(Page.COORDINATES.equals(this.page))
 		{
 			this.x1Field.tick();
 			this.y1Field.tick();
@@ -340,16 +340,16 @@ public class ContentEditBlocks extends Content
 			this.y2Field.tick();
 			this.z2Field.tick();
 		}
-		else if(this.selectedPage.equals("fill"))
+		else if(Page.FILL.equals(this.page))
 		{
 			this.block1Field.tick();
 		}
-		else if(this.selectedPage.equals("replace"))
+		else if(Page.REPLACE.equals(this.page))
 		{
 			this.block1Field.tick();
 			this.block2Field.tick();
 		}
-		else if(this.selectedPage.equals("clone"))
+		else if(Page.CLONE.equals(this.page))
 		{
 			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
 			{
@@ -361,7 +361,7 @@ public class ContentEditBlocks extends Content
 	@Override
 	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.selectedPage.equals("coordinates"))
+		if(Page.COORDINATES.equals(this.page))
 		{
 			this.x1Field.renderButton(mouseX, mouseY, partialTicks);
 			this.y1Field.renderButton(mouseX, mouseY, partialTicks);
@@ -371,16 +371,16 @@ public class ContentEditBlocks extends Content
 			this.y2Field.renderButton(mouseX, mouseY, partialTicks);
 			this.z2Field.renderButton(mouseX, mouseY, partialTicks);
 		}
-		else if(this.selectedPage.equals("fill"))
+		else if(Page.FILL.equals(this.page))
 		{
 			this.block1Field.renderButton(mouseX, mouseY, partialTicks);
 		}
-		else if(this.selectedPage.equals("replace"))
+		else if(Page.REPLACE.equals(this.page))
 		{
 			this.block1Field.renderButton(mouseX, mouseY, partialTicks);
 			this.block2Field.renderButton(mouseX, mouseY, partialTicks);
 		}
-		else if(this.selectedPage.equals("clone"))
+		else if(Page.CLONE.equals(this.page))
 		{
 			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
 			{
@@ -431,5 +431,14 @@ public class ContentEditBlocks extends Content
 	public Content getActiveContent()
 	{
 		return Contents.EDIT_BLOCKS;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum Page
+	{
+		COORDINATES,
+		FILL,
+		REPLACE,
+		CLONE;
 	}
 }
