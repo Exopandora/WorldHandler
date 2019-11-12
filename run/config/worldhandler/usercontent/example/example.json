@@ -344,7 +344,11 @@
 				"text": "Text",
 				"x": 0,
 				"y": -11,
-				"color": 2039583
+				"color": 2039583,
+				"visible": {
+					"type": "js",
+					"function": "isVisible"
+				}
 			}
 		]
 	}

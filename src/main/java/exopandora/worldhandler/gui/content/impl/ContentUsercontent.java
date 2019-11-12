@@ -146,7 +146,10 @@ public class ContentUsercontent extends Content
 		{
 			for(JsonText text : this.content.getGui().getTexts())
 			{
-				container.getMinecraft().fontRenderer.drawString(TextFormatting.formatNullable(text.getText()), text.getX() + x, text.getY() + y, text.getColor());
+				if(text.getVisible() == null || text.getVisible().eval(this.engineAdapter))
+				{
+					container.getMinecraft().fontRenderer.drawString(TextFormatting.formatNullable(text.getText()), text.getX() + x, text.getY() + y, text.getColor());
+				}
 			}
 		}
 	}

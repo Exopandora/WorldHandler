@@ -20,12 +20,16 @@ public class JsonText
 	@SerializedName("color")
 	private int color;
 	
-	public JsonText(String text, int x, int y, int color)
+	@SerializedName("visible")
+	private BooleanExpression visible;
+	
+	public JsonText(String text, int x, int y, int color, BooleanExpression visible)
 	{
 		this.text = text;
 		this.x = x;
 		this.y = y;
 		this.color = color;
+		this.visible = visible;
 	}
 	
 	public String getText()
@@ -66,5 +70,15 @@ public class JsonText
 	public void setColor(int color)
 	{
 		this.color = color;
+	}
+	
+	public BooleanExpression getVisible()
+	{
+		return this.visible;
+	}
+	
+	public void setVisible(BooleanExpression visible)
+	{
+		this.visible = visible;
 	}
 }
