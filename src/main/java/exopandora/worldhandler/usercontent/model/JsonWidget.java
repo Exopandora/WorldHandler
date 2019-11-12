@@ -77,6 +77,6 @@ public abstract class JsonWidget<T extends Enum<T>>
 	public static enum Type
 	{
 		BUTTON,
-		ELEMENT
+		MENU
 	}
 }

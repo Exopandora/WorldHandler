@@ -100,7 +100,7 @@ public class ContentUsercontent extends Content
 			}
 		}
 		
-		for(JsonMenu menu : this.getWidgets(this.content.getGui().getMenus(), JsonWidget.Type.ELEMENT))
+		for(JsonMenu menu : this.getWidgets(this.content.getGui().getMenus(), JsonWidget.Type.MENU))
 		{
 			container.add(this.menuFactory.createMenu(menu, this, container, x, y));
 		}
