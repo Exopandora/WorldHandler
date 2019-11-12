@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.logic;
+package exopandora.worldhandler.util;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

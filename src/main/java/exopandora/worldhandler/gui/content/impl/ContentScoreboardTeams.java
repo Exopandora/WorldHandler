@@ -13,10 +13,10 @@ import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.logic.ILogicClickList;
+import exopandora.worldhandler.gui.menu.impl.ILogicButtonList;
 import exopandora.worldhandler.gui.menu.impl.MenuButtonList;
-import exopandora.worldhandler.helper.ActionHelper;
-import exopandora.worldhandler.helper.CommandHelper;
+import exopandora.worldhandler.util.ActionHelper;
+import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -53,7 +53,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		
 		if(Page.OPTION.equals(this.page))
 		{
-			MenuButtonList options = new MenuButtonList(x + 118, y + 24, HELPER.getOptions(), 2, new ILogicClickList()
+			MenuButtonList options = new MenuButtonList(x + 118, y + 24, HELPER.getOptions(), 2, new ILogicButtonList()
 			{
 				@Override
 				public String translate(String key, int depth)
@@ -78,7 +78,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 				@Override
 				public String buildEventKey(List<String> keys, int depth)
 				{
-					return ILogicClickList.super.buildTranslationKey(keys, depth);
+					return ILogicButtonList.super.buildTranslationKey(keys, depth);
 				}
 				
 				@Override

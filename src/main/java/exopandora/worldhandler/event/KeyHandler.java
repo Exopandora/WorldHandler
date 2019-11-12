@@ -5,8 +5,8 @@ import org.lwjgl.glfw.GLFW;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.Config;
-import exopandora.worldhandler.helper.ActionHelper;
-import exopandora.worldhandler.helper.BlockHelper;
+import exopandora.worldhandler.util.ActionHelper;
+import exopandora.worldhandler.util.BlockHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;

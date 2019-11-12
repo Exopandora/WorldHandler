@@ -9,7 +9,7 @@ import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.TextFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;

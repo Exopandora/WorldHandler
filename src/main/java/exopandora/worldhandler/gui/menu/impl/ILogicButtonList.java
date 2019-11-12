@@ -1,12 +1,13 @@
-package exopandora.worldhandler.gui.logic;
+package exopandora.worldhandler.gui.menu.impl;
 
 import java.util.List;
 
+import exopandora.worldhandler.util.ILogic;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public interface ILogicClickList extends ILogic
+public interface ILogicButtonList extends ILogic
 {
 	String translate(String key, int depth);
 	

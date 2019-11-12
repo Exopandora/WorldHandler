@@ -6,7 +6,6 @@ import java.util.Objects;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.logic.ILogicPageList;
 import exopandora.worldhandler.gui.menu.Menu;
 import exopandora.worldhandler.util.TextFormatting;
 import net.minecraft.client.Minecraft;

@@ -15,11 +15,11 @@ import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.logic.ILogicClickList;
+import exopandora.worldhandler.gui.menu.impl.ILogicButtonList;
 import exopandora.worldhandler.gui.menu.impl.MenuButtonList;
-import exopandora.worldhandler.helper.ActionHelper;
-import exopandora.worldhandler.helper.CommandHelper;
-import exopandora.worldhandler.helper.RegistryHelper;
+import exopandora.worldhandler.util.ActionHelper;
+import exopandora.worldhandler.util.CommandHelper;
+import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
@@ -59,7 +59,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		
 		if(Page.CREATE.equals(this.page))
 		{
-			MenuButtonList objectives = new MenuButtonList(x + 118, y + 24, HELPER.getObjectives(), 2, new ILogicClickList()
+			MenuButtonList objectives = new MenuButtonList(x + 118, y + 24, HELPER.getObjectives(), 2, new ILogicButtonList()
 			{
 				@Override
 				public String translate(String key, int depth)
@@ -118,7 +118,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 						return String.join(":", keys);
 					}
 					
-					return ILogicClickList.super.buildEventKey(keys, depth);
+					return ILogicButtonList.super.buildEventKey(keys, depth);
 				}
 				
 				@Override
@@ -160,7 +160,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		}
 		else if(Page.DISPLAY.equals(this.page) || Page.UNDISPLAY.equals(this.page))
 		{
-			MenuButtonList slots = new MenuButtonList(x + 118, y + 24 - this.page.getShift(), HELPER.getSlots(), 2, new ILogicClickList()
+			MenuButtonList slots = new MenuButtonList(x + 118, y + 24 - this.page.getShift(), HELPER.getSlots(), 2, new ILogicButtonList()
 			{
 				@Override
 				public String translate(String key, int depth)

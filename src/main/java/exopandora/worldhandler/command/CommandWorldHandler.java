@@ -6,8 +6,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.helper.ActionHelper;
-import exopandora.worldhandler.helper.CommandHelper;
+import exopandora.worldhandler.util.ActionHelper;
+import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;

@@ -2,7 +2,7 @@ package exopandora.worldhandler.usercontent.factory;
 
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.gui.logic.ILogicMapped;
+import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
 import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.usercontent.model.JsonWidget;

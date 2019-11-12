@@ -3,7 +3,7 @@ package exopandora.worldhandler.gui.content.impl;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.helper.ScoreboardHelper;
+import exopandora.worldhandler.util.ScoreboardHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

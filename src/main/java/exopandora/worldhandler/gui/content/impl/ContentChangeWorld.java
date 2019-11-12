@@ -2,7 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.helper.ActionHelper;
+import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ConnectingScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;

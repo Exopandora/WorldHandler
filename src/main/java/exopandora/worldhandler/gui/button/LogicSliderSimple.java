@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.logic;
+package exopandora.worldhandler.gui.button;
 
 import java.util.function.Consumer;
 

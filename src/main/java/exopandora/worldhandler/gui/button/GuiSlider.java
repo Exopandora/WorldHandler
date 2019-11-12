@@ -6,7 +6,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.logic.ILogic;
+import exopandora.worldhandler.util.ILogic;
 import exopandora.worldhandler.util.TextFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
-import exopandora.worldhandler.helper.EnumHelper;
+import exopandora.worldhandler.util.EnumHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

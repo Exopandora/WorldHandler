@@ -8,13 +8,13 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.impl.BuilderUsercontent;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.helper.ActionHelper;
-import exopandora.worldhandler.helper.CommandHelper;
 import exopandora.worldhandler.usercontent.ScriptEngineAdapter;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
 import exopandora.worldhandler.usercontent.VisibleObject;
 import exopandora.worldhandler.usercontent.model.Action;
 import exopandora.worldhandler.util.ActionHandler;
+import exopandora.worldhandler.util.ActionHelper;
+import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

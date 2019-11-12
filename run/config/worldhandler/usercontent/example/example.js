@@ -1,4 +1,4 @@
-var ActionHelper = Java.type('exopandora.worldhandler.helper.ActionHelper');
+var ActionHelper = Java.type('exopandora.worldhandler.util.ActionHelper');
 
 var visible = true;
 var enabled = true;

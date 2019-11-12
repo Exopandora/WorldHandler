@@ -11,10 +11,8 @@ import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiButtonList.Persistence;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.logic.ILogicClickList;
-import exopandora.worldhandler.gui.logic.ILogicMapped;
 import exopandora.worldhandler.gui.menu.Menu;
-import exopandora.worldhandler.helper.Node;
+import exopandora.worldhandler.util.Node;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -22,17 +20,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class MenuButtonList extends Menu
 {
 	private final List<Node> items;
-	private final ILogicClickList logic;
+	private final ILogicButtonList logic;
 	private final MenuButtonList parent;
 	private final int depth;
 	private final int maxDepth;
 	
-	public MenuButtonList(int x, int y, List<Node> list, int maxDepth, ILogicClickList logic)
+	public MenuButtonList(int x, int y, List<Node> list, int maxDepth, ILogicButtonList logic)
 	{
 		this(x, y, list, maxDepth, logic, null);
 	}
 	
-	private MenuButtonList(int x, int y, List<Node> list, int maxDepth, ILogicClickList logic, MenuButtonList parent)
+	private MenuButtonList(int x, int y, List<Node> list, int maxDepth, ILogicButtonList logic, MenuButtonList parent)
 	{
 		super(x, y);
 		this.items = list;

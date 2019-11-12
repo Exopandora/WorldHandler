@@ -10,10 +10,10 @@ import com.google.common.collect.Lists;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.helper.RegistryHelper;
 import exopandora.worldhandler.usercontent.UsercontentConfig;
 import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.usercontent.model.JsonTab;
+import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

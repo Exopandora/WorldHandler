@@ -2,8 +2,8 @@ package exopandora.worldhandler.gui.button;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import exopandora.worldhandler.helper.ResourceHelper;
 import exopandora.worldhandler.util.ActionHandler;
+import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

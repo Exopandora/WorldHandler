@@ -3,7 +3,7 @@ package exopandora.worldhandler.gui.button;
 import java.util.List;
 
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.logic.ILogicMapped;
+import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;

@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.logic;
+package exopandora.worldhandler.gui.menu.impl;
 
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.util.ActionHandler;

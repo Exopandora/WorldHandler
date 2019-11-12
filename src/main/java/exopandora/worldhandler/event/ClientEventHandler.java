@@ -7,8 +7,8 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.config.Config;
-import exopandora.worldhandler.helper.BlockHelper;
-import exopandora.worldhandler.helper.CommandHelper;
+import exopandora.worldhandler.util.BlockHelper;
+import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;

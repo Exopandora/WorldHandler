@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.helper.ResourceHelper;
+import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.ByteNBT;

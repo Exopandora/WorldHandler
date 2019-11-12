@@ -108,7 +108,7 @@ public class UsercontentLoader
 	
 	private static final List<String> ALLOWED_CLASSES = Arrays.asList
 	(
-		"exopandora.worldhandler.helper.ActionHelper"
+		"exopandora.worldhandler.util.ActionHelper"
 	);
 	
 	private static ScriptEngine buildScriptEngine()

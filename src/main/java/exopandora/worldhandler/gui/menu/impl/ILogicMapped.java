@@ -1,5 +1,6 @@
-package exopandora.worldhandler.gui.logic;
+package exopandora.worldhandler.gui.menu.impl;
 
+import exopandora.worldhandler.util.ILogic;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

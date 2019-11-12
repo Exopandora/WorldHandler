@@ -7,8 +7,6 @@ import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiButtonList;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.logic.ILogicColorMenu;
-import exopandora.worldhandler.gui.logic.ILogicMapped;
 import exopandora.worldhandler.gui.menu.Menu;
 import exopandora.worldhandler.util.MutableStringTextComponent;
 import net.minecraft.client.resources.I18n;

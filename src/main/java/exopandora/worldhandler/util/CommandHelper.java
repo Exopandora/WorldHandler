@@ -1,4 +1,4 @@
-package exopandora.worldhandler.helper;
+package exopandora.worldhandler.util;
 
 import com.mojang.brigadier.CommandDispatcher;
 

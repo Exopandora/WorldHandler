@@ -1,4 +1,4 @@
-package exopandora.worldhandler.helper;
+package exopandora.worldhandler.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
