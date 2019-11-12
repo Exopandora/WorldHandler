@@ -186,7 +186,6 @@ public class ContentSettings extends ContentChild
 		return I18n.format("gui.worldhandler.shortcuts.tooltip.settings");
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public abstract static class Setting<T>
 	{
 		private final String key;
