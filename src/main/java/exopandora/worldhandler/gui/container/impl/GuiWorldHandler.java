@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.builder.impl.BuilderWorldHandler;
@@ -190,26 +190,6 @@ public class GuiWorldHandler extends Container
 		}
 	}
 	
-	private int getContentX()
-	{
-		return this.getBackgroundX() + 8;
-	}
-	
-	private int getContentY()
-	{
-		return this.getBackgroundY() + 33;
-	}
-	
-	private int getXOffset()
-	{
-		return 0;
-	}
-	
-	private int getYOffset()
-	{
-		return Config.getSettings().shortcuts() ? 11 : 8;
-	}
-	
 	@Override
 	public void tick()
 	{
@@ -300,55 +280,6 @@ public class GuiWorldHandler extends Container
 		this.content.onPlayerNameChanged(GuiWorldHandler.player);
 	}
 	
-	private void defaultColor()
-	{
-		this.defaultColor(1.0F);
-	}
-	
-	private void defaultColor(float alpha)
-	{
-		GlStateManager.enableBlend();
-		GlStateManager.color4f(Config.getSkin().getBackgroundRedF(), Config.getSkin().getBackgroundGreenF(), Config.getSkin().getBackgroundBlueF(), alpha * Config.getSkin().getBackgroundAlphaF());
-	}
-	
-	private void darkColor()
-	{
-		GlStateManager.enableBlend();
-		GlStateManager.color4f(Config.getSkin().getBackgroundRedF() - 0.3F, Config.getSkin().getBackgroundGreenF() - 0.3F, Config.getSkin().getBackgroundBlueF() - 0.3F, Config.getSkin().getBackgroundAlphaF());
-	}
-	
-	private void bindBackground()
-	{
-		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getBackgroundTexture());
-	}
-	
-	@Nullable
-	protected String getSplash()
-	{
-		Calendar calendar = Calendar.getInstance();
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		int month = calendar.get(Calendar.MONTH) + 1;
-		
-		if(day == 12 && month == 24)
-		{
-			return "Merry X-mas!";
-		}
-		else if(day == 1 && month == 1)
-		{
-			return "Happy new year!";
-		}
-		else if(day == 10 && month == 31)
-		{
-			return "OOoooOOOoooo! Spooky!";
-		}
-		else if(day == 3 && month == 28)
-		{
-			return (calendar.get(Calendar.YEAR) - 2013) + " Years of World Handler!";
-		}
-		
-		return null;
-	}
-	
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks)
 	{
@@ -361,6 +292,7 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSkin().drawBackground())
 			{
+				this.setBlitOffset(-1);
 				super.renderBackground();
 			}
 			
@@ -375,6 +307,7 @@ public class GuiWorldHandler extends Container
 			
 			//TABS
 			
+			this.setBlitOffset(0);
 			this.forEachTab(this::drawTab);
 			this.defaultColor();
 			
@@ -412,7 +345,7 @@ public class GuiWorldHandler extends Container
 					if(mouseX >= watchX && mouseX <= watchX + 9 && mouseY >= watchY && mouseY <= watchY + 9)
 					{
 						GuiUtils.drawHoveringText(Arrays.asList(TextFormatting.formatWorldTime(Minecraft.getInstance().world.getDayTime())), mouseX, mouseY + 9, this.width, this.height, this.width, this.font);
-						GlStateManager.disableLighting();
+						RenderSystem.disableLighting();
 					}
 				}
 			}
@@ -446,19 +379,19 @@ public class GuiWorldHandler extends Container
 			
 			if(this.splash != null)
 			{
-				GlStateManager.pushMatrix();
-				RenderHelper.enableGUIStandardItemLighting();
-				GlStateManager.disableLighting();
-				GlStateManager.translatef((float) (backgroundX + 212), backgroundY + 15, 0.0F);
-				GlStateManager.rotatef(17.0F, 0.0F, 0.0F, 1.0F);
+				RenderSystem.pushMatrix();
+				RenderHelper.func_227784_d_();
+				RenderSystem.disableLighting();
+				RenderSystem.translatef((float) (backgroundX + 212), backgroundY + 15, 0.0F);
+				RenderSystem.rotatef(17.0F, 0.0F, 0.0F, 1.0F);
 				
 				float scale = 1.1F - MathHelper.abs(MathHelper.sin((float) (System.currentTimeMillis() % 1000L) / 1000.0F * (float) Math.PI * 2.0F) * 0.1F);
 				scale = scale * 100.0F / this.font.getStringWidth(this.splash);
-				GlStateManager.scalef(scale, scale, scale);
+				RenderSystem.scalef(scale, scale, scale);
 				
 				this.drawCenteredString(this.font, this.splash, 0, (int) scale, 0xFFFF00);
 				
-				GlStateManager.popMatrix();
+				RenderSystem.popMatrix();
 			}
 			
 			//TOOLTIPS
@@ -510,6 +443,7 @@ public class GuiWorldHandler extends Container
 		}
 		
 		this.bindBackground();
+		this.setBlitOffset(-1);
 		this.blit((int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
 		this.blit((int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.floor(this.tabHalf + 1), 0, (int) Math.floor(this.tabHalf + 1), fHeight);
 		
@@ -596,6 +530,7 @@ public class GuiWorldHandler extends Container
 			}
 		}
 		
+		this.setBlitOffset(0);
 		this.drawCenteredString(this.font, TextFormatting.shortenString(net.minecraft.util.text.TextFormatting.UNDERLINE + tab.getTabTitle(), (int) this.tabWidth, this.font), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color);
 	}
 	
@@ -638,6 +573,75 @@ public class GuiWorldHandler extends Container
 		}
 		
 		return super.keyPressed(keyCode, scanCode, modifiers);
+	}
+	
+	private void defaultColor()
+	{
+		this.defaultColor(1.0F);
+	}
+	
+	private void defaultColor(float alpha)
+	{
+		RenderSystem.enableBlend();
+		RenderSystem.color4f(Config.getSkin().getBackgroundRedF(), Config.getSkin().getBackgroundGreenF(), Config.getSkin().getBackgroundBlueF(), alpha * Config.getSkin().getBackgroundAlphaF());
+	}
+	
+	private void darkColor()
+	{
+		RenderSystem.enableBlend();
+		RenderSystem.color4f(Config.getSkin().getBackgroundRedF() - 0.3F, Config.getSkin().getBackgroundGreenF() - 0.3F, Config.getSkin().getBackgroundBlueF() - 0.3F, Config.getSkin().getBackgroundAlphaF());
+	}
+	
+	private void bindBackground()
+	{
+		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getBackgroundTexture());
+	}
+	
+	private int getContentX()
+	{
+		return this.getBackgroundX() + 8;
+	}
+	
+	private int getContentY()
+	{
+		return this.getBackgroundY() + 33;
+	}
+	
+	private int getXOffset()
+	{
+		return 0;
+	}
+	
+	private int getYOffset()
+	{
+		return Config.getSettings().shortcuts() ? 11 : 8;
+	}
+	
+	@Nullable
+	protected String getSplash()
+	{
+		Calendar calendar = Calendar.getInstance();
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		int month = calendar.get(Calendar.MONTH) + 1;
+		
+		if(day == 12 && month == 24)
+		{
+			return "Merry X-mas!";
+		}
+		else if(day == 1 && month == 1)
+		{
+			return "Happy new year!";
+		}
+		else if(day == 10 && month == 31)
+		{
+			return "OOoooOOOoooo! Spooky!";
+		}
+		else if(day == 3 && month == 28)
+		{
+			return (calendar.get(Calendar.YEAR) - 2013) + " Years of World Handler!";
+		}
+		
+		return null;
 	}
 	
 	@Override

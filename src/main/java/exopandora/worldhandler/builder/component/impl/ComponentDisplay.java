@@ -7,7 +7,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -24,7 +23,7 @@ public class ComponentDisplay implements IBuilderComponent
 		
 		if(this.name.getText() != null && !this.name.getText().isEmpty())
 		{
-			display.putString("Name", ITextComponent.Serializer.toJson(new StringTextComponent(this.name.toString())));
+			display.putString("Name", ITextComponent.Serializer.toJson(this.name));
 		}
 		
 		ListNBT lore = new ListNBT();
@@ -33,7 +32,7 @@ public class ComponentDisplay implements IBuilderComponent
 		{
 			if(this.lore[x] != null && !this.lore[x].isEmpty())
 			{
-				lore.add(new StringNBT(this.lore[x]));
+				lore.add(StringNBT.func_229705_a_(this.lore[x]));
 			}
 		}
 		

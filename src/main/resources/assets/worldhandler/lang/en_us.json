@@ -222,6 +222,11 @@
 	"gui.worldhandler.gamerules.rule.gameLoopFunction": "Game Loop Function",
 	"gui.worldhandler.gamerules.rule.maxCommandChainLength": "Command Chain Length",
 	"gui.worldhandler.gamerules.rule.disableRaids": "Disable Raids",
+	"gui.worldhandler.gamerules.rule.doImmediateRespawn": "Immediate Respawn",
+	"gui.worldhandler.gamerules.rule.doInsomnia": "Insomnia",
+	"gui.worldhandler.gamerules.rule.drowningDamage": "Drowning Damage",
+	"gui.worldhandler.gamerules.rule.fallDamage": "Fall Damage",
+	"gui.worldhandler.gamerules.rule.fireDamage": "Fire Damage",
 
 	"gui.worldhandler.world_info.start": "Start",
 	"gui.worldhandler.world_info.world": "World",

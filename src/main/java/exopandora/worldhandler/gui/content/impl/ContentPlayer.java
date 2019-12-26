@@ -1,6 +1,6 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGeneric;
@@ -115,9 +115,9 @@ public class ContentPlayer extends Content
 			
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.player.position.copy_position"), () ->
 			{
-				int posX = MathHelper.floor(Minecraft.getInstance().player.posX);
-				int posY = MathHelper.floor(Minecraft.getInstance().player.posY);
-				int posZ = MathHelper.floor(Minecraft.getInstance().player.posZ);
+				int posX = MathHelper.floor(Minecraft.getInstance().player.func_226277_ct_());
+				int posY = MathHelper.floor(Minecraft.getInstance().player.func_226278_cu_());
+				int posZ = MathHelper.floor(Minecraft.getInstance().player.func_226281_cx_());
 				
 				Minecraft.getInstance().keyboardListener.setClipboardString(posX + " " + posY + " " + posZ);
 			}));
@@ -148,9 +148,9 @@ public class ContentPlayer extends Content
 	@Override
 	public void tick(Container container)
 	{
-		this.posXField.setText("X: " + MathHelper.floor(Minecraft.getInstance().player.posX));
-		this.posYField.setText("Y: " + MathHelper.floor(Minecraft.getInstance().player.posY));
-		this.posZField.setText("Z: " + MathHelper.floor(Minecraft.getInstance().player.posZ));
+		this.posXField.setText("X: " + MathHelper.floor(Minecraft.getInstance().player.func_226277_ct_()));
+		this.posYField.setText("Y: " + MathHelper.floor(Minecraft.getInstance().player.func_226278_cu_()));
+		this.posZField.setText("Z: " + MathHelper.floor(Minecraft.getInstance().player.func_226281_cx_()));
 		this.scoreField.setText(I18n.format("gui.worldhandler.entities.player.score") + ": " + Minecraft.getInstance().player.getScore());
 		this.coinsField.setText(I18n.format("gui.worldhandler.entities.player.score.experience") + ": " + Minecraft.getInstance().player.experienceLevel + "L");
 		this.xpField.setText(I18n.format("gui.worldhandler.entities.player.score.experience_coins") + ": " + Minecraft.getInstance().player.experienceTotal);
@@ -168,9 +168,9 @@ public class ContentPlayer extends Content
 			Screen.fill(container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
 			Minecraft.getInstance().fontRenderer.drawString(Minecraft.getInstance().player.getName().getFormattedText(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			InventoryScreen.drawEntityOnScreen(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
-			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			InventoryScreen.func_228187_a_(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
+			RenderSystem.defaultBlendFunc();
 		}
 		else if(Page.SCORE.equals(this.page))
 		{

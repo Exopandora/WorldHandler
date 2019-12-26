@@ -36,7 +36,7 @@ public class ContentSettings extends ContentChild
 		SETTINGS.add(new BooleanSetting("pause_game", Config.CLIENT.getSettings()::pause, Config.CLIENT.getSettings()::setPause));
 		SETTINGS.add(new BooleanSetting("custom_times", Config.CLIENT.getSettings()::customTimes, Config.CLIENT.getSettings()::setCustomTimes));
 		SETTINGS.add(new BooleanSetting("permission_query", Config.CLIENT.getSettings()::permissionQuery, Config.CLIENT.getSettings()::setPermissionQuery));
-		SETTINGS.add(new BooleanSetting("highlight_blocks", Config.CLIENT.getSettings()::highlightBlocks, Config.CLIENT.getSettings()::setHighlightBlocks));
+//		SETTINGS.add(new BooleanSetting("highlight_blocks", Config.CLIENT.getSettings()::highlightBlocks, Config.CLIENT.getSettings()::setHighlightBlocks));
 		SETTINGS.add(new IntegerSetting("custom_time_dawn", Config.CLIENT.getSettings()::getDawn, Config.CLIENT.getSettings()::setDawn));
 		SETTINGS.add(new IntegerSetting("custom_time_noon", Config.CLIENT.getSettings()::getNoon, Config.CLIENT.getSettings()::setNoon));
 		SETTINGS.add(new IntegerSetting("custom_time_sunset", Config.CLIENT.getSettings()::getSunset, Config.CLIENT.getSettings()::setSunset));

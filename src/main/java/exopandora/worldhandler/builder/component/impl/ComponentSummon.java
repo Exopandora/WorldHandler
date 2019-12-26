@@ -68,37 +68,37 @@ public class ComponentSummon implements IBuilderComponent
 			if(this.name.equalsIgnoreCase("Cat"))
 			{
 				this.tag = "CatType";
-				return new IntNBT(this.random.nextInt(3) + 1);
+				return IntNBT.func_229692_a_(this.random.nextInt(3) + 1);
 			}
 			else if(this.name.equalsIgnoreCase("Farmer") || this.name.equalsIgnoreCase("Fisherman") || this.name.equalsIgnoreCase("Shepherd") || this.name.equalsIgnoreCase("Fletcher"))
 			{
 				this.tag = "Profession";
-				return new IntNBT(0);
+				return IntNBT.func_229692_a_(0);
 			}
 			else if(this.name.equalsIgnoreCase("Librarian") || this.name.equalsIgnoreCase("Carthographer"))
 			{
 				this.tag = "Profession";
-				return new IntNBT(1);
+				return IntNBT.func_229692_a_(1);
 			}
 			else if(this.name.equalsIgnoreCase("Cleric") || this.name.equalsIgnoreCase("Priest"))
 			{
 				this.tag = "Profession";
-				return new IntNBT(2);
+				return IntNBT.func_229692_a_(2);
 			}
 			else if(this.name.equalsIgnoreCase("Armorer") || this.name.equalsIgnoreCase("Blacksmith") || this.name.equalsIgnoreCase("WeaponSmith") || this.name.equalsIgnoreCase("ToolSmith"))
 			{
 				this.tag = "Profession";
-				return new IntNBT(3);
+				return IntNBT.func_229692_a_(3);
 			}
 			else if(this.name.equalsIgnoreCase("Butcher") || this.name.equalsIgnoreCase("Leatherworker"))
 			{
 				this.tag = "Profession";
-				return new IntNBT(4);
+				return IntNBT.func_229692_a_(4);
 			}
 			else if(this.name.equalsIgnoreCase("Nitwit"))
 			{
 				this.tag = "Profession";
-				return new IntNBT(5);
+				return IntNBT.func_229692_a_(5);
 			}
 			
 			if(this.entity != null)
@@ -108,7 +108,7 @@ public class ComponentSummon implements IBuilderComponent
 					if(StringUtils.containsIgnoreCase(this.name, "Baby"))
 					{
 						this.tag = "IsBaby";
-						return new ByteNBT((byte) 1);
+						return ByteNBT.func_229671_a_((byte) 1);
 					}
 				}
 				else if(this.entity.equals(EntityType.CHICKEN.getRegistryName()))

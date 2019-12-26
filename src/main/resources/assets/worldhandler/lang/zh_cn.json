@@ -223,6 +223,11 @@
 	"gui.worldhandler.gamerules.rule.gameLoopFunction": "每刻运行的函数",
 	"gui.worldhandler.gamerules.rule.maxCommandChainLength": "命令连锁长度",
 	"gui.worldhandler.gamerules.rule.disableRaids": "Disable Raids",
+	"gui.worldhandler.gamerules.rule.doImmediateRespawn": "Immediate Respawn",
+	"gui.worldhandler.gamerules.rule.doInsomnia": "Insomnia",
+	"gui.worldhandler.gamerules.rule.drowningDamage": "Drowning Damage",
+	"gui.worldhandler.gamerules.rule.fallDamage": "Fall Damage",
+	"gui.worldhandler.gamerules.rule.fireDamage": "Fire Damage",
 
 	"gui.worldhandler.world_info.start": "首选项",
 	"gui.worldhandler.world_info.world": "世界",

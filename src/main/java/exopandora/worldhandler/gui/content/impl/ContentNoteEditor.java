@@ -1,6 +1,6 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.builder.ICommandBuilder;
@@ -178,7 +178,7 @@ public class ContentNoteEditor extends Content
 	{
 		if(this.isActive)
 		{
-			GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+			RenderSystem.color3f(1.0F, 1.0F, 1.0F);
 			Minecraft.getInstance().getTextureManager().bindTexture(NOTE);
 			
 			container.blit(x - 1, y - 1, 0, 0, 8, 59);
@@ -194,16 +194,16 @@ public class ContentNoteEditor extends Content
 		{
     		float scale = 4;
     		
-			GlStateManager.color3f(1.0F, 1.0F, 1.0F);
-			GlStateManager.pushMatrix();
-    		RenderHelper.enableGUIStandardItemLighting();
+			RenderSystem.color3f(1.0F, 1.0F, 1.0F);
+			RenderSystem.pushMatrix();
+			RenderHelper.func_227784_d_();
             
-    		GlStateManager.translatef(container.width / 2 - 8 * scale, container.height / 2 - 15 - 8 * scale, 0);
-    		GlStateManager.scalef(scale, scale, scale);
+    		RenderSystem.translatef(container.width / 2 - 8 * scale, container.height / 2 - 15 - 8 * scale, 0);
+    		RenderSystem.scalef(scale, scale, scale);
     		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Blocks.NOTE_BLOCK), 0, 0);
             
     		RenderHelper.disableStandardItemLighting();
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 			
 			String displayString = I18n.format("gui.worldhandler.blocks.note_block_editor.look_at_note_block", KeyHandler.KEY_WORLD_HANDLER.getLocalizedName());
 			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;

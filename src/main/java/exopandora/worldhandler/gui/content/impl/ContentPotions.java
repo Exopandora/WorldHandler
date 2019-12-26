@@ -200,7 +200,7 @@ public class ContentPotions extends ContentChild
 				container.init();
 			}));
 			
-			boolean enabled = this.builderPotion.getAmplifier() >= 0;
+			boolean enabled = this.builderPotion.getAmplifier() >= 0 && this.builderPotion.getDuration() > 0;
 			
 			button1.active = enabled;
 			button2.active = enabled;

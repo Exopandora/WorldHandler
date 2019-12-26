@@ -86,7 +86,7 @@ public class ContentMain extends Content
 		container.add(new GuiButtonBase(x + 78, y + 96, 76, 20, I18n.format("gui.worldhandler.resourcepack"), () -> 
 		{
 			Minecraft.getInstance().gameSettings.saveOptions();
-			Minecraft.getInstance().displayGuiScreen(new ResourcePacksScreen(container));
+			Minecraft.getInstance().displayGuiScreen(new ResourcePacksScreen(container, Minecraft.getInstance().gameSettings));
 		}));
 		container.add(new GuiButtonBase(x + 158, y + 96, 74, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 	}

@@ -2,7 +2,7 @@ package exopandora.worldhandler.gui.button;
 
 import java.util.Objects;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
@@ -38,15 +38,15 @@ public class GuiSlider extends GuiButtonBase
 		
 		int xOffset = Config.getSkin().getTextureType().equals("resourcepack") ? 0 : -46;
 		
-		GlStateManager.pushMatrix();
-		GlStateManager.enableBlend();
-		GlStateManager.color4f(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
+		RenderSystem.pushMatrix();
+		RenderSystem.enableBlend();
+		RenderSystem.color4f(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
 		
 		this.blit(this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.y, 0, 66 + xOffset, 4, 20);
 		this.blit(this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.y, 196, 66 + xOffset, 4, 20);
 		
-		GlStateManager.disableBlend();
-		GlStateManager.popMatrix();
+		RenderSystem.disableBlend();
+		RenderSystem.popMatrix();
 	}
 	
 	@Override

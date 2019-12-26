@@ -1,8 +1,10 @@
 package exopandora.worldhandler.util;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementManager;
@@ -10,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IResourceManager;
+import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.resources.SimpleReloadableResourceManager;
@@ -30,13 +33,13 @@ public class AdvancementHelper implements IFutureReloadListener
 		return CompletableFuture.supplyAsync(() ->
 		{
 			SimpleReloadableResourceManager serverResourceManager = new SimpleReloadableResourceManager(ResourcePackType.SERVER_DATA, Thread.currentThread());
-			Minecraft.getInstance().getResourcePackList().getEnabledPacks().stream().map(ResourcePackInfo::getResourcePack).forEach(serverResourceManager::addResourcePack);
 			serverResourceManager.addReloadListener(new NetworkTagManager());
 			serverResourceManager.addReloadListener(this.manager);
 			return serverResourceManager;
 		}).thenCompose(stage::markCompleteAwaitingOthers).thenAcceptAsync(serverResourceManager ->
 		{
-			serverResourceManager.initialReload(backgroundExecutor, gameExecutor, CompletableFuture.completedFuture(Unit.INSTANCE));
+			List<IResourcePack> list = Minecraft.getInstance().getResourcePackList().getEnabledPacks().stream().map(ResourcePackInfo::getResourcePack).collect(Collectors.toList());
+			serverResourceManager.reloadResources(backgroundExecutor, gameExecutor, CompletableFuture.completedFuture(Unit.INSTANCE), list);
 		});
 	}
 	

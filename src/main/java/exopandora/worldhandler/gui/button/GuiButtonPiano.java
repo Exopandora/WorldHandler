@@ -1,6 +1,6 @@
 package exopandora.worldhandler.gui.button;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.Config;
@@ -52,7 +52,7 @@ public class GuiButtonPiano extends GuiButtonBase
 		}
 		
 		int hoverstate = this.getYImage(this.isHovered);
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlphaF());
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlphaF());
 		Minecraft.getInstance().getTextureManager().bindTexture(NOTE);
 		
 		switch(this.type)

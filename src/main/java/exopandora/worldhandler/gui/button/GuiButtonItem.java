@@ -1,6 +1,6 @@
 package exopandora.worldhandler.gui.button;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.Minecraft;
@@ -31,13 +31,13 @@ public class GuiButtonItem extends GuiButtonBase
     {
     	super.renderBg(Minecraft.getInstance(), mouseX, mouseY);
     	
-        GlStateManager.enableRescaleNormal();
-		RenderHelper.enableGUIStandardItemLighting();
+        RenderSystem.enableRescaleNormal();
+        RenderHelper.func_227784_d_();
         
 		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(this.stack, this.x + this.width / 2 - 8, this.y + 2);
         
 		RenderHelper.disableStandardItemLighting();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.enableAlphaTest();
+        RenderSystem.disableRescaleNormal();
+        RenderSystem.enableAlphaTest();
     }
 }

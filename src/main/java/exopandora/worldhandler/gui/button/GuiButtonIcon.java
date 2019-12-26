@@ -1,6 +1,6 @@
 package exopandora.worldhandler.gui.button;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ResourceHelper;
@@ -38,16 +38,16 @@ public class GuiButtonIcon extends GuiButtonTooltip
 		{
 			if(this.isHovered())
 			{
-				GlStateManager.color4f(1.0F, 1.0F, 0.6F, 1.0F);
+				RenderSystem.color4f(1.0F, 1.0F, 0.6F, 1.0F);
 			}
 			else
 			{
-				GlStateManager.color4f(0.95F, 0.95F, 0.95F, 1.0F);
+				RenderSystem.color4f(0.95F, 0.95F, 0.95F, 1.0F);
 			}
 		}
 		else
 		{
-			GlStateManager.color4f(0.8F, 0.8F, 0.8F, 1.0F);
+			RenderSystem.color4f(0.8F, 0.8F, 0.8F, 1.0F);
 		}
 		
 		this.blit(this.x + this.width / 2 - 4, this.y + 6, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);

@@ -4,9 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderSummon;
@@ -594,8 +593,9 @@ public class ContentSummon extends Content
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		 	Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/beacon.png"));
+	 		container.setBlitOffset(0);
 		 	
 		 	for(int row = 0; row < 3; row++)
 		 	{

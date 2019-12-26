@@ -1,6 +1,6 @@
 package exopandora.worldhandler.gui.button;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.util.ActionHandler;
@@ -29,11 +29,10 @@ public class GuiButtonBase extends Button
 	@Override
 	protected void renderBg(Minecraft minecraft, int mouseX, int mouseY)
 	{
-		GlStateManager.enableBlend();
-		GlStateManager.color4f(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
+		RenderSystem.enableBlend();
+		RenderSystem.color4f(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
 		
 		int hovered = this.getYImage(this.isHovered());
-		
     	Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getButtonTexture());
     	
 		if(Config.getSkin().getTextureType().equals("resourcepack"))
@@ -47,7 +46,7 @@ public class GuiButtonBase extends Button
 			this.blit(this.x + this.width / 2, this.y, 200 - this.width / 2, hovered * 20, this.width / 2, this.height);
 		}
 		
-		GlStateManager.disableBlend();
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.disableBlend();
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 }
