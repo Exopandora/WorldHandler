@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.14.4-latest": "2.7.1",
-		"1.14.4-recommended": "2.7.1",
+		"1.14.4-latest": "2.7.2",
+		"1.14.4-recommended": "2.7.2",
 		"1.14.4-latest": "2.6.6",
 		"1.14.4-recommended": "2.6.6",
 		"1.14.3-latest": "2.6.2",
@@ -53,6 +53,7 @@
 	},
 	"1.14.4":
 	{
+		"2.7.2": "- Added option to change \"back\" content for usercontents\n- Added visibility option for texts for usercontents\n- Renamed \"Element\" to \"Menu\"",
 		"2.7.1": "- Improved config loading/reloading\n- Fixed crash for butcher settings\n- Removed back function from ActionHelper",
 		"2.7": "- Added custom usercontent which are configurable via json and js files\n- Added mod support for public gui announcements\n- Moved config file from ./config/ to ./config/worldhandler/",
 		"2.6.5": "- Fixed empty advancements list\n- Fixed soft crash when not looking at a sign with the sign editor",
