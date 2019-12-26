@@ -2,6 +2,10 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
+		"1.15.1-latest": "2.8",
+		"1.15.1-recommended": "2.8",
+		"1.15-latest": "2.8",
+		"1.15-recommended": "2.8",
 		"1.14.4-latest": "2.7.2",
 		"1.14.4-recommended": "2.7.2",
 		"1.14.4-latest": "2.6.6",
@@ -50,6 +54,14 @@
 		"1.5.1-recommended": "1.15",
 		"1.5-latest": "1.0",
 		"1.5-recommended": "1.0"
+	},
+	"1.15.1":
+	{
+		"2.8": "- Added 1.15 compatibility\n- Removed \"Highlight Blocks\" temporarily"
+	},
+	"1.15":
+	{
+		"2.8": "- Added 1.15 compatibility\n- Removed \"Highlight Blocks\" temporarily"
 	},
 	"1.14.4":
 	{
