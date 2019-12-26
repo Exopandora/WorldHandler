@@ -88,7 +88,7 @@ public class GuiWorldHandler extends Container
 			this.content.onPlayerNameChanged(this.getPlayer());
 			this.content.initGui(this, this.getContentX(), this.getContentY());
 			
-			//ELEMENTS
+			//MENUS
 			
 			for(IMenu menu : this.menus)
 			{
@@ -428,7 +428,7 @@ public class GuiWorldHandler extends Container
 			
 			this.content.drawScreen(this, this.getContentX(), this.getContentY(), mouseX, mouseY, partialTicks);
 			
-			//CONTAINER ELEMENTS
+			//MENUS
 			
 			for(IMenu menu : this.menus)
 			{
