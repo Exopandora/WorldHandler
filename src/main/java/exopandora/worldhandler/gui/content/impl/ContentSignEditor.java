@@ -177,17 +177,17 @@ public class ContentSignEditor extends Content
 		}
 		else
 		{
-    		float scale = 4;
+			float scale = 4;
 			
 			RenderSystem.color3f(1.0F, 1.0F, 1.0F);
 			RenderSystem.pushMatrix();
-			RenderHelper.func_227784_d_();
-            
-    		RenderSystem.translatef(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
-    		RenderSystem.scalef(scale, scale, scale);
-    		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Items.OAK_SIGN), 0, 0);
-            
-    		RenderHelper.disableStandardItemLighting();
+			RenderHelper.enableStandardItemLighting();
+			
+			RenderSystem.translatef(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
+			RenderSystem.scalef(scale, scale, scale);
+			Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Items.OAK_SIGN), 0, 0);
+			
+			RenderHelper.disableStandardItemLighting();
 			RenderSystem.popMatrix();
 			
 			String displayString = I18n.format("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.getLocalizedName());

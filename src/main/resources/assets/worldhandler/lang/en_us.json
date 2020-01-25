@@ -227,6 +227,8 @@
 	"gui.worldhandler.gamerules.rule.drowningDamage": "Drowning Damage",
 	"gui.worldhandler.gamerules.rule.fallDamage": "Fall Damage",
 	"gui.worldhandler.gamerules.rule.fireDamage": "Fire Damage",
+	"gui.worldhandler.gamerules.rule.doPatrolSpawning": "Patrol Spawning",
+	"gui.worldhandler.gamerules.rule.doTraderSpawning": "Trader Spawning",
 
 	"gui.worldhandler.world_info.start": "Start",
 	"gui.worldhandler.world_info.world": "World",

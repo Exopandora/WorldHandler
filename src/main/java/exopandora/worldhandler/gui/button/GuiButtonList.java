@@ -46,12 +46,12 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 			String leftArrow = this.isHoveringLeft(mouseX, mouseY) ? TextFormatting.BOLD + "<" + TextFormatting.RESET : "<";
 			String rightArrow = this.isHoveringRight(mouseX, mouseY) ? TextFormatting.BOLD + ">" + TextFormatting.RESET : ">";
 			
-            int maxWidth = Math.max(0, this.width - fontRenderer.getStringWidth("<   >"));
-            int spaceWidth = fontRenderer.getStringWidth(" ");
-            
-            String display = exopandora.worldhandler.util.TextFormatting.shortenString(this.getMessage(), maxWidth, fontRenderer);
-            int yPos = this.y + (this.height - 8) / 2;
-            
+			int maxWidth = Math.max(0, this.width - fontRenderer.getStringWidth("<   >"));
+			int spaceWidth = fontRenderer.getStringWidth(" ");
+			
+			String display = exopandora.worldhandler.util.TextFormatting.shortenString(this.getMessage(), maxWidth, fontRenderer);
+			int yPos = this.y + (this.height - 8) / 2;
+			
 			this.drawCenteredString(fontRenderer, display, this.x + this.width / 2, yPos, this.getFGColor());
 			this.drawCenteredString(fontRenderer, leftArrow, this.x + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
 			this.drawCenteredString(fontRenderer, rightArrow, this.x + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());

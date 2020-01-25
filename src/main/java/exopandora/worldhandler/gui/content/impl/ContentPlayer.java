@@ -115,9 +115,9 @@ public class ContentPlayer extends Content
 			
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.player.position.copy_position"), () ->
 			{
-				int posX = MathHelper.floor(Minecraft.getInstance().player.func_226277_ct_());
-				int posY = MathHelper.floor(Minecraft.getInstance().player.func_226278_cu_());
-				int posZ = MathHelper.floor(Minecraft.getInstance().player.func_226281_cx_());
+				int posX = MathHelper.floor(Minecraft.getInstance().player.getPosX());
+				int posY = MathHelper.floor(Minecraft.getInstance().player.getPosY());
+				int posZ = MathHelper.floor(Minecraft.getInstance().player.getPosZ());
 				
 				Minecraft.getInstance().keyboardListener.setClipboardString(posX + " " + posY + " " + posZ);
 			}));
@@ -148,9 +148,9 @@ public class ContentPlayer extends Content
 	@Override
 	public void tick(Container container)
 	{
-		this.posXField.setText("X: " + MathHelper.floor(Minecraft.getInstance().player.func_226277_ct_()));
-		this.posYField.setText("Y: " + MathHelper.floor(Minecraft.getInstance().player.func_226278_cu_()));
-		this.posZField.setText("Z: " + MathHelper.floor(Minecraft.getInstance().player.func_226281_cx_()));
+		this.posXField.setText("X: " + MathHelper.floor(Minecraft.getInstance().player.getPosX()));
+		this.posYField.setText("Y: " + MathHelper.floor(Minecraft.getInstance().player.getPosY()));
+		this.posZField.setText("Z: " + MathHelper.floor(Minecraft.getInstance().player.getPosZ()));
 		this.scoreField.setText(I18n.format("gui.worldhandler.entities.player.score") + ": " + Minecraft.getInstance().player.getScore());
 		this.coinsField.setText(I18n.format("gui.worldhandler.entities.player.score.experience") + ": " + Minecraft.getInstance().player.experienceLevel + "L");
 		this.xpField.setText(I18n.format("gui.worldhandler.entities.player.score.experience_coins") + ": " + Minecraft.getInstance().player.experienceTotal);

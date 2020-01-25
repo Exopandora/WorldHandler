@@ -13,6 +13,7 @@ import net.minecraft.client.gui.screen.ConnectingScreen;
 import net.minecraft.client.gui.screen.DirtMessageScreen;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
+import net.minecraft.client.gui.screen.MultiplayerWarningScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.resources.I18n;
@@ -39,7 +40,16 @@ public class ContentChangeWorld extends ContentChild
 		container.add(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, I18n.format("gui.worldhandler.change_world.multiplayer"), () ->
 		{
 			Connection connection = ContentChangeWorld.disconnect();
-			Minecraft.getInstance().displayGuiScreen(new MultiplayerScreen(new DummyScreen(() -> ContentChangeWorld.reconnect(connection))));
+			DummyScreen dummy = new DummyScreen(() -> ContentChangeWorld.reconnect(connection));
+			
+			if(Minecraft.getInstance().gameSettings.field_230152_Z_)
+			{
+				Minecraft.getInstance().displayGuiScreen(new MultiplayerScreen(dummy));
+			}
+			else
+			{
+				Minecraft.getInstance().displayGuiScreen(new MultiplayerWarningScreen(dummy));
+			}
 		}));
 	}
 	
@@ -55,13 +65,13 @@ public class ContentChangeWorld extends ContentChild
 			String folderName = Minecraft.getInstance().getIntegratedServer().getFolderName();
 			
 			Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
-			Minecraft.getInstance().func_213231_b(new DirtMessageScreen(new TranslationTextComponent("menu.savingLevel")));
+			Minecraft.getInstance().unloadWorld(new DirtMessageScreen(new TranslationTextComponent("menu.savingLevel")));
 			
 			return new IntegratedConnection(Type.INTEGRATED, worldName, folderName);
 		}
 		
 		Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
-		Minecraft.getInstance().func_213254_o();
+		Minecraft.getInstance().unloadWorld();
 		
 		if(isRealms)
 		{

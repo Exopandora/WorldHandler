@@ -13,15 +13,15 @@ public abstract class GuiButtonTab extends AbstractButton
 		super(x, y, widthIn, heightIn, narration);
 	}
 	
-    @Override
-    public void render(int mouseX, int mouseY, float partialTicks)
-    {
-    	
-    }
-    
-    @Override
-    public void playDownSound(SoundHandler soundHandlerIn)
-    {
-    	
-    }
+	@Override
+	public void render(int mouseX, int mouseY, float partialTicks)
+	{
+		
+	}
+	
+	@Override
+	public void playDownSound(SoundHandler soundHandlerIn)
+	{
+		
+	}
 }

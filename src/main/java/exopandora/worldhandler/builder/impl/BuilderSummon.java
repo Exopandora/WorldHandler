@@ -349,7 +349,7 @@ public class BuilderSummon extends CommandBuilderNBT
 	{
 		if(string.getUnformattedComponentText() != null && !string.getUnformattedComponentText().isEmpty())
 		{
-			return StringNBT.func_229705_a_(string.serialize());
+			return StringNBT.valueOf(string.serialize());
 		}
 		
 		return null;

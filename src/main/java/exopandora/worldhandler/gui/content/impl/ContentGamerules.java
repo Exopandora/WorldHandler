@@ -63,12 +63,12 @@ public class ContentGamerules extends Content
 		
 		Map<String, ArgumentType<?>> map = new HashMap<String, ArgumentType<?>>();
 		
-		GameRules.func_223590_a(new IRuleEntryVisitor()
+		GameRules.visitAll(new IRuleEntryVisitor()
 		{
 			@Override
-			public <T extends RuleValue<T>> void func_223481_a(RuleKey<T> rule, RuleType<T> type)
+			public <T extends RuleValue<T>> void visit(RuleKey<T> rule, RuleType<T> type)
 			{
-				map.put(rule.func_223576_a(), type.func_223581_a(null).getType());
+				map.put(rule.getName(), type.createArgument(null).getType());
 			}
 		});
 		

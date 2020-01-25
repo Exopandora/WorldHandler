@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.ModConfig.Reloading;
 import net.minecraftforge.fml.config.ModConfig.Type;
 
 public class Config
@@ -108,7 +109,7 @@ public class Config
 	}
 	
 	@SubscribeEvent
-	public static void configReload(ModConfig.ConfigReloading event)
+	public static void configReload(Reloading event)
 	{
 		if(event.getConfig().getType().equals(Type.CLIENT) && Config.CONFIG_DATA != null)
 		{

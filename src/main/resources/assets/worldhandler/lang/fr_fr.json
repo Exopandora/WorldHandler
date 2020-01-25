@@ -227,6 +227,8 @@
 	"gui.worldhandler.gamerules.rule.drowningDamage": "Dégâts de noyade",
 	"gui.worldhandler.gamerules.rule.fallDamage": "Dégâts de chute",
 	"gui.worldhandler.gamerules.rule.fireDamage": "Dégâts de feu",
+	"gui.worldhandler.gamerules.rule.doPatrolSpawning": "Patrol Spawning",
+	"gui.worldhandler.gamerules.rule.doTraderSpawning": "Trader Spawning",
 
 	"gui.worldhandler.world_info.start": "Démarrer",
 	"gui.worldhandler.world_info.world": "Monde",

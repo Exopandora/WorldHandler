@@ -196,7 +196,7 @@ public class ContentNoteEditor extends Content
     		
 			RenderSystem.color3f(1.0F, 1.0F, 1.0F);
 			RenderSystem.pushMatrix();
-			RenderHelper.func_227784_d_();
+			RenderHelper.enableStandardItemLighting();
             
     		RenderSystem.translatef(container.width / 2 - 8 * scale, container.height / 2 - 15 - 8 * scale, 0);
     		RenderSystem.scalef(scale, scale, scale);

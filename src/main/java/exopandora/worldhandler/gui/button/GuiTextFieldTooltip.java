@@ -31,8 +31,8 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 		if(this.getVisible() && !this.isFocused() && this.tooltip != null && TextFormatting.getTextWithoutFormattingCodes(this.getText()).isEmpty())
 		{
 			boolean enableBackgroundDrawing = this.getAdjustedWidth() != this.width;
-            int tx = enableBackgroundDrawing ? this.x + 4 : this.x;
-            int ty = enableBackgroundDrawing ? this.y + (this.height - 8) / 2 : this.y;
+			int tx = enableBackgroundDrawing ? this.x + 4 : this.x;
+			int ty = enableBackgroundDrawing ? this.y + (this.height - 8) / 2 : this.y;
 			
 			Minecraft.getInstance().fontRenderer.drawStringWithShadow(this.tooltip, (float) tx, (float) ty, 0x7F7F7F);
 		}

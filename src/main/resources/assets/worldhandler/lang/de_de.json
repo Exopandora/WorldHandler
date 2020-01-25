@@ -228,6 +228,8 @@
 	"gui.worldhandler.gamerules.rule.drowningDamage": "Ertrinkungsschaden",
 	"gui.worldhandler.gamerules.rule.fallDamage": "Fallschaden",
 	"gui.worldhandler.gamerules.rule.fireDamage": "Feuerschaden",
+	"gui.worldhandler.gamerules.rule.doPatrolSpawning": "Patrouillen",
+	"gui.worldhandler.gamerules.rule.doTraderSpawning": "Wandernder Händler",
 
 	"gui.worldhandler.world_info.start": "Start",
 	"gui.worldhandler.world_info.world": "Welt",
