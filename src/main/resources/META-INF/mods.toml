@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[30,)"
+loaderVersion="[31,)"
 updateJSONURL="https://raw.githubusercontent.com/Exopandora/worldhandler/master/version.json"
 issueTrackerURL="https://github.com/Exopandora/WorldHandler/issues"
 displayURL="https://minecraft.curseforge.com/projects/world-handler-command-gui"
