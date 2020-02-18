@@ -108,7 +108,7 @@ public class Config
 	}
 	
 	@SubscribeEvent
-	public static void configReload(ModConfig.ConfigReloading event)
+	public static void configReload(ModConfig.Reloading event)
 	{
 		if(event.getConfig().getType().equals(Type.CLIENT) && Config.CONFIG_DATA != null)
 		{

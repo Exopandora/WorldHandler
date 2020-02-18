@@ -36,7 +36,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiWorldHandler extends Container
@@ -380,7 +380,7 @@ public class GuiWorldHandler extends Container
 			if(this.splash != null)
 			{
 				RenderSystem.pushMatrix();
-				RenderHelper.func_227784_d_();
+				RenderHelper.setupGui3DDiffuseLighting();
 				RenderSystem.disableLighting();
 				RenderSystem.translatef((float) (backgroundX + 212), backgroundY + 15, 0.0F);
 				RenderSystem.rotatef(17.0F, 0.0F, 0.0F, 1.0F);

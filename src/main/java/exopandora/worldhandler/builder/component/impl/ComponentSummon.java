@@ -68,37 +68,37 @@ public class ComponentSummon implements IBuilderComponent
 			if(this.name.equalsIgnoreCase("Cat"))
 			{
 				this.tag = "CatType";
-				return IntNBT.func_229692_a_(this.random.nextInt(3) + 1);
+				return IntNBT.valueOf(this.random.nextInt(3) + 1);
 			}
 			else if(this.name.equalsIgnoreCase("Farmer") || this.name.equalsIgnoreCase("Fisherman") || this.name.equalsIgnoreCase("Shepherd") || this.name.equalsIgnoreCase("Fletcher"))
 			{
 				this.tag = "Profession";
-				return IntNBT.func_229692_a_(0);
+				return IntNBT.valueOf(0);
 			}
 			else if(this.name.equalsIgnoreCase("Librarian") || this.name.equalsIgnoreCase("Carthographer"))
 			{
 				this.tag = "Profession";
-				return IntNBT.func_229692_a_(1);
+				return IntNBT.valueOf(1);
 			}
 			else if(this.name.equalsIgnoreCase("Cleric") || this.name.equalsIgnoreCase("Priest"))
 			{
 				this.tag = "Profession";
-				return IntNBT.func_229692_a_(2);
+				return IntNBT.valueOf(2);
 			}
 			else if(this.name.equalsIgnoreCase("Armorer") || this.name.equalsIgnoreCase("Blacksmith") || this.name.equalsIgnoreCase("WeaponSmith") || this.name.equalsIgnoreCase("ToolSmith"))
 			{
 				this.tag = "Profession";
-				return IntNBT.func_229692_a_(3);
+				return IntNBT.valueOf(3);
 			}
 			else if(this.name.equalsIgnoreCase("Butcher") || this.name.equalsIgnoreCase("Leatherworker"))
 			{
 				this.tag = "Profession";
-				return IntNBT.func_229692_a_(4);
+				return IntNBT.valueOf(4);
 			}
 			else if(this.name.equalsIgnoreCase("Nitwit"))
 			{
 				this.tag = "Profession";
-				return IntNBT.func_229692_a_(5);
+				return IntNBT.valueOf(5);
 			}
 			
 			if(this.entity != null)
@@ -108,7 +108,7 @@ public class ComponentSummon implements IBuilderComponent
 					if(StringUtils.containsIgnoreCase(this.name, "Baby"))
 					{
 						this.tag = "IsBaby";
-						return ByteNBT.func_229671_a_((byte) 1);
+						return ByteNBT.valueOf((byte) 1);
 					}
 				}
 				else if(this.entity.equals(EntityType.CHICKEN.getRegistryName()))

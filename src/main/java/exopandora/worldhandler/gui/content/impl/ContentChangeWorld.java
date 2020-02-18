@@ -55,13 +55,13 @@ public class ContentChangeWorld extends ContentChild
 			String folderName = Minecraft.getInstance().getIntegratedServer().getFolderName();
 			
 			Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
-			Minecraft.getInstance().func_213231_b(new DirtMessageScreen(new TranslationTextComponent("menu.savingLevel")));
+			Minecraft.getInstance().unloadWorld(new DirtMessageScreen(new TranslationTextComponent("menu.savingLevel")));
 			
 			return new IntegratedConnection(Type.INTEGRATED, worldName, folderName);
 		}
 		
 		Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
-		Minecraft.getInstance().func_213254_o();
+		Minecraft.getInstance().unloadWorld();
 		
 		if(isRealms)
 		{

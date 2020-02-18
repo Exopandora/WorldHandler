@@ -80,7 +80,7 @@ public class ComponentTag<T> implements IBuilderComponent
 					return null;
 				}
 				
-				return StringNBT.func_229705_a_(string);
+				return StringNBT.valueOf(string);
 			}
 			else if(this.value instanceof INBT)
 			{
@@ -98,27 +98,27 @@ public class ComponentTag<T> implements IBuilderComponent
 			}
 			else if(this.value instanceof Integer)
 			{
-				return IntNBT.func_229692_a_((Integer) this.value);
+				return IntNBT.valueOf((Integer) this.value);
 			}
 			else if(this.value instanceof Byte)
 			{
-				return ByteNBT.func_229671_a_((Byte) this.value);
+				return ByteNBT.valueOf((Byte) this.value);
 			}
 			else if(this.value instanceof Float)
 			{
-				return FloatNBT.func_229689_a_((Float) this.value);
+				return FloatNBT.valueOf((Float) this.value);
 			}
 			else if(this.value instanceof Double)
 			{
-				return DoubleNBT.func_229684_a_((Double) this.value);
+				return DoubleNBT.valueOf((Double) this.value);
 			}
 			else if(this.value instanceof Long)
 			{
-				return LongNBT.func_229698_a_((Long) this.value);
+				return LongNBT.valueOf((Long) this.value);
 			}
 			else if(this.value instanceof Short)
 			{
-				return ShortNBT.func_229701_a_((Short) this.value);
+				return ShortNBT.valueOf((Short) this.value);
 			}
 			else if(this.value instanceof Byte[])
 			{
