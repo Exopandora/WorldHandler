@@ -22,7 +22,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.NoteBlockInstrument;
@@ -196,14 +195,12 @@ public class ContentNoteEditor extends Content
     		
 			RenderSystem.color3f(1.0F, 1.0F, 1.0F);
 			RenderSystem.pushMatrix();
-			RenderHelper.enableStandardItemLighting();
             
     		RenderSystem.translatef(container.width / 2 - 8 * scale, container.height / 2 - 15 - 8 * scale, 0);
     		RenderSystem.scalef(scale, scale, scale);
     		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Blocks.NOTE_BLOCK), 0, 0);
-            
-    		RenderHelper.disableStandardItemLighting();
-			RenderSystem.popMatrix();
+    		
+    		RenderSystem.popMatrix();
 			
 			String displayString = I18n.format("gui.worldhandler.blocks.note_block_editor.look_at_note_block", KeyHandler.KEY_WORLD_HANDLER.getLocalizedName());
 			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
