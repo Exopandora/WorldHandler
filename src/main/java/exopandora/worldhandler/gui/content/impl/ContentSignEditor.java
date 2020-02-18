@@ -23,7 +23,6 @@ import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.block.AbstractSignBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -181,13 +180,11 @@ public class ContentSignEditor extends Content
 			
 			RenderSystem.color3f(1.0F, 1.0F, 1.0F);
 			RenderSystem.pushMatrix();
-			RenderHelper.setupGui3DDiffuseLighting();
             
     		RenderSystem.translatef(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
     		RenderSystem.scalef(scale, scale, scale);
     		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Items.OAK_SIGN), 0, 0);
             
-    		RenderHelper.disableStandardItemLighting();
 			RenderSystem.popMatrix();
 			
 			String displayString = I18n.format("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.getLocalizedName());

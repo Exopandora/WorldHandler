@@ -1,10 +1,7 @@
 package exopandora.worldhandler.gui.button;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,14 +27,6 @@ public class GuiButtonItem extends GuiButtonBase
     public void renderButton(int mouseX, int mouseY, float partialTicks)
     {
     	super.renderBg(Minecraft.getInstance(), mouseX, mouseY);
-    	
-        RenderSystem.enableRescaleNormal();
-        RenderHelper.setupGui3DDiffuseLighting();
-        
 		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(this.stack, this.x + this.width / 2 - 8, this.y + 2);
-        
-		RenderHelper.disableStandardItemLighting();
-        RenderSystem.disableRescaleNormal();
-        RenderSystem.enableAlphaTest();
     }
 }

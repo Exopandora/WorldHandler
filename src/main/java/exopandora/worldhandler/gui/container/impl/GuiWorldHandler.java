@@ -380,7 +380,7 @@ public class GuiWorldHandler extends Container
 			if(this.splash != null)
 			{
 				RenderSystem.pushMatrix();
-				RenderHelper.setupGui3DDiffuseLighting();
+				RenderHelper.enableStandardItemLighting();
 				RenderSystem.disableLighting();
 				RenderSystem.translatef((float) (backgroundX + 212), backgroundY + 15, 0.0F);
 				RenderSystem.rotatef(17.0F, 0.0F, 0.0F, 1.0F);
