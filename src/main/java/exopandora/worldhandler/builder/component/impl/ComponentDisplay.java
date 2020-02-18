@@ -32,7 +32,7 @@ public class ComponentDisplay implements IBuilderComponent
 		{
 			if(this.lore[x] != null && !this.lore[x].isEmpty())
 			{
-				lore.add(StringNBT.func_229705_a_(this.lore[x]));
+				lore.add(StringNBT.valueOf(this.lore[x]));
 			}
 		}
 		

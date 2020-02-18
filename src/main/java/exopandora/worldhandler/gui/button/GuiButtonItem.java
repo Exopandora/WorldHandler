@@ -32,7 +32,7 @@ public class GuiButtonItem extends GuiButtonBase
     	super.renderBg(Minecraft.getInstance(), mouseX, mouseY);
     	
         RenderSystem.enableRescaleNormal();
-        RenderHelper.func_227784_d_();
+        RenderHelper.setupGui3DDiffuseLighting();
         
 		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(this.stack, this.x + this.width / 2 - 8, this.y + 2);
         
