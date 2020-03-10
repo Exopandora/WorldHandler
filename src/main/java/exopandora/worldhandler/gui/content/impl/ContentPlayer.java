@@ -169,7 +169,7 @@ public class ContentPlayer extends Content
 			Minecraft.getInstance().fontRenderer.drawString(Minecraft.getInstance().player.getName().getFormattedText(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			InventoryScreen.func_228187_a_(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
+			InventoryScreen.drawEntityOnScreen(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
 			RenderSystem.defaultBlendFunc();
 		}
 		else if(Page.SCORE.equals(this.page))

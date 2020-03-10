@@ -21,7 +21,7 @@ public class ConfigCategorySettings
 	private final BooleanValue pause;
 	private final BooleanValue customTimes;
 	private final BooleanValue permissionQuery;
-//	private final BooleanValue highlightBlocks;
+	private final BooleanValue highlightBlocks;
 	private final IntValue dawn;
 	private final IntValue noon;
 	private final IntValue sunset;
@@ -68,10 +68,10 @@ public class ConfigCategorySettings
 				.translation("gui.worldhandler.config.settings.permission_query")
 				.comment("Whether or not the permission query is enabled")
 				.define("permission_query", true);
-//		this.highlightBlocks = builder
-//				.translation("gui.worldhandler.config.settings.highlight_blocks")
-//				.comment("Whether or not selected blocks will be highlighted")
-//				.define("highlight_blocks", true);
+		this.highlightBlocks = builder
+				.translation("gui.worldhandler.config.settings.highlight_blocks")
+				.comment("Whether or not selected blocks will be highlighted")
+				.define("highlight_blocks", true);
 		
 		this.dawn = builder
 				.translation("gui.worldhandler.config.settings.custom_time_dawn")
@@ -188,15 +188,15 @@ public class ConfigCategorySettings
 		Config.set(this.permissionQuery, enabled);
 	}
 	
-//	public boolean highlightBlocks()
-//	{
-//		return this.highlightBlocks.get();
-//	}
-//	
-//	public void setHighlightBlocks(boolean enabled)
-//	{
-//		Config.set(this.highlightBlocks, enabled);
-//	}
+	public boolean highlightBlocks()
+	{
+		return this.highlightBlocks.get();
+	}
+	
+	public void setHighlightBlocks(boolean enabled)
+	{
+		Config.set(this.highlightBlocks, enabled);
+	}
 	
 	public int getDawn()
 	{

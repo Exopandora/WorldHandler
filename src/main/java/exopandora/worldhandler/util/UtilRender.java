@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.config.Config;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -11,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class UtilRender
 {
-	public static void drawWatchIntoGui(Screen gui, int width, int height, long worldTicks, boolean smooth)
+	public static void drawWatchIntoGui(AbstractGui gui, int width, int height, long worldTicks, boolean smooth)
 	{
 		float hour = TextFormatting.getHour(worldTicks);
 		float minute = TextFormatting.getMinute(worldTicks);
