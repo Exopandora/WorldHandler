@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.15.2-latest": "2.8.2",
-		"1.15.2-recommended": "2.8.2",
+		"1.15.2-latest": "2.8.3",
+		"1.15.2-recommended": "2.8.3",
 		"1.15.1-latest": "2.8.1",
 		"1.15.1-recommended": "2.8.1",
 		"1.15-latest": "2.8",
@@ -59,6 +59,7 @@
 	},
 	"1.15.2":
 	{
+		"2.8.3": "- Reimplemented \"Highlight Blocks\"",
 		"2.8.2": "- Updated french translations",
 		"2.8.1": "- Added 1.15.2 compatibility"
 	},
