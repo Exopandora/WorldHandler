@@ -87,11 +87,6 @@ public class GuiButtonPiano extends GuiButtonBase
 	@Override
 	public int getFGColor()
 	{
-		if(this.packedFGColor != 0)
-		{
-			return this.packedFGColor;
-		}
-		
 		int textColor = 0x000000;
 		
 		if(!this.active)
