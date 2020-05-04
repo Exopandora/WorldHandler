@@ -35,15 +35,26 @@ public class GuiButtonBase extends Button
 		int hovered = this.getYImage(this.isHovered());
     	Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getButtonTexture());
     	
+		int hWidth = this.width / 2;
+		int hHeight = this.height / 2;
+		
 		if(Config.getSkin().getTextureType().equals("resourcepack"))
 		{
-			this.blit(this.x, this.y, 0, 46 + hovered * 20, this.width / 2, this.height);
-			this.blit(this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + hovered * 20, this.width / 2, this.height);
+			int textureOffset = 46 + hovered * 20;
+			
+			this.blit(this.x, this.y, 0, textureOffset, hWidth, hHeight);
+			this.blit(this.x, this.y + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
+			this.blit(this.x + hWidth, this.y, 200 - hWidth, textureOffset, hWidth, hHeight);
+			this.blit(this.x + hWidth, this.y + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
 		}
 		else
 		{
-			this.blit(this.x, this.y, 0, hovered * 20, this.width / 2, this.height);
-			this.blit(this.x + this.width / 2, this.y, 200 - this.width / 2, hovered * 20, this.width / 2, this.height);
+			int textureOffset = hovered * 20;
+			
+			this.blit(this.x, this.y, 0, textureOffset, hWidth, hHeight);
+			this.blit(this.x, this.y + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
+			this.blit(this.x + hWidth, this.y, 200 - hWidth, textureOffset, this.width / 2, hHeight);
+			this.blit(this.x + hWidth, this.y + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
 		}
 		
 		RenderSystem.disableBlend();
