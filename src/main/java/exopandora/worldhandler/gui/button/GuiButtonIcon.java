@@ -36,20 +36,13 @@ public class GuiButtonIcon extends GuiButtonTooltip
 		
 		if(this.active)
 		{
-			if(this.isHovered())
-			{
-				RenderSystem.color4f(1.0F, 1.0F, 0.6F, 1.0F);
-			}
-			else
-			{
-				RenderSystem.color4f(0.95F, 0.95F, 0.95F, 1.0F);
-			}
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		}
 		else
 		{
 			RenderSystem.color4f(0.8F, 0.8F, 0.8F, 1.0F);
 		}
 		
-		this.blit(this.x + this.width / 2 - 4, this.y + 6, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);
+		this.blit(this.x + this.width / 2 - 4, this.y + this.height / 2 - 4, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);
 	}
 }
