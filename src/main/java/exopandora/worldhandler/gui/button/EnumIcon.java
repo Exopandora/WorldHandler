@@ -24,6 +24,9 @@ public enum EnumIcon
 	BUTCHER(4, 0),
 	POTION(4, 1),
 	ACHIEVEMNTS(4, 2),
+	COMMAND_STACK(4, 3),
+	ARROW_UP(4, 4),
+	ARROW_DOWN(4, 5),
 	HOME(5, 0),
 	SETTINGS(5, 1),
 	RELOAD(5, 2);
