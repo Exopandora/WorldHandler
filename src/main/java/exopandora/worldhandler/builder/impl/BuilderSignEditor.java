@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.builder.component.impl.ComponentTag;
 import exopandora.worldhandler.util.MutableStringTextComponent;
 import exopandora.worldhandler.util.SignText;
-import net.minecraft.nbt.StringNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -23,7 +22,7 @@ public class BuilderSignEditor extends BuilderData
 		
 		for(int x = 0; x < 4; x++)
 		{
-			this.sign[x] = this.registerNBTComponent(new ComponentTag<SignText>("Text" + (x + 1), new SignText(x), text -> StringNBT.valueOf(text.toString())));
+			this.sign[x] = this.registerNBTComponent(new ComponentTag<SignText>("Text" + (x + 1), new SignText(x), SignText::toNBT));
 		}
 	}
 	

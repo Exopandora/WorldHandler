@@ -2,6 +2,7 @@ package exopandora.worldhandler.util;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.api.distmarker.Dist;
@@ -59,6 +60,11 @@ public class SignText
 	public boolean hasCommand()
 	{
 		return this.text.getStyle().getClickEvent() != null && this.text.getStyle().getClickEvent().getAction() == Action.RUN_COMMAND && this.text.getStyle().getClickEvent().getValue() != null;
+	}
+	
+	public StringNBT toNBT()
+	{
+		return StringNBT.valueOf(this.toString());
 	}
 	
 	@Override
