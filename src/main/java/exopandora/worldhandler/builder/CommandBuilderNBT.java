@@ -54,7 +54,7 @@ public abstract class CommandBuilderNBT extends CommandBuilder implements IComma
 		{
 			INBT serialized = component.serialize();
 			
-			if(serialized != null)
+			if(component.getTag() != null && serialized != null)
 			{
 				if(!nbt.contains(component.getTag()))
 				{
@@ -71,14 +71,9 @@ public abstract class CommandBuilderNBT extends CommandBuilder implements IComma
 		return nbt;
 	}
 	
-	protected <T extends IBuilderComponent> T registerNBTComponent(T component, String id)
+	public <T extends IBuilderComponent> T registerNBTComponent(T component)
 	{
 		this.TAG_TO_COMPONENT.add(component);
 		return component;
-	}
-	
-	protected <T extends IBuilderComponent> T registerNBTComponent(T component)
-	{
-		return this.registerNBTComponent(component, component.getTag());
 	}
 }
