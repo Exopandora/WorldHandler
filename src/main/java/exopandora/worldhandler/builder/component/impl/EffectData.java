@@ -147,7 +147,7 @@ public class EffectData
 	@Override
 	public String toString()
 	{
-		return "PotionMetadata [amplifier=" + amplifier + ", seconds=" + seconds + ", minutes=" + minutes + ", hours=" + hours + ", showParticles=" + showParticles + ", ambient=" + ambient + "]";
+		return "EffectData [amplifier=" + amplifier + ", seconds=" + seconds + ", minutes=" + minutes + ", hours=" + hours + ", showParticles=" + showParticles + ", ambient=" + ambient + "]";
 	}
 }
 
