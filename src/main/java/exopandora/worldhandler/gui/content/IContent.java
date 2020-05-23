@@ -6,11 +6,12 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public interface IContent
+public interface IContent extends IGuiEventListener
 {
 	default void init(Container container)
 	{

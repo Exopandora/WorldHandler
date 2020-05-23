@@ -535,14 +535,9 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public boolean charTyped(char charTyped, int keyCode)
+	public void mouseMoved(double xPos, double mouseY)
 	{
-		if(this.nameField.isFocused())
-		{
-			this.nameField.setCursorPositionEnd();
-		}
-		
-		return super.charTyped(charTyped, keyCode);
+		this.content.mouseMoved(xPos, mouseY);
 	}
 	
 	@Override
@@ -553,7 +548,45 @@ public class GuiWorldHandler extends Container
 			this.nameField.setCursorPositionEnd();
 		}
 		
+		if(this.content.mouseClicked(mouseX, mouseY, keyCode))
+		{
+			return true;
+		}
+		
 		return super.mouseClicked(mouseX, mouseY, keyCode);
+	}
+	
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int keyCode)
+	{
+		if(this.content.mouseReleased(mouseX, mouseY, keyCode))
+		{
+			return true;
+		}
+		
+		return super.mouseReleased(mouseX, mouseY, keyCode);
+	}
+	
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int keyCode, double deltaX, double deltaY)
+	{
+		if(this.content.mouseDragged(mouseX, mouseY, keyCode, deltaX, deltaY))
+		{
+			return true;
+		}
+		
+		return super.mouseDragged(mouseX, mouseY, keyCode, deltaX, deltaY);
+	}
+	
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double distance)
+	{
+		if(this.content.mouseScrolled(mouseX, mouseY, distance))
+		{
+			return true;
+		}
+		
+		return super.mouseScrolled(mouseX, mouseY, distance);
 	}
 	
 	@Override
@@ -572,7 +605,61 @@ public class GuiWorldHandler extends Container
 			return true;
 		}
 		
+		if(this.content.keyPressed(keyCode, scanCode, modifiers))
+		{
+			return true;
+		}
+		
 		return super.keyPressed(keyCode, scanCode, modifiers);
+	}
+	
+	@Override
+	public boolean keyReleased(int keyCode, int scanCode, int modifiers)
+	{
+		if(this.content.keyReleased(keyCode, scanCode, modifiers))
+		{
+			return true;
+		}
+		
+		return super.keyReleased(keyCode, scanCode, modifiers);
+	}
+	
+	@Override
+	public boolean charTyped(char charTyped, int keyCode)
+	{
+		if(this.nameField.isFocused())
+		{
+			this.nameField.setCursorPositionEnd();
+		}
+		
+		if(this.content.charTyped(charTyped, keyCode))
+		{
+			return true;
+		}
+		
+		return super.charTyped(charTyped, keyCode);
+	}
+	
+	@Override
+	public boolean changeFocus(boolean focus)
+	{
+		if(this.content.changeFocus(focus))
+		{
+			return true;
+		}
+		
+		return super.changeFocus(focus);
+	}
+	
+	@Override
+	public boolean isMouseOver(double mouseX, double mouseY)
+	{
+		if(this.content.isMouseOver(mouseX, mouseY))
+		{
+			return true;
+		}
+		
+		return super.isMouseOver(mouseX, mouseY);
 	}
 	
 	private void defaultColor()

@@ -15,12 +15,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public abstract class Container extends Screen implements IContainer
 {
+	protected final List<IMenu> menus = new ArrayList<IMenu>();
+	
 	protected Container(ITextComponent title)
 	{
 		super(title);
 	}
 	
-	protected final List<IMenu> menus = new ArrayList<IMenu>();
+	@Override
+	public void init()
+	{
+		super.init();
+	}
 	
 	@Override
 	public <T extends Widget> T add(T button)
@@ -32,12 +38,6 @@ public abstract class Container extends Screen implements IContainer
 	{
 		this.children.add(textfield);
 		return textfield;
-	}
-	
-	@Override
-	public void init()
-	{
-		super.init();
 	}
 	
 	@Override
