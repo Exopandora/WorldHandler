@@ -52,16 +52,6 @@ public class ItemResourceLocation
 		this.nbt = nbt;
 	}
 	
-	public ItemResourceLocation get()
-	{
-		if(this.resource != null)
-		{
-			return this;
-		}
-		
-		return null;
-	}
-	
 	@Nullable
 	public static ItemResourceLocation valueOf(String input)
 	{

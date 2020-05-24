@@ -70,7 +70,7 @@ public class BlockResourceLocation extends ItemResourceLocation
 		return this.state;
 	}
 	
-	public <T extends Comparable<T>> void withState(IProperty<T> property, T value)
+	public <T extends Comparable<T>> void setProperty(IProperty<T> property, T value)
 	{
 		if(this.state != null && this.state.has(property))
 		{
@@ -103,12 +103,6 @@ public class BlockResourceLocation extends ItemResourceLocation
 		}
 		
 		return null;
-	}
-	
-	@Override
-	public BlockResourceLocation get()
-	{
-		return (BlockResourceLocation) super.get();
 	}
 	
 	@Override
