@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
-import exopandora.worldhandler.builder.component.impl.EffectData;
+import exopandora.worldhandler.builder.component.impl.EffectNBT;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
@@ -123,7 +123,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setSeconds(int seconds)
 	{
 		this.seconds = seconds;
-		this.setDuration(EffectData.toSeconds(this.seconds, this.minutes, this.hours));
+		this.setDuration(EffectNBT.toSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public int getMinutes()
@@ -134,7 +134,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setMinutes(int minutes)
 	{
 		this.minutes = minutes;
-		this.setDuration(EffectData.toSeconds(this.seconds, this.minutes, this.hours));
+		this.setDuration(EffectNBT.toSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public int getHours()
@@ -145,7 +145,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	public void setHours(int hours)
 	{
 		this.hours = hours;
-		this.setDuration(EffectData.toSeconds(this.seconds, this.minutes, this.hours));
+		this.setDuration(EffectNBT.toSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
 	public BuilderGeneric getGiveCommand()

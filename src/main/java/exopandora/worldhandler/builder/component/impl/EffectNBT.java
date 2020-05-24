@@ -1,10 +1,12 @@
 package exopandora.worldhandler.builder.component.impl;
 
+import exopandora.worldhandler.builder.INBTWritable;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class EffectData
+public class EffectNBT implements INBTWritable
 {
 	private byte amplifier;
 	private int seconds;
@@ -13,12 +15,12 @@ public class EffectData
 	private boolean showParticles;
 	private boolean ambient;
 	
-	public EffectData()
+	public EffectNBT()
 	{
 		this((byte) 0, 0, 0, 0, true, false);
 	}
 	
-	public EffectData(byte amplifier, int seconds, int minutes, int hours, boolean showParticles, boolean ambient)
+	public EffectNBT(byte amplifier, int seconds, int minutes, int hours, boolean showParticles, boolean ambient)
 	{
 		this.amplifier = amplifier;
 		this.seconds = seconds;
@@ -90,12 +92,25 @@ public class EffectData
 	
 	public int toTicks()
 	{
-		return EffectData.toTicks(this.seconds, this.minutes, this.hours);
+		return EffectNBT.toTicks(this.seconds, this.minutes, this.hours);
 	}
 	
 	public int toSeconds()
 	{
-		return EffectData.toSeconds(this.seconds, this.minutes, this.hours);
+		return EffectNBT.toSeconds(this.seconds, this.minutes, this.hours);
+	}
+	
+	@Override
+	public CompoundNBT serialize()
+	{
+		CompoundNBT compound = new CompoundNBT();
+		
+		compound.putByte("Amplifier", (byte) (this.amplifier - 1));
+		compound.putInt("Duration", Math.min(this.toTicks(), 1000000));
+		compound.putBoolean("Ambient", this.ambient);
+		compound.putBoolean("ShowParticles", this.showParticles);
+		
+		return compound;
 	}
 	
 	public static int toTicks(int seconds, int minutes, int hours)
@@ -108,37 +123,37 @@ public class EffectData
 		return seconds + minutes * 60 + hours * 3600;
 	}
 	
-	public EffectData withAmplifier(byte amplifier)
+	public EffectNBT withAmplifier(byte amplifier)
 	{
 		this.amplifier = amplifier;
 		return this;
 	}
 	
-	public EffectData withShowParticles(boolean showParticles)
+	public EffectNBT withShowParticles(boolean showParticles)
 	{
 		this.showParticles = showParticles;
 		return this;
 	}
 	
-	public EffectData withSeconds(int seconds)
+	public EffectNBT withSeconds(int seconds)
 	{
 		this.seconds = seconds;
 		return this;
 	}
 	
-	public EffectData withMinutes(int minutes)
+	public EffectNBT withMinutes(int minutes)
 	{
 		this.minutes = minutes;
 		return this;
 	}
 	
-	public EffectData withHours(int hours)
+	public EffectNBT withHours(int hours)
 	{
 		this.hours = hours;
 		return this;
 	}
 	
-	public EffectData withAmbient(boolean ambient)
+	public EffectNBT withAmbient(boolean ambient)
 	{
 		this.ambient = ambient;
 		return this;
@@ -147,7 +162,7 @@ public class EffectData
 	@Override
 	public String toString()
 	{
-		return "EffectData [amplifier=" + amplifier + ", seconds=" + seconds + ", minutes=" + minutes + ", hours=" + hours + ", showParticles=" + showParticles + ", ambient=" + ambient + "]";
+		return "EffectNBT [amplifier=" + amplifier + ", seconds=" + seconds + ", minutes=" + minutes + ", hours=" + hours + ", showParticles=" + showParticles + ", ambient=" + ambient + "]";
 	}
 }
 

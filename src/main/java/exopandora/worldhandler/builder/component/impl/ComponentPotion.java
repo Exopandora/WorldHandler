@@ -18,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public abstract class ComponentPotion implements IBuilderComponent 
 {
-	protected final Map<Effect, EffectData> potions = new HashMap<Effect, EffectData>();
+	protected final Map<Effect, EffectNBT> potions = new HashMap<Effect, EffectNBT>();
 	
 	@Override
 	@Nullable
@@ -26,20 +26,14 @@ public abstract class ComponentPotion implements IBuilderComponent
 	{
 		ListNBT list = new ListNBT();
 		
-		for(Entry<Effect, EffectData> entry : this.potions.entrySet())
+		for(Entry<Effect, EffectNBT> entry : this.potions.entrySet())
 		{
-			EffectData potion = entry.getValue();
+			EffectNBT effect = entry.getValue();
 			
-			if(potion.getAmplifier() > 0)
+			if(effect.getAmplifier() > 0)
 			{
-				CompoundNBT compound = new CompoundNBT();
-				
+				CompoundNBT compound = effect.serialize();
 				compound.putByte("Id", (byte) Effect.getId(entry.getKey()));
-				compound.putByte("Amplifier", (byte) (potion.getAmplifier() - 1));
-				compound.putInt("Duration", Math.min(potion.toTicks(), 1000000));
-				compound.putBoolean("Ambient", potion.getAmbient());
-				compound.putBoolean("ShowParticles", potion.getShowParticles());
-				
 				list.add(compound);
 			}
 		}
@@ -112,7 +106,7 @@ public abstract class ComponentPotion implements IBuilderComponent
 		return this.getMetadata(potion).getAmbient();
 	}
 	
-	private EffectData getMetadata(Effect potion)
+	private EffectNBT getMetadata(Effect potion)
 	{
 		return this.potions.get(this.validate(potion));
 	}
@@ -121,7 +115,7 @@ public abstract class ComponentPotion implements IBuilderComponent
 	{
 		if(!this.potions.containsKey(potion))
 		{
-			this.potions.put(potion, new EffectData());
+			this.potions.put(potion, new EffectNBT());
 		}
 		
 		return potion;
