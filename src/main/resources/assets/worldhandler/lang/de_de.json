@@ -84,6 +84,7 @@
 	"gui.worldhandler.tab.multiplayer": "Mehrspieler",
 
 	"gui.worldhandler.title.entities.summon": "Beschwören",
+	"gui.worldhandler.title.entities.butcher": "Metzler",
 
 	"gui.worldhandler.title.items.custom_item": "Item Erstellen",
 	"gui.worldhandler.title.items.enchantment": "Verzaubern",
@@ -102,7 +103,7 @@
 	"gui.worldhandler.title.player.experience": "Erfahrung",
 	"gui.worldhandler.title.player.advancements": "Fortschritt",
 
-	"gui.worldhandler.title.butcher": "Metzler",
+	"gui.worldhandler.title.command_stack": "Kommando Stapel",
 	"gui.worldhandler.title.change_world": "Welt Wechseln",
 	"gui.worldhandler.title.potions": "Tränke",
 
@@ -157,6 +158,11 @@
 	"gui.worldhandler.potions.effect.splash": "Wurftrank",
 	"gui.worldhandler.potions.effect.lingering": "Verweil",
 	"gui.worldhandler.potions.effect.tipped_arrow": "Pfeil",
+
+	"gui.worldhandler.command_stack.insert_command": "Kommando Einfügen",
+	"gui.worldhandler.command_stack.remove_command": "Kommando Entfernen",
+	"gui.worldhandler.command_stack.copy_command": "Kommando Kopieren",
+	"gui.worldhandler.command_stack.command_n": "Kommando %d",
 
 	"gui.worldhandler.entities": "Lebewesen",
 	"gui.worldhandler.items": "Items",
@@ -354,7 +360,7 @@
 	"gui.worldhandler.potion.time.seconds": "Sekunden",
 
 	"gui.worldhandler.shortcuts.tooltip.home": "Home",
-	"gui.worldhandler.shortcuts.tooltip.butcher": "Metzeln",
+	"gui.worldhandler.shortcuts.tooltip.command_stack": "Kommando Stapel",
 	"gui.worldhandler.shortcuts.tooltip.settings": "Einstellungen",
 	"gui.worldhandler.shortcuts.tooltip.potions": "Tränke",
 
@@ -402,6 +408,8 @@
 	"gui.worldhandler.actions.send": "Senden",
 	"gui.worldhandler.actions.copy": "Kopieren",
 	"gui.worldhandler.actions.place_command_block": "Platziere Befehlsblock",
+	"gui.worldhandler.actions.move_up": "Nach unten",
+	"gui.worldhandler.actions.move_down": "Nach oben",
 
 	"gui.worldhandler.color": "Farbe",
 	"gui.worldhandler.color.black": "Schwarz",

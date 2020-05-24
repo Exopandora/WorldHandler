@@ -40,13 +40,13 @@ public class ContentMain extends Content
 		container.add(new GuiButtonIcon(x, y + 24, 22, 20, EnumIcon.WEATHER_SUN, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.clear")), ActionHelper::weatherClear));
 		container.add(new GuiButtonIcon(x + 26, y + 24, 22, 20, EnumIcon.WEATHER_RAIN, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.rainy")), ActionHelper::weatherRain));
 		container.add(new GuiButtonIcon(x + 26 * 2, y + 24, 22, 20, EnumIcon.WEATHER_STORM, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.thunder")), ActionHelper::weatherThunder));
-		container.add(new GuiButtonIcon(x + 26 * 3, y + 24, 23, 20, EnumIcon.BUTCHER, I18n.format("gui.worldhandler.shortcuts.tooltip.butcher"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.BUTCHER.withParent(Contents.MAIN)));
-		}));
-		container.add(new GuiButtonIcon(x + 26 * 4, y + 24, 24, 20, EnumIcon.POTION, I18n.format("gui.worldhandler.shortcuts.tooltip.potions"), () -> 
+		container.add(new GuiButtonIcon(x + 26 * 3, y + 24, 23, 20, EnumIcon.POTION, I18n.format("gui.worldhandler.shortcuts.tooltip.potions"), () -> 
 		{
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.POTIONS.withParent(Contents.MAIN)));
+		}));
+		container.add(new GuiButtonIcon(x + 26 * 4, y + 24, 24, 20, EnumIcon.COMMAND_STACK, I18n.format("gui.worldhandler.shortcuts.tooltip.command_stack"), () -> 
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.COMMAND_STACK.withParent(Contents.MAIN)));
 		}));
 		container.add(new GuiButtonIcon(x + 26 * 5 + 2, y + 24, 23, 20, EnumIcon.GAMEMODE_SURVIVAL, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.survival")), ActionHelper::gamemodeSurvival));
 		container.add(new GuiButtonIcon(x + 26 * 6 + 2, y + 24, 22, 20, EnumIcon.GAMEMODE_CREATIVE, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.creative")), ActionHelper::gamemodeCreative));

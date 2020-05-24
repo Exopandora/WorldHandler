@@ -67,6 +67,7 @@
 	"gui.worldhandler.tab.player.advancements": "Достижения",
 
 	"gui.worldhandler.tab.entities.summon": "Призыв",
+	"gui.worldhandler.tab.entities.butcher": "Butcher",
 
 	"gui.worldhandler.tab.world.world": "Мир",
 	"gui.worldhandler.tab.world.gamerules": "Правила игры",
@@ -83,6 +84,7 @@
 	"gui.worldhandler.tab.multiplayer": "Сетевая игра",
 
 	"gui.worldhandler.title.entities.summon": "Призыв",
+	"gui.worldhandler.title.entities.butcher": "Butcher",
 
 	"gui.worldhandler.title.items.custom_item": "Пользовательский предмет",
 	"gui.worldhandler.title.items.enchantment": "Зачарование",
@@ -101,7 +103,7 @@
 	"gui.worldhandler.title.player.experience": "Опыт",
 	"gui.worldhandler.title.player.advancements": "Достижения",
 
-	"gui.worldhandler.title.butcher": "Мясник",
+	"gui.worldhandler.title.command_stack": "Command Stack",
 	"gui.worldhandler.title.change_world": "Изменить мир",
 	"gui.worldhandler.title.potions": "Зелья",
 
@@ -156,6 +158,11 @@
 	"gui.worldhandler.potions.effect.splash": "Всплеск",
 	"gui.worldhandler.potions.effect.lingering": "Длительный",
 	"gui.worldhandler.potions.effect.tipped_arrow": "Стрела",
+
+	"gui.worldhandler.command_stack.insert_command": "Insert Command",
+	"gui.worldhandler.command_stack.remove_command": "Remove Command",
+	"gui.worldhandler.command_stack.copy_command": "Copy Command",
+	"gui.worldhandler.command_stack.command_n": "Command %d",
 
 	"gui.worldhandler.entities": "Сущности",
 	"gui.worldhandler.items": "Предметы",
@@ -353,7 +360,7 @@
 	"gui.worldhandler.potion.time.seconds": "Секунд",
 
 	"gui.worldhandler.shortcuts.tooltip.home": "Дом",
-	"gui.worldhandler.shortcuts.tooltip.butcher": "Мясник",
+	"gui.worldhandler.shortcuts.tooltip.command_stack": "Command Stack",
 	"gui.worldhandler.shortcuts.tooltip.settings": "Настройки",
 	"gui.worldhandler.shortcuts.tooltip.potions": "Зелья",
 
@@ -401,6 +408,8 @@
 	"gui.worldhandler.actions.send": "Отправить",
 	"gui.worldhandler.actions.copy": "Копировать",
 	"gui.worldhandler.actions.place_command_block": "Разместить блок команды",
+	"gui.worldhandler.actions.move_up": "Move Up",
+	"gui.worldhandler.actions.move_down": "Move Down",
 
 	"gui.worldhandler.color": "Цвет",
 	"gui.worldhandler.color.black": "Чёрный",

@@ -68,6 +68,7 @@
 	"gui.worldhandler.tab.player.advancements": "进度",
 
 	"gui.worldhandler.tab.entities.summon": "召唤",
+	"gui.worldhandler.tab.entities.butcher": "Butcher",
 
 	"gui.worldhandler.tab.world.world": "世界",
 	"gui.worldhandler.tab.world.gamerules": "游戏规则",
@@ -84,6 +85,7 @@
 	"gui.worldhandler.tab.multiplayer": "多人",
 
 	"gui.worldhandler.title.entities.summon": "召唤",
+	"gui.worldhandler.title.entities.butcher": "Butcher",
 
 	"gui.worldhandler.title.items.custom_item": "给予自定义物品",
 	"gui.worldhandler.title.items.enchantment": "附魔",
@@ -102,7 +104,7 @@
 	"gui.worldhandler.title.player.experience": "经验等级",
 	"gui.worldhandler.title.player.advancements": "进度",
 
-	"gui.worldhandler.title.butcher": "屠宰",
+	"gui.worldhandler.title.command_stack": "Command Stack",
 	"gui.worldhandler.title.change_world": "更改世界",
 	"gui.worldhandler.title.potions": "药水",
 
@@ -157,6 +159,11 @@
 	"gui.worldhandler.potions.effect.splash": "喷溅",
 	"gui.worldhandler.potions.effect.lingering": "滞留",
 	"gui.worldhandler.potions.effect.tipped_arrow": "箭",
+
+	"gui.worldhandler.command_stack.insert_command": "Insert Command",
+	"gui.worldhandler.command_stack.remove_command": "Remove Command",
+	"gui.worldhandler.command_stack.copy_command": "Copy Command",
+	"gui.worldhandler.command_stack.command_n": "Command %d",
 
 	"gui.worldhandler.entities": "实体",
 	"gui.worldhandler.items": "物品",
@@ -354,7 +361,7 @@
 	"gui.worldhandler.potion.time.seconds": "秒",
 
 	"gui.worldhandler.shortcuts.tooltip.home": "主页",
-	"gui.worldhandler.shortcuts.tooltip.butcher": "屠宰",
+	"gui.worldhandler.shortcuts.tooltip.command_stack": "Command Stack",
 	"gui.worldhandler.shortcuts.tooltip.settings": "设置",
 	"gui.worldhandler.shortcuts.tooltip.potions": "药水",
 
@@ -402,6 +409,8 @@
 	"gui.worldhandler.actions.send": "发送",
 	"gui.worldhandler.actions.copy": "复制",
 	"gui.worldhandler.actions.place_command_block": "放置命令方块",
+	"gui.worldhandler.actions.move_up": "Move Up",
+	"gui.worldhandler.actions.move_down": "Move Down",
 
 	"gui.worldhandler.color": "颜色",
 	"gui.worldhandler.color.black": "黑色",

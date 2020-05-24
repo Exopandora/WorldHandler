@@ -93,7 +93,7 @@ public class Category extends ForgeRegistryEntry<Category>
 	public static void register(Register<Category> event)
 	{
 		RegistryHelper.register(event.getRegistry(), "main", new Category("main", "containers", "multiplayer"));
-		RegistryHelper.register(event.getRegistry(), "entities", new Category("summon"));
+		RegistryHelper.register(event.getRegistry(), "entities", new Category("summon", "butcher"));
 		RegistryHelper.register(event.getRegistry(), "items", new Category("custom_item", "enchantment", "recipes"));
 		RegistryHelper.register(event.getRegistry(), "blocks", new Category("edit_blocks", "sign_editor", "note_editor"));
 		RegistryHelper.register(event.getRegistry(), "world", new Category("world", "gamerules"));

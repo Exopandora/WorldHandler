@@ -10,74 +10,39 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class Contents
 {
-	public static final Content MAIN;
-	public static final Content CONTAINERS;
-	public static final Content MULTIPLAYER;
+	public static final Content MAIN = Contents.getRegisteredContent("main");
+	public static final Content CONTAINERS = Contents.getRegisteredContent("containers");
+	public static final Content MULTIPLAYER = Contents.getRegisteredContent("multiplayer");
 	
-	public static final Content SUMMON;
+	public static final Content SUMMON = Contents.getRegisteredContent("summon");
 	
-	public static final Content CUSTOM_ITEM;
-	public static final Content ENCHANTMENT;
+	public static final Content CUSTOM_ITEM = Contents.getRegisteredContent("custom_item");
+	public static final Content ENCHANTMENT = Contents.getRegisteredContent("enchantment");
 	
-	public static final Content EDIT_BLOCKS;
-	public static final Content SIGN_EDITOR;
-	public static final Content NOTE_EDITOR;
+	public static final Content EDIT_BLOCKS = Contents.getRegisteredContent("edit_blocks");
+	public static final Content SIGN_EDITOR = Contents.getRegisteredContent("sign_editor");
+	public static final Content NOTE_EDITOR = Contents.getRegisteredContent("note_editor");
 	
-	public static final Content WORLD_INFO;
-	public static final Content GAMERULES;
-	public static final Content RECIPES;
+	public static final Content WORLD_INFO = Contents.getRegisteredContent("world");
+	public static final Content GAMERULES = Contents.getRegisteredContent("gamerules");
+	public static final Content RECIPES = Contents.getRegisteredContent("recipes");
 	
-	public static final Content PLAYER;
-	public static final Content EXPERIENCE;
-	public static final Content ADVANCEMENTS;
+	public static final Content PLAYER = Contents.getRegisteredContent("player");
+	public static final Content EXPERIENCE = Contents.getRegisteredContent("experience");
+	public static final Content ADVANCEMENTS = Contents.getRegisteredContent("advancements");
 	
-	public static final Content SCOREBOARD_OBJECTIVES;
-	public static final Content SCOREBOARD_TEAMS;
-	public static final Content SCOREBOARD_PLAYERS;
+	public static final Content SCOREBOARD_OBJECTIVES = Contents.getRegisteredContent("scoreboard_objectives");
+	public static final Content SCOREBOARD_TEAMS = Contents.getRegisteredContent("scoreboard_teams");
+	public static final Content SCOREBOARD_PLAYERS = Contents.getRegisteredContent("scoreboard_players");
 	
-	public static final ContentChild CHANGE_WORLD;
-	public static final ContentContinue CONTINUE;
+	public static final ContentChild CHANGE_WORLD = (ContentChild) Contents.getRegisteredContent("change_world");
+	public static final ContentContinue CONTINUE = (ContentContinue) Contents.getRegisteredContent("continue");
 	
-	public static final ContentChild POTIONS;
-	public static final ContentChild BUTCHER;
-	public static final ContentChild BUTCHER_SETTINGS;
-	public static final ContentChild SETTINGS;
-	
-	static
-	{
-		MAIN = Contents.getRegisteredContent("main");
-		CONTAINERS = Contents.getRegisteredContent("containers");
-		MULTIPLAYER = Contents.getRegisteredContent("multiplayer");
-		
-		SUMMON = Contents.getRegisteredContent("summon");
-		
-		CUSTOM_ITEM = Contents.getRegisteredContent("custom_item");
-		ENCHANTMENT = Contents.getRegisteredContent("enchantment");
-		
-		EDIT_BLOCKS = Contents.getRegisteredContent("edit_blocks");
-		SIGN_EDITOR = Contents.getRegisteredContent("sign_editor");
-		NOTE_EDITOR = Contents.getRegisteredContent("note_editor");
-		
-		WORLD_INFO = Contents.getRegisteredContent("world");
-		GAMERULES = Contents.getRegisteredContent("gamerules");
-		RECIPES = Contents.getRegisteredContent("recipes");
-		
-		PLAYER = Contents.getRegisteredContent("player");
-		EXPERIENCE = Contents.getRegisteredContent("experience");
-		ADVANCEMENTS = Contents.getRegisteredContent("advancements");
-		
-		SCOREBOARD_OBJECTIVES = Contents.getRegisteredContent("scoreboard_objectives");
-		SCOREBOARD_TEAMS = Contents.getRegisteredContent("scoreboard_teams");
-		SCOREBOARD_PLAYERS = Contents.getRegisteredContent("scoreboard_players");
-		
-		CHANGE_WORLD = (ContentChild) Contents.getRegisteredContent("change_world");
-		CONTINUE = (ContentContinue) Contents.getRegisteredContent("continue");
-		
-		POTIONS = (ContentChild) Contents.getRegisteredContent("potions");
-		BUTCHER = (ContentChild) Contents.getRegisteredContent("butcher");
-		BUTCHER_SETTINGS = (ContentChild) Contents.getRegisteredContent("butcher_settings");
-		SETTINGS = (ContentChild) Contents.getRegisteredContent("settings");
-	}
+	public static final ContentChild POTIONS = (ContentChild) Contents.getRegisteredContent("potions");
+	public static final ContentChild COMMAND_STACK = (ContentChild) Contents.getRegisteredContent("command_stack");
+	public static final Content BUTCHER = Contents.getRegisteredContent("butcher");
+	public static final ContentChild BUTCHER_SETTINGS = (ContentChild) Contents.getRegisteredContent("butcher_settings");
+	public static final ContentChild SETTINGS = (ContentChild) Contents.getRegisteredContent("settings");
 	
 	public static Content getRegisteredContent(String name)
 	{

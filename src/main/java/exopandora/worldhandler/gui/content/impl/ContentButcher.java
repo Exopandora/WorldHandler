@@ -5,8 +5,11 @@ import exopandora.worldhandler.builder.impl.BuilderButcher;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.category.Categories;
+import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
+import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
@@ -17,7 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ContentButcher extends ContentChild
+public class ContentButcher extends Content
 {
 	private GuiTextFieldTooltip radiusField;
 	private String radius;
@@ -110,8 +113,26 @@ public class ContentButcher extends ContentChild
 	}
 	
 	@Override
+	public Category getCategory()
+	{
+		return Categories.ENTITIES;
+	}
+	
+	@Override
 	public String getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.butcher");
+		return I18n.format("gui.worldhandler.title.entities.butcher");
+	}
+	
+	@Override
+	public String getTabTitle()
+	{
+		return I18n.format("gui.worldhandler.tab.entities.butcher");
+	}
+	
+	@Override
+	public Content getActiveContent()
+	{
+		return Contents.BUTCHER;
 	}
 }

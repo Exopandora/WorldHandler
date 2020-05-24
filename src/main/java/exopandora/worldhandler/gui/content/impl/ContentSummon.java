@@ -105,7 +105,7 @@ public class ContentSummon extends Content
 		this.mobField.setResponder(text ->
 		{
 			this.mob = text;
-			this.builderSummon.setEntity(this.mob);
+			this.builderSummon.setName(this.mob);
 			container.initButtons();
 		});
 		
@@ -125,7 +125,7 @@ public class ContentSummon extends Content
 		this.passengerField.setResponder(text ->
 		{
 			this.passenger = this.passengerField.getText();
-			this.builderSummon.setPassenger(this.passenger);
+			this.builderSummon.setPassenger(0, this.passenger);
 			container.initButtons();
 		});
 		

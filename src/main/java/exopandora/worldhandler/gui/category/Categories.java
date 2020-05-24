@@ -8,24 +8,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class Categories
 {
-	public static final Category MAIN;
-	public static final Category ENTITIES;
-	public static final Category ITEMS;
-	public static final Category BLOCKS;
-	public static final Category WORLD;
-	public static final Category PLAYER;
-	public static final Category SCOREBOARD;
-	
-	static
-	{
-		MAIN = Categories.getRegisteredCategory("main");
-		ENTITIES = Categories.getRegisteredCategory("entities");
-		ITEMS = Categories.getRegisteredCategory("items");
-		BLOCKS = Categories.getRegisteredCategory("blocks");
-		WORLD = Categories.getRegisteredCategory("world");
-		PLAYER = Categories.getRegisteredCategory("player");
-		SCOREBOARD = Categories.getRegisteredCategory("scoreboard");
-	}
+	public static final Category MAIN = Categories.getRegisteredCategory("main");
+	public static final Category ENTITIES = Categories.getRegisteredCategory("entities");
+	public static final Category ITEMS = Categories.getRegisteredCategory("items");
+	public static final Category BLOCKS = Categories.getRegisteredCategory("blocks");
+	public static final Category WORLD = Categories.getRegisteredCategory("world");
+	public static final Category PLAYER = Categories.getRegisteredCategory("player");
+	public static final Category SCOREBOARD = Categories.getRegisteredCategory("scoreboard");
 	
 	public static Category getRegisteredCategory(String name)
 	{

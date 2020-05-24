@@ -67,6 +67,7 @@
 	"gui.worldhandler.tab.player.advancements": "Progrès",
 
 	"gui.worldhandler.tab.entities.summon": "Invoquer",
+	"gui.worldhandler.tab.entities.butcher": "Butcher",
 
 	"gui.worldhandler.tab.world.world": "Monde",
 	"gui.worldhandler.tab.world.gamerules": "Règles de jeu",
@@ -83,6 +84,7 @@
 	"gui.worldhandler.tab.multiplayer": "Multijoueur",
 
 	"gui.worldhandler.title.entities.summon": "Invoquer",
+	"gui.worldhandler.title.entities.butcher": "Butcher",
 
 	"gui.worldhandler.title.items.custom_item": "Objet personnalisé",
 	"gui.worldhandler.title.items.enchantment": "Enchantement",
@@ -101,7 +103,7 @@
 	"gui.worldhandler.title.player.experience": "Expérience ",
 	"gui.worldhandler.title.player.advancements": "Progrès",
 
-	"gui.worldhandler.title.butcher": "Boucher",
+	"gui.worldhandler.title.command_stack": "Command Stack",
 	"gui.worldhandler.title.change_world": "Changer de monde",
 	"gui.worldhandler.title.potions": "Potions",
 
@@ -156,6 +158,11 @@
 	"gui.worldhandler.potions.effect.splash": "Jetable",
 	"gui.worldhandler.potions.effect.lingering": "Persistant",
 	"gui.worldhandler.potions.effect.tipped_arrow": "Flèche",
+
+	"gui.worldhandler.command_stack.insert_command": "Insert Command",
+	"gui.worldhandler.command_stack.remove_command": "Remove Command",
+	"gui.worldhandler.command_stack.copy_command": "Copy Command",
+	"gui.worldhandler.command_stack.command_n": "Command %d",
 
 	"gui.worldhandler.entities": "Entités",
 	"gui.worldhandler.items": "Objets",
@@ -353,7 +360,7 @@
 	"gui.worldhandler.potion.time.seconds": "Secondes ",
 
 	"gui.worldhandler.shortcuts.tooltip.home": "Accueil",
-	"gui.worldhandler.shortcuts.tooltip.butcher": "Boucher",
+	"gui.worldhandler.shortcuts.tooltip.command_stack": "Command Stack",
 	"gui.worldhandler.shortcuts.tooltip.settings": "Paramètres",
 	"gui.worldhandler.shortcuts.tooltip.potions": "Potions",
 
@@ -401,6 +408,8 @@
 	"gui.worldhandler.actions.send": "Envoyer",
 	"gui.worldhandler.actions.copy": "Copier",
 	"gui.worldhandler.actions.place_command_block": "Placer bloc commande",
+	"gui.worldhandler.actions.move_up": "Move Up",
+	"gui.worldhandler.actions.move_down": "Move Down",
 
 	"gui.worldhandler.color": "Couleur",
 	"gui.worldhandler.color.black": "Noir",

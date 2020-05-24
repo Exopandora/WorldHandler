@@ -9,6 +9,7 @@ import exopandora.worldhandler.gui.content.impl.ContentAdvancements;
 import exopandora.worldhandler.gui.content.impl.ContentButcher;
 import exopandora.worldhandler.gui.content.impl.ContentButcherSettings;
 import exopandora.worldhandler.gui.content.impl.ContentChangeWorld;
+import exopandora.worldhandler.gui.content.impl.ContentCommandStack;
 import exopandora.worldhandler.gui.content.impl.ContentContainers;
 import exopandora.worldhandler.gui.content.impl.ContentContinue;
 import exopandora.worldhandler.gui.content.impl.ContentCustomItem;
@@ -100,6 +101,7 @@ public abstract class Content extends ForgeRegistryEntry<Content> implements ICo
 		
 		//NO CATEGORY
 		RegistryHelper.register(event.getRegistry(), "potions", new ContentPotions());
+		RegistryHelper.register(event.getRegistry(), "command_stack", new ContentCommandStack());
 		RegistryHelper.register(event.getRegistry(), "butcher", new ContentButcher());
 		RegistryHelper.register(event.getRegistry(), "butcher_settings", new ContentButcherSettings());
 		RegistryHelper.register(event.getRegistry(), "settings", new ContentSettings());
@@ -130,14 +132,6 @@ public abstract class Content extends ForgeRegistryEntry<Content> implements ICo
 			this.persistence = new HashMap<String, Object>();
 		}
 		
-		if(this.persistence.containsKey(id))
-		{
-			return (T) this.persistence.get(id);
-		}
-		
-		T object = supplier.get();
-		this.persistence.put(id, object);
-		
-		return object;
+		return (T) this.persistence.computeIfAbsent(id, key -> supplier.get());
 	}
 }
