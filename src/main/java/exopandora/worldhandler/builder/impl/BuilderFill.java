@@ -17,7 +17,7 @@ public class BuilderFill extends BuilderDoubleBlockPos
 {
 	public BuilderFill()
 	{
-		
+		super();
 	}
 	
 	public BuilderFill(BlockResourceLocation block1, EnumBlockFilter filter, BlockResourceLocation block2)
