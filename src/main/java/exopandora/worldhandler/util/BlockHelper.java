@@ -12,7 +12,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import exopandora.worldhandler.builder.impl.BuilderFill;
 import exopandora.worldhandler.builder.impl.BuilderSetBlock;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
-import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
+import exopandora.worldhandler.builder.types.Coordinate.EnumType;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.config.Config;
 import net.minecraft.block.Block;
@@ -21,7 +21,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.CUpdateCommandBlockPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.CommandBlockTileEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -157,12 +156,12 @@ public class BlockHelper
 			placeFill.setBlock1(new BlockResourceLocation(Blocks.COMMAND_BLOCK.getRegistryName()));
 			
 			BuilderFill removeFill = new BuilderFill();
-			removeFill.setX1(new CoordinateInt(0, CoordinateType.GLOBAL));
-			removeFill.setY1(new CoordinateInt(-1, CoordinateType.GLOBAL));
-			removeFill.setZ1(new CoordinateInt(0, CoordinateType.GLOBAL));
-			removeFill.setX2(new CoordinateInt(0, CoordinateType.GLOBAL));
-			removeFill.setY2(new CoordinateInt(0, CoordinateType.GLOBAL));
-			removeFill.setZ2(new CoordinateInt(0, CoordinateType.GLOBAL));
+			removeFill.setX1(new CoordinateInt(0, EnumType.GLOBAL));
+			removeFill.setY1(new CoordinateInt(-1, EnumType.GLOBAL));
+			removeFill.setZ1(new CoordinateInt(0, EnumType.GLOBAL));
+			removeFill.setX2(new CoordinateInt(0, EnumType.GLOBAL));
+			removeFill.setY2(new CoordinateInt(0, EnumType.GLOBAL));
+			removeFill.setZ2(new CoordinateInt(0, EnumType.GLOBAL));
 			removeFill.setBlock1(new BlockResourceLocation(Blocks.AIR.getRegistryName()));
 			
 			Minecraft.getInstance().player.sendChatMessage(placeFill.toActualCommand());
@@ -177,22 +176,8 @@ public class BlockHelper
 	
 	public static void setBlockNearPlayer(Block block)
 	{
-		switch(Minecraft.getInstance().player.getHorizontalFacing())
-		{
-			case NORTH:
-				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH));
-				break;
-			case EAST:
-				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST));
-				break;
-			case SOUTH:
-				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
-				break;
-			case WEST:
-				CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(CoordinateType.LOCAL), new CoordinateInt(2, CoordinateType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()).withState(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST));
-				break;
-			default:
-				break;
-		}
+		BuilderSetBlock builder = new BuilderSetBlock(new CoordinateInt(EnumType.LOCAL), new CoordinateInt(EnumType.LOCAL), new CoordinateInt(2, EnumType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode());
+		builder.setState(BlockStateProperties.HORIZONTAL_FACING, Minecraft.getInstance().player.getHorizontalFacing().getOpposite());
+		CommandHelper.sendCommand(builder);
 	}
 }
