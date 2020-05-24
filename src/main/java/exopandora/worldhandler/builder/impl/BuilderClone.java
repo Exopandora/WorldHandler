@@ -3,7 +3,7 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandSyntax;
-import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
+import exopandora.worldhandler.builder.types.Coordinate.EnumType;
 import exopandora.worldhandler.util.EnumHelper;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.ArgumentType;
@@ -16,9 +16,9 @@ public class BuilderClone extends BuilderDoubleBlockPos
 {
 	public BuilderClone()
 	{
-		this.setX(new CoordinateInt(CoordinateType.GLOBAL));
-		this.setY(new CoordinateInt(CoordinateType.GLOBAL));
-		this.setZ(new CoordinateInt(CoordinateType.GLOBAL));
+		this.setX(new CoordinateInt(EnumType.GLOBAL));
+		this.setY(new CoordinateInt(EnumType.GLOBAL));
+		this.setZ(new CoordinateInt(EnumType.GLOBAL));
 		this.setMask(EnumMask.values()[0]);
 	}
 	
