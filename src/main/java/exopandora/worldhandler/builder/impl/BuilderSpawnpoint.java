@@ -2,7 +2,7 @@ package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
-import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
+import exopandora.worldhandler.builder.types.Coordinate.EnumType;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -13,9 +13,9 @@ public class BuilderSpawnpoint extends CommandBuilder
 {
 	public BuilderSpawnpoint()
 	{
-		this.setX(new CoordinateInt(CoordinateType.GLOBAL));
-		this.setY(new CoordinateInt(CoordinateType.GLOBAL));
-		this.setZ(new CoordinateInt(CoordinateType.GLOBAL));
+		this.setX(new CoordinateInt(EnumType.GLOBAL));
+		this.setY(new CoordinateInt(EnumType.GLOBAL));
+		this.setZ(new CoordinateInt(EnumType.GLOBAL));
 	}
 	
 	@Override

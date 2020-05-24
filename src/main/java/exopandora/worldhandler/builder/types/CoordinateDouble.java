@@ -16,12 +16,12 @@ public class CoordinateDouble extends Coordinate<Double>
 		super(value);
 	}
 	
-	public CoordinateDouble(CoordinateType type)
+	public CoordinateDouble(EnumType type)
 	{
 		super(0.0, type);
 	}
 	
-	public CoordinateDouble(Double value, CoordinateType type)
+	public CoordinateDouble(Double value, EnumType type)
 	{
 		super(value, type);
 	}

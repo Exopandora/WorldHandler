@@ -16,12 +16,12 @@ public class CoordinateInt extends Coordinate<Integer>
 		super(value);
 	}
 	
-	public CoordinateInt(CoordinateType type)
+	public CoordinateInt(EnumType type)
 	{
 		super(0, type);
 	}
 	
-	public CoordinateInt(Integer value, CoordinateType type)
+	public CoordinateInt(Integer value, EnumType type)
 	{
 		super(value, type);
 	}

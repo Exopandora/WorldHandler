@@ -2,7 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 import exopandora.worldhandler.builder.impl.BuilderGive;
 import exopandora.worldhandler.builder.impl.BuilderSetBlock;
-import exopandora.worldhandler.builder.types.Coordinate.CoordinateType;
+import exopandora.worldhandler.builder.types.Coordinate.EnumType;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
@@ -73,7 +73,7 @@ public class ContentContainers extends Content
 						
 						if(block != null)
 						{
-							CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(cx, CoordinateType.GLOBAL), new CoordinateInt(yOffset, CoordinateType.GLOBAL), new CoordinateInt(cz, CoordinateType.GLOBAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()));
+							CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(cx, EnumType.GLOBAL), new CoordinateInt(yOffset, EnumType.GLOBAL), new CoordinateInt(cz, EnumType.GLOBAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()));
 						}
 					}
 				}

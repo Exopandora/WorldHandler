@@ -11,14 +11,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 {
 	protected T value;
-	protected CoordinateType type;
+	protected EnumType type;
 	
 	public Coordinate(T value)
 	{
-		this(value, CoordinateType.ABSOLUTE);
+		this(value, EnumType.ABSOLUTE);
 	}
 	
-	public Coordinate(T value, CoordinateType type)
+	public Coordinate(T value, EnumType type)
 	{
 		this.value = value;
 		this.type = type;
@@ -34,12 +34,12 @@ public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 		return this.value;
 	}
 	
-	public void setType(CoordinateType type)
+	public void setType(EnumType type)
 	{
 		this.type = type;
 	}
 	
-	public CoordinateType getType()
+	public EnumType getType()
 	{
 		return this.type;
 	}
@@ -53,7 +53,7 @@ public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 	@Nullable
 	public static <S extends Number, U extends Coordinate<S>> U parse(U coordiante, String input, Function<String, S> parser)
 	{
-		for(CoordinateType type : CoordinateType.values())
+		for(EnumType type : EnumType.values())
 		{
 			if(!type.prefix.isEmpty() && input.startsWith(type.prefix))
 			{
@@ -66,14 +66,14 @@ public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 			}
 		}
 		
-		coordiante.setType(CoordinateType.ABSOLUTE);
+		coordiante.setType(EnumType.ABSOLUTE);
 		coordiante.setValue(parser.apply(input));
 		
 		return coordiante;
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public static enum CoordinateType
+	public static enum EnumType
 	{
 		ABSOLUTE(""),
 		GLOBAL("~"),
@@ -81,7 +81,7 @@ public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 		
 		private final String prefix;
 		
-		private CoordinateType(String prefix)
+		private EnumType(String prefix)
 		{
 			this.prefix = prefix;
 		}
