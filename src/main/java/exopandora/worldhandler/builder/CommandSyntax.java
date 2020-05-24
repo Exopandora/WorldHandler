@@ -16,7 +16,7 @@ public class CommandSyntax
 	
 	public CommandSyntax()
 	{
-		
+		super();
 	}
 	
 	public CommandSyntax(List<Argument> syntax)
