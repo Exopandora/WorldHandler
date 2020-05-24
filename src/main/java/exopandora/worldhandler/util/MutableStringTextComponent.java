@@ -1,5 +1,8 @@
 package exopandora.worldhandler.util;
 
+import exopandora.worldhandler.builder.INBTWritable;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -7,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MutableStringTextComponent extends StringTextComponent
+public class MutableStringTextComponent extends StringTextComponent implements INBTWritable
 {
 	private String text;
 	
@@ -74,7 +77,19 @@ public class MutableStringTextComponent extends StringTextComponent
 		return this.getStyle().getFormattingCode() + string;
 	}
 	
-	public String serialize()
+	@Override
+	public INBT serialize()
+	{
+		if(this.getUnformattedComponentText() != null && !this.getUnformattedComponentText().isEmpty())
+		{
+			return StringNBT.valueOf(this.toString());
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public String toString()
 	{
 		MutableStringTextComponent serial = (MutableStringTextComponent) this.deepCopy();
 		serial.setText(MutableStringTextComponent.getSpecialFormattedText(this.getUnformattedComponentText()));

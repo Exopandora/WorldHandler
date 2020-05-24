@@ -2,6 +2,8 @@ package exopandora.worldhandler.util;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.builder.INBTWritable;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
@@ -9,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class SignText
+public class SignText implements INBTWritable
 {
 	private MutableStringTextComponent text = new MutableStringTextComponent();
 	private final int line;
@@ -62,7 +64,8 @@ public class SignText
 		return this.text.getStyle().getClickEvent() != null && this.text.getStyle().getClickEvent().getAction() == Action.RUN_COMMAND && this.text.getStyle().getClickEvent().getValue() != null;
 	}
 	
-	public StringNBT toNBT()
+	@Override
+	public INBT serialize()
 	{
 		return StringNBT.valueOf(this.toString());
 	}
@@ -80,6 +83,6 @@ public class SignText
 			return this.text.getFormattedText();
 		}
 		
-		return this.text.serialize();
+		return this.text.toString();
 	}
 }

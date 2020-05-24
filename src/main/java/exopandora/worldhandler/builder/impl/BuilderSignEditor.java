@@ -22,7 +22,7 @@ public class BuilderSignEditor extends BuilderData
 		
 		for(int x = 0; x < 4; x++)
 		{
-			this.sign[x] = this.registerNBTComponent(new ComponentTag<SignText>("Text" + (x + 1), new SignText(x), SignText::toNBT));
+			this.sign[x] = this.registerNBTComponent(new ComponentTag<SignText>("Text" + (x + 1), new SignText(x), SignText::serialize));
 		}
 	}
 	
