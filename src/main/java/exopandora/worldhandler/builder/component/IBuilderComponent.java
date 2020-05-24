@@ -1,15 +1,11 @@
 package exopandora.worldhandler.builder.component;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.nbt.INBT;
+import exopandora.worldhandler.builder.INBTWritable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public interface IBuilderComponent
+public interface IBuilderComponent extends INBTWritable
 {
-	@Nullable
-	INBT serialize();
 	String getTag();
 }
