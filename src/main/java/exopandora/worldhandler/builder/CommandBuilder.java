@@ -98,12 +98,12 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	
 	protected void setNode(int index, ItemResourceLocation resource)
 	{
-		this.set(index, resource != null ? resource.get() : null, ArgumentType.ITEM_RESOURCE_LOCATION);
+		this.set(index, resource, ArgumentType.ITEM_RESOURCE_LOCATION);
 	}
 	
 	protected void setNode(int index, BlockResourceLocation resource)
 	{
-		this.set(index, resource != null ? resource.get() : null, ArgumentType.BLOCK_RESOURCE_LOCATION);
+		this.set(index, resource, ArgumentType.BLOCK_RESOURCE_LOCATION);
 	}
 	
 	protected void setNode(int index, CompoundNBT nbt)
@@ -262,9 +262,9 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		WorldHandler.LOGGER.warn("[" + function.toUpperCase() + "] Expected \"" + expected + "\" instead of \"" + type + "\" at index \"" + index + "\" for command \"" + this.getCommandName() + "\"");
 	}
 	
-	private boolean isDefaultEntry(Entry<Argument, String> entry)
+	private boolean isDefaultArgument(Argument argument, String value)
 	{
-		return entry.getKey().getDefault() != null ? entry.getValue().equals(entry.getKey().getDefault().toString()) : false;
+		return argument.getDefault() != null ? value.equals(argument.getDefault().toString()) : value == null;
 	}
 	
 	protected void updateSyntax(CommandSyntax syntax)
@@ -282,7 +282,7 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		
 		for(Entry<Argument, String> entry : this.command)
 		{
-			if(this.isDefaultEntry(entry))
+			if(this.isDefaultArgument(entry.getKey(), entry.getValue()))
 			{
 				command.append(entry.getKey().toString());
 			}
@@ -302,7 +302,7 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		
 		for(Entry<Argument, String> entry : this.command)
 		{
-			if(!entry.getKey().isRequired() && (entry.getKey().toString().equals(entry.getValue()) || this.isDefaultEntry(entry)))
+			if(!entry.getKey().isRequired() && (entry.getKey().toString().equals(entry.getValue()) || this.isDefaultArgument(entry.getKey(), entry.getValue())))
 			{
 				break;
 			}
