@@ -1,9 +1,9 @@
 package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.builder.types.CoordinateInt;
-import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.IProperty;
 import net.minecraft.util.ResourceLocation;
@@ -21,7 +21,7 @@ public class BuilderSetBlock extends BuilderBlockPos
 		super(0);
 	}
 	
-	public BuilderSetBlock(BlockPos pos, ResourceLocation block, String mode)
+	public BuilderSetBlock(BlockPos pos, ResourceLocation block, EnumMode mode)
 	{
 		this();
 		this.setPosition(pos);
@@ -29,7 +29,7 @@ public class BuilderSetBlock extends BuilderBlockPos
 		this.setMode(mode);
 	}
 	
-	public BuilderSetBlock(CoordinateInt x, CoordinateInt y, CoordinateInt z, ResourceLocation block, String mode)
+	public <T extends Comparable<T>> BuilderSetBlock(CoordinateInt x, CoordinateInt y, CoordinateInt z, ResourceLocation block, EnumMode mode)
 	{
 		this();
 		this.setX(x);
@@ -39,10 +39,9 @@ public class BuilderSetBlock extends BuilderBlockPos
 		this.setMode(mode);
 	}
 	
-	public <T extends Comparable<T>> BuilderSetBlock withState(IProperty<T> property, T value)
+	public <T extends Comparable<T>> void setState(IProperty<T> property, T value)
 	{
-		this.blockResourceLocation.withState(property, value);
-		return this;
+		this.blockResourceLocation.setProperty(property, value);
 	}
 	
 	public void setBlock(ResourceLocation block)
@@ -51,16 +50,21 @@ public class BuilderSetBlock extends BuilderBlockPos
 		this.setNode(3, this.blockResourceLocation);
 	}
 	
-	public void setMode(String mode)
+	public void setMode(EnumMode mode)
 	{
-		this.setNode(4, mode);
+		this.setNode(4, mode.toString());
+	}
+	
+	public void setBlockNBT(CompoundNBT nbt)
+	{
+		this.blockResourceLocation.setNBT(nbt);
+		this.setNode(3, this.blockResourceLocation);
 	}
 	
 	@Override
 	public void setNBT(CompoundNBT nbt)
 	{
-		this.blockResourceLocation.setNBT(nbt);
-		this.setNode(3, this.blockResourceLocation);
+		
 	}
 	
 	@Override
@@ -81,5 +85,19 @@ public class BuilderSetBlock extends BuilderBlockPos
 		syntax.addOptional("mode", ArgumentType.STRING);
 		
 		return syntax;
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static enum EnumMode
+	{
+		KEEP,
+		REPLACE,
+		DESTROY;
+		
+		@Override
+		public String toString()
+		{
+			return this.name().toLowerCase();
+		}
 	}
 }

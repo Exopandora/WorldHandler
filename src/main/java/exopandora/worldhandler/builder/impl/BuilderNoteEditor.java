@@ -14,7 +14,7 @@ public class BuilderNoteEditor extends BuilderSetBlock
 	public BuilderNoteEditor()
 	{
 		this.setBlock(Blocks.NOTE_BLOCK.getRegistryName());
-		this.setMode("replace");
+		this.setMode(EnumMode.REPLACE);
 	}
 	
 	public BuilderNoteEditor(int note)
@@ -27,12 +27,12 @@ public class BuilderNoteEditor extends BuilderSetBlock
 	{
 		this(note);
 		this.setPosition(pos);
-		this.withState(BlockStateProperties.NOTE_BLOCK_INSTRUMENT, NoteBlockInstrument.byState(Minecraft.getInstance().world.getBlockState(pos.down())));
+		this.setState(BlockStateProperties.NOTE_BLOCK_INSTRUMENT, NoteBlockInstrument.byState(Minecraft.getInstance().world.getBlockState(pos.down())));
 	}
 	
 	public void setNote(int note)
 	{
-		this.withState(BlockStateProperties.NOTE_0_24, note);
+		this.setState(BlockStateProperties.NOTE_0_24, note);
 	}
 	
 	public BuilderNoteEditor getBuilderForNote(int note)

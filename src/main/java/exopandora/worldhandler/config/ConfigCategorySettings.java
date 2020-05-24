@@ -1,7 +1,6 @@
 package exopandora.worldhandler.config;
 
-import java.util.Arrays;
-
+import exopandora.worldhandler.builder.impl.BuilderSetBlock.EnumMode;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -26,7 +25,7 @@ public class ConfigCategorySettings
 	private final IntValue noon;
 	private final IntValue sunset;
 	private final IntValue midnight;
-	private final ConfigValue<String> blockPlacingMode;
+	private final ConfigValue<EnumMode> blockPlacingMode;
 	
 	public ConfigCategorySettings(ForgeConfigSpec.Builder builder)
 	{
@@ -93,7 +92,7 @@ public class ConfigCategorySettings
 		this.blockPlacingMode = builder
 				.translation("gui.worldhandler.config.settings.block_placing_mode")
 				.comment("Block placing mode (keep, replace, destroy)")
-				.defineInList("block_placing_mode", "keep", Arrays.asList("keep", "replace", "destroy"));
+				.defineEnum("block_placing_mode", EnumMode.KEEP, EnumMode.values());
 		
 		builder.pop();
 	}
@@ -238,12 +237,12 @@ public class ConfigCategorySettings
 		Config.set(this.midnight, ticks);
 	}
 	
-	public String getBlockPlacingMode()
+	public EnumMode getBlockPlacingMode()
 	{
 		return this.blockPlacingMode.get();
 	}
 	
-	public void setBlockPlacingMode(String mode)
+	public void setBlockPlacingMode(EnumMode mode)
 	{
 		Config.set(this.blockPlacingMode, mode);
 	}
