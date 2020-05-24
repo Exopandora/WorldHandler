@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.15.2-latest": "2.8.3",
-		"1.15.2-recommended": "2.8.3",
+		"1.15.2-latest": "2.9",
+		"1.15.2-recommended": "2.9",
 		"1.15.1-latest": "2.8.1",
 		"1.15.1-recommended": "2.8.1",
 		"1.15-latest": "2.8",
@@ -59,6 +59,7 @@
 	},
 	"1.15.2":
 	{
+		"2.9": "- Added \"Command Stack\"\n- Added russian translations (vanja-san)\n- Moved \"Butcher\" to \"Entities\" category\n- Fixed font colors for piano buttons\n- Fixed icon color of button not matching vanilla\n- Fixed \"Summon\" not spawning villagers with their professions\n- Fixed \"Summon\" not spawning spider jockeys with bows\n- Fixed \"Summon\" not spawning all possible cat types",
 		"2.8.3": "- Reimplemented \"Highlight Blocks\"",
 		"2.8.2": "- Updated french translations",
 		"2.8.1": "- Added 1.15.2 compatibility"
