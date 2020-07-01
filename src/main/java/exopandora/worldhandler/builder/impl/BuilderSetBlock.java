@@ -42,12 +42,13 @@ public class BuilderSetBlock extends BuilderBlockPos
 	public <T extends Comparable<T>> void setState(IProperty<T> property, T value)
 	{
 		this.blockResourceLocation.setProperty(property, value);
+		this.setBlock(this.blockResourceLocation);
 	}
 	
 	public void setBlock(ResourceLocation block)
 	{
 		this.blockResourceLocation.setResourceLocation(block);
-		this.setNode(3, this.blockResourceLocation);
+		this.setBlock(this.blockResourceLocation);
 	}
 	
 	public void setMode(EnumMode mode)
@@ -58,6 +59,11 @@ public class BuilderSetBlock extends BuilderBlockPos
 	public void setBlockNBT(CompoundNBT nbt)
 	{
 		this.blockResourceLocation.setNBT(nbt);
+		this.setBlock(this.blockResourceLocation);
+	}
+	
+	protected void setBlock(BlockResourceLocation block)
+	{
 		this.setNode(3, this.blockResourceLocation);
 	}
 	
