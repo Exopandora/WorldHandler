@@ -104,9 +104,10 @@ public class EffectNBT implements INBTWritable
 	public CompoundNBT serialize()
 	{
 		CompoundNBT compound = new CompoundNBT();
+		int ticks = this.toTicks();
 		
 		compound.putByte("Amplifier", (byte) (this.amplifier - 1));
-		compound.putInt("Duration", Math.min(this.toTicks(), 1000000));
+		compound.putInt("Duration", ticks > 0 ? ticks : 1000000);
 		compound.putBoolean("Ambient", this.ambient);
 		compound.putBoolean("ShowParticles", this.showParticles);
 		
