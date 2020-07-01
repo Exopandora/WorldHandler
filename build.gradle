@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.16.1-2.10'
+version = '1.16.1-2.10.1'
 group = 'exopandora.worldhandler' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'WorldHandler'
 
