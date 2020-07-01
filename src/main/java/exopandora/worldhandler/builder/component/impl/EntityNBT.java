@@ -406,10 +406,11 @@ public class EntityNBT implements IBuilderComponent
 		NBTHelper.append(nbt, "Motion", NBTHelper.serialize(this.motion));
 		NBTHelper.append(nbt, "Passengers", NBTHelper.serialize(this.passengers));
 		NBTHelper.append(nbt, "ArmorItems", NBTHelper.serialize(this.armorItems));
+		NBTHelper.append(nbt, "HandItems", NBTHelper.serialize(this.handItems));
 		NBTHelper.append(nbt, "BlockState", NBTHelper.serialize(this.blockState));
 		
 		NBTHelper.append(nbt, "CustomName", this.customName);
-
+		
 		NBTHelper.append(nbt, this.entity);
 		NBTHelper.append(nbt, this.potion);
 		NBTHelper.append(nbt, this.attribute);
