@@ -157,7 +157,7 @@ public class BuilderTeams extends CommandBuilder
 			CommandSyntax syntax = new CommandSyntax();
 			
 			syntax.addRequired("join|leave", ArgumentType.STRING, "join|leave");
-			syntax.addRequired("name", ArgumentType.STRING);
+			syntax.addRequired("player|team", ArgumentType.STRING);
 			syntax.addOptional("player", ArgumentType.STRING);
 			
 			return syntax;
@@ -184,10 +184,13 @@ public class BuilderTeams extends CommandBuilder
 		switch(mode)
 		{
 			case JOIN:
-			case LEAVE:
 				builder.setNode(0, mode.toString());
 				builder.setTeam(this.getTeam());
-				builder.setPlayer(this.getPlayer());
+				builder.setNode(2, this.getPlayer());
+				break;
+			case LEAVE:
+				builder.setNode(0, mode.toString());
+				builder.setNode(1, this.getPlayer());
 				break;
 			case REMOVE:
 			case EMPTY:
