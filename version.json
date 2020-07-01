@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.16.1-latest": "2.10",
-		"1.16.1-recommended": "2.10",
+		"1.16.1-latest": "2.10.1",
+		"1.16.1-recommended": "2.10.1",
 		"1.15.2-latest": "2.9.1",
 		"1.15.2-recommended": "2.9.1",
 		"1.15.1-latest": "2.8.1",
@@ -59,6 +59,7 @@
 	},
 	"1.16.1":
 	{
+		"2.10.1": "- Fixed username position when watch is disabled",
 		"2.10": "- Added to 1.16.1 compatibility\n- Watch is now disabled by default\n- Butcher only executes commands for entity classes existing in the given radius"
 	},
 	"1.15.2":
