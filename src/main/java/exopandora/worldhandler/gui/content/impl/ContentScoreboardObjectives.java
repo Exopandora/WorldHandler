@@ -96,6 +96,13 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 						}
 					}
 					
+					String translation = "stat." + key;
+					
+					if(!translation.equals(I18n.format(translation)))
+					{
+						return I18n.format(translation);
+					}
+					
 					if(Arrays.stream(TextFormatting.values()).map(TextFormatting::getFriendlyName).anyMatch(Predicates.equalTo(key)))
 					{
 						return I18n.format("gui.worldhandler.color." + key);
