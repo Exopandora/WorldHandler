@@ -40,7 +40,7 @@ public class WorldHandler
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		modEventBus.addListener(this::clientSetup);
-		modEventBus.addListener(this::serverStarting);
+		MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
 		{
 			SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getInstance().getResourceManager();
