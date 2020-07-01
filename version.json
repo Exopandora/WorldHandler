@@ -59,7 +59,7 @@
 	},
 	"1.16.1":
 	{
-		"2.10": "-Added to 1.16.1 compatibility\n- Watch is now disabled by default\n- Butcher only executes commands for entity classes existing in the given radius"
+		"2.10": "- Added to 1.16.1 compatibility\n- Watch is now disabled by default\n- Butcher only executes commands for entity classes existing in the given radius"
 	},
 	"1.15.2":
 	{
