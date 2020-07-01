@@ -5,10 +5,11 @@ import java.util.Set;
 import exopandora.worldhandler.builder.component.impl.ComponentAttributeItem;
 import exopandora.worldhandler.builder.component.impl.ComponentDisplay;
 import exopandora.worldhandler.builder.component.impl.ComponentEnchantment;
-import exopandora.worldhandler.builder.impl.EnumAttributes.Applyable;
 import exopandora.worldhandler.util.MutableStringTextComponent;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -27,7 +28,7 @@ public class BuilderCustomItem extends BuilderGive
 	public BuilderCustomItem(String player, ResourceLocation item)
 	{
 		super(player, item);
-		this.attribute = this.registerNBTComponent(new ComponentAttributeItem(attribute -> attribute.getApplyable().equals(Applyable.BOTH) || attribute.getApplyable().equals(Applyable.PLAYER)));
+		this.attribute = this.registerNBTComponent(new ComponentAttributeItem());
 		this.display = this.registerNBTComponent(new ComponentDisplay());
 		this.enchantment = this.registerNBTComponent(new ComponentEnchantment());
 	}
@@ -47,22 +48,22 @@ public class BuilderCustomItem extends BuilderGive
 		return this.enchantment.getEnchantments();
 	}
 	
-	public void setAttribute(EnumAttributes attribute, double ammount)
+	public void setAttribute(Attribute attribute, double ammount)
 	{
 		this.attribute.set(attribute, ammount);
 	}
 	
-	public void removeAttribute(EnumAttributes attribute)
+	public void removeAttribute(Attribute attribute)
 	{
 		this.attribute.remove(attribute);
 	}
 	
-	public double getAttributeAmmount(EnumAttributes attribute)
+	public double getAttributeAmmount(Attribute attribute)
 	{
 		return this.attribute.getAmmount(attribute);
 	}
 	
-	public Set<EnumAttributes> getAttributes()
+	public Set<Attribute> getAttributes()
 	{
 		return this.attribute.getAttributes();
 	}
@@ -77,22 +78,22 @@ public class BuilderCustomItem extends BuilderGive
 		return this.display.getName();
 	}
 	
-	public void setLore1(String lore)
+	public void setLore1(ITextComponent lore)
 	{
 		this.display.setLore1(lore);
 	}
 	
-	public String getLore1()
+	public ITextComponent getLore1()
 	{
 		return this.display.getLore1();
 	}
 	
-	public void setLore2(String lore)
+	public void setLore2(ITextComponent lore)
 	{
 		this.display.setLore2(lore);
 	}
 	
-	public String getLore2()
+	public ITextComponent getLore2()
 	{
 		return this.display.getLore2();
 	}

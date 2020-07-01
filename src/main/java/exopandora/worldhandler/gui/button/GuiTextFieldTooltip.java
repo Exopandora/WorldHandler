@@ -1,7 +1,10 @@
 package exopandora.worldhandler.gui.button;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -9,14 +12,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class GuiTextFieldTooltip extends TextFieldWidget
 {
-	private String tooltip;
+	private ITextComponent tooltip;
 	
 	public GuiTextFieldTooltip(int x, int y, int width, int height)
 	{
 		this(x, y, width, height, null);
 	}
 	
-	public GuiTextFieldTooltip(int x, int y, int width, int height, String tooltip)
+	public GuiTextFieldTooltip(int x, int y, int width, int height, ITextComponent tooltip)
 	{
 		super(Minecraft.getInstance().fontRenderer, x, y, width, height, null);
 		this.setMaxStringLength(Integer.MAX_VALUE);
@@ -24,43 +27,45 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 	}
 	
 	@Override
-	public void renderButton(int x, int y, float partialTicks)
+	public void func_230431_b_(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) //renderButton
 	{
-		super.renderButton(x, y, partialTicks);
+		super.func_230431_b_(matrix, mouseX, mouseY, partialTicks); // renderButton
 		
-		if(this.getVisible() && !this.isFocused() && this.tooltip != null && TextFormatting.getTextWithoutFormattingCodes(this.getText()).isEmpty())
+		if(this.getVisible() && !this.func_230999_j_() && this.tooltip != null && TextFormatting.getTextWithoutFormattingCodes(this.getText()).isEmpty())
 		{
-			boolean enableBackgroundDrawing = this.getAdjustedWidth() != this.width;
-			int tx = enableBackgroundDrawing ? this.x + 4 : this.x;
-			int ty = enableBackgroundDrawing ? this.y + (this.height - 8) / 2 : this.y;
+			boolean enableBackgroundDrawing = this.getAdjustedWidth() != this.field_230688_j_;
+			int tx = enableBackgroundDrawing ? this.field_230690_l_ + 4 : this.field_230690_l_;
+			int ty = enableBackgroundDrawing ? this.field_230691_m_ + (this.field_230689_k_ - 8) / 2 : this.field_230691_m_;
 			
-			Minecraft.getInstance().fontRenderer.drawStringWithShadow(this.tooltip, (float) tx, (float) ty, 0x7F7F7F);
+			Minecraft.getInstance().fontRenderer.func_238407_a_(matrix, this.tooltip, (float) tx, (float) ty, 0x7F7F7F); //drawStringWithShadow
 		}
 	}
 	
-	public void setTooltip(String tooltip)
+	public void setTooltip(ITextComponent tooltip)
 	{
 		this.tooltip = tooltip;
 	}
 	
-	public String getTooltip()
+	public ITextComponent getTooltip()
 	{
 		return this.tooltip;
 	}
 	
 	public void setPosition(int x, int y)
 	{
-		this.x = x;
-		this.y = y;
+		this.field_230690_l_ = x;
+		this.field_230691_m_ = y;
 	}
 	
-	public void setWidth(int width)
+	public void setText(ITextComponent text)
 	{
-		this.width = width;
-	}
-	
-	public void setHeight(int height)
-	{
-		this.height = height;
+		if(text != null)
+		{
+			this.setText(text.getString());
+		}
+		else
+		{
+			this.setText((String) null);
+		}
 	}
 }

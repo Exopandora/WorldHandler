@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.command.CommandSource;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientChatEvent;
@@ -30,7 +30,7 @@ public class ClientEventHandler
 	{
 		if(Config.getSettings().highlightBlocks() && Minecraft.getInstance().world != null && Minecraft.getInstance().getRenderManager().info != null)
 		{
-			Vec3d projected = Minecraft.getInstance().getRenderManager().info.getProjectedView();
+			Vector3d projected = Minecraft.getInstance().getRenderManager().info.getProjectedView();
 			
 	        MatrixStack matrix = event.getMatrixStack();
 	        matrix.push();

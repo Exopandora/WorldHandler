@@ -1,32 +1,31 @@
 package exopandora.worldhandler.builder.component.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.builder.impl.EnumAttributes;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class ComponentAttribute implements IBuilderComponent
-{
-	protected Map<EnumAttributes, Double> attributes = new HashMap<EnumAttributes, Double>();
-	protected Function<EnumAttributes, Boolean> applyable;
+{	
+	public static final List<Attribute> ATTRIBUTES = ForgeRegistries.ATTRIBUTES.getValues().stream().filter(attribute -> !attribute.func_233754_c_().equals(I18n.format(attribute.func_233754_c_()))).collect(Collectors.toList());
 	
-	public ComponentAttribute(Function<EnumAttributes, Boolean> applyable)
-	{
-		this.applyable = applyable;
-	}
+	protected Map<Attribute, Double> attributes = new HashMap<Attribute, Double>();
 	
-	public void set(EnumAttributes attribute, double ammount)
+	public void set(Attribute attribute, double ammount)
 	{
 		this.attributes.put(attribute, ammount);
 	}
 	
-	public double getAmmount(EnumAttributes attribute)
+	public double getAmmount(Attribute attribute)
 	{
 		if(this.attributes.containsKey(attribute))
 		{
@@ -36,12 +35,12 @@ public abstract class ComponentAttribute implements IBuilderComponent
 		return 0;
 	}
 	
-	public void remove(EnumAttributes attribute)
+	public void remove(Attribute attribute)
 	{
 		this.attributes.remove(attribute);
 	}
 	
-	public Set<EnumAttributes> getAttributes()
+	public Set<Attribute> getAttributes()
 	{
 		return this.attributes.keySet();
 	}

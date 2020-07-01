@@ -3,10 +3,13 @@ package exopandora.worldhandler.gui.content;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -30,7 +33,7 @@ public interface IContent extends IGuiEventListener
 		
 	}
 	
-	default void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	default void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		
 	}
@@ -42,8 +45,8 @@ public interface IContent extends IGuiEventListener
 	
 	Category getCategory();
 	
-	String getTitle();
-	String getTabTitle();
+	IFormattableTextComponent getTitle();
+	IFormattableTextComponent getTabTitle();
 	
 	Content getActiveContent();
 	

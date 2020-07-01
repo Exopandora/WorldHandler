@@ -2,12 +2,17 @@ package exopandora.worldhandler.gui.button;
 
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
+import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -20,7 +25,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	
 	public GuiButtonList(int x, int y, List<T> items, int widthIn, int heightIn, Container container, ILogicMapped<T> logic)
 	{
-		super(x, y, widthIn, heightIn, null, null, null);
+		super(x, y, widthIn, heightIn, StringTextComponent.field_240750_d_, null, null);
 		this.items = items;
 		this.logic = logic;
 		this.persistence = container.getContent().getPersistence(this.logic.getId(), Persistence::new);
@@ -34,46 +39,46 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	}
 	
 	@Override
-	public void renderButton(int mouseX, int mouseY, float partialTicks)
+	public void func_230431_b_(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) //renderButton
 	{
-		super.renderBg(Minecraft.getInstance(), mouseX, mouseY);
+		this.func_230441_a_(matrix, Minecraft.getInstance(), mouseX, mouseY); //renderBg
 		this.updateMessage();
 		
 		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 		
-		if(this.getMessage() != null && !this.getMessage().isEmpty())
+		if(this.func_230458_i_() != null && !this.func_230458_i_().getString().isEmpty())
 		{
-			String leftArrow = this.isHoveringLeft(mouseX, mouseY) ? TextFormatting.BOLD + "<" + TextFormatting.RESET : "<";
-			String rightArrow = this.isHoveringRight(mouseX, mouseY) ? TextFormatting.BOLD + ">" + TextFormatting.RESET : ">";
+			ITextComponent leftArrow = this.isHoveringLeft(mouseX, mouseY) ? TextUtils.ARROW_LEFT_BOLD : TextUtils.ARROW_LEFT;
+			ITextComponent rightArrow = this.isHoveringRight(mouseX, mouseY) ? TextUtils.ARROW_RIGHT_BOLD : TextUtils.ARROW_RIGHT;
 			
-			int maxWidth = Math.max(0, this.width - fontRenderer.getStringWidth("<   >"));
+			int maxWidth = Math.max(0, this.field_230688_j_ - fontRenderer.getStringWidth("<   >"));
 			int spaceWidth = fontRenderer.getStringWidth(" ");
 			
-			String display = exopandora.worldhandler.util.TextFormatting.shortenString(this.getMessage(), maxWidth, fontRenderer);
-			int yPos = this.y + (this.height - 8) / 2;
+			ITextComponent display = TextUtils.stripText((IFormattableTextComponent) this.func_230458_i_(), maxWidth, fontRenderer);
+			int yPos = this.field_230691_m_ + (this.field_230689_k_ - 8) / 2;
 			
-			this.drawCenteredString(fontRenderer, display, this.x + this.width / 2, yPos, this.getFGColor());
-			this.drawCenteredString(fontRenderer, leftArrow, this.x + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
-			this.drawCenteredString(fontRenderer, rightArrow, this.x + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
+			this.func_238472_a_(matrix, fontRenderer, display, this.field_230690_l_ + this.field_230688_j_ / 2, yPos, this.getFGColor());
+			this.func_238472_a_(matrix, fontRenderer, leftArrow, this.field_230690_l_ + this.field_230688_j_ / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
+			this.func_238472_a_(matrix, fontRenderer, rightArrow, this.field_230690_l_ + this.field_230688_j_ / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
 		}
 	}
 	
 	@Override
-	public void renderTooltip(int mouseX, int mouseY)
+	public void renderTooltip(MatrixStack matrix, int mouseX, int mouseY)
 	{
 		this.tooltip = this.logic.formatTooltip(this.items.get(this.persistence.getIndex()), this.persistence.getIndex() + 1, this.items.size());
-		super.renderTooltip(mouseX, mouseY);
+		super.renderTooltip(matrix, mouseX, mouseY);
 	}
 	
 	@Override
-	public void onClick(double mouseX, double mouseY)
+	public void func_230982_a_(double mouseX, double mouseY) //onClick
 	{
 		int max = this.items.size() - 1;
 		int index = this.persistence.getIndex();
 		
 		if(this.isHoveringLeft(mouseX, mouseY))
 		{
-			if(Screen.hasShiftDown())
+			if(Screen.func_231173_s_())
 			{
 				if(index < 10)
 				{
@@ -98,7 +103,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 		}
 		else if(this.isHoveringRight(mouseX, mouseY))
 		{
-			if(Screen.hasShiftDown())
+			if(Screen.func_231173_s_())
 			{
 				if(index > max - 10)
 				{
@@ -127,22 +132,22 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	
 	private void updateMessage()
 	{
-		this.setMessage(this.logic.translate(this.items.get(this.persistence.getIndex())));
+		this.func_238482_a_(this.logic.translate(this.items.get(this.persistence.getIndex()))); //setMessage
 	}
 	
 	private boolean isHoveringLeft(double mouseX, double mouseY)
 	{
-		return this.isHoveringVertical(mouseY) && mouseX >= this.x && mouseX < this.x + Math.ceil(this.width / 2);
+		return this.isHoveringVertical(mouseY) && mouseX >= this.field_230690_l_ && mouseX < this.field_230690_l_ + Math.ceil(this.field_230688_j_ / 2);
 	}
 	
 	private boolean isHoveringRight(double mouseX, double mouseY)
 	{
-		return this.isHoveringVertical(mouseY) && mouseX >= this.x + Math.ceil(this.width / 2) && mouseX < this.x + this.width;
+		return this.isHoveringVertical(mouseY) && mouseX >= this.field_230690_l_ + Math.ceil(this.field_230688_j_ / 2) && mouseX < this.field_230690_l_ + this.field_230688_j_;
 	}
 	
 	private boolean isHoveringVertical(double mouseY)
 	{
-		return mouseY >= this.y && mouseY < this.y + this.height;
+		return mouseY >= this.field_230691_m_ && mouseY < this.field_230691_m_ + this.field_230689_k_;
 	}
 	
 	@OnlyIn(Dist.CLIENT)

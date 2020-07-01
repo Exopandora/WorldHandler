@@ -3,13 +3,17 @@ package exopandora.worldhandler.gui.menu.impl;
 import java.util.List;
 import java.util.Objects;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.menu.Menu;
-import exopandora.worldhandler.util.TextFormatting;
+import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -31,7 +35,7 @@ public class MenuPageList<T> extends Menu
 		this.height = height;
 		this.length = length;
 		this.logic = Objects.requireNonNull(logic);
-		this.items.sort((a, b) -> this.logic.translate(a).compareTo(this.logic.translate(b)));
+		this.items.sort((a, b) -> this.logic.translate(a).getString().compareTo(this.logic.translate(b).getString()));
 		this.persistence = container.getContent().getPersistence(logic.getId(), Persistence::new);
 		
 		if(!this.items.isEmpty())
@@ -55,12 +59,12 @@ public class MenuPageList<T> extends Menu
 		{
 			int buttonWidth = (this.width - 4) / 2;
 			
-			GuiButtonBase left = new GuiButtonBase(this.x, this.y + (this.height + 4) * this.length, buttonWidth + 1, this.height, "<", () -> this.goLeft(container));
-			left.active = this.persistence.getPage() > 0;
+			GuiButtonBase left = new GuiButtonBase(this.x, this.y + (this.height + 4) * this.length, buttonWidth + 1, this.height, TextUtils.ARROW_LEFT, () -> this.goLeft(container));
+			left.field_230693_o_ = this.persistence.getPage() > 0;
 			container.add(left);
 			
-			GuiButtonBase right = new GuiButtonBase(this.x + 5 + buttonWidth, this.y + (this.height + 4) * this.length, buttonWidth, this.height, ">", () -> this.goRight(container));
-			right.active = this.persistence.getPage() < this.getTotalPages() - 1;
+			GuiButtonBase right = new GuiButtonBase(this.x + 5 + buttonWidth, this.y + (this.height + 4) * this.length, buttonWidth, this.height, TextUtils.ARROW_RIGHT, () -> this.goRight(container));
+			right.field_230693_o_ = this.persistence.getPage() < this.getTotalPages() - 1;
 			container.add(right);
 		}
 		
@@ -74,7 +78,7 @@ public class MenuPageList<T> extends Menu
 			if(index < this.items.size())
 			{
 				T item = this.items.get(index);
-				String text = TextFormatting.shortenString(this.logic.translate(item), this.width, Minecraft.getInstance().fontRenderer);
+				IFormattableTextComponent text = TextUtils.stripText(this.logic.translate(item), this.width, Minecraft.getInstance().fontRenderer);
 				button = this.logic.onRegister(this.x, this.y + (this.height + 4) * x, this.width, this.height, text, item, () ->
 				{
 					this.persistence.setSelectedIndex(index);
@@ -83,13 +87,13 @@ public class MenuPageList<T> extends Menu
 				
 				if(this.logic.doDisable())
 				{
-					button.active = this.persistence.getSelectedIndex() != index;
+					button.field_230693_o_ = this.persistence.getSelectedIndex() != index;
 				}
 			}
 			else
 			{
-				button = new GuiButtonBase(this.x, this.y + (this.height + 4) * x, this.width, this.height, null, null);
-				button.active = false;
+				button = new GuiButtonBase(this.x, this.y + (this.height + 4) * x, this.width, this.height, StringTextComponent.field_240750_d_, null);
+				button.field_230693_o_ = false;
 			}
 			
 			container.add(button);
@@ -103,16 +107,16 @@ public class MenuPageList<T> extends Menu
 	}
 	
 	@Override
-	public void draw(int mouseX, int mouseY, float partialTicks)
+	public void draw(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		Minecraft.getInstance().fontRenderer.drawString(String.format("%d/%d", this.persistence.getPage() + 1, this.getTotalPages()), this.x, this.y - 11, Config.getSkin().getHeadlineColor());
+		Minecraft.getInstance().fontRenderer.func_238421_b_(matrix, String.format("%d/%d", this.persistence.getPage() + 1, this.getTotalPages()), this.x, this.y - 11, Config.getSkin().getHeadlineColor());
 	}
 	
 	private void goLeft(Container container)
 	{
 		int page = this.persistence.getPage();
 		
-		if(Screen.hasShiftDown())
+		if(Screen.func_231173_s_())
 		{
 			this.persistence.setPage(page - Math.min(10, page));
 		}
@@ -128,7 +132,7 @@ public class MenuPageList<T> extends Menu
 	{
 		int page = this.persistence.getPage();
 		
-		if(Screen.hasShiftDown())
+		if(Screen.func_231173_s_())
 		{
 			this.persistence.setPage(page + Math.min(10, this.getTotalPages() - 1 - page));
 		}

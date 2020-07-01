@@ -16,9 +16,9 @@ import exopandora.worldhandler.gui.button.LogicSliderSimple;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
-import exopandora.worldhandler.usercontent.model.JsonItem;
-import exopandora.worldhandler.util.TextFormatting;
 import exopandora.worldhandler.usercontent.model.JsonButton;
+import exopandora.worldhandler.usercontent.model.JsonItem;
+import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -44,8 +44,8 @@ public class ButtonFactory extends WidgetFactory
 				button.getDimensions().getY() + y,
 				button.getDimensions().getWidth(),
 				button.getDimensions().getHeight(),
-				TextFormatting.formatNonnull(button.getText()),
-				TextFormatting.formatNullable(button.getAttributes() != null ? button.getAttributes().getTooltip() : null),
+				TextUtils.formatNonnull(button.getText()),
+				TextUtils.formatNonnull(button.getAttributes() != null ? button.getAttributes().getTooltip() : null),
 				this.getActionHandlerFactory().createActionHandler(content, button.getAction())
 			);
 		}
@@ -70,7 +70,7 @@ public class ButtonFactory extends WidgetFactory
 				button.getDimensions().getWidth(),
 				button.getDimensions().getHeight(),
 				button.getAttributes().getIcon(),
-				TextFormatting.formatNonnull(button.getAttributes().getTooltip()),
+				TextUtils.formatNonnull(button.getAttributes().getTooltip()),
 				this.getActionHandlerFactory().createActionHandler(content, button.getAction())
 			);
 		}
@@ -100,7 +100,7 @@ public class ButtonFactory extends WidgetFactory
 				button.getAttributes().getMax(),
 				button.getAttributes().getStart(),
 				container,
-				new LogicSliderSimple(button.getAttributes().getId(), TextFormatting.formatNullable(button.getText()), responder)
+				new LogicSliderSimple(button.getAttributes().getId(), TextUtils.formatNonnull(button.getText()), responder)
 			);
 		}
 		else if(JsonButton.Type.TEXTFIELD.equals(button.getType()))
@@ -111,7 +111,7 @@ public class ButtonFactory extends WidgetFactory
 				button.getDimensions().getY() + y,
 				button.getDimensions().getWidth(),
 				button.getDimensions().getHeight(),
-				TextFormatting.formatNullable(button.getText())
+				TextUtils.formatNonnull(button.getText())
 			);
 			textfield.setValidator(Predicates.notNull());
 			textfield.setText(this.getApi().getValue(button.getAttributes().getId()));

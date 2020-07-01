@@ -11,9 +11,11 @@ import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
 import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -31,15 +33,15 @@ public class ContentButcherSettings extends ContentChild
 		MenuPageList<EntityType<?>> entities = new MenuPageList<EntityType<?>>(x, y, list, 114, 20, 3, container, new ILogicPageList<EntityType<?>>()
 		{
 			@Override
-			public String translate(EntityType<?> item)
+			public IFormattableTextComponent translate(EntityType<?> item)
 			{
-				return I18n.format(item.getTranslationKey());
+				return new TranslationTextComponent(item.getTranslationKey());
 			}
 			
 			@Override
-			public String toTooltip(EntityType<?> item)
+			public IFormattableTextComponent toTooltip(EntityType<?> item)
 			{
-				return item.getRegistryName().toString();
+				return new StringTextComponent(item.getRegistryName().toString());
 			}
 			
 			@Override
@@ -50,7 +52,7 @@ public class ContentButcherSettings extends ContentChild
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, EntityType<?> item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, EntityType<?> item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
@@ -71,15 +73,15 @@ public class ContentButcherSettings extends ContentChild
 		GuiButtonBase button1;
 		GuiButtonBase button2;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.generic.enable"), () ->
+		container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.enable"), () ->
 		{
 			Config.CLIENT.getButcher().addEntity(this.entity);
 			container.initButtons();
 		}));
-		container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.generic.disable"), () ->
+		container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.disable"), () ->
 		{
 			Config.CLIENT.getButcher().removeEntity(this.entity);
 			container.initButtons();
@@ -87,12 +89,12 @@ public class ContentButcherSettings extends ContentChild
 		
 		boolean contains = Config.CLIENT.getButcher().containsEntity(this.entity);
 		
-		button1.active = !contains;
-		button2.active = contains;
+		button1.field_230693_o_ = !contains;
+		button2.field_230693_o_ = contains;
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
 		return this.getParentContent().getTitle();
 	}

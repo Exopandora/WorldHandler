@@ -18,8 +18,9 @@ import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -29,24 +30,24 @@ public class ContentContainers extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 232, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 232, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.getNameTextComponent().getFormattedText(), () ->
+		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.func_235333_g_(), () ->
 		{
 			BlockHelper.setBlockNearPlayer(Blocks.CRAFTING_TABLE);
 			ActionHelper.backToGame();
 		}));
-		container.add(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.getNameTextComponent().getFormattedText(), () ->
+		container.add(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.func_235333_g_(), () ->
 		{
 			BlockHelper.setBlockNearPlayer(Blocks.ENDER_CHEST);
 			ActionHelper.backToGame();
 		}));
-		container.add(new GuiButtonBase(x + 24, y + 48, 208, 20, Blocks.ANVIL.getNameTextComponent().getFormattedText(), () ->
+		container.add(new GuiButtonBase(x + 24, y + 48, 208, 20, Blocks.ANVIL.func_235333_g_(), () ->
 		{
 			BlockHelper.setBlockNearPlayer(Blocks.ANVIL);
 			ActionHelper.backToGame();
 		}));
-		container.add(new GuiButtonBase(x + 24, y + 72, 208, 20, Blocks.ENCHANTING_TABLE.getNameTextComponent().getFormattedText(), () ->
+		container.add(new GuiButtonBase(x + 24, y + 72, 208, 20, Blocks.ENCHANTING_TABLE.func_235333_g_(), () ->
 		{
 			double angle = Minecraft.getInstance().player.getHorizontalFacing().getHorizontalIndex() * Math.PI / 2;
 			double sin = Math.sin(angle);
@@ -107,15 +108,15 @@ public class ContentContainers extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.containers");
+		return new TranslationTextComponent("gui.worldhandler.title.containers");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.containers");
+		return new TranslationTextComponent("gui.worldhandler.tab.containers");
 	}
 	
 	@Override

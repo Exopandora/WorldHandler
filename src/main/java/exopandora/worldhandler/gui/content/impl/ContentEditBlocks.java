@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.brigadier.StringReader;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
@@ -25,7 +26,9 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.ResourceHelper;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -126,7 +129,7 @@ public class ContentEditBlocks extends Content
 			BlockHelper.setPos2(BlockHelper.setZ(BlockHelper.getPos2(), this.parseCoordinate(text)));
 		});
 		
-		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, Page.FILL.equals(this.page) ? I18n.format("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : I18n.format("gui.worldhandler.edit_blocks.replace.block_id_replace"));
+		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, Page.FILL.equals(this.page) ? new TranslationTextComponent("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : new TranslationTextComponent("gui.worldhandler.edit_blocks.replace.block_id_replace"));
 		this.block1Field.setValidator(Predicates.notNull());
 		this.block1Field.setText(this.block1);
 		this.block1Field.setResponder(text ->
@@ -136,7 +139,7 @@ public class ContentEditBlocks extends Content
 			container.initButtons();
 		});
 		
-		this.block2Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.edit_blocks.replace.block_id_place"));
+		this.block2Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.replace.block_id_place"));
 		this.block2Field.setValidator(Predicates.notNull());
 		this.block2Field.setText(this.block2);
 		this.block2Field.setResponder(text ->
@@ -146,7 +149,7 @@ public class ContentEditBlocks extends Content
 			container.initButtons();
 		});
 		
-		this.filterField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.edit_blocks.clone.filter"));
+		this.filterField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.clone.filter"));
 		this.filterField.setValidator(Predicates.notNull());
 		this.filterField.setText(this.filter);
 		this.filterField.setResponder(text ->
@@ -165,28 +168,28 @@ public class ContentEditBlocks extends Content
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.edit_blocks.coordinates"), () ->
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.coordinates"), () ->
 		{
 			this.page = Page.COORDINATES;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.edit_blocks.fill"), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.fill"), () ->
 		{
 			this.page = Page.FILL;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.edit_blocks.replace"), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.replace"), () ->
 		{
 			this.page = Page.REPLACE;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.clone"), () ->
+		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.clone"), () ->
 		{
 			this.page = Page.CLONE;
-			container.init();
+			container.func_231160_c_();
 		}));
 		
 		int yOffset1 = 0;
@@ -197,7 +200,7 @@ public class ContentEditBlocks extends Content
 		
 		if(Page.COORDINATES.equals(this.page))
 		{
-			button1.active = false;
+			button1.field_230693_o_ = false;
 			
 			yOffset1 = 72;
 			yOffset2 = 72;
@@ -214,7 +217,7 @@ public class ContentEditBlocks extends Content
 		}
 		else if(Page.FILL.equals(this.page))
 		{
-			button2.active = false;
+			button2.field_230693_o_ = false;
 			
 			yOffset1 = 24;
 			yOffset2 = 48;
@@ -223,15 +226,15 @@ public class ContentEditBlocks extends Content
 			xOffset2 = 0;
 			
 			container.add(this.block1Field);
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.fill"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.fill"), () ->
 			{
 				CommandHelper.sendCommand(this.builderFill.getBuilderForFill());
 			}));
-			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS);
+			button1.field_230693_o_ = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS);
 		}
 		else if(Page.REPLACE.equals(this.page))
 		{
-			button3.active = false;
+			button3.field_230693_o_ = false;
 			
 			yOffset1 = 48;
 			yOffset2 = 48;
@@ -241,15 +244,15 @@ public class ContentEditBlocks extends Content
 			
 			container.add(this.block1Field);
 			container.add(this.block2Field);
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.replace"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.replace"), () ->
 			{
 				CommandHelper.sendCommand(this.builderFill.getBuilderForReplace());
 			}));
-			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS) && ResourceHelper.isRegistered(this.builderFill.getBlock2(), ForgeRegistries.BLOCKS);
+			button1.field_230693_o_ = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS) && ResourceHelper.isRegistered(this.builderFill.getBlock2(), ForgeRegistries.BLOCKS);
 		}
 		else if(Page.CLONE.equals(this.page))
 		{
-			button4.active = false;
+			button4.field_230693_o_ = false;
 			
 			yOffset1 = 48;
 			yOffset2 = 48;
@@ -265,29 +268,29 @@ public class ContentEditBlocks extends Content
 			else
 			{
 				this.builderClone.setFilter(null);
-				container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, null, null));
-				button1.active = false;
+				container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, StringTextComponent.field_240750_d_, null));
+				button1.field_230693_o_ = false;
 			}
 			
 			container.add(new GuiButtonList<EnumMask>(x + 118, y, Arrays.asList(EnumMask.values()), 114, 20, container, new ILogicMapped<EnumMask>()
 			{
 				@Override
-				public String translate(EnumMask item)
+				public IFormattableTextComponent translate(EnumMask item)
 				{
-					return I18n.format("gui.worldhandler.edit_blocks.clone.mode." + item.toString());
+					return new TranslationTextComponent("gui.worldhandler.edit_blocks.clone.mode." + item.toString());
 				}
 				
 				@Override
-				public String toTooltip(EnumMask item)
+				public IFormattableTextComponent toTooltip(EnumMask item)
 				{
-					return item.toString();
+					return new StringTextComponent(item.toString());
 				}
 				
 				@Override
 				public void onClick(EnumMask item)
 				{
 					ContentEditBlocks.this.builderClone.setMask(item);
-					container.init();
+					container.func_231160_c_();
 				}
 				
 				@Override
@@ -297,7 +300,7 @@ public class ContentEditBlocks extends Content
 				}
 			}));
 			
-			container.add(button2 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.edit_blocks.clone"), () ->
+			container.add(button2 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.clone"), () ->
 			{
 				CommandHelper.sendCommand(this.builderClone);
 			}));
@@ -311,19 +314,19 @@ public class ContentEditBlocks extends Content
 			}
 			catch(Exception e)
 			{
-				button2.active = false;
+				button2.field_230693_o_ = false;
 			}
 		}
 		
-		container.add(new GuiButtonBase(x + 118, y + yOffset1, width1, 20, I18n.format("gui.worldhandler.edit_blocks.pos.set_pos_1"), () ->
+		container.add(new GuiButtonBase(x + 118, y + yOffset1, width1, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.pos.set_pos_1"), () ->
 		{
 			BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(new GuiButtonBase(x + 118 + xOffset2, y + yOffset2, width2, 20, I18n.format("gui.worldhandler.edit_blocks.pos.set_pos_2"), () ->
+		container.add(new GuiButtonBase(x + 118 + xOffset2, y + yOffset2, width2, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.pos.set_pos_2"), () ->
 		{
 			BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
-			container.init();
+			container.func_231160_c_();
 		}));
 	}
 	
@@ -359,32 +362,32 @@ public class ContentEditBlocks extends Content
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(Page.COORDINATES.equals(this.page))
 		{
-			this.x1Field.renderButton(mouseX, mouseY, partialTicks);
-			this.y1Field.renderButton(mouseX, mouseY, partialTicks);
-			this.z1Field.renderButton(mouseX, mouseY, partialTicks);
+			this.x1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.y1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.z1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 			
-			this.x2Field.renderButton(mouseX, mouseY, partialTicks);
-			this.y2Field.renderButton(mouseX, mouseY, partialTicks);
-			this.z2Field.renderButton(mouseX, mouseY, partialTicks);
+			this.x2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.y2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.z2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		}
 		else if(Page.FILL.equals(this.page))
 		{
-			this.block1Field.renderButton(mouseX, mouseY, partialTicks);
+			this.block1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		}
 		else if(Page.REPLACE.equals(this.page))
 		{
-			this.block1Field.renderButton(mouseX, mouseY, partialTicks);
-			this.block2Field.renderButton(mouseX, mouseY, partialTicks);
+			this.block1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.block2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		}
 		else if(Page.CLONE.equals(this.page))
 		{
 			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
 			{
-				this.filterField.renderButton(mouseX, mouseY, partialTicks);
+				this.filterField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 			}
 		}
 	}
@@ -416,15 +419,15 @@ public class ContentEditBlocks extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.blocks.edit_blocks");
+		return new TranslationTextComponent("gui.worldhandler.title.blocks.edit_blocks");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.blocks.edit_blocks");
+		return new TranslationTextComponent("gui.worldhandler.tab.blocks.edit_blocks");
 	}
 	
 	@Override

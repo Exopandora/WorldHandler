@@ -19,9 +19,11 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -47,20 +49,20 @@ public class ContentRecipes extends Content
 		MenuPageList<IRecipe<?>> list = new MenuPageList<IRecipe<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<IRecipe<?>>()
 		{
 			@Override
-			public String translate(IRecipe<?> item)
+			public IFormattableTextComponent translate(IRecipe<?> item)
 			{
 				if(!item.getRecipeOutput().equals(ItemStack.EMPTY))
 				{
-					return item.getRecipeOutput().getDisplayName().getFormattedText();
+					return (IFormattableTextComponent) item.getRecipeOutput().getDisplayName();
 				}
 				
-				return item.getId().toString();
+				return new StringTextComponent(item.getId().toString());
 			}
 			
 			@Override
-			public String toTooltip(IRecipe<?> item)
+			public IFormattableTextComponent toTooltip(IRecipe<?> item)
 			{
-				return item.getId().toString();
+				return new StringTextComponent(item.getId().toString());
 			}
 			
 			@Override
@@ -71,7 +73,7 @@ public class ContentRecipes extends Content
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, IRecipe<?> item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, IRecipe<?> item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
@@ -89,15 +91,15 @@ public class ContentRecipes extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.recipes.give"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.recipes.give"), () ->
 		{
 			CommandHelper.sendCommand(this.builderRecipe.getBuilderForMode(EnumMode.GIVE));
 			container.initButtons();
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.recipes.take"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.recipes.take"), () ->
 		{
 			CommandHelper.sendCommand(this.builderRecipe.getBuilderForMode(EnumMode.TAKE));
 			container.initButtons();
@@ -111,15 +113,15 @@ public class ContentRecipes extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.items.recipes");
+		return new TranslationTextComponent("gui.worldhandler.title.items.recipes");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.items.recipes");
+		return new TranslationTextComponent("gui.worldhandler.tab.items.recipes");
 	}
 	
 	@Override

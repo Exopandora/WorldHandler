@@ -17,9 +17,12 @@ import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.client.resources.I18n;
+import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Effect;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -63,15 +66,15 @@ public class ContentPotions extends ContentChild
 		MenuPageList<Effect> potions = new MenuPageList<Effect>(x, y, new ArrayList<Effect>(ForgeRegistries.POTIONS.getValues()), 114, 20, 3, container, new ILogicPageList<Effect>()
 		{
 			@Override
-			public String translate(Effect item)
+			public IFormattableTextComponent translate(Effect item)
 			{
-				return I18n.format(item.getName());
+				return new TranslationTextComponent(item.getName());
 			}
 			
 			@Override
-			public String toTooltip(Effect item)
+			public IFormattableTextComponent toTooltip(Effect item)
 			{
-				return item.getRegistryName().toString();
+				return new StringTextComponent(item.getRegistryName().toString());
 			}
 			
 			@Override
@@ -82,7 +85,7 @@ public class ContentPotions extends ContentChild
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, Effect item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, Effect item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
@@ -106,42 +109,42 @@ public class ContentPotions extends ContentChild
 		GuiButtonBase button4;
 		GuiButtonBase button5;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.potionPage == 0)
 		{
-			container.add(new GuiButtonBase(x + 118, y + 12, 114, 20, I18n.format("gui.worldhandler.potions.effect.give"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 12, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.give"), () ->
 			{
 				this.next(container);
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.potions.effect.remove"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.remove"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotion.getRemoveCommand());
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.potions.effect.remove_all"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.remove_all"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotion.getClearCommand());
-				container.init();
+				container.func_231160_c_();
 			}));
 		}
 		else if(this.potionPage == 1)
 		{
 			Effect potion = this.builderPotion.getEffectAsPotion();
 			
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.potions.effect.ambient", this.builderPotionItem.getAmbient(potion) ? I18n.format("gui.worldhandler.generic.on") : I18n.format("gui.worldhandler.generic.off")), () ->
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.ambient", this.builderPotionItem.getAmbient(potion) ? new TranslationTextComponent("gui.worldhandler.generic.on") : new TranslationTextComponent("gui.worldhandler.generic.off")), () ->
 			{
 				this.builderPotionItem.setAmbient(potion, !this.builderPotionItem.getAmbient(potion));
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.potions.effect.particles", this.builderPotion.getHideParticles() ? I18n.format("gui.worldhandler.generic.off") : I18n.format("gui.worldhandler.generic.on")), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.particles", this.builderPotion.getHideParticles() ? new TranslationTextComponent("gui.worldhandler.generic.off") : new TranslationTextComponent("gui.worldhandler.generic.on")), () ->
 			{
 				this.builderPotion.setHideParticles(!this.builderPotion.getHideParticles());
 				this.builderPotionItem.setShowParticles(potion, !this.builderPotionItem.getShowParticles(potion));
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), I18n.format("gui.worldhandler.potions.effect.amplifier"), value ->
+			container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), new TranslationTextComponent("gui.worldhandler.potions.effect.amplifier"), value ->
 			{
 				this.builderPotion.setAmplifier(value.byteValue());
 				this.builderPotionItem.setAmplifier(potion, value.byteValue());
@@ -151,17 +154,17 @@ public class ContentPotions extends ContentChild
 		{
 			Effect potion = this.builderPotion.getEffectAsPotion();
 			
-			container.add(new GuiSlider(x + 118, y, 114, 20, 0, 59, 0, container, new LogicSliderSimple("s" + potion.getRegistryName(), I18n.format("gui.worldhandler.potion.time.seconds"), value ->
+			container.add(new GuiSlider(x + 118, y, 114, 20, 0, 59, 0, container, new LogicSliderSimple("s" + potion.getRegistryName(), new TranslationTextComponent("gui.worldhandler.potion.time.seconds"), value ->
 			{
 				this.builderPotion.setSeconds(value.intValue());
 				this.builderPotionItem.setSeconds(potion, value.intValue());
 			})));
-			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, 59, 0, container, new LogicSliderSimple("m" + potion.getRegistryName(), I18n.format("gui.worldhandler.potion.time.minutes"), value ->
+			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, 59, 0, container, new LogicSliderSimple("m" + potion.getRegistryName(), new TranslationTextComponent("gui.worldhandler.potion.time.minutes"), value ->
 			{
 				this.builderPotion.setMinutes(value.intValue());
 				this.builderPotionItem.setMinutes(potion, value.intValue());
 			})));
-			container.add(new GuiSlider(x + 118, y + 48, 114, 20, 0, 99, 0, container, new LogicSliderSimple("h" + potion.getRegistryName(), I18n.format("gui.worldhandler.potion.time.hours"), value ->
+			container.add(new GuiSlider(x + 118, y + 48, 114, 20, 0, 99, 0, container, new LogicSliderSimple("h" + potion.getRegistryName(), new TranslationTextComponent("gui.worldhandler.potion.time.hours"), value ->
 			{
 				this.builderPotion.setHours(value.intValue());
 				this.builderPotionItem.setHours(potion, value.intValue());
@@ -169,72 +172,72 @@ public class ContentPotions extends ContentChild
 		}
 		else if(this.potionPage == 3)
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y, 114, 20, I18n.format("gui.worldhandler.potions.effect"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotion.getGiveCommand());
 				this.potionPage = 0;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 24, 56, 20, I18n.format("gui.worldhandler.potions.effect.tipped_arrow"), () ->
+			container.add(button2 = new GuiButtonBase(x + 118, y + 24, 56, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.tipped_arrow"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotionItem.getBuilderForPotion(Items.TIPPED_ARROW));
 				this.potionPage = 0;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, I18n.format("gui.worldhandler.potions.effect.bottle"), I18n.format("gui.worldhandler.actions.place_command_block"), () ->
+			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.bottle"), new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotionItem.getBuilderForPotion(Items.POTION));
 				this.potionPage = 0;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, I18n.format("gui.worldhandler.potions.effect.splash"), I18n.format("gui.worldhandler.actions.place_command_block"), () ->
+			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.splash"), new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotionItem.getBuilderForPotion(Items.SPLASH_POTION));
 				this.potionPage = 0;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, I18n.format("gui.worldhandler.potions.effect.lingering"), I18n.format("gui.worldhandler.actions.place_command_block"), () ->
+			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.lingering"), new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPotionItem.getBuilderForPotion(Items.LINGERING_POTION));
 				this.potionPage = 0;
-				container.init();
+				container.func_231160_c_();
 			}));
 			
 			boolean enabled = this.builderPotion.getAmplifier() >= 0 && this.builderPotion.getDuration() > 0;
 			
-			button1.active = enabled;
-			button2.active = enabled;
-			button3.active = enabled;
-			button4.active = enabled;
-			button5.active = enabled;
+			button1.field_230693_o_ = enabled;
+			button2.field_230693_o_ = enabled;
+			button3.field_230693_o_ = enabled;
+			button4.field_230693_o_ = enabled;
+			button5.field_230693_o_ = enabled;
 		}
 		
 		if(this.potionPage > 0)
 		{
-			container.add(new GuiButtonBase(x + 118, y + 72, 56, 20, "<", () ->
+			container.add(new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
 			{
 				this.potionPage--;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button1 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, ">", () ->
+			container.add(button1 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
 			{
 				this.next(container);
 			}));
 			
-			button1.active = this.potionPage < 3;
+			button1.field_230693_o_ = this.potionPage < 3;
 		}
 	}
 	
 	private void next(Container container)
 	{
 		this.potionPage++;
-		container.init();
+		container.func_231160_c_();
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.potions");
+		return new TranslationTextComponent("gui.worldhandler.title.potions");
 	}
 	
 	@Override

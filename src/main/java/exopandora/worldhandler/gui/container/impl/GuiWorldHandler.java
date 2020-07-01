@@ -9,6 +9,7 @@ import java.util.function.BiConsumer;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import exopandora.worldhandler.Main;
@@ -25,15 +26,18 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.IContent;
 import exopandora.worldhandler.gui.menu.IMenu;
 import exopandora.worldhandler.util.ActionHelper;
+import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.ResourceHelper;
-import exopandora.worldhandler.util.TextFormatting;
-import exopandora.worldhandler.util.UtilRender;
+import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.gui.GuiUtils;
@@ -62,7 +66,7 @@ public class GuiWorldHandler extends Container
 	
 	public GuiWorldHandler(Content content) throws Exception
 	{
-		super(new StringTextComponent(content.getTitle()));
+		super(content.getTitle());
 		this.content = content;
 		this.tabSize = this.content.getCategory().getSize();
 		this.tabDistanceTotal = Math.max(this.tabSize - 1, 1) * this.tabDistance;
@@ -73,16 +77,16 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void init()
+	public void func_231160_c_()
 	{
-		super.init();
+		super.func_231160_c_();
 		
 		ActionHelper.tryRun(() ->
 		{
 			this.finalButtons.clear();
 			this.menus.clear();
-			this.buttons.clear();
-			this.children.clear();
+			this.field_230710_m_.clear();
+			this.field_230705_e_.clear();
 			
 			//INIT
 			this.content.onPlayerNameChanged(this.getPlayer());
@@ -97,33 +101,33 @@ public class GuiWorldHandler extends Container
 			
 			//SHORTCUTS
 			
-			final int x = this.width / 2 - 10;
+			final int x = this.field_230708_k_ / 2 - 10;
 			final int delta = 21;
 			
 			if(Config.getSettings().shortcuts())
 			{
-				this.finalButtons.add(new GuiButtonIcon(x - delta * 7, 0, 20, 20, EnumIcon.TIME_DAWN, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.dawn", Config.getSettings().getDawn())), ActionHelper::timeDawn));
-				this.finalButtons.add(new GuiButtonIcon(x - delta * 6, 0, 20, 20, EnumIcon.TIME_NOON, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.noon", Config.getSettings().getNoon())), ActionHelper::timeNoon));
-				this.finalButtons.add(new GuiButtonIcon(x - delta * 5, 0, 20, 20, EnumIcon.TIME_SUNSET, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.sunset", Config.getSettings().getSunset())), ActionHelper::timeSunset));
-				this.finalButtons.add(new GuiButtonIcon(x - delta * 4, 0, 20, 20, EnumIcon.TIME_MIDNIGHT, I18n.format("gui.worldhandler.shortcuts.tooltip.time", I18n.format("gui.worldhandler.shortcuts.tooltip.time.midnight", Config.getSettings().getMidnight())), ActionHelper::timeMidnight));
-				this.finalButtons.add(new GuiButtonIcon(x - delta * 3, 0, 20, 20, EnumIcon.WEATHER_SUN, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.clear")), ActionHelper::weatherClear));
-				this.finalButtons.add(new GuiButtonIcon(x - delta * 2, 0, 20, 20, EnumIcon.WEATHER_RAIN, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.rainy")), ActionHelper::weatherRain));
-				this.finalButtons.add(new GuiButtonIcon(x - delta * 1, 0, 20, 20, EnumIcon.WEATHER_STORM, I18n.format("gui.worldhandler.shortcuts.tooltip.weather", I18n.format("gui.worldhandler.shortcuts.tooltip.weather.thunder")), ActionHelper::weatherThunder));
-				this.finalButtons.add(new GuiButtonIcon(x - delta * 0, 0, 20, 20, EnumIcon.DIFFICULTY_PEACEFUL, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.peaceful")), ActionHelper::difficultyPeaceful));
-				this.finalButtons.add(new GuiButtonIcon(x + delta * 1, 0, 20, 20, EnumIcon.DIFFICULTY_EASY, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.easy")), ActionHelper::difficultyEasy));
-				this.finalButtons.add(new GuiButtonIcon(x + delta * 2, 0, 20, 20, EnumIcon.DIFFICULTY_NORMAL, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.normal")), ActionHelper::difficultyNormal));
-				this.finalButtons.add(new GuiButtonIcon(x + delta * 3, 0, 20, 20, EnumIcon.DIFFICULTY_HARD, I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty", I18n.format("gui.worldhandler.shortcuts.tooltip.difficulty.hard")), ActionHelper::difficultyHard));
-				this.finalButtons.add(new GuiButtonIcon(x + delta * 4, 0, 20, 20, EnumIcon.GAMEMODE_SURVIVAL, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.survival")), ActionHelper::gamemodeSurvival));
-				this.finalButtons.add(new GuiButtonIcon(x + delta * 5, 0, 20, 20, EnumIcon.GAMEMODE_CREATIVE, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.creative")), ActionHelper::gamemodeCreative));
-				this.finalButtons.add(new GuiButtonIcon(x + delta * 6, 0, 20, 20, EnumIcon.GAMEMODE_ADVENTURE, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.adventure")), ActionHelper::gamemodeAdventure));
-				this.finalButtons.add(new GuiButtonIcon(x + delta * 7, 0, 20, 20, EnumIcon.GAMEMODE_SPECTATOR, I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode", I18n.format("gui.worldhandler.shortcuts.tooltip.gamemode.spectator")), ActionHelper::gamemodeSpectator));
+				this.finalButtons.add(new GuiButtonIcon(x - delta * 7, 0, 20, 20, EnumIcon.TIME_DAWN, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.time", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.time.dawn", Config.getSettings().getDawn())), ActionHelper::timeDawn));
+				this.finalButtons.add(new GuiButtonIcon(x - delta * 6, 0, 20, 20, EnumIcon.TIME_NOON, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.time", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.time.noon", Config.getSettings().getNoon())), ActionHelper::timeNoon));
+				this.finalButtons.add(new GuiButtonIcon(x - delta * 5, 0, 20, 20, EnumIcon.TIME_SUNSET, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.time", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.time.sunset", Config.getSettings().getSunset())), ActionHelper::timeSunset));
+				this.finalButtons.add(new GuiButtonIcon(x - delta * 4, 0, 20, 20, EnumIcon.TIME_MIDNIGHT, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.time", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.time.midnight", Config.getSettings().getMidnight())), ActionHelper::timeMidnight));
+				this.finalButtons.add(new GuiButtonIcon(x - delta * 3, 0, 20, 20, EnumIcon.WEATHER_SUN, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather.clear")), ActionHelper::weatherClear));
+				this.finalButtons.add(new GuiButtonIcon(x - delta * 2, 0, 20, 20, EnumIcon.WEATHER_RAIN, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather.rainy")), ActionHelper::weatherRain));
+				this.finalButtons.add(new GuiButtonIcon(x - delta * 1, 0, 20, 20, EnumIcon.WEATHER_STORM, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather.thunder")), ActionHelper::weatherThunder));
+				this.finalButtons.add(new GuiButtonIcon(x - delta * 0, 0, 20, 20, EnumIcon.DIFFICULTY_PEACEFUL, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty.peaceful")), ActionHelper::difficultyPeaceful));
+				this.finalButtons.add(new GuiButtonIcon(x + delta * 1, 0, 20, 20, EnumIcon.DIFFICULTY_EASY, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty.easy")), ActionHelper::difficultyEasy));
+				this.finalButtons.add(new GuiButtonIcon(x + delta * 2, 0, 20, 20, EnumIcon.DIFFICULTY_NORMAL, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty.normal")), ActionHelper::difficultyNormal));
+				this.finalButtons.add(new GuiButtonIcon(x + delta * 3, 0, 20, 20, EnumIcon.DIFFICULTY_HARD, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty.hard")), ActionHelper::difficultyHard));
+				this.finalButtons.add(new GuiButtonIcon(x + delta * 4, 0, 20, 20, EnumIcon.GAMEMODE_SURVIVAL, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode.survival")), ActionHelper::gamemodeSurvival));
+				this.finalButtons.add(new GuiButtonIcon(x + delta * 5, 0, 20, 20, EnumIcon.GAMEMODE_CREATIVE, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode.creative")), ActionHelper::gamemodeCreative));
+				this.finalButtons.add(new GuiButtonIcon(x + delta * 6, 0, 20, 20, EnumIcon.GAMEMODE_ADVENTURE, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode.adventure")), ActionHelper::gamemodeAdventure));
+				this.finalButtons.add(new GuiButtonIcon(x + delta * 7, 0, 20, 20, EnumIcon.GAMEMODE_SPECTATOR, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode.spectator")), ActionHelper::gamemodeSpectator));
 			}
 			
 			//SYNTAX
 			
 			if(Config.getSettings().commandSyntax())
 			{
-				this.syntaxField = new GuiTextFieldTooltip(x - delta * 7 + 1, this.height - 22, delta * 15 - 3, 20);
+				this.syntaxField = new GuiTextFieldTooltip(x - delta * 7 + 1, this.field_230709_l_ - 22, delta * 15 - 3, 20);
 				this.updateSyntax();
 			}
 			
@@ -158,7 +162,7 @@ public class GuiWorldHandler extends Container
 			this.finalButtons.add(new GuiButtonTab((int) (backgroundX + xOffset), backgroundY - 20, (int) this.tabWidth + (int) Math.ceil(this.tabEpsilon / this.tabSize), 21, tab.getTabTitle())
 			{
 				@Override
-				public void onPress()
+				public void func_230930_b_() //onPress
 				{
 					ActionHelper.changeTab(GuiWorldHandler.this.content, index);
 				}
@@ -168,8 +172,8 @@ public class GuiWorldHandler extends Container
 	
 	public void initButtons()
 	{
-		this.buttons.clear();
-		this.children.clear();
+		this.field_230710_m_.clear();
+		this.field_230705_e_.clear();
 		this.content.initButtons(this, this.getContentX(), this.getContentY());
 		
 		if(this.finalButtons != null && !this.finalButtons.isEmpty())
@@ -191,7 +195,7 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void tick()
+	public void func_231023_e_() //tick
 	{
 		ActionHelper.tryRun(this::update);
 	}
@@ -210,12 +214,12 @@ public class GuiWorldHandler extends Container
 	
 	private int getBackgroundX()
 	{
-		return (this.width - this.bgTextureWidth) / 2 + this.getXOffset();
+		return (this.field_230708_k_ - this.bgTextureWidth) / 2 + this.getXOffset();
 	}
 	
 	private int getBackgroundY()
 	{
-		return (this.height - this.bgTextureHeight) / 2 + this.getYOffset();
+		return (this.field_230709_l_ - this.bgTextureHeight) / 2 + this.getYOffset();
 	}
 	
 	private int getWatchOffset()
@@ -238,7 +242,7 @@ public class GuiWorldHandler extends Container
 	{
 		if(Config.getSettings().commandSyntax() && this.syntaxField != null)
 		{
-			if(!this.syntaxField.isFocused())
+			if(!this.syntaxField.func_230999_j_()) //isFocused
 			{
 				this.syntaxField.setValidator(Predicates.alwaysTrue());
 				
@@ -266,14 +270,14 @@ public class GuiWorldHandler extends Container
 		
 		if(GuiWorldHandler.player.isEmpty())
 		{
-			int width = this.font.getStringWidth(I18n.format("gui.worldhandler.generic.edit_username")) + 2;
-			this.nameField.setWidth(width);
-			this.nameField.setPosition(backgroundX  + this.bgTextureWidth - this.getWatchOffset() - 7 - (this.font.getStringWidth(this.content.getTitle()) + 2), backgroundY + 6);
+			int width = this.field_230712_o_.getStringWidth(I18n.format("gui.worldhandler.generic.edit_username")) + 2;
+			this.nameField.func_230991_b_(width); //setWidth
+			this.nameField.setPosition(backgroundX  + this.bgTextureWidth - this.getWatchOffset() - 7 - (this.field_230712_o_.func_238414_a_(this.content.getTitle()) + 2), backgroundY + 6);
 		}
 		else
 		{
-			int width = this.font.getStringWidth(GuiWorldHandler.player) + 2;
-			this.nameField.setWidth(width);
+			int width = this.field_230712_o_.getStringWidth(GuiWorldHandler.player) + 2;
+			this.nameField.func_230991_b_(width); //setWidth
 			this.nameField.setPosition(backgroundX + this.bgTextureWidth - this.getWatchOffset() - 7 - width, backgroundY + 6);
 		}
 		
@@ -281,7 +285,7 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void func_230430_a_(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) //render
 	{
 		ActionHelper.tryRun(() ->
 		{
@@ -292,8 +296,8 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSkin().drawBackground())
 			{
-				this.setBlitOffset(-1);
-				super.renderBackground();
+				this.func_230926_e_(-1); //setBlitOffset
+				super.func_230446_a_(matrix); //renderBackground
 			}
 			
 			//COLOR
@@ -303,12 +307,12 @@ public class GuiWorldHandler extends Container
 			//BACKGROUND
 			
 			this.bindBackground();
-			this.blit(backgroundX, backgroundY, 0, 0, this.bgTextureWidth, this.bgTextureHeight);
+			this.func_238474_b_(matrix, backgroundX, backgroundY, 0, 0, this.bgTextureWidth, this.bgTextureHeight); //blit
 			
 			//TABS
 			
-			this.setBlitOffset(0);
-			this.forEachTab(this::drawTab);
+			this.func_230926_e_(0); //setBlitOffset
+			this.forEachTab((index, xOffset) -> this.drawTab(matrix, index, xOffset));
 			this.defaultColor();
 			
 			//VERSION LABEL
@@ -316,20 +320,20 @@ public class GuiWorldHandler extends Container
 			final String label = Main.MC_VERSION + "-" + Main.MOD_VERSION;
 			final int hexAlpha = (int) (0xFF * 0.2) << 24;
 			final int color = Config.getSkin().getLabelColor() + hexAlpha;
-			final int versionWidth = this.width - this.font.getStringWidth(label) - 2;
-			final int versionHeight = this.height - 10;
+			final int versionWidth = this.field_230708_k_ - this.field_230712_o_.getStringWidth(label) - 2;
+			final int versionHeight = this.field_230709_l_ - 10;
 			
-			this.font.drawString(label, versionWidth, versionHeight, color);
+			this.field_230712_o_.func_238421_b_(matrix, label, versionWidth, versionHeight, color);
 			
 			//TITLE
 			
-			final int maxWidth = this.bgTextureWidth - 7 - 2 - this.font.getStringWidth(GuiWorldHandler.player) - 2 - this.getWatchOffset() - 7;
-			this.font.drawString(TextFormatting.shortenString(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
+			final int maxWidth = this.bgTextureWidth - 7 - 2 - this.field_230712_o_.getStringWidth(GuiWorldHandler.player) - 2 - this.getWatchOffset() - 7;
+			this.field_230712_o_.func_238422_b_(matrix, TextUtils.stripText(this.content.getTitle(), maxWidth, this.field_230712_o_), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			//NAME FIELD
 			
-			final String username = GuiWorldHandler.player.isEmpty() && !this.nameField.isFocused() ? I18n.format("gui.worldhandler.generic.edit_username") : GuiWorldHandler.player;
-			this.font.drawString(username, backgroundX + 232 - this.font.getStringWidth(username), backgroundY + 7, Config.getSkin().getLabelColor());
+			final String username = GuiWorldHandler.player.isEmpty() && !this.nameField.func_230999_j_() ? I18n.format("gui.worldhandler.generic.edit_username") : GuiWorldHandler.player; //isFocused
+			this.field_230712_o_.func_238421_b_(matrix, username, backgroundX + 232 - this.field_230712_o_.getStringWidth(username), backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			//WATCH
 			
@@ -338,71 +342,72 @@ public class GuiWorldHandler extends Container
 				final int watchX = backgroundX + 233;
 				final int watchY = backgroundY + 5;
 				
-				UtilRender.drawWatchIntoGui(this, watchX, watchY, Minecraft.getInstance().world.getWorldInfo().getDayTime(), Config.getSettings().smoothWatch());
+				RenderUtils.drawWatchIntoGui(matrix, this, watchX, watchY, Minecraft.getInstance().world.getWorldInfo().getDayTime(), Config.getSettings().smoothWatch());
 				
 				if(Config.getSettings().tooltips())
 				{
 					if(mouseX >= watchX && mouseX <= watchX + 9 && mouseY >= watchY && mouseY <= watchY + 9)
 					{
-						GuiUtils.drawHoveringText(Arrays.asList(TextFormatting.formatWorldTime(Minecraft.getInstance().world.getDayTime())), mouseX, mouseY + 9, this.width, this.height, this.width, this.font);
-						RenderSystem.disableLighting();
+						GuiUtils.drawHoveringText(matrix, Arrays.asList(new StringTextComponent(TextUtils.formatWorldTime(Minecraft.getInstance().world.getDayTime()))), mouseX, mouseY + 9, this.field_230708_k_, this.field_230709_l_, this.field_230708_k_, this.field_230712_o_);
+						RenderUtils.disableLighting();
 					}
 				}
 			}
 			
 			//BUTTONS
 			
-			for(int x = 0; x < this.buttons.size(); x++)
+			for(int x = 0; x < this.field_230710_m_.size(); x++)
 			{
-				this.buttons.get(x).render(mouseX, mouseY, partialTicks);
+				this.field_230710_m_.get(x).func_230430_a_(matrix, mouseX, mouseY, partialTicks); //render
 			}
 			
 			//CONTAINER
 			
-			this.content.drawScreen(this, this.getContentX(), this.getContentY(), mouseX, mouseY, partialTicks);
+			this.content.drawScreen(matrix, this, this.getContentX(), this.getContentY(), mouseX, mouseY, partialTicks);
 			
 			//MENUS
 			
 			for(IMenu menu : this.menus)
 			{
-				menu.draw(mouseX, mouseY, partialTicks);
+				menu.draw(matrix, mouseX, mouseY, partialTicks);
 			}
 			
 			//SYNTAX
 			
 			if(Config.getSettings().commandSyntax() && this.syntaxField != null)
 			{
-				this.syntaxField.renderButton(mouseX, mouseY, partialTicks);
+				this.syntaxField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 			}
 			
 			//SPLASHTEXT
 			
 			if(this.splash != null)
 			{
-				RenderSystem.pushMatrix();
 				RenderHelper.enableStandardItemLighting();
-				RenderSystem.disableLighting();
-				RenderSystem.translatef((float) (backgroundX + 212), backgroundY + 15, 0.0F);
-				RenderSystem.rotatef(17.0F, 0.0F, 0.0F, 1.0F);
+				RenderUtils.disableLighting();
+				
+				matrix.push();
+				matrix.translate((float) (backgroundX + 212), backgroundY + 15, 0.0F);
+				matrix.rotate(new Quaternion(17.0F, 0.0F, 0.0F, 1.0F));
 				
 				float scale = 1.1F - MathHelper.abs(MathHelper.sin((float) (System.currentTimeMillis() % 1000L) / 1000.0F * (float) Math.PI * 2.0F) * 0.1F);
-				scale = scale * 100.0F / this.font.getStringWidth(this.splash);
-				RenderSystem.scalef(scale, scale, scale);
+				scale = scale * 100.0F / this.field_230712_o_.getStringWidth(this.splash);
+				matrix.scale(scale, scale, scale);
 				
-				this.drawCenteredString(this.font, this.splash, 0, (int) scale, 0xFFFF00);
+				this.func_238471_a_(matrix, this.field_230712_o_, this.splash, 0, (int) scale, 0xFFFF00);
 				
-				RenderSystem.popMatrix();
+				matrix.pop();
 			}
 			
 			//TOOLTIPS
 			
 			if(Config.getSettings().tooltips())
 			{
-				for(Widget button : this.buttons)
+				for(Widget button : this.field_230710_m_)
 				{
 					if(button instanceof GuiButtonTooltip)
 					{
-						((GuiButtonTooltip) button).renderTooltip(mouseX, mouseY);
+						((GuiButtonTooltip) button).renderTooltip(matrix, mouseX, mouseY);
 					}
 				}
 			}
@@ -411,12 +416,12 @@ public class GuiWorldHandler extends Container
 			
 			if(mouseX >= versionWidth && mouseY >= versionHeight)
 			{
-				GuiUtils.drawHoveringText(Arrays.asList(label), versionWidth - 12, versionHeight + 12, this.width + this.font.getStringWidth(label), this.height + 10, this.width, this.font);
+				GuiUtils.drawHoveringText(matrix, Arrays.asList(new StringTextComponent(label)), versionWidth - 12, versionHeight + 12, this.field_230708_k_ + this.field_230712_o_.getStringWidth(label), this.field_230709_l_ + 10, this.field_230708_k_, this.field_230712_o_);
 			}
 		});
 	}
 	
-	private void drawTab(int index, Double xOffset)
+	private void drawTab(MatrixStack matrix, int index, double xOffset)
 	{
 		final IContent tab = this.content.getCategory().getContent(index);
 		
@@ -443,9 +448,9 @@ public class GuiWorldHandler extends Container
 		}
 		
 		this.bindBackground();
-		this.setBlitOffset(-1);
-		this.blit((int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
-		this.blit((int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.floor(this.tabHalf + 1), 0, (int) Math.floor(this.tabHalf + 1), fHeight);
+		this.func_230926_e_(-1); //setBlitOffset
+		this.func_238474_b_(matrix, (int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
+		this.func_238474_b_(matrix, (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.floor(this.tabHalf + 1), 0, (int) Math.floor(this.tabHalf + 1), fHeight);
 		
 		if(!Config.getSkin().sharpEdges())
 		{
@@ -459,7 +464,7 @@ public class GuiWorldHandler extends Container
 					
 					for(int x = 0; x < factor; x++)
 					{
-						this.blit((int) (backgroundX + xOffset - x - 1 + Math.floor(this.tabHalf + 1) + this.tabHalf), (int) (backgroundY + x + 1), (int) (this.tabWidth - x - 1), x + 1, x + 1, 1);
+						this.func_238474_b_(matrix, (int) (backgroundX + xOffset - x - 1 + Math.floor(this.tabHalf + 1) + this.tabHalf), (int) (backgroundY + x + 1), (int) (this.tabWidth - x - 1), x + 1, x + 1, 1);
 					}
 				}
 				
@@ -471,7 +476,7 @@ public class GuiWorldHandler extends Container
 					
 					for(int x = 0; x < factor; x++)
 					{
-						this.blit((int) (backgroundX + xOffset), (int) (backgroundY + x + 1), xOffset.intValue(), x + 1, x + 1, 1);
+						this.func_238474_b_(matrix, (int) (backgroundX + xOffset), (int) (backgroundY + x + 1), (int) xOffset, x + 1, x + 1, 1);
 					}
 				}
 				
@@ -485,7 +490,7 @@ public class GuiWorldHandler extends Container
 					for(int x = 0; x < width; x += interval)
 					{
 						this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-						this.blit((int) (backgroundX + xOffset), (int) (backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
+						this.func_238474_b_(matrix, (int) (backgroundX + xOffset), (int) (backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
 					}
 				}
 				
@@ -498,7 +503,7 @@ public class GuiWorldHandler extends Container
 					for(int x = 0; x < width; x += interval)
 					{
 						this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-						this.blit((int) (backgroundX + Math.ceil(xOffset) + x + offset), (int) (backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
+						this.func_238474_b_(matrix, (int) (backgroundX + Math.ceil(xOffset) + x + offset), (int) (backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
 					}
 				}
 			}
@@ -512,7 +517,7 @@ public class GuiWorldHandler extends Container
 					
 					for(int x = 0; x < factor; x++)
 					{
-						this.blit(backgroundX, backgroundY + x, 0, fHeight, factor - x, 1);
+						this.func_238474_b_(matrix, backgroundX, backgroundY + x, 0, fHeight, factor - x, 1);
 					}
 				}
 				
@@ -524,14 +529,14 @@ public class GuiWorldHandler extends Container
 					
 					for(int x = 0; x < factor + 1; x++)
 					{
-						this.blit(backgroundX + this.bgTextureWidth - x, backgroundY + factor - x, this.bgTextureWidth - x, fHeight, x, 1);
+						this.func_238474_b_(matrix, backgroundX + this.bgTextureWidth - x, backgroundY + factor - x, this.bgTextureWidth - x, fHeight, x, 1);
 					}
 				}
 			}
 		}
 		
-		this.setBlitOffset(0);
-		this.drawCenteredString(this.font, TextFormatting.shortenString(net.minecraft.util.text.TextFormatting.UNDERLINE + tab.getTabTitle(), (int) this.tabWidth, this.font), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color);
+		this.func_230926_e_(0); //setBlitOffset
+		this.func_238472_a_(matrix, this.field_230712_o_, TextUtils.stripText(tab.getTabTitle().func_240699_a_(TextFormatting.UNDERLINE), (int) this.tabWidth, this.field_230712_o_), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color); //drawCenteredString
 	}
 	
 	@Override
@@ -541,76 +546,76 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int keyCode)
+	public boolean func_231044_a_(double mouseX, double mouseY, int keyCode) //mouseClicked
 	{
-		if(this.nameField.isFocused())
+		if(this.nameField.func_230999_j_()) //isFocused
 		{
 			this.nameField.setCursorPositionEnd();
 		}
 		
-		if(this.content.mouseClicked(mouseX, mouseY, keyCode))
+		if(this.content.func_231044_a_(mouseX, mouseY, keyCode))
 		{
 			return true;
 		}
 		
-		return super.mouseClicked(mouseX, mouseY, keyCode);
+		return super.func_231044_a_(mouseX, mouseY, keyCode);
 	}
 	
 	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int keyCode)
+	public boolean func_231048_c_(double mouseX, double mouseY, int keyCode) //mouseReleased
 	{
-		if(this.content.mouseReleased(mouseX, mouseY, keyCode))
+		if(this.content.func_231048_c_(mouseX, mouseY, keyCode))
 		{
 			return true;
 		}
 		
-		return super.mouseReleased(mouseX, mouseY, keyCode);
+		return super.func_231048_c_(mouseX, mouseY, keyCode);
 	}
 	
 	@Override
-	public boolean mouseDragged(double mouseX, double mouseY, int keyCode, double deltaX, double deltaY)
+	public boolean func_231045_a_(double mouseX, double mouseY, int keyCode, double deltaX, double deltaY) //mouseDragged
 	{
-		if(this.content.mouseDragged(mouseX, mouseY, keyCode, deltaX, deltaY))
+		if(this.content.func_231045_a_(mouseX, mouseY, keyCode, deltaX, deltaY))
 		{
 			return true;
 		}
 		
-		return super.mouseDragged(mouseX, mouseY, keyCode, deltaX, deltaY);
+		return super.func_231045_a_(mouseX, mouseY, keyCode, deltaX, deltaY);
 	}
 	
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double distance)
+	public boolean func_231043_a_(double mouseX, double mouseY, double distance) //mouseScrolled
 	{
-		if(this.content.mouseScrolled(mouseX, mouseY, distance))
+		if(this.content.func_231043_a_(mouseX, mouseY, distance))
 		{
 			return true;
 		}
 		
-		return super.mouseScrolled(mouseX, mouseY, distance);
+		return super.func_231043_a_(mouseX, mouseY, distance);
 	}
 	
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
+	public boolean func_231046_a_(int keyCode, int scanCode, int modifiers) //keyPressed
 	{
-		boolean focused = this.getFocused() != null;
+		boolean focused = this.func_241217_q_() != null;
 		
-		if(focused && this.getFocused() instanceof Widget)
+		if(focused && this.func_241217_q_() instanceof Widget)
 		{
-			focused = ((Widget) this.getFocused()).isFocused();
+			focused = ((Widget) this.func_241217_q_()).func_230999_j_(); //getFocused().isFocused()
 		}
 		
 		if(!focused && KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER, keyCode))
 		{
-			this.onClose();
+			this.func_231175_as__();
 			return true;
 		}
 		
-		if(this.content.keyPressed(keyCode, scanCode, modifiers))
+		if(this.content.func_231046_a_(keyCode, scanCode, modifiers))
 		{
 			return true;
 		}
 		
-		return super.keyPressed(keyCode, scanCode, modifiers);
+		return super.func_231046_a_(keyCode, scanCode, modifiers);
 	}
 	
 	@Override
@@ -625,41 +630,41 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public boolean charTyped(char charTyped, int keyCode)
+	public boolean func_231042_a_(char charTyped, int keyCode) //charTyped
 	{
-		if(this.nameField.isFocused())
+		if(this.nameField.func_230999_j_()) //isFocused
 		{
 			this.nameField.setCursorPositionEnd();
 		}
 		
-		if(this.content.charTyped(charTyped, keyCode))
+		if(this.content.func_231042_a_(charTyped, keyCode))
 		{
 			return true;
 		}
 		
-		return super.charTyped(charTyped, keyCode);
+		return super.func_231042_a_(charTyped, keyCode);
 	}
 	
 	@Override
-	public boolean changeFocus(boolean focus)
+	public boolean func_231049_c__(boolean focus) //changeFocus
 	{
-		if(this.content.changeFocus(focus))
+		if(this.content.func_231049_c__(focus))
 		{
 			return true;
 		}
 		
-		return super.changeFocus(focus);
+		return super.func_231049_c__(focus);
 	}
 	
 	@Override
-	public boolean isMouseOver(double mouseX, double mouseY)
+	public boolean func_231047_b_(double mouseX, double mouseY) //isMouseOver
 	{
-		if(this.content.isMouseOver(mouseX, mouseY))
+		if(this.content.func_231047_b_(mouseX, mouseY))
 		{
 			return true;
 		}
 		
-		return super.isMouseOver(mouseX, mouseY);
+		return super.func_231047_b_(mouseX, mouseY);
 	}
 	
 	private void defaultColor()
@@ -670,13 +675,13 @@ public class GuiWorldHandler extends Container
 	private void defaultColor(float alpha)
 	{
 		RenderSystem.enableBlend();
-		RenderSystem.color4f(Config.getSkin().getBackgroundRedF(), Config.getSkin().getBackgroundGreenF(), Config.getSkin().getBackgroundBlueF(), alpha * Config.getSkin().getBackgroundAlphaF());
+		RenderUtils.color(Config.getSkin().getBackgroundRedF(), Config.getSkin().getBackgroundGreenF(), Config.getSkin().getBackgroundBlueF(), alpha * Config.getSkin().getBackgroundAlphaF());
 	}
 	
 	private void darkColor()
 	{
 		RenderSystem.enableBlend();
-		RenderSystem.color4f(Config.getSkin().getBackgroundRedF() - 0.3F, Config.getSkin().getBackgroundGreenF() - 0.3F, Config.getSkin().getBackgroundBlueF() - 0.3F, Config.getSkin().getBackgroundAlphaF());
+		RenderUtils.color(Config.getSkin().getBackgroundRedF() - 0.3F, Config.getSkin().getBackgroundGreenF() - 0.3F, Config.getSkin().getBackgroundBlueF() - 0.3F, Config.getSkin().getBackgroundAlphaF());
 	}
 	
 	private void bindBackground()
@@ -732,14 +737,14 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void onClose()
+	public void func_231175_as__() //onClose
 	{
 		ActionHelper.tryRun(this.content::onGuiClosed);
-		super.onClose();
+		super.func_231175_as__();
 	}
 	
 	@Override
-	public boolean isPauseScreen()
+	public boolean func_231177_au__() //isPauseScreen
 	{
 		return Config.getSettings().pause();
 	}
@@ -757,7 +762,7 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public boolean shouldCloseOnEsc()
+	public boolean func_231178_ax__() //shouldCloseOnEsc
 	{
 		return true;
 	}

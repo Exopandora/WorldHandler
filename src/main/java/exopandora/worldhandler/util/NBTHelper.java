@@ -7,7 +7,7 @@ import exopandora.worldhandler.builder.INBTWritable;
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.builder.component.impl.EntityNBT;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.INBT;
@@ -54,7 +54,7 @@ public class NBTHelper
 	
 	public static INBT serialize(ResourceLocation[] itemArray)
 	{
-		if(Arrays.stream(itemArray).allMatch(resource -> Blocks.AIR.getRegistryName().equals(resource)))
+		if(Arrays.stream(itemArray).allMatch(resource -> Items.AIR.getRegistryName().equals(resource)))
 		{
 			return null;
 		}

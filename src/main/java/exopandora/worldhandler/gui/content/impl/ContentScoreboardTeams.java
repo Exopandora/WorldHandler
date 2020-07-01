@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderTeams;
@@ -18,7 +19,10 @@ import exopandora.worldhandler.gui.menu.impl.MenuButtonList;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -41,7 +45,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.teamField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, I18n.format("gui.worldhandler.scoreboard.team.team"));
+		this.teamField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.team"));
 		this.teamField.setValidator(Predicates.notNull());
 		this.teamField.setText(this.team);
 		this.teamField.setResponder(text ->
@@ -56,23 +60,23 @@ public class ContentScoreboardTeams extends ContentScoreboard
 			MenuButtonList options = new MenuButtonList(x + 118, y + 24, HELPER.getOptions(), 2, new ILogicButtonList()
 			{
 				@Override
-				public String translate(String key, int depth)
+				public IFormattableTextComponent translate(String key, int depth)
 				{
 					if(depth == 0)
 					{
-						return I18n.format("gui.worldhandler.scoreboard.team.options." + key);
+						return new TranslationTextComponent("gui.worldhandler.scoreboard.team.options." + key);
 					}
 					else if(depth == 1)
 					{
 						if(Arrays.stream(TextFormatting.values()).map(TextFormatting::getFriendlyName).anyMatch(Predicates.equalTo(key)))
 						{
-							return I18n.format("gui.worldhandler.color." + key);
+							return new TranslationTextComponent("gui.worldhandler.color." + key);
 						}
 						
-						return I18n.format("gui.worldhandler.scoreboard.team.suboption." + key);
+						return new TranslationTextComponent("gui.worldhandler.scoreboard.team.suboption." + key);
 					}
 					
-					return key;
+					return new StringTextComponent(key);
 				}
 				
 				@Override
@@ -113,34 +117,34 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.create"), () ->
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.create"), () ->
 		{
 			this.page = Page.ADD;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.join") + " / " + I18n.format("gui.worldhandler.scoreboard.team.leave"), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new StringTextComponent(I18n.format("gui.worldhandler.scoreboard.team.join") + " / " + I18n.format("gui.worldhandler.scoreboard.team.leave")), () ->
 		{
 			this.page = Page.JOIN_OR_LEAVE;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.format("gui.worldhandler.scoreboard.team.empty"), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new StringTextComponent(I18n.format("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.format("gui.worldhandler.scoreboard.team.empty")), () ->
 		{
 			this.page = Page.REMOVE_OR_EMPTY;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.options"), () ->
+		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.options"), () ->
 		{
 			this.page = Page.OPTION;
-			container.init();
+			container.func_231160_c_();
 		}));
 		
-		button1.active = !Page.ADD.equals(this.page);
-		button2.active = !Page.JOIN_OR_LEAVE.equals(this.page);
-		button3.active = !Page.REMOVE_OR_EMPTY.equals(this.page);
-		button4.active = !Page.OPTION.equals(this.page);
+		button1.field_230693_o_ = !Page.ADD.equals(this.page);
+		button2.field_230693_o_ = !Page.JOIN_OR_LEAVE.equals(this.page);
+		button3.field_230693_o_ = !Page.REMOVE_OR_EMPTY.equals(this.page);
+		button4.field_230693_o_ = !Page.OPTION.equals(this.page);
 		
 		this.builderTeams.setMode(this.page.getMode());
 		
@@ -154,44 +158,44 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		{
 			this.builderTeams.setPlayer(container.getPlayer());
 			
-			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.join"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.join"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.JOIN));
 				container.initButtons();
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.leave"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.leave"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.LEAVE));
 				container.initButtons();
 			}));
 			
-			button1.active = enabled;
+			button1.field_230693_o_ = enabled;
 		}
 		else if(Page.REMOVE_OR_EMPTY.equals(this.page))
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.remove"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.remove"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.REMOVE));
 				container.initButtons();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.team.empty"), () ->
+			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.empty"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.EMPTY));
 				container.initButtons();
 			}));
 			
-			button1.active = enabled;
-			button2.active = enabled;
+			button1.field_230693_o_ = enabled;
+			button2.field_230693_o_ = enabled;
 		}
 		
 		if(Page.ADD.equals(this.page) || Page.OPTION.equals(this.page))
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, new TranslationTextComponent("gui.worldhandler.actions.perform"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTeams);
 				container.initButtons();
 			}));
-			button1.active = enabled;
+			button1.field_230693_o_ = enabled;
 		}
 		
 		container.add(this.teamField);
@@ -204,15 +208,15 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.teamField.renderButton(mouseX, mouseY, partialTicks);
+		this.teamField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.scoreboard.teams");
+		return new TranslationTextComponent("gui.worldhandler.tab.scoreboard.teams");
 	}
 	
 	@Override

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.component.impl.EntityNBT;
@@ -28,9 +29,11 @@ import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -39,6 +42,8 @@ public class ContentCommandStack extends ContentChild
 {
 	private static final int HEAD_LENGTH = 1;
 	private static final int TAIL_LENGTH = 2;
+	private static final StringTextComponent PLUS = new StringTextComponent("+");
+	private static final StringTextComponent MINUS = new StringTextComponent("-");
 	
 	private final List<GuiTextFieldTooltip> textfields = new ArrayList<GuiTextFieldTooltip>();
 	private int scroll;
@@ -92,7 +97,7 @@ public class ContentCommandStack extends ContentChild
 		{
 			int command = index + this.scroll;
 			
-			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip(x, y + 24 * index, 232 - 48, 20, I18n.format("gui.worldhandler.command_stack.command_n", command + 1));
+			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip(x, y + 24 * index, 232 - 48, 20, new TranslationTextComponent("gui.worldhandler.command_stack.command_n", command + 1));
 			textfield.setValidator(Predicates.notNull());
 			textfield.setText(command < this.getCommandCount() ? this.getCommand(command) : null);
 			textfield.setResponder(text ->
@@ -110,8 +115,8 @@ public class ContentCommandStack extends ContentChild
 		GuiButtonBase buttonScrollUp;
 		GuiButtonBase buttonScrollDown;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		this.iterate(index ->
 		{
@@ -119,17 +124,17 @@ public class ContentCommandStack extends ContentChild
 			GuiButtonBase buttonDown;
 			GuiButtonBase buttonRemove;
 			
-			container.add(buttonUp = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 - 1, 20, 10, EnumIcon.ARROW_UP, I18n.format("gui.worldhandler.actions.move_up"), () ->
+			container.add(buttonUp = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 - 1, 20, 10, EnumIcon.ARROW_UP, new TranslationTextComponent("gui.worldhandler.actions.move_up"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll - 1);
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(buttonDown = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 + 11, 20, 10, EnumIcon.ARROW_DOWN, I18n.format("gui.worldhandler.actions.move_down"), () ->
+			container.add(buttonDown = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 + 11, 20, 10, EnumIcon.ARROW_DOWN, new TranslationTextComponent("gui.worldhandler.actions.move_down"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll + 1);
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(buttonRemove = new GuiButtonTooltip(x + 232 - 20, y + index * 24 - 1, 20, 10, "-", I18n.format("gui.worldhandler.command_stack.remove_command"), () ->
+			container.add(buttonRemove = new GuiButtonTooltip(x + 232 - 20, y + index * 24 - 1, 20, 10, MINUS, new TranslationTextComponent("gui.worldhandler.command_stack.remove_command"), () ->
 			{
 				int pos = index + this.scroll;
 				this.removeCommand(pos);
@@ -139,9 +144,9 @@ public class ContentCommandStack extends ContentChild
 					this.scrollUp();
 				}
 				
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(new GuiButtonTooltip(x + 232 - 20, y + index * 24 + 11, 20, 10, "+", I18n.format("gui.worldhandler.command_stack.insert_command"), () ->
+			container.add(new GuiButtonTooltip(x + 232 - 20, y + index * 24 + 11, 20, 10, PLUS, new TranslationTextComponent("gui.worldhandler.command_stack.insert_command"), () ->
 			{
 				int pos = index + this.scroll + 1;
 				this.addCommand(pos);
@@ -151,33 +156,33 @@ public class ContentCommandStack extends ContentChild
 					this.scrollDown();
 				}
 				
-				container.init();
+				container.func_231160_c_();
 			}));
 			container.add(this.textfields.get(index));
 			
-			buttonRemove.active = this.getCommandCount() > 1;
-			buttonUp.active = index + this.scroll > 0;
-			buttonDown.active = index + this.scroll + 1 < this.getCommandCount();
+			buttonRemove.field_230693_o_ = this.getCommandCount() > 1;
+			buttonUp.field_230693_o_ = index + this.scroll > 0;
+			buttonDown.field_230693_o_ = index + this.scroll + 1 < this.getCommandCount();
 		});
 		
-		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.command_stack.copy_command"), () -> 
+		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.command_stack.copy_command"), () -> 
 		{
 			Minecraft.getInstance().keyboardListener.setClipboardString(this.builderCommandStack.toActualCommand());
 		}));
-		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, I18n.format("gui.worldhandler.actions.move_up"), () ->
+		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, new TranslationTextComponent("gui.worldhandler.actions.move_up"), () ->
 		{
 			this.scrollUp();
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(buttonScrollDown = new GuiButtonIcon(x + 118 + 60, y + 72, 54, 20, EnumIcon.ARROW_DOWN, I18n.format("gui.worldhandler.actions.move_down"), () -> 
+		container.add(buttonScrollDown = new GuiButtonIcon(x + 118 + 60, y + 72, 54, 20, EnumIcon.ARROW_DOWN, new TranslationTextComponent("gui.worldhandler.actions.move_down"), () -> 
 		{
 			this.scrollDown();
-			container.init();
+			container.func_231160_c_();
 		}));
 		
 		this.updateCopyButton();
-		buttonScrollUp.active = this.scroll > 0;
-		buttonScrollDown.active = this.scroll < this.getCommandCount() - 3;
+		buttonScrollUp.field_230693_o_ = this.scroll > 0;
+		buttonScrollDown.field_230693_o_ = this.scroll < this.getCommandCount() - 3;
 	}
 	
 	@Override
@@ -190,11 +195,11 @@ public class ContentCommandStack extends ContentChild
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		this.iterate(index ->
 		{
-			this.textfields.get(index).renderButton(mouseX, mouseY, partialTicks);
+			this.textfields.get(index).func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		});
 	}
 	
@@ -208,12 +213,12 @@ public class ContentCommandStack extends ContentChild
 	
 	private void scrollUp()
 	{
-		this.scroll = Math.max(0, this.scroll - (Screen.hasShiftDown() ? 10 : 1));
+		this.scroll = Math.max(0, this.scroll - (Screen.func_231173_s_() ? 10 : 1));
 	}
 	
 	private void scrollDown()
 	{
-		this.scroll = Math.min(this.getCommandCount() - 3, this.scroll + (Screen.hasShiftDown() ? 10 : 1));
+		this.scroll = Math.min(this.getCommandCount() - 3, this.scroll + (Screen.func_231173_s_() ? 10 : 1));
 	}
 	
 	private void updateCopyButton()
@@ -230,7 +235,7 @@ public class ContentCommandStack extends ContentChild
 			}
 		}
 		
-		this.buttonCopy.active = active;
+		this.buttonCopy.field_230693_o_ = active;
 	}
 	
 	private void setCommand(int index, String command)
@@ -264,8 +269,8 @@ public class ContentCommandStack extends ContentChild
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.command_stack");
+		return new TranslationTextComponent("gui.worldhandler.title.command_stack");
 	}
 }

@@ -2,24 +2,23 @@ package exopandora.worldhandler.gui.button;
 
 import java.util.function.Consumer;
 
-import exopandora.worldhandler.builder.impl.EnumAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class LogicSliderAttribute extends LogicSliderSimple
 {
-	private final EnumAttributes attribute;
-	
-	public LogicSliderAttribute(EnumAttributes attribute, String text, Consumer<Integer> listener)
+	public LogicSliderAttribute(Attribute attribute, IFormattableTextComponent text, Consumer<Integer> listener)
 	{
-		super(attribute.getAttribute(), text, listener);
-		this.attribute = attribute;
+		super(attribute.getRegistryName().toString(), text, listener);
 	}
 	
 	@Override
-	public String formatSuffix(int value)
+	public IFormattableTextComponent formatSuffix(int value)
 	{
-		return " " + this.attribute.getOperation().getDeclaration();
+		return new StringTextComponent("%");
 	}
 }

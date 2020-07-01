@@ -24,7 +24,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 @OnlyIn(Dist.CLIENT)
 public class RegistryHelper
 {
-	private static final Map<IForgeRegistry<?>, Function<?, String>> FORGE = new HashMap<IForgeRegistry<?>, Function<?, String>>();
+	private static final Map<IForgeRegistry<?>, Function<? extends ForgeRegistryEntry<?>, String>> FORGE = new HashMap<IForgeRegistry<?>, Function<? extends ForgeRegistryEntry<?>, String>>();
 	
 	static
 	{
@@ -44,7 +44,7 @@ public class RegistryHelper
 	
 	@Nullable
 	@SuppressWarnings("unchecked")
-	public static <T> String translate(ResourceLocation resource)
+	public static <T extends ForgeRegistryEntry<T>> String translate(ResourceLocation resource)
 	{
 		for(IForgeRegistry<?> registry : FORGE.keySet())
 		{

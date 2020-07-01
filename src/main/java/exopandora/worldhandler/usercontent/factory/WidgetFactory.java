@@ -7,7 +7,9 @@ import exopandora.worldhandler.usercontent.UsercontentAPI;
 import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.ActionHandler;
-import exopandora.worldhandler.util.TextFormatting;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -50,16 +52,20 @@ public abstract class WidgetFactory
 		}
 		
 		@Override
-		public String translate(JsonItem item)
+		public IFormattableTextComponent translate(JsonItem item)
 		{
-			String translation = TextFormatting.formatNullable(item.getTranslation());
-			return translation == null ? item.getId() : translation;
+			if(item.getTranslation() != null)
+			{
+				return new TranslationTextComponent(item.getTranslation());
+			}
+			
+			return new StringTextComponent(item.getId());
 		}
 		
 		@Override
-		public String toTooltip(JsonItem item)
+		public IFormattableTextComponent toTooltip(JsonItem item)
 		{
-			return item.getId();
+			return new StringTextComponent(item.getId());
 		}
 		
 		@Override

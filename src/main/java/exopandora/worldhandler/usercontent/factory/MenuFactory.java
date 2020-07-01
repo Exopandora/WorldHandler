@@ -10,10 +10,11 @@ import exopandora.worldhandler.gui.menu.Menu;
 import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
 import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
-import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonItem;
+import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.ActionHandler;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -65,7 +66,7 @@ public class MenuFactory extends WidgetFactory
 		}
 		
 		@Override
-		public GuiButtonBase onRegister(int x, int y, int width, int height, String text, JsonItem item, ActionHandler actionHandler)
+		public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, JsonItem item, ActionHandler actionHandler)
 		{
 			return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 		}

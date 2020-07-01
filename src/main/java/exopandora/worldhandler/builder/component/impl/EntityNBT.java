@@ -9,14 +9,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.builder.impl.EnumAttributes;
-import exopandora.worldhandler.builder.impl.EnumAttributes.Applyable;
 import exopandora.worldhandler.util.MutableStringTextComponent;
 import exopandora.worldhandler.util.NBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.ByteNBT;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -37,11 +37,11 @@ public class EntityNBT implements IBuilderComponent
 	private boolean isBaby;
 	private BlockState blockState;
 	private ComponentCustom entity = new ComponentCustom();
-	private ComponentAttributeMob attribute = new ComponentAttributeMob(attribute -> attribute.getApplyable().equals(Applyable.BOTH) || attribute.getApplyable().equals(Applyable.MOB));
+	private ComponentAttributeMob attribute = new ComponentAttributeMob();
 	private MutableStringTextComponent customName = new MutableStringTextComponent();
 	private List<EntityNBT> passengers = new ArrayList<EntityNBT>();
-	private ResourceLocation[] armorItems = {Blocks.AIR.getRegistryName(), Blocks.AIR.getRegistryName(), Blocks.AIR.getRegistryName(), Blocks.AIR.getRegistryName()};
-	private ResourceLocation[] handItems = {Blocks.AIR.getRegistryName(), Blocks.AIR.getRegistryName()};
+	private ResourceLocation[] armorItems = {Items.AIR.getRegistryName(), Items.AIR.getRegistryName(), Items.AIR.getRegistryName(), Items.AIR.getRegistryName()};
+	private ResourceLocation[] handItems = {Items.AIR.getRegistryName(), Items.AIR.getRegistryName()};
 	private ComponentPotionMob potion = new ComponentPotionMob();
 	
 	public EntityNBT()
@@ -64,22 +64,22 @@ public class EntityNBT implements IBuilderComponent
 		return this.id;
 	}
 	
-	public void setAttribute(EnumAttributes attribute, double ammount)
+	public void setAttribute(Attribute attribute, double ammount)
 	{
 		this.attribute.set(attribute, ammount);
 	}
 	
-	public void removeAttribute(EnumAttributes attribute)
+	public void removeAttribute(Attribute attribute)
 	{
 		this.attribute.remove(attribute);
 	}
 	
-	public double getAttributeAmmount(EnumAttributes attribute)
+	public double getAttributeAmmount(Attribute attribute)
 	{
 		return this.attribute.getAmmount(attribute);
 	}
 	
-	public Set<EnumAttributes> getAttributes()
+	public Set<Attribute> getAttributes()
 	{
 		return this.attribute.getAttributes();
 	}
@@ -173,7 +173,7 @@ public class EntityNBT implements IBuilderComponent
 	
 	public void setArmorItem(int index, ResourceLocation location)
 	{
-		if(EntityNBT.isArrayIndexValid(this.armorItems, index) && location != null)
+		if(EntityNBT.isArrayIndexValid(this.armorItems, index) && location != null) //TODO
 		{
 			this.armorItems[index] = location;
 		}

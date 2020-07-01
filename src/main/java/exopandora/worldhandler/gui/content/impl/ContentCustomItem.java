@@ -1,16 +1,13 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
+import exopandora.worldhandler.builder.component.impl.ComponentAttribute;
 import exopandora.worldhandler.builder.impl.BuilderCustomItem;
-import exopandora.worldhandler.builder.impl.EnumAttributes;
-import exopandora.worldhandler.builder.impl.EnumAttributes.Applyable;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiSlider;
@@ -29,8 +26,12 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.ResourceHelper;
-import net.minecraft.client.resources.I18n;
+import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -49,8 +50,6 @@ public class ContentCustomItem extends Content
 	private Page page = Page.START;
 	private String item;
 	
-	private final List<EnumAttributes> attributes = Stream.concat(EnumAttributes.getAttributesFor(Applyable.BOTH).stream(), EnumAttributes.getAttributesFor(Applyable.PLAYER).stream()).collect(Collectors.toList());
-	
 	@Override
 	public ICommandBuilder getCommandBuilder()
 	{
@@ -60,7 +59,7 @@ public class ContentCustomItem extends Content
 	@Override
 	public void init(Container container)
 	{
-		for(EnumAttributes attribute : this.builderCutomItem.getAttributes())
+		for(Attribute attribute : this.builderCutomItem.getAttributes())
 		{
 			double ammount = this.builderCutomItem.getAttributeAmmount(attribute);
 			
@@ -84,7 +83,7 @@ public class ContentCustomItem extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.item_id"));
+		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.start.item_id"));
 		this.itemField.setValidator(Predicates.<String>notNull());
 		this.itemField.setText(this.item);
 		this.itemField.setResponder(text ->
@@ -94,21 +93,21 @@ public class ContentCustomItem extends Content
 			container.initButtons();
 		});
 		
-		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.lore_1"));
+		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.start.lore_1"));
 		this.itemLore1Field.setValidator(Predicates.<String>notNull());
 		this.itemLore1Field.setText(this.builderCutomItem.getLore1());
 		this.itemLore1Field.setResponder(text ->
 		{
-			this.builderCutomItem.setLore1(text);
+			this.builderCutomItem.setLore1(new StringTextComponent(text));
 			container.initButtons();
 		});
 		
-		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start.lore_2"));
+		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.start.lore_2"));
 		this.itemLore2Field.setValidator(Predicates.<String>notNull());
 		this.itemLore2Field.setText(this.builderCutomItem.getLore2());
 		this.itemLore2Field.setResponder(text ->
 		{
-			this.builderCutomItem.setLore2(text);
+			this.builderCutomItem.setLore2(new StringTextComponent(text));
 			container.initButtons();
 		});
 		
@@ -124,15 +123,15 @@ public class ContentCustomItem extends Content
 			MenuPageList<Enchantment> enchantments = new MenuPageList<Enchantment>(x + 118, y, new ArrayList<Enchantment>(ForgeRegistries.ENCHANTMENTS.getValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
 			{
 				@Override
-				public String translate(Enchantment item)
+				public IFormattableTextComponent translate(Enchantment item)
 				{
-					return I18n.format(item.getName());
+					return new TranslationTextComponent(item.getName());
 				}
 				
 				@Override
-				public String toTooltip(Enchantment item)
+				public IFormattableTextComponent toTooltip(Enchantment item)
 				{
-					return item.getRegistryName().toString();
+					return new StringTextComponent(item.getRegistryName().toString());
 				}
 				
 				@Override
@@ -142,9 +141,9 @@ public class ContentCustomItem extends Content
 				}
 				
 				@Override
-				public GuiButtonBase onRegister(int x, int y, int width, int height, String text, Enchantment item, ActionHandler actionHandler)
+				public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, Enchantment item, ActionHandler actionHandler)
 				{
-					return new GuiSlider(x, y, width, height, 0, Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderSimple(this.toTooltip(item), text, value ->
+					return new GuiSlider(x, y, width, height, 0, Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderSimple(item.getRegistryName().toString(), text, value ->
 					{
 						ContentCustomItem.this.builderCutomItem.setEnchantment(item, value.shortValue());
 					}));
@@ -166,28 +165,28 @@ public class ContentCustomItem extends Content
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
-			MenuPageList<EnumAttributes> attributes = new MenuPageList<EnumAttributes>(x + 118, y, this.attributes, 114, 20, 3, container, new ILogicPageList<EnumAttributes>()
+			MenuPageList<Attribute> attributes = new MenuPageList<Attribute>(x + 118, y, ComponentAttribute.ATTRIBUTES, 114, 20, 3, container, new ILogicPageList<Attribute>()
 			{
 				@Override
-				public String translate(EnumAttributes item)
+				public IFormattableTextComponent translate(Attribute item)
 				{
-					return item.getTranslation();
+					return new TranslationTextComponent(item.func_233754_c_());
 				}
 				
 				@Override
-				public String toTooltip(EnumAttributes item)
+				public IFormattableTextComponent toTooltip(Attribute item)
 				{
-					return item.getAttribute();
+					return new StringTextComponent(item.getRegistryName().toString());
 				}
 				
 				@Override
-				public void onClick(EnumAttributes item)
+				public void onClick(Attribute item)
 				{
 					
 				}
 				
 				@Override
-				public GuiButtonBase onRegister(int x, int y, int width, int height, String text, EnumAttributes item, ActionHandler actionHandler)
+				public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, Attribute item, ActionHandler actionHandler)
 				{
 					return new GuiSlider(x, y, width, height, -Config.getSliders().getMaxItemAttributes(), Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderAttribute(item, text, value ->
 					{
@@ -222,71 +221,71 @@ public class ContentCustomItem extends Content
 		GuiButtonBase button5;
 		GuiButtonBase button6;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.items.custom_item.start"), () ->
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.start"), () ->
 		{
 			this.page = Page.START;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.items.custom_item.enchantment"), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.enchantment"), () ->
 		{
 			this.page = Page.ENCHANT;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.items.custom_item.attributes"), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.attributes"), () ->
 		{
 			this.page = Page.ATTRIBUTES;
-			container.init();
+			container.func_231160_c_();
 		}));
 		
 		if(Page.START.equals(this.page))
 		{
-			button1.active = false;
+			button1.field_230693_o_ = false;
 			
-			container.add(button5 = new GuiButtonBase(x + 118, y + 72, 56, 20, "<", () ->
+			container.add(button5 = new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
 			{
 				this.startPage--;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button6 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, ">", () ->
+			container.add(button6 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
 			{
 				this.startPage++;
-				container.init();
+				container.func_231160_c_();
 			}));
 			
 			if(this.startPage == 0)
 			{
-				button5.active = false;
+				button5.field_230693_o_ = false;
 				container.add(this.itemField);
 				container.add(this.itemLore1Field);
 				container.add(this.itemLore2Field);
 			}
 			else if(this.startPage == 1)
 			{
-				button6.active = false;
+				button6.field_230693_o_ = false;
 			}
 		}
 		else if(Page.ENCHANT.equals(this.page))
 		{
-			button2.active = false;
+			button2.field_230693_o_ = false;
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
-			button3.active = false;
+			button3.field_230693_o_ = false;
 		}
 		
 		if(!this.builderCutomItem.needsCommandBlock() && !this.builderCutomItem.getName().isSpecial())
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.items.custom_item.custom_item"), this::send));
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.custom_item"), this::send));
 		}
 		else
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.place_command_block"), this::send));
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), this::send));
 		}
 		
-		button4.active = ResourceHelper.isRegistered(ResourceHelper.stringToResourceLocation(this.item), ForgeRegistries.ITEMS);
+		button4.field_230693_o_ = ResourceHelper.isRegistered(ResourceHelper.stringToResourceLocation(this.item), ForgeRegistries.ITEMS);
 	}
 	
 	private void send()
@@ -306,13 +305,13 @@ public class ContentCustomItem extends Content
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(Page.START.equals(this.page) && this.startPage == 0)
 		{
-			this.itemField.renderButton(mouseX, mouseY, partialTicks);
-			this.itemLore1Field.renderButton(mouseX, mouseY, partialTicks);
-			this.itemLore2Field.renderButton(mouseX, mouseY, partialTicks);
+			this.itemField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.itemLore1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.itemLore2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		}
 	}
 	
@@ -323,15 +322,15 @@ public class ContentCustomItem extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.items.custom_item");
+		return new TranslationTextComponent("gui.worldhandler.title.items.custom_item");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.items.custom_item");
+		return new TranslationTextComponent("gui.worldhandler.tab.items.custom_item");
 	}
 	
 	@Override

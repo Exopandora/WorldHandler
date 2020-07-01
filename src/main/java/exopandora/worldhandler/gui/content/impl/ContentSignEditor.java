@@ -2,7 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderSignEditor;
@@ -20,12 +20,14 @@ import exopandora.worldhandler.gui.menu.impl.MenuColorField;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
+import exopandora.worldhandler.util.RenderUtils;
 import net.minecraft.block.AbstractSignBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -59,7 +61,7 @@ public class ContentSignEditor extends Content
 	{
 		if(this.isActive)
 		{
-			this.commandField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.commmand"));
+			this.commandField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.commmand"));
 			this.commandField.setValidator(Predicates.notNull());
 			this.commandField.setText(this.builderSignEditor.getCommand(this.selectedLine));
 			this.commandField.setCursorPositionEnd();
@@ -102,50 +104,50 @@ public class ContentSignEditor extends Content
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.isActive)
 		{
-			container.add(button1 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_1"), () ->
+			container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.text_line_1"), () ->
 			{
 				this.selectedLine = 0;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_2"), () ->
+			container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.text_line_2"), () ->
 			{
 				this.selectedLine = 1;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_3"), () ->
+			container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.text_line_3"), () ->
 			{
 				this.selectedLine = 2;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.text_line_4"), () ->
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.text_line_4"), () ->
 			{
 				this.selectedLine = 3;
-				container.init();
+				container.func_231160_c_();
 			}));
 			
 			if(this.editColor)
 			{
-				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.done"), () -> this.toggleEditColor(container)));
+				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.done"), () -> this.toggleEditColor(container)));
 			}
 			else
 			{
 				container.add(this.commandField);
-				container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.blocks.sign_editor.format_text_line"), () -> this.toggleEditColor(container)));
-				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.place_command_block"), () ->
+				container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.format_text_line"), () -> this.toggleEditColor(container)));
+				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 				{
 					CommandHelper.sendCommand(this.builderSignEditor, this.builderSignEditor.isSpecial());
 				}));
 			}
 			
-			button1.active = this.selectedLine != 0;
-			button2.active = this.selectedLine != 1;
-			button3.active = this.selectedLine != 2;
-			button4.active = this.selectedLine != 3;
+			button1.field_230693_o_ = this.selectedLine != 0;
+			button2.field_230693_o_ = this.selectedLine != 1;
+			button3.field_230693_o_ = this.selectedLine != 2;
+			button4.field_230693_o_ = this.selectedLine != 3;
 		}
 	}
 	
@@ -161,35 +163,33 @@ public class ContentSignEditor extends Content
 	private void toggleEditColor(Container container)
 	{
 		this.editColor = !this.editColor;
-		container.init();
+		container.func_231160_c_();
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(this.isActive)
 		{
 			if(!this.editColor)
 			{
-				this.commandField.renderButton(mouseX, mouseY, partialTicks);
+				this.commandField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 			}
 		}
 		else
 		{
 			float scale = 4;
 			
-			RenderSystem.color3f(1.0F, 1.0F, 1.0F);
-			RenderSystem.pushMatrix();
+			matrix.push();
+			matrix.translate(container.field_230708_k_ / 2 - 8.5F * scale, container.field_230709_l_ / 2 - 15 - 8.5F * scale, 0);
+			matrix.scale(scale, scale, scale);
 			
-			RenderSystem.translatef(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
-			RenderSystem.scalef(scale, scale, scale);
-			Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(new ItemStack(Items.OAK_SIGN), 0, 0);
+			RenderUtils.renderItemIntoGUI(matrix, new ItemStack(Items.OAK_SIGN), 0, 0);
+			matrix.pop();
 			
-			RenderSystem.popMatrix();
-			
-			String displayString = I18n.format("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.getLocalizedName());
+			TranslationTextComponent text = new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.func_238171_j_());
 			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-			fontRenderer.drawString(displayString, x + 116 - fontRenderer.getStringWidth(displayString) / 2, y + 70, Config.getSkin().getLabelColor());
+			fontRenderer.func_238422_b_(matrix, text, x + 116 - fontRenderer.func_238414_a_(text) / 2, y + 70, Config.getSkin().getLabelColor());
 		}
 	}
 	
@@ -200,15 +200,15 @@ public class ContentSignEditor extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.blocks.sign_editor");
+		return new TranslationTextComponent("gui.worldhandler.title.blocks.sign_editor");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.blocks.sign_editor");
+		return new TranslationTextComponent("gui.worldhandler.tab.blocks.sign_editor");
 	}
 	
 	@Override

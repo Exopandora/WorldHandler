@@ -4,10 +4,9 @@ import exopandora.worldhandler.gui.DummyScreen;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.util.ActionHelper;
-import exopandora.worldhandler.util.Connection;
-import exopandora.worldhandler.util.Connection.DedicatedConnection;
-import exopandora.worldhandler.util.Connection.IntegratedConnection;
-import exopandora.worldhandler.util.Connection.Type;
+import exopandora.worldhandler.util.IConnection;
+import exopandora.worldhandler.util.IConnection.DedicatedConnection;
+import exopandora.worldhandler.util.IConnection.IntegratedConnection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ConnectingScreen;
 import net.minecraft.client.gui.screen.DirtMessageScreen;
@@ -16,9 +15,13 @@ import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.MultiplayerWarningScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.realms.RealmsBridge;
+import net.minecraft.realms.RealmsBridgeScreen;
+import net.minecraft.server.IDynamicRegistries;
+import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.WorldSettings;
+import net.minecraft.world.gen.settings.DimensionGeneratorSettings;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -28,18 +31,18 @@ public class ContentChangeWorld extends ContentChild
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 116 / 2, y + 24, 232 / 2, 20, I18n.format("gui.worldhandler.change_world.singleplayer"), () ->
+		container.add(new GuiButtonBase(x + 116 / 2, y + 24, 232 / 2, 20, new TranslationTextComponent("gui.worldhandler.change_world.singleplayer"), () ->
 		{
-			Connection connection = ContentChangeWorld.disconnect();
+			IConnection connection = ContentChangeWorld.disconnect();
 			Minecraft.getInstance().displayGuiScreen(new WorldSelectionScreen(new DummyScreen(() -> ContentChangeWorld.reconnect(connection))));
 		}));
 		
-		container.add(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, I18n.format("gui.worldhandler.change_world.multiplayer"), () ->
+		container.add(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, new TranslationTextComponent("gui.worldhandler.change_world.multiplayer"), () ->
 		{
-			Connection connection = ContentChangeWorld.disconnect();
+			IConnection connection = ContentChangeWorld.disconnect();
 			DummyScreen dummy = new DummyScreen(() -> ContentChangeWorld.reconnect(connection));
 			
 			if(Minecraft.getInstance().gameSettings.field_230152_Z_)
@@ -53,7 +56,7 @@ public class ContentChangeWorld extends ContentChild
 		}));
 	}
 	
-	private static Connection disconnect()
+	private static IConnection disconnect()
 	{
 		boolean isIntegrated = Minecraft.getInstance().isIntegratedServerRunning();
 		boolean isRealms = Minecraft.getInstance().isConnectedToRealms();
@@ -61,13 +64,15 @@ public class ContentChangeWorld extends ContentChild
 		
 		if(isIntegrated)
 		{
-			String worldName = Minecraft.getInstance().getIntegratedServer().getWorldName();
-			String folderName = Minecraft.getInstance().getIntegratedServer().getFolderName();
+			IntegratedServer integrated = Minecraft.getInstance().getIntegratedServer();
+			String folder = integrated.anvilConverterForAnvilFile.func_237282_a_();
+			DimensionGeneratorSettings dimensionGeneratorSettings = integrated.func_240793_aU_().func_230418_z_();
+			WorldSettings worldSettings = integrated.func_240793_aU_().func_230408_H_();
 			
 			Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
 			Minecraft.getInstance().unloadWorld(new DirtMessageScreen(new TranslationTextComponent("menu.savingLevel")));
 			
-			return new IntegratedConnection(Type.INTEGRATED, worldName, folderName);
+			return new IntegratedConnection(folder, worldSettings, dimensionGeneratorSettings);
 		}
 		
 		Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
@@ -78,20 +83,20 @@ public class ContentChangeWorld extends ContentChild
 			return null;
 		}
 		
-		return new DedicatedConnection(Type.DEDICATED, data);
+		return new DedicatedConnection(data);
 	}
 	
-	private static void reconnect(Connection connection)
+	private static void reconnect(IConnection connection)
 	{
 		if(connection == null)
 		{
-			RealmsBridge realmsbridge = new RealmsBridge();
-			realmsbridge.switchToRealms(new MainMenuScreen());
+			RealmsBridgeScreen realmsbridge = new RealmsBridgeScreen();
+			realmsbridge.func_231394_a_(new MainMenuScreen());
 		}
 		else if(connection instanceof IntegratedConnection)
 		{
 			IntegratedConnection integrated = (IntegratedConnection) connection;
-			Minecraft.getInstance().launchIntegratedServer(integrated.getFolderName(), integrated.getWorldName(), null);
+			Minecraft.getInstance().func_238192_a_(integrated.getFolder(), integrated.getWorldSettings(), IDynamicRegistries.func_239770_b_(), integrated.getDimensionGeneratorSettings()); //launchIntegratedServer
 			Minecraft.getInstance().mouseHelper.grabMouse();
 		}
 		else if(connection instanceof DedicatedConnection)
@@ -103,8 +108,8 @@ public class ContentChangeWorld extends ContentChild
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.change_world");
+		return new TranslationTextComponent("gui.worldhandler.title.change_world");
 	}
 }

@@ -61,7 +61,7 @@ public class CommandWH
 	
 	private static int pos1(CommandSource source) throws CommandSyntaxException
 	{
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
 			BlockPos pos = BlockHelper.getPos1();
@@ -74,7 +74,7 @@ public class CommandWH
 	
 	private static int pos2(CommandSource source) throws CommandSyntaxException
 	{
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
 			BlockPos pos = BlockHelper.getPos2();
@@ -87,7 +87,7 @@ public class CommandWH
 	
 	private static int fill(CommandSource source, BlockStateInput block)
 	{
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			BuilderFill builder = new BuilderFill();
 			builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
@@ -99,7 +99,7 @@ public class CommandWH
 	
 	private static int replace(CommandSource source, BlockStateInput block, BlockStateInput replace)
 	{
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			BuilderFill builder = new BuilderFill();
 			builder.setPosition1(BlockHelper.getPos1());
@@ -114,7 +114,7 @@ public class CommandWH
 	
 	private static int clone(CommandSource source, String mask, String filter)
 	{
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			BuilderClone builder = new BuilderClone();
 			builder.setPosition1(BlockHelper.getPos1());
@@ -129,7 +129,7 @@ public class CommandWH
 	
 	private static int clone(CommandSource source, String mask)
 	{
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
 			BuilderClone builder = new BuilderClone();
 			builder.setPosition1(BlockHelper.getPos1());

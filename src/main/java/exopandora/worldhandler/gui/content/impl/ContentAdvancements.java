@@ -26,8 +26,10 @@ import exopandora.worldhandler.util.AdvancementHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -53,15 +55,15 @@ public class ContentAdvancements extends Content
 		MenuPageList<Advancement> list = new MenuPageList<Advancement>(x, y, advancements, 114, 20, 3, container, new ILogicPageList<Advancement>()
 		{
 			@Override
-			public String translate(Advancement item)
+			public IFormattableTextComponent translate(Advancement item)
 			{
-				return item.getDisplay().getTitle().getString();
+				return (IFormattableTextComponent) item.getDisplay().getTitle();
 			}
 			
 			@Override
-			public String toTooltip(Advancement item)
+			public IFormattableTextComponent toTooltip(Advancement item)
 			{
-				return item.getId().toString();
+				return new StringTextComponent(item.getId().toString());
 			}
 			
 			@Override
@@ -72,7 +74,7 @@ public class ContentAdvancements extends Content
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, Advancement item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, Advancement item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
@@ -90,21 +92,21 @@ public class ContentAdvancements extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(new GuiButtonList<EnumMode>(x + 118, y, this.modes, 114, 20, container, new ILogicMapped<EnumMode>()
 		{
 			@Override
-			public String translate(EnumMode item)
+			public IFormattableTextComponent translate(EnumMode item)
 			{
-				return I18n.format("gui.worldhandler.advancements." + item.toString());
+				return new TranslationTextComponent("gui.worldhandler.advancements." + item.toString());
 			}
 			
 			@Override
-			public String toTooltip(EnumMode item)
+			public IFormattableTextComponent toTooltip(EnumMode item)
 			{
-				return item.toString();
+				return new StringTextComponent(item.toString());
 			}
 			
 			@Override
@@ -120,15 +122,15 @@ public class ContentAdvancements extends Content
 			}
 		}));
 		
-		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.advancements.grant"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.advancements.grant"), () ->
 		{
 			CommandHelper.sendCommand(this.builderAdvancement.getBuilderForAction(EnumActionType.GRANT));
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.advancements.revoke"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.advancements.revoke"), () ->
 		{
 			CommandHelper.sendCommand(this.builderAdvancement.getBuilderForAction(EnumActionType.REVOKE));
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, TextFormatting.RED + I18n.format("gui.worldhandler.actions.reset"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset").func_240699_a_(TextFormatting.RED), () ->
 		{
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderAdvancement.getBuilder(EnumActionType.REVOKE, EnumMode.EVERYTHING)).withParent(Contents.ADVANCEMENTS)));
 		}));
@@ -141,15 +143,15 @@ public class ContentAdvancements extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.player.advancements");
+		return new TranslationTextComponent("gui.worldhandler.title.player.advancements");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.player.advancements");
+		return new TranslationTextComponent("gui.worldhandler.tab.player.advancements");
 	}
 	
 	@Override

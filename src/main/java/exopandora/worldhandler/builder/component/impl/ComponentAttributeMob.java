@@ -1,11 +1,10 @@
 package exopandora.worldhandler.builder.component.impl;
 
 import java.util.Map.Entry;
-import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.builder.impl.EnumAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -15,25 +14,21 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ComponentAttributeMob extends ComponentAttribute
 {
-	public ComponentAttributeMob(Function<EnumAttributes, Boolean> applyable)
-	{
-		super(applyable);
-	}
-	
 	@Override
 	@Nullable
 	public INBT serialize()
 	{
 		ListNBT attributes = new ListNBT();
 		
-		for(Entry<EnumAttributes, Double> entry : this.attributes.entrySet())
+		for(Entry<Attribute, Double> entry : this.attributes.entrySet())
 		{
-			if(this.applyable.apply(entry.getKey()) && entry.getValue() != 0)
+			if(entry.getValue() != 0)
 			{
 				CompoundNBT attribute = new CompoundNBT();
+				String id = entry.getKey().getRegistryName().toString();
 				
-				attribute.putString("Name", entry.getKey().getAttribute());
-				attribute.putDouble("Base", entry.getKey().calculate(entry.getValue()));
+				attribute.putString("Name", id);
+				attribute.putDouble("Base", entry.getValue() / 100);
 				
 				attributes.add(attribute);
 			}

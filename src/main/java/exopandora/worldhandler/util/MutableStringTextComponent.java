@@ -1,10 +1,12 @@
 package exopandora.worldhandler.util;
 
+
 import exopandora.worldhandler.builder.INBTWritable;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,8 +33,14 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 		this.text = text;
 	}
 	
+	@Override
 	public String getText()
 	{
+		if(this.isSpecial())
+		{
+			return MutableStringTextComponent.getSpecialFormattedText(this.text);
+		}
+		
 		return this.text;
 	}
 	
@@ -43,16 +51,9 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 	}
 	
 	@Override
-	public String getFormattedText()
+	public String getString()
 	{
-		String formatted = super.getFormattedText();
-		
-		if(this.isSpecial())
-		{
-			return MutableStringTextComponent.getSpecialFormattedText(formatted);
-		}
-		
-		return formatted;
+		return this.text;
 	}
 	
 	public boolean isSpecial()
@@ -74,7 +75,49 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 	
 	public String formatter(String string, Integer index)
 	{
-		return this.getStyle().getFormattingCode() + string;
+		StringBuilder builder = new StringBuilder();
+		
+		if(this.getStyle() != null)
+		{
+			Style style = this.getStyle();
+			
+			if(style.func_240711_a_() != null)
+			{
+				TextFormatting color = TextFormatting.getValueByName(style.func_240711_a_().func_240747_b_());
+				
+				if(color != null)
+				{
+					builder.append(color);
+				}
+			}
+			
+			if(style.getBold())
+			{
+				builder.append(TextFormatting.BOLD);
+			}
+			
+			if(style.getItalic())
+			{
+				builder.append(TextFormatting.ITALIC);
+			}
+			
+			if(style.getUnderlined())
+			{
+				builder.append(TextFormatting.UNDERLINE);
+			}
+			
+			if(style.getObfuscated())
+			{
+				builder.append(TextFormatting.OBFUSCATED);
+			}
+			
+			if(style.getStrikethrough())
+			{
+				builder.append(TextFormatting.STRIKETHROUGH);
+			}
+		}
+		
+		return builder.toString() + string;
 	}
 	
 	@Override
@@ -91,13 +134,13 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 	@Override
 	public String toString()
 	{
-		MutableStringTextComponent serial = (MutableStringTextComponent) this.deepCopy();
+		MutableStringTextComponent serial = (MutableStringTextComponent) this.func_230532_e_(); //deepCopy
 		serial.setText(MutableStringTextComponent.getSpecialFormattedText(this.getUnformattedComponentText()));
 		return ITextComponent.Serializer.toJson(serial);
 	}
 	
 	@Override
-	public MutableStringTextComponent shallowCopy()
+	public MutableStringTextComponent func_230531_f_() //shallowCopy
 	{
 		return new MutableStringTextComponent(this.text);
 	}
@@ -116,7 +159,7 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 		else
 		{
 			MutableStringTextComponent stringtextcomponent = (MutableStringTextComponent) object;
-			return this.text.equals(stringtextcomponent.getText()) && super.equals(object);
+			return this.text.equals(stringtextcomponent.getUnformattedComponentText()) && super.equals(object);
 		}
 	}
 }

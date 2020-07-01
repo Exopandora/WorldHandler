@@ -5,7 +5,7 @@ import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
@@ -39,7 +39,7 @@ public class BuilderSetBlock extends BuilderBlockPos
 		this.setMode(mode);
 	}
 	
-	public <T extends Comparable<T>> void setState(IProperty<T> property, T value)
+	public <T extends Comparable<T>> void setState(Property<T> property, T value)
 	{
 		this.blockResourceLocation.setProperty(property, value);
 		this.setBlock(this.blockResourceLocation);

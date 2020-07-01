@@ -2,17 +2,19 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
+import exopandora.worldhandler.builder.component.impl.ComponentAttribute;
 import exopandora.worldhandler.builder.impl.BuilderSummon;
-import exopandora.worldhandler.builder.impl.EnumAttributes;
-import exopandora.worldhandler.builder.impl.EnumAttributes.Applyable;
 import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.gui.button.EnumIcon;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
+import exopandora.worldhandler.gui.button.GuiButtonIcon;
 import exopandora.worldhandler.gui.button.GuiButtonItem;
 import exopandora.worldhandler.gui.button.GuiSlider;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
@@ -28,13 +30,19 @@ import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
+import exopandora.worldhandler.util.RenderUtils;
+import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -47,7 +55,6 @@ public class ContentSummon extends Content
 	private GuiTextFieldTooltip passengerField;
 	
 	private int potionPage = 0;
-	private int equipmentPage = 0;
 	
 	private Page page = Page.START;
 	
@@ -57,7 +64,58 @@ public class ContentSummon extends Content
 	
 	private final BuilderSummon builderSummon = new BuilderSummon();
 	
-	private final List<EnumAttributes> attributes = Stream.concat(EnumAttributes.getAttributesFor(Applyable.BOTH).stream(), EnumAttributes.getAttributesFor(Applyable.MOB).stream()).collect(Collectors.toList());
+	private final ResourceLocation[] helmets =
+	{
+			Blocks.AIR.getRegistryName(),
+			Items.LEATHER_HELMET.getRegistryName(),
+			Items.IRON_HELMET.getRegistryName(),
+			Items.CHAINMAIL_HELMET.getRegistryName(),
+			Items.GOLDEN_HELMET.getRegistryName(),
+			Items.DIAMOND_HELMET.getRegistryName(),
+			Items.field_234763_ls_.getRegistryName() // netherite_helmet
+	};
+	private final ResourceLocation[] chestplates =
+	{
+			Blocks.AIR.getRegistryName(),
+			Items.LEATHER_CHESTPLATE.getRegistryName(),
+			Items.IRON_CHESTPLATE.getRegistryName(),
+			Items.CHAINMAIL_CHESTPLATE.getRegistryName(),
+			Items.GOLDEN_CHESTPLATE.getRegistryName(),
+			Items.DIAMOND_CHESTPLATE.getRegistryName(),
+			Items.field_234764_lt_.getRegistryName() // netherite_chestplate
+	};
+	private final ResourceLocation[] leggings =
+	{
+			Blocks.AIR.getRegistryName(),
+			Items.LEATHER_LEGGINGS.getRegistryName(),
+			Items.IRON_LEGGINGS.getRegistryName(),
+			Items.CHAINMAIL_LEGGINGS.getRegistryName(),
+			Items.GOLDEN_LEGGINGS.getRegistryName(),
+			Items.DIAMOND_LEGGINGS.getRegistryName(),
+			Items.field_234765_lu_.getRegistryName() // netherite_leggings
+	};
+	private final ResourceLocation[] boots =
+	{
+			Blocks.AIR.getRegistryName(),
+			Items.LEATHER_BOOTS.getRegistryName(),
+			Items.IRON_BOOTS.getRegistryName(),
+			Items.CHAINMAIL_BOOTS.getRegistryName(),
+			Items.GOLDEN_BOOTS.getRegistryName(),
+			Items.DIAMOND_BOOTS.getRegistryName(),
+			Items.field_234766_lv_.getRegistryName() // netherite_boots
+	};
+	private final ResourceLocation[] swords =
+	{
+			Blocks.AIR.getRegistryName(),
+			Items.WOODEN_SWORD.getRegistryName(),
+			Items.STONE_SWORD.getRegistryName(),
+			Items.IRON_SWORD.getRegistryName(),
+			Items.GOLDEN_SWORD.getRegistryName(),
+			Items.DIAMOND_SWORD.getRegistryName(),
+			Items.field_234754_kI_.getRegistryName() // netherite_sword
+	};
+	private final ResourceLocation[][] armor = {this.helmets, this.chestplates, this.leggings, this.boots};
+	private final ResourceLocation[][] hands = {this.swords, this.swords};
 	
 	@Override
 	public ICommandBuilder getCommandBuilder()
@@ -68,7 +126,7 @@ public class ContentSummon extends Content
 	@Override
 	public void init(Container container)
 	{
-		for(EnumAttributes attribute : this.builderSummon.getAttributes())
+		for(Attribute attribute : this.builderSummon.getAttributes())
 		{
 			double ammount = this.builderSummon.getAttributeAmmount(attribute);
 			
@@ -99,7 +157,7 @@ public class ContentSummon extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.entities.summon.start.mob_id") + " (" + I18n.format("gui.worldhandler.generic.name") + ")");
+		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new StringTextComponent(I18n.format("gui.worldhandler.entities.summon.start.mob_id") + " (" + I18n.format("gui.worldhandler.generic.name") + ")"));
 		this.mobField.setValidator(Predicates.notNull());
 		this.mobField.setText(this.mob);
 		this.mobField.setResponder(text ->
@@ -109,7 +167,7 @@ public class ContentSummon extends Content
 			container.initButtons();
 		});
 		
-		this.customNameField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.entities.summon.start.custom_name"));
+		this.customNameField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.custom_name"));
 		this.customNameField.setValidator(Predicates.notNull());
 		this.customNameField.setText(this.name);
 		this.customNameField.setResponder(text ->
@@ -119,7 +177,7 @@ public class ContentSummon extends Content
 			container.initButtons();
 		});
 		
-		this.passengerField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.entities.summon.start.passenger_mob_id"));
+		this.passengerField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.passenger_mob_id"));
 		this.passengerField.setValidator(Predicates.notNull());
 		this.passengerField.setText(this.passenger);
 		this.passengerField.setResponder(text ->
@@ -131,28 +189,28 @@ public class ContentSummon extends Content
 		
 		if(Page.ATTRIBUTES.equals(this.page))
 		{
-			MenuPageList<EnumAttributes> attributes = new MenuPageList<EnumAttributes>(x + 118, y, this.attributes, 114, 20, 3, container, new ILogicPageList<EnumAttributes>()
+			MenuPageList<Attribute> attributes = new MenuPageList<Attribute>(x + 118, y, ComponentAttribute.ATTRIBUTES, 114, 20, 3, container, new ILogicPageList<Attribute>()
 			{
 				@Override
-				public String translate(EnumAttributes item)
+				public IFormattableTextComponent translate(Attribute item)
 				{
-					return item.getTranslation();
+					return new TranslationTextComponent(item.func_233754_c_());
 				}
 				
 				@Override
-				public String toTooltip(EnumAttributes item)
+				public IFormattableTextComponent toTooltip(Attribute item)
 				{
-					return item.getAttribute();
+					return new StringTextComponent(item.getRegistryName().toString());
 				}
 				
 				@Override
-				public void onClick(EnumAttributes item)
+				public void onClick(Attribute item)
 				{
 					
 				}
 				
 				@Override
-				public GuiButtonBase onRegister(int x, int y, int width, int height, String text, EnumAttributes item, ActionHandler actionHandler)
+				public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, Attribute item, ActionHandler actionHandler)
 				{
 					return new GuiSlider(x, y, width, height, -Config.getSliders().getMaxSummonAttributes(), Config.getSliders().getMaxSummonAttributes(), 0, container, new LogicSliderAttribute(item, text, value ->
 					{
@@ -187,52 +245,34 @@ public class ContentSummon extends Content
 		GuiButtonBase button5;
 		GuiButtonBase button6;
 		GuiButtonBase button7;
-		GuiButtonItem button8;
-		GuiButtonItem button9;
-		GuiButtonItem button10;
-		GuiButtonItem button11;
-		GuiButtonItem button12;
-		GuiButtonBase button13;
-		GuiButtonItem button14;
-		GuiButtonItem button15;
-		GuiButtonItem button16;
-		GuiButtonItem button17;
-		GuiButtonItem button18;
-		GuiButtonBase button19;
-		GuiButtonItem button20;
-		GuiButtonItem button21;
-		GuiButtonItem button22;
-		GuiButtonItem button23;
-		GuiButtonItem button24;
-		GuiButtonBase button25;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button4 = new GuiButtonBase(x, y, 114, 20, I18n.format("gui.worldhandler.entities.summon.start"), () ->
+		container.add(button4 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start"), () ->
 		{
 			this.page = Page.START;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button5 = new GuiButtonBase(x, y + 24, 114, 20, I18n.format("gui.worldhandler.entities.summon.potion_effects"), () ->
+		container.add(button5 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.potion_effects"), () ->
 		{
 			this.page = Page.POTIONS;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button6 = new GuiButtonBase(x, y + 48, 114, 20, I18n.format("gui.worldhandler.entities.summon.attributes"), () ->
+		container.add(button6 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.attributes"), () ->
 		{
 			this.page = Page.ATTRIBUTES;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button7 = new GuiButtonBase(x, y + 72, 114, 20, I18n.format("gui.worldhandler.entities.summon.equipment"), () ->
+		container.add(button7 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.equipment"), () ->
 		{
 			this.page = Page.EQUIPMENT;
-			container.init();
+			container.func_231160_c_();
 		}));
 		
 		if(Page.START.equals(this.page))
 		{
-			button4.active = false;
+			button4.field_230693_o_ = false;
 			
 			container.add(this.mobField);
 			container.add(this.customNameField);
@@ -240,28 +280,28 @@ public class ContentSummon extends Content
 			
 			if(!this.builderSummon.needsCommandBlock() && !this.builderSummon.getCustomName().isSpecial())
 			{
-				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.title.entities.summon"), this::send));
+				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.title.entities.summon"), this::send));
 			}
 			else
 			{
-				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.place_command_block"), this::send));
+				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), this::send));
 			}
 			
-			button3.active = ForgeRegistries.ENTITIES.containsKey(this.builderSummon.getEntity());
+			button3.field_230693_o_ = ForgeRegistries.ENTITIES.containsKey(this.builderSummon.getEntity());
 		}
 		else if(Page.POTIONS.equals(this.page))
 		{
-			button5.active = false;
+			button5.field_230693_o_ = false;
 			
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 56, 20, "<", () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
 			{
 				this.potionPage--;
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, ">", () ->
+			container.add(button2 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
 			{
 				this.potionPage++;
-				container.init();
+				container.func_231160_c_();
 			}));
 			
 			int count = 0;
@@ -274,28 +314,28 @@ public class ContentSummon extends Content
 				{
 					if(this.potionPage == 0)
 					{
-						button1.active = false;
+						button1.field_230693_o_ = false;
 					}
 					
 					if(this.potionPage == ForgeRegistries.POTIONS.getKeys().size() - 3)
 					{
-						button2.active = false;
+						button2.field_230693_o_ = false;
 					}
 					
 					if(count == this.potionPage)
 					{
-						container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), I18n.format(potion.getName()), value ->
+						container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), new TranslationTextComponent(potion.getName()), value ->
 						{
 							this.builderSummon.setAmplifier(potion, value.byteValue());
 						})));
-						container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + potion.getRegistryName(), I18n.format("gui.worldhandler.potion.time.minutes"), value ->
+						container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + potion.getRegistryName(), new TranslationTextComponent("gui.worldhandler.potion.time.minutes"), value ->
 						{
 							this.builderSummon.setMinutes(potion, value);
 						})));
-						container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.potions.effect.particles", this.builderSummon.getShowParticles(potion) ? I18n.format("gui.worldhandler.generic.on") : I18n.format("gui.worldhandler.generic.off")), () ->
+						container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.particles", this.builderSummon.getShowParticles(potion) ? new TranslationTextComponent("gui.worldhandler.generic.on") : new TranslationTextComponent("gui.worldhandler.generic.off")), () ->
 						{
 							this.builderSummon.setShowParticles(potion, !this.builderSummon.getShowParticles(potion));
-							container.init();
+							container.func_231160_c_();
 						}));
 						break;
 					}
@@ -306,259 +346,50 @@ public class ContentSummon extends Content
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
-			button6.active = false;
+			button6.field_230693_o_ = false;
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 56, 20, "<", () ->
-			{
-				this.equipmentPage--;
-				container.init();
-			}));
-			container.add(button2 = new GuiButtonBase(x + 118 + 60, y + 72, 54, 20, ">", () ->
-			{
-				this.equipmentPage++;
-				container.init();
-			}));
+			for(int i = 0; i < 4; i++)
+	 		{
+				final int index = i;
+				
+				container.add(new GuiButtonBase(x + 118, y + 24 * i, 20, 20, TextUtils.ARROW_LEFT, () ->
+				{
+					this.builderSummon.setArmorItem(index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(index)) - 1, this.armor[index].length)]);
+					container.func_231160_c_();
+				}));
+				container.add(button1 = new GuiButtonItem(x + 118 + 24, y + 24 * i, 20, 20, ForgeRegistries.ITEMS.getValue(this.builderSummon.getArmorItem(i)), null));
+				container.add(new GuiButtonBase(x + 118 + 47, y + 24 * i, 20, 20, TextUtils.ARROW_RIGHT, () ->
+				{
+					this.builderSummon.setArmorItem(index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(index)) + 1, this.armor[index].length)]);
+					container.func_231160_c_();
+				}));
+				
+				button1.field_230693_o_ = false;
+	 		}
 			
-			if(this.equipmentPage == 0)
-			{
-				button1.active = false;
+			for(int i = 0; i < 2; i++)
+	 		{
+				final int index = i;
 				
-				container.add(button8 = new GuiButtonItem(x + 118, y, 18, 20, Items.LEATHER_HELMET, () ->
+				container.add(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 12, 20, 20, EnumIcon.ARROW_UP, null, () ->
 				{
-					this.builderSummon.setArmorItem(3, Items.LEATHER_HELMET);
-					container.init();
+					this.builderSummon.setHandItem(index, this.hands[index][Math.floorMod(ArrayUtils.indexOf(this.hands[index], this.builderSummon.getHandItem(index)) - 1, this.hands[index].length)]);
+					container.func_231160_c_();
 				}));
-				container.add(button9 = new GuiButtonItem(x + 118 + 20 - 1, y, 18, 20, Items.IRON_HELMET, () ->
+				container.add(button1 = new GuiButtonItem(x + 118 + 70 + 24 * i, y + 36, 20, 20, ForgeRegistries.ITEMS.getValue(this.builderSummon.getHandItem(i)), null));
+				container.add(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 60, 20, 20, EnumIcon.ARROW_DOWN, null, () ->
 				{
-					this.builderSummon.setArmorItem(3, Items.IRON_HELMET);
-					container.init();
-				}));
-				container.add(button10 = new GuiButtonItem(x + 118 + 20 * 2 - 2, y, 18, 20, Items.CHAINMAIL_HELMET, () ->
-				{
-					this.builderSummon.setArmorItem(3, Items.CHAINMAIL_HELMET);
-					container.init();
-				}));
-				container.add(button11 = new GuiButtonItem(x + 118 + 20 * 3 - 3, y, 18, 20, Items.GOLDEN_HELMET, () ->
-				{
-					this.builderSummon.setArmorItem(3, Items.GOLDEN_HELMET);
-					container.init();
-				}));
-				container.add(button12 = new GuiButtonItem(x + 118 + 20 * 4 - 4, y, 18, 20, Items.DIAMOND_HELMET, () ->
-				{
-					this.builderSummon.setArmorItem(3, Items.DIAMOND_HELMET);
-					container.init();
-				}));
-				container.add(button13 = new GuiButtonBase(x + 118 + 20 * 5 - 5, y, 20, 20, null, () ->
-				{
-					this.builderSummon.setArmorItem(3, Blocks.AIR);
-					container.init();
+					System.out.println(index + " " + ArrayUtils.indexOf(this.hands[index], this.builderSummon.getHandItem(index)) + 1);
+					this.builderSummon.setHandItem(index, this.hands[index][Math.floorMod(ArrayUtils.indexOf(this.hands[index], this.builderSummon.getHandItem(index)) + 1, this.hands[index].length)]);
+					container.func_231160_c_();
 				}));
 				
-				container.add(button14 = new GuiButtonItem(x + 118, y + 24, 18, 20, Items.LEATHER_CHESTPLATE, () ->
-				{
-					this.builderSummon.setArmorItem(2, Items.LEATHER_CHESTPLATE);
-					container.init();
-				}));
-				container.add(button15 = new GuiButtonItem(x + 118 + 20 - 1, y + 24, 18, 20, Items.IRON_CHESTPLATE, () ->
-				{
-					this.builderSummon.setArmorItem(2, Items.IRON_CHESTPLATE);
-					container.init();
-				}));
-				container.add(button16 = new GuiButtonItem(x + 118 + 20 * 2 - 2, y + 24, 18, 20, Items.CHAINMAIL_CHESTPLATE, () ->
-				{
-					this.builderSummon.setArmorItem(2, Items.CHAINMAIL_CHESTPLATE);
-					container.init();
-				}));
-				container.add(button17 = new GuiButtonItem(x + 118 + 20 * 3 - 3, y + 24, 18, 20, Items.GOLDEN_CHESTPLATE, () ->
-				{
-					this.builderSummon.setArmorItem(2, Items.GOLDEN_CHESTPLATE);
-					container.init();
-				}));
-				container.add(button18 = new GuiButtonItem(x + 118 + 20 * 4 - 4, y + 24, 18, 20, Items.DIAMOND_CHESTPLATE, () ->
-				{
-					this.builderSummon.setArmorItem(2, Items.DIAMOND_CHESTPLATE);
-					container.init();
-				}));
-				container.add(button19 = new GuiButtonBase(x + 118 + 20 * 5 - 5, y + 24, 20, 20, null, () ->
-				{
-					this.builderSummon.setArmorItem(2, Blocks.AIR);
-					container.init();
-				}));
-				
-				container.add(button20 = new GuiButtonItem(x + 118, y + 48, 18, 20, Items.LEATHER_LEGGINGS, () ->
-				{
-					this.builderSummon.setArmorItem(1, Items.LEATHER_LEGGINGS);
-					container.init();
-				}));
-				container.add(button21 = new GuiButtonItem(x + 118 + 20 - 1, y + 48, 18, 20, Items.IRON_LEGGINGS, () ->
-				{
-					this.builderSummon.setArmorItem(1, Items.IRON_LEGGINGS);
-					container.init();
-				}));
-				container.add(button22 = new GuiButtonItem(x + 118 + 20 * 2 - 2, y + 48, 18, 20, Items.CHAINMAIL_LEGGINGS, () ->
-				{
-					this.builderSummon.setArmorItem(1, Items.CHAINMAIL_LEGGINGS);
-					container.init();
-				}));
-				container.add(button23 = new GuiButtonItem(x + 118 + 20 * 3 - 3, y + 48, 18, 20, Items.GOLDEN_LEGGINGS, () ->
-				{
-					this.builderSummon.setArmorItem(1, Items.GOLDEN_LEGGINGS);
-					container.init();
-				}));
-				container.add(button24 = new GuiButtonItem(x + 118 + 20 * 4 - 4, y + 48, 18, 20, Items.DIAMOND_LEGGINGS, () ->
-				{
-					this.builderSummon.setArmorItem(1, Items.DIAMOND_LEGGINGS);
-					container.init();
-				}));
-				container.add(button25 = new GuiButtonBase(x + 118 + 20 * 5 - 5, y + 48, 20, 20, null, () ->
-				{
-					this.builderSummon.setArmorItem(1, Blocks.AIR);
-					container.init();
-				}));
-				
-				button8.active = !this.builderSummon.getArmorItem(3).equals(Items.LEATHER_HELMET.getRegistryName());
-				button9.active = !this.builderSummon.getArmorItem(3).equals(Items.IRON_HELMET.getRegistryName());
-				button10.active = !this.builderSummon.getArmorItem(3).equals(Items.CHAINMAIL_HELMET.getRegistryName());
-				button11.active = !this.builderSummon.getArmorItem(3).equals(Items.GOLDEN_HELMET.getRegistryName());
-				button12.active = !this.builderSummon.getArmorItem(3).equals(Items.DIAMOND_HELMET.getRegistryName());
-				button13.active = !this.builderSummon.getArmorItem(3).equals(Blocks.AIR.getRegistryName());
-
-				button14.active = !this.builderSummon.getArmorItem(2).equals(Items.LEATHER_CHESTPLATE.getRegistryName());
-				button15.active = !this.builderSummon.getArmorItem(2).equals(Items.IRON_CHESTPLATE.getRegistryName());
-				button16.active = !this.builderSummon.getArmorItem(2).equals(Items.CHAINMAIL_CHESTPLATE.getRegistryName());
-				button17.active = !this.builderSummon.getArmorItem(2).equals(Items.GOLDEN_CHESTPLATE.getRegistryName());
-				button18.active = !this.builderSummon.getArmorItem(2).equals(Items.DIAMOND_CHESTPLATE.getRegistryName());
-				button19.active = !this.builderSummon.getArmorItem(2).equals(Blocks.AIR.getRegistryName());
-				
-				button20.active = !this.builderSummon.getArmorItem(1).equals(Items.LEATHER_LEGGINGS.getRegistryName());
-				button21.active = !this.builderSummon.getArmorItem(1).equals(Items.IRON_LEGGINGS.getRegistryName());
-				button22.active = !this.builderSummon.getArmorItem(1).equals(Items.CHAINMAIL_LEGGINGS.getRegistryName());
-				button23.active = !this.builderSummon.getArmorItem(1).equals(Items.GOLDEN_LEGGINGS.getRegistryName());
-				button24.active = !this.builderSummon.getArmorItem(1).equals(Items.DIAMOND_LEGGINGS.getRegistryName());
-				button25.active = !this.builderSummon.getArmorItem(1).equals(Blocks.AIR.getRegistryName());
-			}
-			else if(this.equipmentPage == 1)
-			{
-				button2.active = false;
-
-				container.add(button8 = new GuiButtonItem(x + 118, y, 18, 20, Items.LEATHER_BOOTS, () ->
-				{
-					this.builderSummon.setArmorItem(0, Items.LEATHER_BOOTS);
-					container.init();
-				}));
-				container.add(button9 = new GuiButtonItem(x + 118 + 20 - 1, y, 18, 20, Items.IRON_BOOTS, () ->
-				{
-					this.builderSummon.setArmorItem(0, Items.IRON_BOOTS);
-					container.init();
-				}));
-				container.add(button10 = new GuiButtonItem(x + 118 + 20 * 2 - 2, y, 18, 20, Items.CHAINMAIL_BOOTS, () ->
-				{
-					this.builderSummon.setArmorItem(0, Items.CHAINMAIL_BOOTS);
-					container.init();
-				}));
-				container.add(button11 = new GuiButtonItem(x + 118 + 20 * 3 - 3, y, 18, 20, Items.GOLDEN_BOOTS, () ->
-				{
-					this.builderSummon.setArmorItem(0, Items.GOLDEN_BOOTS);
-					container.init();
-				}));
-				container.add(button12 = new GuiButtonItem(x + 118 + 20 * 4 - 4, y, 18, 20, Items.DIAMOND_BOOTS, () ->
-				{
-					this.builderSummon.setArmorItem(0, Items.DIAMOND_BOOTS);
-					container.init();
-				}));
-				container.add(button13 = new GuiButtonBase(x + 118 + 20 * 5 - 5, y, 20, 20, null, () ->
-				{
-					this.builderSummon.setArmorItem(0, Blocks.AIR);
-					container.init();
-				}));
-				
-				container.add(button14 = new GuiButtonItem(x + 118, y + 24, 18, 20, Items.WOODEN_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(0, Items.WOODEN_SWORD);
-					container.init();
-				}));
-				container.add(button15 = new GuiButtonItem(x + 118 + 20 - 1, y + 24, 18, 20, Items.STONE_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(0, Items.STONE_SWORD);
-					container.init();
-				}));
-				container.add(button16 = new GuiButtonItem(x + 118 + 20 * 2 - 2, y + 24, 18, 20, Items.IRON_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(0, Items.IRON_SWORD);
-					container.init();
-				}));
-				container.add(button17 = new GuiButtonItem(x + 118 + 20 * 3 - 3, y + 24, 18, 20, Items.GOLDEN_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(0, Items.GOLDEN_SWORD);
-					container.init();
-				}));
-				container.add(button18 = new GuiButtonItem(x + 118 + 20 * 4 - 4, y + 24, 18, 20, Items.DIAMOND_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(0, Items.DIAMOND_SWORD);
-					container.init();
-				}));
-				container.add(button19 = new GuiButtonBase(x + 118 + 20 * 5 - 5, y + 24, 20, 20, null, () ->
-				{
-					this.builderSummon.setHandItem(0, Blocks.AIR);
-					container.init();
-				}));
-				
-				container.add(button20 = new GuiButtonItem(x + 118, y + 48, 18, 20, Items.WOODEN_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(1, Items.WOODEN_SWORD);
-					container.init();
-				}));
-				container.add(button21 = new GuiButtonItem(x + 118 + 20 - 1, y + 48, 18, 20, Items.STONE_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(1, Items.STONE_SWORD);
-					container.init();
-				}));
-				container.add(button22 = new GuiButtonItem(x + 118 + 20 * 2 - 2, y + 48, 18, 20, Items.IRON_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(1, Items.IRON_SWORD);
-					container.init();
-				}));
-				container.add(button23 = new GuiButtonItem(x + 118 + 20 * 3 - 3, y + 48, 18, 20, Items.GOLDEN_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(1, Items.GOLDEN_SWORD);
-					container.init();
-				}));
-				container.add(button24 = new GuiButtonItem(x + 118 + 20 * 4 - 4, y + 48, 18, 20, Items.DIAMOND_SWORD, () ->
-				{
-					this.builderSummon.setHandItem(1, Items.DIAMOND_SWORD);
-					container.init();
-				}));
-				container.add(button25 = new GuiButtonBase(x + 118 + 20 * 5 - 5, y + 48, 20, 20, null, () ->
-				{
-					this.builderSummon.setHandItem(1, Blocks.AIR);
-					container.init();
-				}));
-				
-				button8.active = !this.builderSummon.getArmorItem(0).equals(Items.LEATHER_BOOTS.getRegistryName());
-				button9.active = !this.builderSummon.getArmorItem(0).equals(Items.IRON_BOOTS.getRegistryName());
-				button10.active = !this.builderSummon.getArmorItem(0).equals(Items.CHAINMAIL_BOOTS.getRegistryName());
-				button11.active = !this.builderSummon.getArmorItem(0).equals(Items.GOLDEN_BOOTS.getRegistryName());
-				button12.active = !this.builderSummon.getArmorItem(0).equals(Items.DIAMOND_BOOTS.getRegistryName());
-				button13.active = !this.builderSummon.getArmorItem(0).equals(Blocks.AIR.getRegistryName());
-				
-				button14.active = !this.builderSummon.getHandItem(0).equals(Items.WOODEN_SWORD.getRegistryName());
-				button15.active = !this.builderSummon.getHandItem(0).equals(Items.STONE_SWORD.getRegistryName());
-				button16.active = !this.builderSummon.getHandItem(0).equals(Items.IRON_SWORD.getRegistryName());
-				button17.active = !this.builderSummon.getHandItem(0).equals(Items.GOLDEN_SWORD.getRegistryName());
-				button18.active = !this.builderSummon.getHandItem(0).equals(Items.DIAMOND_SWORD.getRegistryName());
-				button19.active = !this.builderSummon.getHandItem(0).equals(Blocks.AIR.getRegistryName());
-				
-				button20.active = !this.builderSummon.getHandItem(1).equals(Items.WOODEN_SWORD.getRegistryName());
-				button21.active = !this.builderSummon.getHandItem(1).equals(Items.STONE_SWORD.getRegistryName());
-				button22.active = !this.builderSummon.getHandItem(1).equals(Items.IRON_SWORD.getRegistryName());
-				button23.active = !this.builderSummon.getHandItem(1).equals(Items.GOLDEN_SWORD.getRegistryName());
-				button24.active = !this.builderSummon.getHandItem(1).equals(Items.DIAMOND_SWORD.getRegistryName());
-				button25.active = !this.builderSummon.getHandItem(1).equals(Blocks.AIR.getRegistryName());
-			}
+				button1.field_230693_o_ = false;
+	 		}
 			
-			button7.active = false;
+			button7.field_230693_o_ = false;
 		}
 	}
 	
@@ -579,30 +410,39 @@ public class ContentSummon extends Content
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(Page.START.equals(this.page))
 		{
-			this.mobField.renderButton(mouseX, mouseY, partialTicks);
-			this.customNameField.renderButton(mouseX, mouseY, partialTicks);
-			this.passengerField.renderButton(mouseX, mouseY, partialTicks);
+			this.mobField.func_230431_b_(matrix, mouseX, mouseY, partialTicks);
+			this.customNameField.func_230431_b_(matrix, mouseX, mouseY, partialTicks);
+			this.passengerField.func_230431_b_(matrix, mouseX, mouseY, partialTicks);
 		}
 		else if(Page.POTIONS.equals(this.page))
 		{
-			Minecraft.getInstance().fontRenderer.drawString((this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
+			Minecraft.getInstance().fontRenderer.func_238421_b_(matrix, (this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
-			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderUtils.color(1.0F, 1.0F, 1.0F, 1.0F);
 		 	Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/beacon.png"));
-	 		container.setBlitOffset(0);
-		 	
-		 	for(int row = 0; row < 3; row++)
-		 	{
-		 		container.blit(x + 116 + 99, y + 2 + 24 * row, 112, 221, 16, 16);
-		 	}
-		 	
-			Minecraft.getInstance().fontRenderer.drawString((this.equipmentPage + 1) + "/2", x + 118, y - 11, Config.getSkin().getHeadlineColor());
+	 		container.func_230926_e_(0); //setBlitOffset
+	 		
+	 		for(int i = 0; i < 4; i++)
+	 		{
+		 		if(this.builderSummon.getArmorItem(i).equals(Items.AIR.getRegistryName()))
+		 		{
+			 		container.func_238474_b_(matrix, x + 118 + 24 + 2, y + 2 + 24 * i, 112, 221, 16, 16); //blit
+		 		}
+	 		}
+	 		
+	 		for(int i = 0; i < 2; i++)
+	 		{
+		 		if(this.builderSummon.getHandItem(i).equals(Items.AIR.getRegistryName()))
+		 		{
+			 		container.func_238474_b_(matrix, x + 118 + 70 + 2 + 24 * i, y + 2 + 36, 112, 221, 16, 16); //blit
+		 		}
+	 		}
 		}
 	}
 	
@@ -620,15 +460,15 @@ public class ContentSummon extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.entities.summon");
+		return new TranslationTextComponent("gui.worldhandler.title.entities.summon");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.entities.summon");
+		return new TranslationTextComponent("gui.worldhandler.tab.entities.summon");
 	}
 	
 	@Override

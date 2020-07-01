@@ -4,7 +4,8 @@ import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.util.ScoreboardHelper;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -36,8 +37,8 @@ public abstract class ContentScoreboard extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.scoreboard");
+		return new TranslationTextComponent("gui.worldhandler.title.scoreboard");
 	}
 }

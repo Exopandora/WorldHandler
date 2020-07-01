@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.ICommandBuilder;
@@ -31,13 +33,16 @@ import exopandora.worldhandler.usercontent.model.JsonModel;
 import exopandora.worldhandler.usercontent.model.JsonText;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
 import exopandora.worldhandler.usercontent.model.JsonWidget;
-import exopandora.worldhandler.util.TextFormatting;
+import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -132,13 +137,13 @@ public class ContentUsercontent extends Content
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		for(VisibleObject<TextFieldWidget> textfield : this.textfields.values())
 		{
-			if(textfield.getObject().visible)
+			if(textfield.getObject().field_230694_p_)
 			{
-				textfield.getObject().renderButton(mouseX, mouseY, partialTicks);
+				textfield.getObject().func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 			}
 		}
 		
@@ -148,7 +153,7 @@ public class ContentUsercontent extends Content
 			{
 				if(text.getVisible() == null || text.getVisible().eval(this.engineAdapter))
 				{
-					container.getMinecraft().fontRenderer.drawString(TextFormatting.formatNullable(text.getText()), text.getX() + x, text.getY() + y, text.getColor());
+					container.getMinecraft().fontRenderer.func_238422_b_(matrix, TextUtils.formatNonnull(text.getText()), text.getX() + x, text.getY() + y, text.getColor());
 				}
 			}
 		}
@@ -161,15 +166,15 @@ public class ContentUsercontent extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return TextFormatting.formatNullable(this.content.getGui().getTitle());
+		return TextUtils.formatNonnull(this.content.getGui().getTitle());
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return TextFormatting.formatNullable(this.content.getGui().getTab().getTitle());
+		return TextUtils.formatNonnull(this.content.getGui().getTab().getTitle());
 	}
 	
 	@Override
@@ -251,8 +256,8 @@ public class ContentUsercontent extends Content
 	
 	private void printError(String type, int index, Throwable e)
 	{
-		ITextComponent message = new StringTextComponent(net.minecraft.util.text.TextFormatting.RED + "<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage());
-		Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.CHAT, message);
+		ITextComponent message = new StringTextComponent(TextFormatting.RED + "<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage());
+		Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.CHAT, message, Util.field_240973_b_);
 	}
 	
 	private void updateTextfields()
@@ -260,7 +265,7 @@ public class ContentUsercontent extends Content
 		for(VisibleActiveObject<TextFieldWidget> visObj : this.textfields.values())
 		{
 			visObj.getObject().setEnabled(visObj.isEnabled(this.engineAdapter));
-			visObj.getObject().visible = visObj.isVisible(this.engineAdapter);
+			visObj.getObject().field_230694_p_ = visObj.isVisible(this.engineAdapter);
 		}
 	}
 	
@@ -268,8 +273,8 @@ public class ContentUsercontent extends Content
 	{
 		for(VisibleActiveObject<Widget> visObj : this.buttons)
 		{
-			visObj.getObject().active = visObj.isEnabled(this.engineAdapter);
-			visObj.getObject().visible = visObj.isVisible(this.engineAdapter);
+			visObj.getObject().field_230693_o_ = visObj.isEnabled(this.engineAdapter);
+			visObj.getObject().field_230694_p_ = visObj.isVisible(this.engineAdapter);
 		}
 	}
 }

@@ -17,7 +17,7 @@ public class DummyScreen extends Screen
 	}
 	
 	@Override
-	protected void init()
+	protected void func_231160_c_()
 	{
 		this.runnable.run();
 	}

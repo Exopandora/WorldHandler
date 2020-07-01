@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.loot.LootPredicateManager;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IResourceManager;
@@ -25,14 +26,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class AdvancementHelper implements IFutureReloadListener
 {
 	private static final AdvancementHelper INSTANCE = new AdvancementHelper();
-	private final AdvancementManager manager = new AdvancementManager();
+	private final AdvancementManager manager = new AdvancementManager(new LootPredicateManager());
 	
 	@Override
 	public CompletableFuture<Void> reload(IStage stage, IResourceManager resourceManager, IProfiler preparationsProfiler, IProfiler reloadProfiler, Executor backgroundExecutor, Executor gameExecutor)
 	{
 		return CompletableFuture.supplyAsync(() ->
 		{
-			SimpleReloadableResourceManager serverResourceManager = new SimpleReloadableResourceManager(ResourcePackType.SERVER_DATA, Thread.currentThread());
+			SimpleReloadableResourceManager serverResourceManager = new SimpleReloadableResourceManager(ResourcePackType.SERVER_DATA);
 			serverResourceManager.addReloadListener(new NetworkTagManager());
 			serverResourceManager.addReloadListener(this.manager);
 			return serverResourceManager;

@@ -2,6 +2,8 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.function.Function;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.category.Categories;
@@ -10,12 +12,13 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.util.ActionHelper;
-import exopandora.worldhandler.util.TextFormatting;
+import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -30,7 +33,6 @@ public class ContentWorldInfo extends Content
 	
 	private GuiTextFieldTooltip worldField;
 	private GuiTextFieldTooltip seedField;
-	private GuiTextFieldTooltip terrainField;
 	
 	private GuiTextFieldTooltip totalTimeField;
 	private GuiTextFieldTooltip currentTimeField;
@@ -38,25 +40,23 @@ public class ContentWorldInfo extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		World world = this.getWorld();
+		World world = ContentWorldInfo.getSidedWorld();
+		IntegratedServer server = Minecraft.getInstance().getIntegratedServer();
 		
 		this.posXField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20);
-		this.posXField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " X: " + this.getWorldInfo(WorldInfo::getSpawnX, world));
+		this.posXField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " X: " + ContentWorldInfo.format(world, object -> object.getWorldInfo().getSpawnX()));
 		
 		this.posYField = new GuiTextFieldTooltip(x + 118, y + 36, 114, 20);
-		this.posYField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " Y: " + this.getWorldInfo(WorldInfo::getSpawnY, world));
+		this.posYField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " Y: " + ContentWorldInfo.format(world, object -> object.getWorldInfo().getSpawnY()));
 		
 		this.posZField = new GuiTextFieldTooltip(x + 118, y + 60, 114, 20);
-		this.posZField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " Z: " + this.getWorldInfo(WorldInfo::getSpawnZ, world));
+		this.posZField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " Z: " + ContentWorldInfo.format(world, object -> object.getWorldInfo().getSpawnZ()));
 		
-		this.worldField = new GuiTextFieldTooltip(x + 118, y, 114, 20);
-		this.worldField.setText(I18n.format("gui.worldhandler.world_info.world.name") + ": " + this.getWorldInfo(WorldInfo::getWorldName, world));
+		this.worldField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20);
+		this.worldField.setText(I18n.format("gui.worldhandler.world_info.world.name") + ": " + ContentWorldInfo.format(server, object -> object.func_240793_aU_().getWorldName()));
 		
-		this.terrainField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20);
-		this.terrainField.setText(I18n.format("gui.worldhandler.world_info.world.world_type") + ": " + this.getWorldInfo(info -> I18n.format(info.getGenerator().getTranslationKey()), world));
-		
-		this.seedField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20);
-		this.seedField.setText(I18n.format("gui.worldhandler.world_info.world.seed") + ": " + this.getSeed(world));
+		this.seedField = new GuiTextFieldTooltip(x + 118, y + 36, 114, 20);
+		this.seedField.setText(I18n.format("gui.worldhandler.world_info.world.seed") + ": " + ContentWorldInfo.format(server, object -> object.func_241755_D_().getSeed()));
 		this.seedField.setValidator(string -> string.equals(this.seedField.getText()));
 		this.seedField.setCursorPositionZero();
 		
@@ -74,44 +74,45 @@ public class ContentWorldInfo extends Content
 		GuiButtonBase world;
 		GuiButtonBase stats;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(start = new GuiButtonBase(x, y + 12, 114, 20, I18n.format("gui.worldhandler.world_info.start"), () ->
+		container.add(start = new GuiButtonBase(x, y + 12, 114, 20, new TranslationTextComponent("gui.worldhandler.world_info.start"), () ->
 		{
 			this.page = Page.START;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(world = new GuiButtonBase(x, y + 36, 114, 20, I18n.format("gui.worldhandler.world_info.world"), () ->
+		container.add(world = new GuiButtonBase(x, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.world_info.world"), () ->
 		{
 			this.page = Page.WORLD;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(stats = new GuiButtonBase(x, y + 60, 114, 20, I18n.format("gui.worldhandler.world_info.statistics"), () ->
+		container.add(stats = new GuiButtonBase(x, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.world_info.statistics"), () ->
 		{
 			this.page = Page.STATS;
-			container.init();
+			container.func_231160_c_();
 		}));
 		
 		if(Page.START.equals(this.page))
 		{
-			start.active = false;
+			start.field_230693_o_ = false;
 		}
 		else if(Page.WORLD.equals(this.page))
 		{
 			GuiButtonBase seed;
+			IntegratedServer server = Minecraft.getInstance().getIntegratedServer();
 			
-			world.active = false;
-			container.add(seed = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.world_info.world.copy_seed"), () ->
+			world.field_230693_o_ = false;
+			container.add(seed = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.world_info.world.copy_seed"), () ->
 			{
-				Minecraft.getInstance().keyboardListener.setClipboardString(this.getSeed(this.getWorld()));
+				Minecraft.getInstance().keyboardListener.setClipboardString(String.valueOf(server.func_241755_D_().getSeed()));
 			}));
 			
-			seed.active = Minecraft.getInstance().getIntegratedServer() != null;
+			seed.field_230693_o_ = server != null;
 		}
 		else if(Page.STATS.equals(this.page))
 		{
-			stats.active = false;
+			stats.field_230693_o_ = false;
 		}
 	}
 	
@@ -124,60 +125,54 @@ public class ContentWorldInfo extends Content
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(Page.START.equals(this.page))
 		{
-			this.posXField.renderButton(mouseX, mouseY, partialTicks);
-			this.posYField.renderButton(mouseX, mouseY, partialTicks);
-			this.posZField.renderButton(mouseX, mouseY, partialTicks);
+			this.posXField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.posYField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.posZField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		}
 		else if(Page.WORLD.equals(this.page))
 		{
-			this.worldField.renderButton(mouseX, mouseY, partialTicks);
-			this.terrainField.renderButton(mouseX, mouseY, partialTicks);
-			this.seedField.renderButton(mouseX, mouseY, partialTicks);
+			this.worldField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.seedField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		}
 		else if(Page.STATS.equals(this.page))
 		{
-			this.totalTimeField.renderButton(mouseX, mouseY, partialTicks);
-			this.currentTimeField.renderButton(mouseX, mouseY, partialTicks);
+			this.totalTimeField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.currentTimeField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		}
 	}
 	
 	private void updateCurrentTime()
 	{
-		this.currentTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.world_time") + ": " + TextFormatting.formatWorldTime(Minecraft.getInstance().world.getWorldInfo().getDayTime()));
+		this.currentTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.world_time") + ": " + TextUtils.formatWorldTime(Minecraft.getInstance().world.getWorldInfo().getDayTime()));
 	}
 	
 	private void updateTotalTime()
 	{
-		this.totalTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.played") + ": " + TextFormatting.getTotalTimePlayed(Minecraft.getInstance().world.getWorldInfo().getGameTime()));
+		this.totalTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.played") + ": " + TextUtils.formatTotalTime(Minecraft.getInstance().world.getWorldInfo().getGameTime()));
 	}
 	
-	private <T> String getWorldInfo(Function<WorldInfo, T> function, World world)
+	private static <T> String format(T object, Function<T, Object> function)
 	{
-		if(world != null)
+		if(object != null)
 		{
-			return String.valueOf(function.apply(world.getWorldInfo()));
+			return String.valueOf(function.apply(object));
 		}
 		
 		return I18n.format("gui.worldhandler.world_info.n_a");
 	}
 	
-	private World getWorld()
+	private static World getSidedWorld()
 	{
-		if(Minecraft.getInstance().getIntegratedServer() != null)
+		if(Minecraft.getInstance().isSingleplayer())
 		{
-			return Minecraft.getInstance().getIntegratedServer().getWorld(DimensionType.OVERWORLD);
+			return Minecraft.getInstance().getIntegratedServer().func_241755_D_();
 		}
 		
 		return Minecraft.getInstance().world;
-	}
-	
-	private String getSeed(World world)
-	{
-		return Minecraft.getInstance().getIntegratedServer() != null ? String.valueOf(world.getWorldInfo().getSeed()) : I18n.format("gui.worldhandler.world_info.n_a");
 	}
 	
 	@Override
@@ -187,15 +182,15 @@ public class ContentWorldInfo extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.world.world");
+		return new TranslationTextComponent("gui.worldhandler.title.world.world");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.world.world");
+		return new TranslationTextComponent("gui.worldhandler.tab.world.world");
 	}
 	
 	@Override

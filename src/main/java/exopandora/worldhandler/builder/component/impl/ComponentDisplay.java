@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ComponentDisplay implements IBuilderComponent 
 {
 	private MutableStringTextComponent name = new MutableStringTextComponent();
-	private String[] lore = new String[2];
+	private ITextComponent[] lore = new ITextComponent[2];
 	
 	@Override
 	public INBT serialize()
@@ -30,9 +30,9 @@ public class ComponentDisplay implements IBuilderComponent
 		
 		for(int x = 0; x < this.lore.length; x++)
 		{
-			if(this.lore[x] != null && !this.lore[x].isEmpty())
+			if(this.lore[x] != null && !this.lore[x].getString().isEmpty())
 			{
-				lore.add(StringNBT.valueOf(this.lore[x]));
+				lore.add(StringNBT.valueOf(ITextComponent.Serializer.toJson(this.lore[x])));
 			}
 		}
 		
@@ -59,32 +59,32 @@ public class ComponentDisplay implements IBuilderComponent
 		return this.name;
 	}
 	
-	public void setLore(String[] lore)
+	public void setLore(ITextComponent[] lore)
 	{
 		this.lore = lore;
 	}
 	
-	public String[] getLore()
+	public ITextComponent[] getLore()
 	{
 		return this.lore;
 	}
 	
-	public void setLore1(String lore)
+	public void setLore1(ITextComponent lore)
 	{
 		this.lore[0] = lore;
 	}
 	
-	public String getLore1()
+	public ITextComponent getLore1()
 	{
 		return this.lore[0];
 	}
 	
-	public void setLore2(String lore)
+	public void setLore2(ITextComponent lore)
 	{
 		this.lore[1] = lore;
 	}
 	
-	public String getLore2()
+	public ITextComponent getLore2()
 	{
 		return this.lore[1];
 	}

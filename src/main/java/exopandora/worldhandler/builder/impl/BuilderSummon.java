@@ -20,6 +20,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -107,22 +108,22 @@ public class BuilderSummon extends CommandBuilderNBT
 		return this.nbt.getId();
 	}
 	
-	public void setAttribute(EnumAttributes attribute, double ammount)
+	public void setAttribute(Attribute attribute, double ammount)
 	{
 		this.nbt.setAttribute(attribute, ammount);
 	}
 	
-	public void removeAttribute(EnumAttributes attribute)
+	public void removeAttribute(Attribute attribute)
 	{
 		this.nbt.removeAttribute(attribute);
 	}
 	
-	public double getAttributeAmmount(EnumAttributes attribute)
+	public double getAttributeAmmount(Attribute attribute)
 	{
 		return this.nbt.getAttributeAmmount(attribute);
 	}
 	
-	public Set<EnumAttributes> getAttributes()
+	public Set<Attribute> getAttributes()
 	{
 		return this.nbt.getAttributes();
 	}
@@ -491,7 +492,7 @@ public class BuilderSummon extends CommandBuilderNBT
 		}
 		else if(entity.equalsIgnoreCase("Pigman") || entity.equalsIgnoreCase("ZombiePig") || entity.equalsIgnoreCase("ZombiePigman"))
 		{
-			return EntityType.ZOMBIE_PIGMAN.getRegistryName();
+			return EntityType.field_233592_ba_.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Wither"))
 		{

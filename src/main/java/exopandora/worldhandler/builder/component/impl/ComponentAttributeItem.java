@@ -2,13 +2,12 @@ package exopandora.worldhandler.builder.component.impl;
 
 import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.builder.impl.EnumAttributes;
-import net.minecraft.nbt.INBT;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -16,29 +15,23 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ComponentAttributeItem extends ComponentAttribute
 {
-	public ComponentAttributeItem(Function<EnumAttributes, Boolean> applyable)
-	{
-		super(applyable);
-	}
-	
 	@Override
 	@Nullable
 	public INBT serialize()
 	{
 		ListNBT attributes = new ListNBT();
 		
-		for(Entry<EnumAttributes, Double> entry : this.attributes.entrySet())
+		for(Entry<Attribute, Double> entry : this.attributes.entrySet())
 		{
-			if(this.applyable.apply(entry.getKey()) && entry.getValue() != 0)
+			if(entry.getValue() != 0)
 			{
 				CompoundNBT attribute = new CompoundNBT();
+				String id = entry.getKey().getRegistryName().toString();
 				
-				attribute.putString("AttributeName", entry.getKey().getAttribute());
-				attribute.putString("Name", entry.getKey().getAttribute());
-				attribute.putDouble("Amount", entry.getKey().calculate(entry.getValue()));
-				attribute.putInt("Operation", entry.getKey().getOperation().ordinal());
-				attribute.putLong("UUIDLeast", UUID.nameUUIDFromBytes(entry.getKey().getAttribute().getBytes()).getLeastSignificantBits());
-				attribute.putLong("UUIDMost", UUID.nameUUIDFromBytes(entry.getKey().getAttribute().getBytes()).getMostSignificantBits());
+				attribute.putString("AttributeName", id);
+				attribute.putDouble("Amount", entry.getValue() / 100);
+				attribute.putInt("Operation", 1); // 0 = additive, 1 = percentage
+				attribute.putUniqueId("UUID", UUID.nameUUIDFromBytes(id.getBytes()));
 				
 				attributes.add(attribute);
 			}

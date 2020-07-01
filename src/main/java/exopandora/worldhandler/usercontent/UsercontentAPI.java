@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.impl.BuilderUsercontent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -39,7 +40,7 @@ public class UsercontentAPI
 	{
 		if(object != null)
 		{
-			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.CHAT, new StringTextComponent(object.toString()));
+			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.CHAT, new StringTextComponent(object.toString()), Util.field_240973_b_);
 		}
 	}
 	

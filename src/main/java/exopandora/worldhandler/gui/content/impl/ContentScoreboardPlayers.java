@@ -1,6 +1,7 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
@@ -19,7 +20,8 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -77,7 +79,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.objectField = new GuiTextFieldTooltip(x + 118, y, 114, 20, I18n.format("gui.worldhandler.scoreboard.objectives.objective"));
+		this.objectField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setValidator(Predicates.notNull());
 		this.objectField.setText(ContentScoreboard.getObjective());
 		this.objectField.setResponder(text ->
@@ -88,7 +90,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			container.initButtons();
 		});
 		
-		this.tagField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.tag"));
+		this.tagField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.players.tag"));
 		this.tagField.setValidator(string -> string != null && !string.contains(" "));
 		this.tagField.setText(this.tag);
 		this.tagField.setResponder(text ->
@@ -106,103 +108,103 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		GuiButtonBase button2;
 		GuiButtonBase button3;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y + 12, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.points"), () ->
+		container.add(button1 = new GuiButtonBase(x, y + 12, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.players.points"), () ->
 		{
 			this.page = Page.ADD_SET_REMOVE;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 36, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.tag"), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.players.tag"), () ->
 		{
 			this.page = Page.TAG;
-			container.init();
+			container.func_231160_c_();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 60, 114, 20, I18n.format("gui.worldhandler.scoreboard.players.trigger"), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.players.trigger"), () ->
 		{
 			this.page = Page.ENABLE;
-			container.init();
+			container.func_231160_c_();
 		}));
 		
-		button1.active = !Page.ADD_SET_REMOVE.equals(this.page);
-		button2.active = !Page.TAG.equals(this.page);
-		button3.active = !Page.ENABLE.equals(this.page);
+		button1.field_230693_o_ = !Page.ADD_SET_REMOVE.equals(this.page);
+		button2.field_230693_o_ = !Page.TAG.equals(this.page);
+		button3.field_230693_o_ = !Page.ENABLE.equals(this.page);
 		
 		boolean enabled = ContentScoreboard.isObjectiveValid();
 		this.builderPlayers.setMode(this.page.getMode());
 		
 		if(Page.ADD_SET_REMOVE.equals(this.page))
 		{
-			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxPlayerPoints(), 0, container, new LogicSliderSimple("points", I18n.format("gui.worldhandler.scoreboard.players.points"), value ->
+			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxPlayerPoints(), 0, container, new LogicSliderSimple("points", new TranslationTextComponent("gui.worldhandler.scoreboard.players.points"), value ->
 			{
 				this.builderPlayers.setPoints(value);
 			})));
-			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.add"), () ->
+			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPlayers.getBuilderForPoints(EnumMode.ADD));
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.remove"), () ->
+			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPlayers.getBuilderForPoints(EnumMode.REMOVE));
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.actions.reset"), I18n.format("gui.worldhandler.actions.set_to_0"), () ->
+			container.add(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset"), new TranslationTextComponent("gui.worldhandler.actions.set_to_0"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPlayers.getBuilderForPoints(EnumMode.SET, 0));
-				container.init();
+				container.func_231160_c_();
 			}));
 			
 			boolean points = enabled && this.builderPlayers.getPoints() > 0;
 			
-			this.addButton.active = points;
-			this.removeButton.active = points;
-			button1.active = enabled;
+			this.addButton.field_230693_o_ = points;
+			this.removeButton.field_230693_o_ = points;
+			button1.field_230693_o_ = enabled;
 		}
 		else if(Page.TAG.equals(this.page))
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, I18n.format("gui.worldhandler.actions.add"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTag.getBuilderForMode(BuilderTag.EnumMode.ADD));
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, I18n.format("gui.worldhandler.actions.remove"), () ->
+			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTag.getBuilderForMode(BuilderTag.EnumMode.REMOVE));
-				container.init();
+				container.func_231160_c_();
 			}));
 			
 			boolean tag = this.tag != null && !this.tag.isEmpty();
 			
-			button1.active = tag;
-			button2.active = tag;
+			button1.field_230693_o_ = tag;
+			button2.field_230693_o_ = tag;
 		}
 		else if(Page.ENABLE.equals(this.page))
 		{
-			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxTriggerValue(), 0, container, new LogicSliderSimple("enable", I18n.format("gui.worldhandler.generic.value"), value ->
+			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxTriggerValue(), 0, container, new LogicSliderSimple("enable", new TranslationTextComponent("gui.worldhandler.generic.value"), value ->
 			{
 				this.builderTrigger.setValue(value.intValue());
 			})));
-			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.add"), () ->
+			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.ADD));
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, I18n.format("gui.worldhandler.actions.set"), () ->
+			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.set"), () ->
 			{
 				CommandHelper.sendCommand(this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.SET));
-				container.init();
+				container.func_231160_c_();
 			}));
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, I18n.format("gui.worldhandler.generic.enable"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.enable"), () ->
 			{
 				CommandHelper.sendCommand(this.builderPlayers.getBuilderForEnable());
-				container.init();
+				container.func_231160_c_();
 			}));
 			
-			this.addButton.active = enabled && this.builderTrigger.getValue() > 0;
-			this.removeButton.active = enabled;
-			button1.active = enabled;
+			this.addButton.field_230693_o_ = enabled && this.builderTrigger.getValue() > 0;
+			this.removeButton.field_230693_o_ = enabled;
+			button1.field_230693_o_ = enabled;
 		}
 		
 		if(Page.TAG.equals(this.page))
@@ -232,13 +234,13 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			{
 				boolean points = enabled && this.builderPlayers.getPoints() > 0;
 				
-				this.addButton.active = points;
-				this.removeButton.active = points;
+				this.addButton.field_230693_o_ = points;
+				this.removeButton.field_230693_o_ = points;
 			}
 			else if(Page.ENABLE.equals(this.page))
 			{
-				this.addButton.active = enabled && this.builderTrigger.getValue() > 0;
-				this.removeButton.active = enabled;
+				this.addButton.field_230693_o_ = enabled && this.builderTrigger.getValue() > 0;
+				this.removeButton.field_230693_o_ = enabled;
 			}
 			
 			this.objectField.tick();
@@ -246,22 +248,22 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(Page.TAG.equals(this.page))
 		{
-			this.tagField.renderButton(mouseX, mouseY, partialTicks);
+			this.tagField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		}
 		else
 		{
-			this.objectField.renderButton(mouseX, mouseY, partialTicks);
+			this.objectField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 		}
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.scoreboard.players");
+		return new TranslationTextComponent("gui.worldhandler.tab.scoreboard.players");
 	}
 	
 	@Override

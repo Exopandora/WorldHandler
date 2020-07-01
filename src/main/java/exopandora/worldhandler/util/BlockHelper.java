@@ -51,7 +51,7 @@ public class BlockHelper
 			}
 		}
 		
-		return Minecraft.getInstance().player.getPosition();
+		return Minecraft.getInstance().player.func_233580_cy_();
 	}
 	
 	public static Block getFocusedBlock()
@@ -148,7 +148,7 @@ public class BlockHelper
 	{
 		if(CommandHelper.canPlayerIssueCommand() && Minecraft.getInstance().getConnection() != null)
 		{
-			BlockPos pos = Minecraft.getInstance().player.getPosition().add(0, 3, 0);
+			BlockPos pos = Minecraft.getInstance().player.func_233580_cy_().add(0, 3, 0);
 			
 			BuilderFill placeFill = new BuilderFill();
 			placeFill.setPosition1(pos);

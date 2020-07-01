@@ -23,21 +23,20 @@ public abstract class Container extends Screen implements IContainer
 	}
 	
 	@Override
-	public void init()
+	public void func_231160_c_()
 	{
-		super.init();
+		super.func_231160_c_();
 	}
 	
 	@Override
 	public <T extends Widget> T add(T button)
 	{
-		return super.addButton(button);
+		return super.func_230480_a_(button);
 	}
 	
 	public <T extends TextFieldWidget> T add(T textfield)
 	{
-		this.children.add(textfield);
-		return textfield;
+		return super.func_230481_d_(textfield);
 	}
 	
 	@Override

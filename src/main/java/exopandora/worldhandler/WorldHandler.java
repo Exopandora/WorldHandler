@@ -35,11 +35,12 @@ public class WorldHandler
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final Path USERCONTENT_PATH = FMLPaths.CONFIGDIR.get().resolve(Main.MODID).resolve("usercontent");
 	
+	@SuppressWarnings("deprecation")
 	public WorldHandler()
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		modEventBus.addListener(this::clientSetup);
-		MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
+		modEventBus.addListener(this::serverStarting);
 		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
 		{
 			SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getInstance().getResourceManager();

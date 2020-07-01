@@ -19,10 +19,10 @@ import net.minecraft.block.AbstractSignBlock;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Difficulty;
@@ -163,13 +163,11 @@ public class ActionHelper
 			Minecraft.getInstance().displayGuiScreen(null);
 			Minecraft.getInstance().mouseHelper.grabMouse();
 			
-			Style redColor = new Style().setColor(TextFormatting.RED);
+			ITextComponent message = new TranslationTextComponent("<" + Main.NAME + "> %s", new TranslationTextComponent("worldhandler.error.gui")).func_240699_a_(TextFormatting.RED);
+			ITextComponent cause = new StringTextComponent(" " + e.getClass().getCanonicalName() + ": " + e.getMessage()).func_240699_a_(TextFormatting.RED);
 			
-			ITextComponent message = new TranslationTextComponent("<" + Main.NAME + "> %s", new TranslationTextComponent("worldhandler.error.gui")).setStyle(redColor);
-			ITextComponent cause = new StringTextComponent(" " + e.getClass().getCanonicalName() + ": " + e.getMessage()).setStyle(redColor);
-			
-			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, message);
-			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, cause);
+			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, message, Util.field_240973_b_);
+			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, cause, Util.field_240973_b_);
 			
 			WorldHandler.LOGGER.throwing(e);
 		}
@@ -179,8 +177,8 @@ public class ActionHelper
 	{
 		if(!CommandHelper.canPlayerIssueCommand() && Config.getSettings().permissionQuery())
 		{
-			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused")));
-			Minecraft.getInstance().ingameGUI.addChatMessage(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.settings.permission_query"))));
+			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused")), Util.field_240973_b_);
+			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.settings.permission_query"))), Util.field_240973_b_);
 		}
 		else
 		{

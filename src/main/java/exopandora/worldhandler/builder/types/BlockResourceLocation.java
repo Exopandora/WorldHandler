@@ -8,7 +8,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.block.BlockState;
 import net.minecraft.command.arguments.BlockStateParser;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -70,9 +70,9 @@ public class BlockResourceLocation extends ItemResourceLocation
 		return this.state;
 	}
 	
-	public <T extends Comparable<T>> void setProperty(IProperty<T> property, T value)
+	public <T extends Comparable<T>> void setProperty(Property<T> property, T value)
 	{
-		if(this.state != null && this.state.has(property))
+		if(this.state != null && this.state.func_235901_b_(property)) //has
 		{
 			this.state = this.state.with(property, value);
 		}

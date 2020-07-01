@@ -18,8 +18,10 @@ import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -41,15 +43,15 @@ public class ContentEnchantment extends Content
 		MenuPageList<Enchantment> enchantments = new MenuPageList<Enchantment>(x, y, new ArrayList<Enchantment>(ForgeRegistries.ENCHANTMENTS.getValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
 		{
 			@Override
-			public String translate(Enchantment item)
+			public IFormattableTextComponent translate(Enchantment item)
 			{
-				return I18n.format(item.getName());
+				return new TranslationTextComponent(item.getName());
 			}
 			
 			@Override
-			public String toTooltip(Enchantment item)
+			public IFormattableTextComponent toTooltip(Enchantment item)
 			{
-				return item.getRegistryName().toString();
+				return new StringTextComponent(item.getRegistryName().toString());
 			}
 			
 			@Override
@@ -61,7 +63,7 @@ public class ContentEnchantment extends Content
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, Enchantment item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, Enchantment item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
@@ -79,15 +81,15 @@ public class ContentEnchantment extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiSlider(x + 118, y + 24, 114, 20, 1, ForgeRegistries.ENCHANTMENTS.getValue(this.builderEnchantment.getEnchantment()).getMaxLevel(), 1, container, new LogicSliderSimple("enchantment", I18n.format("gui.worldhandler.items.enchantment.level"), value ->
+		container.add(new GuiSlider(x + 118, y + 24, 114, 20, 1, ForgeRegistries.ENCHANTMENTS.getValue(this.builderEnchantment.getEnchantment()).getMaxLevel(), 1, container, new LogicSliderSimple("enchantment", new TranslationTextComponent("gui.worldhandler.items.enchantment.level"), value ->
 		{
 			this.builderEnchantment.setLevel(value.intValue());
 		})));
 		
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.items.enchantment.enchant"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.items.enchantment.enchant"), () ->
 		{
 			CommandHelper.sendCommand(this.builderEnchantment);
 		}));
@@ -100,15 +102,15 @@ public class ContentEnchantment extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.items.enchantment");
+		return new TranslationTextComponent("gui.worldhandler.title.items.enchantment");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.items.enchantment");
+		return new TranslationTextComponent("gui.worldhandler.tab.items.enchantment");
 	}
 	
 	@Override

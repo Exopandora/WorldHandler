@@ -50,7 +50,7 @@ public class ConfigCategorySettings
 		this.watch = builder
 				.translation("gui.worldhandler.config.settings.watch")
 				.comment("Whether or not to display a watch")
-				.define("watch", true);
+				.define("watch", false);
 		this.smoothWatch = builder
 				.translation("gui.worldhandler.config.settings.smooth_watch")
 				.comment("Whether or not the watch pointers move smoothly")

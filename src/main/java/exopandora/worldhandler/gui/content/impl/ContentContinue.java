@@ -1,5 +1,7 @@
 package exopandora.worldhandler.gui.content.impl;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.ICommandBuilderSyntax;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
@@ -9,8 +11,9 @@ import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -61,26 +64,26 @@ public class ContentContinue extends ContentChild
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(this.commandField);
-		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, TextFormatting.RED + I18n.format("gui.worldhandler.generic.yes"), () ->
+		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, new TranslationTextComponent("gui.worldhandler.generic.yes").func_240699_a_(TextFormatting.RED), () ->
 		{
 			CommandHelper.sendCommand(this.builder, this.special);
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.getParentContent()));
 		}));
-		container.add(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, I18n.format("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, new TranslationTextComponent("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.commandField.renderButton(mouseX, mouseY, partialTicks);
+		this.commandField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
 		return this.getParentContent().getTitle();
 	}

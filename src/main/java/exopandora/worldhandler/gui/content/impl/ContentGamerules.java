@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 
@@ -23,7 +24,9 @@ import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.GameRules.IRuleEntryVisitor;
 import net.minecraft.world.GameRules.RuleKey;
@@ -51,7 +54,7 @@ public class ContentGamerules extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.generic.value"));
+		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.value"));
 		this.valueField.setValidator(Predicates.notNull());
 		this.valueField.setText(this.value);
 		this.valueField.setCursorPositionEnd();
@@ -75,15 +78,15 @@ public class ContentGamerules extends Content
 		MenuPageList<String> rules = new MenuPageList<String>(x, y, new ArrayList<String>(map.keySet()), 114, 20, 3, container, new ILogicPageList<String>()
 		{
 			@Override
-			public String translate(String item)
+			public IFormattableTextComponent translate(String item)
 			{
-				return I18n.format("gui.worldhandler.gamerules.rule." + item);
+				return new TranslationTextComponent("gamerule." + item);
 			}
 			
 			@Override
-			public String toTooltip(String item)
+			public IFormattableTextComponent toTooltip(String item)
 			{
-				return item;
+				return new StringTextComponent(item);
 			}
 			
 			@Override
@@ -105,7 +108,7 @@ public class ContentGamerules extends Content
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, String text, String item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, String item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
@@ -123,16 +126,16 @@ public class ContentGamerules extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, I18n.format("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.booleanValue)
 		{
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, I18n.format("gui.worldhandler.generic.enable"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.enable"), () ->
 			{
 				CommandHelper.sendCommand(this.builderGamerule.getBuilderForValue(String.valueOf(true)));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.generic.disable"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.disable"), () ->
 			{
 				CommandHelper.sendCommand(this.builderGamerule.getBuilderForValue(String.valueOf(false)));
 			}));
@@ -140,7 +143,7 @@ public class ContentGamerules extends Content
 		else
 		{
 			container.add(this.valueField);
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, I18n.format("gui.worldhandler.actions.perform"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.perform"), () ->
 			{
 				CommandHelper.sendCommand(this.builderGamerule);
 			}));
@@ -157,11 +160,11 @@ public class ContentGamerules extends Content
 	}
 	
 	@Override
-	public void drawScreen(Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(!this.booleanValue)
 		{
-			this.valueField.renderButton(mouseX, mouseY, partialTicks);
+			this.valueField.func_230431_b_(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	
@@ -172,15 +175,15 @@ public class ContentGamerules extends Content
 	}
 	
 	@Override
-	public String getTitle()
+	public IFormattableTextComponent getTitle()
 	{
-		return I18n.format("gui.worldhandler.title.world.gamerules");
+		return new TranslationTextComponent("gui.worldhandler.title.world.gamerules");
 	}
 	
 	@Override
-	public String getTabTitle()
+	public IFormattableTextComponent getTabTitle()
 	{
-		return I18n.format("gui.worldhandler.tab.world.gamerules");
+		return new TranslationTextComponent("gui.worldhandler.tab.world.gamerules");
 	}
 	
 	@Override

@@ -3,6 +3,8 @@ package exopandora.worldhandler.gui.button;
 import java.util.function.Consumer;
 
 import exopandora.worldhandler.gui.button.GuiSlider.ILogicSlider;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -10,10 +12,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class LogicSliderSimple implements ILogicSlider
 {
 	private final String id;
-	private final String text;
+	private final IFormattableTextComponent text;
 	private final Consumer<Integer> listener;
 	
-	public LogicSliderSimple(String id, String text, Consumer<Integer> listener)
+	public LogicSliderSimple(String id, IFormattableTextComponent text, Consumer<Integer> listener)
 	{
 		this.id = id;
 		this.text = text;
@@ -21,21 +23,21 @@ public class LogicSliderSimple implements ILogicSlider
 	}
 	
 	@Override
-	public String formatPrefix(int value)
+	public IFormattableTextComponent formatPrefix(int value)
 	{
 		return this.text;
 	}
 	
 	@Override
-	public String formatSuffix(int value)
+	public IFormattableTextComponent formatSuffix(int value)
 	{
-		return "";
+		return new StringTextComponent("");
 	}
 	
 	@Override
-	public String formatValue(int value)
+	public IFormattableTextComponent formatValue(int value)
 	{
-		return ": " + String.valueOf(value);
+		return new StringTextComponent(": " + String.valueOf(value));
 	}
 	
 	@Override

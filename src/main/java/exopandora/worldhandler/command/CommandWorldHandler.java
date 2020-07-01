@@ -39,7 +39,7 @@ public class CommandWorldHandler
 	
 	private static int display(CommandSource source) throws CommandSyntaxException
 	{
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().execute(ActionHelper::displayGui));
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().execute(ActionHelper::displayGui));
 		return 1;
 	}
 	
