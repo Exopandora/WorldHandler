@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[31,)"
+loaderVersion="[32,)"
 updateJSONURL="https://raw.githubusercontent.com/Exopandora/worldhandler/master/version.json"
 issueTrackerURL="https://github.com/Exopandora/WorldHandler/issues"
 displayURL="https://minecraft.curseforge.com/projects/world-handler-command-gui"
@@ -19,6 +19,6 @@ The World Handler provides a simple and easy to use graphical user interface for
 [[dependencies.worldhandler]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15,)"
+    versionRange="[1.16,)"
     ordering="NONE"
     side="BOTH"
