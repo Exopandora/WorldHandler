@@ -36,14 +36,15 @@ public class GuiSlider extends GuiButtonBase
 	{
 		super.renderBg(minecraft, mouseX, mouseY);
 		
-		int xOffset = Config.getSkin().getTextureType().equals("resourcepack") ? 0 : -46;
+		int hovered = super.getYImage(this.isHovered());
+		int textureOffset = (Config.getSkin().getTextureType().equals("resourcepack") ? 46 : 0) + hovered * 20;
 		
 		RenderSystem.pushMatrix();
 		RenderSystem.enableBlend();
 		RenderSystem.color4f(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
 		
-		this.blit(this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.y, 0, 66 + xOffset, 4, 20);
-		this.blit(this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.y, 196, 66 + xOffset, 4, 20);
+		this.blit(this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.y, 0, textureOffset, 4, 20);
+		this.blit(this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.y, 196, textureOffset, 4, 20);
 		
 		RenderSystem.disableBlend();
 		RenderSystem.popMatrix();
