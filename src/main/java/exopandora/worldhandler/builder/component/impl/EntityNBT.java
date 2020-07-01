@@ -1,13 +1,12 @@
 package exopandora.worldhandler.builder.component.impl;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.builder.impl.EnumAttributes;
@@ -174,7 +173,7 @@ public class EntityNBT implements IBuilderComponent
 	
 	public void setArmorItem(int index, ResourceLocation location)
 	{
-		if(ArrayUtils.isArrayIndexValid(this.armorItems, index) && location != null)
+		if(EntityNBT.isArrayIndexValid(this.armorItems, index) && location != null)
 		{
 			this.armorItems[index] = location;
 		}
@@ -188,7 +187,7 @@ public class EntityNBT implements IBuilderComponent
 	@Nonnull
 	public ResourceLocation getArmorItem(int slot)
 	{
-		if(ArrayUtils.isArrayIndexValid(this.armorItems, slot))
+		if(EntityNBT.isArrayIndexValid(this.armorItems, slot))
 		{
 			return this.armorItems[slot];
 		}
@@ -208,7 +207,7 @@ public class EntityNBT implements IBuilderComponent
 	
 	public void setHandItem(int index, ResourceLocation location)
 	{
-		if(ArrayUtils.isArrayIndexValid(this.handItems, index) && location != null)
+		if(EntityNBT.isArrayIndexValid(this.handItems, index) && location != null)
 		{
 			this.handItems[index] = location;
 		}
@@ -217,7 +216,7 @@ public class EntityNBT implements IBuilderComponent
 	@Nonnull
 	public ResourceLocation getHandItem(int slot)
 	{
-		if(ArrayUtils.isArrayIndexValid(this.handItems, slot))
+		if(EntityNBT.isArrayIndexValid(this.handItems, slot))
 		{
 			return this.handItems[slot];
 		}
@@ -427,5 +426,15 @@ public class EntityNBT implements IBuilderComponent
 	public String getTag()
 	{
 		return null;
+	}
+	
+	private static boolean isArrayIndexValid(Object[] array, int index)
+	{
+		if(array != null && (Array.getLength(array) == 0 || array.length <= index))
+		{
+            return false;
+		}
+		
+        return index >= 0;
 	}
 }
