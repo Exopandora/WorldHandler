@@ -333,7 +333,7 @@ public class GuiWorldHandler extends Container
 			//NAME FIELD
 			
 			final String username = GuiWorldHandler.player.isEmpty() && !this.nameField.func_230999_j_() ? I18n.format("gui.worldhandler.generic.edit_username") : GuiWorldHandler.player; //isFocused
-			this.field_230712_o_.func_238421_b_(matrix, username, backgroundX + 232 - this.field_230712_o_.getStringWidth(username), backgroundY + 7, Config.getSkin().getLabelColor());
+			this.field_230712_o_.func_238421_b_(matrix, username, backgroundX + this.bgTextureWidth - this.getWatchOffset() - 7 - this.field_230712_o_.getStringWidth(username), backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			//WATCH
 			
