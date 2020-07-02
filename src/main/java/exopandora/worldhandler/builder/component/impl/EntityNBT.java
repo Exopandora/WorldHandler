@@ -173,7 +173,7 @@ public class EntityNBT implements IBuilderComponent
 	
 	public void setArmorItem(int index, ResourceLocation location)
 	{
-		if(EntityNBT.isArrayIndexValid(this.armorItems, index) && location != null) //TODO
+		if(EntityNBT.isArrayIndexValid(this.armorItems, index) && location != null)
 		{
 			this.armorItems[index] = location;
 		}
