@@ -8,13 +8,14 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.render.CustomRenderType;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.command.CommandSource;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,10 +33,6 @@ public class ClientEventHandler
 		{
 			Vector3d projected = Minecraft.getInstance().getRenderManager().info.getProjectedView();
 			
-	        MatrixStack matrix = event.getMatrixStack();
-	        matrix.push();
-			matrix.translate(-projected.getX(), -projected.getY(), -projected.getZ());
-	        
 			double minX = Math.min(BlockHelper.getPos1().getX(), BlockHelper.getPos2().getX());
 			double minY = Math.min(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY());
 			double minZ = Math.min(BlockHelper.getPos1().getZ(), BlockHelper.getPos2().getZ());
@@ -44,13 +41,22 @@ public class ClientEventHandler
 			double maxY = Math.max(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY()) + 1;
 			double maxZ = Math.max(BlockHelper.getPos1().getZ(), BlockHelper.getPos2().getZ()) + 1;
 			
-			IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-			IVertexBuilder builder = buffer.getBuffer(RenderType.getLines());
+			AxisAlignedBB aabb = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
 			
-			WorldRenderer.drawBoundingBox(matrix, builder, minX, minY, minZ, maxX, maxY, maxZ, 0.9F, 0.9F, 0.9F, 1.0F, 0.5F, 0.5F, 0.5F);
-	        buffer.finish(RenderType.LINES);
-			
-			matrix.pop();
+			if(aabb.getCenter().distanceTo(projected) < 96)
+			{
+				MatrixStack matrix = event.getMatrixStack();
+				matrix.push();
+				matrix.translate(-projected.getX(), -projected.getY(), -projected.getZ());
+				
+				IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+				IVertexBuilder builder = buffer.getBuffer(CustomRenderType.LINES2);
+				
+				WorldRenderer.drawBoundingBox(matrix, builder, minX, minY, minZ, maxX, maxY, maxZ, 0.9F, 0.9F, 0.9F, 1.0F, 0.5F, 0.5F, 0.5F);
+				
+				buffer.finish(CustomRenderType.LINES2);
+				matrix.pop();
+			}
 		}
 	}
 	
