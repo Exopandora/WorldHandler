@@ -20,6 +20,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.DistExecutor.SafeRunnable;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -35,24 +36,29 @@ public class WorldHandler
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final Path USERCONTENT_PATH = FMLPaths.CONFIGDIR.get().resolve(Main.MODID).resolve("usercontent");
 	
-	@SuppressWarnings("deprecation")
 	public WorldHandler()
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		modEventBus.addListener(this::clientSetup);
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
-		DistExecutor.runWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
-			SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getInstance().getResourceManager();
-			manager.addReloadListener(AdvancementHelper.getInstance());
-			Config.setupDirectories(WorldHandler.USERCONTENT_PATH);
-			ModLoadingContext.get().registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
-			UsercontentLoader.load(WorldHandler.USERCONTENT_PATH);
-			modEventBus.register(Config.class);
-			modEventBus.addListener(Content::createRegistry);
-			modEventBus.addListener(Category::createRegistry);
-			modEventBus.addGenericListener(Content.class, Content::register);
-			modEventBus.addGenericListener(Category.class, Category::register);
+			private static final long serialVersionUID = 1457410143759855413L;
+			
+			@Override
+			public void run()
+			{
+				SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getInstance().getResourceManager();
+				manager.addReloadListener(AdvancementHelper.getInstance());
+				Config.setupDirectories(WorldHandler.USERCONTENT_PATH);
+				ModLoadingContext.get().registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
+				UsercontentLoader.load(WorldHandler.USERCONTENT_PATH);
+				modEventBus.register(Config.class);
+				modEventBus.addListener(Content::createRegistry);
+				modEventBus.addListener(Category::createRegistry);
+				modEventBus.addGenericListener(Content.class, Content::register);
+				modEventBus.addGenericListener(Category.class, Category::register);
+			}
 		});
 //		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () ->
 //		{

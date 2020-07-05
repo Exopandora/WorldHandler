@@ -27,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.DistExecutor.SafeRunnable;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CommandWH
@@ -61,12 +62,18 @@ public class CommandWH
 	
 	private static int pos1(CommandSource source) throws CommandSyntaxException
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
-			BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
-			BlockPos pos = BlockHelper.getPos1();
-			ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
-			CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+			private static final long serialVersionUID = 818420798194963795L;
+			
+			@Override
+			public void run()
+			{
+				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
+				BlockPos pos = BlockHelper.getPos1();
+				ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+				CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+			}
 		});
 		
 		return 1;
@@ -74,12 +81,18 @@ public class CommandWH
 	
 	private static int pos2(CommandSource source) throws CommandSyntaxException
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
-			BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
-			BlockPos pos = BlockHelper.getPos2();
-			ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
-			CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+			private static final long serialVersionUID = 5436684018502529063L;
+			
+			@Override
+			public void run()
+			{
+				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
+				BlockPos pos = BlockHelper.getPos2();
+				ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+				CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
+			}
 		});
 		
 		return 1;
@@ -87,11 +100,17 @@ public class CommandWH
 	
 	private static int fill(CommandSource source, BlockStateInput block)
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
-			BuilderFill builder = new BuilderFill();
-			builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-			CommandHelper.sendCommand(builder);
+			private static final long serialVersionUID = 7622739284160142817L;
+			
+			@Override
+			public void run()
+			{
+				BuilderFill builder = new BuilderFill();
+				builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
+				CommandHelper.sendCommand(builder);
+			}
 		});
 		
 		return 1;
@@ -99,14 +118,20 @@ public class CommandWH
 	
 	private static int replace(CommandSource source, BlockStateInput block, BlockStateInput replace)
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
-			BuilderFill builder = new BuilderFill();
-			builder.setPosition1(BlockHelper.getPos1());
-			builder.setPosition2(BlockHelper.getPos2());
-			builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-			builder.setBlock2(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
-			CommandHelper.sendCommand(builder);
+			private static final long serialVersionUID = -5007303344454187200L;
+			
+			@Override
+			public void run()
+			{
+				BuilderFill builder = new BuilderFill();
+				builder.setPosition1(BlockHelper.getPos1());
+				builder.setPosition2(BlockHelper.getPos2());
+				builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
+				builder.setBlock2(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
+				CommandHelper.sendCommand(builder);
+			}
 		});
 		
 		return 1;
@@ -114,14 +139,20 @@ public class CommandWH
 	
 	private static int clone(CommandSource source, String mask, String filter)
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
-			BuilderClone builder = new BuilderClone();
-			builder.setPosition1(BlockHelper.getPos1());
-			builder.setPosition2(BlockHelper.getPos2());
-			builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
-			builder.setFilter(filter);
-			CommandHelper.sendCommand(builder);
+			private static final long serialVersionUID = -2849956095821394079L;
+			
+			@Override
+			public void run()
+			{
+				BuilderClone builder = new BuilderClone();
+				builder.setPosition1(BlockHelper.getPos1());
+				builder.setPosition2(BlockHelper.getPos2());
+				builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
+				builder.setFilter(filter);
+				CommandHelper.sendCommand(builder);
+			}
 		});
 		
 		return 1;
@@ -129,13 +160,19 @@ public class CommandWH
 	
 	private static int clone(CommandSource source, String mask)
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
-			BuilderClone builder = new BuilderClone();
-			builder.setPosition1(BlockHelper.getPos1());
-			builder.setPosition2(BlockHelper.getPos2());
-			builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
-			CommandHelper.sendCommand(builder);
+			private static final long serialVersionUID = -7349335271543407747L;
+			
+			@Override
+			public void run()
+			{
+				BuilderClone builder = new BuilderClone();
+				builder.setPosition1(BlockHelper.getPos1());
+				builder.setPosition2(BlockHelper.getPos2());
+				builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
+				CommandHelper.sendCommand(builder);
+			}
 		});
 		
 		return 1;
