@@ -13,6 +13,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import exopandora.worldhandler.builder.impl.BuilderClone;
 import exopandora.worldhandler.builder.impl.BuilderClone.EnumMask;
 import exopandora.worldhandler.builder.impl.BuilderFill;
+import exopandora.worldhandler.builder.impl.BuilderFill.EnumBlockFilter;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
@@ -128,8 +129,9 @@ public class CommandWH
 				BuilderFill builder = new BuilderFill();
 				builder.setPosition1(BlockHelper.getPos1());
 				builder.setPosition2(BlockHelper.getPos2());
-				builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-				builder.setBlock2(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
+				builder.setBlockHandling(EnumBlockFilter.REPLACE);
+				builder.setBlock1(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
+				builder.setBlock2(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
 				CommandHelper.sendCommand(builder);
 			}
 		});
