@@ -3,6 +3,8 @@ package exopandora.worldhandler.event;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.glfw.GLFW;
 
+import com.google.common.base.Objects;
+
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.util.ActionHelper;
@@ -28,29 +30,24 @@ public class KeyHandler
 	{
 		if(Minecraft.getInstance() != null && Minecraft.getInstance().currentScreen == null)
 		{
-			if(KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER))
+			if(KEY_WORLD_HANDLER.isPressed())
 			{
 				ActionHelper.displayGui();
 			}
-			else if(KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER_POS1) && Config.getSettings().shortcutKeys())
+			else if(KEY_WORLD_HANDLER_POS1.isPressed() && Config.getSettings().shortcutKeys())
 			{
 				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
 			}
-			else if(KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER_POS2) && Config.getSettings().shortcutKeys())
+			else if(KEY_WORLD_HANDLER_POS2.isPressed() && Config.getSettings().shortcutKeys())
 			{
 				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
 			}
 		}
 	}
 	
-	public static boolean isPressed(KeyBinding keyBinding)
-	{
-		return keyBinding.isPressed() && (KeyModifier.NONE.equals(keyBinding.getKeyModifier()) || KeyModifier.getActiveModifier().equals(keyBinding.getKeyModifier()));
-	}
-	
 	public static boolean isPressed(KeyBinding keyBinding, int keyCode)
 	{
-		return keyCode == keyBinding.getKey().getKeyCode() && (KeyModifier.NONE.equals(keyBinding.getKeyModifier()) || KeyModifier.getActiveModifier().equals(keyBinding.getKeyModifier()));
+		return keyCode == keyBinding.getKey().getKeyCode() && (KeyModifier.NONE.equals(keyBinding.getKeyModifier()) || Objects.equal(KeyModifier.getActiveModifier(), keyBinding.getKeyModifier()));
 	}
 	
 	public static void updatePosKeys()
