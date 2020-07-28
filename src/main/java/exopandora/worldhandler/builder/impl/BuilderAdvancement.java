@@ -52,7 +52,7 @@ public class BuilderAdvancement extends CommandBuilder
 	{
 		this.setNode(2, mode != null ? mode.toString() : null);
 	}
-
+	
 	@Nullable
 	public EnumMode getMode()
 	{
