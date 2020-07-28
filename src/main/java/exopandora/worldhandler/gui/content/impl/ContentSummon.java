@@ -356,13 +356,13 @@ public class ContentSummon extends Content
 				
 				container.add(new GuiButtonBase(x + 118, y + 24 * i, 20, 20, TextUtils.ARROW_LEFT, () ->
 				{
-					this.builderSummon.setArmorItem(index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(index)) - 1, this.armor[index].length)]);
+					this.builderSummon.setArmorItem(3 - index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(3 - index)) - 1, this.armor[index].length)]);
 					container.func_231160_c_();
 				}));
-				container.add(button1 = new GuiButtonItem(x + 118 + 24, y + 24 * i, 20, 20, ForgeRegistries.ITEMS.getValue(this.builderSummon.getArmorItem(i)), null));
+				container.add(button1 = new GuiButtonItem(x + 118 + 24, y + 24 * i, 20, 20, ForgeRegistries.ITEMS.getValue(this.builderSummon.getArmorItem(3 - i)), null));
 				container.add(new GuiButtonBase(x + 118 + 47, y + 24 * i, 20, 20, TextUtils.ARROW_RIGHT, () ->
 				{
-					this.builderSummon.setArmorItem(index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(index)) + 1, this.armor[index].length)]);
+					this.builderSummon.setArmorItem(3 - index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(3 - index)) + 1, this.armor[index].length)]);
 					container.func_231160_c_();
 				}));
 				
@@ -381,7 +381,6 @@ public class ContentSummon extends Content
 				container.add(button1 = new GuiButtonItem(x + 118 + 70 + 24 * i, y + 36, 20, 20, ForgeRegistries.ITEMS.getValue(this.builderSummon.getHandItem(i)), null));
 				container.add(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 60, 20, 20, EnumIcon.ARROW_DOWN, null, () ->
 				{
-					System.out.println(index + " " + ArrayUtils.indexOf(this.hands[index], this.builderSummon.getHandItem(index)) + 1);
 					this.builderSummon.setHandItem(index, this.hands[index][Math.floorMod(ArrayUtils.indexOf(this.hands[index], this.builderSummon.getHandItem(index)) + 1, this.hands[index].length)]);
 					container.func_231160_c_();
 				}));
@@ -430,7 +429,7 @@ public class ContentSummon extends Content
 	 		
 	 		for(int i = 0; i < 4; i++)
 	 		{
-		 		if(this.builderSummon.getArmorItem(i).equals(Items.AIR.getRegistryName()))
+		 		if(this.builderSummon.getArmorItem(3 - i).equals(Items.AIR.getRegistryName()))
 		 		{
 			 		container.func_238474_b_(matrix, x + 118 + 24 + 2, y + 2 + 24 * i, 112, 221, 16, 16); //blit
 		 		}
