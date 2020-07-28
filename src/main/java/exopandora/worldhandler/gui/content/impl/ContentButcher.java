@@ -1,6 +1,8 @@
 package exopandora.worldhandler.gui.content.impl;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -19,8 +21,8 @@ import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -44,7 +46,7 @@ public class ContentButcher extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.radiusField = new GuiTextFieldTooltip(x + 116 / 2, y + 12, 116, 20, new TranslationTextComponent("gui.worldhandler.butcher.radius"));
+		this.radiusField = new GuiTextFieldTooltip(x + 58, y, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.radius"));
 		this.radiusField.setValidator(string ->
 		{
 			if(string == null)
@@ -93,32 +95,40 @@ public class ContentButcher extends Content
 		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(this.radiusField);
-		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 232 / 2, 20, new TranslationTextComponent("gui.worldhandler.butcher.configure"), () ->
+		container.add(new GuiButtonBase(x + 58, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.configure"), () ->
 		{
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.BUTCHER_SETTINGS.withParent(Contents.BUTCHER)));
 		}));
 		
-		container.add(slaughter = new GuiButtonBase(x + 116 / 2, y + 60, 232 / 2, 20, new TranslationTextComponent("gui.worldhandler.butcher.slaughter"), () ->
-		{
-			AxisAlignedBB aabb = new AxisAlignedBB(Minecraft.getInstance().player.func_233580_cy_()).grow(Double.valueOf(this.radius));
-			
-			for(ResourceLocation entry : Config.getButcher().getEntities())
-			{
-				EntityType<?> entity = ForgeRegistries.ENTITIES.getValue(entry);
-				
-				if(entity != null)
-				{
-					List<?> entities = Minecraft.getInstance().world.getEntitiesWithinAABB(entity, aabb, Predicates.alwaysTrue());
-					
-					if(!entities.isEmpty())
-					{
-						CommandHelper.sendCommand(new BuilderButcher(entry, Integer.valueOf(this.radius)));
-					}
-				}
-			}
-		}));
+		boolean enabled = this.radius != null && !this.radius.isEmpty();
 		
-		slaughter.field_230693_o_ = this.radius != null && !this.radius.isEmpty() && !Config.CLIENT.getButcher().getEntities().isEmpty();
+		container.add(slaughter = new GuiButtonBase(x + 58, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.slaughter"), () ->
+		{
+			ContentButcher.slaughter(Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITIES::getValue).filter(Predicates.notNull()).collect(Collectors.toList()), Integer.parseInt(this.radius));
+		}));
+		slaughter.field_230693_o_ = enabled && !Config.getButcher().getEntities().isEmpty();
+		
+		container.add(slaughter = new GuiButtonBase(x + 58, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets"), () ->
+		{
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.BUTCHER_PRESETS.withBuilder(this.builderButcher).withRadius(Integer.parseInt(this.radius)).withParent(Contents.BUTCHER)));
+		}));
+		slaughter.field_230693_o_ = enabled;
+	}
+	
+	public static void slaughter(Collection<EntityType<?>> entities, int radius)
+	{
+		AxisAlignedBB aabb = new AxisAlignedBB(Minecraft.getInstance().player.func_233580_cy_()).grow(radius);
+		
+		for(EntityType<?> entity : entities)
+		{
+			List<? extends Entity> targets = Minecraft.getInstance().world.getEntitiesWithinAABB(entity, aabb, Predicates.alwaysTrue());
+			targets.removeIf(target -> Minecraft.getInstance().player.equals(target));
+			
+			if(!targets.isEmpty())
+			{
+				CommandHelper.sendCommand(new BuilderButcher(entity.getRegistryName(), radius));
+			}
+		}
 	}
 	
 	@Override

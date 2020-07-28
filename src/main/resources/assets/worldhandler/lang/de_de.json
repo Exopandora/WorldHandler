@@ -124,6 +124,12 @@
 	"gui.worldhandler.butcher.radius": "Radius",
 	"gui.worldhandler.butcher.configure": "Konfigurieren",
 	"gui.worldhandler.butcher.slaughter": "Metzeln",
+	"gui.worldhandler.butcher.presets": "Vorlagen",
+
+	"gui.worldhandler.butcher.presets.passive_mobs": "Passive Mobs",
+	"gui.worldhandler.butcher.presets.hostile_mobs": "Feindliche Mobs",
+	"gui.worldhandler.butcher.presets.entities": "Objekte",
+	"gui.worldhandler.butcher.presets.players": "Spieler",
 
 	"gui.worldhandler.multiplayer.kick": "Kicken",
 	"gui.worldhandler.multiplayer.ban": "Bannen",

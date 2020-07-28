@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.gui.content.impl.ContentAdvancements;
 import exopandora.worldhandler.gui.content.impl.ContentButcher;
+import exopandora.worldhandler.gui.content.impl.ContentButcherPresets;
 import exopandora.worldhandler.gui.content.impl.ContentButcherSettings;
 import exopandora.worldhandler.gui.content.impl.ContentChangeWorld;
 import exopandora.worldhandler.gui.content.impl.ContentCommandStack;
@@ -70,6 +71,9 @@ public abstract class Content extends ForgeRegistryEntry<Content> implements ICo
 		
 		//ENTITIES
 		RegistryHelper.register(event.getRegistry(), "summon", new ContentSummon());
+		RegistryHelper.register(event.getRegistry(), "butcher", new ContentButcher());
+		RegistryHelper.register(event.getRegistry(), "butcher_settings", new ContentButcherSettings());
+		RegistryHelper.register(event.getRegistry(), "butcher_presets", new ContentButcherPresets());
 		
 		//ITEMS
 		RegistryHelper.register(event.getRegistry(), "custom_item", new ContentCustomItem());
@@ -102,8 +106,6 @@ public abstract class Content extends ForgeRegistryEntry<Content> implements ICo
 		//NO CATEGORY
 		RegistryHelper.register(event.getRegistry(), "potions", new ContentPotions());
 		RegistryHelper.register(event.getRegistry(), "command_stack", new ContentCommandStack());
-		RegistryHelper.register(event.getRegistry(), "butcher", new ContentButcher());
-		RegistryHelper.register(event.getRegistry(), "butcher_settings", new ContentButcherSettings());
 		RegistryHelper.register(event.getRegistry(), "settings", new ContentSettings());
 		
 		//USERCONTENT

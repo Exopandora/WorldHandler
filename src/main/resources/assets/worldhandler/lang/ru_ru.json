@@ -124,6 +124,12 @@
 	"gui.worldhandler.butcher.radius": "Радиус",
 	"gui.worldhandler.butcher.configure": "Настроить",
 	"gui.worldhandler.butcher.slaughter": "Резать",
+	"gui.worldhandler.butcher.presets": "Presets",
+
+	"gui.worldhandler.butcher.presets.passive_mobs": "Passive Mobs",
+	"gui.worldhandler.butcher.presets.hostile_mobs": "Hostile Mobs",
+	"gui.worldhandler.butcher.presets.entities": "Entities",
+	"gui.worldhandler.butcher.presets.players": "Players",
 
 	"gui.worldhandler.multiplayer.kick": "Выгнать",
 	"gui.worldhandler.multiplayer.ban": "Забанить",

@@ -92,10 +92,4 @@ public class ContentButcherSettings extends ContentChild
 		button1.field_230693_o_ = !contains;
 		button2.field_230693_o_ = contains;
 	}
-	
-	@Override
-	public IFormattableTextComponent getTitle()
-	{
-		return this.getParentContent().getTitle();
-	}
 }

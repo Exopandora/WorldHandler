@@ -30,6 +30,17 @@ public abstract class ContentChild extends Content
 	}
 	
 	@Override
+	public IFormattableTextComponent getTitle()
+	{
+		if(this.parent != null)
+		{
+			return this.parent.getTitle();
+		}
+		
+		return null;
+	}
+	
+	@Override
 	public IFormattableTextComponent getTabTitle()
 	{
 		if(this.parent != null)

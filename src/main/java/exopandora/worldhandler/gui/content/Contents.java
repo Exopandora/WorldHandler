@@ -1,6 +1,7 @@
 package exopandora.worldhandler.gui.content;
 
 import exopandora.worldhandler.Main;
+import exopandora.worldhandler.gui.content.impl.ContentButcherPresets;
 import exopandora.worldhandler.gui.content.impl.ContentChild;
 import exopandora.worldhandler.gui.content.impl.ContentContinue;
 import net.minecraft.util.ResourceLocation;
@@ -15,6 +16,9 @@ public class Contents
 	public static final Content MULTIPLAYER = Contents.getRegisteredContent("multiplayer");
 	
 	public static final Content SUMMON = Contents.getRegisteredContent("summon");
+	public static final Content BUTCHER = Contents.getRegisteredContent("butcher");
+	public static final ContentChild BUTCHER_SETTINGS = (ContentChild) Contents.getRegisteredContent("butcher_settings");
+	public static final ContentButcherPresets BUTCHER_PRESETS = (ContentButcherPresets) Contents.getRegisteredContent("butcher_presets");
 	
 	public static final Content CUSTOM_ITEM = Contents.getRegisteredContent("custom_item");
 	public static final Content ENCHANTMENT = Contents.getRegisteredContent("enchantment");
@@ -40,8 +44,6 @@ public class Contents
 	
 	public static final ContentChild POTIONS = (ContentChild) Contents.getRegisteredContent("potions");
 	public static final ContentChild COMMAND_STACK = (ContentChild) Contents.getRegisteredContent("command_stack");
-	public static final Content BUTCHER = Contents.getRegisteredContent("butcher");
-	public static final ContentChild BUTCHER_SETTINGS = (ContentChild) Contents.getRegisteredContent("butcher_settings");
 	public static final ContentChild SETTINGS = (ContentChild) Contents.getRegisteredContent("settings");
 	
 	public static Content getRegisteredContent(String name)

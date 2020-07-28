@@ -11,7 +11,6 @@ import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -80,11 +79,5 @@ public class ContentContinue extends ContentChild
 	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		this.commandField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-	}
-	
-	@Override
-	public IFormattableTextComponent getTitle()
-	{
-		return this.getParentContent().getTitle();
 	}
 }
