@@ -31,8 +31,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class BlockHelper
 {
-	private static BlockPos POS_1 = BlockPos.ZERO;
-	private static BlockPos POS_2 = BlockPos.ZERO;
+	private static BlockPos pos1 = BlockPos.ZERO;
+	private static BlockPos pos2 = BlockPos.ZERO;
 	private static final List<Consumer<BlockPos>> POS_1_OBSERVERS = new ArrayList<Consumer<BlockPos>>();
 	private static final List<Consumer<BlockPos>> POS_2_OBSERVERS = new ArrayList<Consumer<BlockPos>>();
 	private static final Block[] BLACKLIST = new Block[] {Blocks.AIR, Blocks.WATER, Blocks.LAVA};
@@ -82,18 +82,18 @@ public class BlockHelper
 	@Nonnull
 	public static BlockPos getPos1()
 	{
-		return POS_1;
+		return BlockHelper.pos1;
 	}
 	
 	public static void setPos1(BlockPos pos1)
 	{
-		if(POS_1 != null && !POS_1.equals(pos1))
+		if(BlockHelper.pos1 != null && !BlockHelper.pos1.equals(pos1))
 		{
-			POS_1 = pos1;
+			BlockHelper.pos1 = pos1;
 			
 			for(Consumer<BlockPos> observer : POS_1_OBSERVERS)
 			{
-				observer.accept(POS_1);
+				observer.accept(BlockHelper.pos1);
 			}
 		}
 	}
@@ -101,18 +101,18 @@ public class BlockHelper
 	@Nonnull
 	public static BlockPos getPos2()
 	{
-		return POS_2;
+		return BlockHelper.pos2;
 	}
 	
 	public static void setPos2(BlockPos pos2)
 	{
-		if(POS_2 != null && !POS_2.equals(pos2))
+		if(BlockHelper.pos2 != null && !BlockHelper.pos2.equals(pos2))
 		{
-			POS_2 = pos2;
+			BlockHelper.pos2 = pos2;
 			
 			for(Consumer<BlockPos> observer : POS_2_OBSERVERS)
 			{
-				observer.accept(POS_2);
+				observer.accept(BlockHelper.pos2);
 			}
 		}
 	}
