@@ -7,14 +7,15 @@ logoFile="logo.png"
 credits="Author: Exopandora, French Translation: Koockies, Russian Translation: vanja-san, Simplified Chinese Translation: fhfuih (samhzy)"
 authors="Exopandora"
 logoBlur=false
+license="GPL v3.0"
 
 [[mods]]
-modId="worldhandler"
-version="1.16.1-2.10.3"
-displayName="World Handler"
-description='''
-The World Handler provides a simple and easy to use graphical user interface for commands. It lets you create powerful and complex sub-commands alongside NBT-structures within seconds.
-'''
+	modId="worldhandler"
+	version="1.16.1-2.10.3"
+	displayName="World Handler"
+	description='''
+	The World Handler provides a simple and easy to use graphical user interface for commands. It lets you create powerful and complex sub-commands alongside NBT-structures within seconds.
+	'''
 
 [[dependencies.worldhandler]]
     modId="minecraft"
