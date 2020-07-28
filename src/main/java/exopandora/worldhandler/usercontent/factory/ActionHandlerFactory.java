@@ -3,6 +3,7 @@ package exopandora.worldhandler.usercontent.factory;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
@@ -34,13 +35,13 @@ public class ActionHandlerFactory
 	}
 	
 	@Nullable
-	public ActionHandler createActionHandler(Content content, Action action)
+	public ActionHandler createActionHandler(Content content, Action action, Supplier<String> player)
 	{
-		return this.createActionHandler(content, action, null);
+		return this.createActionHandler(content, action, player, null);
 	}
 	
 	@Nullable
-	public ActionHandler createActionHandler(Content content, Action action, String value)
+	public ActionHandler createActionHandler(Content content, Action action, Supplier<String> player, String value)
 	{
 		if(action == null)
 		{
@@ -76,7 +77,7 @@ public class ActionHandlerFactory
 				{
 					if(action.getAttributes().getValue() == null)
 					{
-						CommandHelper.sendCommand(this.builders.get(action.getAttributes().getCommand()).getObject());
+						CommandHelper.sendCommand(player.get(), this.builders.get(action.getAttributes().getCommand()).getObject());
 					}
 					else if(!action.getAttributes().getValue().isEmpty())
 					{

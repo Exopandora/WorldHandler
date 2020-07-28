@@ -1,5 +1,7 @@
 package exopandora.worldhandler.usercontent.factory;
 
+import java.util.function.Supplier;
+
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
@@ -42,13 +44,15 @@ public abstract class WidgetFactory
 		private final UsercontentAPI api;
 		private final Content content;
 		private final JsonWidget<T> widget;
+		private final Supplier<String> player;
 		
-		public UsercontentLogicMapped(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory, Content content, JsonWidget<T> widget)
+		public UsercontentLogicMapped(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory, Content content, JsonWidget<T> widget, Supplier<String> player)
 		{
 			this.api = api;
 			this.actionHandlerFactory = actionHandlerFactory;
 			this.content = content;
 			this.widget = widget;
+			this.player = player;
 		}
 		
 		@Override
@@ -74,7 +78,7 @@ public abstract class WidgetFactory
 			try
 			{
 				this.api.updateValue(this.widget.getAttributes().getId(), item.getId());
-				ActionHandler action = this.actionHandlerFactory.createActionHandler(this.content, this.widget.getAction(), item.getId());
+				ActionHandler action = this.actionHandlerFactory.createActionHandler(this.content, this.widget.getAction(), this.player, item.getId());
 				
 				if(action != null)
 				{

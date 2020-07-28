@@ -68,109 +68,109 @@ public class ContentNoteEditor extends Content
 			
 			container.add(new GuiButtonPiano(x - 3 + 15, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.g"), sound, 0.53F, Type.NORMAL, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(1));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(1));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 2, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.a"), sound, 0.6F, Type.NORMAL, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(3));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(3));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 3, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.b"), sound, 0.67F, Type.RIGHT, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(5));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(5));
 			}));
 			
 			container.add(new GuiButtonPiano(x - 3 + 15 * 4, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.c"), sound, 0.7F, Type.LEFT, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(6));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(6));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 5, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.d"), sound, 0.8F, Type.NORMAL, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(8));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(8));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 6, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.e"), sound, 0.9F, Type.RIGHT, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(10));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(10));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 7, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.f"), sound, 0.95F, Type.LEFT, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(11));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(11));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 8, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.g"), sound, 1.05F, Type.NORMAL, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(13));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(13));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 9, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.a"), sound, 1.2F, Type.NORMAL, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(15));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(15));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 10, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.b"), sound, 1.32F, Type.RIGHT, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(17));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(17));
 			}));
 			
 			container.add(new GuiButtonPiano(x - 3 + 15 * 11, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.c"), sound, 1.4F, Type.LEFT, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(18));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(18));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 12, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.d"), sound, 1.6F, Type.NORMAL, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(20));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(20));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 13, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.e"), sound, 1.8F, Type.RIGHT, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(22));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(22));
 			}));
 			container.add(new GuiButtonPiano(x - 3 + 15 * 14, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.f"), sound, 1.9F, Type.LEFT, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(23));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(23));
 			}));
 			
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15, y, 9, 58, new StringTextComponent("F#"), sound, 0.5F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(0));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(0));
 			}));
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 2, y, 9, 58, new StringTextComponent("G#"), sound, 0.56F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(2));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(2));
 			}));
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 3, y, 9, 58, new StringTextComponent("A#"), sound, 0.63F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(4));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(4));
 			}));
 			
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 5, y, 9, 58, new StringTextComponent("C#"), sound, 0.75F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(7));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(7));
 			}));
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 6, y, 9, 58, new StringTextComponent("D#"), sound, 0.85F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(9));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(9));
 			}));
 			
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 8, y, 9, 58, new StringTextComponent("F#"), sound, 1.0F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(12));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(12));
 			}));
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 9, y, 9, 58, new StringTextComponent("G#"), sound, 1.1F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(14));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(14));
 			}));
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 10, y, 9, 58, new StringTextComponent("A#"), sound, 1.25F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(16));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(16));
 			}));
 			
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 12, y, 9, 58, new StringTextComponent("C#"), sound, 1.5F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(19));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(19));
 			}));
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 13, y, 9, 58, new StringTextComponent("D#"), sound, 1.7F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(21));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(21));
 			}));
 			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 15, y, 9, 58, new StringTextComponent("F#"), sound, 2.0F, Type.BLACK, () ->
 			{
-				CommandHelper.sendCommand(this.builderNoteEditor.getBuilderForNote(24));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderNoteEditor.getBuilderForNote(24));
 			}));
 		}
 	}

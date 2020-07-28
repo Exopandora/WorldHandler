@@ -104,7 +104,7 @@ public class ContentButcher extends Content
 		
 		container.add(slaughter = new GuiButtonBase(x + 58, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.slaughter"), () ->
 		{
-			ContentButcher.slaughter(Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITIES::getValue).filter(Predicates.notNull()).collect(Collectors.toList()), Integer.parseInt(this.radius));
+			ContentButcher.slaughter(container.getPlayer(), Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITIES::getValue).filter(Predicates.notNull()).collect(Collectors.toList()), Integer.parseInt(this.radius));
 		}));
 		slaughter.field_230693_o_ = enabled && !Config.getButcher().getEntities().isEmpty();
 		
@@ -115,7 +115,7 @@ public class ContentButcher extends Content
 		slaughter.field_230693_o_ = enabled;
 	}
 	
-	public static void slaughter(Collection<EntityType<?>> entities, int radius)
+	public static void slaughter(String player, Collection<EntityType<?>> entities, int radius)
 	{
 		AxisAlignedBB aabb = new AxisAlignedBB(Minecraft.getInstance().player.func_233580_cy_()).grow(radius);
 		
@@ -126,7 +126,7 @@ public class ContentButcher extends Content
 			
 			if(!targets.isEmpty())
 			{
-				CommandHelper.sendCommand(new BuilderButcher(entity.getRegistryName(), radius));
+				CommandHelper.sendCommand(player, new BuilderButcher(entity.getRegistryName(), radius));
 			}
 		}
 	}

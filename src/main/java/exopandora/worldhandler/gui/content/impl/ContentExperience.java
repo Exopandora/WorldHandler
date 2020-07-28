@@ -55,16 +55,16 @@ public class ContentExperience extends Content
 		
 		container.add(this.buttonAdd = new GuiButtonBase(x + 116 / 2, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 		{
-			CommandHelper.sendCommand(this.builderExperience.getBuilderForAddLevels());
+			CommandHelper.sendCommand(container.getPlayer(), this.builderExperience.getBuilderForAddLevels());
 			container.func_231160_c_();
 		}));
 		container.add(this.buttonRemove = new GuiButtonBase(x + 116 / 2, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.remove"), () ->
 		{
-			CommandHelper.sendCommand(this.builderExperience.getBuilderForRemoveLevels());
+			CommandHelper.sendCommand(container.getPlayer(), this.builderExperience.getBuilderForRemoveLevels());
 		}));
 		container.add(new GuiButtonTooltip(x + 116 / 2, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset"), new TranslationTextComponent("gui.worldhandler.actions.set_to_0"), () ->
 		{
-			CommandHelper.sendCommand(this.builderExperience.getBuilderForResetLevels());
+			CommandHelper.sendCommand(container.getPlayer(), this.builderExperience.getBuilderForResetLevels());
 			container.func_231160_c_();
 		}));
 		

@@ -34,17 +34,17 @@ public class ContentContainers extends Content
 		
 		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.func_235333_g_(), () ->
 		{
-			BlockHelper.setBlockNearPlayer(Blocks.CRAFTING_TABLE);
+			BlockHelper.setBlockNearPlayer(container.getPlayer(), Blocks.CRAFTING_TABLE);
 			ActionHelper.backToGame();
 		}));
 		container.add(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.func_235333_g_(), () ->
 		{
-			BlockHelper.setBlockNearPlayer(Blocks.ENDER_CHEST);
+			BlockHelper.setBlockNearPlayer(container.getPlayer(), Blocks.ENDER_CHEST);
 			ActionHelper.backToGame();
 		}));
 		container.add(new GuiButtonBase(x + 24, y + 48, 208, 20, Blocks.ANVIL.func_235333_g_(), () ->
 		{
-			BlockHelper.setBlockNearPlayer(Blocks.ANVIL);
+			BlockHelper.setBlockNearPlayer(container.getPlayer(), Blocks.ANVIL);
 			ActionHelper.backToGame();
 		}));
 		container.add(new GuiButtonBase(x + 24, y + 72, 208, 20, Blocks.ENCHANTING_TABLE.func_235333_g_(), () ->
@@ -74,7 +74,7 @@ public class ContentContainers extends Content
 						
 						if(block != null)
 						{
-							CommandHelper.sendCommand(new BuilderSetBlock(new CoordinateInt(cx, EnumType.GLOBAL), new CoordinateInt(yOffset, EnumType.GLOBAL), new CoordinateInt(cz, EnumType.GLOBAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()));
+							CommandHelper.sendCommand(container.getPlayer(), new BuilderSetBlock(new CoordinateInt(cx, EnumType.GLOBAL), new CoordinateInt(yOffset, EnumType.GLOBAL), new CoordinateInt(cz, EnumType.GLOBAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()));
 						}
 					}
 				}
@@ -85,19 +85,19 @@ public class ContentContainers extends Content
 		
 		container.add(new GuiButtonItem(x, y, 20, 20, new ItemStack(Blocks.CRAFTING_TABLE), () ->
 		{
-			CommandHelper.sendCommand(new BuilderGive(container.getPlayer(), Blocks.CRAFTING_TABLE.getRegistryName()));
+			CommandHelper.sendCommand(container.getPlayer(), new BuilderGive(container.getPlayer(), Blocks.CRAFTING_TABLE.getRegistryName()));
 		}));
 		container.add(new GuiButtonItem(x, y + 24, 20, 20, new ItemStack(Blocks.ENDER_CHEST), () ->
 		{
-			CommandHelper.sendCommand(new BuilderGive(container.getPlayer(), Blocks.ENDER_CHEST.getRegistryName()));
+			CommandHelper.sendCommand(container.getPlayer(), new BuilderGive(container.getPlayer(), Blocks.ENDER_CHEST.getRegistryName()));
 		}));
 		container.add(new GuiButtonItem(x, y + 48, 20, 20, new ItemStack(Blocks.ANVIL), () ->
 		{
-			CommandHelper.sendCommand(new BuilderGive(container.getPlayer(), Blocks.ANVIL.getRegistryName()));
+			CommandHelper.sendCommand(container.getPlayer(), new BuilderGive(container.getPlayer(), Blocks.ANVIL.getRegistryName()));
 		}));
 		container.add(new GuiButtonItem(x, y + 72, 20, 20, new ItemStack(Blocks.ENCHANTING_TABLE), () ->
 		{
-			CommandHelper.sendCommand(new BuilderGive(container.getPlayer(), Blocks.ENCHANTING_TABLE.getRegistryName()));
+			CommandHelper.sendCommand(container.getPlayer(), new BuilderGive(container.getPlayer(), Blocks.ENCHANTING_TABLE.getRegistryName()));
 		}));
 	}
 	

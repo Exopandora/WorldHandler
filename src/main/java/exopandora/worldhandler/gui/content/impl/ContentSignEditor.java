@@ -140,7 +140,7 @@ public class ContentSignEditor extends Content
 				container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.format_text_line"), () -> this.toggleEditColor(container)));
 				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 				{
-					CommandHelper.sendCommand(this.builderSignEditor, this.builderSignEditor.isSpecial());
+					CommandHelper.sendCommand(container.getPlayer(), this.builderSignEditor, this.builderSignEditor.isSpecial());
 				}));
 			}
 			

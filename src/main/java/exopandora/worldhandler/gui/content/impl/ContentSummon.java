@@ -280,11 +280,11 @@ public class ContentSummon extends Content
 			
 			if(!this.builderSummon.needsCommandBlock() && !this.builderSummon.getCustomName().isSpecial())
 			{
-				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.title.entities.summon"), this::send));
+				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.title.entities.summon"), () -> this.send(container.getPlayer())));
 			}
 			else
 			{
-				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), this::send));
+				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () -> this.send(container.getPlayer())));
 			}
 			
 			button3.field_230693_o_ = ForgeRegistries.ENTITIES.containsKey(this.builderSummon.getEntity());
@@ -392,9 +392,9 @@ public class ContentSummon extends Content
 		}
 	}
 	
-	private void send()
+	private void send(String player)
 	{
-		CommandHelper.sendCommand(this.builderSummon, this.builderSummon.getCustomName().isSpecial());
+		CommandHelper.sendCommand(player, this.builderSummon, this.builderSummon.getCustomName().isSpecial());
 	}
 	
 	@Override

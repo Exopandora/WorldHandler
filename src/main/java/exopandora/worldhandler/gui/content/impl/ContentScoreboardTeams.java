@@ -160,12 +160,12 @@ public class ContentScoreboardTeams extends ContentScoreboard
 			
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.join"), () ->
 			{
-				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.JOIN));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.getBuilderForMode(EnumMode.JOIN));
 				container.initButtons();
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.leave"), () ->
 			{
-				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.LEAVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.getBuilderForMode(EnumMode.LEAVE));
 				container.initButtons();
 			}));
 			
@@ -175,12 +175,12 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.remove"), () ->
 			{
-				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.REMOVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.getBuilderForMode(EnumMode.REMOVE));
 				container.initButtons();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.empty"), () ->
 			{
-				CommandHelper.sendCommand(this.builderTeams.getBuilderForMode(EnumMode.EMPTY));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.getBuilderForMode(EnumMode.EMPTY));
 				container.initButtons();
 			}));
 			
@@ -192,7 +192,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, new TranslationTextComponent("gui.worldhandler.actions.perform"), () ->
 			{
-				CommandHelper.sendCommand(this.builderTeams);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams);
 				container.initButtons();
 			}));
 			button1.field_230693_o_ = enabled;

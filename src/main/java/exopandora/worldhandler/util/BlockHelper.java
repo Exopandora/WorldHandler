@@ -146,7 +146,7 @@ public class BlockHelper
 		POS_2_OBSERVERS.add(observer);
 	}
 	
-	public static boolean setCommandBlockNearPlayer(String command)
+	public static boolean setCommandBlockNearPlayer(String player, String command)
 	{
 		if(CommandHelper.canPlayerIssueCommand() && Minecraft.getInstance().getConnection() != null)
 		{
@@ -170,7 +170,7 @@ public class BlockHelper
 			
 			BuilderExecute wrapped = new BuilderExecute();
 			wrapped.setMode1(EnumMode.AT);
-			wrapped.setTarget(Minecraft.getInstance().player.getGameProfile().getName());
+			wrapped.setTarget(player);
 			wrapped.setMode2(EnumMode.RUN);
 			wrapped.setCommand(command);
 			
@@ -183,10 +183,10 @@ public class BlockHelper
 		return false;
 	}
 	
-	public static void setBlockNearPlayer(Block block)
+	public static void setBlockNearPlayer(String player, Block block) //TODO usage
 	{
 		BuilderSetBlock builder = new BuilderSetBlock(new CoordinateInt(EnumType.LOCAL), new CoordinateInt(EnumType.LOCAL), new CoordinateInt(2, EnumType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode());
 		builder.setState(BlockStateProperties.HORIZONTAL_FACING, Minecraft.getInstance().player.getHorizontalFacing().getOpposite());
-		CommandHelper.sendCommand(builder);
+		CommandHelper.sendCommand(player, builder);
 	}
 }

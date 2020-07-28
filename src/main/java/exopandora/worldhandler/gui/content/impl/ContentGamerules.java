@@ -133,11 +133,11 @@ public class ContentGamerules extends Content
 		{
 			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.enable"), () ->
 			{
-				CommandHelper.sendCommand(this.builderGamerule.getBuilderForValue(String.valueOf(true)));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderGamerule.getBuilderForValue(String.valueOf(true)));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.disable"), () ->
 			{
-				CommandHelper.sendCommand(this.builderGamerule.getBuilderForValue(String.valueOf(false)));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderGamerule.getBuilderForValue(String.valueOf(false)));
 			}));
 		}
 		else
@@ -145,7 +145,7 @@ public class ContentGamerules extends Content
 			container.add(this.valueField);
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.perform"), () ->
 			{
-				CommandHelper.sendCommand(this.builderGamerule);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderGamerule);
 			}));
 		}
 	}

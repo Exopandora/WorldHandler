@@ -124,11 +124,11 @@ public class ContentAdvancements extends Content
 		
 		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.advancements.grant"), () ->
 		{
-			CommandHelper.sendCommand(this.builderAdvancement.getBuilderForAction(EnumActionType.GRANT));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement.getBuilderForAction(EnumActionType.GRANT));
 		}));
 		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.advancements.revoke"), () ->
 		{
-			CommandHelper.sendCommand(this.builderAdvancement.getBuilderForAction(EnumActionType.REVOKE));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement.getBuilderForAction(EnumActionType.REVOKE));
 		}));
 		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset").func_240699_a_(TextFormatting.RED), () ->
 		{

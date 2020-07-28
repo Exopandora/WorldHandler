@@ -1,5 +1,7 @@
 package exopandora.worldhandler.usercontent.factory;
 
+import java.util.function.Supplier;
+
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.gui.button.GuiButtonBase;
@@ -40,7 +42,7 @@ public class MenuFactory extends WidgetFactory
 				menu.getDimensions().getHeight(),
 				menu.getAttributes().getLength(),
 				container,
-				new UsercontentLogicPageList<JsonMenu.Type>(this.getApi(), this.getActionHandlerFactory(), content, container, menu)
+				new UsercontentLogicPageList<JsonMenu.Type>(this.getApi(), this.getActionHandlerFactory(), content, container, menu, container::getPlayer)
 			);
 		}
 		
@@ -52,9 +54,9 @@ public class MenuFactory extends WidgetFactory
 	{
 		private final Container container;
 		
-		public UsercontentLogicPageList(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory, Content content, Container container, JsonWidget<T> widget)
+		public UsercontentLogicPageList(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory, Content content, Container container, JsonWidget<T> widget, Supplier<String> player)
 		{
-			super(api, actionHandlerFactory, content, widget);
+			super(api, actionHandlerFactory, content, widget, player);
 			this.container = container;
 		}
 		

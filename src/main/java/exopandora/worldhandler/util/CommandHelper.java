@@ -32,13 +32,13 @@ public class CommandHelper
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public static void sendCommand(ICommandBuilder builder)
+	public static void sendCommand(String player, ICommandBuilder builder)
 	{
-		CommandHelper.sendCommand(builder, false);
+		CommandHelper.sendCommand(player, builder, false);
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public static void sendCommand(ICommandBuilder builder, boolean special)
+	public static void sendCommand(String player, ICommandBuilder builder, boolean special)
 	{
 		if(builder != null)
 		{
@@ -57,7 +57,7 @@ public class CommandHelper
 			
 			if(builder.needsCommandBlock() || special)
 			{
-				BlockHelper.setCommandBlockNearPlayer(command);
+				BlockHelper.setCommandBlockNearPlayer(player, command);
 			}
 			else
 			{

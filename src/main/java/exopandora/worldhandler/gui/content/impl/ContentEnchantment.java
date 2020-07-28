@@ -91,7 +91,7 @@ public class ContentEnchantment extends Content
 		
 		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.items.enchantment.enchant"), () ->
 		{
-			CommandHelper.sendCommand(this.builderEnchantment);
+			CommandHelper.sendCommand(container.getPlayer(), this.builderEnchantment);
 		}));
 	}
 	

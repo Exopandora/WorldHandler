@@ -278,19 +278,19 @@ public class ContentCustomItem extends Content
 		
 		if(!this.builderCutomItem.needsCommandBlock() && !this.builderCutomItem.getName().isSpecial())
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.custom_item"), this::send));
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.custom_item"), () -> this.send(container.getPlayer())));
 		}
 		else
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), this::send));
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () -> this.send(container.getPlayer())));
 		}
 		
 		button4.field_230693_o_ = ResourceHelper.isRegistered(ResourceHelper.stringToResourceLocation(this.item), ForgeRegistries.ITEMS);
 	}
 	
-	private void send()
+	private void send(String player)
 	{
-		CommandHelper.sendCommand(this.builderCutomItem, this.builderCutomItem.getName().isSpecial());
+		CommandHelper.sendCommand(player, this.builderCutomItem, this.builderCutomItem.getName().isSpecial());
 	}
 	
 	@Override

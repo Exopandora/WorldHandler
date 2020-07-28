@@ -259,7 +259,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		
 		container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, new TranslationTextComponent("gui.worldhandler.actions.perform"), () ->
 		{
-			CommandHelper.sendCommand(this.builderObjectives);
+			CommandHelper.sendCommand(container.getPlayer(), this.builderObjectives);
 			container.func_231160_c_();
 		}));
 		button1.field_230693_o_ = Page.UNDISPLAY.equals(this.page) || ContentScoreboard.isObjectiveValid();

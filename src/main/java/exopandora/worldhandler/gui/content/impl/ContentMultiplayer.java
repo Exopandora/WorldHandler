@@ -152,11 +152,11 @@ public class ContentMultiplayer extends Content
 			container.add(this.reasonField);
 			container.add(button6 = new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.kick"), new StringTextComponent(this.builderKick.toActualCommand()), () ->
 			{
-				CommandHelper.sendCommand(this.builderKick);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderKick);
 			}));
 			container.add(button7 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.ban"), new StringTextComponent(this.builderBan.toActualCommand()), () ->
 			{
-				CommandHelper.sendCommand(this.builderBan);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderBan);
 			}));
 			
 			if(this.playerField.getText().isEmpty())
@@ -172,7 +172,7 @@ public class ContentMultiplayer extends Content
 			container.add(this.playerField);
 			container.add(button6 = new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.pardon"), new StringTextComponent(this.builderPardon.toActualCommand()), () ->
 			{
-				CommandHelper.sendCommand(this.builderPardon);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPardon);
 			}));
 			
 			if(this.playerField.getText().isEmpty())
@@ -187,11 +187,11 @@ public class ContentMultiplayer extends Content
 			container.add(this.playerField);
 			container.add(button6 = new GuiButtonTooltip(x + 118, y + 24 + 12, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.permissions.give"), new StringTextComponent(this.builderOp.toActualCommand()), () ->
 			{
-				CommandHelper.sendCommand(this.builderOp);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderOp);
 			}));
 			container.add(button7 = new GuiButtonTooltip(x + 118, y + 48 + 12, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.permissions.take"), new StringTextComponent(this.builderDeop.toActualCommand()), () ->
 			{
-				CommandHelper.sendCommand(this.builderDeop);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderDeop);
 			}));
 			
 			if(this.playerField.getText().isEmpty())
@@ -206,11 +206,11 @@ public class ContentMultiplayer extends Content
 		{
 			container.add(new GuiButtonTooltip(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime.save_world"), new StringTextComponent(this.builderSaveAll.toActualCommand()), () ->
 			{
-				CommandHelper.sendCommand(this.builderSaveAll);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderSaveAll);
 			}));
 			container.add(new GuiButtonTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime.autosave", new TranslationTextComponent("gui.worldhandler.generic.on")), new StringTextComponent(this.builderSaveOn.toActualCommand()), () ->
 			{
-				CommandHelper.sendCommand(this.builderSaveOn);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderSaveOn);
 			}));
 			container.add(new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime.autosave", new TranslationTextComponent("gui.worldhandler.generic.off")).func_240699_a_(TextFormatting.RED), new StringTextComponent(this.builderSaveOff.toActualCommand()), () ->
 			{
@@ -228,25 +228,25 @@ public class ContentMultiplayer extends Content
 			container.add(this.playerField);
 			container.add(button6 = new GuiButtonBase(x + 118, y + 24, 44, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.add"), () ->
 			{
-				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.ADD));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.ADD));
 			}));
 			container.add(button7 = new GuiButtonBase(x + 118 + 47, y + 24, 44, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.remove"), () ->
 			{
-				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.REMOVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.REMOVE));
 			}));
 			
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.whitelist", new TranslationTextComponent("gui.worldhandler.generic.on")), () ->
 			{
-				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.ON));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.ON));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.whitelist", new TranslationTextComponent("gui.worldhandler.generic.off")), () ->
 			{
-				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.OFF));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.OFF));
 			}));
 			
 			container.add(new GuiButtonIcon(x + 232 - 20, y + 24, 20, 20, EnumIcon.RELOAD, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.reload"), () ->
 			{
-				CommandHelper.sendCommand(this.builderWhitelist.getBuilder(EnumMode.RELOAD));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.RELOAD));
 			}));
 			
 			if(this.playerField.getText().isEmpty())

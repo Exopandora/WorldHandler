@@ -46,7 +46,7 @@ public class ButtonFactory extends WidgetFactory
 				button.getDimensions().getHeight(),
 				TextUtils.formatNonnull(button.getText()),
 				TextUtils.formatNonnull(button.getAttributes() != null ? button.getAttributes().getTooltip() : null),
-				this.getActionHandlerFactory().createActionHandler(content, button.getAction())
+				this.getActionHandlerFactory().createActionHandler(content, button.getAction(), container::getPlayer)
 			);
 		}
 		else if(JsonButton.Type.ITEM_BUTTON.equals(button.getType()))
@@ -58,7 +58,7 @@ public class ButtonFactory extends WidgetFactory
 				button.getDimensions().getWidth(),
 				button.getDimensions().getHeight(),
 				ForgeRegistries.ITEMS.getValue(new ResourceLocation(button.getAttributes().getItem())),
-				this.getActionHandlerFactory().createActionHandler(content, button.getAction())
+				this.getActionHandlerFactory().createActionHandler(content, button.getAction(), container::getPlayer)
 			);
 		}
 		else if(JsonButton.Type.ICON_BUTTON.equals(button.getType()))
@@ -71,7 +71,7 @@ public class ButtonFactory extends WidgetFactory
 				button.getDimensions().getHeight(),
 				button.getAttributes().getIcon(),
 				TextUtils.formatNonnull(button.getAttributes().getTooltip()),
-				this.getActionHandlerFactory().createActionHandler(content, button.getAction())
+				this.getActionHandlerFactory().createActionHandler(content, button.getAction(), container::getPlayer)
 			);
 		}
 		else if(JsonButton.Type.LIST_BUTTON.equals(button.getType()))
@@ -84,7 +84,7 @@ public class ButtonFactory extends WidgetFactory
 				button.getDimensions().getWidth(),
 				button.getDimensions().getHeight(),
 				container,
-				new UsercontentLogicMapped<JsonButton.Type>(this.getApi(), this.getActionHandlerFactory(), content, button)
+				new UsercontentLogicMapped<JsonButton.Type>(this.getApi(), this.getActionHandlerFactory(), content, button, container::getPlayer)
 			);
 		}
 		else if(JsonButton.Type.SLIDER.equals(button.getType()))
