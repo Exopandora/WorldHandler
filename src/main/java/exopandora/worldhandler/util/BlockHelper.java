@@ -9,6 +9,8 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import exopandora.worldhandler.builder.impl.BuilderExecute;
+import exopandora.worldhandler.builder.impl.BuilderExecute.EnumMode;
 import exopandora.worldhandler.builder.impl.BuilderFill;
 import exopandora.worldhandler.builder.impl.BuilderSetBlock;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
@@ -165,7 +167,14 @@ public class BlockHelper
 			removeFill.setBlock1(new BlockResourceLocation(Blocks.AIR.getRegistryName()));
 			
 			Minecraft.getInstance().player.sendChatMessage(placeFill.toActualCommand());
-			Minecraft.getInstance().getConnection().sendPacket(new CUpdateCommandBlockPacket(pos, command, CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
+			
+			BuilderExecute wrapped = new BuilderExecute();
+			wrapped.setMode1(EnumMode.AT);
+			wrapped.setTarget(Minecraft.getInstance().player.getGameProfile().getName());
+			wrapped.setMode2(EnumMode.RUN);
+			wrapped.setCommand(command);
+			
+			Minecraft.getInstance().getConnection().sendPacket(new CUpdateCommandBlockPacket(pos, wrapped.toActualCommand(), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
 			Minecraft.getInstance().getConnection().sendPacket(new CUpdateCommandBlockPacket(pos.up(), removeFill.toActualCommand(), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
 			
 			return true;
