@@ -76,77 +76,77 @@ public class ActionHelper
 	
 	public static void timeDawn()
 	{
-		CommandHelper.sendCommand(null, new BuilderTime(EnumMode.SET, Config.getSettings().getDawn()));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getDawn()));
 	}
 	
 	public static void timeNoon()
 	{
-		CommandHelper.sendCommand(null, new BuilderTime(EnumMode.SET, Config.getSettings().getNoon()));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getNoon()));
 	}
 	
 	public static void timeSunset()
 	{
-		CommandHelper.sendCommand(null, new BuilderTime(EnumMode.SET, Config.getSettings().getSunset()));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getSunset()));
 	}
 	
 	public static void timeMidnight()
 	{
-		CommandHelper.sendCommand(null, new BuilderTime(EnumMode.SET, Config.getSettings().getMidnight()));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getMidnight()));
 	}
 	
 	public static void weatherClear()
 	{
-		CommandHelper.sendCommand(null, new BuilderWeather(EnumWeather.CLEAR));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderWeather(EnumWeather.CLEAR));
 	}
 	
 	public static void weatherRain()
 	{
-		CommandHelper.sendCommand(null, new BuilderWeather(EnumWeather.RAIN));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderWeather(EnumWeather.RAIN));
 	}
 	
 	public static void weatherThunder()
 	{
-		CommandHelper.sendCommand(null, new BuilderWeather(EnumWeather.THUNDER));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderWeather(EnumWeather.THUNDER));
 	}
 	
 	public static void difficultyPeaceful()
 	{
-		CommandHelper.sendCommand(null, new BuilderDifficulty(Difficulty.PEACEFUL));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderDifficulty(Difficulty.PEACEFUL));
 	}
 	
 	public static void difficultyEasy()
 	{
-		CommandHelper.sendCommand(null, new BuilderDifficulty(Difficulty.EASY));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderDifficulty(Difficulty.EASY));
 	}
 	
 	public static void difficultyNormal()
 	{
-		CommandHelper.sendCommand(null, new BuilderDifficulty(Difficulty.NORMAL));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderDifficulty(Difficulty.NORMAL));
 	}
 	
 	public static void difficultyHard()
 	{
-		CommandHelper.sendCommand(null, new BuilderDifficulty(Difficulty.HARD));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderDifficulty(Difficulty.HARD));
 	}
 	
 	public static void gamemodeSurvival()
 	{
-		CommandHelper.sendCommand(null, new BuilderGamemode(EnumGamemode.SURVIVAL));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderGamemode(EnumGamemode.SURVIVAL));
 	}
 	
 	public static void gamemodeCreative()
 	{
-		CommandHelper.sendCommand(null, new BuilderGamemode(EnumGamemode.CREATIVE));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderGamemode(EnumGamemode.CREATIVE));
 	}
 	
 	public static void gamemodeAdventure()
 	{
-		CommandHelper.sendCommand(null, new BuilderGamemode(EnumGamemode.ADVENTURE));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderGamemode(EnumGamemode.ADVENTURE));
 	}
 	
 	public static void gamemodeSpectator()
 	{
-		CommandHelper.sendCommand(null, new BuilderGamemode(EnumGamemode.SPECTATOR));
+		CommandHelper.sendCommand(Minecraft.getInstance().player.getGameProfile().getName(), new BuilderGamemode(EnumGamemode.SPECTATOR));
 	}
 	
 	public static void tryRun(ActionHandler action)
