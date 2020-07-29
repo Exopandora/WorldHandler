@@ -110,7 +110,7 @@ public class CommandWH
 			{
 				BuilderFill builder = new BuilderFill();
 				builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-				CommandHelper.sendCommand(builder);
+				CommandHelper.sendCommand(source.getName(), builder);
 			}
 		});
 		
@@ -132,7 +132,7 @@ public class CommandWH
 				builder.setBlockHandling(EnumBlockFilter.REPLACE);
 				builder.setBlock1(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
 				builder.setBlock2(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-				CommandHelper.sendCommand(builder);
+				CommandHelper.sendCommand(source.getName(), builder);
 			}
 		});
 		
@@ -153,7 +153,7 @@ public class CommandWH
 				builder.setPosition2(BlockHelper.getPos2());
 				builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
 				builder.setFilter(filter);
-				CommandHelper.sendCommand(builder);
+				CommandHelper.sendCommand(source.getName(), builder);
 			}
 		});
 		
@@ -173,7 +173,7 @@ public class CommandWH
 				builder.setPosition1(BlockHelper.getPos1());
 				builder.setPosition2(BlockHelper.getPos2());
 				builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
-				CommandHelper.sendCommand(builder);
+				CommandHelper.sendCommand(source.getName(), builder);
 			}
 		});
 		
