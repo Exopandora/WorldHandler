@@ -183,7 +183,7 @@ public class BlockHelper
 		return false;
 	}
 	
-	public static void setBlockNearPlayer(String player, Block block) //TODO usage
+	public static void setBlockNearPlayer(String player, Block block)
 	{
 		BuilderSetBlock builder = new BuilderSetBlock(new CoordinateInt(EnumType.LOCAL), new CoordinateInt(EnumType.LOCAL), new CoordinateInt(2, EnumType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode());
 		builder.setState(BlockStateProperties.HORIZONTAL_FACING, Minecraft.getInstance().player.getHorizontalFacing().getOpposite());
