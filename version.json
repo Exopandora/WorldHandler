@@ -59,7 +59,7 @@
 	},
 	"1.16.1":
 	{
-		"2.11.1": "- Fixed butcher preset entity filterring",
+		"2.11.1": "- Fixed butcher preset entity filtering",
 		"2.11": "- Added Butcher presets\n- Commands exceeding the chat message character limit (therefore executed from command blocks) now execute at the player\n- Fixed Summon armor ordering",
 		"2.10.3": "- Fixed crash for newer forge versions\n- Fixed \"/wh clone\" command",
 		"2.10.2": "- Fixed block highlighting\n- Fixed commands",
