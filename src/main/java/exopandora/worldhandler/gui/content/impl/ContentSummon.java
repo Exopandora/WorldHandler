@@ -72,7 +72,7 @@ public class ContentSummon extends Content
 			Items.CHAINMAIL_HELMET.getRegistryName(),
 			Items.GOLDEN_HELMET.getRegistryName(),
 			Items.DIAMOND_HELMET.getRegistryName(),
-			Items.field_234763_ls_.getRegistryName() // netherite_helmet
+			Items.NETHERITE_HELMET.getRegistryName()
 	};
 	private final ResourceLocation[] chestplates =
 	{
@@ -82,7 +82,7 @@ public class ContentSummon extends Content
 			Items.CHAINMAIL_CHESTPLATE.getRegistryName(),
 			Items.GOLDEN_CHESTPLATE.getRegistryName(),
 			Items.DIAMOND_CHESTPLATE.getRegistryName(),
-			Items.field_234764_lt_.getRegistryName() // netherite_chestplate
+			Items.NETHERITE_CHESTPLATE.getRegistryName()
 	};
 	private final ResourceLocation[] leggings =
 	{
@@ -92,7 +92,7 @@ public class ContentSummon extends Content
 			Items.CHAINMAIL_LEGGINGS.getRegistryName(),
 			Items.GOLDEN_LEGGINGS.getRegistryName(),
 			Items.DIAMOND_LEGGINGS.getRegistryName(),
-			Items.field_234765_lu_.getRegistryName() // netherite_leggings
+			Items.NETHERITE_LEGGINGS.getRegistryName()
 	};
 	private final ResourceLocation[] boots =
 	{
@@ -102,7 +102,7 @@ public class ContentSummon extends Content
 			Items.CHAINMAIL_BOOTS.getRegistryName(),
 			Items.GOLDEN_BOOTS.getRegistryName(),
 			Items.DIAMOND_BOOTS.getRegistryName(),
-			Items.field_234766_lv_.getRegistryName() // netherite_boots
+			Items.NETHERITE_BOOTS.getRegistryName()
 	};
 	private final ResourceLocation[] swords =
 	{
@@ -112,7 +112,7 @@ public class ContentSummon extends Content
 			Items.IRON_SWORD.getRegistryName(),
 			Items.GOLDEN_SWORD.getRegistryName(),
 			Items.DIAMOND_SWORD.getRegistryName(),
-			Items.field_234754_kI_.getRegistryName() // netherite_sword
+			Items.NETHERITE_SWORD.getRegistryName()
 	};
 	private final ResourceLocation[][] armor = {this.helmets, this.chestplates, this.leggings, this.boots};
 	private final ResourceLocation[][] hands = {this.swords, this.swords};
@@ -252,27 +252,27 @@ public class ContentSummon extends Content
 		container.add(button4 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start"), () ->
 		{
 			this.page = Page.START;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button5 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.potion_effects"), () ->
 		{
 			this.page = Page.POTIONS;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button6 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.attributes"), () ->
 		{
 			this.page = Page.ATTRIBUTES;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button7 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.equipment"), () ->
 		{
 			this.page = Page.EQUIPMENT;
-			container.func_231160_c_();
+			container.init();
 		}));
 		
 		if(Page.START.equals(this.page))
 		{
-			button4.field_230693_o_ = false;
+			button4.active = false;
 			
 			container.add(this.mobField);
 			container.add(this.customNameField);
@@ -287,21 +287,21 @@ public class ContentSummon extends Content
 				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () -> this.send(container.getPlayer())));
 			}
 			
-			button3.field_230693_o_ = ForgeRegistries.ENTITIES.containsKey(this.builderSummon.getEntity());
+			button3.active = ForgeRegistries.ENTITIES.containsKey(this.builderSummon.getEntity());
 		}
 		else if(Page.POTIONS.equals(this.page))
 		{
-			button5.field_230693_o_ = false;
+			button5.active = false;
 			
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
 			{
 				this.potionPage--;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
 			{
 				this.potionPage++;
-				container.func_231160_c_();
+				container.init();
 			}));
 			
 			int count = 0;
@@ -314,12 +314,12 @@ public class ContentSummon extends Content
 				{
 					if(this.potionPage == 0)
 					{
-						button1.field_230693_o_ = false;
+						button1.active = false;
 					}
 					
 					if(this.potionPage == ForgeRegistries.POTIONS.getKeys().size() - 3)
 					{
-						button2.field_230693_o_ = false;
+						button2.active = false;
 					}
 					
 					if(count == this.potionPage)
@@ -335,7 +335,7 @@ public class ContentSummon extends Content
 						container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.particles", this.builderSummon.getShowParticles(potion) ? new TranslationTextComponent("gui.worldhandler.generic.on") : new TranslationTextComponent("gui.worldhandler.generic.off")), () ->
 						{
 							this.builderSummon.setShowParticles(potion, !this.builderSummon.getShowParticles(potion));
-							container.func_231160_c_();
+							container.init();
 						}));
 						break;
 					}
@@ -346,7 +346,7 @@ public class ContentSummon extends Content
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
-			button6.field_230693_o_ = false;
+			button6.active = false;
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
@@ -357,16 +357,16 @@ public class ContentSummon extends Content
 				container.add(new GuiButtonBase(x + 118, y + 24 * i, 20, 20, TextUtils.ARROW_LEFT, () ->
 				{
 					this.builderSummon.setArmorItem(3 - index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(3 - index)) - 1, this.armor[index].length)]);
-					container.func_231160_c_();
+					container.init();
 				}));
 				container.add(button1 = new GuiButtonItem(x + 118 + 24, y + 24 * i, 20, 20, ForgeRegistries.ITEMS.getValue(this.builderSummon.getArmorItem(3 - i)), null));
 				container.add(new GuiButtonBase(x + 118 + 47, y + 24 * i, 20, 20, TextUtils.ARROW_RIGHT, () ->
 				{
 					this.builderSummon.setArmorItem(3 - index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(3 - index)) + 1, this.armor[index].length)]);
-					container.func_231160_c_();
+					container.init();
 				}));
 				
-				button1.field_230693_o_ = false;
+				button1.active = false;
 	 		}
 			
 			for(int i = 0; i < 2; i++)
@@ -376,19 +376,19 @@ public class ContentSummon extends Content
 				container.add(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 12, 20, 20, EnumIcon.ARROW_UP, null, () ->
 				{
 					this.builderSummon.setHandItem(index, this.hands[index][Math.floorMod(ArrayUtils.indexOf(this.hands[index], this.builderSummon.getHandItem(index)) - 1, this.hands[index].length)]);
-					container.func_231160_c_();
+					container.init();
 				}));
 				container.add(button1 = new GuiButtonItem(x + 118 + 70 + 24 * i, y + 36, 20, 20, ForgeRegistries.ITEMS.getValue(this.builderSummon.getHandItem(i)), null));
 				container.add(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 60, 20, 20, EnumIcon.ARROW_DOWN, null, () ->
 				{
 					this.builderSummon.setHandItem(index, this.hands[index][Math.floorMod(ArrayUtils.indexOf(this.hands[index], this.builderSummon.getHandItem(index)) + 1, this.hands[index].length)]);
-					container.func_231160_c_();
+					container.init();
 				}));
 				
-				button1.field_230693_o_ = false;
+				button1.active = false;
 	 		}
 			
-			button7.field_230693_o_ = false;
+			button7.active = false;
 		}
 	}
 	
@@ -413,25 +413,25 @@ public class ContentSummon extends Content
 	{
 		if(Page.START.equals(this.page))
 		{
-			this.mobField.func_230431_b_(matrix, mouseX, mouseY, partialTicks);
-			this.customNameField.func_230431_b_(matrix, mouseX, mouseY, partialTicks);
-			this.passengerField.func_230431_b_(matrix, mouseX, mouseY, partialTicks);
+			this.mobField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.customNameField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.passengerField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 		else if(Page.POTIONS.equals(this.page))
 		{
-			Minecraft.getInstance().fontRenderer.func_238421_b_(matrix, (this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
+			Minecraft.getInstance().fontRenderer.drawString(matrix, (this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
 			RenderUtils.color(1.0F, 1.0F, 1.0F, 1.0F);
 		 	Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/beacon.png"));
-	 		container.func_230926_e_(0); //setBlitOffset
+	 		container.setBlitOffset(0);
 	 		
 	 		for(int i = 0; i < 4; i++)
 	 		{
 		 		if(this.builderSummon.getArmorItem(3 - i).equals(Items.AIR.getRegistryName()))
 		 		{
-			 		container.func_238474_b_(matrix, x + 118 + 24 + 2, y + 2 + 24 * i, 112, 221, 16, 16); //blit
+			 		container.blit(matrix, x + 118 + 24 + 2, y + 2 + 24 * i, 112, 221, 16, 16);
 		 		}
 	 		}
 	 		
@@ -439,7 +439,7 @@ public class ContentSummon extends Content
 	 		{
 		 		if(this.builderSummon.getHandItem(i).equals(Items.AIR.getRegistryName()))
 		 		{
-			 		container.func_238474_b_(matrix, x + 118 + 70 + 2 + 24 * i, y + 2 + 36, 112, 221, 16, 16); //blit
+			 		container.blit(matrix, x + 118 + 70 + 2 + 24 * i, y + 2 + 36, 112, 221, 16, 16);
 		 		}
 	 		}
 		}

@@ -16,8 +16,8 @@ import net.minecraft.client.gui.screen.MultiplayerWarningScreen;
 import net.minecraft.client.gui.screen.WorldSelectionScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.realms.RealmsBridgeScreen;
-import net.minecraft.server.IDynamicRegistries;
 import net.minecraft.server.integrated.IntegratedServer;
+import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.WorldSettings;
@@ -66,7 +66,7 @@ public class ContentChangeWorld extends ContentChild
 		{
 			IntegratedServer integrated = Minecraft.getInstance().getIntegratedServer();
 			String folder = integrated.anvilConverterForAnvilFile.func_237282_a_();
-			DimensionGeneratorSettings dimensionGeneratorSettings = integrated.func_240793_aU_().func_230418_z_();
+			DimensionGeneratorSettings dimensionGeneratorSettings = integrated.func_240793_aU_().getDimensionGeneratorSettings();
 			WorldSettings worldSettings = integrated.func_240793_aU_().func_230408_H_();
 			
 			Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
@@ -96,7 +96,7 @@ public class ContentChangeWorld extends ContentChild
 		else if(connection instanceof IntegratedConnection)
 		{
 			IntegratedConnection integrated = (IntegratedConnection) connection;
-			Minecraft.getInstance().func_238192_a_(integrated.getFolder(), integrated.getWorldSettings(), IDynamicRegistries.func_239770_b_(), integrated.getDimensionGeneratorSettings()); //launchIntegratedServer
+			Minecraft.getInstance().func_238192_a_(integrated.getFolder(), integrated.getWorldSettings(), DynamicRegistries.func_239770_b_(), integrated.getDimensionGeneratorSettings()); //launchIntegratedServer
 			Minecraft.getInstance().mouseHelper.grabMouse();
 		}
 		else if(connection instanceof DedicatedConnection)

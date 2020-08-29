@@ -13,6 +13,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.util.registry.MutableRegistry;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.LanguageMap;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,7 +35,14 @@ public class RegistryHelper
 		registerRegistry(ForgeRegistries.BLOCKS, Block::getTranslationKey);
 		registerRegistry(ForgeRegistries.ITEMS, Item::getTranslationKey);
 		registerRegistry(ForgeRegistries.POTIONS, Effect::getName);
-		registerRegistry(ForgeRegistries.BIOMES, Biome::getTranslationKey);
+		registerRegistry(ForgeRegistries.BIOMES, biome ->
+		{
+			MutableRegistry<Biome> registry = DynamicRegistries.func_239770_b_().func_243612_b(Registry.BIOME_KEY);
+			ResourceLocation resource = registry.getKey(biome);
+			String key = "biome." + biome.getRegistryName().getNamespace() + "." + resource.getPath();
+			
+			return LanguageMap.getInstance().func_230506_b_(key) ? key : resource.toString();
+		});
 		registerRegistry(ForgeRegistries.ENCHANTMENTS, Enchantment::getName);
 		registerRegistry(ForgeRegistries.ENTITIES, EntityType::getTranslationKey);
 		registerRegistry(ForgeRegistries.STAT_TYPES, stat -> "stat." + stat.toString().replace(':', '.'));

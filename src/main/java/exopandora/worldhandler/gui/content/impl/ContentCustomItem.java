@@ -227,53 +227,53 @@ public class ContentCustomItem extends Content
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.start"), () ->
 		{
 			this.page = Page.START;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.enchantment"), () ->
 		{
 			this.page = Page.ENCHANT;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.attributes"), () ->
 		{
 			this.page = Page.ATTRIBUTES;
-			container.func_231160_c_();
+			container.init();
 		}));
 		
 		if(Page.START.equals(this.page))
 		{
-			button1.field_230693_o_ = false;
+			button1.active = false;
 			
 			container.add(button5 = new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
 			{
 				this.startPage--;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button6 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
 			{
 				this.startPage++;
-				container.func_231160_c_();
+				container.init();
 			}));
 			
 			if(this.startPage == 0)
 			{
-				button5.field_230693_o_ = false;
+				button5.active = false;
 				container.add(this.itemField);
 				container.add(this.itemLore1Field);
 				container.add(this.itemLore2Field);
 			}
 			else if(this.startPage == 1)
 			{
-				button6.field_230693_o_ = false;
+				button6.active = false;
 			}
 		}
 		else if(Page.ENCHANT.equals(this.page))
 		{
-			button2.field_230693_o_ = false;
+			button2.active = false;
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
-			button3.field_230693_o_ = false;
+			button3.active = false;
 		}
 		
 		if(!this.builderCutomItem.needsCommandBlock() && !this.builderCutomItem.getName().isSpecial())
@@ -285,7 +285,7 @@ public class ContentCustomItem extends Content
 			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () -> this.send(container.getPlayer())));
 		}
 		
-		button4.field_230693_o_ = ResourceHelper.isRegistered(ResourceHelper.stringToResourceLocation(this.item), ForgeRegistries.ITEMS);
+		button4.active = ResourceHelper.isRegistered(ResourceHelper.stringToResourceLocation(this.item), ForgeRegistries.ITEMS);
 	}
 	
 	private void send(String player)
@@ -309,9 +309,9 @@ public class ContentCustomItem extends Content
 	{
 		if(Page.START.equals(this.page) && this.startPage == 0)
 		{
-			this.itemField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.itemLore1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.itemLore2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.itemField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.itemLore1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.itemLore2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

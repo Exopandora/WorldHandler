@@ -8,11 +8,11 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.config.Config;
-import exopandora.worldhandler.render.CustomRenderType;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.command.CommandSource;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -50,11 +50,36 @@ public class ClientEventHandler
 				matrix.translate(-projected.getX(), -projected.getY(), -projected.getZ());
 				
 				IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-				IVertexBuilder builder = buffer.getBuffer(CustomRenderType.LINES2);
+				IVertexBuilder builder = buffer.getBuffer(RenderType.getLines());
 				
 				WorldRenderer.drawBoundingBox(matrix, builder, minX, minY, minZ, maxX, maxY, maxZ, 0.9F, 0.9F, 0.9F, 1.0F, 0.5F, 0.5F, 0.5F);
 				
-				buffer.finish(CustomRenderType.LINES2);
+				buffer.finish(RenderType.getLines());
+				buffer.finish();
+				
+//				try
+//				{
+//					Field field_239227_K_ = WorldRenderer.class.getDeclaredField("field_239227_K_");
+//					field_239227_K_.setAccessible(true);
+//					ShaderGroup shader = (ShaderGroup) field_239227_K_.get(event.getContext());
+//					
+//					if(shader != null)
+//					{
+//						Field field_241712_U_ = RenderState.class.getDeclaredField("field_241712_U_");
+//						field_241712_U_.setAccessible(true);
+//						RenderState.TargetState target = (RenderState.TargetState) field_241712_U_.get(null);
+//						target.setupRenderState();
+//						event.getContext().func_239229_r_().framebufferClear(Minecraft.IS_RUNNING_ON_MAC);
+//						event.getContext().func_239229_r_().func_237506_a_(Minecraft.getInstance().getFramebuffer());
+//				        Minecraft.getInstance().getFramebuffer().bindFramebuffer(false);
+//						target.clearRenderState();
+//					}
+//				}
+//				catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
+//				{
+//					e.printStackTrace();
+//				}
+				
 				matrix.pop();
 			}
 		}

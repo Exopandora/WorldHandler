@@ -32,22 +32,22 @@ public class ContentContainers extends Content
 	{
 		container.add(new GuiButtonBase(x, y + 96, 232, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.func_235333_g_(), () ->
+		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.getTranslatedName(), () ->
 		{
 			BlockHelper.setBlockNearPlayer(container.getPlayer(), Blocks.CRAFTING_TABLE);
 			ActionHelper.backToGame();
 		}));
-		container.add(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.func_235333_g_(), () ->
+		container.add(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.getTranslatedName(), () ->
 		{
 			BlockHelper.setBlockNearPlayer(container.getPlayer(), Blocks.ENDER_CHEST);
 			ActionHelper.backToGame();
 		}));
-		container.add(new GuiButtonBase(x + 24, y + 48, 208, 20, Blocks.ANVIL.func_235333_g_(), () ->
+		container.add(new GuiButtonBase(x + 24, y + 48, 208, 20, Blocks.ANVIL.getTranslatedName(), () ->
 		{
 			BlockHelper.setBlockNearPlayer(container.getPlayer(), Blocks.ANVIL);
 			ActionHelper.backToGame();
 		}));
-		container.add(new GuiButtonBase(x + 24, y + 72, 208, 20, Blocks.ENCHANTING_TABLE.func_235333_g_(), () ->
+		container.add(new GuiButtonBase(x + 24, y + 72, 208, 20, Blocks.ENCHANTING_TABLE.getTranslatedName(), () ->
 		{
 			double angle = Minecraft.getInstance().player.getHorizontalFacing().getHorizontalIndex() * Math.PI / 2;
 			double sin = Math.sin(angle);

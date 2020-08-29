@@ -4,9 +4,9 @@ package exopandora.worldhandler.util;
 import exopandora.worldhandler.builder.INBTWritable;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -73,51 +73,9 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 		return result;
 	}
 	
-	public String formatter(String string, Integer index)
+	public IReorderingProcessor formatter(String string, Integer index)
 	{
-		StringBuilder builder = new StringBuilder();
-		
-		if(this.getStyle() != null)
-		{
-			Style style = this.getStyle();
-			
-			if(style.func_240711_a_() != null)
-			{
-				TextFormatting color = TextFormatting.getValueByName(style.func_240711_a_().func_240747_b_());
-				
-				if(color != null)
-				{
-					builder.append(color);
-				}
-			}
-			
-			if(style.getBold())
-			{
-				builder.append(TextFormatting.BOLD);
-			}
-			
-			if(style.getItalic())
-			{
-				builder.append(TextFormatting.ITALIC);
-			}
-			
-			if(style.getUnderlined())
-			{
-				builder.append(TextFormatting.UNDERLINE);
-			}
-			
-			if(style.getObfuscated())
-			{
-				builder.append(TextFormatting.OBFUSCATED);
-			}
-			
-			if(style.getStrikethrough())
-			{
-				builder.append(TextFormatting.STRIKETHROUGH);
-			}
-		}
-		
-		return builder.toString() + string;
+		return IReorderingProcessor.func_242239_a(string, this.getStyle());
 	}
 	
 	@Override
@@ -134,13 +92,13 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 	@Override
 	public String toString()
 	{
-		MutableStringTextComponent serial = (MutableStringTextComponent) this.func_230532_e_(); //deepCopy
+		MutableStringTextComponent serial = (MutableStringTextComponent) this.deepCopy();
 		serial.setText(MutableStringTextComponent.getSpecialFormattedText(this.getUnformattedComponentText()));
 		return ITextComponent.Serializer.toJson(serial);
 	}
 	
 	@Override
-	public MutableStringTextComponent func_230531_f_() //shallowCopy
+	public MutableStringTextComponent copyRaw()
 	{
 		return new MutableStringTextComponent(this.text);
 	}

@@ -72,7 +72,7 @@ public class BlockResourceLocation extends ItemResourceLocation
 	
 	public <T extends Comparable<T>> void setProperty(Property<T> property, T value)
 	{
-		if(this.state != null && this.state.func_235901_b_(property)) //has
+		if(this.state != null && this.state.hasProperty(property))
 		{
 			this.state = this.state.with(property, value);
 		}

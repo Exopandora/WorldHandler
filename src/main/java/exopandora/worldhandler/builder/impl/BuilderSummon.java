@@ -492,7 +492,7 @@ public class BuilderSummon extends CommandBuilderNBT
 		}
 		else if(entity.equalsIgnoreCase("Pigman") || entity.equalsIgnoreCase("ZombiePig") || entity.equalsIgnoreCase("ZombiePigman"))
 		{
-			return EntityType.field_233592_ba_.getRegistryName();
+			return EntityType.PIGLIN.getRegistryName();
 		}
 		else if(entity.equalsIgnoreCase("Wither"))
 		{

@@ -174,22 +174,22 @@ public class ContentEditBlocks extends Content
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.coordinates"), () ->
 		{
 			this.page = Page.COORDINATES;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.fill"), () ->
 		{
 			this.page = Page.FILL;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.replace"), () ->
 		{
 			this.page = Page.REPLACE;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.clone"), () ->
 		{
 			this.page = Page.CLONE;
-			container.func_231160_c_();
+			container.init();
 		}));
 		
 		int yOffset1 = 0;
@@ -200,7 +200,7 @@ public class ContentEditBlocks extends Content
 		
 		if(Page.COORDINATES.equals(this.page))
 		{
-			button1.field_230693_o_ = false;
+			button1.active = false;
 			
 			yOffset1 = 72;
 			yOffset2 = 72;
@@ -217,7 +217,7 @@ public class ContentEditBlocks extends Content
 		}
 		else if(Page.FILL.equals(this.page))
 		{
-			button2.field_230693_o_ = false;
+			button2.active = false;
 			
 			yOffset1 = 24;
 			yOffset2 = 48;
@@ -230,11 +230,11 @@ public class ContentEditBlocks extends Content
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderFill.getBuilderForFill());
 			}));
-			button1.field_230693_o_ = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS);
+			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS);
 		}
 		else if(Page.REPLACE.equals(this.page))
 		{
-			button3.field_230693_o_ = false;
+			button3.active = false;
 			
 			yOffset1 = 48;
 			yOffset2 = 48;
@@ -248,11 +248,11 @@ public class ContentEditBlocks extends Content
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderFill.getBuilderForReplace());
 			}));
-			button1.field_230693_o_ = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS) && ResourceHelper.isRegistered(this.builderFill.getBlock2(), ForgeRegistries.BLOCKS);
+			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS) && ResourceHelper.isRegistered(this.builderFill.getBlock2(), ForgeRegistries.BLOCKS);
 		}
 		else if(Page.CLONE.equals(this.page))
 		{
-			button4.field_230693_o_ = false;
+			button4.active = false;
 			
 			yOffset1 = 48;
 			yOffset2 = 48;
@@ -268,8 +268,8 @@ public class ContentEditBlocks extends Content
 			else
 			{
 				this.builderClone.setFilter(null);
-				container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, StringTextComponent.field_240750_d_, null));
-				button1.field_230693_o_ = false;
+				container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, StringTextComponent.EMPTY, null));
+				button1.active = false;
 			}
 			
 			container.add(new GuiButtonList<EnumMask>(x + 118, y, Arrays.asList(EnumMask.values()), 114, 20, container, new ILogicMapped<EnumMask>()
@@ -290,7 +290,7 @@ public class ContentEditBlocks extends Content
 				public void onClick(EnumMask item)
 				{
 					ContentEditBlocks.this.builderClone.setMask(item);
-					container.func_231160_c_();
+					container.init();
 				}
 				
 				@Override
@@ -314,19 +314,19 @@ public class ContentEditBlocks extends Content
 			}
 			catch(Exception e)
 			{
-				button2.field_230693_o_ = false;
+				button2.active = false;
 			}
 		}
 		
 		container.add(new GuiButtonBase(x + 118, y + yOffset1, width1, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.pos.set_pos_1"), () ->
 		{
 			BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(new GuiButtonBase(x + 118 + xOffset2, y + yOffset2, width2, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.pos.set_pos_2"), () ->
 		{
 			BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
-			container.func_231160_c_();
+			container.init();
 		}));
 	}
 	
@@ -366,28 +366,28 @@ public class ContentEditBlocks extends Content
 	{
 		if(Page.COORDINATES.equals(this.page))
 		{
-			this.x1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.y1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.z1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.x1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.y1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.z1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
 			
-			this.x2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.y2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.z2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.x2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.y2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.z2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 		else if(Page.FILL.equals(this.page))
 		{
-			this.block1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.block1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 		else if(Page.REPLACE.equals(this.page))
 		{
-			this.block1Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.block2Field.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.block1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.block2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 		else if(Page.CLONE.equals(this.page))
 		{
 			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
 			{
-				this.filterField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+				this.filterField.renderButton(matrix, mouseX, mouseY, partialTicks);
 			}
 		}
 	}

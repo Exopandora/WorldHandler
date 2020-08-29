@@ -1,7 +1,6 @@
 package exopandora.worldhandler.gui.container.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -30,6 +29,7 @@ import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.ResourceHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
@@ -40,7 +40,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiWorldHandler extends Container
@@ -77,16 +76,16 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void func_231160_c_()
+	public void init()
 	{
-		super.func_231160_c_();
+		super.init();
 		
 		ActionHelper.tryRun(() ->
 		{
 			this.finalButtons.clear();
 			this.menus.clear();
-			this.field_230710_m_.clear();
-			this.field_230705_e_.clear();
+			this.buttons.clear();
+			this.children.clear();
 			
 			//INIT
 			this.content.onPlayerNameChanged(this.getPlayer());
@@ -101,7 +100,7 @@ public class GuiWorldHandler extends Container
 			
 			//SHORTCUTS
 			
-			final int x = this.field_230708_k_ / 2 - 10;
+			final int x = this.width / 2 - 10;
 			final int delta = 21;
 			
 			if(Config.getSettings().shortcuts())
@@ -127,7 +126,7 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSettings().commandSyntax())
 			{
-				this.syntaxField = new GuiTextFieldTooltip(x - delta * 7 + 1, this.field_230709_l_ - 22, delta * 15 - 3, 20);
+				this.syntaxField = new GuiTextFieldTooltip(x - delta * 7 + 1, this.height - 22, delta * 15 - 3, 20);
 				this.updateSyntax();
 			}
 			
@@ -162,7 +161,7 @@ public class GuiWorldHandler extends Container
 			this.finalButtons.add(new GuiButtonTab((int) (backgroundX + xOffset), backgroundY - 20, (int) this.tabWidth + (int) Math.ceil(this.tabEpsilon / this.tabSize), 21, tab.getTabTitle())
 			{
 				@Override
-				public void func_230930_b_() //onPress
+				public void onPress()
 				{
 					ActionHelper.changeTab(GuiWorldHandler.this.content, index);
 				}
@@ -172,8 +171,8 @@ public class GuiWorldHandler extends Container
 	
 	public void initButtons()
 	{
-		this.field_230710_m_.clear();
-		this.field_230705_e_.clear();
+		this.buttons.clear();
+		this.children.clear();
 		this.content.initButtons(this, this.getContentX(), this.getContentY());
 		
 		if(this.finalButtons != null && !this.finalButtons.isEmpty())
@@ -195,7 +194,7 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void func_231023_e_() //tick
+	public void tick()
 	{
 		ActionHelper.tryRun(this::update);
 	}
@@ -214,12 +213,12 @@ public class GuiWorldHandler extends Container
 	
 	private int getBackgroundX()
 	{
-		return (this.field_230708_k_ - this.bgTextureWidth) / 2 + this.getXOffset();
+		return (this.width - this.bgTextureWidth) / 2 + this.getXOffset();
 	}
 	
 	private int getBackgroundY()
 	{
-		return (this.field_230709_l_ - this.bgTextureHeight) / 2 + this.getYOffset();
+		return (this.height - this.bgTextureHeight) / 2 + this.getYOffset();
 	}
 	
 	private int getWatchOffset()
@@ -242,7 +241,7 @@ public class GuiWorldHandler extends Container
 	{
 		if(Config.getSettings().commandSyntax() && this.syntaxField != null)
 		{
-			if(!this.syntaxField.func_230999_j_()) //isFocused
+			if(!this.syntaxField.isFocused())
 			{
 				this.syntaxField.setValidator(Predicates.alwaysTrue());
 				
@@ -270,14 +269,14 @@ public class GuiWorldHandler extends Container
 		
 		if(GuiWorldHandler.player.isEmpty())
 		{
-			int width = this.field_230712_o_.getStringWidth(I18n.format("gui.worldhandler.generic.edit_username")) + 2;
-			this.nameField.func_230991_b_(width); //setWidth
-			this.nameField.setPosition(backgroundX  + this.bgTextureWidth - this.getWatchOffset() - 7 - (this.field_230712_o_.func_238414_a_(this.content.getTitle()) + 2), backgroundY + 6);
+			int width = this.font.getStringWidth(I18n.format("gui.worldhandler.generic.edit_username")) + 2;
+			this.nameField.setWidth(width);
+			this.nameField.setPosition(backgroundX  + this.bgTextureWidth - this.getWatchOffset() - 7 - (this.font.func_238414_a_(this.content.getTitle()) + 2), backgroundY + 6);
 		}
 		else
 		{
-			int width = this.field_230712_o_.getStringWidth(GuiWorldHandler.player) + 2;
-			this.nameField.func_230991_b_(width); //setWidth
+			int width = this.font.getStringWidth(GuiWorldHandler.player) + 2;
+			this.nameField.setWidth(width);
 			this.nameField.setPosition(backgroundX + this.bgTextureWidth - this.getWatchOffset() - 7 - width, backgroundY + 6);
 		}
 		
@@ -285,7 +284,7 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void func_230430_a_(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) //render
+	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		ActionHelper.tryRun(() ->
 		{
@@ -296,8 +295,8 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSkin().drawBackground())
 			{
-				this.func_230926_e_(-1); //setBlitOffset
-				super.func_230446_a_(matrix); //renderBackground
+				this.setBlitOffset(-1);
+				super.renderBackground(matrix);
 			}
 			
 			//COLOR
@@ -307,11 +306,11 @@ public class GuiWorldHandler extends Container
 			//BACKGROUND
 			
 			this.bindBackground();
-			this.func_238474_b_(matrix, backgroundX, backgroundY, 0, 0, this.bgTextureWidth, this.bgTextureHeight); //blit
+			this.blit(matrix, backgroundX, backgroundY, 0, 0, this.bgTextureWidth, this.bgTextureHeight);
 			
 			//TABS
 			
-			this.func_230926_e_(0); //setBlitOffset
+			this.setBlitOffset(0);
 			this.forEachTab((index, xOffset) -> this.drawTab(matrix, index, xOffset));
 			this.defaultColor();
 			
@@ -320,20 +319,20 @@ public class GuiWorldHandler extends Container
 			final String label = Main.MC_VERSION + "-" + Main.MOD_VERSION;
 			final int hexAlpha = (int) (0xFF * 0.2) << 24;
 			final int color = Config.getSkin().getLabelColor() + hexAlpha;
-			final int versionWidth = this.field_230708_k_ - this.field_230712_o_.getStringWidth(label) - 2;
-			final int versionHeight = this.field_230709_l_ - 10;
+			final int versionWidth = this.width - this.font.getStringWidth(label) - 2;
+			final int versionHeight = this.height - 10;
 			
-			this.field_230712_o_.func_238421_b_(matrix, label, versionWidth, versionHeight, color);
+			this.font.drawString(matrix, label, versionWidth, versionHeight, color);
 			
 			//TITLE
 			
-			final int maxWidth = this.bgTextureWidth - 7 - 2 - this.field_230712_o_.getStringWidth(GuiWorldHandler.player) - 2 - this.getWatchOffset() - 7;
-			this.field_230712_o_.func_238422_b_(matrix, TextUtils.stripText(this.content.getTitle(), maxWidth, this.field_230712_o_), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
+			final int maxWidth = this.bgTextureWidth - 7 - 2 - this.font.getStringWidth(GuiWorldHandler.player) - 2 - this.getWatchOffset() - 7;
+			this.font.func_243248_b(matrix, TextUtils.stripText(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			//NAME FIELD
 			
-			final String username = GuiWorldHandler.player.isEmpty() && !this.nameField.func_230999_j_() ? I18n.format("gui.worldhandler.generic.edit_username") : GuiWorldHandler.player; //isFocused
-			this.field_230712_o_.func_238421_b_(matrix, username, backgroundX + this.bgTextureWidth - this.getWatchOffset() - 7 - this.field_230712_o_.getStringWidth(username), backgroundY + 7, Config.getSkin().getLabelColor());
+			final String username = GuiWorldHandler.player.isEmpty() && !this.nameField.isFocused() ? I18n.format("gui.worldhandler.generic.edit_username") : GuiWorldHandler.player;
+			this.font.drawString(matrix, username, backgroundX + this.bgTextureWidth - this.getWatchOffset() - 7 - this.font.getStringWidth(username), backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			//WATCH
 			
@@ -348,7 +347,7 @@ public class GuiWorldHandler extends Container
 				{
 					if(mouseX >= watchX && mouseX <= watchX + 9 && mouseY >= watchY && mouseY <= watchY + 9)
 					{
-						GuiUtils.drawHoveringText(matrix, Arrays.asList(new StringTextComponent(TextUtils.formatWorldTime(Minecraft.getInstance().world.getDayTime()))), mouseX, mouseY + 9, this.field_230708_k_, this.field_230709_l_, this.field_230708_k_, this.field_230712_o_);
+						this.renderTooltip(matrix, new StringTextComponent(TextUtils.formatWorldTime(Minecraft.getInstance().world.getDayTime())), mouseX, mouseY + 9);
 						RenderUtils.disableLighting();
 					}
 				}
@@ -356,9 +355,9 @@ public class GuiWorldHandler extends Container
 			
 			//BUTTONS
 			
-			for(int x = 0; x < this.field_230710_m_.size(); x++)
+			for(int x = 0; x < this.buttons.size(); x++)
 			{
-				this.field_230710_m_.get(x).func_230430_a_(matrix, mouseX, mouseY, partialTicks); //render
+				this.buttons.get(x).render(matrix, mouseX, mouseY, partialTicks);
 			}
 			
 			//CONTAINER
@@ -376,7 +375,7 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSettings().commandSyntax() && this.syntaxField != null)
 			{
-				this.syntaxField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+				this.syntaxField.renderButton(matrix, mouseX, mouseY, partialTicks);
 			}
 			
 			//SPLASHTEXT
@@ -391,10 +390,10 @@ public class GuiWorldHandler extends Container
 				matrix.rotate(new Quaternion(17.0F, 0.0F, 0.0F, 1.0F));
 				
 				float scale = 1.1F - MathHelper.abs(MathHelper.sin((float) (System.currentTimeMillis() % 1000L) / 1000.0F * (float) Math.PI * 2.0F) * 0.1F);
-				scale = scale * 100.0F / this.field_230712_o_.getStringWidth(this.splash);
+				scale = scale * 100.0F / this.font.getStringWidth(this.splash);
 				matrix.scale(scale, scale, scale);
 				
-				this.func_238471_a_(matrix, this.field_230712_o_, this.splash, 0, (int) scale, 0xFFFF00);
+				AbstractGui.drawCenteredString(matrix, this.font, this.splash, 0, (int) scale, 0xFFFF00);
 				
 				matrix.pop();
 			}
@@ -403,11 +402,11 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSettings().tooltips())
 			{
-				for(Widget button : this.field_230710_m_)
+				for(Widget button : this.buttons)
 				{
 					if(button instanceof GuiButtonTooltip)
 					{
-						((GuiButtonTooltip) button).renderTooltip(matrix, mouseX, mouseY);
+						((GuiButtonTooltip) button).renderTooltip(this, matrix, mouseX, mouseY);
 					}
 				}
 			}
@@ -416,7 +415,12 @@ public class GuiWorldHandler extends Container
 			
 			if(mouseX >= versionWidth && mouseY >= versionHeight)
 			{
-				GuiUtils.drawHoveringText(matrix, Arrays.asList(new StringTextComponent(label)), versionWidth - 12, versionHeight + 12, this.field_230708_k_ + this.field_230712_o_.getStringWidth(label), this.field_230709_l_ + 10, this.field_230708_k_, this.field_230712_o_);
+				matrix.push();
+				matrix.translate(versionWidth - 12, versionHeight + 12, 0);
+				
+				this.renderTooltip(matrix, new StringTextComponent(label), 0, 0);
+				
+				matrix.pop();
 			}
 		});
 	}
@@ -448,9 +452,9 @@ public class GuiWorldHandler extends Container
 		}
 		
 		this.bindBackground();
-		this.func_230926_e_(-1); //setBlitOffset
-		this.func_238474_b_(matrix, (int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
-		this.func_238474_b_(matrix, (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.floor(this.tabHalf + 1), 0, (int) Math.floor(this.tabHalf + 1), fHeight);
+		this.setBlitOffset(-1);
+		this.blit(matrix, (int) (backgroundX + xOffset), (int) (backgroundY + yOffset), 0, 0, (int) Math.ceil(this.tabHalf), fHeight);
+		this.blit(matrix, (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY + yOffset), this.bgTextureWidth - (int) Math.floor(this.tabHalf + 1), 0, (int) Math.floor(this.tabHalf + 1), fHeight);
 		
 		if(!Config.getSkin().sharpEdges())
 		{
@@ -464,7 +468,7 @@ public class GuiWorldHandler extends Container
 					
 					for(int x = 0; x < factor; x++)
 					{
-						this.func_238474_b_(matrix, (int) (backgroundX + xOffset - x - 1 + Math.floor(this.tabHalf + 1) + this.tabHalf), (int) (backgroundY + x + 1), (int) (this.tabWidth - x - 1), x + 1, x + 1, 1);
+						this.blit(matrix, (int) (backgroundX + xOffset - x - 1 + Math.floor(this.tabHalf + 1) + this.tabHalf), (int) (backgroundY + x + 1), (int) (this.tabWidth - x - 1), x + 1, x + 1, 1);
 					}
 				}
 				
@@ -476,7 +480,7 @@ public class GuiWorldHandler extends Container
 					
 					for(int x = 0; x < factor; x++)
 					{
-						this.func_238474_b_(matrix, (int) (backgroundX + xOffset), (int) (backgroundY + x + 1), (int) xOffset, x + 1, x + 1, 1);
+						this.blit(matrix, (int) (backgroundX + xOffset), (int) (backgroundY + x + 1), (int) xOffset, x + 1, x + 1, 1);
 					}
 				}
 				
@@ -490,7 +494,7 @@ public class GuiWorldHandler extends Container
 					for(int x = 0; x < width; x += interval)
 					{
 						this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-						this.func_238474_b_(matrix, (int) (backgroundX + xOffset), (int) (backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
+						this.blit(matrix, (int) (backgroundX + xOffset), (int) (backgroundY + yOffset + fHeight + x / interval), 0, fHeight, width - x, 1);
 					}
 				}
 				
@@ -503,7 +507,7 @@ public class GuiWorldHandler extends Container
 					for(int x = 0; x < width; x += interval)
 					{
 						this.defaultColor(1.0F - (x / (width + 5.0F * interval)));
-						this.func_238474_b_(matrix, (int) (backgroundX + Math.ceil(xOffset) + x + offset), (int) (backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
+						this.blit(matrix, (int) (backgroundX + Math.ceil(xOffset) + x + offset), (int) (backgroundY + yOffset + fHeight + x / interval), this.bgTextureWidth - width + x, fHeight, width - x, 1);
 					}
 				}
 			}
@@ -517,7 +521,7 @@ public class GuiWorldHandler extends Container
 					
 					for(int x = 0; x < factor; x++)
 					{
-						this.func_238474_b_(matrix, backgroundX, backgroundY + x, 0, fHeight, factor - x, 1);
+						this.blit(matrix, backgroundX, backgroundY + x, 0, fHeight, factor - x, 1);
 					}
 				}
 				
@@ -529,14 +533,14 @@ public class GuiWorldHandler extends Container
 					
 					for(int x = 0; x < factor + 1; x++)
 					{
-						this.func_238474_b_(matrix, backgroundX + this.bgTextureWidth - x, backgroundY + factor - x, this.bgTextureWidth - x, fHeight, x, 1);
+						this.blit(matrix, backgroundX + this.bgTextureWidth - x, backgroundY + factor - x, this.bgTextureWidth - x, fHeight, x, 1);
 					}
 				}
 			}
 		}
 		
-		this.func_230926_e_(0); //setBlitOffset
-		this.func_238472_a_(matrix, this.field_230712_o_, TextUtils.stripText(tab.getTabTitle().func_240699_a_(TextFormatting.UNDERLINE), (int) this.tabWidth, this.field_230712_o_), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color); //drawCenteredString
+		this.setBlitOffset(0);
+		AbstractGui.drawCenteredString(matrix, this.font, TextUtils.stripText(tab.getTabTitle().mergeStyle(TextFormatting.UNDERLINE), (int) this.tabWidth, this.font), (int) (backgroundX + this.tabHalf + xOffset), (int) (backgroundY - 13), color);
 	}
 	
 	@Override
@@ -546,76 +550,76 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public boolean func_231044_a_(double mouseX, double mouseY, int keyCode) //mouseClicked
+	public boolean mouseClicked(double mouseX, double mouseY, int keyCode)
 	{
-		if(this.nameField.func_230999_j_()) //isFocused
+		if(this.nameField.isFocused())
 		{
 			this.nameField.setCursorPositionEnd();
 		}
 		
-		if(this.content.func_231044_a_(mouseX, mouseY, keyCode))
+		if(this.content.mouseClicked(mouseX, mouseY, keyCode))
 		{
 			return true;
 		}
 		
-		return super.func_231044_a_(mouseX, mouseY, keyCode);
+		return super.mouseClicked(mouseX, mouseY, keyCode);
 	}
 	
 	@Override
-	public boolean func_231048_c_(double mouseX, double mouseY, int keyCode) //mouseReleased
+	public boolean mouseReleased(double mouseX, double mouseY, int keyCode)
 	{
-		if(this.content.func_231048_c_(mouseX, mouseY, keyCode))
+		if(this.content.mouseReleased(mouseX, mouseY, keyCode))
 		{
 			return true;
 		}
 		
-		return super.func_231048_c_(mouseX, mouseY, keyCode);
+		return super.mouseReleased(mouseX, mouseY, keyCode);
 	}
 	
 	@Override
-	public boolean func_231045_a_(double mouseX, double mouseY, int keyCode, double deltaX, double deltaY) //mouseDragged
+	public boolean mouseDragged(double mouseX, double mouseY, int keyCode, double deltaX, double deltaY)
 	{
-		if(this.content.func_231045_a_(mouseX, mouseY, keyCode, deltaX, deltaY))
+		if(this.content.mouseDragged(mouseX, mouseY, keyCode, deltaX, deltaY))
 		{
 			return true;
 		}
 		
-		return super.func_231045_a_(mouseX, mouseY, keyCode, deltaX, deltaY);
+		return super.mouseDragged(mouseX, mouseY, keyCode, deltaX, deltaY);
 	}
 	
 	@Override
-	public boolean func_231043_a_(double mouseX, double mouseY, double distance) //mouseScrolled
+	public boolean mouseScrolled(double mouseX, double mouseY, double distance)
 	{
-		if(this.content.func_231043_a_(mouseX, mouseY, distance))
+		if(this.content.mouseScrolled(mouseX, mouseY, distance))
 		{
 			return true;
 		}
 		
-		return super.func_231043_a_(mouseX, mouseY, distance);
+		return super.mouseScrolled(mouseX, mouseY, distance);
 	}
 	
 	@Override
-	public boolean func_231046_a_(int keyCode, int scanCode, int modifiers) //keyPressed
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
 	{
-		boolean focused = this.func_241217_q_() != null;
+		boolean focused = this.getListener() != null;
 		
-		if(focused && this.func_241217_q_() instanceof Widget)
+		if(focused && this.getListener() instanceof Widget)
 		{
-			focused = ((Widget) this.func_241217_q_()).func_230999_j_(); //getFocused().isFocused()
+			focused = ((Widget) this.getListener()).isFocused();
 		}
 		
 		if(!focused && KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER, keyCode))
 		{
-			this.func_231175_as__();
+			this.onClose();
 			return true;
 		}
 		
-		if(this.content.func_231046_a_(keyCode, scanCode, modifiers))
+		if(this.content.keyPressed(keyCode, scanCode, modifiers))
 		{
 			return true;
 		}
 		
-		return super.func_231046_a_(keyCode, scanCode, modifiers);
+		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 	
 	@Override
@@ -630,41 +634,41 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public boolean func_231042_a_(char charTyped, int keyCode) //charTyped
+	public boolean charTyped(char charTyped, int keyCode)
 	{
-		if(this.nameField.func_230999_j_()) //isFocused
+		if(this.nameField.isFocused())
 		{
 			this.nameField.setCursorPositionEnd();
 		}
 		
-		if(this.content.func_231042_a_(charTyped, keyCode))
+		if(this.content.charTyped(charTyped, keyCode))
 		{
 			return true;
 		}
 		
-		return super.func_231042_a_(charTyped, keyCode);
+		return super.charTyped(charTyped, keyCode);
 	}
 	
 	@Override
-	public boolean func_231049_c__(boolean focus) //changeFocus
+	public boolean changeFocus(boolean focus)
 	{
-		if(this.content.func_231049_c__(focus))
+		if(this.content.changeFocus(focus))
 		{
 			return true;
 		}
 		
-		return super.func_231049_c__(focus);
+		return super.changeFocus(focus);
 	}
 	
 	@Override
-	public boolean func_231047_b_(double mouseX, double mouseY) //isMouseOver
+	public boolean isMouseOver(double mouseX, double mouseY)
 	{
-		if(this.content.func_231047_b_(mouseX, mouseY))
+		if(this.content.isMouseOver(mouseX, mouseY))
 		{
 			return true;
 		}
 		
-		return super.func_231047_b_(mouseX, mouseY);
+		return super.isMouseOver(mouseX, mouseY);
 	}
 	
 	private void defaultColor()
@@ -737,14 +741,14 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void func_231175_as__() //onClose
+	public void onClose()
 	{
 		ActionHelper.tryRun(this.content::onGuiClosed);
-		super.func_231175_as__();
+		super.onClose();
 	}
 	
 	@Override
-	public boolean func_231177_au__() //isPauseScreen
+	public boolean isPauseScreen()
 	{
 		return Config.getSettings().pause();
 	}
@@ -762,7 +766,7 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public boolean func_231178_ax__() //shouldCloseOnEsc
+	public boolean shouldCloseOnEsc()
 	{
 		return true;
 	}

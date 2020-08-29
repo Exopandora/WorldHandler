@@ -67,7 +67,7 @@ public class ContentContinue extends ContentChild
 		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(this.commandField);
-		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, new TranslationTextComponent("gui.worldhandler.generic.yes").func_240699_a_(TextFormatting.RED), () ->
+		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, new TranslationTextComponent("gui.worldhandler.generic.yes").mergeStyle(TextFormatting.RED), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builder, this.special);
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.getParentContent()));
@@ -78,6 +78,6 @@ public class ContentContinue extends ContentChild
 	@Override
 	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.commandField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+		this.commandField.renderButton(matrix, mouseX, mouseY, partialTicks);
 	}
 }

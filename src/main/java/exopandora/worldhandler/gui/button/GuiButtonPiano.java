@@ -33,27 +33,27 @@ public class GuiButtonPiano extends GuiButtonBase
 	}
 	
 	@Override
-	public void func_230431_b_(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) //renderButton
+	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		switch(this.type)
 		{
 			case LEFT:
-				this.field_230692_n_ = this.isHoveringLeft(mouseX, mouseY);
+				this.isHovered = this.isHoveringLeft(mouseX, mouseY);
 				break;
 			case NORMAL:
-				this.field_230692_n_ = this.isHoveringNormal(mouseX, mouseY);
+				this.isHovered = this.isHoveringNormal(mouseX, mouseY);
 				break;
 			case RIGHT:
-				this.field_230692_n_ = this.isHoveringRight(mouseX, mouseY);
+				this.isHovered = this.isHoveringRight(mouseX, mouseY);
 				break;
 			case BLACK:
-				this.field_230692_n_ = this.isHoveringBlack(mouseX, mouseY);
+				this.isHovered = this.isHoveringBlack(mouseX, mouseY);
 				break;
 			default:
 				break;
 		}
 		
-		int hovered = this.func_230989_a_(this.func_230449_g_());
+		int hovered = this.getYImage(this.isHovered());
 		RenderUtils.color(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlphaF());
 		Minecraft.getInstance().getTextureManager().bindTexture(NOTE);
 		
@@ -77,13 +77,13 @@ public class GuiButtonPiano extends GuiButtonBase
 		int textColor = this.getFGColor();
 		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 		
-		this.func_238474_b_(matrix, this.field_230690_l_, this.field_230691_m_, 25 + hoverstate * 15 - 15, 0, 15, 92);
-		fontRenderer.func_238422_b_(matrix, this.func_230458_i_(), (float) (this.field_230690_l_ + this.field_230688_j_ / 2 - fontRenderer.func_238414_a_(this.func_230458_i_()) / 2), (float) (this.field_230691_m_ + (this.field_230689_k_ - 8) / 2 + 36), textColor); //drawString
+		this.blit(matrix, this.x, this.y, 25 + hoverstate * 15 - 15, 0, 15, 92);
+		fontRenderer.func_243248_b(matrix, this.getMessage(), (float) (this.x + this.width / 2 - fontRenderer.func_238414_a_(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor); //drawString
 	}
 	
 	protected void drawBlackKey(MatrixStack matrix, int hoverstate)
 	{
-		this.func_238474_b_(matrix, this.field_230690_l_, this.field_230691_m_, 55 + hoverstate * -9 + 18, 0, 9, 58); //blit
+		this.blit(matrix, this.x, this.y, 55 - hoverstate * 9 + 18, 0, 9, 58);
 	}
 	
 	@Override
@@ -91,11 +91,11 @@ public class GuiButtonPiano extends GuiButtonBase
 	{
 		int textColor = 0x000000;
 		
-		if(!this.field_230693_o_)
+		if(!this.active)
 		{
 			textColor = 0xA0A0A0;
 		}
-		else if (this.func_230449_g_())
+		else if(this.isHovered())
 		{
 			textColor = 0x8B8B8B;
 		}
@@ -104,53 +104,53 @@ public class GuiButtonPiano extends GuiButtonBase
 	}
 	
 	@Override
-	public void func_230988_a_(SoundHandler soundHandler) //playDownSound
+	public void playDownSound(SoundHandler soundHandler)
 	{
 		soundHandler.play(SimpleSound.master(this.sound, this.pitch));
 	}
 	
 	private boolean isHoveringBlack(double mouseX, double mouseY)
 	{
-		return mouseX >= this.field_230690_l_ && mouseY >= this.field_230691_m_ && mouseX < this.field_230690_l_ + this.field_230688_j_ && mouseY < this.field_230691_m_ + this.field_230689_k_;
+		return mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 	}
 	
 	private boolean isHoveringLeft(double mouseX, double mouseY)
 	{
-		return (mouseX >= this.field_230690_l_ && mouseY >= this.field_230691_m_ && mouseX < this.field_230690_l_ + 10 && mouseY < this.field_230691_m_ + 60) || (mouseX >= this.field_230690_l_ && mouseY >= this.field_230691_m_ + 58 && mouseX < this.field_230690_l_ + 14 && mouseY < this.field_230691_m_ + 93);
+		return (mouseX >= this.x && mouseY >= this.y && mouseX < this.x + 10 && mouseY < this.y + 60) || (mouseX >= this.x && mouseY >= this.y + 58 && mouseX < this.x + 14 && mouseY < this.y + 93);
 	}
 	
 	private boolean isHoveringNormal(double mouseX, double mouseY)
 	{
-		return (mouseX >= this.field_230690_l_ + 4 && mouseY >= this.field_230691_m_ && mouseX < this.field_230690_l_ + 10 && mouseY < this.field_230691_m_ + 60) || (mouseX >= this.field_230690_l_ && mouseY >= this.field_230691_m_ + 58 && mouseX < this.field_230690_l_ + 14 && mouseY < this.field_230691_m_ + 93);
+		return (mouseX >= this.x + 4 && mouseY >= this.y && mouseX < this.x + 10 && mouseY < this.y + 60) || (mouseX >= this.x && mouseY >= this.y + 58 && mouseX < this.x + 14 && mouseY < this.y + 93);
 	}
 	
 	private boolean isHoveringRight(double mouseX, double mouseY)
 	{
-		return (mouseX >= this.field_230690_l_ + 4 && mouseY >= this.field_230691_m_ && mouseX < this.field_230690_l_ + 14 && mouseY < this.field_230691_m_ + 60) || (mouseX >= this.field_230690_l_ && mouseY >= this.field_230691_m_ + 58 && mouseX < this.field_230690_l_ + 14 && mouseY < this.field_230691_m_ + 93);
+		return (mouseX >= this.x + 4 && mouseY >= this.y && mouseX < this.x + 14 && mouseY < this.y + 60) || (mouseX >= this.x && mouseY >= this.y + 58 && mouseX < this.x + 14 && mouseY < this.y + 93);
 	}
 	
 	@Override
-	public boolean func_231047_b_(double mouseX, double mouseY) //isMouseOver
+	public boolean isMouseOver(double mouseX, double mouseY)
 	{
 		switch(this.type)
 		{
 			case LEFT:
-				return this.field_230693_o_ && this.field_230694_p_ && this.isHoveringLeft(mouseX, mouseY);
+				return this.active && this.visible && this.isHoveringLeft(mouseX, mouseY);
 			case NORMAL:
-				return this.field_230693_o_ && this.field_230694_p_ && this.isHoveringNormal(mouseX, mouseY);
+				return this.active && this.visible && this.isHoveringNormal(mouseX, mouseY);
 			case RIGHT:
-				return this.field_230693_o_ && this.field_230694_p_ && this.isHoveringRight(mouseX, mouseY);
+				return this.active && this.visible && this.isHoveringRight(mouseX, mouseY);
 			case BLACK:
-				return this.field_230693_o_ && this.field_230694_p_ && this.isHoveringBlack(mouseX, mouseY);
+				return this.active && this.visible && this.isHoveringBlack(mouseX, mouseY);
 			default:
 				return false;
 		}
 	}
 	
 	@Override
-	protected boolean func_230992_c_(double mouseX, double mouseY) //clicked
+	protected boolean clicked(double mouseX, double mouseY)
 	{
-		return this.func_231047_b_(mouseX, mouseY);
+		return this.isMouseOver(mouseX, mouseY);
 	}
 	
 	@OnlyIn(Dist.CLIENT)

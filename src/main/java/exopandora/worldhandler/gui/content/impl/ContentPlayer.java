@@ -87,35 +87,35 @@ public class ContentPlayer extends Content
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.start"), () ->
 		{
 			this.page = Page.START;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.score"), () ->
 		{
 			this.page = Page.SCORE;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.position"), () ->
 		{
 			this.page = Page.POSITION;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous"), () ->
 		{
 			this.page = Page.MISC;
-			container.func_231160_c_();
+			container.init();
 		}));
 		
 		if(Page.START.equals(this.page))
 		{
-			button1.field_230693_o_ = false;
+			button1.active = false;
 		}
 		else if(Page.SCORE.equals(this.page))
 		{
-			button2.field_230693_o_ = false;
+			button2.active = false;
 		}
 		else if(Page.POSITION.equals(this.page))
 		{
-			button3.field_230693_o_ = false;
+			button3.active = false;
 			
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.position.copy_position"), () ->
 			{
@@ -128,21 +128,21 @@ public class ContentPlayer extends Content
 		}
 		else if(Page.MISC.equals(this.page))
 		{
-			button4.field_230693_o_ = false;
+			button4.active = false;
 			
-			container.add(new GuiButtonBase(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_spawn").func_240699_a_(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_spawn").mergeStyle(TextFormatting.RED), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSpawnpoint).withParent(Contents.PLAYER)));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").func_240699_a_(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").mergeStyle(TextFormatting.RED), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSetworldspawn).withParent(Contents.PLAYER)));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.kill").func_240699_a_(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.kill").mergeStyle(TextFormatting.RED), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderKill).withParent(Contents.PLAYER)));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.clear_inventory").func_240699_a_(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.clear_inventory").mergeStyle(TextFormatting.RED), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderClear).withParent(Contents.PLAYER)));
 			}));
@@ -169,8 +169,8 @@ public class ContentPlayer extends Content
 			int yPos = y + 82;
 			int playerNameWidth = Minecraft.getInstance().fontRenderer.func_238414_a_(Minecraft.getInstance().player.getName()) / 2;
 			
-			AbstractGui.func_238467_a_(matrix, container.field_230708_k_ / 2 - playerNameWidth - 1 + 59, yPos - 74, container.field_230708_k_ / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
-			Minecraft.getInstance().fontRenderer.func_238422_b_(matrix, Minecraft.getInstance().player.getName(), container.field_230708_k_ / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
+			AbstractGui.fill(matrix, container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
+			Minecraft.getInstance().fontRenderer.func_243248_b(matrix, Minecraft.getInstance().player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
 			RenderUtils.color(1.0F, 1.0F, 1.0F, 1.0F);
 			InventoryScreen.drawEntityOnScreen(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
@@ -178,15 +178,15 @@ public class ContentPlayer extends Content
 		}
 		else if(Page.SCORE.equals(this.page))
 		{
-			this.scoreField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.xpField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.coinsField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.scoreField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.xpField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.coinsField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 		else if(Page.POSITION.equals(this.page))
 		{
-			this.posXField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.posYField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.posZField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.posXField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.posYField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.posZField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

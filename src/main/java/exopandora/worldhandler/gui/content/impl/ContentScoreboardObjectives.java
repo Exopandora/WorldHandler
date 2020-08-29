@@ -219,28 +219,28 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.objectives.create"), () ->
 		{
 			this.page = Page.CREATE;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.objectives.display"), () ->
 		{
 			this.page = Page.DISPLAY;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.objectives.undisplay"), () ->
 		{
 			this.page = Page.UNDISPLAY;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.objectives.remove"), () ->
 		{
 			this.page = Page.REMOVE;
-			container.func_231160_c_();
+			container.init();
 		}));
 		
-		button1.field_230693_o_ = !Page.CREATE.equals(this.page);
-		button2.field_230693_o_ = !Page.DISPLAY.equals(this.page);
-		button3.field_230693_o_ = !Page.UNDISPLAY.equals(this.page);
-		button4.field_230693_o_ = !Page.REMOVE.equals(this.page);
+		button1.active = !Page.CREATE.equals(this.page);
+		button2.active = !Page.DISPLAY.equals(this.page);
+		button3.active = !Page.UNDISPLAY.equals(this.page);
+		button4.active = !Page.REMOVE.equals(this.page);
 		
 		if(Page.UNDISPLAY.equals(this.page))
 		{
@@ -260,9 +260,9 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, new TranslationTextComponent("gui.worldhandler.actions.perform"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderObjectives);
-			container.func_231160_c_();
+			container.init();
 		}));
-		button1.field_230693_o_ = Page.UNDISPLAY.equals(this.page) || ContentScoreboard.isObjectiveValid();
+		button1.active = Page.UNDISPLAY.equals(this.page) || ContentScoreboard.isObjectiveValid();
 	}
 	
 	@Override
@@ -279,7 +279,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	{
 		if(!Page.UNDISPLAY.equals(this.page))
 		{
-			this.objectField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.objectField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

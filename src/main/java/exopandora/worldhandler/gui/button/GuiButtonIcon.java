@@ -22,9 +22,9 @@ public class GuiButtonIcon extends GuiButtonTooltip
 	}
 	
 	@Override
-	public void func_230431_b_(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) //renderButton
+	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		super.func_230441_a_(matrix, Minecraft.getInstance(), mouseX, mouseY); //renderBg
+		super.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
 		
 		if(this.icon != null)
 		{
@@ -36,7 +36,7 @@ public class GuiButtonIcon extends GuiButtonTooltip
 	{
 		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getIconTexture());
 		
-		if(this.field_230693_o_)
+		if(this.active)
 		{
 			RenderUtils.color(1.0F, 1.0F, 1.0F, 1.0F);
 		}
@@ -45,6 +45,6 @@ public class GuiButtonIcon extends GuiButtonTooltip
 			RenderUtils.color(0.8F, 0.8F, 0.8F, 1.0F);
 		}
 		
-		this.func_238474_b_(matrix, this.field_230690_l_ + this.field_230688_j_ / 2 - 4, this.field_230691_m_ + this.field_230689_k_ / 2 - 4, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8); //blit
+		this.blit(matrix, this.x + this.width / 2 - 4, this.y + this.height / 2 - 4, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);
 	}
 }

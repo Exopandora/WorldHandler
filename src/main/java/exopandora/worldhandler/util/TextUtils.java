@@ -15,36 +15,36 @@ public class TextUtils
 {
 	public static final StringTextComponent ARROW_LEFT = new StringTextComponent("<");
 	public static final StringTextComponent ARROW_RIGHT = new StringTextComponent(">");
-	public static final IFormattableTextComponent ARROW_LEFT_BOLD = new StringTextComponent("<").func_240699_a_(net.minecraft.util.text.TextFormatting.BOLD);
-	public static final IFormattableTextComponent ARROW_RIGHT_BOLD = new StringTextComponent(">").func_240699_a_(net.minecraft.util.text.TextFormatting.BOLD);
+	public static final IFormattableTextComponent ARROW_LEFT_BOLD = new StringTextComponent("<").mergeStyle(net.minecraft.util.text.TextFormatting.BOLD);
+	public static final IFormattableTextComponent ARROW_RIGHT_BOLD = new StringTextComponent(">").mergeStyle(net.minecraft.util.text.TextFormatting.BOLD);
 	
 	public static IFormattableTextComponent stripText(IFormattableTextComponent string, int maxWidth, FontRenderer fontRenderer)
 	{
-		return TextUtils.stripText(string, (IFormattableTextComponent) StringTextComponent.field_240750_d_, maxWidth, fontRenderer);
+		return TextUtils.stripText(string, (IFormattableTextComponent) StringTextComponent.EMPTY, maxWidth, fontRenderer);
 	}
 	
 	public static IFormattableTextComponent stripText(IFormattableTextComponent string, IFormattableTextComponent prefix, int maxWidth, FontRenderer fontRenderer)
 	{
 		if(fontRenderer.func_238414_a_(prefix) + fontRenderer.func_238414_a_(string) > (maxWidth - fontRenderer.func_238414_a_(prefix)))
 		{
-			IFormattableTextComponent result = new StringTextComponent("").func_240703_c_(string.getStyle()); 
+			IFormattableTextComponent result = new StringTextComponent("").setStyle(string.getStyle()); 
 			
 			for(char c : string.getString().toCharArray())
 			{
-				IFormattableTextComponent extension = new StringTextComponent(result.getString() + c + "...").func_240703_c_(string.getStyle());
+				IFormattableTextComponent extension = new StringTextComponent(result.getString() + c + "...").setStyle(string.getStyle());
 				
 				if(fontRenderer.func_238414_a_(extension) < maxWidth)
 				{
-					result = new StringTextComponent(result.getString() + c).func_240703_c_(string.getStyle());
+					result = new StringTextComponent(result.getString() + c).setStyle(string.getStyle());
 				}
 				else
 				{
-					return new StringTextComponent(result.getString() + "...").func_240703_c_(string.getStyle());
+					return new StringTextComponent(result.getString() + "...").setStyle(string.getStyle());
 				}
 			}
 		}
 		
-		return prefix.func_230531_f_().func_230529_a_(string);
+		return prefix.copyRaw().append(string);
 	}
 	
 	public static String formatTotalTime(long tick)
@@ -108,7 +108,7 @@ public class TextUtils
 	{
 		if(text == null)
 		{
-			return (IFormattableTextComponent) StringTextComponent.field_240750_d_;
+			return (IFormattableTextComponent) StringTextComponent.EMPTY;
 		}
 		
 		return new TranslationTextComponent(text, parameters);

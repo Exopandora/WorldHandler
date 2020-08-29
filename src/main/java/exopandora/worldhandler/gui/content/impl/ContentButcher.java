@@ -106,18 +106,18 @@ public class ContentButcher extends Content
 		{
 			ContentButcher.slaughter(container.getPlayer(), Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITIES::getValue).filter(Predicates.notNull()).collect(Collectors.toList()), Integer.parseInt(this.radius));
 		}));
-		slaughter.field_230693_o_ = enabled && !Config.getButcher().getEntities().isEmpty();
+		slaughter.active = enabled && !Config.getButcher().getEntities().isEmpty();
 		
 		container.add(slaughter = new GuiButtonBase(x + 58, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets"), () ->
 		{
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.BUTCHER_PRESETS.withBuilder(this.builderButcher).withRadius(Integer.parseInt(this.radius)).withParent(Contents.BUTCHER)));
 		}));
-		slaughter.field_230693_o_ = enabled;
+		slaughter.active = enabled;
 	}
 	
 	public static void slaughter(String player, Collection<EntityType<?>> entities, int radius)
 	{
-		AxisAlignedBB aabb = new AxisAlignedBB(Minecraft.getInstance().player.func_233580_cy_()).grow(radius);
+		AxisAlignedBB aabb = new AxisAlignedBB(Minecraft.getInstance().player.getPosition()).grow(radius);
 		
 		for(EntityType<?> entity : entities)
 		{
@@ -140,7 +140,7 @@ public class ContentButcher extends Content
 	@Override
 	public void drawScreen(MatrixStack stack, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.radiusField.func_230431_b_(stack, mouseX, mouseY, partialTicks); //renderButton
+		this.radiusField.renderButton(stack, mouseX, mouseY, partialTicks);
 	}
 	
 	@Override

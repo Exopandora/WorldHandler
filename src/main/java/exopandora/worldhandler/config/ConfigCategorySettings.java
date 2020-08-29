@@ -69,7 +69,7 @@ public class ConfigCategorySettings
 				.define("permission_query", true);
 		this.highlightBlocks = builder
 				.translation("gui.worldhandler.config.settings.highlight_blocks")
-				.comment("Whether or not selected blocks will be highlighted")
+				.comment("Whether or not selected blocks will be highlighted (Incompatible with fabolous graphics)")
 				.define("highlight_blocks", true);
 		
 		this.dawn = builder

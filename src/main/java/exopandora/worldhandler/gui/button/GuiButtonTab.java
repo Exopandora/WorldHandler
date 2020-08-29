@@ -17,13 +17,13 @@ public abstract class GuiButtonTab extends AbstractButton
 	}
 	
 	@Override
-	public void func_230430_a_(MatrixStack p_230430_1_, int p_230430_2_, int p_230430_3_, float p_230430_4_) //render
+	public void render(MatrixStack p_230430_1_, int mouseX, int mouseY, float partialTicks)
 	{
 		
 	}
 	
 	@Override
-	public void func_230988_a_(SoundHandler soundHandler) //playDownSound
+	public void playDownSound(SoundHandler soundHandler)
 	{
 		
 	}

@@ -164,7 +164,7 @@ public class ContentGamerules extends Content
 	{
 		if(!this.booleanValue)
 		{
-			this.valueField.func_230431_b_(matrix, mouseX, mouseY, partialTicks);
+			this.valueField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

@@ -7,7 +7,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import exopandora.worldhandler.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -45,11 +44,11 @@ public class RenderUtils
 		matrix.scale(0.25F, 0.25F, 0.25F);
 		
 		matrix.rotate(Vector3f.ZP.rotationDegrees(rotationHour));
-		AbstractGui.func_238467_a_(matrix, -1, -1, 1, 11, 0xFF383838);
+		AbstractGui.fill(matrix, -1, -1, 1, 11, 0xFF383838);
 		matrix.rotate(Vector3f.ZN.rotationDegrees(rotationHour));
 		
 		matrix.rotate(Vector3f.ZP.rotationDegrees(rotationMinute));
-		AbstractGui.func_238467_a_(matrix, -1, -1, 1, 15, 0xFF6F6F6F);
+		AbstractGui.fill(matrix, -1, -1, 1, 15, 0xFF6F6F6F);
 		matrix.rotate(Vector3f.ZN.rotationDegrees(rotationMinute));
 		
 		matrix.pop();
@@ -57,11 +56,11 @@ public class RenderUtils
 		RenderUtils.color(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
 		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getIconTexture());
 		
-		gui.func_238474_b_(matrix, width + 0, height, 48, 0, 10, 10);
+		gui.blit(matrix, width + 0, height, 48, 0, 10, 10);
 		
 		matrix.push();
 		matrix.scale(0.5F, 0.5F, 0.5F);
-		Screen.func_238467_a_(matrix, (width + 5) * 2 - 1, (height + 4) * 2 + 1, (width + 6) * 2 - 1, (height + 5) * 2 + 1, 0xFF000000);
+		AbstractGui.fill(matrix, (width + 5) * 2 - 1, (height + 4) * 2 + 1, (width + 6) * 2 - 1, (height + 5) * 2 + 1, 0xFF000000);
 		matrix.pop();
 	}
 	

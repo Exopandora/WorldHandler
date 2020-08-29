@@ -40,11 +40,11 @@ public class SignText implements INBTWritable
 	{
 		if(command != null && !command.isEmpty())
 		{
-			this.text.getStyle().func_240715_a_(new ClickEvent(Action.RUN_COMMAND, command));
+			this.text.getStyle().setClickEvent(new ClickEvent(Action.RUN_COMMAND, command));
 		}
 		else
 		{
-			this.text.getStyle().func_240715_a_(null);
+			this.text.getStyle().setClickEvent(null);
 		}
 	}
 	

@@ -163,11 +163,11 @@ public class ActionHelper
 			Minecraft.getInstance().displayGuiScreen(null);
 			Minecraft.getInstance().mouseHelper.grabMouse();
 			
-			ITextComponent message = new TranslationTextComponent("<" + Main.NAME + "> %s", new TranslationTextComponent("worldhandler.error.gui")).func_240699_a_(TextFormatting.RED);
-			ITextComponent cause = new StringTextComponent(" " + e.getClass().getCanonicalName() + ": " + e.getMessage()).func_240699_a_(TextFormatting.RED);
+			ITextComponent message = new TranslationTextComponent("<" + Main.NAME + "> %s", new TranslationTextComponent("worldhandler.error.gui")).mergeStyle(TextFormatting.RED);
+			ITextComponent cause = new StringTextComponent(" " + e.getClass().getCanonicalName() + ": " + e.getMessage()).mergeStyle(TextFormatting.RED);
 			
-			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, message, Util.field_240973_b_);
-			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, cause, Util.field_240973_b_);
+			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, message, Util.DUMMY_UUID);
+			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, cause, Util.DUMMY_UUID);
 			
 			WorldHandler.LOGGER.throwing(e);
 		}
@@ -177,8 +177,8 @@ public class ActionHelper
 	{
 		if(!CommandHelper.canPlayerIssueCommand() && Config.getSettings().permissionQuery())
 		{
-			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused")), Util.field_240973_b_);
-			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.settings.permission_query"))), Util.field_240973_b_);
+			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused")), Util.DUMMY_UUID);
+			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.settings.permission_query"))), Util.DUMMY_UUID);
 		}
 		else
 		{

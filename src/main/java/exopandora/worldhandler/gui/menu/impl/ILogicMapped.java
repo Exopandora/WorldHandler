@@ -18,10 +18,10 @@ public interface ILogicMapped<T> extends ILogic
 		
 		if(tooltip != null)
 		{
-			return tooltip.func_240702_b_(String.format(" (%d/%d)", index, max));
+			return tooltip.appendString(String.format(" (%d/%d)", index, max));
 		}
 		
-		return (IFormattableTextComponent) StringTextComponent.field_240750_d_;
+		return (IFormattableTextComponent) StringTextComponent.EMPTY;
 	}
 	
 	void onClick(T item);

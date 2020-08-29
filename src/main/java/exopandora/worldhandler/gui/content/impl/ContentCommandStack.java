@@ -127,12 +127,12 @@ public class ContentCommandStack extends ContentChild
 			container.add(buttonUp = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 - 1, 20, 10, EnumIcon.ARROW_UP, new TranslationTextComponent("gui.worldhandler.actions.move_up"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll - 1);
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(buttonDown = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 + 11, 20, 10, EnumIcon.ARROW_DOWN, new TranslationTextComponent("gui.worldhandler.actions.move_down"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll + 1);
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(buttonRemove = new GuiButtonTooltip(x + 232 - 20, y + index * 24 - 1, 20, 10, MINUS, new TranslationTextComponent("gui.worldhandler.command_stack.remove_command"), () ->
 			{
@@ -144,7 +144,7 @@ public class ContentCommandStack extends ContentChild
 					this.scrollUp();
 				}
 				
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(new GuiButtonTooltip(x + 232 - 20, y + index * 24 + 11, 20, 10, PLUS, new TranslationTextComponent("gui.worldhandler.command_stack.insert_command"), () ->
 			{
@@ -156,13 +156,13 @@ public class ContentCommandStack extends ContentChild
 					this.scrollDown();
 				}
 				
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(this.textfields.get(index));
 			
-			buttonRemove.field_230693_o_ = this.getCommandCount() > 1;
-			buttonUp.field_230693_o_ = index + this.scroll > 0;
-			buttonDown.field_230693_o_ = index + this.scroll + 1 < this.getCommandCount();
+			buttonRemove.active = this.getCommandCount() > 1;
+			buttonUp.active = index + this.scroll > 0;
+			buttonDown.active = index + this.scroll + 1 < this.getCommandCount();
 		});
 		
 		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.command_stack.copy_command"), () -> 
@@ -172,17 +172,17 @@ public class ContentCommandStack extends ContentChild
 		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, new TranslationTextComponent("gui.worldhandler.actions.move_up"), () ->
 		{
 			this.scrollUp();
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(buttonScrollDown = new GuiButtonIcon(x + 118 + 60, y + 72, 54, 20, EnumIcon.ARROW_DOWN, new TranslationTextComponent("gui.worldhandler.actions.move_down"), () -> 
 		{
 			this.scrollDown();
-			container.func_231160_c_();
+			container.init();
 		}));
 		
 		this.updateCopyButton();
-		buttonScrollUp.field_230693_o_ = this.scroll > 0;
-		buttonScrollDown.field_230693_o_ = this.scroll < this.getCommandCount() - 3;
+		buttonScrollUp.active = this.scroll > 0;
+		buttonScrollDown.active = this.scroll < this.getCommandCount() - 3;
 	}
 	
 	@Override
@@ -199,7 +199,7 @@ public class ContentCommandStack extends ContentChild
 	{
 		this.iterate(index ->
 		{
-			this.textfields.get(index).func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.textfields.get(index).renderButton(matrix, mouseX, mouseY, partialTicks);
 		});
 	}
 	
@@ -213,12 +213,12 @@ public class ContentCommandStack extends ContentChild
 	
 	private void scrollUp()
 	{
-		this.scroll = Math.max(0, this.scroll - (Screen.func_231173_s_() ? 10 : 1));
+		this.scroll = Math.max(0, this.scroll - (Screen.hasShiftDown() ? 10 : 1));
 	}
 	
 	private void scrollDown()
 	{
-		this.scroll = Math.min(this.getCommandCount() - 3, this.scroll + (Screen.func_231173_s_() ? 10 : 1));
+		this.scroll = Math.min(this.getCommandCount() - 3, this.scroll + (Screen.hasShiftDown() ? 10 : 1));
 	}
 	
 	private void updateCopyButton()
@@ -235,7 +235,7 @@ public class ContentCommandStack extends ContentChild
 			}
 		}
 		
-		this.buttonCopy.field_230693_o_ = active;
+		this.buttonCopy.active = active;
 	}
 	
 	private void setCommand(int index, String command)

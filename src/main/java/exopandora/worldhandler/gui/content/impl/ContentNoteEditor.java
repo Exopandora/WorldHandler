@@ -183,21 +183,21 @@ public class ContentNoteEditor extends Content
 			RenderUtils.color(1.0F, 1.0F, 1.0F);
 			Minecraft.getInstance().getTextureManager().bindTexture(NOTE);
 			
-			container.func_238474_b_(matrix, x - 1, y - 1, 0, 0, 8, 59); //blit
-			container.func_238474_b_(matrix, x - 1, y - 1 + 59, 0, 59, 13, 35); //blit
+			container.blit(matrix, x - 1, y - 1, 0, 0, 8, 59);
+			container.blit(matrix, x - 1, y - 1 + 59, 0, 59, 13, 35);
 			
-			container.func_238474_b_(matrix, x - 1 + 232 - 5, y - 1, 18, 0, 7, 59); //blit
-			container.func_238474_b_(matrix, x - 1 + 232 - 10, y - 1 + 59, 13, 59, 12, 35); //blit
+			container.blit(matrix, x - 1 + 232 - 5, y - 1, 18, 0, 7, 59);
+			container.blit(matrix, x - 1 + 232 - 10, y - 1 + 59, 13, 59, 12, 35);
 			
-			container.func_238474_b_(matrix, x - 1 + 8, y - 1, 0, 94, 219, 1); //blit
-			container.func_238474_b_(matrix, x - 1 + 13, y - 1 + 93, 0, 94, 209, 1); //blit
+			container.blit(matrix, x - 1 + 8, y - 1, 0, 94, 219, 1);
+			container.blit(matrix, x - 1 + 13, y - 1 + 93, 0, 94, 209, 1);
 		}
 		else
 		{
     		float scale = 4;
     		
             matrix.push();
-            matrix.translate(container.field_230708_k_ / 2 - 8 * scale, container.field_230709_l_ / 2 - 15 - 8 * scale, 0);
+            matrix.translate(container.width / 2 - 8 * scale, container.height / 2 - 15 - 8 * scale, 0);
             matrix.scale(scale, scale, scale);
             
     		RenderUtils.renderItemIntoGUI(matrix, new ItemStack(Blocks.NOTE_BLOCK), 0, 0);
@@ -205,7 +205,7 @@ public class ContentNoteEditor extends Content
 			
     		TranslationTextComponent text = new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.look_at_note_block", KeyHandler.KEY_WORLD_HANDLER.func_238171_j_());
 			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-			fontRenderer.func_238422_b_(matrix, text, x + 116 - fontRenderer.func_238414_a_(text) / 2, y + 70, Config.getSkin().getLabelColor());
+			fontRenderer.func_243248_b(matrix, text, x + 116 - fontRenderer.func_238414_a_(text) / 2, y + 70, Config.getSkin().getLabelColor());
 		}
 	}
 	

@@ -114,22 +114,22 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		container.add(button1 = new GuiButtonBase(x, y + 12, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.players.points"), () ->
 		{
 			this.page = Page.ADD_SET_REMOVE;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.players.tag"), () ->
 		{
 			this.page = Page.TAG;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.players.trigger"), () ->
 		{
 			this.page = Page.ENABLE;
-			container.func_231160_c_();
+			container.init();
 		}));
 		
-		button1.field_230693_o_ = !Page.ADD_SET_REMOVE.equals(this.page);
-		button2.field_230693_o_ = !Page.TAG.equals(this.page);
-		button3.field_230693_o_ = !Page.ENABLE.equals(this.page);
+		button1.active = !Page.ADD_SET_REMOVE.equals(this.page);
+		button2.active = !Page.TAG.equals(this.page);
+		button3.active = !Page.ENABLE.equals(this.page);
 		
 		boolean enabled = ContentScoreboard.isObjectiveValid();
 		this.builderPlayers.setMode(this.page.getMode());
@@ -143,42 +143,42 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.getBuilderForPoints(EnumMode.ADD));
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.getBuilderForPoints(EnumMode.REMOVE));
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset"), new TranslationTextComponent("gui.worldhandler.actions.set_to_0"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.getBuilderForPoints(EnumMode.SET, 0));
-				container.func_231160_c_();
+				container.init();
 			}));
 			
 			boolean points = enabled && this.builderPlayers.getPoints() > 0;
 			
-			this.addButton.field_230693_o_ = points;
-			this.removeButton.field_230693_o_ = points;
-			button1.field_230693_o_ = enabled;
+			this.addButton.active = points;
+			this.removeButton.active = points;
+			button1.active = enabled;
 		}
 		else if(Page.TAG.equals(this.page))
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTag.getBuilderForMode(BuilderTag.EnumMode.ADD));
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTag.getBuilderForMode(BuilderTag.EnumMode.REMOVE));
-				container.func_231160_c_();
+				container.init();
 			}));
 			
 			boolean tag = this.tag != null && !this.tag.isEmpty();
 			
-			button1.field_230693_o_ = tag;
-			button2.field_230693_o_ = tag;
+			button1.active = tag;
+			button2.active = tag;
 		}
 		else if(Page.ENABLE.equals(this.page))
 		{
@@ -189,22 +189,22 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.ADD));
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.set"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.SET));
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.enable"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.getBuilderForEnable());
-				container.func_231160_c_();
+				container.init();
 			}));
 			
-			this.addButton.field_230693_o_ = enabled && this.builderTrigger.getValue() > 0;
-			this.removeButton.field_230693_o_ = enabled;
-			button1.field_230693_o_ = enabled;
+			this.addButton.active = enabled && this.builderTrigger.getValue() > 0;
+			this.removeButton.active = enabled;
+			button1.active = enabled;
 		}
 		
 		if(Page.TAG.equals(this.page))
@@ -234,13 +234,13 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			{
 				boolean points = enabled && this.builderPlayers.getPoints() > 0;
 				
-				this.addButton.field_230693_o_ = points;
-				this.removeButton.field_230693_o_ = points;
+				this.addButton.active = points;
+				this.removeButton.active = points;
 			}
 			else if(Page.ENABLE.equals(this.page))
 			{
-				this.addButton.field_230693_o_ = enabled && this.builderTrigger.getValue() > 0;
-				this.removeButton.field_230693_o_ = enabled;
+				this.addButton.active = enabled && this.builderTrigger.getValue() > 0;
+				this.removeButton.active = enabled;
 			}
 			
 			this.objectField.tick();
@@ -252,11 +252,11 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	{
 		if(Page.TAG.equals(this.page))
 		{
-			this.tagField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.tagField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 		else
 		{
-			this.objectField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.objectField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

@@ -27,17 +27,22 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 	}
 	
 	@Override
-	public void func_230431_b_(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) //renderButton
+	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		super.func_230431_b_(matrix, mouseX, mouseY, partialTicks); // renderButton
+		super.renderButton(matrix, mouseX, mouseY, partialTicks);
 		
-		if(this.getVisible() && !this.func_230999_j_() && this.tooltip != null && TextFormatting.getTextWithoutFormattingCodes(this.getText()).isEmpty())
+		if(this.getVisible() && !this.isFocused() && this.tooltip != null && TextFormatting.getTextWithoutFormattingCodes(this.getText()).isEmpty())
 		{
-			boolean enableBackgroundDrawing = this.getAdjustedWidth() != this.field_230688_j_;
-			int tx = enableBackgroundDrawing ? this.field_230690_l_ + 4 : this.field_230690_l_;
-			int ty = enableBackgroundDrawing ? this.field_230691_m_ + (this.field_230689_k_ - 8) / 2 : this.field_230691_m_;
+			int x = this.x;
+			int y = this.y;
 			
-			Minecraft.getInstance().fontRenderer.func_238407_a_(matrix, this.tooltip, (float) tx, (float) ty, 0x7F7F7F); //drawStringWithShadow
+			if(this.getAdjustedWidth() != this.width)
+			{
+				x += 4;
+				y += (this.height - 8) / 2;
+			}
+			
+			Minecraft.getInstance().fontRenderer.func_243246_a(matrix, this.tooltip, (float) x, (float) y, 0x7F7F7F); //drawStringWithShadow
 		}
 	}
 	
@@ -53,8 +58,8 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 	
 	public void setPosition(int x, int y)
 	{
-		this.field_230690_l_ = x;
-		this.field_230691_m_ = y;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public void setText(ITextComponent text)

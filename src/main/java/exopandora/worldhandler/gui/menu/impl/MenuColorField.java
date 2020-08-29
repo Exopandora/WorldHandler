@@ -88,7 +88,7 @@ public class MenuColorField extends Menu
 				@Override
 				public IFormattableTextComponent translate(TextFormatting item)
 				{
-					return new TranslationTextComponent("gui.worldhandler.color").func_240699_a_(item).func_240702_b_(": ").func_230529_a_(new TranslationTextComponent("gui.worldhandler.color." + item.getFriendlyName()));
+					return new TranslationTextComponent("gui.worldhandler.color").mergeStyle(item).appendString(": ").append(new TranslationTextComponent("gui.worldhandler.color." + item.getFriendlyName()));
 				}
 				
 				@Override
@@ -106,7 +106,7 @@ public class MenuColorField extends Menu
 				@Override
 				public void onClick(TextFormatting item)
 				{
-					MenuColorField.this.string.func_240699_a_(item);
+					MenuColorField.this.string.mergeStyle(item);
 				}
 				
 				@Override
@@ -116,30 +116,30 @@ public class MenuColorField extends Menu
 				}
 			}));
 			
-			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, new StringTextComponent("I").func_240703_c_(Style.field_240709_b_.func_240722_b_(this.string.getStyle().getItalic())), () ->
+			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, new StringTextComponent("I").setStyle(Style.EMPTY.setItalic(this.string.getStyle().getItalic())), () ->
 			{
-				this.string.func_240703_c_(this.string.getStyle().func_240722_b_(!this.string.getStyle().getItalic()));
-				container.func_231160_c_();
+				this.string.setStyle(this.string.getStyle().setItalic(!this.string.getStyle().getItalic()));
+				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, new StringTextComponent("B").func_240703_c_(Style.field_240709_b_.func_240713_a_(this.string.getStyle().getBold())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, new StringTextComponent("B").setStyle(Style.EMPTY.setBold(this.string.getStyle().getBold())), () ->
 			{
-				this.string.func_240703_c_(this.string.getStyle().func_240713_a_(!this.string.getStyle().getBold()));
-				container.func_231160_c_();
+				this.string.setStyle(this.string.getStyle().setItalic(!this.string.getStyle().getBold()));
+				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, new StringTextComponent("U").func_240703_c_(Style.field_240709_b_.setUnderlined(this.string.getStyle().getUnderlined())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, new StringTextComponent("U").setStyle(Style.EMPTY.setUnderlined(this.string.getStyle().getUnderlined())), () ->
 			{
-				this.string.func_240703_c_(this.string.getStyle().setUnderlined(!this.string.getStyle().getUnderlined()));
-				container.func_231160_c_();
+				this.string.setStyle(this.string.getStyle().setUnderlined(!this.string.getStyle().getUnderlined()));
+				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, new StringTextComponent("S").func_240703_c_(Style.field_240709_b_.setStrikethrough(this.string.getStyle().getStrikethrough())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, new StringTextComponent("S").setStyle(Style.EMPTY.setStrikethrough(this.string.getStyle().getStrikethrough())), () ->
 			{
-				this.string.func_240703_c_(this.string.getStyle().setStrikethrough(!this.string.getStyle().getStrikethrough()));
-				container.func_231160_c_();
+				this.string.setStyle(this.string.getStyle().setStrikethrough(!this.string.getStyle().getStrikethrough()));
+				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, new StringTextComponent("O").func_240703_c_(Style.field_240709_b_.setObfuscated(this.string.getStyle().getObfuscated())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, new StringTextComponent("O").setStyle(Style.EMPTY.setObfuscated(this.string.getStyle().getObfuscated())), () ->
 			{
-				this.string.func_240703_c_(this.string.getStyle().setObfuscated(!this.string.getStyle().getObfuscated()));
-				container.func_231160_c_();
+				this.string.setStyle(this.string.getStyle().setObfuscated(!this.string.getStyle().getObfuscated()));
+				container.init();
 			}));
 		}
 	}
@@ -153,6 +153,6 @@ public class MenuColorField extends Menu
 	@Override
 	public void draw(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		this.textField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+		this.textField.renderButton(matrix, mouseX, mouseY, partialTicks);
 	}
 }

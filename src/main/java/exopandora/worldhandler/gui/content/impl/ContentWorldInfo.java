@@ -80,39 +80,39 @@ public class ContentWorldInfo extends Content
 		container.add(start = new GuiButtonBase(x, y + 12, 114, 20, new TranslationTextComponent("gui.worldhandler.world_info.start"), () ->
 		{
 			this.page = Page.START;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(world = new GuiButtonBase(x, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.world_info.world"), () ->
 		{
 			this.page = Page.WORLD;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(stats = new GuiButtonBase(x, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.world_info.statistics"), () ->
 		{
 			this.page = Page.STATS;
-			container.func_231160_c_();
+			container.init();
 		}));
 		
 		if(Page.START.equals(this.page))
 		{
-			start.field_230693_o_ = false;
+			start.active = false;
 		}
 		else if(Page.WORLD.equals(this.page))
 		{
 			GuiButtonBase seed;
 			IntegratedServer server = Minecraft.getInstance().getIntegratedServer();
 			
-			world.field_230693_o_ = false;
+			world.active = false;
 			container.add(seed = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.world_info.world.copy_seed"), () ->
 			{
 				Minecraft.getInstance().keyboardListener.setClipboardString(String.valueOf(server.func_241755_D_().getSeed()));
 			}));
 			
-			seed.field_230693_o_ = server != null;
+			seed.active = server != null;
 		}
 		else if(Page.STATS.equals(this.page))
 		{
-			stats.field_230693_o_ = false;
+			stats.active = false;
 		}
 	}
 	
@@ -129,19 +129,19 @@ public class ContentWorldInfo extends Content
 	{
 		if(Page.START.equals(this.page))
 		{
-			this.posXField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.posYField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.posZField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.posXField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.posYField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.posZField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 		else if(Page.WORLD.equals(this.page))
 		{
-			this.worldField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.seedField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.worldField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.seedField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 		else if(Page.STATS.equals(this.page))
 		{
-			this.totalTimeField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
-			this.currentTimeField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.totalTimeField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			this.currentTimeField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

@@ -89,7 +89,7 @@ public class ContentButcherSettings extends ContentChild
 		
 		boolean contains = Config.CLIENT.getButcher().containsEntity(this.entity);
 		
-		button1.field_230693_o_ = !contains;
-		button2.field_230693_o_ = contains;
+		button1.active = !contains;
+		button2.active = contains;
 	}
 }

@@ -26,9 +26,9 @@ public class GuiButtonItem extends GuiButtonBase
 	}
 	
 	@Override
-	public void func_230431_b_(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) //renderButton
+	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		super.func_230441_a_(matrix, Minecraft.getInstance(), mouseX, mouseY); //renderBg
-		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(this.stack, this.field_230690_l_ + this.field_230688_j_ / 2 - 8, this.field_230691_m_ + 2);
+		super.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
+		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(this.stack, this.x + this.width / 2 - 8, this.y + 2);
 	}
 }

@@ -128,18 +128,18 @@ public class ContentSettings extends ContentChild
 			container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.enable"), () ->
 			{
 				setting.set(true);
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.disable"), () ->
 			{
 				setting.set(false);
-				container.func_231160_c_();
+				container.init();
 			}));
 			
 			boolean enabled = setting.get();
 			
-			button1.field_230693_o_ = !enabled;
-			button2.field_230693_o_ = enabled;
+			button1.active = !enabled;
+			button2.active = enabled;
 		}
 		else if(this.setting instanceof IntegerSetting)
 		{
@@ -160,7 +160,7 @@ public class ContentSettings extends ContentChild
 					setting.set(Integer.parseInt(text));
 				}
 				
-				container.func_231160_c_();
+				container.init();
 			}));
 		}
 	}
@@ -179,7 +179,7 @@ public class ContentSettings extends ContentChild
 	{
 		if(this.setting instanceof IntegerSetting)
 		{
-			this.valueField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.valueField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

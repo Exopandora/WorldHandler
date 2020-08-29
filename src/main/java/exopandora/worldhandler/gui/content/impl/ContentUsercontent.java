@@ -141,9 +141,9 @@ public class ContentUsercontent extends Content
 	{
 		for(VisibleObject<TextFieldWidget> textfield : this.textfields.values())
 		{
-			if(textfield.getObject().field_230694_p_)
+			if(textfield.getObject().visible)
 			{
-				textfield.getObject().func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+				textfield.getObject().renderButton(matrix, mouseX, mouseY, partialTicks);
 			}
 		}
 		
@@ -153,7 +153,7 @@ public class ContentUsercontent extends Content
 			{
 				if(text.getVisible() == null || text.getVisible().eval(this.engineAdapter))
 				{
-					container.getMinecraft().fontRenderer.func_238422_b_(matrix, TextUtils.formatNonnull(text.getText()), text.getX() + x, text.getY() + y, text.getColor());
+					container.getMinecraft().fontRenderer.func_243248_b(matrix, TextUtils.formatNonnull(text.getText()), text.getX() + x, text.getY() + y, text.getColor());
 				}
 			}
 		}
@@ -257,7 +257,7 @@ public class ContentUsercontent extends Content
 	private void printError(String type, int index, Throwable e)
 	{
 		ITextComponent message = new StringTextComponent(TextFormatting.RED + "<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage());
-		Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.CHAT, message, Util.field_240973_b_);
+		Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.CHAT, message, Util.DUMMY_UUID);
 	}
 	
 	private void updateTextfields()
@@ -265,7 +265,7 @@ public class ContentUsercontent extends Content
 		for(VisibleActiveObject<TextFieldWidget> visObj : this.textfields.values())
 		{
 			visObj.getObject().setEnabled(visObj.isEnabled(this.engineAdapter));
-			visObj.getObject().field_230694_p_ = visObj.isVisible(this.engineAdapter);
+			visObj.getObject().setVisible(visObj.isVisible(this.engineAdapter));
 		}
 	}
 	
@@ -273,8 +273,8 @@ public class ContentUsercontent extends Content
 	{
 		for(VisibleActiveObject<Widget> visObj : this.buttons)
 		{
-			visObj.getObject().field_230693_o_ = visObj.isEnabled(this.engineAdapter);
-			visObj.getObject().field_230694_p_ = visObj.isVisible(this.engineAdapter);
+			visObj.getObject().active = visObj.isEnabled(this.engineAdapter);
+			visObj.getObject().visible = visObj.isVisible(this.engineAdapter);
 		}
 	}
 }

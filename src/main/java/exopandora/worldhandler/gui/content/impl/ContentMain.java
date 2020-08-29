@@ -14,7 +14,7 @@ import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.OptionsScreen;
-import net.minecraft.client.gui.screen.ResourcePacksScreen;
+import net.minecraft.client.gui.screen.PackScreen;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -89,12 +89,12 @@ public class ContentMain extends Content
 		container.add(new GuiButtonBase(x + 78, y + 96, 76, 20, new TranslationTextComponent("gui.worldhandler.resourcepack"), () -> 
 		{
 			Minecraft.getInstance().gameSettings.saveOptions();
-			Minecraft.getInstance().displayGuiScreen(new ResourcePacksScreen(container, Minecraft.getInstance().getResourcePackList(), resourcePackList ->
+			Minecraft.getInstance().displayGuiScreen(new PackScreen(container, Minecraft.getInstance().getResourcePackList(), resourcePackList ->
 			{
 				OptionsScreen optionsScreen = new OptionsScreen(container, Minecraft.getInstance().gameSettings);
-				optionsScreen.func_231158_b_(Minecraft.getInstance(), 0, 0);
+				optionsScreen.init(Minecraft.getInstance(), 0, 0);
 				optionsScreen.func_241584_a_(resourcePackList);
-			}, Minecraft.getInstance().getFileResourcePacks()));
+			}, Minecraft.getInstance().getFileResourcePacks(), new TranslationTextComponent("resourcePack.title")));
 		}));
 		container.add(new GuiButtonBase(x + 158, y + 96, 74, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 	}

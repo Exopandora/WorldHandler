@@ -123,28 +123,28 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.create"), () ->
 		{
 			this.page = Page.ADD;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new StringTextComponent(I18n.format("gui.worldhandler.scoreboard.team.join") + " / " + I18n.format("gui.worldhandler.scoreboard.team.leave")), () ->
 		{
 			this.page = Page.JOIN_OR_LEAVE;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new StringTextComponent(I18n.format("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.format("gui.worldhandler.scoreboard.team.empty")), () ->
 		{
 			this.page = Page.REMOVE_OR_EMPTY;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.options"), () ->
 		{
 			this.page = Page.OPTION;
-			container.func_231160_c_();
+			container.init();
 		}));
 		
-		button1.field_230693_o_ = !Page.ADD.equals(this.page);
-		button2.field_230693_o_ = !Page.JOIN_OR_LEAVE.equals(this.page);
-		button3.field_230693_o_ = !Page.REMOVE_OR_EMPTY.equals(this.page);
-		button4.field_230693_o_ = !Page.OPTION.equals(this.page);
+		button1.active = !Page.ADD.equals(this.page);
+		button2.active = !Page.JOIN_OR_LEAVE.equals(this.page);
+		button3.active = !Page.REMOVE_OR_EMPTY.equals(this.page);
+		button4.active = !Page.OPTION.equals(this.page);
 		
 		this.builderTeams.setMode(this.page.getMode());
 		
@@ -169,7 +169,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 				container.initButtons();
 			}));
 			
-			button1.field_230693_o_ = enabled;
+			button1.active = enabled;
 		}
 		else if(Page.REMOVE_OR_EMPTY.equals(this.page))
 		{
@@ -184,8 +184,8 @@ public class ContentScoreboardTeams extends ContentScoreboard
 				container.initButtons();
 			}));
 			
-			button1.field_230693_o_ = enabled;
-			button2.field_230693_o_ = enabled;
+			button1.active = enabled;
+			button2.active = enabled;
 		}
 		
 		if(Page.ADD.equals(this.page) || Page.OPTION.equals(this.page))
@@ -195,7 +195,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams);
 				container.initButtons();
 			}));
-			button1.field_230693_o_ = enabled;
+			button1.active = enabled;
 		}
 		
 		container.add(this.teamField);
@@ -210,7 +210,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	@Override
 	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		this.teamField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+		this.teamField.renderButton(matrix, mouseX, mouseY, partialTicks);
 	}
 	
 	@Override

@@ -112,22 +112,22 @@ public class ContentSignEditor extends Content
 			container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.text_line_1"), () ->
 			{
 				this.selectedLine = 0;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.text_line_2"), () ->
 			{
 				this.selectedLine = 1;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.text_line_3"), () ->
 			{
 				this.selectedLine = 2;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.text_line_4"), () ->
 			{
 				this.selectedLine = 3;
-				container.func_231160_c_();
+				container.init();
 			}));
 			
 			if(this.editColor)
@@ -144,10 +144,10 @@ public class ContentSignEditor extends Content
 				}));
 			}
 			
-			button1.field_230693_o_ = this.selectedLine != 0;
-			button2.field_230693_o_ = this.selectedLine != 1;
-			button3.field_230693_o_ = this.selectedLine != 2;
-			button4.field_230693_o_ = this.selectedLine != 3;
+			button1.active = this.selectedLine != 0;
+			button2.active = this.selectedLine != 1;
+			button3.active = this.selectedLine != 2;
+			button4.active = this.selectedLine != 3;
 		}
 	}
 	
@@ -163,7 +163,7 @@ public class ContentSignEditor extends Content
 	private void toggleEditColor(Container container)
 	{
 		this.editColor = !this.editColor;
-		container.func_231160_c_();
+		container.init();
 	}
 	
 	@Override
@@ -173,7 +173,7 @@ public class ContentSignEditor extends Content
 		{
 			if(!this.editColor)
 			{
-				this.commandField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+				this.commandField.renderButton(matrix, mouseX, mouseY, partialTicks);
 			}
 		}
 		else
@@ -181,7 +181,7 @@ public class ContentSignEditor extends Content
 			float scale = 4;
 			
 			matrix.push();
-			matrix.translate(container.field_230708_k_ / 2 - 8.5F * scale, container.field_230709_l_ / 2 - 15 - 8.5F * scale, 0);
+			matrix.translate(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
 			matrix.scale(scale, scale, scale);
 			
 			RenderUtils.renderItemIntoGUI(matrix, new ItemStack(Items.OAK_SIGN), 0, 0);
@@ -189,7 +189,7 @@ public class ContentSignEditor extends Content
 			
 			TranslationTextComponent text = new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.func_238171_j_());
 			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-			fontRenderer.func_238422_b_(matrix, text, x + 116 - fontRenderer.func_238414_a_(text) / 2, y + 70, Config.getSkin().getLabelColor());
+			fontRenderer.func_243248_b(matrix, text, x + 116 - fontRenderer.func_238414_a_(text) / 2, y + 70, Config.getSkin().getLabelColor());
 		}
 	}
 	

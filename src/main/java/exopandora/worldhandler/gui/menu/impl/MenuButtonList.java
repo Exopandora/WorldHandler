@@ -77,7 +77,7 @@ public class MenuButtonList extends Menu
 			public void onClick(Node item)
 			{
 				MenuButtonList.this.getPersistence(container, 1).setIndex(0);
-				container.func_231160_c_();
+				container.init();
 			}
 			
 			@Override
@@ -99,8 +99,8 @@ public class MenuButtonList extends Menu
 		{
 			for(int x = this.getDepth() + 1; x < this.maxDepth; x++)
 			{
-				GuiButtonBase button = new GuiButtonBase(this.x, this.y + 24 * x, 114, 20, StringTextComponent.field_240750_d_, null);
-				button.field_230693_o_ = false;
+				GuiButtonBase button = new GuiButtonBase(this.x, this.y + 24 * x, 114, 20, StringTextComponent.EMPTY, null);
+				button.active = false;
 				container.add(button);
 			}
 		}

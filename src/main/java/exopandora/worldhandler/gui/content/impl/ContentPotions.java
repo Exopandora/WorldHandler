@@ -121,12 +121,12 @@ public class ContentPotions extends ContentChild
 			container.add(new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion.getRemoveCommand());
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.remove_all"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion.getClearCommand());
-				container.func_231160_c_();
+				container.init();
 			}));
 		}
 		else if(this.potionPage == 1)
@@ -136,13 +136,13 @@ public class ContentPotions extends ContentChild
 			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.ambient", this.builderPotionItem.getAmbient(potion) ? new TranslationTextComponent("gui.worldhandler.generic.on") : new TranslationTextComponent("gui.worldhandler.generic.off")), () ->
 			{
 				this.builderPotionItem.setAmbient(potion, !this.builderPotionItem.getAmbient(potion));
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.particles", this.builderPotion.getHideParticles() ? new TranslationTextComponent("gui.worldhandler.generic.off") : new TranslationTextComponent("gui.worldhandler.generic.on")), () ->
 			{
 				this.builderPotion.setHideParticles(!this.builderPotion.getHideParticles());
 				this.builderPotionItem.setShowParticles(potion, !this.builderPotionItem.getShowParticles(potion));
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), new TranslationTextComponent("gui.worldhandler.potions.effect.amplifier"), value ->
 			{
@@ -176,40 +176,40 @@ public class ContentPotions extends ContentChild
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion.getGiveCommand());
 				this.potionPage = 0;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 24, 56, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.tipped_arrow"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.getBuilderForPotion(Items.TIPPED_ARROW));
 				this.potionPage = 0;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.bottle"), new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.getBuilderForPotion(Items.POTION));
 				this.potionPage = 0;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.splash"), new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.getBuilderForPotion(Items.SPLASH_POTION));
 				this.potionPage = 0;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.lingering"), new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.getBuilderForPotion(Items.LINGERING_POTION));
 				this.potionPage = 0;
-				container.func_231160_c_();
+				container.init();
 			}));
 			
 			boolean enabled = this.builderPotion.getAmplifier() >= 0 && this.builderPotion.getDuration() > 0;
 			
-			button1.field_230693_o_ = enabled;
-			button2.field_230693_o_ = enabled;
-			button3.field_230693_o_ = enabled;
-			button4.field_230693_o_ = enabled;
-			button5.field_230693_o_ = enabled;
+			button1.active = enabled;
+			button2.active = enabled;
+			button3.active = enabled;
+			button4.active = enabled;
+			button5.active = enabled;
 		}
 		
 		if(this.potionPage > 0)
@@ -217,21 +217,21 @@ public class ContentPotions extends ContentChild
 			container.add(new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
 			{
 				this.potionPage--;
-				container.func_231160_c_();
+				container.init();
 			}));
 			container.add(button1 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
 			{
 				this.next(container);
 			}));
 			
-			button1.field_230693_o_ = this.potionPage < 3;
+			button1.active = this.potionPage < 3;
 		}
 	}
 	
 	private void next(Container container)
 	{
 		this.potionPage++;
-		container.func_231160_c_();
+		container.init();
 	}
 	
 	@Override

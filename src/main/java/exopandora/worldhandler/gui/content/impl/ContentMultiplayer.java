@@ -123,27 +123,27 @@ public class ContentMultiplayer extends Content
 		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new StringTextComponent(I18n.format("gui.worldhandler.multiplayer.kick") + " / " + I18n.format("gui.worldhandler.multiplayer.ban")), () ->
 		{
 			this.page = Page.KICK_AND_BAN;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.pardon"), () ->
 		{
 			this.page = Page.PARDON;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.permissions"), () ->
 		{
 			this.page = Page.PERMISSIONS;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime"), () ->
 		{
 			this.page = Page.RUNTIME;
-			container.func_231160_c_();
+			container.init();
 		}));
 		container.add(button5 = new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist"), () ->
 		{
 			this.page = Page.WHITELIST;
-			container.func_231160_c_();
+			container.init();
 		}));
 		
 		if(Page.KICK_AND_BAN.equals(this.page))
@@ -161,11 +161,11 @@ public class ContentMultiplayer extends Content
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button6.field_230693_o_ = false;
-				button7.field_230693_o_ = false;
+				button6.active = false;
+				button7.active = false;
 			}
 			
-			button1.field_230693_o_ = false;
+			button1.active = false;
 		}
 		else if(Page.PARDON.equals(this.page))
 		{
@@ -177,10 +177,10 @@ public class ContentMultiplayer extends Content
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button6.field_230693_o_ = false;
+				button6.active = false;
 			}
 			
-			button2.field_230693_o_ = false;
+			button2.active = false;
 		}
 		else if(Page.PERMISSIONS.equals(this.page))
 		{
@@ -196,11 +196,11 @@ public class ContentMultiplayer extends Content
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button6.field_230693_o_ = false;
-				button7.field_230693_o_ = false;
+				button6.active = false;
+				button7.active = false;
 			}
 			
-			button3.field_230693_o_ = false;
+			button3.active = false;
 		}
 		else if(Page.RUNTIME.equals(this.page))
 		{
@@ -212,16 +212,16 @@ public class ContentMultiplayer extends Content
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderSaveOn);
 			}));
-			container.add(new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime.autosave", new TranslationTextComponent("gui.worldhandler.generic.off")).func_240699_a_(TextFormatting.RED), new StringTextComponent(this.builderSaveOff.toActualCommand()), () ->
+			container.add(new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime.autosave", new TranslationTextComponent("gui.worldhandler.generic.off")).mergeStyle(TextFormatting.RED), new StringTextComponent(this.builderSaveOff.toActualCommand()), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSaveOff).withParent(Contents.MULTIPLAYER)));
 			}));
-			container.add(new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime.stop_server").func_240699_a_(TextFormatting.RED), new StringTextComponent(this.builderStop.toActualCommand()), () ->
+			container.add(new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime.stop_server").mergeStyle(TextFormatting.RED), new StringTextComponent(this.builderStop.toActualCommand()), () ->
 			{
 				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderStop).withParent(Contents.MULTIPLAYER)));
 			}));
 			
-			button4.field_230693_o_ = false;
+			button4.active = false;
 		}
 		else if(Page.WHITELIST.equals(this.page))
 		{
@@ -251,11 +251,11 @@ public class ContentMultiplayer extends Content
 			
 			if(this.playerField.getText().isEmpty())
 			{
-				button6.field_230693_o_ = false;
-				button7.field_230693_o_ = false;
+				button6.active = false;
+				button7.active = false;
 			}
 			
-			button5.field_230693_o_ = false;
+			button5.active = false;
 		}
 	}
 	
@@ -278,12 +278,12 @@ public class ContentMultiplayer extends Content
 	{
 		if(Page.KICK_AND_BAN.equals(this.page))
 		{
-			this.reasonField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.reasonField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 		
 		if(!Page.RUNTIME.equals(this.page))
 		{
-			this.playerField.func_230431_b_(matrix, mouseX, mouseY, partialTicks); //renderButton
+			this.playerField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	
