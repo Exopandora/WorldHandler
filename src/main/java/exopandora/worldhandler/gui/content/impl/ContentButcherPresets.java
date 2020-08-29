@@ -2,10 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.stream.Collectors;
 
-import com.google.common.base.Predicates;
-
 import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
@@ -50,22 +47,22 @@ public class ContentButcherPresets extends ContentChild
 		
 		container.add(new GuiButtonBase(x + 58, y, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets.passive_mobs"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITIES::getValue).filter(Predicates.notNull()).collect(Collectors.toList()), this.radius);
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> !EntityClassification.MONSTER.equals(entity.getClassification()) && !EntityClassification.MISC.equals(entity.getClassification())).collect(Collectors.toList()), this.radius);
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.getParentContent()));
 		}));
 		container.add(new GuiButtonBase(x + 58, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets.hostile_mobs"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> !EntityClassification.MISC.equals(entity.getClassification()) && !EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.getParentContent()));
-		}));
-		container.add(new GuiButtonBase(x + 58, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets.entities"), () ->
-		{
-			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> EntityClassification.MISC.equals(entity.getClassification()) && !EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> EntityClassification.MONSTER.equals(entity.getClassification())).collect(Collectors.toList()), this.radius);
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.getParentContent()));
 		}));
 		container.add(new GuiButtonBase(x + 58, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets.players"), () ->
 		{
 			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.getParentContent()));
+		}));
+		container.add(new GuiButtonBase(x + 58, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets.entities"), () ->
+		{
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> EntityClassification.MISC.equals(entity.getClassification()) && !EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
 			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.getParentContent()));
 		}));
 	}
