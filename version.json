@@ -4,6 +4,8 @@
 	{
 		"1.16.2-latest": "2.11.1",
 		"1.16.2-recommended": "2.11.1",
+		"1.16.2-latest": "2.11.1",
+		"1.16.2-recommended": "2.11.1",
 		"1.16.1-latest": "2.11.1",
 		"1.16.1-recommended": "2.11.1",
 		"1.15.2-latest": "2.9.1",
@@ -59,9 +61,13 @@
 		"1.5-latest": "1.0",
 		"1.5-recommended": "1.0"
 	},
+	"1.16.3":
+	{
+		"2.11.1": "- Added 1.16.2 and 1.16.3 compatibility"
+	},
 	"1.16.2":
 	{
-		"2.11.1": "- Added 1.16.2 compatibility"
+		"2.11.1": "- Added 1.16.2 and 1.16.3 compatibility"
 	},
 	"1.16.1":
 	{
