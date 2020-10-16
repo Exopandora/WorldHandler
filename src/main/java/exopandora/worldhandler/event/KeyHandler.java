@@ -30,15 +30,15 @@ public class KeyHandler
 	{
 		if(Minecraft.getInstance() != null && Minecraft.getInstance().currentScreen == null)
 		{
-			if(KEY_WORLD_HANDLER.isPressed())
+			if(KEY_WORLD_HANDLER.isKeyDown())
 			{
 				ActionHelper.displayGui();
 			}
-			else if(KEY_WORLD_HANDLER_POS1.isPressed() && Config.getSettings().shortcutKeys())
+			else if(KEY_WORLD_HANDLER_POS1.isKeyDown() && Config.getSettings().shortcutKeys())
 			{
 				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
 			}
-			else if(KEY_WORLD_HANDLER_POS2.isPressed() && Config.getSettings().shortcutKeys())
+			else if(KEY_WORLD_HANDLER_POS2.isKeyDown() && Config.getSettings().shortcutKeys())
 			{
 				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
 			}
