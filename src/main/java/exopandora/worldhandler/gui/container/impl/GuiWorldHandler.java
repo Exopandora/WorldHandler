@@ -33,17 +33,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class GuiWorldHandler extends Container
 {
-	private final Content content;
-	private final List<IContainerWidget> widgets = Util.make(Lists.newArrayList(), widgets ->
+	private static String player = Minecraft.getInstance().getSession().getUsername();
+	private final static List<IContainerWidget> WIDGETS = Util.make(Lists.newArrayList(), widgets ->
 	{
-		widgets.add(new TabRenderer());
+		widgets.add(new WidgetTabRenderer());
 		widgets.add(new WidgetWatch());
 		widgets.add(new WidgetNameField());
 		widgets.add(new WidgetCommandSyntax());
 		widgets.add(new WidgetShortcuts());
 	});
 	
-	private static String player = Minecraft.getInstance().getSession().getUsername();
+	private final Content content;
 	
 	public GuiWorldHandler(Content content) throws Exception
 	{
@@ -73,7 +73,7 @@ public class GuiWorldHandler extends Container
 				menu.initGui(this);
 			}
 			
-			for(IContainerWidget widget : this.widgets)
+			for(IContainerWidget widget : WIDGETS)
 			{
 				if(widget.isEnabled())
 				{
@@ -98,7 +98,7 @@ public class GuiWorldHandler extends Container
 			int x = this.getContentX();
 			int y = this.getContentY();
 			
-			for(IContainerWidget widget : this.widgets)
+			for(IContainerWidget widget : WIDGETS)
 			{
 				if(widget.isEnabled())
 				{
@@ -125,7 +125,7 @@ public class GuiWorldHandler extends Container
 				menu.tick();
 			}
 			
-			for(IContainerWidget widget : this.widgets)
+			for(IContainerWidget widget : WIDGETS)
 			{
 				if(widget.isEnabled())
 				{
@@ -175,7 +175,7 @@ public class GuiWorldHandler extends Container
 			int x = this.getContentX();
 			int y = this.getContentY();
 			
-			for(IContainerWidget widget : this.widgets)
+			for(IContainerWidget widget : WIDGETS)
 			{
 				if(widget.isEnabled() && EnumLayer.BACKGROUND == widget.getLayer())
 				{
@@ -198,7 +198,7 @@ public class GuiWorldHandler extends Container
 				menu.draw(matrix, mouseX, mouseY, partialTicks);
 			}
 			
-			for(IContainerWidget widget : this.widgets)
+			for(IContainerWidget widget : WIDGETS)
 			{
 				if(widget.isEnabled() && EnumLayer.FOREGROUND == widget.getLayer())
 				{
@@ -234,7 +234,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public void mouseMoved(double xPos, double mouseY)
 	{
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled())
 			{
@@ -248,7 +248,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int keyCode)
 	{
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled() && widget.mouseClicked(mouseX, mouseY, keyCode))
 			{
@@ -267,7 +267,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int keyCode)
 	{
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled() && widget.mouseReleased(mouseX, mouseY, keyCode))
 			{
@@ -286,7 +286,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int keyCode, double deltaX, double deltaY)
 	{
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled() && widget.mouseDragged(mouseX, mouseY, keyCode, deltaX, deltaY))
 			{
@@ -305,7 +305,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double distance)
 	{
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled() && widget.mouseScrolled(mouseX, mouseY, distance))
 			{
@@ -337,7 +337,7 @@ public class GuiWorldHandler extends Container
 			return true;
 		}
 		
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled() && widget.keyPressed(keyCode, scanCode, modifiers))
 			{
@@ -356,7 +356,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers)
 	{
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled() && widget.keyReleased(keyCode, scanCode, modifiers))
 			{
@@ -375,7 +375,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean charTyped(char charTyped, int keyCode)
 	{
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled() && widget.charTyped(charTyped, keyCode))
 			{
@@ -394,7 +394,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean changeFocus(boolean focus)
 	{
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled() && widget.changeFocus(focus))
 			{
@@ -413,7 +413,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean isMouseOver(double mouseX, double mouseY)
 	{
-		for(IContainerWidget widget : this.widgets)
+		for(IContainerWidget widget : WIDGETS)
 		{
 			if(widget.isEnabled() && widget.isMouseOver(mouseX, mouseY))
 			{
