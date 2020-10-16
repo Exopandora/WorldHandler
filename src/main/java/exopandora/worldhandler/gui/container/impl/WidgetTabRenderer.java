@@ -21,7 +21,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TabRenderer implements IContainerWidget
+public class WidgetTabRenderer implements IContainerWidget
 {
 	private static final int SPACING = 2;
 	private static final int WEDGE_HEIGHT = 10;
@@ -43,8 +43,8 @@ public class TabRenderer implements IContainerWidget
 			
 			if(!tab.equals(content.getActiveContent()))
 			{
-				int width = TabRenderer.width(container, index, size);
-				int offset = TabRenderer.offset(container, index, size);
+				int width = WidgetTabRenderer.width(container, index, size);
+				int offset = WidgetTabRenderer.offset(container, index, size);
 				
 				container.addWidget(new GuiButtonTab(xPos + offset, yPos, width, 21, tab.getTabTitle(), () -> ActionHelper.open(tab)));
 			}
@@ -66,8 +66,8 @@ public class TabRenderer implements IContainerWidget
 		
 		for(int index = 0; index < size; index++)
 		{
-			int width = TabRenderer.width(container, index, size);
-			int offset = TabRenderer.offset(container, index, size);
+			int width = WidgetTabRenderer.width(container, index, size);
+			int offset = WidgetTabRenderer.offset(container, index, size);
 			
 			Content tab = category.getContent(index);
 			ITextComponent title = TextUtils.stripText(tab.getTabTitle().mergeStyle(TextFormatting.UNDERLINE), width, Minecraft.getInstance().fontRenderer);
@@ -106,12 +106,12 @@ public class TabRenderer implements IContainerWidget
 			
 			if(index == 0)
 			{
-				RenderUtils.drawTexturedWedgeGradientTL(matrix, container, x, y + height, 0, height, width, TabRenderer.WEDGE_HEIGHT);
+				RenderUtils.drawTexturedWedgeGradientTL(matrix, container, x, y + height, 0, height, width, WidgetTabRenderer.WEDGE_HEIGHT);
 			}
 			
 			if(index == size - 1 && size > 1)
 			{
-				RenderUtils.drawTexturedWedgeGradientTR(matrix, container, x, y + height, x - container.getBackgroundX(), height, width, TabRenderer.WEDGE_HEIGHT);
+				RenderUtils.drawTexturedWedgeGradientTR(matrix, container, x, y + height, x - container.getBackgroundX(), height, width, WidgetTabRenderer.WEDGE_HEIGHT);
 			}
 			
 			RenderSystem.disableBlend();
@@ -175,18 +175,18 @@ public class TabRenderer implements IContainerWidget
 	
 	private static int width(Container container, int index, int size)
 	{
-		int adjust = 0;
+		int width = (int) Math.round((container.getBackgroundWidth() - Math.max(size - 1, 1) * SPACING) / Math.max(size, 2));
 		
 		if(index == 1 && size == 3)
 		{
-			adjust = 1;
+			return width + 1;
 		}
 		
-		return (int) Math.round((container.getBackgroundWidth() - Math.max(size - 1, 1) * TabRenderer.SPACING) / Math.max(size, 2)) + adjust;
+		return width;
 	}
 	
 	private static int offset(Container container, int index, int size)
 	{
-		return (int) Math.round(index * (double) (container.getBackgroundWidth() + TabRenderer.SPACING) / size);
+		return (int) Math.round(index * (double) (container.getBackgroundWidth() + SPACING) / size);
 	}
 }
