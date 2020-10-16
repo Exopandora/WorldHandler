@@ -1,8 +1,8 @@
-package exopandora.worldhandler.gui.button;
+package exopandora.worldhandler.gui.widget.button;
 
 import java.util.function.Consumer;
 
-import exopandora.worldhandler.gui.button.GuiSlider.ILogicSlider;
+import exopandora.worldhandler.gui.widget.button.GuiSlider.ILogicSlider;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;

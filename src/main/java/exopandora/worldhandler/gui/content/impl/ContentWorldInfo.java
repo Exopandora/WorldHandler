@@ -4,13 +4,13 @@ import java.util.function.Function;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import exopandora.worldhandler.gui.button.GuiButtonBase;
-import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
+import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;

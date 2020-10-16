@@ -1,8 +1,8 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import exopandora.worldhandler.gui.DummyScreen;
-import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.IConnection;
 import exopandora.worldhandler.util.IConnection.DedicatedConnection;

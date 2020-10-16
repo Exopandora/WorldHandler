@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.button;
+package exopandora.worldhandler.gui.widget.button;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 

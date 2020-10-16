@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.button;
+package exopandora.worldhandler.gui.widget.button;
 
 import java.util.Objects;
 
@@ -44,7 +44,7 @@ public class GuiSlider extends GuiButtonBase
 		int textureOffset = (Config.getSkin().getTextureType().equals("resourcepack") ? 46 : 0) + hovered * 20;
 		
 		RenderSystem.enableBlend();
-		RenderUtils.color(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
+		RenderUtils.colorDefaultButton();
 		
 		this.blit(matrix, this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.y, 0, textureOffset, 4, 20);
 		this.blit(matrix, this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.y, 196, textureOffset, 4, 20);

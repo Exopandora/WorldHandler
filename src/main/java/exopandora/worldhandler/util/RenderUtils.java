@@ -54,7 +54,7 @@ public class RenderUtils
 		matrix.pop();
 		
 		RenderUtils.color(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
-		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getIconTexture());
+		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.iconTexture());
 		
 		gui.blit(matrix, width + 0, height, 48, 0, 10, 10);
 		
@@ -151,5 +151,104 @@ public class RenderUtils
 	public static void disableLighting()
 	{
 		RenderSystem.disableLighting();
+	}
+	
+	public static void colorDefaultButton()
+	{
+		float r = Config.getSkin().getButtonRedF();
+		float g = Config.getSkin().getButtonGreenF();
+		float b = Config.getSkin().getButtonBlueF();
+		float a = Config.getSkin().getButtonAlphaF();
+		
+		RenderUtils.color(r, g, b, a);
+	}
+	
+	public static void colorDefaultBackground()
+	{
+		RenderUtils.colorDefaultBackground(1.0F);
+	}
+	
+	public static void colorDefaultBackground(double alpha)
+	{
+		float r = Config.getSkin().getBackgroundRedF();
+		float g = Config.getSkin().getBackgroundGreenF();
+		float b = Config.getSkin().getBackgroundBlueF();
+		float a = (float) alpha * Config.getSkin().getBackgroundAlphaF();
+		
+		RenderUtils.color(r, g, b, a);
+	}
+	
+	public static void colorDarkBackground()
+	{
+		float r = Config.getSkin().getBackgroundRedF();
+		float g = Config.getSkin().getBackgroundGreenF();
+		float b = Config.getSkin().getBackgroundBlueF();
+		float a = Config.getSkin().getBackgroundAlphaF();
+		
+		RenderUtils.color(Math.max(0, r - 0.3F), Math.max(0, g - 0.3F), Math.max(0, b - 0.3F), a);
+	}
+	
+	public static void drawTexturedTriangleBL(MatrixStack matrix, AbstractGui gui, int x, int y, int textureX, int textureY, int size)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			gui.blit(matrix, x, y + i, textureX, textureY + i, i + 1, 1);
+		}
+	}
+	
+	public static void drawTexturedTriangleBR(MatrixStack matrix, AbstractGui gui, int x, int y, int textureX, int textureY, int size)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			gui.blit(matrix, x + size - i - 1, y + i, textureX + size - i - 1, textureY + i, i + 1, 1);
+		}
+	}
+	
+	public static void drawTexturedTriangleTL(MatrixStack matrix, AbstractGui gui, int x, int y, int textureX, int textureY, int size)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			gui.blit(matrix, x, y + i, textureX, textureY, size - i, 1);
+		}
+	}
+	
+	public static void drawTexturedTriangleTR(MatrixStack matrix, AbstractGui gui, int x, int y, int textureX, int textureY, int size)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			gui.blit(matrix, x + i, y + i, textureX + i, textureY, size - i, 1);
+		}
+	}
+	
+	public static void drawTexturedWedgeGradientTR(MatrixStack matrix, AbstractGui gui, int x, int y, int textureX, int textureY, int width, int height)
+	{
+		RenderSystem.enableBlend();
+		
+		for(int i = 0; i < height; i++)
+		{
+			double w = (height - i) / (double) (height + 1);
+			int z = width - (int) (w * width);
+			
+			RenderUtils.colorDefaultBackground(w);
+			gui.blit(matrix, x + z, y + i, textureX + z, textureY + i, width - z, 1);
+		}
+		
+		RenderSystem.disableBlend();
+	}
+	
+	public static void drawTexturedWedgeGradientTL(MatrixStack matrix, AbstractGui gui, int x, int y, int textureX, int textureY, int width, int height)
+	{
+		RenderSystem.enableBlend();
+		
+		for(int i = 0; i < height; i++)
+		{
+			double w = (height - i) / (double) (height + 1);
+			int z = width - (int) (w * width);
+			
+			RenderUtils.colorDefaultBackground(w);
+			gui.blit(matrix, x, y + i, textureX, textureY + i, z, 1);
+		}
+		
+		RenderSystem.disableBlend();
 	}
 }

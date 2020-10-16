@@ -12,9 +12,19 @@ public interface IContainer
 	<T extends Widget> T add(T button);
 	
 	void initButtons();
-	void add(Menu menu);
+	Menu add(Menu menu);
+	Widget addWidget(Widget button);
 	
 	String getPlayer();
+	void setPlayer(String text);
 	
 	Content getContent();
+	
+	int getBackgroundX();
+	int getBackgroundY();
+	
+	int getBackgroundWidth();
+	int getBackgroundHeight();
+	
+	void bindBackground();
 }

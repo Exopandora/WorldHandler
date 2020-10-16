@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.button;
+package exopandora.worldhandler.gui.widget.button;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -34,10 +34,10 @@ public class GuiButtonBase extends Button
 	protected void renderBg(MatrixStack matrix, Minecraft minecraft, int mouseX, int mouseY)
 	{
 		RenderSystem.enableBlend();
-		RenderUtils.color(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
+		RenderUtils.colorDefaultButton();
 		
 		int hovered = this.getYImage(this.isHovered());
-    	Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getButtonTexture());
+    	Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.buttonTexture());
     	
 		int hWidth = this.width / 2;
 		int hHeight = this.height / 2;

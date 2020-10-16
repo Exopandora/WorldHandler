@@ -6,15 +6,15 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
-import exopandora.worldhandler.gui.button.GuiButtonIcon;
-import exopandora.worldhandler.gui.button.GuiButtonItem;
-import exopandora.worldhandler.gui.button.GuiButtonList;
-import exopandora.worldhandler.gui.button.GuiButtonTooltip;
-import exopandora.worldhandler.gui.button.GuiSlider;
-import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
-import exopandora.worldhandler.gui.button.LogicSliderSimple;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
+import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
+import exopandora.worldhandler.gui.widget.button.GuiButtonItem;
+import exopandora.worldhandler.gui.widget.button.GuiButtonList;
+import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiSlider;
+import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
 import exopandora.worldhandler.usercontent.model.JsonButton;
 import exopandora.worldhandler.usercontent.model.JsonItem;

@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.button;
+package exopandora.worldhandler.gui.widget.button;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

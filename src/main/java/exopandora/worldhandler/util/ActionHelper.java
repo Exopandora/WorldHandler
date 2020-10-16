@@ -46,11 +46,6 @@ public class ActionHelper
 		}
 	}
 	
-	public static void changeTab(Content content, int index)
-	{
-		ActionHelper.tryRun(() -> ActionHelper.open(content.getCategory().getContent(index)));
-	}
-	
 	public static void open(String id) throws Exception
 	{
 		if(id != null)

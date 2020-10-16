@@ -1,6 +1,6 @@
 package exopandora.worldhandler.gui.menu.impl;
 
-import exopandora.worldhandler.gui.button.GuiButtonBase;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraftforge.api.distmarker.Dist;

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -55,9 +56,9 @@ public class ContentUsercontent extends Content
 	private final List<VisibleObject<BuilderUsercontent>> builders;
 	private final Map<String, VisibleActiveObject<TextFieldWidget>> textfields = new HashMap<String, VisibleActiveObject<TextFieldWidget>>();
 	private final List<VisibleActiveObject<Widget>> buttons = new ArrayList<VisibleActiveObject<Widget>>();
-	private UsercontentAPI api;
-	private ButtonFactory buttonFactory;
-	private MenuFactory menuFactory;
+	private final UsercontentAPI api;
+	private final ButtonFactory buttonFactory;
+	private final MenuFactory menuFactory;
 	
 	public ContentUsercontent(UsercontentConfig config) throws Exception
 	{
@@ -66,7 +67,7 @@ public class ContentUsercontent extends Content
 		this.engineAdapter = new ScriptEngineAdapter(config.getScriptEngine());
 		this.builders = this.createBuilders(this.content.getModel());
 		this.api = new UsercontentAPI(this.builders.stream().map(VisibleObject::getObject).collect(Collectors.toList()));
-		ActionHandlerFactory actionHandlerFactory = new ActionHandlerFactory(this.api,this. builders, this.engineAdapter);
+		ActionHandlerFactory actionHandlerFactory = new ActionHandlerFactory(this.api, this.builders, this.engineAdapter);
 		this.buttonFactory = new ButtonFactory(this.api, actionHandlerFactory);
 		this.menuFactory = new MenuFactory(this.api, actionHandlerFactory);
 		this.engineAdapter.addObject("api", this.api);
@@ -117,8 +118,7 @@ public class ContentUsercontent extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		this.textfields.values().stream().map(VisibleObject::getObject).forEach(container::add);
-		this.buttons.stream().map(VisibleObject::getObject).forEach(container::add);
+		Stream.concat(this.textfields.values().stream(), this.buttons.stream()).map(VisibleObject::getObject).forEach(container::add);
 	}
 	
 	@Override

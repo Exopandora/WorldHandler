@@ -6,9 +6,9 @@ import java.util.Objects;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import exopandora.worldhandler.config.Config;
-import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.menu.Menu;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;

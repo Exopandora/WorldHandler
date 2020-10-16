@@ -3,8 +3,8 @@ package exopandora.worldhandler.gui.container;
 import java.util.ArrayList;
 import java.util.List;
 
-import exopandora.worldhandler.gui.menu.Menu;
 import exopandora.worldhandler.gui.menu.IMenu;
+import exopandora.worldhandler.gui.menu.Menu;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.Widget;
@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public abstract class Container extends Screen implements IContainer
 {
 	protected final List<IMenu> menus = new ArrayList<IMenu>();
+	protected final List<Widget> widgetButtons = new ArrayList<Widget>();
 	
 	protected Container(ITextComponent title)
 	{
@@ -40,8 +41,16 @@ public abstract class Container extends Screen implements IContainer
 	}
 	
 	@Override
-	public void add(Menu menu)
+	public Menu add(Menu menu)
 	{
 		this.menus.add(menu);
+		return menu;
+	}
+	
+	@Override
+	public Widget addWidget(Widget button)
+	{
+		this.widgetButtons.add(button);
+		return button;
 	}
 }

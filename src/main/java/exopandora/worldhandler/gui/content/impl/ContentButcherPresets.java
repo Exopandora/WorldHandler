@@ -3,9 +3,9 @@ package exopandora.worldhandler.gui.content.impl;
 import java.util.stream.Collectors;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.gui.button.GuiButtonBase;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityClassification;

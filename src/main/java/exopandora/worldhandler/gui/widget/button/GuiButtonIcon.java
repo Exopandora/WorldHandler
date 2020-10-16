@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.button;
+package exopandora.worldhandler.gui.widget.button;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -34,7 +34,7 @@ public class GuiButtonIcon extends GuiButtonTooltip
 	
 	private void renderIcon(MatrixStack matrix)
 	{
-		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.getIconTexture());
+		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.iconTexture());
 		
 		if(this.active)
 		{

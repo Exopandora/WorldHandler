@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import exopandora.worldhandler.config.Config;
-import exopandora.worldhandler.gui.button.GuiButtonBase;
-import exopandora.worldhandler.gui.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
 import exopandora.worldhandler.gui.menu.impl.MenuPageList;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
+import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.entity.EntityType;

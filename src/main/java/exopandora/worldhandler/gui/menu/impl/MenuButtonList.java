@@ -9,11 +9,11 @@ import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import exopandora.worldhandler.gui.button.GuiButtonBase;
-import exopandora.worldhandler.gui.button.GuiButtonList;
-import exopandora.worldhandler.gui.button.GuiButtonList.Persistence;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.menu.Menu;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
+import exopandora.worldhandler.gui.widget.button.GuiButtonList;
+import exopandora.worldhandler.gui.widget.button.GuiButtonList.Persistence;
 import exopandora.worldhandler.util.Node;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;

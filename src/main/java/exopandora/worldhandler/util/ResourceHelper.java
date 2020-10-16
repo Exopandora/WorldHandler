@@ -78,7 +78,7 @@ public class ResourceHelper
 		return null;
 	}
 	
-	public static ResourceLocation getBackgroundTexture()
+	public static ResourceLocation backgroundTexture()
 	{
 		if(Config.getSkin().getTextureType().equals("resourcepack"))
 		{
@@ -88,12 +88,12 @@ public class ResourceHelper
 		return BACKGROUND_VANILLA;
 	}
 	
-	public static ResourceLocation getIconTexture()
+	public static ResourceLocation iconTexture()
 	{
 		return new ResourceLocation(Main.MODID, "textures/icons/icons_" + Config.getSkin().getIconSize().name() + ".png");
 	}
 	
-	public static ResourceLocation getButtonTexture()
+	public static ResourceLocation buttonTexture()
 	{
 		if(Config.getSkin().getTextureType().equals("resourcepack"))
 	    {

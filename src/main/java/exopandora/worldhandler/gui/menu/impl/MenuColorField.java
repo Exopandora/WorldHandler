@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import exopandora.worldhandler.gui.button.GuiButtonBase;
-import exopandora.worldhandler.gui.button.GuiButtonList;
-import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.menu.Menu;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
+import exopandora.worldhandler.gui.widget.button.GuiButtonList;
+import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.util.MutableStringTextComponent;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;

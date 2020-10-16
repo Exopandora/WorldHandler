@@ -2,15 +2,15 @@ package exopandora.worldhandler.gui.content.impl;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.Config;
-import exopandora.worldhandler.gui.button.EnumIcon;
-import exopandora.worldhandler.gui.button.GuiButtonBase;
-import exopandora.worldhandler.gui.button.GuiButtonIcon;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
+import exopandora.worldhandler.gui.widget.button.EnumIcon;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
+import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.OptionsScreen;

@@ -24,7 +24,7 @@ import com.google.gson.stream.JsonWriter;
 
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.types.ArgumentType;
-import exopandora.worldhandler.gui.button.EnumIcon;
+import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.usercontent.model.Action;
 import exopandora.worldhandler.usercontent.model.BooleanExpression;
 import exopandora.worldhandler.usercontent.model.JsonButton;

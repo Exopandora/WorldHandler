@@ -8,14 +8,14 @@ import java.util.function.Supplier;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import exopandora.worldhandler.config.Config;
-import exopandora.worldhandler.gui.button.GuiButtonBase;
-import exopandora.worldhandler.gui.button.GuiButtonTooltip;
-import exopandora.worldhandler.gui.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.impl.ContentSettings.Setting.BooleanSetting;
 import exopandora.worldhandler.gui.content.impl.ContentSettings.Setting.IntegerSetting;
 import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
 import exopandora.worldhandler.gui.menu.impl.MenuPageList;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
+import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.util.text.IFormattableTextComponent;
