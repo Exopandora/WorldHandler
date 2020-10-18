@@ -2,7 +2,6 @@ package exopandora.worldhandler;
 
 import java.awt.EventQueue;
 import java.io.File;
-import java.util.Locale;
 
 import javax.swing.UIManager;
 
@@ -33,7 +32,7 @@ public class Main
 	public static File getInitialDirectory()
 	{
 		String home = System.getProperty("user.home", ".");
-		String os = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
+		String os = String.valueOf(System.getProperty("os.name")).toLowerCase();
 		String minecraft = ".minecraft";
 		
 		if(os.contains("win") && System.getenv("APPDATA") != null)
