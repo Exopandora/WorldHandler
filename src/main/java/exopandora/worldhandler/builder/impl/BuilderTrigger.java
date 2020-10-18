@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nullable;
+
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
@@ -27,6 +29,7 @@ public class BuilderTrigger extends CommandBuilder
 		this.setNode(0, name != null ? name.replaceAll(" ", "_") : null);
 	}
 	
+	@Nullable
 	public String getObjective()
 	{
 		return this.getNodeAsString(0);
@@ -40,6 +43,7 @@ public class BuilderTrigger extends CommandBuilder
 		}
 	}
 	
+	@Nullable
 	public EnumMode getMode()
 	{
 		return EnumHelper.valueOf(this.getNodeAsString(1), EnumMode.class);

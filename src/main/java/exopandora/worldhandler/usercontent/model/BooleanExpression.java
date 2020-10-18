@@ -63,7 +63,12 @@ public class BooleanExpression
 		}
 		else if(this.type == Type.JS)
 		{
-			return (boolean) engine.invokeFunction(this.function);
+			Object result = engine.invokeFunction(this.function);
+			
+			if(result != null && result instanceof Boolean)
+			{
+				return (boolean) result;
+			}
 		}
 		
 		return true;

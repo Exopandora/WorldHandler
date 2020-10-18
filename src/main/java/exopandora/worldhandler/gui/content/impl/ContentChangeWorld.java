@@ -75,8 +75,11 @@ public class ContentChangeWorld extends ContentChild
 			return new IntegratedConnection(folder, worldSettings, dimensionGeneratorSettings);
 		}
 		
-		Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
-		Minecraft.getInstance().unloadWorld();
+		if(Minecraft.getInstance().world != null)
+		{
+			Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
+			Minecraft.getInstance().unloadWorld();
+		}
 		
 		if(isRealms)
 		{

@@ -147,12 +147,22 @@ public class ContentWorldInfo extends Content
 	
 	private void updateCurrentTime()
 	{
-		this.currentTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.world_time") + ": " + TextUtils.formatWorldTime(Minecraft.getInstance().world.getWorldInfo().getDayTime()));
+		World world = Minecraft.getInstance().world;
+		
+		if(world != null)
+		{
+			this.currentTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.world_time") + ": " + TextUtils.formatWorldTime(world.getWorldInfo().getDayTime()));
+		}
 	}
 	
 	private void updateTotalTime()
 	{
-		this.totalTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.played") + ": " + TextUtils.formatTotalTime(Minecraft.getInstance().world.getWorldInfo().getGameTime()));
+		World world = Minecraft.getInstance().world;
+		
+		if(world != null)
+		{
+			this.totalTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.played") + ": " + TextUtils.formatTotalTime(world.getWorldInfo().getGameTime()));
+		}
 	}
 	
 	private static <T> String format(T object, Function<T, Object> function)

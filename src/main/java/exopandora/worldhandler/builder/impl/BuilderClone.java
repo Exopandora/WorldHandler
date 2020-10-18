@@ -1,5 +1,6 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandSyntax;
@@ -59,16 +60,19 @@ public class BuilderClone extends BuilderDoubleBlockPos
 		this.setNode(8, z);
 	}
 	
+	@Nonnull
 	public CoordinateInt getXCoordiante()
 	{
 		return this.getNodeAsCoordinateInt(6);
 	}
 	
+	@Nonnull
 	public CoordinateInt getYCoordiante()
 	{
 		return this.getNodeAsCoordinateInt(7);
 	}
 	
+	@Nonnull
 	public CoordinateInt getZCoordiante()
 	{
 		return this.getNodeAsCoordinateInt(8);
@@ -99,6 +103,7 @@ public class BuilderClone extends BuilderDoubleBlockPos
 		this.setNode(9, mask != null ? mask.toString() : null);
 	}
 	
+	@Nullable
 	public EnumMask getMask()
 	{
 		return EnumHelper.valueOf(this.getNodeAsString(9), EnumMask.class);

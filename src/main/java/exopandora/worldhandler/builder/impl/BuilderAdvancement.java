@@ -77,7 +77,7 @@ public class BuilderAdvancement extends CommandBuilder
 	
 	public BuilderAdvancement getBuilder(EnumActionType action, EnumMode mode)
 	{
-		return new BuilderAdvancement(action, this.getPlayer(), mode, (mode != null && !mode.equals(EnumMode.EVERYTHING)) ? this.getAdvancement() : null);
+		return new BuilderAdvancement(action, this.getPlayer(), mode, !EnumMode.EVERYTHING.equals(mode) ? this.getAdvancement() : null);
 	}
 	
 	@Override

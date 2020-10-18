@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nullable;
+
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
@@ -11,7 +13,7 @@ public class BuilderTag extends CommandBuilder
 {
 	public BuilderTag()
 	{
-		
+		super();
 	}
 	
 	public BuilderTag(String player, EnumMode mode, String name)
@@ -26,6 +28,7 @@ public class BuilderTag extends CommandBuilder
 		this.setNode(0, player);
 	}
 	
+	@Nullable
 	public String getPlayer()
 	{
 		return this.getNodeAsString(0);
@@ -44,6 +47,7 @@ public class BuilderTag extends CommandBuilder
 		this.setNode(2, name);
 	}
 	
+	@Nullable
 	public String getName()
 	{
 		return this.getNodeAsString(2);

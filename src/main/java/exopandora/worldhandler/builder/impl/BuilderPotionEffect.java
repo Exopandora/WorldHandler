@@ -52,6 +52,7 @@ public class BuilderPotionEffect extends CommandBuilder
 		this.setNode(1, player);
 	}
 	
+	@Nullable
 	public String getPlayer()
 	{
 		return this.getNodeAsString(1);
@@ -80,6 +81,7 @@ public class BuilderPotionEffect extends CommandBuilder
 		return null;
 	}
 	
+	@Nullable
 	public ResourceLocation getEffect()
 	{
 		return this.getNodeAsResourceLocation(2);

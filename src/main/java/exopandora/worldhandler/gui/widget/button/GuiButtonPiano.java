@@ -106,7 +106,10 @@ public class GuiButtonPiano extends GuiButtonBase
 	@Override
 	public void playDownSound(SoundHandler soundHandler)
 	{
-		soundHandler.play(SimpleSound.master(this.sound, this.pitch));
+		if(this.sound != null)
+		{
+			soundHandler.play(SimpleSound.master(this.sound, this.pitch));
+		}
 	}
 	
 	private boolean isHoveringBlack(double mouseX, double mouseY)

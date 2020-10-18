@@ -35,6 +35,7 @@ public class BuilderGive extends CommandBuilderNBT
 		this.setNode(0, username);
 	}
 	
+	@Nullable
 	public String getPlayer()
 	{
 		return this.getNodeAsString(0);
@@ -74,9 +75,17 @@ public class BuilderGive extends CommandBuilderNBT
 		this.setNode(1, this.itemResourceLocation);
 	}
 	
+	@Nullable
 	public CompoundNBT getNBT()
 	{
-		return this.getNodeAsItemResourceLocation(1).getNBT();
+		ItemResourceLocation item = this.getItem();
+		
+		if(item != null)
+		{
+			return item.getNBT();
+		}
+		
+		return null;
 	}
 	
 	@Override

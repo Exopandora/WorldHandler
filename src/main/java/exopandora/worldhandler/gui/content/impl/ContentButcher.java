@@ -23,9 +23,11 @@ import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -115,18 +117,24 @@ public class ContentButcher extends Content
 		slaughter.active = enabled;
 	}
 	
-	public static void slaughter(String player, Collection<EntityType<?>> entities, int radius)
+	public static void slaughter(String username, Collection<EntityType<?>> entities, int radius)
 	{
-		AxisAlignedBB aabb = new AxisAlignedBB(Minecraft.getInstance().player.getPosition()).grow(radius);
+		PlayerEntity player = Minecraft.getInstance().player;
+		World world = Minecraft.getInstance().world;
 		
-		for(EntityType<?> entity : entities)
+		if(player != null && world != null)
 		{
-			List<? extends Entity> targets = Minecraft.getInstance().world.getEntitiesWithinAABB(entity, aabb, Predicates.alwaysTrue());
-			targets.removeIf(target -> Minecraft.getInstance().player.equals(target));
+			AxisAlignedBB aabb = new AxisAlignedBB(player.getPosition()).grow(radius);
 			
-			if(!targets.isEmpty())
+			for(EntityType<?> entity : entities)
 			{
-				CommandHelper.sendCommand(player, new BuilderButcher(entity.getRegistryName(), radius));
+				List<? extends Entity> targets = world.getEntitiesWithinAABB(entity, aabb, Predicates.alwaysTrue());
+				targets.removeIf(target -> player.equals(target));
+				
+				if(!targets.isEmpty())
+				{
+					CommandHelper.sendCommand(username, new BuilderButcher(entity.getRegistryName(), radius));
+				}
 			}
 		}
 	}

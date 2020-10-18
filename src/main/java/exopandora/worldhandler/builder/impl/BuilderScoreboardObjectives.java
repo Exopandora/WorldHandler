@@ -37,6 +37,7 @@ public class BuilderScoreboardObjectives extends BuilderScoreboard
 		this.init();
 	}
 	
+	@Nullable
 	public EnumMode getMode()
 	{
 		return EnumHelper.valueOf(this.getNodeAsString(1), EnumMode.class);

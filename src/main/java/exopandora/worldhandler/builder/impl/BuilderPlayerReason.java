@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nullable;
+
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
@@ -21,6 +23,7 @@ public class BuilderPlayerReason extends CommandBuilder
 		this.setNode(0, player);
 	}
 	
+	@Nullable
 	public String getPlayer()
 	{
 		return this.getNodeAsString(0);
@@ -31,6 +34,7 @@ public class BuilderPlayerReason extends CommandBuilder
 		this.setNode(1, reason);
 	}
 	
+	@Nullable
 	public String getReason()
 	{
 		return this.getNodeAsString(1);

@@ -48,7 +48,6 @@ public enum ArgumentType
 		return (T) this.parser.apply(object);
 	}
 	
-	@Nonnull
 	public <T> T parseOfDefault(String object, T def)
 	{
 		try

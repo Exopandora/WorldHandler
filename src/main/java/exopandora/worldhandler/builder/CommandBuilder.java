@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.WorldHandler;
@@ -191,11 +192,13 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		return this.get(index, ArgumentType.LONG);
 	}
 	
+	@Nonnull
 	protected CoordinateInt getNodeAsCoordinateInt(int index)
 	{
 		return this.get(index, ArgumentType.COORDINATE_INT);
 	}
 	
+	@Nonnull
 	protected CoordinateDouble getNodeAsCoordinateDouble(int index)
 	{
 		return this.get(index, ArgumentType.COORDINATE_DOUBLE);
@@ -207,6 +210,7 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		return this.get(index, ArgumentType.RESOURCE_LOCATION);
 	}
 	
+	@Nonnull
 	protected TargetSelector getNodeAsTargetSelector(int index)
 	{
 		return this.get(index, ArgumentType.TARGET_SELECTOR);

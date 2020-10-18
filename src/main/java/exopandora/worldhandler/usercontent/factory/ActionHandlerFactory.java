@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.builder.impl.BuilderGeneric;
 import exopandora.worldhandler.builder.impl.BuilderUsercontent;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.usercontent.ScriptEngineAdapter;
@@ -16,7 +17,6 @@ import exopandora.worldhandler.usercontent.model.Action;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -81,7 +81,14 @@ public class ActionHandlerFactory
 					}
 					else if(!action.getAttributes().getValue().isEmpty())
 					{
-						Minecraft.getInstance().player.sendChatMessage(action.getAttributes().getValue());
+						String command = action.getAttributes().getValue();
+						
+						if(command.startsWith("/"))
+						{
+							command = command.substring(1);
+						}
+						
+						CommandHelper.sendCommand(player.get(), new BuilderGeneric(command));
 					}
 				};
 			}

@@ -2,8 +2,6 @@ package exopandora.worldhandler.builder.types;
 
 import java.util.function.Function;
 
-import javax.annotation.Nullable;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -50,7 +48,6 @@ public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 		return this.type.format(this.value, this.zero());
 	}
 	
-	@Nullable
 	public static <S extends Number, U extends Coordinate<S>> U parse(U coordiante, String input, Function<String, S> parser)
 	{
 		for(EnumType type : EnumType.values())

@@ -54,7 +54,7 @@ public class NBTHelper
 	
 	public static INBT serialize(ResourceLocation[] itemArray)
 	{
-		if(Arrays.stream(itemArray).allMatch(resource -> Items.AIR.getRegistryName().equals(resource)))
+		if(Arrays.stream(itemArray).allMatch(resource -> resource != null && resource.equals(Items.AIR.getRegistryName())))
 		{
 			return null;
 		}

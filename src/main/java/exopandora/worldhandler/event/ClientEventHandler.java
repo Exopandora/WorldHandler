@@ -88,7 +88,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public static void clientChatEvent(ClientChatEvent event)
 	{
-		if(!Minecraft.getInstance().isSingleplayer())
+		if(!Minecraft.getInstance().isSingleplayer() && Minecraft.getInstance().player != null)
 		{
 			CommandDispatcher<CommandSource> dispatcher = new CommandDispatcher<CommandSource>();
 			CommandHelper.registerCommands(dispatcher);

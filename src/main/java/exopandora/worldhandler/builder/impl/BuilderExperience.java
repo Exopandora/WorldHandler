@@ -41,6 +41,7 @@ public class BuilderExperience extends CommandBuilder
 		this.setNode(1, player);
 	}
 	
+	@Nullable
 	public String getPlayer()
 	{
 		return this.getNodeAsString(1);
@@ -51,6 +52,7 @@ public class BuilderExperience extends CommandBuilder
 		this.setNode(2, level);
 	}
 	
+	@Nullable
 	public int getLevel()
 	{
 		return this.getNodeAsInt(2);

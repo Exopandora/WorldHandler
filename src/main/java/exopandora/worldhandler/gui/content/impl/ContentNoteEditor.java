@@ -31,6 +31,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -211,7 +212,14 @@ public class ContentNoteEditor extends Content
 	
 	private SoundEvent getSoundEvent(BlockPos blockPos)
 	{
-    	return NoteBlockInstrument.byState(Minecraft.getInstance().world.getBlockState(blockPos)).getSound();
+		World world = Minecraft.getInstance().world;
+		
+		if(world != null)
+    	{
+			return NoteBlockInstrument.byState(world.getBlockState(blockPos)).getSound();
+    	}
+		
+		return null;
 	}
 	
 	@Override

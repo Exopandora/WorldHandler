@@ -1,7 +1,12 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.RegExUtils;
+
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
+import exopandora.worldhandler.util.EnumHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -18,9 +23,10 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 		this.setNode(0, "players");
 	}
 	
-	public String getMode()
+	@Nullable
+	public EnumMode getMode()
 	{
-		return this.getNodeAsString(1);
+		return EnumHelper.valueOf(this.getNodeAsString(1), EnumMode.class);
 	}
 	
 	public void setMode(String mode)
@@ -47,6 +53,7 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 		this.setNode(2, player);
 	}
 	
+	@Nullable
 	public String getPlayer()
 	{
 		return this.getNodeAsString(2);
@@ -54,20 +61,16 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 	
 	public void setObjective(String name)
 	{
-		String mode = this.getMode();
-		String objective = name != null ? name.replaceAll(" ", "_") : null;
-		
-		if(mode != null)
+		if(this.getMode() != null)
 		{
-			this.setNode(3, objective);
+			this.setNode(3, RegExUtils.replaceAll(name, " ", "_"));
 		}
 	}
 	
+	@Nullable
 	public String getObjective()
 	{
-		String mode = this.getMode();
-		
-		if(mode != null)
+		if(this.getMode() != null)
 		{
 			return this.getNodeAsString(3);
 		}
@@ -82,7 +85,7 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 	
 	public int getPoints()
 	{
-		if(this.getMode() != null && !this.getMode().equals("enable"))
+		if(!EnumMode.ENABLE.equals(this.getMode()))
 		{
 			return this.getNodeAsInt(4);
 		}
@@ -111,7 +114,6 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 		syntax.addRequired("score", ArgumentType.INT, 0);
 		
 		return syntax;
-		
 	}
 	
 	public BuilderScoreboardPlayers getBuilderForPoints(EnumMode mode)

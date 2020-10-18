@@ -28,6 +28,7 @@ public class BuilderExecute extends CommandBuilder
 		this.setNode(1, target);
 	}
 	
+	@Nullable
 	public String getTarget()
 	{
 		return this.getNodeAsString(1);
@@ -56,6 +57,7 @@ public class BuilderExecute extends CommandBuilder
 		}
 	}
 	
+	@Nullable
 	public String getCommand()
 	{
 		return this.getNodeAsString(3);

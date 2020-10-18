@@ -22,7 +22,12 @@ public class CommandHelper
 	
 	public static boolean canPlayerIssueCommand()
 	{
-		return Minecraft.getInstance().player.hasPermissionLevel(1);
+		if(Minecraft.getInstance().player != null)
+		{
+			return Minecraft.getInstance().player.hasPermissionLevel(1);
+		}
+		
+		return false;
 	}
 	
 	public static void registerCommands(CommandDispatcher<CommandSource> dispatcher)
@@ -59,7 +64,7 @@ public class CommandHelper
 			{
 				BlockHelper.setCommandBlockNearPlayer(player, command);
 			}
-			else
+			else if(Minecraft.getInstance().player != null)
 			{
 				Minecraft.getInstance().player.sendChatMessage(command);
 			}

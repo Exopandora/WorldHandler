@@ -1,7 +1,5 @@
 package exopandora.worldhandler.util;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.IFormattableTextComponent;
@@ -58,21 +56,21 @@ public class TextUtils
 		
 		if(seconds > 60)
 		{
-			int min = MathHelper.floor(seconds / 60);
+			int min = seconds / 60;
 			seconds = seconds % 60;
 			minutes = min;
 		}
 		
 		if(minutes > 60)
 		{
-			int hrs = MathHelper.floor(minutes / 60);
+			int hrs = minutes / 60;
 			minutes = minutes % 60;
 			hours = hrs;
 		}
 		
 		if(hours > 24)
 		{
-			int day = MathHelper.floor(hours / 24);
+			int day = hours / 24;
 			hours = hours % 24;
 			days = day;
 		}
@@ -82,9 +80,7 @@ public class TextUtils
 	
 	public static int toHour(long tick)
 	{
-		int hour = MathHelper.floor((tick + 6000) / 1000F) % 24;
-		
-		return hour;
+		return MathHelper.floor((tick + 6000) / 1000F) % 24;
 	}
 	
 	public static int toMinute(long tick)
@@ -103,7 +99,6 @@ public class TextUtils
 		return String.format("%02d:%02d", hour, minute);
 	}
 	
-	@Nonnull
 	public static IFormattableTextComponent formatNonnull(String text, Object... parameters)
 	{
 		if(text == null)

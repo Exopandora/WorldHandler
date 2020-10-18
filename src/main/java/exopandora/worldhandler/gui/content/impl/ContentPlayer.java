@@ -22,7 +22,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -119,11 +120,13 @@ public class ContentPlayer extends Content
 			
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.position.copy_position"), () ->
 			{
-				int posX = MathHelper.floor(Minecraft.getInstance().player.getPosX());
-				int posY = MathHelper.floor(Minecraft.getInstance().player.getPosY());
-				int posZ = MathHelper.floor(Minecraft.getInstance().player.getPosZ());
+				PlayerEntity player = Minecraft.getInstance().player;
 				
-				Minecraft.getInstance().keyboardListener.setClipboardString(posX + " " + posY + " " + posZ);
+				if(player != null)
+				{
+					BlockPos position = player.getPosition();
+					Minecraft.getInstance().keyboardListener.setClipboardString(position.getX() + " " + position.getY() + " " + position.getZ());
+				}
 			}));
 		}
 		else if(Page.MISC.equals(this.page))
@@ -152,18 +155,25 @@ public class ContentPlayer extends Content
 	@Override
 	public void tick(Container container)
 	{
-		this.posXField.setText("X: " + MathHelper.floor(Minecraft.getInstance().player.getPosX()));
-		this.posYField.setText("Y: " + MathHelper.floor(Minecraft.getInstance().player.getPosY()));
-		this.posZField.setText("Z: " + MathHelper.floor(Minecraft.getInstance().player.getPosZ()));
-		this.scoreField.setText(I18n.format("gui.worldhandler.entities.player.score") + ": " + Minecraft.getInstance().player.getScore());
-		this.coinsField.setText(I18n.format("gui.worldhandler.entities.player.score.experience") + ": " + Minecraft.getInstance().player.experienceLevel + "L");
-		this.xpField.setText(I18n.format("gui.worldhandler.entities.player.score.experience_coins") + ": " + Minecraft.getInstance().player.experienceTotal);
+		PlayerEntity player = Minecraft.getInstance().player;
+		
+		if(player != null)
+		{
+			BlockPos position = player.getPosition();
+			
+			this.posXField.setText("X: " + position.getX());
+			this.posYField.setText("Y: " + position.getY());
+			this.posZField.setText("Z: " + position.getZ());
+			this.scoreField.setText(I18n.format("gui.worldhandler.entities.player.score") + ": " + player.getScore());
+			this.coinsField.setText(I18n.format("gui.worldhandler.entities.player.score.experience") + ": " + player.experienceLevel + "L");
+			this.xpField.setText(I18n.format("gui.worldhandler.entities.player.score.experience_coins") + ": " + player.experienceTotal);
+		}
 	}
 	
 	@Override
 	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(Page.START.equals(this.page))
+		if(Page.START.equals(this.page) && Minecraft.getInstance().player != null)
 		{
 			int xPos = x + 175;
 			int yPos = y + 82;

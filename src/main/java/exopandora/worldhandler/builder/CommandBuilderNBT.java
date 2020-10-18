@@ -3,6 +3,8 @@ package exopandora.worldhandler.builder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.util.NBTHelper;
 import net.minecraft.nbt.CompoundNBT;
@@ -46,6 +48,7 @@ public abstract class CommandBuilderNBT extends CommandBuilder implements IComma
 		return super.toActualCommand();
 	}
 	
+	@Nullable
 	protected CompoundNBT buildNBT()
 	{
 		CompoundNBT nbt = new CompoundNBT();

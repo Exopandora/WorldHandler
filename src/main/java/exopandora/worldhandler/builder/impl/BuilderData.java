@@ -4,10 +4,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.TargetSelector;
 import exopandora.worldhandler.util.EnumHelper;
-import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -57,6 +57,7 @@ public class BuilderData extends BuilderBlockPos
 		}
 	}
 	
+	@Nullable
 	public EnumMode getMode()
 	{
 		return EnumHelper.valueOf(this.getNodeAsString(0), EnumMode.class);
@@ -79,6 +80,7 @@ public class BuilderData extends BuilderBlockPos
 		}
 	}
 	
+	@Nullable
 	public EnumTarget getTarget()
 	{
 		return EnumHelper.valueOf(this.getNodeAsString(1), EnumTarget.class);
@@ -254,6 +256,7 @@ public class BuilderData extends BuilderBlockPos
 	}
 	
 	@Override
+	@Nonnull
 	public CoordinateInt getXCoordinate()
 	{
 		this.ensureTarget(EnumTarget.BLOCK);
@@ -261,6 +264,7 @@ public class BuilderData extends BuilderBlockPos
 	}
 	
 	@Override
+	@Nonnull
 	public CoordinateInt getYCoordinate()
 	{
 		this.ensureTarget(EnumTarget.BLOCK);
@@ -268,6 +272,7 @@ public class BuilderData extends BuilderBlockPos
 	}
 	
 	@Override
+	@Nonnull
 	public CoordinateInt getZCoordinate()
 	{
 		this.ensureTarget(EnumTarget.BLOCK);
@@ -275,6 +280,7 @@ public class BuilderData extends BuilderBlockPos
 	}
 	
 	@Override
+	@Nonnull
 	public BlockPos getBlockPos()
 	{
 		this.ensureTarget(EnumTarget.BLOCK);

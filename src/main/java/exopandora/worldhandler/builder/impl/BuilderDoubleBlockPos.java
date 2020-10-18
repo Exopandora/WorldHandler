@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nonnull;
+
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.util.BlockHelper;
@@ -53,16 +55,19 @@ public abstract class BuilderDoubleBlockPos extends CommandBuilder
 		this.setNode(2, z);
 	}
 	
+	@Nonnull
 	public CoordinateInt getX1Coordiante()
 	{
 		return this.getNodeAsCoordinateInt(0);
 	}
 	
+	@Nonnull
 	public CoordinateInt getY1Coordiante()
 	{
 		return this.getNodeAsCoordinateInt(1);
 	}
 	
+	@Nonnull
 	public CoordinateInt getZ1Coordiante()
 	{
 		return this.getNodeAsCoordinateInt(2);
@@ -125,16 +130,19 @@ public abstract class BuilderDoubleBlockPos extends CommandBuilder
 		this.setNode(5, z);
 	}
 	
+	@Nonnull
 	public CoordinateInt getX2Coordiante()
 	{
 		return this.getNodeAsCoordinateInt(3);
 	}
 	
+	@Nonnull
 	public CoordinateInt getY2Coordiante()
 	{
 		return this.getNodeAsCoordinateInt(4);
 	}
 	
+	@Nonnull
 	public CoordinateInt getZ2Coordiante()
 	{
 		return this.getNodeAsCoordinateInt(5);

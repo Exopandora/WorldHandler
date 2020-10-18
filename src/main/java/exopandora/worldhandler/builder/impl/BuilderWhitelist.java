@@ -13,7 +13,7 @@ public class BuilderWhitelist extends CommandBuilder
 {
 	public BuilderWhitelist()
 	{
-		
+		super();
 	}
 	
 	public BuilderWhitelist(EnumMode mode)
@@ -37,6 +37,7 @@ public class BuilderWhitelist extends CommandBuilder
 		this.setNode(1, player);
 	}
 	
+	@Nullable
 	public String getPlayer()
 	{
 		return this.getNodeAsString(1);

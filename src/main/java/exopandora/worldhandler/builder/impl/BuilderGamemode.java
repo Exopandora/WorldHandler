@@ -11,7 +11,7 @@ public class BuilderGamemode extends CommandBuilder
 {
 	public BuilderGamemode()
 	{
-		
+		super();
 	}
 	
 	public BuilderGamemode(EnumGamemode mode)

@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -240,7 +242,12 @@ public class ContentCommandStack extends ContentChild
 	
 	private void setCommand(int index, String command)
 	{
-		this.builderCommandStack.getPassenger(index + HEAD_LENGTH).setCommand(command);
+		EntityNBT entity = this.builderCommandStack.getPassenger(index + HEAD_LENGTH);
+		
+		if(entity != null)
+		{
+			entity.setCommand(command);
+		}
 	}
 	
 	private void addCommand(int index)
@@ -253,9 +260,17 @@ public class ContentCommandStack extends ContentChild
 		this.builderCommandStack.removePassenger(index + HEAD_LENGTH);
 	}
 	
+	@Nullable
 	private String getCommand(int index)
 	{
-		return this.builderCommandStack.getPassenger(index + HEAD_LENGTH).getCommand();
+		EntityNBT entity = this.builderCommandStack.getPassenger(index + HEAD_LENGTH);
+		
+		if(entity != null)
+		{
+			return entity.getCommand();
+		}
+		
+		return null;
 	}
 	
 	private int getCommandCount()

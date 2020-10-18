@@ -472,6 +472,11 @@ public class BuilderSummon extends CommandBuilderNBT
 	{
 		String name = ResourceHelper.stripToResourceLocation(entityName);
 		
+		if(name == null || name.isEmpty())
+		{
+			return null;
+		}
+		
 		for(EntityType<?> type : ForgeRegistries.ENTITIES.getValues())
 		{
 			if(type.isSummonable() && entityName.equalsIgnoreCase(I18n.format(type.getTranslationKey())))
@@ -482,114 +487,109 @@ public class BuilderSummon extends CommandBuilderNBT
 		
 		String entity = name.replaceAll("_", "");
 		
-		if(entity.equalsIgnoreCase("RedCow"))
+		if("RedCow".equalsIgnoreCase(entity))
 		{
 			return EntityType.MOOSHROOM.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("ChickenJockey"))
+		else if("ChickenJockey".equalsIgnoreCase(entity))
 		{
 			return EntityType.CHICKEN.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Pigman") || entity.equalsIgnoreCase("ZombiePig") || entity.equalsIgnoreCase("ZombiePigman"))
+		else if("Pigman".equalsIgnoreCase(entity) || "ZombiePig".equalsIgnoreCase(entity) || "ZombiePigman".equalsIgnoreCase(entity))
 		{
 			return EntityType.PIGLIN.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Wither"))
+		else if("Wither".equalsIgnoreCase(entity))
 		{
 			return EntityType.WITHER.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Dog"))
+		else if("Dog".equalsIgnoreCase(entity))
 		{
 			return EntityType.WOLF.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Dragon"))
+		else if("Dragon".equalsIgnoreCase(entity))
 		{
 			return EntityType.ENDER_DRAGON.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("SnowMan"))
+		else if("SnowMan".equalsIgnoreCase(entity))
 		{
 			return EntityType.SNOW_GOLEM.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Horse") || entity.equalsIgnoreCase("ZombieHorse") || entity.equalsIgnoreCase("SkeletonHorse"))
+		else if("Horse".equalsIgnoreCase(entity) || "ZombieHorse".equalsIgnoreCase(entity) || "SkeletonHorse".equalsIgnoreCase(entity))
 		{
 			return EntityType.HORSE.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("LavaCube")|| entity.equalsIgnoreCase("MagmaSlime") || entity.equalsIgnoreCase("MagmaCube"))
+		else if("LavaCube".equalsIgnoreCase(entity)|| "MagmaSlime".equalsIgnoreCase(entity) || "MagmaCube".equalsIgnoreCase(entity))
 		{
 			return EntityType.MAGMA_CUBE.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("SpiderJockey"))
+		else if("SpiderJockey".equalsIgnoreCase(entity))
 		{
 			return EntityType.SPIDER.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("IronGolem"))
+		else if("IronGolem".equalsIgnoreCase(entity))
 		{
 			return EntityType.IRON_GOLEM.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Ozelot") || entity.equals("Ocelot"))
+		else if("Ozelot".equalsIgnoreCase(entity) || entity.equals("Ocelot"))
 		{
 			return EntityType.OCELOT.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Kitty") || entity.equalsIgnoreCase("Kitten"))
+		else if("Kitty".equalsIgnoreCase(entity) || "Kitten".equalsIgnoreCase(entity))
 		{
 			return EntityType.CAT.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("TESTIFICATE") || entity.equalsIgnoreCase("Blacksmith") || entity.equalsIgnoreCase("Farmer") || entity.equalsIgnoreCase("Fisherman") || entity.equalsIgnoreCase("Shepherd") || entity.equalsIgnoreCase("Fletcher") || entity.equalsIgnoreCase("Librarian") || entity.equalsIgnoreCase("Cleric") || entity.equalsIgnoreCase("Priest") || entity.equalsIgnoreCase("Armorer") || entity.equalsIgnoreCase("WeaponSmith") || entity.equalsIgnoreCase("ToolSmith") || entity.equalsIgnoreCase("Butcher") || entity.equalsIgnoreCase("Leatherworker") || entity.equalsIgnoreCase("Carthographer") || entity.equalsIgnoreCase("Nitwit"))
+		else if("TESTIFICATE".equalsIgnoreCase(entity) || "Blacksmith".equalsIgnoreCase(entity) || "Farmer".equalsIgnoreCase(entity) || "Fisherman".equalsIgnoreCase(entity) || "Shepherd".equalsIgnoreCase(entity) || "Fletcher".equalsIgnoreCase(entity) || "Librarian".equalsIgnoreCase(entity) || "Cleric".equalsIgnoreCase(entity) || "Priest".equalsIgnoreCase(entity) || "Armorer".equalsIgnoreCase(entity) || "WeaponSmith".equalsIgnoreCase(entity) || "ToolSmith".equalsIgnoreCase(entity) || "Butcher".equalsIgnoreCase(entity) || "Leatherworker".equalsIgnoreCase(entity) || "Carthographer".equalsIgnoreCase(entity) || "Nitwit".equalsIgnoreCase(entity))
 		{
 			return EntityType.VILLAGER.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Octopus") || entity.equalsIgnoreCase("Kraken"))
+		else if("Octopus".equalsIgnoreCase(entity) || "Kraken".equalsIgnoreCase(entity))
 		{
 			return EntityType.SQUID.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Exwife"))
+		else if("Exwife".equalsIgnoreCase(entity))
 		{
 			return EntityType.GHAST.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("TNTMinecart"))
+		else if("TNTMinecart".equalsIgnoreCase(entity))
 		{
 			return EntityType.TNT_MINECART.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Minecart"))
+		else if("Minecart".equalsIgnoreCase(entity))
 		{
 			return EntityType.MINECART.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("HopperMinecart"))
+		else if("HopperMinecart".equalsIgnoreCase(entity))
 		{
 			return EntityType.HOPPER_MINECART.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("ChestMinecart"))
+		else if("ChestMinecart".equalsIgnoreCase(entity))
 		{
 			return EntityType.CHEST_MINECART.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("SpawnerMinecart"))
+		else if("SpawnerMinecart".equalsIgnoreCase(entity))
 		{
 			return EntityType.SPAWNER_MINECART.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("FurnaceMinecart"))
+		else if("FurnaceMinecart".equalsIgnoreCase(entity))
 		{
 			return EntityType.FURNACE_MINECART.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("CommandBlockMinecart") || entity.equalsIgnoreCase("MinecartCommand") || entity.equalsIgnoreCase("CommandMinecart"))
+		else if("CommandBlockMinecart".equalsIgnoreCase(entity) || "MinecartCommand".equalsIgnoreCase(entity) || "CommandMinecart".equalsIgnoreCase(entity))
 		{
 			return EntityType.COMMAND_BLOCK_MINECART.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Wizard"))
+		else if("Wizard".equalsIgnoreCase(entity))
 		{
 			return EntityType.EVOKER.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("Johnny"))
+		else if("Johnny".equalsIgnoreCase(entity))
 		{
 			return EntityType.VINDICATOR.getRegistryName();
 		}
-		else if(entity.equalsIgnoreCase("BabyZombie"))
+		else if("BabyZombie".equalsIgnoreCase(entity))
 		{
 			return EntityType.ZOMBIE.getRegistryName();
-		}
-		
-		if(entity == null || entity.isEmpty())
-		{
-			return null;
 		}
 		
 		return ResourceHelper.stringToResourceLocation(name);

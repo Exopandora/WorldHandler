@@ -17,6 +17,7 @@ import exopandora.worldhandler.gui.widget.IContainerWidget.EnumLayer;
 import exopandora.worldhandler.gui.widget.WidgetCommandSyntax;
 import exopandora.worldhandler.gui.widget.WidgetNameField;
 import exopandora.worldhandler.gui.widget.WidgetShortcuts;
+import exopandora.worldhandler.gui.widget.WidgetTabRenderer;
 import exopandora.worldhandler.gui.widget.WidgetWatch;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.util.ActionHelper;

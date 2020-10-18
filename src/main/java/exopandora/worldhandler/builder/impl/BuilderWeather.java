@@ -11,7 +11,7 @@ public class BuilderWeather extends CommandBuilder
 {
 	public BuilderWeather()
 	{
-		
+		super();
 	}
 	
 	public BuilderWeather(EnumWeather weather)

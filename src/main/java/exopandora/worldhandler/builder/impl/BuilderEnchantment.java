@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nullable;
+
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
@@ -11,9 +13,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class BuilderEnchantment extends CommandBuilder
 {
-	public void getPlayer(String player)
+	@Nullable
+	public String getPlayer()
 	{
-		this.getNodeAsString(0);
+		return this.getNodeAsString(0);
 	}
 	
 	public void setPlayer(String player)
@@ -21,6 +24,7 @@ public class BuilderEnchantment extends CommandBuilder
 		this.setNode(0, player);
 	}
 	
+	@Nullable
 	public ResourceLocation getEnchantment()
 	{
 		return this.getNodeAsResourceLocation(1);

@@ -1,5 +1,7 @@
 package exopandora.worldhandler.builder.impl;
 
+import javax.annotation.Nullable;
+
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.CommandSyntax.Argument;
@@ -91,6 +93,7 @@ public class BuilderUsercontent extends CommandBuilder
 		}
 	}
 	
+	@Nullable
 	public String get(int index)
 	{
 		if(index < this.syntax.getArguments().size() && index >= 0)
