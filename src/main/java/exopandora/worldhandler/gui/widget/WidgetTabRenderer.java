@@ -1,4 +1,4 @@
-package exopandora.worldhandler.gui.container.impl;
+package exopandora.worldhandler.gui.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -7,7 +7,6 @@ import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.gui.widget.IContainerWidget;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTab;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
