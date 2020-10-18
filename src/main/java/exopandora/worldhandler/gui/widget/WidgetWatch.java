@@ -20,15 +20,18 @@ public class WidgetWatch implements IContainerWidget
 		final int watchX = container.getBackgroundX() + 233;
 		final int watchY = container.getBackgroundY() + 5;
 		
-		RenderUtils.drawWatchIntoGui(matrix, container, watchX, watchY, Minecraft.getInstance().world.getWorldInfo().getDayTime(), Config.getSettings().smoothWatch());
+		long time = 0;
 		
-		if(Config.getSettings().tooltips())
+		if(Minecraft.getInstance().world != null)
 		{
-			if(mouseX >= watchX && mouseX <= watchX + 9 && mouseY >= watchY && mouseY <= watchY + 9)
-			{
-				container.renderTooltip(matrix, new StringTextComponent(TextUtils.formatWorldTime(Minecraft.getInstance().world.getDayTime())), mouseX, mouseY + 9);
-				RenderUtils.disableLighting();
-			}
+			time = Minecraft.getInstance().world.getWorldInfo().getDayTime();
+		}
+		
+		RenderUtils.drawWatchIntoGui(matrix, container, watchX, watchY, time, Config.getSettings().smoothWatch());
+		
+		if(Config.getSettings().tooltips() && mouseX >= watchX && mouseX <= watchX + 9 && mouseY >= watchY && mouseY <= watchY + 9)
+		{
+			container.renderTooltip(matrix, new StringTextComponent(TextUtils.formatWorldTime(time)), mouseX, mouseY + 9);
 		}
 	}
 	
