@@ -4,8 +4,9 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
-import exopandora.worldhandler.builder.types.GreedyString;
 import exopandora.worldhandler.builder.types.ArgumentType;
+import exopandora.worldhandler.builder.types.GreedyString;
+import exopandora.worldhandler.util.EnumHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -14,23 +15,20 @@ public class BuilderTeams extends CommandBuilder
 {
 	public void setTeam(String name)
 	{
-		String mode = this.getMode();
 		String team = name != null ? name.replaceAll(" ", "_") : null;
 		
-		if(mode != null)
+		if(EnumMode.ADD.equals(this.getMode()))
 		{
-			if(mode.equals("add"))
-			{
-				this.setNode(2, new GreedyString(name));
-			}
+			this.setNode(2, new GreedyString(name));
 		}
 		
 		this.setNode(1, team);
 	}
 	
-	public String getMode()
+	@Nullable
+	public EnumMode getMode()
 	{
-		return this.getNodeAsString(0);
+		return EnumHelper.valueOf(this.getNodeAsString(0), EnumMode.class);
 	}
 	
 	@Nullable
@@ -39,52 +37,43 @@ public class BuilderTeams extends CommandBuilder
 		return this.getNodeAsString(1);
 	}
 	
-	public void setMode(String mode)
+	public void setMode(EnumMode mode)
 	{
 		String team = this.getTeam();
 		String player = this.getPlayer();
 		
-		if(mode.equals("add") || mode.equals("remove|empty") || mode.equals("join|leave") || mode.equals("modify"))
+		this.updateSyntax(this.getSyntax(mode));
+		this.setNode(0, mode.toString());
+		
+		if(team != null)
 		{
-			this.updateSyntax(this.getSyntax(mode));
-			this.setNode(0, mode);
-			
-			if(team != null)
-			{
-				this.setTeam(team);
-			}
-			
-			if(player != null && (mode.equals("join|leave")))
-			{
-				this.setPlayer(player);
-			}
+			this.setTeam(team);
+		}
+		
+		if(player != null && (EnumMode.JOIN.equals(mode) || EnumMode.LEAVE.equals(mode) || EnumMode.JOIN_OR_LEAVE.equals(mode)))
+		{
+			this.setPlayer(player);
 		}
 	}
 	
 	public void setPlayer(String player)
 	{
-		String mode = this.getMode();
+		EnumMode mode = this.getMode();
 		
-		if(mode != null)
+		if(EnumMode.JOIN.equals(mode) || EnumMode.LEAVE.equals(mode) || EnumMode.JOIN_OR_LEAVE.equals(mode))
 		{
-			if(mode.equals("join|leave"))
-			{
-				this.setNode(2, player);
-			}
+			this.setNode(2, player);
 		}
 	}
 	
 	@Nullable
 	public String getPlayer()
 	{
-		String mode = this.getMode();
+		EnumMode mode = this.getMode();
 		
-		if(mode != null)
+		if(EnumMode.JOIN.equals(mode) || EnumMode.LEAVE.equals(mode) || EnumMode.JOIN_OR_LEAVE.equals(mode))
 		{
-			if(mode.equals("join|leave"))
-			{
-				return this.getNodeAsString(2);
-			}
+			return this.getNodeAsString(2);
 		}
 		
 		return null;
@@ -92,17 +81,20 @@ public class BuilderTeams extends CommandBuilder
 	
 	public void setRule(String rule)
 	{
-		if(this.getMode() == null || !this.getMode().equals("modify"))
+		if(!EnumMode.MODIFY.equals(this.getMode()))
 		{
-			this.setMode("modify");
+			this.setMode(EnumMode.MODIFY);
 		}
 		
 		this.setNode(2, rule);
 	}
 	
+	@Nullable
 	public String getRule()
 	{
-		if(this.getMode() == null || this.getMode().equals("modify"))
+		EnumMode mode = this.getMode();
+		
+		if(mode == null || EnumMode.MODIFY.equals(mode))
 		{
 			return this.getNodeAsString(2);
 		}
@@ -112,17 +104,20 @@ public class BuilderTeams extends CommandBuilder
 	
 	public void setValue(String value)
 	{
-		if(this.getMode() == null || !this.getMode().equals("modify"))
+		if(!EnumMode.MODIFY.equals(this.getMode()))
 		{
-			this.setMode("modify");
+			this.setMode(EnumMode.MODIFY);
 		}
 		
 		this.setNode(3, value);
 	}
 	
+	@Nullable
 	public String getValue()
 	{
-		if(this.getMode() == null || this.getMode().equals("modify"))
+		EnumMode mode = this.getMode();
+		
+		if(mode == null || EnumMode.MODIFY.equals(mode))
 		{
 			return this.getNodeAsString(3);
 		}
@@ -131,9 +126,9 @@ public class BuilderTeams extends CommandBuilder
 	}
 	
 	@Nullable
-	private CommandSyntax getSyntax(String mode)
+	private CommandSyntax getSyntax(EnumMode mode)
 	{
-		if(mode.equals("add"))
+		if(EnumMode.ADD.equals(mode))
 		{
 			CommandSyntax syntax = new CommandSyntax();
 			
@@ -143,7 +138,7 @@ public class BuilderTeams extends CommandBuilder
 			
 			return syntax;
 		}
-		else if(mode.equals("remove|empty"))
+		else if(EnumMode.REMOVE.equals(mode) || EnumMode.EMPTY.equals(mode) || EnumMode.REMOVE_OR_EMPTY.equals(mode))
 		{
 			CommandSyntax syntax = new CommandSyntax();
 			
@@ -152,7 +147,7 @@ public class BuilderTeams extends CommandBuilder
 			
 			return syntax;
 		}
-		else if(mode.equals("join|leave"))
+		else if(EnumMode.JOIN.equals(mode) || EnumMode.LEAVE.equals(mode) || EnumMode.JOIN_OR_LEAVE.equals(mode))
 		{
 			CommandSyntax syntax = new CommandSyntax();
 			
@@ -162,7 +157,7 @@ public class BuilderTeams extends CommandBuilder
 			
 			return syntax;
 		}
-		else if(mode.equals("modify"))
+		else if(EnumMode.MODIFY.equals(mode))
 		{
 			CommandSyntax syntax = new CommandSyntax();
 			
@@ -183,6 +178,7 @@ public class BuilderTeams extends CommandBuilder
 		
 		switch(mode)
 		{
+			case JOIN_OR_LEAVE:
 			case JOIN:
 				builder.setNode(0, mode.toString());
 				builder.setTeam(this.getTeam());
@@ -192,17 +188,18 @@ public class BuilderTeams extends CommandBuilder
 				builder.setNode(0, mode.toString());
 				builder.setNode(1, this.getPlayer());
 				break;
+			case REMOVE_OR_EMPTY:
 			case REMOVE:
 			case EMPTY:
 				builder.setNode(0, mode.toString());
 				builder.setTeam(this.getTeam());
 				break;
 			case ADD:
-				builder.setMode(mode.toString());
+				builder.setMode(mode);
 				builder.setTeam(this.getTeam());
 				break;
 			case MODIFY:
-				builder.setMode(mode.toString());
+				builder.setMode(mode);
 				builder.setTeam(this.getTeam());
 				builder.setRule(this.getRule());
 				builder.setValue(this.getValue());
@@ -239,11 +236,22 @@ public class BuilderTeams extends CommandBuilder
 		REMOVE,
 		EMPTY,
 		ADD,
-		MODIFY;
+		MODIFY,
+		JOIN_OR_LEAVE,
+		REMOVE_OR_EMPTY;
 		
 		@Override
 		public String toString()
 		{
+			if(EnumMode.JOIN_OR_LEAVE.equals(this))
+			{
+				return "join|leave";
+			}
+			else if(EnumMode.REMOVE_OR_EMPTY.equals(this))
+			{
+				return "remove|empty";
+			}
+			
 			return this.name().toLowerCase();
 		}
 	}

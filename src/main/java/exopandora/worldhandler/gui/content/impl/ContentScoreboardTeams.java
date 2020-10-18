@@ -237,21 +237,21 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	@OnlyIn(Dist.CLIENT)
 	public static enum Page
 	{
-		ADD("add", 24),
-		JOIN_OR_LEAVE("join|leave", 12),
-		REMOVE_OR_EMPTY("remove|empty", 12),
-		OPTION("option", 0);
+		ADD(EnumMode.ADD, 24),
+		JOIN_OR_LEAVE(EnumMode.JOIN_OR_LEAVE, 12),
+		REMOVE_OR_EMPTY(EnumMode.REMOVE_OR_EMPTY, 12),
+		OPTION(EnumMode.MODIFY, 0);
 		
-		private final String mode;
+		private final EnumMode mode;
 		private final int shift;
 		
-		private Page(String mode, int shift)
+		private Page(EnumMode mode, int shift)
 		{
 			this.shift = shift;
 			this.mode = mode;
 		}
 		
-		public String getMode()
+		public EnumMode getMode()
 		{
 			return this.mode;
 		}
