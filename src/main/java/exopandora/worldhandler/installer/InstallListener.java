@@ -75,22 +75,24 @@ public class InstallListener implements ActionListener
 	
 	private boolean isPartialFileNameInFolder(File path, String... parts)
 	{
-		if(path.exists())
+		if(path.exists() && path.isDirectory())
 		{
-			int contains = 0;
-			
 			for(File file : path.listFiles())
 			{
+				int matches = 0;
+				
 				for(String part : parts)
 				{
 					if(this.containsIgnoreCase(file.getName(), part))
 					{
-						contains++;
-					}
-					
-					if(contains == parts.length)
-					{
-						return true;
+						if(matches < parts.length)
+						{
+							matches++;
+						}
+						else
+						{
+							return true;
+						}
 					}
 				}
 			}
