@@ -513,10 +513,6 @@ public class BuilderSummon extends CommandBuilderNBT
 		{
 			return EntityType.SNOW_GOLEM.getRegistryName();
 		}
-		else if("ZombieHorse".equalsIgnoreCase(entity) || "SkeletonHorse".equalsIgnoreCase(entity))
-		{
-			return EntityType.HORSE.getRegistryName();
-		}
 		else if("LavaCube".equalsIgnoreCase(entity)|| "MagmaSlime".equalsIgnoreCase(entity) || "LavaSlime".equalsIgnoreCase(entity))
 		{
 			return EntityType.MAGMA_CUBE.getRegistryName();
@@ -525,7 +521,7 @@ public class BuilderSummon extends CommandBuilderNBT
 		{
 			return EntityType.SPIDER.getRegistryName();
 		}
-		else if("IronGolem".equalsIgnoreCase(entity))
+		else if("VillagerGolem".equalsIgnoreCase(entity))
 		{
 			return EntityType.IRON_GOLEM.getRegistryName();
 		}
@@ -537,7 +533,7 @@ public class BuilderSummon extends CommandBuilderNBT
 		{
 			return EntityType.CAT.getRegistryName();
 		}
-		else if("TESTIFICATE".equalsIgnoreCase(entity) || "Blacksmith".equalsIgnoreCase(entity) || "Farmer".equalsIgnoreCase(entity) || "Fisherman".equalsIgnoreCase(entity) || "Shepherd".equalsIgnoreCase(entity) || "Fletcher".equalsIgnoreCase(entity) || "Librarian".equalsIgnoreCase(entity) || "Cleric".equalsIgnoreCase(entity) || "Priest".equalsIgnoreCase(entity) || "Armorer".equalsIgnoreCase(entity) || "WeaponSmith".equalsIgnoreCase(entity) || "ToolSmith".equalsIgnoreCase(entity) || "Butcher".equalsIgnoreCase(entity) || "Leatherworker".equalsIgnoreCase(entity) || "Carthographer".equalsIgnoreCase(entity) || "Nitwit".equalsIgnoreCase(entity))
+		else if("TESTIFICATE".equalsIgnoreCase(entity) || ForgeRegistries.PROFESSIONS.getKeys().stream().anyMatch(profession -> profession.getPath().equalsIgnoreCase(entity)))
 		{
 			return EntityType.VILLAGER.getRegistryName();
 		}
