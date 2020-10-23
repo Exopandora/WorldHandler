@@ -404,13 +404,15 @@ public class BuilderSummon extends CommandBuilderNBT
 	
 	private void updateCustomComponent(String name)
 	{
-		if(name != null && this.getEntity() != null)
+		ResourceLocation entity = this.getEntity();
+		
+		if(name != null && entity != null)
 		{
-			if(EntityType.CAT.getRegistryName().equals(this.getEntity()))
+			if(entity.equals(EntityType.CAT.getRegistryName()))
 			{
 				this.nbt.setCustomComponent("CatType", IntNBT.valueOf(new Random().nextInt(11)));
 			}
-			else if(EntityType.VILLAGER.getRegistryName().equals(this.getEntity()))
+			else if(entity.equals(EntityType.VILLAGER.getRegistryName()))
 			{
 				for(VillagerProfession profession : ForgeRegistries.PROFESSIONS)
 				{
@@ -424,14 +426,14 @@ public class BuilderSummon extends CommandBuilderNBT
 					}
 				}
 			}
-			else if(EntityType.ZOMBIE.getRegistryName().equals(this.getEntity()))
+			else if(entity.equals(EntityType.ZOMBIE.getRegistryName()))
 			{
 				if(StringUtils.containsIgnoreCase(name, "Baby"))
 				{
 					this.nbt.setCustomComponent("IsBaby", ByteNBT.valueOf((byte) 1));
 				}
 			}
-			else if(EntityType.CHICKEN.getRegistryName().equals(this.getEntity()))
+			else if(entity.equals(EntityType.CHICKEN.getRegistryName()))
 			{
 				if(StringUtils.containsIgnoreCase(name, "Jockey") && !this.nbt.hasPassengers())
 				{
@@ -443,7 +445,7 @@ public class BuilderSummon extends CommandBuilderNBT
 					this.nbt.setCustomComponent("Passengers", list);
 				}
 			}
-			else if(EntityType.SPIDER.getRegistryName().equals(this.getEntity()))
+			else if(entity.equals(EntityType.SPIDER.getRegistryName()))
 			{
 				if(StringUtils.containsIgnoreCase(name, "Jockey") && !this.nbt.hasPassengers())
 				{
