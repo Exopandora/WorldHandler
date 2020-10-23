@@ -73,7 +73,8 @@ public class WidgetTabRenderer implements IContainerWidget
 			
 			if(content.getActiveContent().equals(tab))
 			{
-				this.drawActiveTab(matrix, container, index, size, xPos + offset, yPos - 22, width, 25, title);
+				int height = Config.getSkin().getBackgroundAlphaInt() == 255 ? 25 : 22;
+				this.drawActiveTab(matrix, container, index, size, xPos + offset, yPos - 22, width, height, title);
 			}
 			else
 			{
@@ -93,24 +94,31 @@ public class WidgetTabRenderer implements IContainerWidget
 		{
 			RenderSystem.enableBlend();
 			
-			if(index > 0)
+			if(Config.getSkin().getBackgroundAlphaInt() == 255)
 			{
-				RenderUtils.drawTexturedTriangleBL(matrix, container, x, y + height - 2, x - container.getBackgroundX(), 1, 2);
+				if(index > 0)
+				{
+					RenderUtils.drawTexturedTriangleBL(matrix, container, x, y + height - 2, x - container.getBackgroundX(), 1, 2);
+				}
+				
+				if(index < size - 1 || size == 1)
+				{
+					RenderUtils.drawTexturedTriangleBR(matrix, container, x + width - 2, y + height - 2, x - container.getBackgroundX() + width, 1, 2);
+				}
+				
+				if(index == 0)
+				{
+					RenderUtils.drawTexturedWedgeGradientTL(matrix, container, x, y + height, 0, height, width, WidgetTabRenderer.WEDGE_HEIGHT);
+				}
+				
+				if(index == size - 1 && size > 1)
+				{
+					RenderUtils.drawTexturedWedgeGradientTR(matrix, container, x, y + height, x - container.getBackgroundX(), height, width, WidgetTabRenderer.WEDGE_HEIGHT);
+				}
 			}
-			
-			if(index < size - 1 || size == 1)
+			else
 			{
-				RenderUtils.drawTexturedTriangleBR(matrix, container, x + width - 2, y + height - 2, x - container.getBackgroundX() + width, 1, 2);
-			}
-			
-			if(index == 0)
-			{
-				RenderUtils.drawTexturedWedgeGradientTL(matrix, container, x, y + height, 0, height, width, WidgetTabRenderer.WEDGE_HEIGHT);
-			}
-			
-			if(index == size - 1 && size > 1)
-			{
-				RenderUtils.drawTexturedWedgeGradientTR(matrix, container, x, y + height, x - container.getBackgroundX(), height, width, WidgetTabRenderer.WEDGE_HEIGHT);
+				this.drawTabBackgroundMerge(matrix, container, index, size, x, y, width, height);
 			}
 			
 			RenderSystem.disableBlend();
@@ -127,21 +135,24 @@ public class WidgetTabRenderer implements IContainerWidget
 		if(!Config.getSkin().sharpEdges())
 		{
 			RenderSystem.enableBlend();
-			
-			if(index == 0)
-			{
-				RenderUtils.drawTexturedTriangleTL(matrix, container, x, y + height, 0, height, 2);
-			}
-			
-			if(index == size - 1)
-			{
-				RenderUtils.drawTexturedTriangleTR(matrix, container, x + width - 3, y + height, container.getBackgroundWidth() - 3, height, 3);
-			}
-			
+			this.drawTabBackgroundMerge(matrix, container, index, size, x, y, width, height);
 			RenderSystem.disableBlend();
 		}
 		
 		this.drawTabTitle(matrix, container, title, x + width / 2, y + 7, 0xE0E0E0);
+	}
+	
+	private void drawTabBackgroundMerge(MatrixStack matrix, Container container, int index, int size, int x, int y, int width, int height)
+	{
+		if(index == 0)
+		{
+			RenderUtils.drawTexturedTriangleTL(matrix, container, x, y + height, 0, height, 2);
+		}
+		
+		if(index == size - 1)
+		{
+			RenderUtils.drawTexturedTriangleTR(matrix, container, x + width - 3, y + height, container.getBackgroundWidth() - 3, height, 3);
+		}
 	}
 	
 	private void drawTabBackground(MatrixStack matrix, Container container, int x, int y, int width, int height)

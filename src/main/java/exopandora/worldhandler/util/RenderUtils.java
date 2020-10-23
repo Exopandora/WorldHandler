@@ -53,7 +53,7 @@ public class RenderUtils
 		
 		matrix.pop();
 		
-		RenderUtils.color(Config.getSkin().getButtonRedF(), Config.getSkin().getButtonGreenF(), Config.getSkin().getButtonBlueF(), Config.getSkin().getButtonAlphaF());
+		RenderUtils.colorDefaultButton();
 		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.iconTexture());
 		
 		gui.blit(matrix, width + 0, height, 48, 0, 10, 10);
@@ -155,10 +155,10 @@ public class RenderUtils
 	
 	public static void colorDefaultButton()
 	{
-		float r = Config.getSkin().getButtonRedF();
-		float g = Config.getSkin().getButtonGreenF();
-		float b = Config.getSkin().getButtonBlueF();
-		float a = Config.getSkin().getButtonAlphaF();
+		float r = Config.getSkin().getButtonRed();
+		float g = Config.getSkin().getButtonGreen();
+		float b = Config.getSkin().getButtonBlue();
+		float a = Config.getSkin().getButtonAlpha();
 		
 		RenderUtils.color(r, g, b, a);
 	}
@@ -170,20 +170,20 @@ public class RenderUtils
 	
 	public static void colorDefaultBackground(double alpha)
 	{
-		float r = Config.getSkin().getBackgroundRedF();
-		float g = Config.getSkin().getBackgroundGreenF();
-		float b = Config.getSkin().getBackgroundBlueF();
-		float a = (float) alpha * Config.getSkin().getBackgroundAlphaF();
+		float r = Config.getSkin().getBackgroundRed();
+		float g = Config.getSkin().getBackgroundGreen();
+		float b = Config.getSkin().getBackgroundBlue();
+		float a = (float) alpha * Config.getSkin().getBackgroundAlpha();
 		
 		RenderUtils.color(r, g, b, a);
 	}
 	
 	public static void colorDarkBackground()
 	{
-		float r = Config.getSkin().getBackgroundRedF();
-		float g = Config.getSkin().getBackgroundGreenF();
-		float b = Config.getSkin().getBackgroundBlueF();
-		float a = Config.getSkin().getBackgroundAlphaF();
+		float r = Config.getSkin().getBackgroundRed();
+		float g = Config.getSkin().getBackgroundGreen();
+		float b = Config.getSkin().getBackgroundBlue();
+		float a = Config.getSkin().getBackgroundAlpha();
 		
 		RenderUtils.color(Math.max(0, r - 0.3F), Math.max(0, g - 0.3F), Math.max(0, b - 0.3F), a);
 	}
@@ -243,7 +243,7 @@ public class RenderUtils
 		for(int i = 0; i < height; i++)
 		{
 			double w = (height - i) / (double) (height + 1);
-			int z = width - (int) (w * width);
+			int z = (int) (w * width);
 			
 			RenderUtils.colorDefaultBackground(w);
 			gui.blit(matrix, x, y + i, textureX, textureY + i, z, 1);

@@ -54,7 +54,7 @@ public class GuiButtonPiano extends GuiButtonBase
 		}
 		
 		int hovered = this.getYImage(this.isHovered());
-		RenderUtils.color(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlphaF());
+		RenderUtils.color(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlpha());
 		Minecraft.getInstance().getTextureManager().bindTexture(NOTE);
 		
 		switch(this.type)

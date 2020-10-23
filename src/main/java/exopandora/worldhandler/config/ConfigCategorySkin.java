@@ -125,14 +125,14 @@ public class ConfigCategorySkin
 		Config.set(this.headlineColor, color);
 	}
 	
-	private int getBackgroundRed()
+	public int getBackgroundRedInt()
 	{
 		return this.backgroundRed.get();
 	}
 	
-	public float getBackgroundRedF()
+	public float getBackgroundRed()
 	{
-		return this.getBackgroundRed() / 255F;
+		return this.getBackgroundRedInt() / 255F;
 	}
 	
 	public void setBackgroundRed(int red)
@@ -140,14 +140,14 @@ public class ConfigCategorySkin
 		Config.set(this.backgroundRed, red);
 	}
 	
-	private int getBackgroundGreen()
+	public int getBackgroundGreenInt()
 	{
 		return this.backgroundGreen.get();
 	}
 	
-	public float getBackgroundGreenF()
+	public float getBackgroundGreen()
 	{
-		return this.getBackgroundGreen() / 255F;
+		return this.getBackgroundGreenInt() / 255F;
 	}
 	
 	public void setBackgroundGreen(int green)
@@ -155,14 +155,14 @@ public class ConfigCategorySkin
 		Config.set(this.backgroundGreen, green);
 	}
 	
-	private int getBackgroundBlue()
+	public int getBackgroundBlueInt()
 	{
 		return this.backgroundBlue.get();
 	}
 	
-	public float getBackgroundBlueF()
+	public float getBackgroundBlue()
 	{
-		return this.getBackgroundBlue() / 255F;
+		return this.getBackgroundBlueInt() / 255F;
 	}
 	
 	public void setBackgroundBlue(int blue)
@@ -170,14 +170,14 @@ public class ConfigCategorySkin
 		Config.set(this.backgroundBlue, blue);
 	}
 	
-	private int getButtonRed()
+	public int getButtonRedInt()
 	{
 		return this.buttonRed.get();
 	}
 	
-	public float getButtonRedF()
+	public float getButtonRed()
 	{
-		return this.getButtonRed() / 255F;
+		return this.getButtonRedInt() / 255F;
 	}
 	
 	public void setButtonRed(int red)
@@ -185,14 +185,14 @@ public class ConfigCategorySkin
 		Config.set(this.backgroundRed, red);
 	}
 	
-	private int getButtonGreen()
+	public int getButtonGreenInt()
 	{
 		return this.buttonGreen.get();
 	}
 	
-	public float getButtonGreenF()
+	public float getButtonGreen()
 	{
-		return this.getButtonGreen() / 255F;
+		return this.getButtonGreenInt() / 255F;
 	}
 	
 	public void setButtonGreen(int green)
@@ -200,14 +200,14 @@ public class ConfigCategorySkin
 		Config.set(this.buttonGreen, green);
 	}
 	
-	private int getButtonBlue()
+	public int getButtonBlueInt()
 	{
 		return this.buttonBlue.get();
 	}
 	
-	public float getButtonBlueF()
+	public float getButtonBlue()
 	{
-		return this.getButtonBlue() / 255F;
+		return this.getButtonBlueInt() / 255F;
 	}
 	
 	public void setButtonBlue(int blue)
@@ -245,14 +245,14 @@ public class ConfigCategorySkin
 		Config.set(this.drawBackground, enabled);
 	}
 	
-	private int getBackgroundAlpha()
+	public int getBackgroundAlphaInt()
 	{
 		return this.backgroundAlpha.get();
 	}
 	
-	public float getBackgroundAlphaF()
+	public float getBackgroundAlpha()
 	{
-		return this.getBackgroundAlpha() / 255F;
+		return this.getBackgroundAlphaInt() / 255F;
 	}
 	
 	public void setBackgroundAlpha(int alpha)
@@ -260,14 +260,14 @@ public class ConfigCategorySkin
 		Config.set(this.backgroundAlpha, alpha);
 	}
 	
-	private int getButtonAlpha()
+	public int getButtonAlphaInt()
 	{
 		return this.buttonAlpha.get();
 	}
 	
-	public float getButtonAlphaF()
+	public float getButtonAlpha()
 	{
-		return this.getButtonAlpha() / 255F;
+		return this.getButtonAlphaInt() / 255F;
 	}
 	
 	public void setButtonAlpha(int alpha)
