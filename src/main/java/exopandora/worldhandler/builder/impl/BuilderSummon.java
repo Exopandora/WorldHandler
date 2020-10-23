@@ -501,10 +501,6 @@ public class BuilderSummon extends CommandBuilderNBT
 		{
 			return EntityType.PIGLIN.getRegistryName();
 		}
-		else if("Wither".equalsIgnoreCase(entity))
-		{
-			return EntityType.WITHER.getRegistryName();
-		}
 		else if("Dog".equalsIgnoreCase(entity))
 		{
 			return EntityType.WOLF.getRegistryName();
@@ -517,11 +513,11 @@ public class BuilderSummon extends CommandBuilderNBT
 		{
 			return EntityType.SNOW_GOLEM.getRegistryName();
 		}
-		else if("Horse".equalsIgnoreCase(entity) || "ZombieHorse".equalsIgnoreCase(entity) || "SkeletonHorse".equalsIgnoreCase(entity))
+		else if("ZombieHorse".equalsIgnoreCase(entity) || "SkeletonHorse".equalsIgnoreCase(entity))
 		{
 			return EntityType.HORSE.getRegistryName();
 		}
-		else if("LavaCube".equalsIgnoreCase(entity)|| "MagmaSlime".equalsIgnoreCase(entity) || "MagmaCube".equalsIgnoreCase(entity))
+		else if("LavaCube".equalsIgnoreCase(entity)|| "MagmaSlime".equalsIgnoreCase(entity) || "LavaSlime".equalsIgnoreCase(entity))
 		{
 			return EntityType.MAGMA_CUBE.getRegistryName();
 		}
@@ -533,7 +529,7 @@ public class BuilderSummon extends CommandBuilderNBT
 		{
 			return EntityType.IRON_GOLEM.getRegistryName();
 		}
-		else if("Ozelot".equalsIgnoreCase(entity) || entity.equals("Ocelot"))
+		else if("Ozelot".equalsIgnoreCase(entity))
 		{
 			return EntityType.OCELOT.getRegistryName();
 		}
@@ -553,31 +549,7 @@ public class BuilderSummon extends CommandBuilderNBT
 		{
 			return EntityType.GHAST.getRegistryName();
 		}
-		else if("TNTMinecart".equalsIgnoreCase(entity))
-		{
-			return EntityType.TNT_MINECART.getRegistryName();
-		}
-		else if("Minecart".equalsIgnoreCase(entity))
-		{
-			return EntityType.MINECART.getRegistryName();
-		}
-		else if("HopperMinecart".equalsIgnoreCase(entity))
-		{
-			return EntityType.HOPPER_MINECART.getRegistryName();
-		}
-		else if("ChestMinecart".equalsIgnoreCase(entity))
-		{
-			return EntityType.CHEST_MINECART.getRegistryName();
-		}
-		else if("SpawnerMinecart".equalsIgnoreCase(entity))
-		{
-			return EntityType.SPAWNER_MINECART.getRegistryName();
-		}
-		else if("FurnaceMinecart".equalsIgnoreCase(entity))
-		{
-			return EntityType.FURNACE_MINECART.getRegistryName();
-		}
-		else if("CommandBlockMinecart".equalsIgnoreCase(entity) || "MinecartCommand".equalsIgnoreCase(entity) || "CommandMinecart".equalsIgnoreCase(entity))
+		else if("CommandMinecart".equalsIgnoreCase(entity))
 		{
 			return EntityType.COMMAND_BLOCK_MINECART.getRegistryName();
 		}
