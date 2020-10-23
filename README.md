@@ -15,7 +15,7 @@ It lets you create powerful and complex sub-commands alongside NBT-structures wi
 
 # Download #
 
-Curseforge: https://www.curseforge.com/minecraft/mc-mods/world-handler-command-gui/files/
+Compiled binaries can be found on [Curseforge](https://www.curseforge.com/minecraft/mc-mods/world-handler-command-gui/files/)
 
 # Installation #
 
@@ -23,7 +23,7 @@ Download World Handler or build from source
 
 ## Prerequisites ##
 
-1. Make sure Minecraft Forge is installed (http://files.minecraftforge.net/)
+1. Make sure [Minecraft Forge](http://files.minecraftforge.net/) is installed
 
 ## Installer ##
 
