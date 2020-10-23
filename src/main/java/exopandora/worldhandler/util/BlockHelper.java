@@ -20,6 +20,7 @@ import exopandora.worldhandler.config.Config;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.play.client.CUpdateCommandBlockPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.CommandBlockTileEntity;
@@ -27,6 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -39,31 +41,49 @@ public class BlockHelper
 	private static final List<Consumer<BlockPos>> POS_2_OBSERVERS = new ArrayList<Consumer<BlockPos>>();
 	private static final Block[] BLACKLIST = new Block[] {Blocks.AIR, Blocks.WATER, Blocks.LAVA};
 	
+	@Nonnull
 	public static BlockPos getFocusedBlockPos()
 	{
+		World world = Minecraft.getInstance().world;
 		RayTraceResult result = Minecraft.getInstance().objectMouseOver;
 		
-		if(result != null && result.getType().equals(Type.BLOCK))
+		if(result != null && Type.BLOCK.equals(result.getType()) && world != null)
 		{
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
 			
-			if(!ArrayUtils.contains(BLACKLIST, Minecraft.getInstance().world.getBlockState(blockResult.getPos()).getBlock()))
+			if(!ArrayUtils.contains(BLACKLIST, world.getBlockState(blockResult.getPos()).getBlock()))
 			{
 				return blockResult.getPos();
 			}
 		}
 		
-		return Minecraft.getInstance().player.getPosition();
+		PlayerEntity player = Minecraft.getInstance().player;
+		
+		if(player != null)
+		{
+			return player.getPosition();
+		}
+		
+		return BlockPos.ZERO;
 	}
 	
+	@Nonnull
 	public static Block getFocusedBlock()
 	{
-		return Minecraft.getInstance().world.getBlockState(getFocusedBlockPos()).getBlock();
+		return BlockHelper.getBlock(BlockHelper.getFocusedBlockPos());
 	}
 	
+	@Nonnull
 	public static Block getBlock(BlockPos pos)
 	{
-		return Minecraft.getInstance().world.getBlockState(pos).getBlock();
+		World world = Minecraft.getInstance().world;
+		
+		if(world != null)
+		{
+			return world.getBlockState(pos).getBlock();
+		}
+		
+		return Blocks.AIR;
 	}
 	
 	public static BlockPos setX(BlockPos pos, double x)
@@ -87,11 +107,11 @@ public class BlockHelper
 		return BlockHelper.pos1;
 	}
 	
-	public static void setPos1(BlockPos pos1)
+	public static void setPos1(BlockPos pos)
 	{
-		if(BlockHelper.pos1 != null && !BlockHelper.pos1.equals(pos1))
+		if(pos != null && !BlockHelper.pos1.equals(pos))
 		{
-			BlockHelper.pos1 = pos1;
+			BlockHelper.pos1 = pos;
 			
 			for(Consumer<BlockPos> observer : POS_1_OBSERVERS)
 			{
@@ -106,11 +126,11 @@ public class BlockHelper
 		return BlockHelper.pos2;
 	}
 	
-	public static void setPos2(BlockPos pos2)
+	public static void setPos2(BlockPos pos)
 	{
-		if(BlockHelper.pos2 != null && !BlockHelper.pos2.equals(pos2))
+		if(pos != null && !BlockHelper.pos2.equals(pos))
 		{
-			BlockHelper.pos2 = pos2;
+			BlockHelper.pos2 = pos;
 			
 			for(Consumer<BlockPos> observer : POS_2_OBSERVERS)
 			{
@@ -186,7 +206,12 @@ public class BlockHelper
 	public static void setBlockNearPlayer(String player, Block block)
 	{
 		BuilderSetBlock builder = new BuilderSetBlock(new CoordinateInt(EnumType.LOCAL), new CoordinateInt(EnumType.LOCAL), new CoordinateInt(2, EnumType.LOCAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode());
-		builder.setState(BlockStateProperties.HORIZONTAL_FACING, Minecraft.getInstance().player.getHorizontalFacing().getOpposite());
+		
+		if(Minecraft.getInstance().player != null)
+		{
+			builder.setState(BlockStateProperties.HORIZONTAL_FACING, Minecraft.getInstance().player.getHorizontalFacing().getOpposite());
+		}
+		
 		CommandHelper.sendCommand(player, builder);
 	}
 }
