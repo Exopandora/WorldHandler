@@ -65,6 +65,7 @@ public class BlockResourceLocation extends ItemResourceLocation
 		this.state = this.findState(null, resource);
 	}
 	
+	@Nullable
 	public BlockState getState()
 	{
 		return this.state;
