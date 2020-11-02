@@ -53,7 +53,7 @@ public class ContentWorldInfo extends Content
 		this.posZField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " Z: " + ContentWorldInfo.format(world, object -> object.getWorldInfo().getSpawnZ()));
 		
 		this.worldField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20);
-		this.worldField.setText(I18n.format("gui.worldhandler.world_info.world.name") + ": " + ContentWorldInfo.format(server, object -> object.func_240793_aU_().getWorldName()));
+		this.worldField.setText(I18n.format("gui.worldhandler.world_info.world.name") + ": " + ContentWorldInfo.format(server, object -> object.getServerConfiguration().getWorldName()));
 		
 		this.seedField = new GuiTextFieldTooltip(x + 118, y + 36, 114, 20);
 		this.seedField.setText(I18n.format("gui.worldhandler.world_info.world.seed") + ": " + ContentWorldInfo.format(server, object -> object.func_241755_D_().getSeed()));

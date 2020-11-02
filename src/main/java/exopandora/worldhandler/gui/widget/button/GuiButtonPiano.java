@@ -78,7 +78,7 @@ public class GuiButtonPiano extends GuiButtonBase
 		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 		
 		this.blit(matrix, this.x, this.y, 25 + hoverstate * 15 - 15, 0, 15, 92);
-		fontRenderer.func_243248_b(matrix, this.getMessage(), (float) (this.x + this.width / 2 - fontRenderer.func_238414_a_(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor); //drawString
+		fontRenderer.func_243248_b(matrix, this.getMessage(), (float) (this.x + this.width / 2 - fontRenderer.getStringPropertyWidth(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor); //drawString
 	}
 	
 	protected void drawBlackKey(MatrixStack matrix, int hoverstate)

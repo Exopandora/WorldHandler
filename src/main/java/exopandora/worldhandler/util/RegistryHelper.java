@@ -37,7 +37,7 @@ public class RegistryHelper
 		registerRegistry(ForgeRegistries.POTIONS, Effect::getName);
 		registerRegistry(ForgeRegistries.BIOMES, biome ->
 		{
-			MutableRegistry<Biome> registry = DynamicRegistries.func_239770_b_().func_243612_b(Registry.BIOME_KEY);
+			MutableRegistry<Biome> registry = DynamicRegistries.func_239770_b_().getRegistry(Registry.BIOME_KEY);
 			ResourceLocation resource = registry.getKey(biome);
 			String key = "biome." + biome.getRegistryName().getNamespace() + "." + resource.getPath();
 			

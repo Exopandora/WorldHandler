@@ -88,7 +88,7 @@ public class RenderUtils
 		matrix.scale(16.0F, 16.0F, 16.0F);
 		
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-		boolean flag = !bakedmodel.func_230044_c_();
+		boolean flag = !bakedmodel.isSideLit();
 		
 		if(flag)
 		{

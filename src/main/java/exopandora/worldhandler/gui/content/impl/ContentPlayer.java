@@ -177,7 +177,7 @@ public class ContentPlayer extends Content
 		{
 			int xPos = x + 175;
 			int yPos = y + 82;
-			int playerNameWidth = Minecraft.getInstance().fontRenderer.func_238414_a_(Minecraft.getInstance().player.getName()) / 2;
+			int playerNameWidth = Minecraft.getInstance().fontRenderer.getStringPropertyWidth(Minecraft.getInstance().player.getName()) / 2;
 			
 			AbstractGui.fill(matrix, container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
 			Minecraft.getInstance().fontRenderer.func_243248_b(matrix, Minecraft.getInstance().player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);

@@ -206,7 +206,7 @@ public class ContentNoteEditor extends Content
 			
     		TranslationTextComponent text = new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.look_at_note_block", KeyHandler.KEY_WORLD_HANDLER.func_238171_j_());
 			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-			fontRenderer.func_243248_b(matrix, text, x + 116 - fontRenderer.func_238414_a_(text) / 2, y + 70, Config.getSkin().getLabelColor());
+			fontRenderer.func_243248_b(matrix, text, x + 116 - fontRenderer.getStringPropertyWidth(text) / 2, y + 70, Config.getSkin().getLabelColor());
 		}
 	}
 	

@@ -1,6 +1,5 @@
 package exopandora.worldhandler.util;
 
-
 import exopandora.worldhandler.builder.INBTWritable;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.StringNBT;
@@ -75,7 +74,7 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 	
 	public IReorderingProcessor formatter(String string, Integer index)
 	{
-		return IReorderingProcessor.func_242239_a(string, this.getStyle());
+		return IReorderingProcessor.fromString(string, this.getStyle());
 	}
 	
 	@Override

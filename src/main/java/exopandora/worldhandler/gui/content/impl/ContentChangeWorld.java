@@ -45,7 +45,7 @@ public class ContentChangeWorld extends ContentChild
 			IConnection connection = ContentChangeWorld.disconnect();
 			DummyScreen dummy = new DummyScreen(() -> ContentChangeWorld.reconnect(connection));
 			
-			if(Minecraft.getInstance().gameSettings.field_230152_Z_)
+			if(Minecraft.getInstance().gameSettings.skipMultiplayerWarning)
 			{
 				Minecraft.getInstance().displayGuiScreen(new MultiplayerScreen(dummy));
 			}
@@ -65,9 +65,9 @@ public class ContentChangeWorld extends ContentChild
 		if(isIntegrated)
 		{
 			IntegratedServer integrated = Minecraft.getInstance().getIntegratedServer();
-			String folder = integrated.anvilConverterForAnvilFile.func_237282_a_();
-			DimensionGeneratorSettings dimensionGeneratorSettings = integrated.func_240793_aU_().getDimensionGeneratorSettings();
-			WorldSettings worldSettings = integrated.func_240793_aU_().func_230408_H_();
+			String folder = integrated.anvilConverterForAnvilFile.getSaveName();
+			DimensionGeneratorSettings dimensionGeneratorSettings = integrated.getServerConfiguration().getDimensionGeneratorSettings();
+			WorldSettings worldSettings = integrated.getServerConfiguration().getWorldSettings();
 			
 			Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
 			Minecraft.getInstance().unloadWorld(new DirtMessageScreen(new TranslationTextComponent("menu.savingLevel")));
@@ -99,7 +99,7 @@ public class ContentChangeWorld extends ContentChild
 		else if(connection instanceof IntegratedConnection)
 		{
 			IntegratedConnection integrated = (IntegratedConnection) connection;
-			Minecraft.getInstance().func_238192_a_(integrated.getFolder(), integrated.getWorldSettings(), DynamicRegistries.func_239770_b_(), integrated.getDimensionGeneratorSettings()); //launchIntegratedServer
+			Minecraft.getInstance().createWorld(integrated.getFolder(), integrated.getWorldSettings(), DynamicRegistries.func_239770_b_(), integrated.getDimensionGeneratorSettings());
 			Minecraft.getInstance().mouseHelper.grabMouse();
 		}
 		else if(connection instanceof DedicatedConnection)

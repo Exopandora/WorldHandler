@@ -90,7 +90,7 @@ public class WidgetNameField implements IContainerWidget
 		{
 			int width = font.getStringWidth(I18n.format("gui.worldhandler.generic.edit_username")) + 2;
 			this.nameField.setWidth(width);
-			this.nameField.setPosition(x - (font.func_238414_a_(container.getContent().getTitle()) + 2), y);
+			this.nameField.setPosition(x - (font.getStringPropertyWidth(container.getContent().getTitle()) + 2), y);
 		}
 		else
 		{

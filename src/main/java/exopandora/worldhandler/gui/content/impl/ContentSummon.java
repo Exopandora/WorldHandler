@@ -194,7 +194,7 @@ public class ContentSummon extends Content
 				@Override
 				public IFormattableTextComponent translate(Attribute item)
 				{
-					return new TranslationTextComponent(item.func_233754_c_());
+					return new TranslationTextComponent(item.getAttributeName());
 				}
 				
 				@Override

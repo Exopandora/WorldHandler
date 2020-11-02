@@ -23,7 +23,7 @@ public class TextUtils
 	
 	public static IFormattableTextComponent stripText(IFormattableTextComponent string, IFormattableTextComponent prefix, int maxWidth, FontRenderer fontRenderer)
 	{
-		if(fontRenderer.func_238414_a_(prefix) + fontRenderer.func_238414_a_(string) > (maxWidth - fontRenderer.func_238414_a_(prefix)))
+		if(fontRenderer.getStringPropertyWidth(prefix) + fontRenderer.getStringPropertyWidth(string) > (maxWidth - fontRenderer.getStringPropertyWidth(prefix)))
 		{
 			IFormattableTextComponent result = new StringTextComponent("").setStyle(string.getStyle()); 
 			
@@ -31,7 +31,7 @@ public class TextUtils
 			{
 				IFormattableTextComponent extension = new StringTextComponent(result.getString() + c + "...").setStyle(string.getStyle());
 				
-				if(fontRenderer.func_238414_a_(extension) < maxWidth)
+				if(fontRenderer.getStringPropertyWidth(extension) < maxWidth)
 				{
 					result = new StringTextComponent(result.getString() + c).setStyle(string.getStyle());
 				}
