@@ -116,12 +116,12 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 		return syntax;
 	}
 	
-	public BuilderScoreboardPlayers getBuilderForPoints(EnumMode mode)
+	public BuilderScoreboardPlayers buildPoints(EnumMode mode)
 	{
-		return this.getBuilderForPoints(mode, this.getPoints());
+		return this.buildPoints(mode, this.getPoints());
 	}
 	
-	public BuilderScoreboardPlayers getBuilderForPoints(EnumMode mode, int points)
+	public BuilderScoreboardPlayers buildPoints(EnumMode mode, int points)
 	{
 		BuilderScoreboardPlayers builder = new BuilderScoreboardPlayers();
 		
@@ -133,7 +133,7 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 		return builder;
 	}
 	
-	public BuilderScoreboardPlayers getBuilderForEnable()
+	public BuilderScoreboardPlayers buildEnable()
 	{
 		BuilderScoreboardPlayers builder = new BuilderScoreboardPlayers();
 		

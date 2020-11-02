@@ -228,25 +228,25 @@ public class ContentMultiplayer extends Content
 			container.add(this.playerField);
 			container.add(button6 = new GuiButtonBase(x + 118, y + 24, 44, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.add"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.ADD));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.ADD));
 			}));
 			container.add(button7 = new GuiButtonBase(x + 118 + 47, y + 24, 44, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.remove"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.REMOVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.REMOVE));
 			}));
 			
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.whitelist", new TranslationTextComponent("gui.worldhandler.generic.on")), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.ON));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.ON));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.whitelist", new TranslationTextComponent("gui.worldhandler.generic.off")), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.OFF));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.OFF));
 			}));
 			
 			container.add(new GuiButtonIcon(x + 232 - 20, y + 24, 20, 20, EnumIcon.RELOAD, new TranslationTextComponent("gui.worldhandler.multiplayer.whitelist.reload"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.getBuilder(EnumMode.RELOAD));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.RELOAD));
 			}));
 			
 			if(this.playerField.getText().isEmpty())

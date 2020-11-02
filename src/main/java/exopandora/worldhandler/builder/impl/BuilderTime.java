@@ -11,7 +11,7 @@ public class BuilderTime extends CommandBuilder
 {
 	public BuilderTime()
 	{
-		
+		super();
 	}
 	
 	public BuilderTime(EnumMode mode)

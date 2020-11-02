@@ -160,12 +160,12 @@ public class ContentScoreboardTeams extends ContentScoreboard
 			
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.join"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.getBuilderForMode(EnumMode.JOIN));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.build(EnumMode.JOIN));
 				container.initButtons();
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.leave"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.getBuilderForMode(EnumMode.LEAVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.build(EnumMode.LEAVE));
 				container.initButtons();
 			}));
 			
@@ -175,12 +175,12 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.remove"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.getBuilderForMode(EnumMode.REMOVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.build(EnumMode.REMOVE));
 				container.initButtons();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.empty"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.getBuilderForMode(EnumMode.EMPTY));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.build(EnumMode.EMPTY));
 				container.initButtons();
 			}));
 			

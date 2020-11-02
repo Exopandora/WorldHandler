@@ -150,17 +150,17 @@ public class BuilderPotionEffect extends CommandBuilder
 		this.setDuration(EffectNBT.toSeconds(this.seconds, this.minutes, this.hours));
 	}
 	
-	public BuilderGeneric getGiveCommand()
+	public BuilderGeneric buildGive()
 	{
 		return new BuilderGeneric(this.getCommandName(), EnumMode.GIVE.toString(), this.getPlayer(), this.getEffect().toString(), String.valueOf(this.getDuration()), String.valueOf(this.getAmplifier()), String.valueOf(this.getHideParticles()));
 	}
 	
-	public BuilderGeneric getRemoveCommand()
+	public BuilderGeneric buildRemove()
 	{
 		return new BuilderGeneric(this.getCommandName(), EnumMode.CLEAR.toString(), this.getPlayer(), this.getEffect().toString());
 	}
 	
-	public BuilderGeneric getClearCommand()
+	public BuilderGeneric buildClear()
 	{
 		return new BuilderGeneric(this.getCommandName(), EnumMode.CLEAR.toString(), this.getPlayer());
 	}

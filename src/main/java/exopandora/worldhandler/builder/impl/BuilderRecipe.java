@@ -64,7 +64,7 @@ public class BuilderRecipe extends CommandBuilder
 		return this.getNodeAsResourceLocation(2);
 	}
 	
-	public BuilderRecipe getBuilderForMode(EnumMode mode)
+	public BuilderRecipe build(EnumMode mode)
 	{
 		return new BuilderRecipe(mode, this.getPlayer(), this.getRecipe());
 	}

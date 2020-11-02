@@ -70,12 +70,12 @@ public class BuilderAdvancement extends CommandBuilder
 		return this.getNodeAsResourceLocation(3);
 	}
 	
-	public BuilderAdvancement getBuilderForAction(EnumActionType action)
+	public BuilderAdvancement build(EnumActionType action)
 	{
-		return this.getBuilder(action, this.getMode());
+		return this.build(action, this.getMode());
 	}
 	
-	public BuilderAdvancement getBuilder(EnumActionType action, EnumMode mode)
+	public BuilderAdvancement build(EnumActionType action, EnumMode mode)
 	{
 		return new BuilderAdvancement(action, this.getPlayer(), mode, !EnumMode.EVERYTHING.equals(mode) ? this.getAdvancement() : null);
 	}

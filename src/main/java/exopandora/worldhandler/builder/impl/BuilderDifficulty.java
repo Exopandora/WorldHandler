@@ -12,7 +12,7 @@ public class BuilderDifficulty extends CommandBuilder
 {
 	public BuilderDifficulty()
 	{
-		
+		super();
 	}
 	
 	public BuilderDifficulty(Difficulty difficulty)

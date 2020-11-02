@@ -228,7 +228,7 @@ public class ContentEditBlocks extends Content
 			container.add(this.block1Field);
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.fill"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderFill.getBuilderForFill());
+				CommandHelper.sendCommand(container.getPlayer(), this.builderFill.build());
 			}));
 			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS);
 		}
@@ -246,7 +246,7 @@ public class ContentEditBlocks extends Content
 			container.add(this.block2Field);
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.edit_blocks.replace"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderFill.getBuilderForReplace());
+				CommandHelper.sendCommand(container.getPlayer(), this.builderFill.buildReplace());
 			}));
 			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS) && ResourceHelper.isRegistered(this.builderFill.getBlock2(), ForgeRegistries.BLOCKS);
 		}

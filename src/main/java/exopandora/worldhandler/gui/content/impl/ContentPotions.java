@@ -120,12 +120,12 @@ public class ContentPotions extends ContentChild
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.remove"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion.getRemoveCommand());
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion.buildRemove());
 				container.init();
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.remove_all"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion.getClearCommand());
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion.buildClear());
 				container.init();
 			}));
 		}
@@ -174,31 +174,31 @@ public class ContentPotions extends ContentChild
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion.getGiveCommand());
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion.buildGive());
 				this.potionPage = 0;
 				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 24, 56, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.tipped_arrow"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.getBuilderForPotion(Items.TIPPED_ARROW));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.build(Items.TIPPED_ARROW));
 				this.potionPage = 0;
 				container.init();
 			}));
 			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.bottle"), new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.getBuilderForPotion(Items.POTION));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.build(Items.POTION));
 				this.potionPage = 0;
 				container.init();
 			}));
 			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.splash"), new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.getBuilderForPotion(Items.SPLASH_POTION));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.build(Items.SPLASH_POTION));
 				this.potionPage = 0;
 				container.init();
 			}));
 			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.lingering"), new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.getBuilderForPotion(Items.LINGERING_POTION));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPotionItem.build(Items.LINGERING_POTION));
 				this.potionPage = 0;
 				container.init();
 			}));

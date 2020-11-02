@@ -142,17 +142,17 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			})));
 			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.getBuilderForPoints(EnumMode.ADD));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.buildPoints(EnumMode.ADD));
 				container.init();
 			}));
 			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.remove"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.getBuilderForPoints(EnumMode.REMOVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.buildPoints(EnumMode.REMOVE));
 				container.init();
 			}));
 			container.add(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset"), new TranslationTextComponent("gui.worldhandler.actions.set_to_0"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.getBuilderForPoints(EnumMode.SET, 0));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.buildPoints(EnumMode.SET, 0));
 				container.init();
 			}));
 			
@@ -166,12 +166,12 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTag.getBuilderForMode(BuilderTag.EnumMode.ADD));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTag.build(BuilderTag.EnumMode.ADD));
 				container.init();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.remove"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTag.getBuilderForMode(BuilderTag.EnumMode.REMOVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTag.build(BuilderTag.EnumMode.REMOVE));
 				container.init();
 			}));
 			
@@ -188,17 +188,17 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			})));
 			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.ADD));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger.build(BuilderTrigger.EnumMode.ADD));
 				container.init();
 			}));
 			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, new TranslationTextComponent("gui.worldhandler.actions.set"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger.getBuilderForMode(BuilderTrigger.EnumMode.SET));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger.build(BuilderTrigger.EnumMode.SET));
 				container.init();
 			}));
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.enable"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.getBuilderForEnable());
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPlayers.buildEnable());
 				container.init();
 			}));
 			

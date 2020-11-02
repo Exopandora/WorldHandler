@@ -96,12 +96,12 @@ public class ContentRecipes extends Content
 		
 		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.recipes.give"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe.getBuilderForMode(EnumMode.GIVE));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe.build(EnumMode.GIVE));
 			container.initButtons();
 		}));
 		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.recipes.take"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe.getBuilderForMode(EnumMode.TAKE));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe.build(EnumMode.TAKE));
 			container.initButtons();
 		}));
 	}

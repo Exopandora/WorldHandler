@@ -16,7 +16,6 @@ public class BuilderSignEditor extends BuilderData
 	
 	public BuilderSignEditor()
 	{
-		super();
 		this.setMode(EnumMode.MERGE);
 		this.setTarget(EnumTarget.BLOCK);
 		

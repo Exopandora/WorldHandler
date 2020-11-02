@@ -71,7 +71,7 @@ public class BuilderTag extends CommandBuilder
 		return syntax;
 	}
 	
-	public BuilderTag getBuilderForMode(EnumMode mode)
+	public BuilderTag build(EnumMode mode)
 	{
 		return new BuilderTag(this.getPlayer(), mode, this.getName());
 	}

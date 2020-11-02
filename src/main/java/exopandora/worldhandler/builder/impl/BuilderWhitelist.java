@@ -50,7 +50,7 @@ public class BuilderWhitelist extends CommandBuilder
 	}
 	
 	@Nullable
-	public BuilderWhitelist getBuilder(EnumMode mode)
+	public BuilderWhitelist build(EnumMode mode)
 	{
 		switch(mode)
 		{

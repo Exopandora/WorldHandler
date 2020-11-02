@@ -172,7 +172,7 @@ public class BuilderTeams extends CommandBuilder
 		return null;
 	}
 	
-	public BuilderTeams getBuilderForMode(EnumMode mode)
+	public BuilderTeams build(EnumMode mode)
 	{
 		BuilderTeams builder = new BuilderTeams(); 
 		

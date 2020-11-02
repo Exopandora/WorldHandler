@@ -90,7 +90,7 @@ public class BuilderPotionItem extends BuilderGive
 		return this.potion.getEffects();
 	}
 	
-	public BuilderPotionItem getBuilderForPotion(Item item)
+	public BuilderPotionItem build(Item item)
 	{
 		return new BuilderPotionItem(item.getRegistryName(), this.getPlayer(), this.potion);
 	}

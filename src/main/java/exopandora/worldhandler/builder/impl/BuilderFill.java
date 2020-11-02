@@ -88,12 +88,12 @@ public class BuilderFill extends BuilderDoubleBlockPos
 		return EnumHelper.valueOf(this.getNodeAsString(7), EnumBlockFilter.class);
 	}
 	
-	public BuilderFill getBuilderForFill()
+	public BuilderFill build()
 	{
 		return new BuilderFill(this.getBlock1(), null, null);
 	}
 	
-	public BuilderFill getBuilderForReplace()
+	public BuilderFill buildReplace()
 	{
 		return new BuilderFill(this.getBlock2(), EnumBlockFilter.REPLACE, this.getBlock1());
 	}

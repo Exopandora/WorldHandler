@@ -124,15 +124,15 @@ public class ContentAdvancements extends Content
 		
 		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.advancements.grant"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement.getBuilderForAction(EnumActionType.GRANT));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement.build(EnumActionType.GRANT));
 		}));
 		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.advancements.revoke"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement.getBuilderForAction(EnumActionType.REVOKE));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement.build(EnumActionType.REVOKE));
 		}));
 		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset").mergeStyle(TextFormatting.RED), () ->
 		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderAdvancement.getBuilder(EnumActionType.REVOKE, EnumMode.EVERYTHING)).withParent(Contents.ADVANCEMENTS)));
+			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderAdvancement.build(EnumActionType.REVOKE, EnumMode.EVERYTHING)).withParent(Contents.ADVANCEMENTS)));
 		}));
 	}
 	

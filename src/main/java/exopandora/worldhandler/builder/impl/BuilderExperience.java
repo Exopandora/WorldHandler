@@ -88,17 +88,17 @@ public class BuilderExperience extends CommandBuilder
 		return syntax;
 	}
 	
-	public BuilderExperience getBuilderForAddLevels()
+	public BuilderExperience buildAdd()
 	{
 		return new BuilderExperience(EnumMode.ADD, this.getLevel(), this.getPlayer(), EnumUnit.LEVELS);
 	}
 	
-	public BuilderExperience getBuilderForRemoveLevels()
+	public BuilderExperience buildRemove()
 	{
 		return new BuilderExperience(EnumMode.ADD, -this.getLevel(), this.getPlayer(), EnumUnit.LEVELS);
 	}
 	
-	public BuilderExperience getBuilderForResetLevels()
+	public BuilderExperience buildReset()
 	{
 		return new BuilderExperience(EnumMode.SET, 0, this.getPlayer(), EnumUnit.LEVELS);
 	}

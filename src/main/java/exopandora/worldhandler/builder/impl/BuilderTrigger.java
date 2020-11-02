@@ -77,7 +77,7 @@ public class BuilderTrigger extends CommandBuilder
 		return syntax;
 	}
 	
-	public BuilderTrigger getBuilderForMode(EnumMode mode)
+	public BuilderTrigger build(EnumMode mode)
 	{
 		return new BuilderTrigger(this.getObjective(), mode, this.getValue());
 	}

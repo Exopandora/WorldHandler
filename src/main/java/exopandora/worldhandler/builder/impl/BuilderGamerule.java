@@ -11,7 +11,7 @@ public class BuilderGamerule extends CommandBuilder
 {
 	public BuilderGamerule()
 	{
-		
+		super();
 	}
 	
 	public BuilderGamerule(String rule, String value)
@@ -40,7 +40,7 @@ public class BuilderGamerule extends CommandBuilder
 		return this.getNodeAsString(1);
 	}
 	
-	public BuilderGamerule getBuilderForValue(String value)
+	public BuilderGamerule build(String value)
 	{
 		return new BuilderGamerule(this.getRule(), value);
 	}

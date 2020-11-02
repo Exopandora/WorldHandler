@@ -35,7 +35,7 @@ public class BuilderNoteEditor extends BuilderSetBlock
 		this.setState(BlockStateProperties.NOTE_0_24, note);
 	}
 	
-	public BuilderNoteEditor getBuilderForNote(int note)
+	public BuilderNoteEditor build(int note)
 	{
 		return new BuilderNoteEditor(note, this.getBlockPos());
 	}
