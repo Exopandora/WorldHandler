@@ -332,9 +332,9 @@ public class GuiWorldHandler extends Container
 			focused = ((Widget) this.getListener()).isFocused();
 		}
 		
-		if(!focused && KeyHandler.isPressed(KeyHandler.KEY_WORLD_HANDLER, keyCode))
+		if(!focused && KeyHandler.KEY_WORLD_HANDLER.matchesKey(keyCode, scanCode) && KeyHandler.KEY_WORLD_HANDLER.getKeyModifier().isActive(null))
 		{
-			this.onClose();
+			Minecraft.getInstance().displayGuiScreen(null);
 			return true;
 		}
 		
@@ -443,6 +443,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public void onClose()
 	{
+		System.out.println("onClose");
 		ActionHelper.tryRun(this.content::onGuiClosed);
 	}
 	

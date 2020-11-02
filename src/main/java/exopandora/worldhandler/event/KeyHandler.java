@@ -3,8 +3,6 @@ package exopandora.worldhandler.event;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.glfw.GLFW;
 
-import com.google.common.base.Objects;
-
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.util.ActionHelper;
@@ -14,7 +12,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
-import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
@@ -43,11 +40,6 @@ public class KeyHandler
 				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
 			}
 		}
-	}
-	
-	public static boolean isPressed(KeyBinding keyBinding, int keyCode)
-	{
-		return keyCode == keyBinding.getKey().getKeyCode() && (KeyModifier.NONE.equals(keyBinding.getKeyModifier()) || Objects.equal(KeyModifier.getActiveModifier(), keyBinding.getKeyModifier()));
 	}
 	
 	public static void updatePosKeys()
