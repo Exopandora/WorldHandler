@@ -72,8 +72,17 @@ public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 	@OnlyIn(Dist.CLIENT)
 	public static enum EnumType
 	{
+		/**
+		 * Prefix: <code>None</code>
+		 */
 		ABSOLUTE(""),
+		/**
+		 * Prefix: <code>"~"</code>
+		 */
 		GLOBAL("~"),
+		/**
+		 * Prefix: <code>"^"</code>
+		 */
 		LOCAL("^");
 		
 		private final String prefix;
