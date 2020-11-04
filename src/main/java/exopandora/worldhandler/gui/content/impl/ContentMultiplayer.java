@@ -2,7 +2,6 @@ package exopandora.worldhandler.gui.content.impl;
 
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.realmsclient.gui.RealmsServerSlotButton.Action;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGeneric;
@@ -14,7 +13,6 @@ import exopandora.worldhandler.builder.impl.BuilderWhitelist.EnumMode;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
@@ -24,7 +22,6 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
