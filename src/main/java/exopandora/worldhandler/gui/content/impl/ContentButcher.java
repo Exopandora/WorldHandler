@@ -13,7 +13,6 @@ import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
@@ -99,7 +98,7 @@ public class ContentButcher extends Content
 		container.add(this.radiusField);
 		container.add(new GuiButtonBase(x + 58, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.configure"), () ->
 		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.BUTCHER_SETTINGS.withParent(Contents.BUTCHER)));
+			ActionHelper.open(Contents.BUTCHER_SETTINGS);
 		}));
 		
 		boolean enabled = this.radius != null && !this.radius.isEmpty();
@@ -112,7 +111,7 @@ public class ContentButcher extends Content
 		
 		container.add(slaughter = new GuiButtonBase(x + 58, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets"), () ->
 		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.BUTCHER_PRESETS.withBuilder(this.builderButcher).withRadius(Integer.parseInt(this.radius)).withParent(Contents.BUTCHER)));
+			ActionHelper.open(Contents.BUTCHER_PRESETS.withBuilder(this.builderButcher).withRadius(Integer.parseInt(this.radius)));
 		}));
 		slaughter.active = enabled;
 	}

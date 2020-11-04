@@ -70,7 +70,7 @@ public class ContentContinue extends ContentChild
 		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, new TranslationTextComponent("gui.worldhandler.generic.yes").mergeStyle(TextFormatting.RED), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builder, this.special);
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(this.getParentContent()));
+			ActionHelper.open(this.getParentContent());
 		}));
 		container.add(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, new TranslationTextComponent("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
 	}

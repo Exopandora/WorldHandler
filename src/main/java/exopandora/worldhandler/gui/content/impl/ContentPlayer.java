@@ -135,19 +135,19 @@ public class ContentPlayer extends Content
 			
 			container.add(new GuiButtonBase(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_spawn").mergeStyle(TextFormatting.RED), () ->
 			{
-				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSpawnpoint).withParent(Contents.PLAYER)));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSpawnpoint));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").mergeStyle(TextFormatting.RED), () ->
 			{
-				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSetworldspawn).withParent(Contents.PLAYER)));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSetworldspawn));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.kill").mergeStyle(TextFormatting.RED), () ->
 			{
-				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderKill).withParent(Contents.PLAYER)));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderKill));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.clear_inventory").mergeStyle(TextFormatting.RED), () ->
 			{
-				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderClear).withParent(Contents.PLAYER)));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderClear));
 			}));
 		}
 	}

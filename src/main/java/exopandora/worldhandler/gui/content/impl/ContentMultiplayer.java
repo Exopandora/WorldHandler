@@ -2,6 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.realmsclient.gui.RealmsServerSlotButton.Action;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGeneric;
@@ -214,11 +215,11 @@ public class ContentMultiplayer extends Content
 			}));
 			container.add(new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime.autosave", new TranslationTextComponent("gui.worldhandler.generic.off")).mergeStyle(TextFormatting.RED), new StringTextComponent(this.builderSaveOff.toActualCommand()), () ->
 			{
-				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderSaveOff).withParent(Contents.MULTIPLAYER)));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSaveOff));
 			}));
 			container.add(new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.multiplayer.runtime.stop_server").mergeStyle(TextFormatting.RED), new StringTextComponent(this.builderStop.toActualCommand()), () ->
 			{
-				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderStop).withParent(Contents.MULTIPLAYER)));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderStop));
 			}));
 			
 			button4.active = false;

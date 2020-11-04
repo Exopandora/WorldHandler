@@ -42,7 +42,7 @@ public class ActionHelper
 	{
 		if(content.getBackContent() != null)
 		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(content.getBackContent()));
+			ActionHelper.open(content.getBackContent());
 		}
 	}
 	
@@ -181,15 +181,15 @@ public class ActionHelper
 			{
 				if(BlockHelper.getFocusedBlock() instanceof AbstractSignBlock)
 				{
-					Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.SIGN_EDITOR));
+					ActionHelper.open(Contents.SIGN_EDITOR);
 				}
 				else if(BlockHelper.getFocusedBlock() instanceof NoteBlock)
 				{
-					Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.NOTE_EDITOR));
+					ActionHelper.open(Contents.NOTE_EDITOR);
 				}
 				else
 				{
-					Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.MAIN));
+					ActionHelper.open(Contents.MAIN);
 				}
 			});
 		}

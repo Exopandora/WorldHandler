@@ -5,7 +5,6 @@ import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
@@ -35,57 +34,27 @@ public class ContentMain extends Content
 		container.add(new GuiButtonIcon(x + 26 * 5 + 2, y, 23, 20, EnumIcon.DIFFICULTY_EASY, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty.easy")), ActionHelper::difficultyEasy));
 		container.add(new GuiButtonIcon(x + 26 * 6 + 2, y, 22, 20, EnumIcon.DIFFICULTY_NORMAL, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty.normal")), ActionHelper::difficultyNormal));
 		container.add(new GuiButtonIcon(x + 26 * 7 + 2, y, 22, 20, EnumIcon.DIFFICULTY_HARD, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.difficulty.hard")), ActionHelper::difficultyHard));
-		container.add(new GuiButtonIcon(x + 26 * 8 + 2, y, 22, 20, EnumIcon.SETTINGS, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.settings"), () ->
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.SETTINGS.withParent(Contents.MAIN)));
-		}));
+		container.add(new GuiButtonIcon(x + 26 * 8 + 2, y, 22, 20, EnumIcon.SETTINGS, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.settings"), () -> ActionHelper.open(Contents.SETTINGS)));
 		
 		container.add(new GuiButtonIcon(x, y + 24, 22, 20, EnumIcon.WEATHER_SUN, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather.clear")), ActionHelper::weatherClear));
 		container.add(new GuiButtonIcon(x + 26, y + 24, 22, 20, EnumIcon.WEATHER_RAIN, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather.rainy")), ActionHelper::weatherRain));
 		container.add(new GuiButtonIcon(x + 26 * 2, y + 24, 22, 20, EnumIcon.WEATHER_STORM, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.weather.thunder")), ActionHelper::weatherThunder));
-		container.add(new GuiButtonIcon(x + 26 * 3, y + 24, 23, 20, EnumIcon.POTION, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.potions"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.POTIONS.withParent(Contents.MAIN)));
-		}));
-		container.add(new GuiButtonIcon(x + 26 * 4, y + 24, 24, 20, EnumIcon.COMMAND_STACK, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.command_stack"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.COMMAND_STACK.withParent(Contents.MAIN)));
-		}));
+		container.add(new GuiButtonIcon(x + 26 * 3, y + 24, 23, 20, EnumIcon.POTION, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.potions"), () -> ActionHelper.open(Contents.POTIONS)));
+		container.add(new GuiButtonIcon(x + 26 * 4, y + 24, 24, 20, EnumIcon.COMMAND_STACK, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.command_stack"), () -> ActionHelper.open(Contents.COMMAND_STACK)));
 		container.add(new GuiButtonIcon(x + 26 * 5 + 2, y + 24, 23, 20, EnumIcon.GAMEMODE_SURVIVAL, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode.survival")), ActionHelper::gamemodeSurvival));
 		container.add(new GuiButtonIcon(x + 26 * 6 + 2, y + 24, 22, 20, EnumIcon.GAMEMODE_CREATIVE, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode.creative")), ActionHelper::gamemodeCreative));
 		container.add(new GuiButtonIcon(x + 26 * 7 + 2, y + 24, 22, 20, EnumIcon.GAMEMODE_ADVENTURE, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode.adventure")), ActionHelper::gamemodeAdventure));
 		container.add(new GuiButtonIcon(x + 26 * 8 + 2, y + 24, 22, 20, EnumIcon.GAMEMODE_SPECTATOR, new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.gamemode.spectator")), ActionHelper::gamemodeSpectator));		
 		
-		container.add(new GuiButtonBase(x, y + 48, 74, 20, new TranslationTextComponent("gui.worldhandler.items"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CUSTOM_ITEM));
-		}));
-		container.add(new GuiButtonBase(x + 78, y + 48, 76, 20, new TranslationTextComponent("gui.worldhandler.blocks"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.EDIT_BLOCKS));
-		}));
-		container.add(new GuiButtonBase(x + 158, y + 48, 74, 20, new TranslationTextComponent("gui.worldhandler.entities"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.SUMMON));
-		}));
+		container.add(new GuiButtonBase(x, y + 48, 74, 20, new TranslationTextComponent("gui.worldhandler.items"), () -> ActionHelper.open(Contents.CUSTOM_ITEM)));
+		container.add(new GuiButtonBase(x + 78, y + 48, 76, 20, new TranslationTextComponent("gui.worldhandler.blocks"), () -> ActionHelper.open(Contents.EDIT_BLOCKS)));
+		container.add(new GuiButtonBase(x + 158, y + 48, 74, 20, new TranslationTextComponent("gui.worldhandler.entities"), () -> ActionHelper.open(Contents.SUMMON)));
 		
-		container.add(new GuiButtonBase(x, y + 72, 74, 20, new TranslationTextComponent("gui.worldhandler.world"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.WORLD_INFO));
-		}));
-		container.add(new GuiButtonBase(x + 78, y + 72, 76, 20, new TranslationTextComponent("gui.worldhandler.player"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.PLAYER));
-		}));
-		container.add(new GuiButtonBase(x + 158, y + 72, 74, 20, new TranslationTextComponent("gui.worldhandler.scoreboard"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.SCOREBOARD_OBJECTIVES));
-		}));
+		container.add(new GuiButtonBase(x, y + 72, 74, 20, new TranslationTextComponent("gui.worldhandler.world"), () -> ActionHelper.open(Contents.WORLD_INFO)));
+		container.add(new GuiButtonBase(x + 78, y + 72, 76, 20, new TranslationTextComponent("gui.worldhandler.player"), () -> ActionHelper.open(Contents.PLAYER)));
+		container.add(new GuiButtonBase(x + 158, y + 72, 74, 20, new TranslationTextComponent("gui.worldhandler.scoreboard"), () -> ActionHelper.open(Contents.SCOREBOARD_OBJECTIVES)));
 		
-		container.add(new GuiButtonBase(x, y + 96, 74, 20, new TranslationTextComponent("gui.worldhandler.change_world"), () -> 
-		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CHANGE_WORLD.withParent(Contents.MAIN)));
-		}));
+		container.add(new GuiButtonBase(x, y + 96, 74, 20, new TranslationTextComponent("gui.worldhandler.change_world"), () -> ActionHelper.open(Contents.CHANGE_WORLD)));
 		container.add(new GuiButtonBase(x + 78, y + 96, 76, 20, new TranslationTextComponent("gui.worldhandler.resourcepack"), () -> 
 		{
 			Minecraft.getInstance().gameSettings.saveOptions();

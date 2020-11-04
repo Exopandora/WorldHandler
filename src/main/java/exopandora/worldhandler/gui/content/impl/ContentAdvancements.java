@@ -11,7 +11,6 @@ import exopandora.worldhandler.builder.impl.BuilderAdvancement.EnumMode;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
@@ -25,7 +24,6 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.AdvancementHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.advancements.Advancement;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -132,7 +130,7 @@ public class ContentAdvancements extends Content
 		}));
 		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset").mergeStyle(TextFormatting.RED), () ->
 		{
-			Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(Contents.CONTINUE.withBuilder(this.builderAdvancement.build(EnumActionType.REVOKE, EnumMode.EVERYTHING)).withParent(Contents.ADVANCEMENTS)));
+			ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderAdvancement.build(EnumActionType.REVOKE, EnumMode.EVERYTHING)));
 		}));
 	}
 	
