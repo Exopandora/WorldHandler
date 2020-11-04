@@ -443,7 +443,6 @@ public class GuiWorldHandler extends Container
 	@Override
 	public void onClose()
 	{
-		System.out.println("onClose");
 		ActionHelper.tryRun(this.content::onGuiClosed);
 	}
 	
