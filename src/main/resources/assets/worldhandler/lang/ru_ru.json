@@ -198,7 +198,6 @@
 	"gui.worldhandler.blocks.sign_editor.text_line_3": "Текстовая строка III",
 	"gui.worldhandler.blocks.sign_editor.text_line_4": "Текстовая строка IV",
 	"gui.worldhandler.blocks.sign_editor.commmand": "Команда",
-	"gui.worldhandler.blocks.sign_editor.done": "Готово",
 	"gui.worldhandler.blocks.sign_editor.format_text_line": "Формат текстовой строки",
 
 	"gui.worldhandler.blocks.note_block_editor.look_at_note_block": "Посмотрите на заметки блоков и нажмите '%s'",
@@ -325,7 +324,7 @@
 
 	"gui.worldhandler.entities.summon.start.mob_id": "ID моба",
 	"gui.worldhandler.entities.summon.start.custom_name": "Пользовательское имя",
-	"gui.worldhandler.entities.summon.start.passenger_mob_id": "ID пассажирского моба",
+	"gui.worldhandler.entities.summon.start.custom_nbt": "Custom NBT",
 
 	"gui.worldhandler.potion.time.hours": "Часов",
 	"gui.worldhandler.potion.time.minutes": "Минут",
@@ -366,10 +365,10 @@
 	"gui.worldhandler.generic.yes": "Да",
 	"gui.worldhandler.generic.no": "Нет",
 	"gui.worldhandler.generic.value": "Значение",
-	"gui.worldhandler.generic.name": "Имя",
 	"gui.worldhandler.generic.enable": "Включить",
 	"gui.worldhandler.generic.disable": "Выключить",
 	"gui.worldhandler.generic.edit_username": "Изменить имя пользователя",
+	"gui.worldhandler.generic.done": "Готово",
 
 	"gui.worldhandler.actions.add": "Добавить",
 	"gui.worldhandler.actions.remove": "Удалить",

@@ -17,7 +17,9 @@ import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
+import exopandora.worldhandler.gui.menu.impl.ILogicColorMenu;
 import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
+import exopandora.worldhandler.gui.menu.impl.MenuColorField;
 import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
@@ -51,16 +53,14 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ContentSummon extends Content
 {
 	private GuiTextFieldTooltip mobField;
-	private GuiTextFieldTooltip customNameField;
-	private GuiTextFieldTooltip passengerField;
+	private GuiTextFieldTooltip nbtField;
 	
 	private int potionPage = 0;
+	private boolean editColor;
 	
 	private Page page = Page.START;
-	
 	private String mob;
-	private String name;
-	private String passenger;
+	private String nbt;
 	
 	private final BuilderSummon builderSummon = new BuilderSummon();
 	
@@ -157,7 +157,7 @@ public class ContentSummon extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new StringTextComponent(I18n.format("gui.worldhandler.entities.summon.start.mob_id") + " (" + I18n.format("gui.worldhandler.generic.name") + ")"));
+		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.mob_id"));
 		this.mobField.setValidator(Predicates.notNull());
 		this.mobField.setText(this.mob);
 		this.mobField.setResponder(text ->
@@ -167,27 +167,42 @@ public class ContentSummon extends Content
 			container.initButtons();
 		});
 		
-		this.customNameField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.custom_name"));
-		this.customNameField.setValidator(Predicates.notNull());
-		this.customNameField.setText(this.name);
-		this.customNameField.setResponder(text ->
+		this.nbtField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.custom_nbt"));
+		this.nbtField.setValidator(Predicates.notNull());
+		this.nbtField.setText(this.nbt);
+		this.nbtField.setResponder(text ->
 		{
-			this.name = text;
-			this.builderSummon.setCustomName(this.name);
+			this.nbt = text;
+			this.builderSummon.setEntityNBT(this.nbt);
 			container.initButtons();
 		});
 		
-		this.passengerField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.passenger_mob_id"));
-		this.passengerField.setValidator(Predicates.notNull());
-		this.passengerField.setText(this.passenger);
-		this.passengerField.setResponder(text ->
+		if(Page.START.equals(this.page))
 		{
-			this.passenger = this.passengerField.getText();
-			this.builderSummon.setPassenger(0, this.passenger);
-			container.initButtons();
-		});
-		
-		if(Page.ATTRIBUTES.equals(this.page))
+			MenuColorField customName = new MenuColorField(x, y, "gui.worldhandler.entities.summon.start.custom_name", this.builderSummon.getCustomName(), new ILogicColorMenu()
+			{
+				@Override
+				public boolean doDrawButtons()
+				{
+					return ContentSummon.this.editColor;
+				}
+				
+				@Override
+				public boolean doDrawTextField()
+				{
+					return ContentSummon.this.editColor;
+				}
+				
+				@Override
+				public String getId()
+				{
+					return "custom_name";
+				}
+			});
+			
+			container.add(customName);
+		}
+		else if(Page.ATTRIBUTES.equals(this.page))
 		{
 			MenuPageList<Attribute> attributes = new MenuPageList<Attribute>(x + 118, y, ComponentAttribute.ATTRIBUTES, 114, 20, 3, container, new ILogicPageList<Attribute>()
 			{
@@ -246,48 +261,39 @@ public class ContentSummon extends Content
 		GuiButtonBase button6;
 		GuiButtonBase button7;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, "gui.worldhandler.generic.back", () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, "gui.worldhandler.generic.backToGame", ActionHelper::backToGame));
 		
-		container.add(button4 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start"), () ->
-		{
-			this.page = Page.START;
-			container.init();
-		}));
-		container.add(button5 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.potion_effects"), () ->
-		{
-			this.page = Page.POTIONS;
-			container.init();
-		}));
-		container.add(button6 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.attributes"), () ->
-		{
-			this.page = Page.ATTRIBUTES;
-			container.init();
-		}));
-		container.add(button7 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.equipment"), () ->
-		{
-			this.page = Page.EQUIPMENT;
-			container.init();
-		}));
+		container.add(button4 = new GuiButtonBase(x, y, 114, 20, "gui.worldhandler.entities.summon.start", () -> this.changePage(container, Page.START)));
+		container.add(button5 = new GuiButtonBase(x, y + 24, 114, 20, "gui.worldhandler.entities.summon.potion_effects", () -> this.changePage(container, Page.POTIONS)));
+		container.add(button6 = new GuiButtonBase(x, y + 48, 114, 20, "gui.worldhandler.entities.summon.attributes", () -> this.changePage(container, Page.ATTRIBUTES)));
+		container.add(button7 = new GuiButtonBase(x, y + 72, 114, 20, "gui.worldhandler.entities.summon.equipment", () -> this.changePage(container, Page.EQUIPMENT)));
 		
 		if(Page.START.equals(this.page))
 		{
 			button4.active = false;
 			
-			container.add(this.mobField);
-			container.add(this.customNameField);
-			container.add(this.passengerField);
-			
-			if(!this.builderSummon.needsCommandBlock() && !this.builderSummon.getCustomName().isSpecial())
+			if(this.editColor)
 			{
-				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.title.entities.summon"), () -> this.send(container.getPlayer())));
+				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.generic.done", () -> this.toggleEditColor(container)));
 			}
 			else
 			{
-				container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.place_command_block"), () -> this.send(container.getPlayer())));
+				container.add(this.mobField);
+				container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, "gui.worldhandler.entities.summon.start.custom_name", () -> this.toggleEditColor(container)));
+				container.add(this.nbtField);
+				
+				if(!this.builderSummon.needsCommandBlock() && !this.builderSummon.getCustomName().isSpecial())
+				{
+					container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.title.entities.summon", () -> this.send(container.getPlayer())));
+				}
+				else
+				{
+					container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.actions.place_command_block", () -> this.send(container.getPlayer())));
+				}
+				
+				button3.active = ForgeRegistries.ENTITIES.containsKey(this.builderSummon.getEntity());
 			}
-			
-			button3.active = ForgeRegistries.ENTITIES.containsKey(this.builderSummon.getEntity());
 		}
 		else if(Page.POTIONS.equals(this.page))
 		{
@@ -306,7 +312,7 @@ public class ContentSummon extends Content
 			
 			int count = 0;
 			
-			for(ResourceLocation location : this.getSortedPotionList())
+			for(ResourceLocation location : this.sortedPotions())
 			{
 				Effect potion = ForgeRegistries.POTIONS.getValue(location);
 				
@@ -402,9 +408,11 @@ public class ContentSummon extends Content
 	{
 		if(Page.START.equals(this.page))
 		{
-			this.mobField.tick();
-			this.customNameField.tick();
-			this.passengerField.tick();
+			if(!this.editColor)
+			{
+				this.mobField.tick();
+				this.nbtField.tick();
+			}
 		}
 	}
 	
@@ -413,9 +421,11 @@ public class ContentSummon extends Content
 	{
 		if(Page.START.equals(this.page))
 		{
-			this.mobField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.customNameField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.passengerField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			if(!this.editColor)
+			{
+				this.mobField.renderButton(matrix, mouseX, mouseY, partialTicks);
+				this.nbtField.renderButton(matrix, mouseX, mouseY, partialTicks);
+			}
 		}
 		else if(Page.POTIONS.equals(this.page))
 		{
@@ -445,11 +455,23 @@ public class ContentSummon extends Content
 		}
 	}
 	
-	private List<ResourceLocation> getSortedPotionList()
+	private List<ResourceLocation> sortedPotions()
 	{
 		return ForgeRegistries.POTIONS.getKeys().stream()
 				.sorted((a, b) -> I18n.format(ForgeRegistries.POTIONS.getValue(a).getName()).compareTo(I18n.format(ForgeRegistries.POTIONS.getValue(b).getName())))
 				.collect(Collectors.toList());
+	}
+	
+	private void toggleEditColor(Container container)
+	{
+		this.editColor = !this.editColor;
+		container.init();
+	}
+	
+	private void changePage(Container container, Page page)
+	{
+		this.page = page;
+		container.init();
 	}
 	
 	@Override

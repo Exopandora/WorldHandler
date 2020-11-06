@@ -198,7 +198,6 @@
 	"gui.worldhandler.blocks.sign_editor.text_line_3": "Text Line III",
 	"gui.worldhandler.blocks.sign_editor.text_line_4": "Text Line IV",
 	"gui.worldhandler.blocks.sign_editor.commmand": "Command",
-	"gui.worldhandler.blocks.sign_editor.done": "Done",
 	"gui.worldhandler.blocks.sign_editor.format_text_line": "Format Text Line",
 
 	"gui.worldhandler.blocks.note_block_editor.look_at_note_block": "Look at a Note Block and press '%s'",
@@ -323,9 +322,9 @@
 	"gui.worldhandler.entities.summon.attributes": "Attributes",
 	"gui.worldhandler.entities.summon.equipment": "Equipment",
 
-	"gui.worldhandler.entities.summon.start.mob_id": "Mob ID",
+	"gui.worldhandler.entities.summon.start.mob_id": "Mob ID or Name",
 	"gui.worldhandler.entities.summon.start.custom_name": "Custom Name",
-	"gui.worldhandler.entities.summon.start.passenger_mob_id": "Passenger Mob ID",
+	"gui.worldhandler.entities.summon.start.custom_nbt": "Custom NBT",
 
 	"gui.worldhandler.potion.time.hours": "Hours",
 	"gui.worldhandler.potion.time.minutes": "Minutes",
@@ -366,10 +365,10 @@
 	"gui.worldhandler.generic.yes": "Yes",
 	"gui.worldhandler.generic.no": "No",
 	"gui.worldhandler.generic.value": "Value",
-	"gui.worldhandler.generic.name": "Name",
 	"gui.worldhandler.generic.enable": "Enable",
 	"gui.worldhandler.generic.disable": "Disable",
 	"gui.worldhandler.generic.edit_username": "Edit Username",
+	"gui.worldhandler.generic.done": "Done",
 
 	"gui.worldhandler.actions.add": "Add",
 	"gui.worldhandler.actions.remove": "Remove",

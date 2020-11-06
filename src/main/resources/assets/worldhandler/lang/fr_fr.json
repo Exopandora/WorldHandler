@@ -198,7 +198,6 @@
 	"gui.worldhandler.blocks.sign_editor.text_line_3": "Ligne de texte III",
 	"gui.worldhandler.blocks.sign_editor.text_line_4": "Ligne de texte IV",
 	"gui.worldhandler.blocks.sign_editor.commmand": "Commande",
-	"gui.worldhandler.blocks.sign_editor.done": "Terminé",
 	"gui.worldhandler.blocks.sign_editor.format_text_line": "Format ligne de texte",
 
 	"gui.worldhandler.blocks.note_block_editor.look_at_note_block": "Regardez un bloc musical et appuyez sur '%s'",
@@ -326,7 +325,7 @@
 
 	"gui.worldhandler.entities.summon.start.mob_id": "ID de créature",
 	"gui.worldhandler.entities.summon.start.custom_name": "Nom personnalisé",
-	"gui.worldhandler.entities.summon.start.passenger_mob_id": "ID créature passager",
+	"gui.worldhandler.entities.summon.start.custom_nbt": "Custom NBT",
 
 	"gui.worldhandler.potion.time.hours": "Heures ",
 	"gui.worldhandler.potion.time.minutes": "Minutes ",
@@ -367,10 +366,10 @@
 	"gui.worldhandler.generic.yes": "Oui",
 	"gui.worldhandler.generic.no": "Non",
 	"gui.worldhandler.generic.value": "Valeur",
-	"gui.worldhandler.generic.name": "Nom",
 	"gui.worldhandler.generic.enable": "Activer",
 	"gui.worldhandler.generic.disable": "Désactiver",
 	"gui.worldhandler.generic.edit_username": "Modifier le nom d'utilisateur",
+	"gui.worldhandler.generic.done": "Terminé",
 
 	"gui.worldhandler.actions.add": "Ajouter",
 	"gui.worldhandler.actions.remove": "Supprimer",

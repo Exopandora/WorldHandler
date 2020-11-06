@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.util.MutableStringTextComponent;
 import exopandora.worldhandler.util.NBTHelper;
@@ -21,6 +23,7 @@ import net.minecraft.nbt.ByteNBT;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.IntNBT;
+import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
@@ -43,6 +46,7 @@ public class EntityNBT implements IBuilderComponent
 	private ResourceLocation[] armorItems = {Items.AIR.getRegistryName(), Items.AIR.getRegistryName(), Items.AIR.getRegistryName(), Items.AIR.getRegistryName()};
 	private ResourceLocation[] handItems = {Items.AIR.getRegistryName(), Items.AIR.getRegistryName()};
 	private ComponentPotionMob potion = new ComponentPotionMob();
+	private CompoundNBT nbt;
 	
 	public EntityNBT()
 	{
@@ -300,7 +304,7 @@ public class EntityNBT implements IBuilderComponent
 	{
 		return this.potion.getAmplifier(potion);
 	}
-
+	
 	public int getSeconds(Effect potion)
 	{
 		return this.potion.getSeconds(potion);
@@ -381,6 +385,28 @@ public class EntityNBT implements IBuilderComponent
 		return this.command;
 	}
 	
+	public void setNBT(CompoundNBT nbt)
+	{
+		this.nbt = nbt;
+	}
+	
+	public CompoundNBT getNBT()
+	{
+		return this.nbt;
+	}
+	
+	public void setNBT(String nbt)
+	{
+		try
+		{
+			this.nbt = JsonToNBT.getTagFromJson("{" + nbt + "}");
+		}
+		catch(CommandSyntaxException e)
+		{
+			this.nbt = null;
+		}
+	}
+	
 	@Override
 	public CompoundNBT serialize()
 	{
@@ -413,6 +439,11 @@ public class EntityNBT implements IBuilderComponent
 		NBTHelper.append(nbt, this.entity);
 		NBTHelper.append(nbt, this.potion);
 		NBTHelper.append(nbt, this.attribute);
+		
+		if(this.nbt != null)
+		{
+			nbt.merge(this.nbt);
+		}
 		
 		if(nbt.isEmpty())
 		{

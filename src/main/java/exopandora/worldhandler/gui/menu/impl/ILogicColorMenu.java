@@ -17,6 +17,11 @@ public interface ILogicColorMenu extends ILogic
 		return true;
 	}
 	
+	default boolean doDrawTextField()
+	{
+		return true;
+	}
+	
 	@Override
 	default String getId()
 	{

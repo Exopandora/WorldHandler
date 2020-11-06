@@ -132,7 +132,7 @@ public class ContentSignEditor extends Content
 			
 			if(this.editColor)
 			{
-				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.done"), () -> this.toggleEditColor(container)));
+				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.done"), () -> this.toggleEditColor(container)));
 			}
 			else
 			{

@@ -79,7 +79,10 @@ public class MenuColorField extends Menu
 	@Override
 	public void initButtons(Container container)
 	{
-		container.add(this.textField);
+		if(this.logic.doDrawTextField())
+		{
+			container.add(this.textField);
+		}
 		
 		if(this.logic.doDrawButtons())
 		{
@@ -147,12 +150,18 @@ public class MenuColorField extends Menu
 	@Override
 	public void tick()
 	{
-		this.textField.tick();
+		if(this.logic.doDrawTextField())
+		{
+			this.textField.tick();
+		}
 	}
 	
 	@Override
 	public void draw(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		this.textField.renderButton(matrix, mouseX, mouseY, partialTicks);
+		if(this.logic.doDrawTextField())
+		{
+			this.textField.renderButton(matrix, mouseX, mouseY, partialTicks);
+		}
 	}
 }

@@ -198,7 +198,6 @@
 	"gui.worldhandler.blocks.sign_editor.text_line_3": "Textzeile III",
 	"gui.worldhandler.blocks.sign_editor.text_line_4": "Textzeile IV",
 	"gui.worldhandler.blocks.sign_editor.commmand": "Befehl",
-	"gui.worldhandler.blocks.sign_editor.done": "Fertig",
 	"gui.worldhandler.blocks.sign_editor.format_text_line": "Textzeile formatieren",
 
 	"gui.worldhandler.blocks.note_block_editor.look_at_note_block": "Gucke auf einen Notenblock und drücke '%s'",
@@ -323,9 +322,9 @@
 	"gui.worldhandler.entities.summon.attributes": "Attribute",
 	"gui.worldhandler.entities.summon.equipment": "Ausrüstung",
 
-	"gui.worldhandler.entities.summon.start.mob_id": "Tier ID",
-	"gui.worldhandler.entities.summon.start.custom_name": "Eigener Name",
-	"gui.worldhandler.entities.summon.start.passenger_mob_id": "Passagier Tier ID",
+	"gui.worldhandler.entities.summon.start.mob_id": "Name oder ID des Wesens",
+	"gui.worldhandler.entities.summon.start.custom_name": "Name des Wesens",
+	"gui.worldhandler.entities.summon.start.custom_nbt": "NBT des Wesens",
 
 	"gui.worldhandler.potion.time.hours": "Stunden",
 	"gui.worldhandler.potion.time.minutes": "Minuten",
@@ -366,10 +365,10 @@
 	"gui.worldhandler.generic.yes": "Ja",
 	"gui.worldhandler.generic.no": "Nein",
 	"gui.worldhandler.generic.value": "Wert",
-	"gui.worldhandler.generic.name": "Name",
 	"gui.worldhandler.generic.enable": "Ein",
 	"gui.worldhandler.generic.disable": "Aus",
 	"gui.worldhandler.generic.edit_username": "Benutzername",
+	"gui.worldhandler.generic.done": "Fertig",
 
 	"gui.worldhandler.actions.add": "Hinzufügen",
 	"gui.worldhandler.actions.remove": "Entfernen",
