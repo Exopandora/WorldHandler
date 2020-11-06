@@ -12,12 +12,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiButtonBase extends Button
 {
+	public GuiButtonBase(int x, int y, int widthIn, int heightIn, String translationKey, ActionHandler actionHandler)
+	{
+		this(x, y, widthIn, heightIn, new TranslationTextComponent(translationKey), actionHandler);
+	}
+	
 	public GuiButtonBase(int x, int y, int widthIn, int heightIn, ITextComponent buttonText, ActionHandler actionHandler)
 	{
 		super(x, y, widthIn, heightIn, buttonText, button -> ActionHelper.tryRun(actionHandler));
