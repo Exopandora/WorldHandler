@@ -398,8 +398,14 @@
 	"gui.worldhandler.color.red": "Rot",
 	"gui.worldhandler.color.light_purple": "Pink",
 	"gui.worldhandler.color.yellow": "Gelb",
-	"gui.worldhandler.color.white": "Weiss",
-	"gui.worldhandler.color.reset": "Normal",
+	"gui.worldhandler.color.white": "Weiß",
+	"gui.worldhandler.color.reset": "Standard",
+
+	"key.categories.worldhandler": "World Handler",
+
+	"key.worldhandler": "World Handler öffnen",
+	"key.worldhandler.pos1": "Position 1 setzen",
+	"key.worldhandler.pos2": "Position 2 setzen",
 
 	"worldhandler.permission.refused": "Du hast nicht die benötigte Berechtigung, um den World Handler zu benutzen",
 	"worldhandler.permission.refused.change": "Ändere \"%s\" um diese Nachricht zu umgehen",

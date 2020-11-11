@@ -401,6 +401,12 @@
 	"gui.worldhandler.color.white": "White",
 	"gui.worldhandler.color.reset": "Default",
 
+	"key.categories.worldhandler": "World Handler",
+
+	"key.worldhandler": "Open World Handler",
+	"key.worldhandler.pos1": "Set Position 1",
+	"key.worldhandler.pos2": "Set Position 2",
+
 	"worldhandler.permission.refused": "You do not have permission to use the World Handler",
 	"worldhandler.permission.refused.change": "Change \"%s\" to disable this message",
 

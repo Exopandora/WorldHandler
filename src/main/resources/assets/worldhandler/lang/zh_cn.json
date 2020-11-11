@@ -402,6 +402,12 @@
 	"gui.worldhandler.color.white": "白色",
 	"gui.worldhandler.color.reset": "默认",
 
+	"key.categories.worldhandler": "World Handler",
+
+	"key.worldhandler": "Open World Handler",
+	"key.worldhandler.pos1": "Set Position 1",
+	"key.worldhandler.pos2": "Set Position 2",
+
 	"worldhandler.permission.refused": "您没有权限使用 World Handler",
 	"worldhandler.permission.refused.change": "更改 \"%s\" 来停止显示这条信息",
 
