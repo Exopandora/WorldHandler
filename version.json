@@ -2,12 +2,12 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.16.4-latest": "2.11.1",
-		"1.16.4-recommended": "2.11.1",
-		"1.16.3-latest": "2.11.1",
-		"1.16.3-recommended": "2.11.1",
-		"1.16.2-latest": "2.11.1",
-		"1.16.2-recommended": "2.11.1",
+		"1.16.4-latest": "2.12",
+		"1.16.4-recommended": "2.12",
+		"1.16.3-latest": "2.12",
+		"1.16.3-recommended": "2.12",
+		"1.16.2-latest": "2.12",
+		"1.16.2-recommended": "2.12",
 		"1.16.1-latest": "2.11.1",
 		"1.16.1-recommended": "2.11.1",
 		"1.15.2-latest": "2.9.1",
@@ -65,14 +65,17 @@
 	},
 	"1.16.4":
 	{
+		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
 		"2.11.1": "- Added 1.16.2, 1.16.3 and 1.16.4 compatibility"
 	},
 	"1.16.3":
 	{
+		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
 		"2.11.1": "- Added 1.16.2, 1.16.3 and 1.16.4 compatibility"
 	},
 	"1.16.2":
 	{
+		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
 		"2.11.1": "- Added 1.16.2, 1.16.3 and 1.16.4 compatibility"
 	},
 	"1.16.1":
