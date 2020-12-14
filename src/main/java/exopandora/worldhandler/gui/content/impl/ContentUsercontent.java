@@ -25,15 +25,15 @@ import exopandora.worldhandler.usercontent.UsercontentConfig;
 import exopandora.worldhandler.usercontent.VisibleActiveObject;
 import exopandora.worldhandler.usercontent.VisibleObject;
 import exopandora.worldhandler.usercontent.factory.ActionHandlerFactory;
-import exopandora.worldhandler.usercontent.factory.ButtonFactory;
+import exopandora.worldhandler.usercontent.factory.WidgetFactory;
 import exopandora.worldhandler.usercontent.factory.MenuFactory;
-import exopandora.worldhandler.usercontent.model.JsonButton;
+import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonCommand;
 import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonModel;
-import exopandora.worldhandler.usercontent.model.JsonText;
+import exopandora.worldhandler.usercontent.model.JsonLabel;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
-import exopandora.worldhandler.usercontent.model.JsonWidget;
+import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -57,7 +57,7 @@ public class ContentUsercontent extends Content
 	private final Map<String, VisibleActiveObject<TextFieldWidget>> textfields = new HashMap<String, VisibleActiveObject<TextFieldWidget>>();
 	private final List<VisibleActiveObject<Widget>> buttons = new ArrayList<VisibleActiveObject<Widget>>();
 	private final UsercontentAPI api;
-	private final ButtonFactory buttonFactory;
+	private final WidgetFactory buttonFactory;
 	private final MenuFactory menuFactory;
 	
 	public ContentUsercontent(UsercontentConfig config) throws Exception
@@ -68,7 +68,7 @@ public class ContentUsercontent extends Content
 		this.builders = this.createBuilders(this.content.getModel());
 		this.api = new UsercontentAPI(this.builders.stream().map(VisibleObject::getObject).collect(Collectors.toList()));
 		ActionHandlerFactory actionHandlerFactory = new ActionHandlerFactory(this.api, this.builders, this.engineAdapter);
-		this.buttonFactory = new ButtonFactory(this.api, actionHandlerFactory);
+		this.buttonFactory = new WidgetFactory(this.api, actionHandlerFactory);
 		this.menuFactory = new MenuFactory(this.api, actionHandlerFactory);
 		this.engineAdapter.addObject("api", this.api);
 		this.engineAdapter.eval(config.getJs());
@@ -91,22 +91,22 @@ public class ContentUsercontent extends Content
 		this.textfields.clear();
 		this.buttons.clear();
 		
-		for(JsonButton button : this.getWidgets(this.content.getGui().getButtons(), JsonWidget.Type.BUTTON))
+		for(JsonWidget json : this.getWidgets(this.content.getGui().getWidgets(), AbstractJsonWidget.Type.BUTTON))
 		{
-			Widget widget = this.buttonFactory.createButton(button, this, container, x, y);
+			Widget widget = this.buttonFactory.createWidget(json, this, container, x, y);
 			
-			if(JsonButton.Type.TEXTFIELD.equals(button.getType()))
+			if(JsonWidget.Type.TEXTFIELD.equals(json.getType()))
 			{
-				VisibleActiveObject<TextFieldWidget> visObj = new VisibleActiveObject<TextFieldWidget>(button, (TextFieldWidget) widget);
-				this.textfields.put(button.getAttributes().getId(), visObj);
+				VisibleActiveObject<TextFieldWidget> visObj = new VisibleActiveObject<TextFieldWidget>(json, (TextFieldWidget) widget);
+				this.textfields.put(json.getAttributes().getId(), visObj);
 			}
 			else
 			{
-				this.buttons.add(new VisibleActiveObject<Widget>(button, widget));
+				this.buttons.add(new VisibleActiveObject<Widget>(json, widget));
 			}
 		}
 		
-		for(JsonMenu menu : this.getWidgets(this.content.getGui().getMenus(), JsonWidget.Type.MENU))
+		for(JsonMenu menu : this.getWidgets(this.content.getGui().getMenus(), AbstractJsonWidget.Type.MENU))
 		{
 			container.add(this.menuFactory.createMenu(menu, this, container, x, y));
 		}
@@ -147,13 +147,13 @@ public class ContentUsercontent extends Content
 			}
 		}
 		
-		if(this.content.getGui() != null && this.content.getGui().getTexts() != null)
+		if(this.content.getGui() != null && this.content.getGui().getLabels() != null)
 		{
-			for(JsonText text : this.content.getGui().getTexts())
+			for(JsonLabel label : this.content.getGui().getLabels())
 			{
-				if(text.getVisible() == null || text.getVisible().eval(this.engineAdapter))
+				if(label.getVisible() == null || label.getVisible().eval(this.engineAdapter))
 				{
-					container.getMinecraft().fontRenderer.func_243248_b(matrix, TextUtils.formatNonnull(text.getText()), text.getX() + x, text.getY() + y, text.getColor());
+					container.getMinecraft().fontRenderer.func_243248_b(matrix, TextUtils.formatNonnull(label.getText()), label.getX() + x, label.getY() + y, label.getColor());
 				}
 			}
 		}
@@ -227,7 +227,7 @@ public class ContentUsercontent extends Content
 		return builders;
 	}
 	
-	private <T extends JsonWidget<?>> List<T> getWidgets(List<T> list, JsonWidget.Type type)
+	private <T extends AbstractJsonWidget<?>> List<T> getWidgets(List<T> list, AbstractJsonWidget.Type type)
 	{
 		List<T> result = new ArrayList<T>();
 		

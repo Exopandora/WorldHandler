@@ -14,14 +14,14 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
 import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.usercontent.model.JsonMenu;
-import exopandora.worldhandler.usercontent.model.JsonWidget;
+import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MenuFactory extends WidgetFactory
+public class MenuFactory extends AbstractWidgetFactory
 {
 	public MenuFactory(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory)
 	{
@@ -35,11 +35,11 @@ public class MenuFactory extends WidgetFactory
 		{
 			return new MenuPageList<JsonItem>
 			(
-				menu.getDimensions().getX() + x,
-				menu.getDimensions().getY() + y,
+				menu.getLayout().getX() + x,
+				menu.getLayout().getY() + y,
 				menu.getAttributes().getItems(),
-				menu.getDimensions().getWidth(),
-				menu.getDimensions().getHeight(),
+				menu.getLayout().getWidth(),
+				menu.getLayout().getHeight(),
 				menu.getAttributes().getLength(),
 				container,
 				new UsercontentLogicPageList<JsonMenu.Type>(this.getApi(), this.getActionHandlerFactory(), content, container, menu, container::getPlayer)
@@ -54,7 +54,7 @@ public class MenuFactory extends WidgetFactory
 	{
 		private final Container container;
 		
-		public UsercontentLogicPageList(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory, Content content, Container container, JsonWidget<T> widget, Supplier<String> player)
+		public UsercontentLogicPageList(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory, Content content, Container container, AbstractJsonWidget<T> widget, Supplier<String> player)
 		{
 			super(api, actionHandlerFactory, content, widget, player);
 			this.container = container;

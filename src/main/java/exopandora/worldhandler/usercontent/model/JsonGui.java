@@ -16,22 +16,22 @@ public class JsonGui
 	@SerializedName("tab")
 	private JsonTab tab;
 	
-	@SerializedName("buttons")
-	private List<JsonButton> buttons = null;
+	@SerializedName("widgets")
+	private List<JsonWidget> widgets = null;
 	
 	@SerializedName("menus")
 	private List<JsonMenu> menus = null;
 	
-	@SerializedName("texts")
-	private List<JsonText> texts = null;
+	@SerializedName("labels")
+	private List<JsonLabel> labels = null;
 	
-	public JsonGui(String title, JsonTab tab, List<JsonButton> buttons, List<JsonMenu> menus, List<JsonText> texts)
+	public JsonGui(String title, JsonTab tab, List<JsonWidget> widgets, List<JsonMenu> menus, List<JsonLabel> labels)
 	{
 		this.title = title;
 		this.tab = tab;
-		this.buttons = buttons;
+		this.widgets = widgets;
 		this.menus = menus;
-		this.texts = texts;
+		this.labels = labels;
 	}
 	
 	public String getTitle()
@@ -54,14 +54,14 @@ public class JsonGui
 		this.tab = tab;
 	}
 	
-	public List<JsonButton> getButtons()
+	public List<JsonWidget> getWidgets()
 	{
-		return this.buttons;
+		return this.widgets;
 	}
 	
-	public void setButtons(List<JsonButton> buttons)
+	public void setButtons(List<JsonWidget> widgets)
 	{
-		this.buttons = buttons;
+		this.widgets = widgets;
 	}
 	
 	public List<JsonMenu> getMenus()
@@ -74,14 +74,14 @@ public class JsonGui
 		this.menus = menus;
 	}
 	
-	public List<JsonText> getTexts()
+	public List<JsonLabel> getLabels()
 	{
-		return this.texts;
+		return this.labels;
 	}
 	
-	public void setTexts(List<JsonText> texts)
+	public void setTexts(List<JsonLabel> labels)
 	{
-		this.texts = texts;
+		this.labels = labels;
 	}
 	
 	public void validate() throws IllegalStateException

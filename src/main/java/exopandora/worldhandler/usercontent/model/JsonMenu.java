@@ -7,14 +7,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class JsonMenu extends JsonWidget<Type>
+public class JsonMenu extends AbstractJsonWidget<Type>
 {
 	@SerializedName("type")
 	private Type type;
 	
-	public JsonMenu(Type type, Action action, JsonDimensions dimensions, Attributes attributes)
+	public JsonMenu(Type type, Action action, JsonLayout layout, Attributes attributes)
 	{
-		super(action, dimensions, attributes);
+		super(action, layout, attributes);
 		this.type = type;
 	}
 	

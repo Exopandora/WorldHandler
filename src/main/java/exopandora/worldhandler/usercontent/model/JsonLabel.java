@@ -6,7 +6,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class JsonText
+public class JsonLabel
 {
 	@SerializedName("text")
 	private String text;
@@ -23,7 +23,7 @@ public class JsonText
 	@SerializedName("visible")
 	private BooleanExpression visible;
 	
-	public JsonText(String text, int x, int y, int color, BooleanExpression visible)
+	public JsonLabel(String text, int x, int y, int color, BooleanExpression visible)
 	{
 		this.text = text;
 		this.x = x;

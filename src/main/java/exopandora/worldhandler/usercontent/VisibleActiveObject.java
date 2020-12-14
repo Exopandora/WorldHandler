@@ -1,7 +1,7 @@
 package exopandora.worldhandler.usercontent;
 
 import exopandora.worldhandler.usercontent.model.BooleanExpression;
-import exopandora.worldhandler.usercontent.model.JsonButton;
+import exopandora.worldhandler.usercontent.model.JsonWidget;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -16,9 +16,9 @@ public class VisibleActiveObject<T> extends VisibleObject<T>
 		this.active = active;
 	}
 	
-	public VisibleActiveObject(JsonButton button, T object)
+	public VisibleActiveObject(JsonWidget widget, T object)
 	{
-		this(button.getAttributes() != null ? button.getAttributes().getVisible() : null, button.getAttributes() != null ? button.getAttributes().getEnabled() : null, object);
+		this(widget.getAttributes() != null ? widget.getAttributes().getVisible() : null, widget.getAttributes() != null ? widget.getAttributes().getEnabled() : null, object);
 	}
 	
 	public boolean isEnabled(ScriptEngineAdapter engine)

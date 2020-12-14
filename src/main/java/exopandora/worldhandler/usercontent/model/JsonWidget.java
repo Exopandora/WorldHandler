@@ -1,75 +1,123 @@
 package exopandora.worldhandler.usercontent.model;
 
-import java.util.Arrays;
-
 import com.google.gson.annotations.SerializedName;
 
+import exopandora.worldhandler.usercontent.model.JsonWidget.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class JsonWidget<T extends Enum<T>>
+public class JsonWidget extends AbstractJsonWidget<Type>
 {
-	@SerializedName("action")
-	private Action action;
+	@SerializedName("text")
+	private String text;
 	
-	@SerializedName("dimensions")
-	private JsonDimensions dimensions;
+	@SerializedName("type")
+	private Type type;
 	
-	@SerializedName("attributes")
-	private Attributes attributes;
-	
-	public JsonWidget(Action action, JsonDimensions dimensions, Attributes attributes)
+	public JsonWidget(String text, Type type, Action action, JsonLayout layout, Attributes attributes)
 	{
-		this.action = action;
-		this.dimensions = dimensions;
-		this.attributes = attributes;
+		super(action, layout, attributes);
+		this.text = text;
+		this.type = type;
 	}
 	
-	public Action getAction()
+	public String getText()
 	{
-		return this.action;
+		return this.text;
 	}
 	
-	public void setAction(Action action)
+	public void setText(String text)
 	{
-		this.action = action;
+		this.text = text;
 	}
 	
-	public JsonDimensions getDimensions()
+	public Type getType()
 	{
-		return this.dimensions;
+		return this.type;
 	}
 	
-	public void setDimensions(JsonDimensions dimensions)
+	public void setType(Type type)
 	{
-		this.dimensions = dimensions;
+		this.type = type;
 	}
 	
-	public Attributes getAttributes()
+	@Override
+	public void validate() throws IllegalStateException
 	{
-		return this.attributes;
-	}
-	
-	public void setAttributes(Attributes attributes)
-	{
-		this.attributes = attributes;
-	}
-	
-	public abstract T getType();
-	public abstract void setType(T type);
-	public abstract void validate() throws IllegalStateException;
-	
-	protected void validateAction(Action.Type... allowedTypes) throws IllegalStateException
-	{
-		if(this.getAction() != null)
+		if(this.type == null)
 		{
-			this.getAction().validate();
-			
-			if(Arrays.stream(allowedTypes).noneMatch(type -> type.equals(this.getAction().getType())))
+			throw new IllegalStateException("widget.type is null");
+		}
+		
+		if(this.type == Type.TEXTFIELD)
+		{
+			if(this.getAttributes() == null)
 			{
-				throw new IllegalStateException("Illegal action for type " + this.getType().toString().toLowerCase());
+				throw new IllegalStateException("widget.attributes is null");
 			}
+			else if(this.getAttributes().getId() == null)
+			{
+				throw new IllegalStateException("widget.attributes.id is null");
+			}
+			else if(this.getAttributes().getId().isEmpty())
+			{
+				throw new IllegalStateException("widget.attributes.id is empty");
+			}
+			
+			this.validateAction(Action.Type.SET, Action.Type.JS);
+		}
+		else if(this.type == Type.ITEM_BUTTON)
+		{
+			if(this.getAttributes() == null)
+			{
+				throw new IllegalStateException("widget.attributes is null");
+			}
+			else if(this.getAttributes().getItem() == null)
+			{
+				throw new IllegalStateException("widget.attributes.item is null");
+			}
+			
+			this.validateAction(Action.Type.OPEN, Action.Type.SET, Action.Type.RUN, Action.Type.BACK, Action.Type.BACK_TO_GAME, Action.Type.JS);
+		}
+		else if(this.type == Type.ICON_BUTTON)
+		{
+			if(this.getAttributes() == null)
+			{
+				throw new IllegalStateException("widget.attributes is null");
+			}
+			else if(this.getAttributes().getIcon() == null)
+			{
+				throw new IllegalStateException("widget.attributes.icon is null");
+			}
+			
+			this.validateAction(Action.Type.OPEN, Action.Type.SET, Action.Type.RUN, Action.Type.BACK, Action.Type.BACK_TO_GAME, Action.Type.JS);
+		}
+		else if(this.type == Type.LIST_BUTTON)
+		{
+			if(this.getAttributes() == null)
+			{
+				throw new IllegalStateException("widget.attributes is null");
+			}
+			else if(this.getAttributes().getItems() == null)
+			{
+				throw new IllegalStateException("widget.attributes.items is null");
+			}
+			else if(this.getAttributes().getItems().isEmpty())
+			{
+				throw new IllegalStateException("widget.attributes.items is empty");
+			}
+			
+			this.validateAction(Action.Type.SET, Action.Type.JS);
+		}
+		else if(this.type == Type.SLIDER)
+		{
+			if(this.getAttributes() == null)
+			{
+				throw new IllegalStateException("widget.attributes is null");
+			}
+			
+			this.validateAction(Action.Type.SET, Action.Type.JS);
 		}
 	}
 	
@@ -77,6 +125,10 @@ public abstract class JsonWidget<T extends Enum<T>>
 	public static enum Type
 	{
 		BUTTON,
-		MENU
+		TEXTFIELD,
+		ITEM_BUTTON,
+		ICON_BUTTON,
+		LIST_BUTTON,
+		SLIDER;
 	}
 }

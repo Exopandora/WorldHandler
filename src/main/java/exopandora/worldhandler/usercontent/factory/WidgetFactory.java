@@ -1,106 +1,125 @@
 package exopandora.worldhandler.usercontent.factory;
 
-import java.util.function.Supplier;
+import java.util.function.Consumer;
 
-import exopandora.worldhandler.WorldHandler;
+import javax.annotation.Nullable;
+
+import com.google.common.base.Predicates;
+
+import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
+import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
+import exopandora.worldhandler.gui.widget.button.GuiButtonItem;
+import exopandora.worldhandler.gui.widget.button.GuiButtonList;
+import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiSlider;
+import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
-import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.usercontent.model.JsonWidget;
-import exopandora.worldhandler.util.ActionHandler;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import exopandora.worldhandler.usercontent.model.JsonItem;
+import exopandora.worldhandler.util.TextUtils;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class WidgetFactory
+public class WidgetFactory extends AbstractWidgetFactory
 {
-	private final ActionHandlerFactory actionHandlerFactory;
-	private final UsercontentAPI api;
-	
 	public WidgetFactory(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory)
 	{
-		this.api = api;
-		this.actionHandlerFactory = actionHandlerFactory;
+		super(api, actionHandlerFactory);
 	}
 	
-	public ActionHandlerFactory getActionHandlerFactory()
+	@Nullable
+	public Widget createWidget(JsonWidget widget, Content content, Container container, int x, int y)
 	{
-		return this.actionHandlerFactory;
-	}
-	
-	public UsercontentAPI getApi()
-	{
-		return this.api;
-	}
-	
-	@OnlyIn(Dist.CLIENT)
-	public static class UsercontentLogicMapped<T extends Enum<T>> implements ILogicMapped<JsonItem>
-	{
-		private final ActionHandlerFactory actionHandlerFactory;
-		private final UsercontentAPI api;
-		private final Content content;
-		private final JsonWidget<T> widget;
-		private final Supplier<String> player;
-		
-		public UsercontentLogicMapped(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory, Content content, JsonWidget<T> widget, Supplier<String> player)
+		if(JsonWidget.Type.BUTTON.equals(widget.getType()))
 		{
-			this.api = api;
-			this.actionHandlerFactory = actionHandlerFactory;
-			this.content = content;
-			this.widget = widget;
-			this.player = player;
+			return new GuiButtonTooltip
+			(
+				widget.getLayout().getX() + x,
+				widget.getLayout().getY() + y,
+				widget.getLayout().getWidth(),
+				widget.getLayout().getHeight(),
+				TextUtils.formatNonnull(widget.getText()),
+				TextUtils.formatNonnull(widget.getAttributes() != null ? widget.getAttributes().getTooltip() : null),
+				this.getActionHandlerFactory().createActionHandler(content, widget.getAction(), container::getPlayer)
+			);
 		}
-		
-		@Override
-		public IFormattableTextComponent translate(JsonItem item)
+		else if(JsonWidget.Type.ITEM_BUTTON.equals(widget.getType()))
 		{
-			if(item.getTranslation() != null)
-			{
-				return new TranslationTextComponent(item.getTranslation());
-			}
+			return new GuiButtonItem
+			(
+				widget.getLayout().getX() + x,
+				widget.getLayout().getY() + y,
+				widget.getLayout().getWidth(),
+				widget.getLayout().getHeight(),
+				ForgeRegistries.ITEMS.getValue(new ResourceLocation(widget.getAttributes().getItem())),
+				this.getActionHandlerFactory().createActionHandler(content, widget.getAction(), container::getPlayer)
+			);
+		}
+		else if(JsonWidget.Type.ICON_BUTTON.equals(widget.getType()))
+		{
+			return new GuiButtonIcon
+			(
+				widget.getLayout().getX() + x,
+				widget.getLayout().getY() + y,
+				widget.getLayout().getWidth(),
+				widget.getLayout().getHeight(),
+				widget.getAttributes().getIcon(),
+				TextUtils.formatNonnull(widget.getAttributes().getTooltip()),
+				this.getActionHandlerFactory().createActionHandler(content, widget.getAction(), container::getPlayer)
+			);
+		}
+		else if(JsonWidget.Type.LIST_BUTTON.equals(widget.getType()))
+		{
+			return new GuiButtonList<JsonItem>
+			(
+				widget.getLayout().getX() + x,
+				widget.getLayout().getY() + y,
+				widget.getAttributes().getItems(),
+				widget.getLayout().getWidth(),
+				widget.getLayout().getHeight(),
+				container,
+				new UsercontentLogicMapped<JsonWidget.Type>(this.getApi(), this.getActionHandlerFactory(), content, widget, container::getPlayer)
+			);
+		}
+		else if(JsonWidget.Type.SLIDER.equals(widget.getType()))
+		{
+			Consumer<Integer> responder = this.getActionHandlerFactory().createResponder(integer -> integer.toString(), widget.getAttributes().getId(), widget.getAction());
+			return new GuiSlider
+			(
+				widget.getLayout().getX() + x,
+				widget.getLayout().getY() + y,
+				widget.getLayout().getWidth(),
+				widget.getLayout().getHeight(),
+				widget.getAttributes().getMin(),
+				widget.getAttributes().getMax(),
+				widget.getAttributes().getStart(),
+				container,
+				new LogicSliderSimple(widget.getAttributes().getId(), TextUtils.formatNonnull(widget.getText()), responder)
+			);
+		}
+		else if(JsonWidget.Type.TEXTFIELD.equals(widget.getType()))
+		{
+			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip
+			(
+				widget.getLayout().getX() + x,
+				widget.getLayout().getY() + y,
+				widget.getLayout().getWidth(),
+				widget.getLayout().getHeight(),
+				TextUtils.formatNonnull(widget.getText())
+			);
+			textfield.setValidator(Predicates.notNull());
+			textfield.setText(this.getApi().getValue(widget.getAttributes().getId()));
+			textfield.setResponder(this.getActionHandlerFactory().createResponder(string -> textfield.getText(), widget.getAttributes().getId(), widget.getAction()));
 			
-			return new StringTextComponent(item.getId());
+			return textfield;
 		}
 		
-		@Override
-		public IFormattableTextComponent toTooltip(JsonItem item)
-		{
-			return new StringTextComponent(item.getId());
-		}
-		
-		@Override
-		public void onClick(JsonItem item)
-		{
-			try
-			{
-				this.api.updateValue(this.widget.getAttributes().getId(), item.getId());
-				ActionHandler action = this.actionHandlerFactory.createActionHandler(this.content, this.widget.getAction(), this.player, item.getId());
-				
-				if(action != null)
-				{
-					action.run();
-				}
-			}
-			catch(Exception e)
-			{
-				WorldHandler.LOGGER.error("Error executing action for widget");
-			}
-		}
-		
-		@Override
-		public String getId()
-		{
-			return this.widget.getAttributes().getId();
-		}
-		
-		@Override
-		public void onInit(JsonItem item)
-		{
-			this.onClick(item);
-		}
+		return null;
 	}
 }

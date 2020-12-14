@@ -77,11 +77,11 @@
 			"category_index": 3,
 			"active_content": "example"
 		},
-		"buttons": [
+		"widgets": [
 			{
 				"text": "Button",
 				"type": "button",
-				"dimensions": {
+				"layout": {
 					"x": 0,
 					"y": 0,
 					"width": 114,
@@ -114,7 +114,7 @@
 						"function": "updateText"
 					}
 				},
-				"dimensions": {
+				"layout": {
 					"x": 0,
 					"y": 48,
 					"width": 114,
@@ -140,7 +140,7 @@
 						"value": "/give @p minecraft:diamond_sword 1"
 					}
 				},
-				"dimensions": {
+				"layout": {
 					"x": 0,
 					"y": 24,
 					"width": 20,
@@ -158,7 +158,7 @@
 						"value": "main"
 					}
 				},
-				"dimensions": {
+				"layout": {
 					"x": 24,
 					"y": 24,
 					"width": 20,
@@ -178,7 +178,7 @@
 						"value": "settings"
 					}
 				},
-				"dimensions": {
+				"layout": {
 					"x": 48,
 					"y": 24,
 					"width": 66,
@@ -197,7 +197,7 @@
 						"index": 0
 					}
 				},
-				"dimensions": {
+				"layout": {
 					"x": 118,
 					"y": 72,
 					"width": 114,
@@ -234,7 +234,7 @@
 						"index": 2
 					}
 				},
-				"dimensions": {
+				"layout": {
 					"x": 0,
 					"y": 96,
 					"width": 114,
@@ -256,7 +256,7 @@
 						"function": "toggleVisibility"
 					}
 				},
-				"dimensions": {
+				"layout": {
 					"x": 0,
 					"y": 72,
 					"width": 56,
@@ -275,7 +275,7 @@
 						"function": "toggleEnabled"
 					}
 				},
-				"dimensions": {
+				"layout": {
 					"x": 58,
 					"y": 72,
 					"width": 56,
@@ -291,7 +291,7 @@
 				"action": {
 					"type": "back_to_game"
 				},
-				"dimensions": {
+				"layout": {
 					"x": 118,
 					"y": 96,
 					"width": 114,
@@ -302,7 +302,7 @@
 		"menus": [
 			{
 				"type": "page_list",
-				"dimensions": {
+				"layout": {
 					"x": 118,
 					"y": 0,
 					"width": 114,
@@ -339,7 +339,7 @@
 				}
 			}
 		],
-		"texts": [
+		"labels": [
 			{
 				"text": "Text",
 				"x": 0,

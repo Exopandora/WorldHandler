@@ -6,7 +6,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class JsonDimensions
+public class JsonLayout
 {
 	@SerializedName("x")
 	private int x;
@@ -20,7 +20,7 @@ public class JsonDimensions
 	@SerializedName("height")
 	private int height;
 	
-	public JsonDimensions(int x, int y, int width, int height)
+	public JsonLayout(int x, int y, int width, int height)
 	{
 		this.x = x;
 		this.y = y;

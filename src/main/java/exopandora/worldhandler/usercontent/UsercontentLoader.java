@@ -27,7 +27,7 @@ import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.usercontent.model.Action;
 import exopandora.worldhandler.usercontent.model.BooleanExpression;
-import exopandora.worldhandler.usercontent.model.JsonButton;
+import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
@@ -63,7 +63,7 @@ public class UsercontentLoader
 				.registerTypeAdapter(ArgumentType.class, new EnumTypeAdapter<ArgumentType>(ArgumentType.class))
 				.registerTypeAdapter(EnumIcon.class, new EnumTypeAdapter<EnumIcon>(EnumIcon.class))
 				.registerTypeAdapter(BooleanExpression.Type.class, new EnumTypeAdapter<BooleanExpression.Type>(BooleanExpression.Type.class))
-				.registerTypeAdapter(JsonButton.Type.class, new EnumTypeAdapter<JsonButton.Type>(JsonButton.Type.class))
+				.registerTypeAdapter(JsonWidget.Type.class, new EnumTypeAdapter<JsonWidget.Type>(JsonWidget.Type.class))
 				.registerTypeAdapter(Action.Type.class, new EnumTypeAdapter<Action.Type>(Action.Type.class))
 				.registerTypeAdapter(JsonMenu.Type.class, new EnumTypeAdapter<JsonMenu.Type>(JsonMenu.Type.class))
 				.create();
