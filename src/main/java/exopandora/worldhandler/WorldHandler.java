@@ -2,6 +2,7 @@ package exopandora.worldhandler;
 
 import java.nio.file.Path;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +23,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.DistExecutor.SafeRunnable;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -29,6 +31,7 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
 
 @Mod(Main.MODID)
 public class WorldHandler
@@ -39,7 +42,7 @@ public class WorldHandler
 	public WorldHandler()
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		modEventBus.addListener(this::clientSetup);
+		ModLoadingContext modLoadingContext = ModLoadingContext.get();
 		MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
@@ -51,15 +54,17 @@ public class WorldHandler
 				SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getInstance().getResourceManager();
 				manager.addReloadListener(AdvancementHelper.getInstance());
 				Config.setupDirectories(WorldHandler.USERCONTENT_PATH);
-				ModLoadingContext.get().registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
+				modLoadingContext.registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
 				UsercontentLoader.load(WorldHandler.USERCONTENT_PATH);
 				modEventBus.register(Config.class);
+				modEventBus.addListener(WorldHandler.this::clientSetup);
 				modEventBus.addListener(Content::createRegistry);
 				modEventBus.addListener(Category::createRegistry);
 				modEventBus.addGenericListener(Content.class, Content::register);
 				modEventBus.addGenericListener(Category.class, Category::register);
 			}
 		});
+		modLoadingContext.registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 //		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () ->
 //		{
 //			GuiFactoryWorldHandler factory = new GuiFactoryWorldHandler();
