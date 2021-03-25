@@ -444,6 +444,7 @@ public class GuiWorldHandler extends Container
 	public void onClose()
 	{
 		ActionHelper.tryRun(this.content::onGuiClosed);
+		super.onClose();
 	}
 	
 	@Override
