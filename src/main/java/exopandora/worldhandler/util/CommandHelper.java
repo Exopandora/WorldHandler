@@ -17,14 +17,14 @@ public class CommandHelper
 {
 	public static void sendFeedback(CommandSource source, String message)
 	{
-		source.sendFeedback(new StringTextComponent(message), false);
+		source.sendSuccess(new StringTextComponent(message), false);
 	}
 	
 	public static boolean canPlayerIssueCommand()
 	{
 		if(Minecraft.getInstance().player != null)
 		{
-			return Minecraft.getInstance().player.hasPermissionLevel(1);
+			return Minecraft.getInstance().player.hasPermissions(1);
 		}
 		
 		return false;
@@ -66,7 +66,7 @@ public class CommandHelper
 			}
 			else if(Minecraft.getInstance().player != null)
 			{
-				Minecraft.getInstance().player.sendChatMessage(command);
+				Minecraft.getInstance().player.chat(command);
 			}
 		}
 	}

@@ -29,9 +29,9 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public static void renderWorldLastEvent(RenderWorldLastEvent event)
 	{
-		if(Config.getSettings().highlightBlocks() && Minecraft.getInstance().world != null && Minecraft.getInstance().getRenderManager().info != null)
+		if(Config.getSettings().highlightBlocks() && Minecraft.getInstance().level != null && Minecraft.getInstance().getEntityRenderDispatcher().camera != null)
 		{
-			Vector3d projected = Minecraft.getInstance().getRenderManager().info.getProjectedView();
+			Vector3d projected = Minecraft.getInstance().getEntityRenderDispatcher().camera.getPosition();
 			
 			double minX = Math.min(BlockHelper.getPos1().getX(), BlockHelper.getPos2().getX());
 			double minY = Math.min(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY());
@@ -46,31 +46,31 @@ public class ClientEventHandler
 			if(aabb.getCenter().distanceTo(projected) < 96)
 			{
 				MatrixStack matrix = event.getMatrixStack();
-				matrix.push();
-				matrix.translate(-projected.getX(), -projected.getY(), -projected.getZ());
+				matrix.pushPose();
+				matrix.translate(-projected.x(), -projected.y(), -projected.z());
 				
-				IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-				IVertexBuilder builder = buffer.getBuffer(RenderType.getLines());
+				IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+				IVertexBuilder builder = buffer.getBuffer(RenderType.lines());
 				
-				WorldRenderer.drawBoundingBox(matrix, builder, minX, minY, minZ, maxX, maxY, maxZ, 0.9F, 0.9F, 0.9F, 1.0F, 0.5F, 0.5F, 0.5F);
+				WorldRenderer.renderLineBox(matrix, builder, minX, minY, minZ, maxX, maxY, maxZ, 0.9F, 0.9F, 0.9F, 1.0F, 0.5F, 0.5F, 0.5F);
 				
-				buffer.finish(RenderType.getLines());
-				buffer.finish();
+				buffer.endBatch(RenderType.lines());
+				buffer.endBatch();
 				
 //				try
 //				{
-//					Field field_239227_K_ = WorldRenderer.class.getDeclaredField("field_239227_K_");
-//					field_239227_K_.setAccessible(true);
-//					ShaderGroup shader = (ShaderGroup) field_239227_K_.get(event.getContext());
+//					Field transparencyChain = WorldRenderer.class.getDeclaredField("transparencyChain");
+//					transparencyChain.setAccessible(true);
+//					ShaderGroup shader = (ShaderGroup) transparencyChain.get(event.getContext());
 //					
 //					if(shader != null)
 //					{
-//						Field field_241712_U_ = RenderState.class.getDeclaredField("field_241712_U_");
-//						field_241712_U_.setAccessible(true);
-//						RenderState.TargetState target = (RenderState.TargetState) field_241712_U_.get(null);
+//						Field ITEM_ENTITY_TARGET = RenderState.class.getDeclaredField("ITEM_ENTITY_TARGET");
+//						ITEM_ENTITY_TARGET.setAccessible(true);
+//						RenderState.TargetState target = (RenderState.TargetState) ITEM_ENTITY_TARGET.get(null);
 //						target.setupRenderState();
-//						event.getContext().func_239229_r_().framebufferClear(Minecraft.IS_RUNNING_ON_MAC);
-//						event.getContext().func_239229_r_().func_237506_a_(Minecraft.getInstance().getFramebuffer());
+//						event.getContext().getItemEntityTarget().framebufferClear(Minecraft.IS_RUNNING_ON_MAC);
+//						event.getContext().getItemEntityTarget().copyDepthFrom(Minecraft.getInstance().getFramebuffer());
 //				        Minecraft.getInstance().getFramebuffer().bindFramebuffer(false);
 //						target.clearRenderState();
 //					}
@@ -80,7 +80,7 @@ public class ClientEventHandler
 //					e.printStackTrace();
 //				}
 				
-				matrix.pop();
+				matrix.popPose();
 			}
 		}
 	}
@@ -88,7 +88,7 @@ public class ClientEventHandler
 	@SubscribeEvent
 	public static void clientChatEvent(ClientChatEvent event)
 	{
-		if(!Minecraft.getInstance().isSingleplayer() && Minecraft.getInstance().player != null)
+		if(!Minecraft.getInstance().hasSingleplayerServer() && Minecraft.getInstance().player != null)
 		{
 			CommandDispatcher<CommandSource> dispatcher = new CommandDispatcher<CommandSource>();
 			CommandHelper.registerCommands(dispatcher);
@@ -96,14 +96,14 @@ public class ClientEventHandler
 			StringReader command = new StringReader(event.getMessage());
 			command.skip();
 			
-			ParseResults<CommandSource> result = dispatcher.parse(command, Minecraft.getInstance().player.getCommandSource());
+			ParseResults<CommandSource> result = dispatcher.parse(command, Minecraft.getInstance().player.createCommandSourceStack());
 			
 			if(result.getContext().getCommand() != null)
 			{
 				try
 				{
 					dispatcher.execute(result);
-					Minecraft.getInstance().ingameGUI.getChatGUI().addToSentMessages(event.getMessage());
+					Minecraft.getInstance().gui.getChat().addRecentChat(event.getMessage());
 				}
 				catch(CommandSyntaxException e)
 				{

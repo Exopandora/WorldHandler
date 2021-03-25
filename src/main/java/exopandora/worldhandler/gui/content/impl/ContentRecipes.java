@@ -41,9 +41,9 @@ public class ContentRecipes extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<IRecipe<?>> recipes = Minecraft.getInstance().player.getRecipeBook().getRecipes().stream()
+		List<IRecipe<?>> recipes = Minecraft.getInstance().player.getRecipeBook().getCollections().stream()
 				.flatMap(recipe -> recipe.getRecipes().stream())
-				.filter(recipe -> !recipe.isDynamic())
+				.filter(recipe -> !recipe.isSpecial())
 				.collect(Collectors.toList());
 		
 		MenuPageList<IRecipe<?>> list = new MenuPageList<IRecipe<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<IRecipe<?>>()
@@ -51,9 +51,9 @@ public class ContentRecipes extends Content
 			@Override
 			public IFormattableTextComponent translate(IRecipe<?> item)
 			{
-				if(!item.getRecipeOutput().equals(ItemStack.EMPTY))
+				if(!item.getResultItem().equals(ItemStack.EMPTY))
 				{
-					return (IFormattableTextComponent) item.getRecipeOutput().getDisplayName();
+					return (IFormattableTextComponent) item.getResultItem().getHoverName();
 				}
 				
 				return new StringTextComponent(item.getId().toString());

@@ -69,7 +69,7 @@ public class WidgetTabRenderer implements IContainerWidget
 			int offset = WidgetTabRenderer.offset(container, index, size);
 			
 			Content tab = category.getContent(index);
-			ITextComponent title = TextUtils.stripText(tab.getTabTitle().mergeStyle(TextFormatting.UNDERLINE), width, Minecraft.getInstance().fontRenderer);
+			ITextComponent title = TextUtils.stripText(tab.getTabTitle().withStyle(TextFormatting.UNDERLINE), width, Minecraft.getInstance().font);
 			
 			if(content.getActiveContent().equals(tab))
 			{
@@ -174,7 +174,7 @@ public class WidgetTabRenderer implements IContainerWidget
 	private void drawTabTitle(MatrixStack matrix, AbstractGui gui, ITextComponent title, int x, int y, int color)
 	{
 		gui.setBlitOffset(0);
-		AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().fontRenderer, title, x, y, color);
+		AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().font, title, x, y, color);
 	}
 	
 	@Override

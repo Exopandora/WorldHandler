@@ -37,7 +37,7 @@ public class ContentChangeWorld extends ContentChild
 		container.add(new GuiButtonBase(x + 116 / 2, y + 24, 232 / 2, 20, new TranslationTextComponent("gui.worldhandler.change_world.singleplayer"), () ->
 		{
 			IConnection connection = ContentChangeWorld.disconnect();
-			Minecraft.getInstance().displayGuiScreen(new WorldSelectionScreen(new DummyScreen(() -> ContentChangeWorld.reconnect(connection))));
+			Minecraft.getInstance().setScreen(new WorldSelectionScreen(new DummyScreen(() -> ContentChangeWorld.reconnect(connection))));
 		}));
 		
 		container.add(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, new TranslationTextComponent("gui.worldhandler.change_world.multiplayer"), () ->
@@ -45,40 +45,40 @@ public class ContentChangeWorld extends ContentChild
 			IConnection connection = ContentChangeWorld.disconnect();
 			DummyScreen dummy = new DummyScreen(() -> ContentChangeWorld.reconnect(connection));
 			
-			if(Minecraft.getInstance().gameSettings.skipMultiplayerWarning)
+			if(Minecraft.getInstance().options.skipMultiplayerWarning)
 			{
-				Minecraft.getInstance().displayGuiScreen(new MultiplayerScreen(dummy));
+				Minecraft.getInstance().setScreen(new MultiplayerScreen(dummy));
 			}
 			else
 			{
-				Minecraft.getInstance().displayGuiScreen(new MultiplayerWarningScreen(dummy));
+				Minecraft.getInstance().setScreen(new MultiplayerWarningScreen(dummy));
 			}
 		}));
 	}
 	
 	private static IConnection disconnect()
 	{
-		boolean isIntegrated = Minecraft.getInstance().isIntegratedServerRunning();
+		boolean isIntegrated = Minecraft.getInstance().isLocalServer();
 		boolean isRealms = Minecraft.getInstance().isConnectedToRealms();
-		ServerData data = Minecraft.getInstance().getCurrentServerData();
+		ServerData data = Minecraft.getInstance().getCurrentServer();
 		
 		if(isIntegrated)
 		{
-			IntegratedServer integrated = Minecraft.getInstance().getIntegratedServer();
-			String folder = integrated.anvilConverterForAnvilFile.getSaveName();
-			DimensionGeneratorSettings dimensionGeneratorSettings = integrated.getServerConfiguration().getDimensionGeneratorSettings();
-			WorldSettings worldSettings = integrated.getServerConfiguration().getWorldSettings();
+			IntegratedServer integrated = Minecraft.getInstance().getSingleplayerServer();
+			String folder = integrated.storageSource.getLevelId();
+			DimensionGeneratorSettings dimensionGeneratorSettings = integrated.getWorldData().worldGenSettings();
+			WorldSettings worldSettings = integrated.getWorldData().getLevelSettings();
 			
-			Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
-			Minecraft.getInstance().unloadWorld(new DirtMessageScreen(new TranslationTextComponent("menu.savingLevel")));
+			Minecraft.getInstance().level.disconnect();
+			Minecraft.getInstance().clearLevel(new DirtMessageScreen(new TranslationTextComponent("menu.savingLevel")));
 			
 			return new IntegratedConnection(folder, worldSettings, dimensionGeneratorSettings);
 		}
 		
-		if(Minecraft.getInstance().world != null)
+		if(Minecraft.getInstance().level != null)
 		{
-			Minecraft.getInstance().world.sendQuittingDisconnectingPacket();
-			Minecraft.getInstance().unloadWorld();
+			Minecraft.getInstance().level.disconnect();
+			Minecraft.getInstance().clearLevel();
 		}
 		
 		if(isRealms)
@@ -94,19 +94,19 @@ public class ContentChangeWorld extends ContentChild
 		if(connection == null)
 		{
 			RealmsBridgeScreen realmsbridge = new RealmsBridgeScreen();
-			realmsbridge.func_231394_a_(new MainMenuScreen());
+			realmsbridge.switchToRealms(new MainMenuScreen());
 		}
 		else if(connection instanceof IntegratedConnection)
 		{
 			IntegratedConnection integrated = (IntegratedConnection) connection;
-			Minecraft.getInstance().createWorld(integrated.getFolder(), integrated.getWorldSettings(), DynamicRegistries.func_239770_b_(), integrated.getDimensionGeneratorSettings());
-			Minecraft.getInstance().mouseHelper.grabMouse();
+			Minecraft.getInstance().createLevel(integrated.getFolder(), integrated.getWorldSettings(), DynamicRegistries.builtin(), integrated.getDimensionGeneratorSettings());
+			Minecraft.getInstance().mouseHandler.grabMouse();
 		}
 		else if(connection instanceof DedicatedConnection)
 		{
 			DedicatedConnection dedicated = (DedicatedConnection) connection;
-			Minecraft.getInstance().displayGuiScreen(new ConnectingScreen(new MainMenuScreen(), Minecraft.getInstance(), dedicated.getData()));
-			Minecraft.getInstance().mouseHelper.grabMouse();
+			Minecraft.getInstance().setScreen(new ConnectingScreen(new MainMenuScreen(), Minecraft.getInstance(), dedicated.getData()));
+			Minecraft.getInstance().mouseHandler.grabMouse();
 		}
 	}
 	

@@ -44,7 +44,7 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 	}
 	
 	@Override
-	public String getUnformattedComponentText()
+	public String getContents()
 	{
 		return this.text;
 	}
@@ -74,13 +74,13 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 	
 	public IReorderingProcessor formatter(String string, Integer index)
 	{
-		return IReorderingProcessor.fromString(string, this.getStyle());
+		return IReorderingProcessor.forward(string, this.getStyle());
 	}
 	
 	@Override
 	public INBT serialize()
 	{
-		if(this.getUnformattedComponentText() != null && !this.getUnformattedComponentText().isEmpty())
+		if(this.getContents() != null && !this.getContents().isEmpty())
 		{
 			return StringNBT.valueOf(this.toString());
 		}
@@ -91,13 +91,13 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 	@Override
 	public String toString()
 	{
-		MutableStringTextComponent serial = (MutableStringTextComponent) this.deepCopy();
-		serial.setText(MutableStringTextComponent.getSpecialFormattedText(this.getUnformattedComponentText()));
+		MutableStringTextComponent serial = (MutableStringTextComponent) this.copy();
+		serial.setText(MutableStringTextComponent.getSpecialFormattedText(this.getContents()));
 		return ITextComponent.Serializer.toJson(serial);
 	}
 	
 	@Override
-	public MutableStringTextComponent copyRaw()
+	public MutableStringTextComponent plainCopy()
 	{
 		return new MutableStringTextComponent(this.text);
 	}
@@ -116,7 +116,7 @@ public class MutableStringTextComponent extends StringTextComponent implements I
 		else
 		{
 			MutableStringTextComponent stringtextcomponent = (MutableStringTextComponent) object;
-			return this.text.equals(stringtextcomponent.getUnformattedComponentText()) && super.equals(object);
+			return this.text.equals(stringtextcomponent.getContents()) && super.equals(object);
 		}
 	}
 }

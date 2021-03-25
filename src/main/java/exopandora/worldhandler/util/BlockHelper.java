@@ -44,16 +44,16 @@ public class BlockHelper
 	@Nonnull
 	public static BlockPos getFocusedBlockPos()
 	{
-		World world = Minecraft.getInstance().world;
-		RayTraceResult result = Minecraft.getInstance().objectMouseOver;
+		World world = Minecraft.getInstance().level;
+		RayTraceResult result = Minecraft.getInstance().hitResult;
 		
 		if(result != null && Type.BLOCK.equals(result.getType()) && world != null)
 		{
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
 			
-			if(!ArrayUtils.contains(BLACKLIST, world.getBlockState(blockResult.getPos()).getBlock()))
+			if(!ArrayUtils.contains(BLACKLIST, world.getBlockState(blockResult.getBlockPos()).getBlock()))
 			{
-				return blockResult.getPos();
+				return blockResult.getBlockPos();
 			}
 		}
 		
@@ -61,7 +61,7 @@ public class BlockHelper
 		
 		if(player != null)
 		{
-			return player.getPosition();
+			return player.blockPosition();
 		}
 		
 		return BlockPos.ZERO;
@@ -76,7 +76,7 @@ public class BlockHelper
 	@Nonnull
 	public static Block getBlock(BlockPos pos)
 	{
-		World world = Minecraft.getInstance().world;
+		World world = Minecraft.getInstance().level;
 		
 		if(world != null)
 		{
@@ -170,11 +170,11 @@ public class BlockHelper
 	{
 		if(CommandHelper.canPlayerIssueCommand() && Minecraft.getInstance().getConnection() != null)
 		{
-			BlockPos pos = Minecraft.getInstance().player.getPosition().add(0, 3, 0);
+			BlockPos pos = Minecraft.getInstance().player.blockPosition().offset(0, 3, 0);
 			
 			BuilderFill placeFill = new BuilderFill();
 			placeFill.setPosition1(pos);
-			placeFill.setPosition2(pos.up());
+			placeFill.setPosition2(pos.above());
 			placeFill.setBlock1(new BlockResourceLocation(Blocks.COMMAND_BLOCK.getRegistryName()));
 			
 			BuilderFill removeFill = new BuilderFill();
@@ -186,7 +186,7 @@ public class BlockHelper
 			removeFill.setZ2(new CoordinateInt(0, EnumType.GLOBAL));
 			removeFill.setBlock1(new BlockResourceLocation(Blocks.AIR.getRegistryName()));
 			
-			Minecraft.getInstance().player.sendChatMessage(placeFill.toActualCommand());
+			Minecraft.getInstance().player.chat(placeFill.toActualCommand());
 			
 			BuilderExecute wrapped = new BuilderExecute();
 			wrapped.setMode1(EnumMode.AT);
@@ -194,8 +194,8 @@ public class BlockHelper
 			wrapped.setMode2(EnumMode.RUN);
 			wrapped.setCommand(command);
 			
-			Minecraft.getInstance().getConnection().sendPacket(new CUpdateCommandBlockPacket(pos, wrapped.toActualCommand(), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
-			Minecraft.getInstance().getConnection().sendPacket(new CUpdateCommandBlockPacket(pos.up(), removeFill.toActualCommand(), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
+			Minecraft.getInstance().getConnection().send(new CUpdateCommandBlockPacket(pos, wrapped.toActualCommand(), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
+			Minecraft.getInstance().getConnection().send(new CUpdateCommandBlockPacket(pos.above(), removeFill.toActualCommand(), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
 			
 			return true;
 		}
@@ -209,7 +209,7 @@ public class BlockHelper
 		
 		if(Minecraft.getInstance().player != null)
 		{
-			builder.setState(BlockStateProperties.HORIZONTAL_FACING, Minecraft.getInstance().player.getHorizontalFacing().getOpposite());
+			builder.setState(BlockStateProperties.HORIZONTAL_FACING, Minecraft.getInstance().player.getDirection().getOpposite());
 		}
 		
 		CommandHelper.sendCommand(player, builder);

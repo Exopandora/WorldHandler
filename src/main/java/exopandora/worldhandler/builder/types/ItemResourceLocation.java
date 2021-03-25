@@ -63,7 +63,7 @@ public class ItemResourceLocation
 		{
 			try
 			{
-				nbt = JsonToNBT.getTagFromJson(input.substring(start, input.lastIndexOf("}") + 1));
+				nbt = JsonToNBT.parseTag(input.substring(start, input.lastIndexOf("}") + 1));
 			}
 			catch(CommandSyntaxException e)
 			{

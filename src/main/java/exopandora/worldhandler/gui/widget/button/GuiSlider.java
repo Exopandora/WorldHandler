@@ -93,8 +93,8 @@ public class GuiSlider extends GuiButtonBase
 	{
 		int value = this.persistence.getValueInt();
 		IFormattableTextComponent suffix = this.logic.formatValue(value).append(this.logic.formatSuffix(value));
-		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-		IFormattableTextComponent text = TextUtils.stripText(this.logic.formatPrefix(value), this.width - fontRenderer.getStringPropertyWidth(suffix), fontRenderer).append(suffix);
+		FontRenderer fontRenderer = Minecraft.getInstance().font;
+		IFormattableTextComponent text = TextUtils.stripText(this.logic.formatPrefix(value), this.width - fontRenderer.width(suffix), fontRenderer).append(suffix);
 		this.setMessage(text);
 	}
 	

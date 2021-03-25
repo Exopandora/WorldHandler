@@ -41,24 +41,24 @@ public class ContentWorldInfo extends Content
 	public void initGui(Container container, int x, int y)
 	{
 		World world = ContentWorldInfo.getSidedWorld();
-		IntegratedServer server = Minecraft.getInstance().getIntegratedServer();
+		IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
 		
 		this.posXField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20);
-		this.posXField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " X: " + ContentWorldInfo.format(world, object -> object.getWorldInfo().getSpawnX()));
+		this.posXField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " X: " + ContentWorldInfo.format(world, object -> object.getLevelData().getXSpawn()));
 		
 		this.posYField = new GuiTextFieldTooltip(x + 118, y + 36, 114, 20);
-		this.posYField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " Y: " + ContentWorldInfo.format(world, object -> object.getWorldInfo().getSpawnY()));
+		this.posYField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " Y: " + ContentWorldInfo.format(world, object -> object.getLevelData().getYSpawn()));
 		
 		this.posZField = new GuiTextFieldTooltip(x + 118, y + 60, 114, 20);
-		this.posZField.setText(I18n.format("gui.worldhandler.world_info.start.spawn") + " Z: " + ContentWorldInfo.format(world, object -> object.getWorldInfo().getSpawnZ()));
+		this.posZField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " Z: " + ContentWorldInfo.format(world, object -> object.getLevelData().getZSpawn()));
 		
 		this.worldField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20);
-		this.worldField.setText(I18n.format("gui.worldhandler.world_info.world.name") + ": " + ContentWorldInfo.format(server, object -> object.getServerConfiguration().getWorldName()));
+		this.worldField.setValue(I18n.get("gui.worldhandler.world_info.world.name") + ": " + ContentWorldInfo.format(server, object -> object.getWorldData().getLevelName()));
 		
 		this.seedField = new GuiTextFieldTooltip(x + 118, y + 36, 114, 20);
-		this.seedField.setText(I18n.format("gui.worldhandler.world_info.world.seed") + ": " + ContentWorldInfo.format(server, object -> object.func_241755_D_().getSeed()));
-		this.seedField.setValidator(string -> string.equals(this.seedField.getText()));
-		this.seedField.setCursorPositionZero();
+		this.seedField.setValue(I18n.get("gui.worldhandler.world_info.world.seed") + ": " + ContentWorldInfo.format(server, object -> object.overworld().getSeed()));
+		this.seedField.setFilter(string -> string.equals(this.seedField.getValue()));
+		this.seedField.moveCursorToStart();
 		
 		this.currentTimeField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20);
 		this.updateCurrentTime();
@@ -100,12 +100,12 @@ public class ContentWorldInfo extends Content
 		else if(Page.WORLD.equals(this.page))
 		{
 			GuiButtonBase seed;
-			IntegratedServer server = Minecraft.getInstance().getIntegratedServer();
+			IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
 			
 			world.active = false;
 			container.add(seed = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslationTextComponent("gui.worldhandler.world_info.world.copy_seed"), () ->
 			{
-				Minecraft.getInstance().keyboardListener.setClipboardString(String.valueOf(server.func_241755_D_().getSeed()));
+				Minecraft.getInstance().keyboardHandler.setClipboard(String.valueOf(server.overworld().getSeed()));
 			}));
 			
 			seed.active = server != null;
@@ -147,21 +147,21 @@ public class ContentWorldInfo extends Content
 	
 	private void updateCurrentTime()
 	{
-		World world = Minecraft.getInstance().world;
+		World world = Minecraft.getInstance().level;
 		
 		if(world != null)
 		{
-			this.currentTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.world_time") + ": " + TextUtils.formatWorldTime(world.getWorldInfo().getDayTime()));
+			this.currentTimeField.setValue(I18n.get("gui.worldhandler.world_info.statistics.world_time") + ": " + TextUtils.formatWorldTime(world.getLevelData().getDayTime()));
 		}
 	}
 	
 	private void updateTotalTime()
 	{
-		World world = Minecraft.getInstance().world;
+		World world = Minecraft.getInstance().level;
 		
 		if(world != null)
 		{
-			this.totalTimeField.setText(I18n.format("gui.worldhandler.world_info.statistics.played") + ": " + TextUtils.formatTotalTime(world.getWorldInfo().getGameTime()));
+			this.totalTimeField.setValue(I18n.get("gui.worldhandler.world_info.statistics.played") + ": " + TextUtils.formatTotalTime(world.getLevelData().getGameTime()));
 		}
 	}
 	
@@ -172,17 +172,17 @@ public class ContentWorldInfo extends Content
 			return String.valueOf(function.apply(object));
 		}
 		
-		return I18n.format("gui.worldhandler.world_info.n_a");
+		return I18n.get("gui.worldhandler.world_info.n_a");
 	}
 	
 	private static World getSidedWorld()
 	{
-		if(Minecraft.getInstance().isSingleplayer())
+		if(Minecraft.getInstance().isLocalServer())
 		{
-			return Minecraft.getInstance().getIntegratedServer().func_241755_D_();
+			return Minecraft.getInstance().getSingleplayerServer().overworld();
 		}
 		
-		return Minecraft.getInstance().world;
+		return Minecraft.getInstance().level;
 	}
 	
 	@Override

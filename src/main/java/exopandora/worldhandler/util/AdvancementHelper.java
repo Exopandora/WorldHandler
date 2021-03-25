@@ -34,13 +34,13 @@ public class AdvancementHelper implements IFutureReloadListener
 		return CompletableFuture.supplyAsync(() ->
 		{
 			SimpleReloadableResourceManager serverResourceManager = new SimpleReloadableResourceManager(ResourcePackType.SERVER_DATA);
-			serverResourceManager.addReloadListener(new NetworkTagManager());
-			serverResourceManager.addReloadListener(this.manager);
+			serverResourceManager.registerReloadListener(new NetworkTagManager());
+			serverResourceManager.registerReloadListener(this.manager);
 			return serverResourceManager;
-		}).thenCompose(stage::markCompleteAwaitingOthers).thenAcceptAsync(serverResourceManager ->
+		}).thenCompose(stage::wait).thenAcceptAsync(serverResourceManager ->
 		{
-			List<IResourcePack> list = Minecraft.getInstance().getResourcePackList().getEnabledPacks().stream().map(ResourcePackInfo::getResourcePack).collect(Collectors.toList());
-			serverResourceManager.reloadResources(backgroundExecutor, gameExecutor, CompletableFuture.completedFuture(Unit.INSTANCE), list);
+			List<IResourcePack> list = Minecraft.getInstance().getResourcePackRepository().getSelectedPacks().stream().map(ResourcePackInfo::open).collect(Collectors.toList());
+			serverResourceManager.createFullReload(backgroundExecutor, gameExecutor, CompletableFuture.completedFuture(Unit.INSTANCE), list);
 		});
 	}
 	

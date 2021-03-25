@@ -154,7 +154,7 @@ public class UsercontentLoader
 	private static boolean isValidPathName(Path path)
 	{
 		String name = path.getFileName().toString();
-		boolean valid = ResourceLocation.isResouceNameValid(name);
+		boolean valid = ResourceLocation.isValidResourceLocation(name);
 		
 		if(!valid)
 		{

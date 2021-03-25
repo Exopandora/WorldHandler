@@ -55,7 +55,7 @@ public class GuiButtonPiano extends GuiButtonBase
 		
 		int hovered = this.getYImage(this.isHovered());
 		RenderUtils.color(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlpha());
-		Minecraft.getInstance().getTextureManager().bindTexture(NOTE);
+		Minecraft.getInstance().getTextureManager().bind(NOTE);
 		
 		switch(this.type)
 		{
@@ -75,10 +75,10 @@ public class GuiButtonPiano extends GuiButtonBase
 	protected void drawWhiteKey(MatrixStack matrix, int hoverstate)
 	{
 		int textColor = this.getFGColor();
-		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+		FontRenderer fontRenderer = Minecraft.getInstance().font;
 		
 		this.blit(matrix, this.x, this.y, 25 + hoverstate * 15 - 15, 0, 15, 92);
-		fontRenderer.func_243248_b(matrix, this.getMessage(), (float) (this.x + this.width / 2 - fontRenderer.getStringPropertyWidth(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor); //drawString
+		fontRenderer.draw(matrix, this.getMessage(), (float) (this.x + this.width / 2 - fontRenderer.width(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor); //drawString
 	}
 	
 	protected void drawBlackKey(MatrixStack matrix, int hoverstate)
@@ -108,7 +108,7 @@ public class GuiButtonPiano extends GuiButtonBase
 	{
 		if(this.sound != null)
 		{
-			soundHandler.play(SimpleSound.master(this.sound, this.pitch));
+			soundHandler.play(SimpleSound.forUI(this.sound, this.pitch));
 		}
 	}
 	

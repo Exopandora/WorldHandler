@@ -16,7 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 @OnlyIn(Dist.CLIENT)
 public abstract class ComponentAttribute implements IBuilderComponent
 {	
-	public static final List<Attribute> ATTRIBUTES = ForgeRegistries.ATTRIBUTES.getValues().stream().filter(attribute -> !attribute.getAttributeName().equals(I18n.format(attribute.getAttributeName()))).collect(Collectors.toList());
+	public static final List<Attribute> ATTRIBUTES = ForgeRegistries.ATTRIBUTES.getValues().stream().filter(attribute -> !attribute.getDescriptionId().equals(I18n.get(attribute.getDescriptionId()))).collect(Collectors.toList());
 	
 	protected Map<Attribute, Double> attributes = new HashMap<Attribute, Double>();
 	

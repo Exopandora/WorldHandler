@@ -31,7 +31,7 @@ public class ComponentAttributeItem extends ComponentAttribute
 				attribute.putString("AttributeName", id);
 				attribute.putDouble("Amount", entry.getValue() / 100);
 				attribute.putInt("Operation", 1); // 0 = additive, 1 = percentage
-				attribute.putUniqueId("UUID", UUID.nameUUIDFromBytes(id.getBytes()));
+				attribute.putUUID("UUID", UUID.nameUUIDFromBytes(id.getBytes()));
 				
 				attributes.add(attribute);
 			}

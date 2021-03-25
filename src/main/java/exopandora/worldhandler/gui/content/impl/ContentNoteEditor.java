@@ -65,7 +65,7 @@ public class ContentNoteEditor extends Content
 		if(this.isActive)
 		{
 			BlockPos pos = this.builderNoteEditor.getBlockPos();
-			SoundEvent sound = this.getSoundEvent(pos.down());
+			SoundEvent sound = this.getSoundEvent(pos.below());
 			
 			container.add(new GuiButtonPiano(x - 3 + 15, y, 14, 92, new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.g"), sound, 0.53F, Type.NORMAL, () ->
 			{
@@ -182,7 +182,7 @@ public class ContentNoteEditor extends Content
 		if(this.isActive)
 		{
 			RenderUtils.color(1.0F, 1.0F, 1.0F);
-			Minecraft.getInstance().getTextureManager().bindTexture(NOTE);
+			Minecraft.getInstance().getTextureManager().bind(NOTE);
 			
 			container.blit(matrix, x - 1, y - 1, 0, 0, 8, 59);
 			container.blit(matrix, x - 1, y - 1 + 59, 0, 59, 13, 35);
@@ -197,26 +197,26 @@ public class ContentNoteEditor extends Content
 		{
     		float scale = 4;
     		
-            matrix.push();
+            matrix.pushPose();
             matrix.translate(container.width / 2 - 8 * scale, container.height / 2 - 15 - 8 * scale, 0);
             matrix.scale(scale, scale, scale);
             
     		RenderUtils.renderItemIntoGUI(matrix, new ItemStack(Blocks.NOTE_BLOCK), 0, 0);
-    		matrix.pop();
+    		matrix.popPose();
 			
-    		TranslationTextComponent text = new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.look_at_note_block", KeyHandler.KEY_WORLD_HANDLER.func_238171_j_());
-			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-			fontRenderer.func_243248_b(matrix, text, x + 116 - fontRenderer.getStringPropertyWidth(text) / 2, y + 70, Config.getSkin().getLabelColor());
+    		TranslationTextComponent text = new TranslationTextComponent("gui.worldhandler.blocks.note_block_editor.look_at_note_block", KeyHandler.KEY_WORLD_HANDLER.getTranslatedKeyMessage());
+			FontRenderer fontRenderer = Minecraft.getInstance().font;
+			fontRenderer.draw(matrix, text, x + 116 - fontRenderer.width(text) / 2, y + 70, Config.getSkin().getLabelColor());
 		}
 	}
 	
 	private SoundEvent getSoundEvent(BlockPos blockPos)
 	{
-		World world = Minecraft.getInstance().world;
+		World world = Minecraft.getInstance().level;
 		
 		if(world != null)
     	{
-			return NoteBlockInstrument.byState(world.getBlockState(blockPos)).getSound();
+			return NoteBlockInstrument.byState(world.getBlockState(blockPos)).getSoundEvent();
     	}
 		
 		return null;

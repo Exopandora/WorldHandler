@@ -22,9 +22,9 @@ public class WidgetWatch implements IContainerWidget
 		
 		long time = 0;
 		
-		if(Minecraft.getInstance().world != null)
+		if(Minecraft.getInstance().level != null)
 		{
-			time = Minecraft.getInstance().world.getWorldInfo().getDayTime();
+			time = Minecraft.getInstance().level.getLevelData().getDayTime();
 		}
 		
 		RenderUtils.drawWatchIntoGui(matrix, container, watchX, watchY, time, Config.getSettings().smoothWatch());

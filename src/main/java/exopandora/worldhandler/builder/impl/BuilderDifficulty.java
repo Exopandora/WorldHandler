@@ -24,7 +24,7 @@ public class BuilderDifficulty extends CommandBuilder
 	{
 		if(difficulty != null)
 		{
-			this.setNode(0, difficulty.getTranslationKey());
+			this.setNode(0, difficulty.getKey());
 		}
 	}
 	

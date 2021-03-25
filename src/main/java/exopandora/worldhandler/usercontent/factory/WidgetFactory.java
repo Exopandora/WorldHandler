@@ -113,9 +113,9 @@ public class WidgetFactory extends AbstractWidgetFactory
 				widget.getLayout().getHeight(),
 				TextUtils.formatNonnull(widget.getText())
 			);
-			textfield.setValidator(Predicates.notNull());
-			textfield.setText(this.getApi().getValue(widget.getAttributes().getId()));
-			textfield.setResponder(this.getActionHandlerFactory().createResponder(string -> textfield.getText(), widget.getAttributes().getId(), widget.getAction()));
+			textfield.setFilter(Predicates.notNull());
+			textfield.setValue(this.getApi().getValue(widget.getAttributes().getId()));
+			textfield.setResponder(this.getActionHandlerFactory().createResponder(string -> textfield.getValue(), widget.getAttributes().getId(), widget.getAction()));
 			
 			return textfield;
 		}

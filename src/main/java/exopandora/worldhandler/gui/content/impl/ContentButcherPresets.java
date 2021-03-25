@@ -45,12 +45,12 @@ public class ContentButcherPresets extends ContentChild
 		
 		container.add(new GuiButtonBase(x + 58, y, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets.passive_mobs"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> !EntityClassification.MONSTER.equals(entity.getClassification()) && !EntityClassification.MISC.equals(entity.getClassification())).collect(Collectors.toList()), this.radius);
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> !EntityClassification.MONSTER.equals(entity.getCategory()) && !EntityClassification.MISC.equals(entity.getCategory())).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
 		container.add(new GuiButtonBase(x + 58, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets.hostile_mobs"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> EntityClassification.MONSTER.equals(entity.getClassification())).collect(Collectors.toList()), this.radius);
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> EntityClassification.MONSTER.equals(entity.getCategory())).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
 		container.add(new GuiButtonBase(x + 58, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets.players"), () ->
@@ -60,7 +60,7 @@ public class ContentButcherPresets extends ContentChild
 		}));
 		container.add(new GuiButtonBase(x + 58, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.presets.entities"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> EntityClassification.MISC.equals(entity.getClassification()) && !EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> EntityClassification.MISC.equals(entity.getCategory()) && !EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
 	}

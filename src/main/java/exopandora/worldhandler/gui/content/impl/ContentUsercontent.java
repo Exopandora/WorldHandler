@@ -153,7 +153,7 @@ public class ContentUsercontent extends Content
 			{
 				if(label.getVisible() == null || label.getVisible().eval(this.engineAdapter))
 				{
-					container.getMinecraft().fontRenderer.func_243248_b(matrix, TextUtils.formatNonnull(label.getText()), label.getX() + x, label.getY() + y, label.getColor());
+					container.getMinecraft().font.draw(matrix, TextUtils.formatNonnull(label.getText()), label.getX() + x, label.getY() + y, label.getColor());
 				}
 			}
 		}
@@ -257,14 +257,14 @@ public class ContentUsercontent extends Content
 	private void printError(String type, int index, Throwable e)
 	{
 		ITextComponent message = new StringTextComponent(TextFormatting.RED + "<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage());
-		Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.CHAT, message, Util.DUMMY_UUID);
+		Minecraft.getInstance().gui.handleChat(ChatType.CHAT, message, Util.NIL_UUID);
 	}
 	
 	private void updateTextfields()
 	{
 		for(VisibleActiveObject<TextFieldWidget> visObj : this.textfields.values())
 		{
-			visObj.getObject().setEnabled(visObj.isEnabled(this.engineAdapter));
+			visObj.getObject().setEditable(visObj.isEnabled(this.engineAdapter));
 			visObj.getObject().setVisible(visObj.isVisible(this.engineAdapter));
 		}
 	}

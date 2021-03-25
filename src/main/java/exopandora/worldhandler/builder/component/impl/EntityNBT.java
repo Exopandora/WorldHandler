@@ -399,7 +399,7 @@ public class EntityNBT implements IBuilderComponent
 	{
 		try
 		{
-			this.nbt = JsonToNBT.getTagFromJson("{" + nbt + "}");
+			this.nbt = JsonToNBT.parseTag("{" + nbt + "}");
 		}
 		catch(CommandSyntaxException e)
 		{

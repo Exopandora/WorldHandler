@@ -18,7 +18,7 @@ public interface ILogicMapped<T> extends ILogic
 		
 		if(tooltip != null)
 		{
-			return tooltip.appendString(String.format(" (%d/%d)", index, max));
+			return tooltip.append(String.format(" (%d/%d)", index, max));
 		}
 		
 		return (IFormattableTextComponent) StringTextComponent.EMPTY;

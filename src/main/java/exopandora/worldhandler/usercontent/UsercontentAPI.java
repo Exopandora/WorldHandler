@@ -40,7 +40,7 @@ public class UsercontentAPI
 	{
 		if(object != null)
 		{
-			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.CHAT, new StringTextComponent(object.toString()), Util.DUMMY_UUID);
+			Minecraft.getInstance().gui.handleChat(ChatType.CHAT, new StringTextComponent(object.toString()), Util.NIL_UUID);
 		}
 	}
 	

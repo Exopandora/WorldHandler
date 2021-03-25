@@ -52,8 +52,8 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	public void initGui(Container container, int x, int y)
 	{
 		this.objectField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.objectives.objective"));
-		this.objectField.setValidator(Predicates.notNull());
-		this.objectField.setText(ContentScoreboard.getObjective());
+		this.objectField.setFilter(Predicates.notNull());
+		this.objectField.setValue(ContentScoreboard.getObjective());
 		this.objectField.setResponder(text ->
 		{
 			ContentScoreboard.setObjective(text);
@@ -102,12 +102,12 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 					
 					String translation = "stat." + key;
 					
-					if(!translation.equals(I18n.format(translation)))
+					if(!translation.equals(I18n.get(translation)))
 					{
 						return new TranslationTextComponent(translation);
 					}
 					
-					if(Arrays.stream(TextFormatting.values()).map(TextFormatting::getFriendlyName).anyMatch(Predicates.equalTo(key)))
+					if(Arrays.stream(TextFormatting.values()).map(TextFormatting::getName).anyMatch(Predicates.equalTo(key)))
 					{
 						return new TranslationTextComponent("gui.worldhandler.color." + key);
 					}
@@ -141,7 +141,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				@Nullable
 				private ResourceLocation makeResourceLocation(String key)
 				{
-					return ResourceLocation.tryCreate(key.replace(".", ":"));
+					return ResourceLocation.tryParse(key.replace(".", ":"));
 				}
 				
 				@Nullable

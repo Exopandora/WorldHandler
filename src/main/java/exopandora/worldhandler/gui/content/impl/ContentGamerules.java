@@ -55,9 +55,9 @@ public class ContentGamerules extends Content
 	public void initGui(Container container, int x, int y)
 	{
 		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.value"));
-		this.valueField.setValidator(Predicates.notNull());
-		this.valueField.setText(this.value);
-		this.valueField.setCursorPositionEnd();
+		this.valueField.setFilter(Predicates.notNull());
+		this.valueField.setValue(this.value);
+		this.valueField.moveCursorToEnd();
 		this.valueField.setResponder(text ->
 		{
 			this.value = text;
@@ -66,12 +66,12 @@ public class ContentGamerules extends Content
 		
 		Map<String, ArgumentType<?>> map = new HashMap<String, ArgumentType<?>>();
 		
-		GameRules.visitAll(new IRuleEntryVisitor()
+		GameRules.visitGameRuleTypes(new IRuleEntryVisitor()
 		{
 			@Override
 			public <T extends RuleValue<T>> void visit(RuleKey<T> rule, RuleType<T> type)
 			{
-				map.put(rule.getName(), type.createArgument(null).getType());
+				map.put(rule.getId(), type.createArgument(null).getType());
 			}
 		});
 		

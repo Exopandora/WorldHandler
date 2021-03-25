@@ -61,11 +61,11 @@ public class ContentCommandStack extends ContentChild
 		this.builderCommandStack.setZ(new CoordinateDouble(0.0D, EnumType.GLOBAL));
 		this.builderCommandStack.setMotion(0.0D, 0.315D, 0.0D);
 		this.builderCommandStack.setTime(1);
-		this.builderCommandStack.setBlockState(Blocks.ACTIVATOR_RAIL.getDefaultState());
+		this.builderCommandStack.setBlockState(Blocks.ACTIVATOR_RAIL.defaultBlockState());
 		
 		EntityNBT redstoneBlock = new EntityNBT(EntityType.FALLING_BLOCK.getRegistryName());
 		redstoneBlock.setTime(1);
-		redstoneBlock.setBlockState(Blocks.REDSTONE_BLOCK.getDefaultState());
+		redstoneBlock.setBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState());
 		this.builderCommandStack.addPassenger(redstoneBlock);
 		
 		this.addCommand(0);
@@ -100,8 +100,8 @@ public class ContentCommandStack extends ContentChild
 			int command = index + this.scroll;
 			
 			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip(x, y + 24 * index, 232 - 48, 20, new TranslationTextComponent("gui.worldhandler.command_stack.command_n", command + 1));
-			textfield.setValidator(Predicates.notNull());
-			textfield.setText(command < this.getCommandCount() ? this.getCommand(command) : null);
+			textfield.setFilter(Predicates.notNull());
+			textfield.setValue(command < this.getCommandCount() ? this.getCommand(command) : null);
 			textfield.setResponder(text ->
 			{
 				this.setCommand(command, text);
@@ -169,7 +169,7 @@ public class ContentCommandStack extends ContentChild
 		
 		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.command_stack.copy_command"), () -> 
 		{
-			Minecraft.getInstance().keyboardListener.setClipboardString(this.builderCommandStack.toActualCommand());
+			Minecraft.getInstance().keyboardHandler.setClipboard(this.builderCommandStack.toActualCommand());
 		}));
 		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, new TranslationTextComponent("gui.worldhandler.actions.move_up"), () ->
 		{

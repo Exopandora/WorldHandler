@@ -78,7 +78,7 @@ public class MenuPageList<T> extends Menu
 			if(index < this.items.size())
 			{
 				T item = this.items.get(index);
-				IFormattableTextComponent text = TextUtils.stripText(this.logic.translate(item), this.width, Minecraft.getInstance().fontRenderer);
+				IFormattableTextComponent text = TextUtils.stripText(this.logic.translate(item), this.width, Minecraft.getInstance().font);
 				button = this.logic.onRegister(this.x, this.y + (this.height + 4) * x, this.width, this.height, text, item, () ->
 				{
 					this.persistence.setSelectedIndex(index);
@@ -109,7 +109,7 @@ public class MenuPageList<T> extends Menu
 	@Override
 	public void draw(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		Minecraft.getInstance().fontRenderer.drawString(matrix, String.format("%d/%d", this.persistence.getPage() + 1, this.getTotalPages()), this.x, this.y - 11, Config.getSkin().getHeadlineColor());
+		Minecraft.getInstance().font.draw(matrix, String.format("%d/%d", this.persistence.getPage() + 1, this.getTotalPages()), this.x, this.y - 11, Config.getSkin().getHeadlineColor());
 	}
 	
 	private void goLeft(Container container)

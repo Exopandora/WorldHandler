@@ -41,16 +41,16 @@ public class CommandWH
 				.then(Commands.literal("pos2")
 					.executes(context -> pos2(context.getSource())))
 				.then(Commands.literal("fill")
-					.requires(source -> source.hasPermissionLevel(2))
-						.then(Commands.argument("block", BlockStateArgument.blockState())
-							.executes(context -> fill(context.getSource(), BlockStateArgument.getBlockState(context, "block")))))
+					.requires(source -> source.hasPermission(2))
+						.then(Commands.argument("block", BlockStateArgument.block())
+							.executes(context -> fill(context.getSource(), BlockStateArgument.getBlock(context, "block")))))
 				.then(Commands.literal("replace")
-					.requires(source -> source.hasPermissionLevel(2))
-						.then(Commands.argument("block", BlockStateArgument.blockState())
-							.then(Commands.argument("replace", BlockStateArgument.blockState())
-								.executes(context -> replace(context.getSource(), BlockStateArgument.getBlockState(context, "block"), BlockStateArgument.getBlockState(context, "replace"))))))
+					.requires(source -> source.hasPermission(2))
+						.then(Commands.argument("block", BlockStateArgument.block())
+							.then(Commands.argument("replace", BlockStateArgument.block())
+								.executes(context -> replace(context.getSource(), BlockStateArgument.getBlock(context, "block"), BlockStateArgument.getBlock(context, "replace"))))))
 				.then(Commands.literal("clone")
-					.requires(source -> source.hasPermissionLevel(2))
+					.requires(source -> source.hasPermission(2))
 					.executes(context -> clone(context.getSource(), "masked"))
 						.then(Commands.literal("filtered")
 							.then(Commands.argument("filter", StringBlockPredicateArgument.blockPredicate())
@@ -110,7 +110,7 @@ public class CommandWH
 			{
 				BuilderFill builder = new BuilderFill();
 				builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-				CommandHelper.sendCommand(source.getName(), builder);
+				CommandHelper.sendCommand(source.getTextName(), builder);
 			}
 		});
 		
@@ -132,7 +132,7 @@ public class CommandWH
 				builder.setBlockHandling(EnumBlockFilter.REPLACE);
 				builder.setBlock1(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
 				builder.setBlock2(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-				CommandHelper.sendCommand(source.getName(), builder);
+				CommandHelper.sendCommand(source.getTextName(), builder);
 			}
 		});
 		
@@ -153,7 +153,7 @@ public class CommandWH
 				builder.setPosition2(BlockHelper.getPos2());
 				builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
 				builder.setFilter(filter);
-				CommandHelper.sendCommand(source.getName(), builder);
+				CommandHelper.sendCommand(source.getTextName(), builder);
 			}
 		});
 		
@@ -173,7 +173,7 @@ public class CommandWH
 				builder.setPosition1(BlockHelper.getPos1());
 				builder.setPosition2(BlockHelper.getPos2());
 				builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
-				CommandHelper.sendCommand(source.getName(), builder);
+				CommandHelper.sendCommand(source.getTextName(), builder);
 			}
 		});
 		

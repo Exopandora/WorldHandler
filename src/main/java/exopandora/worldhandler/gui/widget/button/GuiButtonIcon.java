@@ -34,7 +34,7 @@ public class GuiButtonIcon extends GuiButtonTooltip
 	
 	private void renderIcon(MatrixStack matrix)
 	{
-		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.iconTexture());
+		Minecraft.getInstance().getTextureManager().bind(ResourceHelper.iconTexture());
 		
 		if(this.active)
 		{

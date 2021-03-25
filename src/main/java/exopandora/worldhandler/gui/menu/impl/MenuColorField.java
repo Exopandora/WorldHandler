@@ -67,9 +67,9 @@ public class MenuColorField extends Menu
 	public void initGui(Container container)
 	{
 		this.textField = new GuiTextFieldTooltip(this.x + 118, this.y, 114, 20, new TranslationTextComponent(this.translationKey));
-		this.textField.setValidator(this.logic::validate);
-		this.textField.setTextFormatter(this.string::formatter);
-		this.textField.setText(this.string.getUnformattedComponentText());
+		this.textField.setFilter(this.logic::validate);
+		this.textField.setFormatter(this.string::formatter);
+		this.textField.setValue(this.string.getContents());
 		this.textField.setResponder(text ->
 		{
 			this.string.setText(text);
@@ -91,7 +91,7 @@ public class MenuColorField extends Menu
 				@Override
 				public IFormattableTextComponent translate(TextFormatting item)
 				{
-					return new TranslationTextComponent("gui.worldhandler.color").mergeStyle(item).appendString(": ").append(new TranslationTextComponent("gui.worldhandler.color." + item.getFriendlyName()));
+					return new TranslationTextComponent("gui.worldhandler.color").withStyle(item).append(": ").append(new TranslationTextComponent("gui.worldhandler.color." + item.getName()));
 				}
 				
 				@Override
@@ -109,7 +109,7 @@ public class MenuColorField extends Menu
 				@Override
 				public void onClick(TextFormatting item)
 				{
-					MenuColorField.this.string.mergeStyle(item);
+					MenuColorField.this.string.withStyle(item);
 				}
 				
 				@Override
@@ -119,29 +119,29 @@ public class MenuColorField extends Menu
 				}
 			}));
 			
-			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, new StringTextComponent("I").setStyle(Style.EMPTY.setItalic(this.string.getStyle().getItalic())), () ->
+			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, new StringTextComponent("I").setStyle(Style.EMPTY.withItalic(this.string.getStyle().isItalic())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().setItalic(!this.string.getStyle().getItalic()));
+				this.string.setStyle(this.string.getStyle().withItalic(!this.string.getStyle().isItalic()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, new StringTextComponent("B").setStyle(Style.EMPTY.setBold(this.string.getStyle().getBold())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, new StringTextComponent("B").setStyle(Style.EMPTY.withBold(this.string.getStyle().isBold())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().setItalic(!this.string.getStyle().getBold()));
+				this.string.setStyle(this.string.getStyle().withItalic(!this.string.getStyle().isBold()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, new StringTextComponent("U").setStyle(Style.EMPTY.setUnderlined(this.string.getStyle().getUnderlined())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, new StringTextComponent("U").setStyle(Style.EMPTY.setUnderlined(this.string.getStyle().isUnderlined())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().setUnderlined(!this.string.getStyle().getUnderlined()));
+				this.string.setStyle(this.string.getStyle().setUnderlined(!this.string.getStyle().isUnderlined()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, new StringTextComponent("S").setStyle(Style.EMPTY.setStrikethrough(this.string.getStyle().getStrikethrough())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, new StringTextComponent("S").setStyle(Style.EMPTY.setStrikethrough(this.string.getStyle().isStrikethrough())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().setStrikethrough(!this.string.getStyle().getStrikethrough()));
+				this.string.setStyle(this.string.getStyle().setStrikethrough(!this.string.getStyle().isStrikethrough()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, new StringTextComponent("O").setStyle(Style.EMPTY.setObfuscated(this.string.getStyle().getObfuscated())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, new StringTextComponent("O").setStyle(Style.EMPTY.setObfuscated(this.string.getStyle().isObfuscated())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().setObfuscated(!this.string.getStyle().getObfuscated()));
+				this.string.setStyle(this.string.getStyle().setObfuscated(!this.string.getStyle().isObfuscated()));
 				container.init();
 			}));
 		}

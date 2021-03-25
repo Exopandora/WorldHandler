@@ -34,8 +34,8 @@ public class ActionHelper
 {
 	public static void backToGame()
 	{
-		Minecraft.getInstance().displayGuiScreen(null);
-		Minecraft.getInstance().mouseHelper.grabMouse();
+		Minecraft.getInstance().setScreen(null);
+		Minecraft.getInstance().mouseHandler.grabMouse();
 	}
 	
 	public static void back(Content content) throws Exception
@@ -58,90 +58,90 @@ public class ActionHelper
 	{
 		if(content != null && !(content instanceof ContentContinue))
 		{
-			if(content instanceof ContentChild && Minecraft.getInstance().currentScreen != null && Minecraft.getInstance().currentScreen instanceof GuiWorldHandler)
+			if(content instanceof ContentChild && Minecraft.getInstance().screen != null && Minecraft.getInstance().screen instanceof GuiWorldHandler)
 			{
-				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(((ContentChild) content).withParent(((GuiWorldHandler) Minecraft.getInstance().currentScreen).getContent())));
+				Minecraft.getInstance().setScreen(new GuiWorldHandler(((ContentChild) content).withParent(((GuiWorldHandler) Minecraft.getInstance().screen).getContent())));
 			}
 			else
 			{
-				Minecraft.getInstance().displayGuiScreen(new GuiWorldHandler(content));
+				Minecraft.getInstance().setScreen(new GuiWorldHandler(content));
 			}
 		}
 	}
 	
 	public static void timeDawn()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderTime(EnumMode.SET, Config.getSettings().getDawn()));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getDawn()));
 	}
 	
 	public static void timeNoon()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderTime(EnumMode.SET, Config.getSettings().getNoon()));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getNoon()));
 	}
 	
 	public static void timeSunset()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderTime(EnumMode.SET, Config.getSettings().getSunset()));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getSunset()));
 	}
 	
 	public static void timeMidnight()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderTime(EnumMode.SET, Config.getSettings().getMidnight()));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getMidnight()));
 	}
 	
 	public static void weatherClear()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderWeather(EnumWeather.CLEAR));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderWeather(EnumWeather.CLEAR));
 	}
 	
 	public static void weatherRain()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderWeather(EnumWeather.RAIN));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderWeather(EnumWeather.RAIN));
 	}
 	
 	public static void weatherThunder()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderWeather(EnumWeather.THUNDER));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderWeather(EnumWeather.THUNDER));
 	}
 	
 	public static void difficultyPeaceful()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderDifficulty(Difficulty.PEACEFUL));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderDifficulty(Difficulty.PEACEFUL));
 	}
 	
 	public static void difficultyEasy()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderDifficulty(Difficulty.EASY));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderDifficulty(Difficulty.EASY));
 	}
 	
 	public static void difficultyNormal()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderDifficulty(Difficulty.NORMAL));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderDifficulty(Difficulty.NORMAL));
 	}
 	
 	public static void difficultyHard()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderDifficulty(Difficulty.HARD));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderDifficulty(Difficulty.HARD));
 	}
 	
 	public static void gamemodeSurvival()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderGamemode(EnumGamemode.SURVIVAL));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderGamemode(EnumGamemode.SURVIVAL));
 	}
 	
 	public static void gamemodeCreative()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderGamemode(EnumGamemode.CREATIVE));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderGamemode(EnumGamemode.CREATIVE));
 	}
 	
 	public static void gamemodeAdventure()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderGamemode(EnumGamemode.ADVENTURE));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderGamemode(EnumGamemode.ADVENTURE));
 	}
 	
 	public static void gamemodeSpectator()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getSession().getUsername(), new BuilderGamemode(EnumGamemode.SPECTATOR));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderGamemode(EnumGamemode.SPECTATOR));
 	}
 	
 	public static void tryRun(ActionHandler action)
@@ -155,14 +155,14 @@ public class ActionHelper
 		}
 		catch(Exception e)
 		{
-			Minecraft.getInstance().displayGuiScreen(null);
-			Minecraft.getInstance().mouseHelper.grabMouse();
+			Minecraft.getInstance().setScreen(null);
+			Minecraft.getInstance().mouseHandler.grabMouse();
 			
-			ITextComponent message = new TranslationTextComponent("<" + Main.NAME + "> %s", new TranslationTextComponent("worldhandler.error.gui")).mergeStyle(TextFormatting.RED);
-			ITextComponent cause = new StringTextComponent(" " + e.getClass().getCanonicalName() + ": " + e.getMessage()).mergeStyle(TextFormatting.RED);
+			ITextComponent message = new TranslationTextComponent("<" + Main.NAME + "> %s", new TranslationTextComponent("worldhandler.error.gui")).withStyle(TextFormatting.RED);
+			ITextComponent cause = new StringTextComponent(" " + e.getClass().getCanonicalName() + ": " + e.getMessage()).withStyle(TextFormatting.RED);
 			
-			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, message, Util.DUMMY_UUID);
-			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, cause, Util.DUMMY_UUID);
+			Minecraft.getInstance().gui.handleChat(ChatType.SYSTEM, message, Util.NIL_UUID);
+			Minecraft.getInstance().gui.handleChat(ChatType.SYSTEM, cause, Util.NIL_UUID);
 			
 			WorldHandler.LOGGER.throwing(e);
 		}
@@ -172,8 +172,8 @@ public class ActionHelper
 	{
 		if(!CommandHelper.canPlayerIssueCommand() && Config.getSettings().permissionQuery())
 		{
-			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused")), Util.DUMMY_UUID);
-			Minecraft.getInstance().ingameGUI.func_238450_a_(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.format("worldhandler.permission.refused.change", I18n.format("gui.worldhandler.config.settings.permission_query"))), Util.DUMMY_UUID);
+			Minecraft.getInstance().gui.handleChat(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.get("worldhandler.permission.refused")), Util.NIL_UUID);
+			Minecraft.getInstance().gui.handleChat(ChatType.SYSTEM, new StringTextComponent(TextFormatting.RED + I18n.get("worldhandler.permission.refused.change", I18n.get("gui.worldhandler.config.settings.permission_query"))), Util.NIL_UUID);
 		}
 		else
 		{

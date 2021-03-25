@@ -33,14 +33,14 @@ public class ScoreboardHelper
 	private void init()
 	{
 		//Lists
-		final List<Node> colors = this.createList(TextFormatting.values(), TextFormatting::getFriendlyName, TextFormatting::isColor);
-		final List<Node> visibility = this.createList(Visible.values(), value -> value.internalName);
+		final List<Node> colors = this.createList(TextFormatting.values(), TextFormatting::getName, TextFormatting::isColor);
+		final List<Node> visibility = this.createList(Visible.values(), value -> value.name);
 		final List<Node> collision = this.createList(CollisionRule.values(), value -> value.name);
 		final List<Node> bool = this.createList(new Boolean[] {true, false}, String::valueOf);
 		
 		//Objectives
 		
-		for(String scoreCriteria : ScoreCriteria.INSTANCES.keySet())
+		for(String scoreCriteria : ScoreCriteria.CRITERIA_BY_NAME.keySet())
 		{
 			this.objectives.insertNode(scoreCriteria.split("[.:]"));
 		}

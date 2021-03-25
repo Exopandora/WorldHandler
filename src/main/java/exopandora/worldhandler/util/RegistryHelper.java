@@ -32,19 +32,19 @@ public class RegistryHelper
 	
 	static
 	{
-		registerRegistry(ForgeRegistries.BLOCKS, Block::getTranslationKey);
-		registerRegistry(ForgeRegistries.ITEMS, Item::getTranslationKey);
-		registerRegistry(ForgeRegistries.POTIONS, Effect::getName);
+		registerRegistry(ForgeRegistries.BLOCKS, Block::getDescriptionId);
+		registerRegistry(ForgeRegistries.ITEMS, Item::getDescriptionId);
+		registerRegistry(ForgeRegistries.POTIONS, Effect::getDescriptionId);
 		registerRegistry(ForgeRegistries.BIOMES, biome ->
 		{
-			MutableRegistry<Biome> registry = DynamicRegistries.func_239770_b_().getRegistry(Registry.BIOME_KEY);
+			MutableRegistry<Biome> registry = DynamicRegistries.builtin().registryOrThrow(Registry.BIOME_REGISTRY);
 			ResourceLocation resource = registry.getKey(biome);
 			String key = "biome." + biome.getRegistryName().getNamespace() + "." + resource.getPath();
 			
-			return LanguageMap.getInstance().func_230506_b_(key) ? key : resource.toString();
+			return LanguageMap.getInstance().has(key) ? key : resource.toString();
 		});
-		registerRegistry(ForgeRegistries.ENCHANTMENTS, Enchantment::getName);
-		registerRegistry(ForgeRegistries.ENTITIES, EntityType::getTranslationKey);
+		registerRegistry(ForgeRegistries.ENCHANTMENTS, Enchantment::getDescriptionId);
+		registerRegistry(ForgeRegistries.ENTITIES, EntityType::getDescriptionId);
 		registerRegistry(ForgeRegistries.STAT_TYPES, stat -> "stat." + stat.toString().replace(':', '.'));
 	}
 	

@@ -21,7 +21,7 @@ public class GuiButtonItem extends GuiButtonBase
 	
 	public GuiButtonItem(int x, int y, int width, int height, ItemStack stack, ActionHandler actionHandler)
 	{
-		super(x, y, width, height, stack.getTextComponent(), actionHandler);
+		super(x, y, width, height, stack.getHoverName(), actionHandler);
 		this.stack = stack;
 	}
 	
@@ -29,6 +29,6 @@ public class GuiButtonItem extends GuiButtonBase
 	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		super.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
-		Minecraft.getInstance().getItemRenderer().renderItemIntoGUI(this.stack, this.x + this.width / 2 - 8, this.y + 2);
+		Minecraft.getInstance().getItemRenderer().renderGuiItem(this.stack, this.x + this.width / 2 - 8, this.y + 2);
 	}
 }

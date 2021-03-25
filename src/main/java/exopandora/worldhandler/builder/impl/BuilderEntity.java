@@ -423,7 +423,7 @@ public abstract class BuilderEntity extends CommandBuilderNBT
 		
 		for(EntityType<?> type : ForgeRegistries.ENTITIES.getValues())
 		{
-			if(type.isSummonable() && entityName.equalsIgnoreCase(I18n.format(type.getTranslationKey())))
+			if(type.canSummon() && entityName.equalsIgnoreCase(I18n.get(type.getDescriptionId())))
 			{
 				return type.getRegistryName();
 			}

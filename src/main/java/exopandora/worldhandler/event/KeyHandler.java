@@ -24,17 +24,17 @@ public class KeyHandler
 	@SubscribeEvent
 	public static void keyInputEvent(KeyInputEvent event)
 	{
-		if(Minecraft.getInstance() != null && Minecraft.getInstance().currentScreen == null)
+		if(Minecraft.getInstance() != null && Minecraft.getInstance().screen == null)
 		{
-			if(KEY_WORLD_HANDLER.isKeyDown())
+			if(KEY_WORLD_HANDLER.isDown())
 			{
 				ActionHelper.displayGui();
 			}
-			else if(KEY_WORLD_HANDLER_POS1.isKeyDown() && Config.getSettings().shortcutKeys())
+			else if(KEY_WORLD_HANDLER_POS1.isDown() && Config.getSettings().shortcutKeys())
 			{
 				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
 			}
-			else if(KEY_WORLD_HANDLER_POS2.isKeyDown() && Config.getSettings().shortcutKeys())
+			else if(KEY_WORLD_HANDLER_POS2.isDown() && Config.getSettings().shortcutKeys())
 			{
 				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
 			}
@@ -58,11 +58,11 @@ public class KeyHandler
 	
 	public static boolean arePosKeysRegistered()
 	{
-		return ArrayUtils.contains(Minecraft.getInstance().gameSettings.keyBindings, KEY_WORLD_HANDLER_POS1) || ArrayUtils.contains(Minecraft.getInstance().gameSettings.keyBindings, KEY_WORLD_HANDLER_POS2);
+		return ArrayUtils.contains(Minecraft.getInstance().options.keyMappings, KEY_WORLD_HANDLER_POS1) || ArrayUtils.contains(Minecraft.getInstance().options.keyMappings, KEY_WORLD_HANDLER_POS2);
 	}
 	
 	public static void removePosKeys()
 	{
-		Minecraft.getInstance().gameSettings.keyBindings = ArrayUtils.removeElements(Minecraft.getInstance().gameSettings.keyBindings, KEY_WORLD_HANDLER_POS1, KEY_WORLD_HANDLER_POS2);
+		Minecraft.getInstance().options.keyMappings = ArrayUtils.removeElements(Minecraft.getInstance().options.keyMappings, KEY_WORLD_HANDLER_POS1, KEY_WORLD_HANDLER_POS2);
 	}
 }

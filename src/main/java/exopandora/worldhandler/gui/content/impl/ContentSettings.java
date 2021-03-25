@@ -89,7 +89,7 @@ public class ContentSettings extends ContentChild
 		container.add(settings);
 
 		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.value"));
-		this.valueField.setValidator(string ->
+		this.valueField.setFilter(string ->
 		{
 			if(string == null)
 			{
@@ -144,12 +144,12 @@ public class ContentSettings extends ContentChild
 		else if(this.setting instanceof IntegerSetting)
 		{
 			IntegerSetting setting = (IntegerSetting) this.setting;
-			this.valueField.setText(String.valueOf(setting.get()));
+			this.valueField.setValue(String.valueOf(setting.get()));
 			
 			container.add(this.valueField);
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.set"), () ->
 			{
-				String text = this.valueField.getText();
+				String text = this.valueField.getValue();
 				
 				if(text.isEmpty())
 				{

@@ -33,7 +33,7 @@ public class GuiButtonBase extends Button
 	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		this.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
-		AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().fontRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, this.getFGColor());
+		AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, this.getFGColor());
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class GuiButtonBase extends Button
 		RenderUtils.colorDefaultButton();
 		
 		int hovered = this.getYImage(this.isHovered());
-    	Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.buttonTexture());
+    	Minecraft.getInstance().getTextureManager().bind(ResourceHelper.buttonTexture());
     	
 		int hWidth = this.width / 2;
 		int hHeight = this.height / 2;

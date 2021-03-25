@@ -40,11 +40,11 @@ public class SignText implements INBTWritable
 	{
 		if(command != null && !command.isEmpty())
 		{
-			this.text.getStyle().setClickEvent(new ClickEvent(Action.RUN_COMMAND, command));
+			this.text.getStyle().withClickEvent(new ClickEvent(Action.RUN_COMMAND, command));
 		}
 		else
 		{
-			this.text.getStyle().setClickEvent(null);
+			this.text.getStyle().withClickEvent(null);
 		}
 	}
 	
@@ -73,9 +73,9 @@ public class SignText implements INBTWritable
 	@Override
 	public String toString()
 	{
-		if(this.text.getUnformattedComponentText().isEmpty())
+		if(this.text.getContents().isEmpty())
 		{
-			return this.text.getUnformattedComponentText();
+			return this.text.getContents();
 		}
 		
 		if(this.text.getStyle().isEmpty() && !this.hasCommand())

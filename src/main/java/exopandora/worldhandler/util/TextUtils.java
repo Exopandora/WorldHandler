@@ -13,8 +13,8 @@ public class TextUtils
 {
 	public static final StringTextComponent ARROW_LEFT = new StringTextComponent("<");
 	public static final StringTextComponent ARROW_RIGHT = new StringTextComponent(">");
-	public static final IFormattableTextComponent ARROW_LEFT_BOLD = new StringTextComponent("<").mergeStyle(net.minecraft.util.text.TextFormatting.BOLD);
-	public static final IFormattableTextComponent ARROW_RIGHT_BOLD = new StringTextComponent(">").mergeStyle(net.minecraft.util.text.TextFormatting.BOLD);
+	public static final IFormattableTextComponent ARROW_LEFT_BOLD = new StringTextComponent("<").withStyle(net.minecraft.util.text.TextFormatting.BOLD);
+	public static final IFormattableTextComponent ARROW_RIGHT_BOLD = new StringTextComponent(">").withStyle(net.minecraft.util.text.TextFormatting.BOLD);
 	
 	public static IFormattableTextComponent stripText(IFormattableTextComponent string, int maxWidth, FontRenderer fontRenderer)
 	{
@@ -23,7 +23,7 @@ public class TextUtils
 	
 	public static IFormattableTextComponent stripText(IFormattableTextComponent string, IFormattableTextComponent prefix, int maxWidth, FontRenderer fontRenderer)
 	{
-		if(fontRenderer.getStringPropertyWidth(prefix) + fontRenderer.getStringPropertyWidth(string) > (maxWidth - fontRenderer.getStringPropertyWidth(prefix)))
+		if(fontRenderer.width(prefix) + fontRenderer.width(string) > (maxWidth - fontRenderer.width(prefix)))
 		{
 			IFormattableTextComponent result = new StringTextComponent("").setStyle(string.getStyle()); 
 			
@@ -31,7 +31,7 @@ public class TextUtils
 			{
 				IFormattableTextComponent extension = new StringTextComponent(result.getString() + c + "...").setStyle(string.getStyle());
 				
-				if(fontRenderer.getStringPropertyWidth(extension) < maxWidth)
+				if(fontRenderer.width(extension) < maxWidth)
 				{
 					result = new StringTextComponent(result.getString() + c).setStyle(string.getStyle());
 				}
@@ -42,7 +42,7 @@ public class TextUtils
 			}
 		}
 		
-		return prefix.copyRaw().append(string);
+		return prefix.plainCopy().append(string);
 	}
 	
 	public static String formatTotalTime(long tick)

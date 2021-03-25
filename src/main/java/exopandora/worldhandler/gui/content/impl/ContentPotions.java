@@ -68,7 +68,7 @@ public class ContentPotions extends ContentChild
 			@Override
 			public IFormattableTextComponent translate(Effect item)
 			{
-				return new TranslationTextComponent(item.getName());
+				return new TranslationTextComponent(item.getDescriptionId());
 			}
 			
 			@Override

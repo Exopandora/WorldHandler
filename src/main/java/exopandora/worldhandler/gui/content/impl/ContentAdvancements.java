@@ -128,7 +128,7 @@ public class ContentAdvancements extends Content
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement.build(EnumActionType.REVOKE));
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset").mergeStyle(TextFormatting.RED), () ->
+		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset").withStyle(TextFormatting.RED), () ->
 		{
 			ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderAdvancement.build(EnumActionType.REVOKE, EnumMode.EVERYTHING)));
 		}));

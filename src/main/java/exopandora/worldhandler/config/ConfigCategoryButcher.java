@@ -29,7 +29,7 @@ public class ConfigCategoryButcher
 	
 	public List<ResourceLocation> getEntities()
 	{
-		return this.entities.get().stream().map(ResourceLocation::tryCreate).filter(Predicates.notNull()).collect(Collectors.toList());
+		return this.entities.get().stream().map(ResourceLocation::tryParse).filter(Predicates.notNull()).collect(Collectors.toList());
 	}
 	
 	public boolean containsEntity(ResourceLocation entity)
@@ -66,7 +66,7 @@ public class ConfigCategoryButcher
 	{
 		if(string != null)
 		{
-			return ForgeRegistries.ENTITIES.containsKey(ResourceLocation.tryCreate(string.toString()));
+			return ForgeRegistries.ENTITIES.containsKey(ResourceLocation.tryParse(string.toString()));
 		}
 		
 		return false;

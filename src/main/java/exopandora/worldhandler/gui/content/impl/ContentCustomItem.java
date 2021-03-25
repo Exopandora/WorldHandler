@@ -84,8 +84,8 @@ public class ContentCustomItem extends Content
 	public void initGui(Container container, int x, int y)
 	{
 		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.start.item_id"));
-		this.itemField.setValidator(Predicates.<String>notNull());
-		this.itemField.setText(this.item);
+		this.itemField.setFilter(Predicates.<String>notNull());
+		this.itemField.setValue(this.item);
 		this.itemField.setResponder(text ->
 		{
 			this.item = text;
@@ -94,7 +94,7 @@ public class ContentCustomItem extends Content
 		});
 		
 		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.start.lore_1"));
-		this.itemLore1Field.setValidator(Predicates.<String>notNull());
+		this.itemLore1Field.setFilter(Predicates.<String>notNull());
 		this.itemLore1Field.setText(this.builderCutomItem.getLore1());
 		this.itemLore1Field.setResponder(text ->
 		{
@@ -103,7 +103,7 @@ public class ContentCustomItem extends Content
 		});
 		
 		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.items.custom_item.start.lore_2"));
-		this.itemLore2Field.setValidator(Predicates.<String>notNull());
+		this.itemLore2Field.setFilter(Predicates.<String>notNull());
 		this.itemLore2Field.setText(this.builderCutomItem.getLore2());
 		this.itemLore2Field.setResponder(text ->
 		{
@@ -125,7 +125,7 @@ public class ContentCustomItem extends Content
 				@Override
 				public IFormattableTextComponent translate(Enchantment item)
 				{
-					return new TranslationTextComponent(item.getName());
+					return new TranslationTextComponent(item.getDescriptionId());
 				}
 				
 				@Override
@@ -170,7 +170,7 @@ public class ContentCustomItem extends Content
 				@Override
 				public IFormattableTextComponent translate(Attribute item)
 				{
-					return new TranslationTextComponent(item.getAttributeName());
+					return new TranslationTextComponent(item.getDescriptionId());
 				}
 				
 				@Override

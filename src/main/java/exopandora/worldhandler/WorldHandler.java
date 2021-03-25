@@ -52,7 +52,7 @@ public class WorldHandler
 			public void run()
 			{
 				SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getInstance().getResourceManager();
-				manager.addReloadListener(AdvancementHelper.getInstance());
+				manager.registerReloadListener(AdvancementHelper.getInstance());
 				Config.setupDirectories(WorldHandler.USERCONTENT_PATH);
 				modLoadingContext.registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
 				UsercontentLoader.load(WorldHandler.USERCONTENT_PATH);

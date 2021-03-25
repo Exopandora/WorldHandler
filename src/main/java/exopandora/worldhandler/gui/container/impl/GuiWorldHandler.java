@@ -34,7 +34,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class GuiWorldHandler extends Container
 {
-	private static String player = Minecraft.getInstance().getSession().getUsername();
+	private static String player = Minecraft.getInstance().getUser().getName();
 	private final static List<IContainerWidget> WIDGETS = Util.make(Lists.newArrayList(), widgets ->
 	{
 		widgets.add(new WidgetTabRenderer());
@@ -169,9 +169,9 @@ public class GuiWorldHandler extends Container
 			this.blit(matrix, backgroundX, backgroundY, 0, 0, this.getBackgroundWidth(), this.getBackgroundHeight());
 			
 			final String label = Main.MC_VERSION + "-" + Main.MOD_VERSION;
-			final int versionWidth = this.width - this.font.getStringWidth(label) - 2;
+			final int versionWidth = this.width - this.font.width(label) - 2;
 			final int versionHeight = this.height - 10;
-			this.font.drawString(matrix, label, versionWidth, versionHeight, Config.getSkin().getLabelColor() + 0x33000000);
+			this.font.draw(matrix, label, versionWidth, versionHeight, Config.getSkin().getLabelColor() + 0x33000000);
 			
 			int x = this.getContentX();
 			int y = this.getContentY();
@@ -184,8 +184,8 @@ public class GuiWorldHandler extends Container
 				}
 			}
 			
-			final int maxWidth = this.getBackgroundWidth() - 18 - this.font.getStringWidth(this.getPlayer()) - (Config.getSettings().watch() ? 9 : 0);
-			this.font.func_243248_b(matrix, TextUtils.stripText(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
+			final int maxWidth = this.getBackgroundWidth() - 18 - this.font.width(this.getPlayer()) - (Config.getSettings().watch() ? 9 : 0);
+			this.font.draw(matrix, TextUtils.stripText(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
 			
 			for(int i = 0; i < this.buttons.size(); i++)
 			{
@@ -220,12 +220,12 @@ public class GuiWorldHandler extends Container
 			
 			if(mouseX >= versionWidth && mouseY >= versionHeight)
 			{
-				matrix.push();
+				matrix.pushPose();
 				matrix.translate(versionWidth - 12, versionHeight + 12, 0);
 				
 				this.renderTooltip(matrix, new StringTextComponent(label), 0, 0);
 				
-				matrix.pop();
+				matrix.popPose();
 			}
 			
 			RenderSystem.disableBlend();
@@ -325,16 +325,16 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
 	{
-		boolean focused = this.getListener() != null;
+		boolean focused = this.getFocused() != null;
 		
-		if(focused && this.getListener() instanceof Widget)
+		if(focused && this.getFocused() instanceof Widget)
 		{
-			focused = ((Widget) this.getListener()).isFocused();
+			focused = ((Widget) this.getFocused()).isFocused();
 		}
 		
-		if(!focused && KeyHandler.KEY_WORLD_HANDLER.matchesKey(keyCode, scanCode) && KeyHandler.KEY_WORLD_HANDLER.getKeyModifier().isActive(null))
+		if(!focused && KeyHandler.KEY_WORLD_HANDLER.matches(keyCode, scanCode) && KeyHandler.KEY_WORLD_HANDLER.getKeyModifier().isActive(null))
 		{
-			Minecraft.getInstance().displayGuiScreen(null);
+			Minecraft.getInstance().setScreen(null);
 			return true;
 		}
 		
@@ -470,11 +470,11 @@ public class GuiWorldHandler extends Container
 		return this.content;
 	}
 	
-	@Override
-	public boolean shouldCloseOnEsc()
-	{
-		return true;
-	}
+//	@Override
+//	public boolean shouldCloseOnEsc()
+//	{
+//		return true;
+//	}
 	
 	@Override
 	public int getBackgroundWidth()
@@ -491,6 +491,6 @@ public class GuiWorldHandler extends Container
 	@Override
 	public void bindBackground()
 	{
-		Minecraft.getInstance().getTextureManager().bindTexture(ResourceHelper.backgroundTexture());
+		Minecraft.getInstance().getTextureManager().bind(ResourceHelper.backgroundTexture());
 	}
 }

@@ -52,7 +52,7 @@ public class BlockResourceLocation extends ItemResourceLocation
 		
 		if(resource != null && ForgeRegistries.BLOCKS.containsKey(resource))
 		{
-			return ForgeRegistries.BLOCKS.getValue(resource).getDefaultState();
+			return ForgeRegistries.BLOCKS.getValue(resource).defaultBlockState();
 		}
 
 		return null;
@@ -75,7 +75,7 @@ public class BlockResourceLocation extends ItemResourceLocation
 	{
 		if(this.state != null && this.state.hasProperty(property))
 		{
-			this.state = this.state.with(property, value);
+			this.state = this.state.setValue(property, value);
 		}
 	}
 	

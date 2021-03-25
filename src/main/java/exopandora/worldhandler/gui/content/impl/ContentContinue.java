@@ -43,19 +43,19 @@ public class ContentContinue extends ContentChild
 	public void initGui(Container container, int x, int y)
 	{
 		this.commandField = new GuiTextFieldTooltip(x + 116 / 2, y + 12, 116, 20);
-		this.commandField.setFocused2(false);
+		this.commandField.setFocus(false);
 		
 		if(this.builder instanceof ICommandBuilderSyntax)
 		{
-			this.commandField.setText(((ICommandBuilderSyntax) this.builder).toActualCommand());
+			this.commandField.setValue(((ICommandBuilderSyntax) this.builder).toActualCommand());
 		}
 		else
 		{
-			this.commandField.setText(this.builder.toCommand());
+			this.commandField.setValue(this.builder.toCommand());
 		}
 		
-		this.commandField.setCursorPositionZero();
-		this.commandField.setValidator(text -> text.equals(this.commandField.getText()));
+		this.commandField.moveCursorToStart();
+		this.commandField.setFilter(text -> text.equals(this.commandField.getValue()));
 	}
 	
 	@Override
@@ -65,7 +65,7 @@ public class ContentContinue extends ContentChild
 		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(this.commandField);
-		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, new TranslationTextComponent("gui.worldhandler.generic.yes").mergeStyle(TextFormatting.RED), () ->
+		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, new TranslationTextComponent("gui.worldhandler.generic.yes").withStyle(TextFormatting.RED), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builder, this.special);
 			ActionHelper.open(this.getParentContent());

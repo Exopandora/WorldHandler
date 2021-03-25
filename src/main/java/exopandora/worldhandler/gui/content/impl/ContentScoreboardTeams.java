@@ -46,8 +46,8 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	public void initGui(Container container, int x, int y)
 	{
 		this.teamField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.team.team"));
-		this.teamField.setValidator(Predicates.notNull());
-		this.teamField.setText(this.team);
+		this.teamField.setFilter(Predicates.notNull());
+		this.teamField.setValue(this.team);
 		this.teamField.setResponder(text ->
 		{
 			this.team = text;
@@ -68,7 +68,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 					}
 					else if(depth == 1)
 					{
-						if(Arrays.stream(TextFormatting.values()).map(TextFormatting::getFriendlyName).anyMatch(Predicates.equalTo(key)))
+						if(Arrays.stream(TextFormatting.values()).map(TextFormatting::getName).anyMatch(Predicates.equalTo(key)))
 						{
 							return new TranslationTextComponent("gui.worldhandler.color." + key);
 						}
@@ -125,12 +125,12 @@ public class ContentScoreboardTeams extends ContentScoreboard
 			this.page = Page.ADD;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new StringTextComponent(I18n.format("gui.worldhandler.scoreboard.team.join") + " / " + I18n.format("gui.worldhandler.scoreboard.team.leave")), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new StringTextComponent(I18n.get("gui.worldhandler.scoreboard.team.join") + " / " + I18n.get("gui.worldhandler.scoreboard.team.leave")), () ->
 		{
 			this.page = Page.JOIN_OR_LEAVE;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new StringTextComponent(I18n.format("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.format("gui.worldhandler.scoreboard.team.empty")), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new StringTextComponent(I18n.get("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.get("gui.worldhandler.scoreboard.team.empty")), () ->
 		{
 			this.page = Page.REMOVE_OR_EMPTY;
 			container.init();

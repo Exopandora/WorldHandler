@@ -37,7 +37,7 @@ public abstract class Container extends Screen implements IContainer
 	
 	public <T extends TextFieldWidget> T add(T textfield)
 	{
-		return super.addListener(textfield);
+		return super.addWidget(textfield);
 	}
 	
 	@Override

@@ -72,7 +72,7 @@ public enum ArgumentType
 		{
 			try
 	        {
-				return JsonToNBT.getTagFromJson(value);
+				return JsonToNBT.parseTag(value);
 	        }
 	        catch(CommandSyntaxException e)
 	        {

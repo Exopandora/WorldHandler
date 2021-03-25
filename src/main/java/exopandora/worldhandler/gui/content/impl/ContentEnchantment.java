@@ -45,7 +45,7 @@ public class ContentEnchantment extends Content
 			@Override
 			public IFormattableTextComponent translate(Enchantment item)
 			{
-				return new TranslationTextComponent(item.getName());
+				return new TranslationTextComponent(item.getDescriptionId());
 			}
 			
 			@Override

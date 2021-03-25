@@ -45,15 +45,15 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 		this.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
 		this.updateMessage();
 		
-		FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
+		FontRenderer fontRenderer = Minecraft.getInstance().font;
 		
 		if(this.getMessage() != null && !this.getMessage().getString().isEmpty())
 		{
 			ITextComponent leftArrow = this.isHoveringLeft(mouseX, mouseY) ? TextUtils.ARROW_LEFT_BOLD : TextUtils.ARROW_LEFT;
 			ITextComponent rightArrow = this.isHoveringRight(mouseX, mouseY) ? TextUtils.ARROW_RIGHT_BOLD : TextUtils.ARROW_RIGHT;
 			
-			int maxWidth = Math.max(0, this.width - fontRenderer.getStringWidth("<   >"));
-			int spaceWidth = fontRenderer.getStringWidth(" ");
+			int maxWidth = Math.max(0, this.width - fontRenderer.width("<   >"));
+			int spaceWidth = fontRenderer.width(" ");
 			
 			ITextComponent display = TextUtils.stripText((IFormattableTextComponent) this.getMessage(), maxWidth, fontRenderer);
 			int yPos = this.y + (this.height - 8) / 2;

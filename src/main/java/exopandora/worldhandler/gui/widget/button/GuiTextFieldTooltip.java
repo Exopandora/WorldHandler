@@ -21,8 +21,8 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 	
 	public GuiTextFieldTooltip(int x, int y, int width, int height, ITextComponent tooltip)
 	{
-		super(Minecraft.getInstance().fontRenderer, x, y, width, height, null);
-		this.setMaxStringLength(Integer.MAX_VALUE);
+		super(Minecraft.getInstance().font, x, y, width, height, null);
+		this.setMaxLength(Integer.MAX_VALUE);
 		this.tooltip = tooltip;
 	}
 	
@@ -31,18 +31,18 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 	{
 		super.renderButton(matrix, mouseX, mouseY, partialTicks);
 		
-		if(this.getVisible() && !this.isFocused() && this.tooltip != null && TextFormatting.getTextWithoutFormattingCodes(this.getText()).isEmpty())
+		if(this.isVisible() && !this.isFocused() && this.tooltip != null && TextFormatting.stripFormatting(this.getValue()).isEmpty())
 		{
 			int x = this.x;
 			int y = this.y;
 			
-			if(this.getAdjustedWidth() != this.width)
+			if(this.getInnerWidth() != this.width)
 			{
 				x += 4;
 				y += (this.height - 8) / 2;
 			}
 			
-			Minecraft.getInstance().fontRenderer.func_243246_a(matrix, this.tooltip, (float) x, (float) y, 0x7F7F7F); //drawStringWithShadow
+			Minecraft.getInstance().font.drawShadow(matrix, this.tooltip, (float) x, (float) y, 0x7F7F7F); //drawStringWithShadow
 		}
 	}
 	
@@ -66,11 +66,11 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 	{
 		if(text != null)
 		{
-			this.setText(text.getString());
+			this.setValue(text.getString());
 		}
 		else
 		{
-			this.setText((String) null);
+			this.setValue((String) null);
 		}
 	}
 }

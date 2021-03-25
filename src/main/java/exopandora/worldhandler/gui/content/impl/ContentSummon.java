@@ -158,8 +158,8 @@ public class ContentSummon extends Content
 	public void initGui(Container container, int x, int y)
 	{
 		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.mob_id"));
-		this.mobField.setValidator(Predicates.notNull());
-		this.mobField.setText(this.mob);
+		this.mobField.setFilter(Predicates.notNull());
+		this.mobField.setValue(this.mob);
 		this.mobField.setResponder(text ->
 		{
 			this.mob = text;
@@ -168,8 +168,8 @@ public class ContentSummon extends Content
 		});
 		
 		this.nbtField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.custom_nbt"));
-		this.nbtField.setValidator(Predicates.notNull());
-		this.nbtField.setText(this.nbt);
+		this.nbtField.setFilter(Predicates.notNull());
+		this.nbtField.setValue(this.nbt);
 		this.nbtField.setResponder(text ->
 		{
 			this.nbt = text;
@@ -209,7 +209,7 @@ public class ContentSummon extends Content
 				@Override
 				public IFormattableTextComponent translate(Attribute item)
 				{
-					return new TranslationTextComponent(item.getAttributeName());
+					return new TranslationTextComponent(item.getDescriptionId());
 				}
 				
 				@Override
@@ -316,7 +316,7 @@ public class ContentSummon extends Content
 			{
 				Effect potion = ForgeRegistries.POTIONS.getValue(location);
 				
-				if(!potion.equals(Effects.INSTANT_DAMAGE) && !potion.equals(Effects.INSTANT_HEALTH))
+				if(!potion.equals(Effects.HARM) && !potion.equals(Effects.HEAL))
 				{
 					if(this.potionPage == 0)
 					{
@@ -330,7 +330,7 @@ public class ContentSummon extends Content
 					
 					if(count == this.potionPage)
 					{
-						container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), new TranslationTextComponent(potion.getName()), value ->
+						container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), new TranslationTextComponent(potion.getDescriptionId()), value ->
 						{
 							this.builderSummon.setAmplifier(potion, value.byteValue());
 						})));
@@ -429,12 +429,12 @@ public class ContentSummon extends Content
 		}
 		else if(Page.POTIONS.equals(this.page))
 		{
-			Minecraft.getInstance().fontRenderer.drawString(matrix, (this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
+			Minecraft.getInstance().font.draw(matrix, (this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
 			RenderUtils.color(1.0F, 1.0F, 1.0F, 1.0F);
-		 	Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation("textures/gui/container/beacon.png"));
+		 	Minecraft.getInstance().getTextureManager().bind(new ResourceLocation("textures/gui/container/beacon.png"));
 	 		container.setBlitOffset(0);
 	 		
 	 		for(int i = 0; i < 4; i++)
@@ -458,7 +458,7 @@ public class ContentSummon extends Content
 	private List<ResourceLocation> sortedPotions()
 	{
 		return ForgeRegistries.POTIONS.getKeys().stream()
-				.sorted((a, b) -> I18n.format(ForgeRegistries.POTIONS.getValue(a).getName()).compareTo(I18n.format(ForgeRegistries.POTIONS.getValue(b).getName())))
+				.sorted((a, b) -> I18n.get(ForgeRegistries.POTIONS.getValue(a).getDescriptionId()).compareTo(I18n.get(ForgeRegistries.POTIONS.getValue(b).getDescriptionId())))
 				.collect(Collectors.toList());
 	}
 	

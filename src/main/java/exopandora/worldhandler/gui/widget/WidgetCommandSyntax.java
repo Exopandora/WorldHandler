@@ -54,19 +54,19 @@ public class WidgetCommandSyntax implements IContainerWidget
 	{
 		if(this.syntaxField != null && !this.syntaxField.isFocused())
 		{
-			this.syntaxField.setValidator(Predicates.alwaysTrue());
+			this.syntaxField.setFilter(Predicates.alwaysTrue());
 			
 			if(container.getContent().getCommandBuilder() != null)
 			{
-				this.syntaxField.setText(container.getContent().getCommandBuilder().toCommand());
+				this.syntaxField.setValue(container.getContent().getCommandBuilder().toCommand());
 			}
 			else
 			{
-				this.syntaxField.setText(BUILDER_WORLD_HANDLER.toCommand());
+				this.syntaxField.setValue(BUILDER_WORLD_HANDLER.toCommand());
 			}
 			
-			this.syntaxField.setValidator(string -> string.equals(this.syntaxField.getText()));
-			this.syntaxField.setCursorPositionZero();
+			this.syntaxField.setFilter(string -> string.equals(this.syntaxField.getValue()));
+			this.syntaxField.moveCursorToStart();
 		}
 	}
 	

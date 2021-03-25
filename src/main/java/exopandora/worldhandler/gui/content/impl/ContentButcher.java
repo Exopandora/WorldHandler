@@ -48,7 +48,7 @@ public class ContentButcher extends Content
 	public void initGui(Container container, int x, int y)
 	{
 		this.radiusField = new GuiTextFieldTooltip(x + 58, y, 114, 20, new TranslationTextComponent("gui.worldhandler.butcher.radius"));
-		this.radiusField.setValidator(string ->
+		this.radiusField.setFilter(string ->
 		{
 			if(string == null)
 			{
@@ -69,7 +69,7 @@ public class ContentButcher extends Content
 			
 			return true;
 		});
-		this.radiusField.setText(this.radius);
+		this.radiusField.setValue(this.radius);
 		this.radiusField.setResponder(text ->
 		{
 			this.radius = text;
@@ -119,15 +119,15 @@ public class ContentButcher extends Content
 	public static void slaughter(String username, Collection<EntityType<?>> entities, int radius)
 	{
 		PlayerEntity player = Minecraft.getInstance().player;
-		World world = Minecraft.getInstance().world;
+		World world = Minecraft.getInstance().level;
 		
 		if(player != null && world != null)
 		{
-			AxisAlignedBB aabb = new AxisAlignedBB(player.getPosition()).grow(radius);
+			AxisAlignedBB aabb = new AxisAlignedBB(player.blockPosition()).inflate(radius);
 			
 			for(EntityType<?> entity : entities)
 			{
-				List<? extends Entity> targets = world.getEntitiesWithinAABB(entity, aabb, Predicates.alwaysTrue());
+				List<? extends Entity> targets = world.getEntities(entity, aabb, Predicates.alwaysTrue());
 				targets.removeIf(target -> player.equals(target));
 				
 				if(!targets.isEmpty())

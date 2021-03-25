@@ -57,13 +57,13 @@ public class ContentMain extends Content
 		container.add(new GuiButtonBase(x, y + 96, 74, 20, new TranslationTextComponent("gui.worldhandler.change_world"), () -> ActionHelper.open(Contents.CHANGE_WORLD)));
 		container.add(new GuiButtonBase(x + 78, y + 96, 76, 20, new TranslationTextComponent("gui.worldhandler.resourcepack"), () -> 
 		{
-			Minecraft.getInstance().gameSettings.saveOptions();
-			Minecraft.getInstance().displayGuiScreen(new PackScreen(container, Minecraft.getInstance().getResourcePackList(), resourcePackList ->
+			Minecraft.getInstance().options.save();
+			Minecraft.getInstance().setScreen(new PackScreen(container, Minecraft.getInstance().getResourcePackRepository(), resourcePackList ->
 			{
-				OptionsScreen optionsScreen = new OptionsScreen(container, Minecraft.getInstance().gameSettings);
+				OptionsScreen optionsScreen = new OptionsScreen(container, Minecraft.getInstance().options);
 				optionsScreen.init(Minecraft.getInstance(), 0, 0);
-				optionsScreen.func_241584_a_(resourcePackList);
-			}, Minecraft.getInstance().getFileResourcePacks(), new TranslationTextComponent("resourcePack.title")));
+				optionsScreen.updatePackList(resourcePackList);
+			}, Minecraft.getInstance().getResourcePackDirectory(), new TranslationTextComponent("resourcePack.title")));
 		}));
 		container.add(new GuiButtonBase(x + 158, y + 96, 74, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 	}

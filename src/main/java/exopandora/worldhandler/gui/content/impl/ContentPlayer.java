@@ -123,8 +123,8 @@ public class ContentPlayer extends Content
 				
 				if(player != null)
 				{
-					BlockPos position = player.getPosition();
-					Minecraft.getInstance().keyboardListener.setClipboardString(position.getX() + " " + position.getY() + " " + position.getZ());
+					BlockPos position = player.blockPosition();
+					Minecraft.getInstance().keyboardHandler.setClipboard(position.getX() + " " + position.getY() + " " + position.getZ());
 				}
 			}));
 		}
@@ -132,19 +132,19 @@ public class ContentPlayer extends Content
 		{
 			button4.active = false;
 			
-			container.add(new GuiButtonBase(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_spawn").mergeStyle(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_spawn").withStyle(TextFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSpawnpoint));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").mergeStyle(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").withStyle(TextFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSetworldspawn));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.kill").mergeStyle(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.kill").withStyle(TextFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderKill));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.clear_inventory").mergeStyle(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.clear_inventory").withStyle(TextFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderClear));
 			}));
@@ -158,14 +158,14 @@ public class ContentPlayer extends Content
 		
 		if(player != null)
 		{
-			BlockPos position = player.getPosition();
+			BlockPos position = player.blockPosition();
 			
-			this.posXField.setText("X: " + position.getX());
-			this.posYField.setText("Y: " + position.getY());
-			this.posZField.setText("Z: " + position.getZ());
-			this.scoreField.setText(I18n.format("gui.worldhandler.entities.player.score") + ": " + player.getScore());
-			this.coinsField.setText(I18n.format("gui.worldhandler.entities.player.score.experience") + ": " + player.experienceLevel + "L");
-			this.xpField.setText(I18n.format("gui.worldhandler.entities.player.score.experience_coins") + ": " + player.experienceTotal);
+			this.posXField.setValue("X: " + position.getX());
+			this.posYField.setValue("Y: " + position.getY());
+			this.posZField.setValue("Z: " + position.getZ());
+			this.scoreField.setValue(I18n.get("gui.worldhandler.entities.player.score") + ": " + player.getScore());
+			this.coinsField.setValue(I18n.get("gui.worldhandler.entities.player.score.experience") + ": " + player.experienceLevel + "L");
+			this.xpField.setValue(I18n.get("gui.worldhandler.entities.player.score.experience_coins") + ": " + player.totalExperience);
 		}
 	}
 	
@@ -176,13 +176,13 @@ public class ContentPlayer extends Content
 		{
 			int xPos = x + 175;
 			int yPos = y + 82;
-			int playerNameWidth = Minecraft.getInstance().fontRenderer.getStringPropertyWidth(Minecraft.getInstance().player.getName()) / 2;
+			int playerNameWidth = Minecraft.getInstance().font.width(Minecraft.getInstance().player.getName()) / 2;
 			
 			AbstractGui.fill(matrix, container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
-			Minecraft.getInstance().fontRenderer.func_243248_b(matrix, Minecraft.getInstance().player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
+			Minecraft.getInstance().font.draw(matrix, Minecraft.getInstance().player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
 			RenderUtils.color(1.0F, 1.0F, 1.0F, 1.0F);
-			InventoryScreen.drawEntityOnScreen(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
+			InventoryScreen.renderEntityInInventory(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
 			RenderSystem.defaultBlendFunc();
 		}
 		else if(Page.SCORE.equals(this.page))

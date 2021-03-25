@@ -15,12 +15,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class WidgetNameField implements IContainerWidget
 {
-	private final GuiTextFieldTooltip nameField = Util.make(new GuiTextFieldTooltip(0, 0, 0, 11), textfield -> textfield.setMaxStringLength(16));
+	private final GuiTextFieldTooltip nameField = Util.make(new GuiTextFieldTooltip(0, 0, 0, 11), textfield -> textfield.setMaxLength(16));
 	
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.nameField.setText(container.getPlayer());
+		this.nameField.setValue(container.getPlayer());
 		this.nameField.setResponder(text -> 
 		{
 			container.setPlayer(text);
@@ -38,12 +38,12 @@ public class WidgetNameField implements IContainerWidget
 	@Override
 	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		String username = container.getPlayer().isEmpty() && !this.nameField.isFocused() ? I18n.format("gui.worldhandler.generic.edit_username") : container.getPlayer();
+		String username = container.getPlayer().isEmpty() && !this.nameField.isFocused() ? I18n.get("gui.worldhandler.generic.edit_username") : container.getPlayer();
 		
-		int xPos = container.getBackgroundX() + container.getBackgroundWidth() - this.watchOffset() - 7 - Minecraft.getInstance().fontRenderer.getStringWidth(username);
+		int xPos = container.getBackgroundX() + container.getBackgroundWidth() - this.watchOffset() - 7 - Minecraft.getInstance().font.width(username);
 		int yPos = container.getBackgroundY() + 7;
 		
-		Minecraft.getInstance().fontRenderer.drawString(matrix, username, xPos, yPos, Config.getSkin().getLabelColor());
+		Minecraft.getInstance().font.draw(matrix, username, xPos, yPos, Config.getSkin().getLabelColor());
 	}
 	
 	@Override
@@ -51,7 +51,7 @@ public class WidgetNameField implements IContainerWidget
 	{
 		if(this.nameField.isFocused())
 		{
-			this.nameField.setCursorPositionEnd();
+			this.nameField.moveCursorToEnd();
 		}
 		
 		return false;
@@ -62,7 +62,7 @@ public class WidgetNameField implements IContainerWidget
 	{
 		if(this.nameField.isFocused())
 		{
-			this.nameField.setCursorPositionEnd();
+			this.nameField.moveCursorToEnd();
 		}
 		
 		return false;
@@ -81,20 +81,20 @@ public class WidgetNameField implements IContainerWidget
 	
 	private void updateNameField(Container container)
 	{
-		final FontRenderer font = Minecraft.getInstance().fontRenderer;
+		final FontRenderer font = Minecraft.getInstance().font;
 		
 		int x = container.getBackgroundX() + container.getBackgroundWidth() - this.watchOffset() - 7;
 		int y = container.getBackgroundY() + 6;
 		
 		if(container.getPlayer().isEmpty())
 		{
-			int width = font.getStringWidth(I18n.format("gui.worldhandler.generic.edit_username")) + 2;
+			int width = font.width(I18n.get("gui.worldhandler.generic.edit_username")) + 2;
 			this.nameField.setWidth(width);
-			this.nameField.setPosition(x - (font.getStringPropertyWidth(container.getContent().getTitle()) + 2), y);
+			this.nameField.setPosition(x - (font.width(container.getContent().getTitle()) + 2), y);
 		}
 		else
 		{
-			int width = font.getStringWidth(container.getPlayer()) + 2;
+			int width = font.width(container.getPlayer()) + 2;
 			this.nameField.setWidth(width);
 			this.nameField.setPosition(x - width, y);
 		}

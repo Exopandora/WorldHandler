@@ -62,9 +62,9 @@ public class ContentSignEditor extends Content
 		if(this.isActive)
 		{
 			this.commandField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.commmand"));
-			this.commandField.setValidator(Predicates.notNull());
-			this.commandField.setText(this.builderSignEditor.getCommand(this.selectedLine));
-			this.commandField.setCursorPositionEnd();
+			this.commandField.setFilter(Predicates.notNull());
+			this.commandField.setValue(this.builderSignEditor.getCommand(this.selectedLine));
+			this.commandField.moveCursorToEnd();
 			this.commandField.setResponder(text ->
 			{
 				this.builderSignEditor.setCommand(this.selectedLine, text);
@@ -76,7 +76,7 @@ public class ContentSignEditor extends Content
 				@Override
 				public boolean validate(String text)
 				{
-					return Minecraft.getInstance().fontRenderer.getStringWidth(text) <= 90;
+					return Minecraft.getInstance().font.width(text) <= 90;
 				}
 				
 				@Override
@@ -180,16 +180,16 @@ public class ContentSignEditor extends Content
 		{
 			float scale = 4;
 			
-			matrix.push();
+			matrix.pushPose();
 			matrix.translate(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
 			matrix.scale(scale, scale, scale);
 			
 			RenderUtils.renderItemIntoGUI(matrix, new ItemStack(Items.OAK_SIGN), 0, 0);
-			matrix.pop();
+			matrix.popPose();
 			
-			TranslationTextComponent text = new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.func_238171_j_());
-			FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-			fontRenderer.func_243248_b(matrix, text, x + 116 - fontRenderer.getStringPropertyWidth(text) / 2, y + 70, Config.getSkin().getLabelColor());
+			TranslationTextComponent text = new TranslationTextComponent("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.getTranslatedKeyMessage());
+			FontRenderer fontRenderer = Minecraft.getInstance().font;
+			fontRenderer.draw(matrix, text, x + 116 - fontRenderer.width(text) / 2, y + 70, Config.getSkin().getLabelColor());
 		}
 	}
 	

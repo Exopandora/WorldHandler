@@ -80,8 +80,8 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	public void initGui(Container container, int x, int y)
 	{
 		this.objectField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.objectives.objective"));
-		this.objectField.setValidator(Predicates.notNull());
-		this.objectField.setText(ContentScoreboard.getObjective());
+		this.objectField.setFilter(Predicates.notNull());
+		this.objectField.setValue(ContentScoreboard.getObjective());
 		this.objectField.setResponder(text ->
 		{
 			ContentScoreboard.setObjective(text);
@@ -91,8 +91,8 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		});
 		
 		this.tagField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20, new TranslationTextComponent("gui.worldhandler.scoreboard.players.tag"));
-		this.tagField.setValidator(string -> string != null && !string.contains(" "));
-		this.tagField.setText(this.tag);
+		this.tagField.setFilter(string -> string != null && !string.contains(" "));
+		this.tagField.setValue(this.tag);
 		this.tagField.setResponder(text ->
 		{
 			this.tag = text;
