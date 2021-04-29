@@ -32,7 +32,7 @@ public class ConfigCategorySkin
 		builder.push("skin");
 		
 		this.iconSize = builder
-				.translation("gui.worldhandler.config.skin.icon_size")
+				.translation("gui.worldhandler.config.skin.icons")
 				.comment("Size of the icons")
 				.defineEnum("icon_size", EnumIconSize.x16, EnumIconSize.values());
 		this.labelColor = builder
@@ -84,11 +84,11 @@ public class ConfigCategorySkin
 				.defineInList("textures", "resourcepack", Arrays.asList("resourcepack", "vanilla"));
 		
 		this.sharpEdges = builder
-				.translation("gui.worldhandler.config.settings.sharp_tab_edges")
+				.translation("gui.worldhandler.config.skin.sharp_tab_edges")
 				.comment("Whether or not the gui has sharp or smooth tab edges")
 				.define("sharp_tab_edges", false);
 		this.drawBackground = builder
-				.translation("gui.worldhandler.config.settings.draw_background")
+				.translation("gui.worldhandler.config.skin.draw_background")
 				.comment("Whether or not to enable background drawing")
 				.define("draw_background", true);
 		
