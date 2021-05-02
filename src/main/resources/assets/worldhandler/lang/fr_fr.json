@@ -8,9 +8,9 @@
 	"gui.worldhandler.config.settings.watch": "Montre",
 	"gui.worldhandler.config.settings.smooth_watch": "Montre fluide",
 	"gui.worldhandler.config.settings.pause_game": "Mettre en pause",
-	"gui.worldhandler.config.settings.custom_times": "Heures personnalisées",
+	"gui.worldhandler.config.settings.custom_times": "Heures perso.",
 	"gui.worldhandler.config.settings.permission_query": "Requête de permission",
-	"gui.worldhandler.config.settings.highlight_blocks": "Highlight Blocks",
+	"gui.worldhandler.config.settings.highlight_blocks": "Mettre en évid. blocs",
 	"gui.worldhandler.config.settings.custom_time_dawn": "Ticks de l'aube perso.",
 	"gui.worldhandler.config.settings.custom_time_noon": "Ticks du midi perso.",
 	"gui.worldhandler.config.settings.custom_time_sunset": "Ticks du crépuscule perso.",
@@ -67,7 +67,7 @@
 	"gui.worldhandler.tab.player.advancements": "Progrès",
 
 	"gui.worldhandler.tab.entities.summon": "Invoquer",
-	"gui.worldhandler.tab.entities.butcher": "Butcher",
+	"gui.worldhandler.tab.entities.butcher": "Massacrer",
 
 	"gui.worldhandler.tab.world.world": "Monde",
 	"gui.worldhandler.tab.world.gamerules": "Règles de jeu",
@@ -84,7 +84,7 @@
 	"gui.worldhandler.tab.multiplayer": "Multijoueur",
 
 	"gui.worldhandler.title.entities.summon": "Invoquer",
-	"gui.worldhandler.title.entities.butcher": "Butcher",
+	"gui.worldhandler.title.entities.butcher": "Massacrer",
 
 	"gui.worldhandler.title.items.custom_item": "Objet personnalisé",
 	"gui.worldhandler.title.items.enchantment": "Enchantement",
@@ -103,7 +103,7 @@
 	"gui.worldhandler.title.player.experience": "Expérience ",
 	"gui.worldhandler.title.player.advancements": "Progrès",
 
-	"gui.worldhandler.title.command_stack": "Command Stack",
+	"gui.worldhandler.title.command_stack": "Registre de commandes",
 	"gui.worldhandler.title.change_world": "Changer de monde",
 	"gui.worldhandler.title.potions": "Potions",
 
@@ -124,12 +124,12 @@
 	"gui.worldhandler.butcher.radius": "Rayon",
 	"gui.worldhandler.butcher.configure": "Configurer",
 	"gui.worldhandler.butcher.slaughter": "Massacrer",
-	"gui.worldhandler.butcher.presets": "Presets",
+	"gui.worldhandler.butcher.presets": "Préréglages",
 
-	"gui.worldhandler.butcher.presets.passive_mobs": "Passive Mobs",
-	"gui.worldhandler.butcher.presets.hostile_mobs": "Hostile Mobs",
-	"gui.worldhandler.butcher.presets.entities": "Entities",
-	"gui.worldhandler.butcher.presets.players": "Players",
+	"gui.worldhandler.butcher.presets.passive_mobs": "Créatures passives",
+	"gui.worldhandler.butcher.presets.hostile_mobs": "Créatures hostiles",
+	"gui.worldhandler.butcher.presets.entities": "Entités",
+	"gui.worldhandler.butcher.presets.players": "Joueurs",
 
 	"gui.worldhandler.multiplayer.kick": "Expulser",
 	"gui.worldhandler.multiplayer.ban": "Bannir",
@@ -165,10 +165,10 @@
 	"gui.worldhandler.potions.effect.lingering": "Persistant",
 	"gui.worldhandler.potions.effect.tipped_arrow": "Flèche",
 
-	"gui.worldhandler.command_stack.insert_command": "Insert Command",
-	"gui.worldhandler.command_stack.remove_command": "Remove Command",
-	"gui.worldhandler.command_stack.copy_command": "Copy Command",
-	"gui.worldhandler.command_stack.command_n": "Command %d",
+	"gui.worldhandler.command_stack.insert_command": "Insérer la commande",
+	"gui.worldhandler.command_stack.remove_command": "Supprimer la commande",
+	"gui.worldhandler.command_stack.copy_command": "Copier la commande",
+	"gui.worldhandler.command_stack.command_n": "Commande %d",
 
 	"gui.worldhandler.entities": "Entités",
 	"gui.worldhandler.items": "Objets",
@@ -271,7 +271,7 @@
 	"gui.worldhandler.scoreboard.objectives.stat.killed_by": "Tué par",
 	"gui.worldhandler.scoreboard.objectives.stat.playerKillCount": "Joueurs tués",
 	"gui.worldhandler.scoreboard.objectives.stat.teamkill": "Teamkills",
-	"gui.worldhandler.scoreboard.objectives.stat.totalKillCount": "Total Kill Count",
+	"gui.worldhandler.scoreboard.objectives.stat.totalKillCount": "Total de kills",
 	"gui.worldhandler.scoreboard.objectives.stat.trigger": "Déclencheur",
 	"gui.worldhandler.scoreboard.objectives.stat.xp": "Expérience totale",
 
@@ -325,14 +325,14 @@
 
 	"gui.worldhandler.entities.summon.start.mob_id": "ID de créature",
 	"gui.worldhandler.entities.summon.start.custom_name": "Nom personnalisé",
-	"gui.worldhandler.entities.summon.start.custom_nbt": "Custom NBT",
+	"gui.worldhandler.entities.summon.start.custom_nbt": "NBT personnalisé",
 
 	"gui.worldhandler.potion.time.hours": "Heures ",
 	"gui.worldhandler.potion.time.minutes": "Minutes ",
 	"gui.worldhandler.potion.time.seconds": "Secondes ",
 
 	"gui.worldhandler.shortcuts.tooltip.home": "Accueil",
-	"gui.worldhandler.shortcuts.tooltip.command_stack": "Command Stack",
+	"gui.worldhandler.shortcuts.tooltip.command_stack": "Registre de commandes",
 	"gui.worldhandler.shortcuts.tooltip.settings": "Paramètres",
 	"gui.worldhandler.shortcuts.tooltip.potions": "Potions",
 
@@ -380,8 +380,8 @@
 	"gui.worldhandler.actions.send": "Envoyer",
 	"gui.worldhandler.actions.copy": "Copier",
 	"gui.worldhandler.actions.place_command_block": "Placer bloc commande",
-	"gui.worldhandler.actions.move_up": "Move Up",
-	"gui.worldhandler.actions.move_down": "Move Down",
+	"gui.worldhandler.actions.move_up": "Monter",
+	"gui.worldhandler.actions.move_down": "Descendre",
 
 	"gui.worldhandler.color": "Couleur",
 	"gui.worldhandler.color.black": "Noir",
@@ -404,9 +404,9 @@
 
 	"key.categories.worldhandler": "World Handler",
 
-	"key.worldhandler": "Open World Handler",
-	"key.worldhandler.pos1": "Set Position 1",
-	"key.worldhandler.pos2": "Set Position 2",
+	"key.worldhandler": "Ouvrir World Handler",
+	"key.worldhandler.pos1": "Définir la position 1",
+	"key.worldhandler.pos2": "Définir la position 2",
 
 	"worldhandler.permission.refused": "Vous n'avez pas la permission d'utiliser World Handler",
 	"worldhandler.permission.refused.change": "Modifiez \"%s\" pour désactiver ce message",
