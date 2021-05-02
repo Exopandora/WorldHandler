@@ -2,14 +2,14 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.16.5-latest": "2.12.3",
-		"1.16.5-recommended": "2.12.3",
-		"1.16.4-latest": "2.12.3",
-		"1.16.4-recommended": "2.12.3",
-		"1.16.3-latest": "2.12.3",
-		"1.16.3-recommended": "2.12.3",
-		"1.16.2-latest": "2.12.3",
-		"1.16.2-recommended": "2.12.3",
+		"1.16.5-latest": "2.12.4",
+		"1.16.5-recommended": "2.12.4",
+		"1.16.4-latest": "2.12.4",
+		"1.16.4-recommended": "2.12.4",
+		"1.16.3-latest": "2.12.4",
+		"1.16.3-recommended": "2.12.4",
+		"1.16.2-latest": "2.12.4",
+		"1.16.2-recommended": "2.12.4",
 		"1.16.1-latest": "2.11.1",
 		"1.16.1-recommended": "2.11.1",
 		"1.15.2-latest": "2.9.1",
@@ -67,7 +67,8 @@
 	},
 	"1.16.5":
 	{
-		"2.12.2": "- Fixed config translations keys",
+		"2.12.4": "- Updated french translations",
+		"2.12.3": "- Fixed config translations keys",
 		"2.12.2": "- Updated russian translations",
 		"2.12.1": "- Updated api version to 1.1\n- Fixed mod reporting as missing from forge servers\n- Fixed gui not closing when pressing esc",
 		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
@@ -75,7 +76,8 @@
 	},
 	"1.16.4":
 	{
-		"2.12.2": "- Fixed config translations keys",
+		"2.12.4": "- Updated french translations",
+		"2.12.3": "- Fixed config translations keys",
 		"2.12.2": "- Updated russian translations",
 		"2.12.1": "- Updated api version to 1.1\n- Fixed mod reporting as missing from forge servers\n- Fixed gui not closing when pressing esc",
 		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
@@ -83,7 +85,8 @@
 	},
 	"1.16.3":
 	{
-		"2.12.2": "- Fixed config translations keys",
+		"2.12.4": "- Updated french translations",
+		"2.12.3": "- Fixed config translations keys",
 		"2.12.2": "- Updated russian translations",
 		"2.12.1": "- Updated api version to 1.1\n- Fixed mod reporting as missing from forge servers\n- Fixed gui not closing when pressing esc",
 		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
@@ -91,7 +94,8 @@
 	},
 	"1.16.2":
 	{
-		"2.12.2": "- Fixed config translations keys",
+		"2.12.4": "- Updated french translations",
+		"2.12.3": "- Fixed config translations keys",
 		"2.12.2": "- Updated russian translations",
 		"2.12.1": "- Updated api version to 1.1\n- Fixed mod reporting as missing from forge servers\n- Fixed gui not closing when pressing esc",
 		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
