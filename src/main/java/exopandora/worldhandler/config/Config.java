@@ -95,6 +95,7 @@ public class Config
 		if(configValue != null && value != null && (!value.equals(configValue.get()) || configValue.get() instanceof List<?>))
 		{
 			Config.CONFIG_DATA.set(configValue.getPath(), value);
+			configValue.clearCache();
 		}
 	}
 	

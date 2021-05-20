@@ -1,6 +1,7 @@
 package exopandora.worldhandler.config;
 
 import exopandora.worldhandler.builder.impl.BuilderSetBlock.EnumMode;
+import exopandora.worldhandler.event.KeyHandler;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -124,7 +125,14 @@ public class ConfigCategorySettings
 	
 	public void setShortcutKeys(boolean enabled)
 	{
+		boolean previous = this.shortcutKeys();
+		
 		Config.set(this.shortcutKeys, enabled);
+		
+		if(previous != enabled)
+		{
+			KeyHandler.updatePosKeys();
+		}
 	}
 	
 	public boolean tooltips()

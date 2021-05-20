@@ -19,22 +19,22 @@ public class KeyHandler
 {
 	public static final KeyBinding KEY_WORLD_HANDLER = new KeyBinding("key.worldhandler", GLFW.GLFW_KEY_V, "key.categories.worldhandler");
 	public static final KeyBinding KEY_WORLD_HANDLER_POS1 = new KeyBinding("key.worldhandler.pos1", GLFW.GLFW_KEY_O, "key.categories.worldhandler");
-	public static final KeyBinding KEY_WORLD_HANDLER_POS2 = new KeyBinding("key.worldhandler.pos1", GLFW.GLFW_KEY_P, "key.categories.worldhandler");
+	public static final KeyBinding KEY_WORLD_HANDLER_POS2 = new KeyBinding("key.worldhandler.pos2", GLFW.GLFW_KEY_P, "key.categories.worldhandler");
 	
 	@SubscribeEvent
 	public static void keyInputEvent(KeyInputEvent event)
 	{
 		if(Minecraft.getInstance() != null && Minecraft.getInstance().screen == null)
 		{
-			if(KEY_WORLD_HANDLER.isDown())
+			if(KEY_WORLD_HANDLER.consumeClick())
 			{
 				ActionHelper.displayGui();
 			}
-			else if(KEY_WORLD_HANDLER_POS1.isDown() && Config.getSettings().shortcutKeys())
+			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS1.consumeClick())
 			{
 				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
 			}
-			else if(KEY_WORLD_HANDLER_POS2.isDown() && Config.getSettings().shortcutKeys())
+			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS2.consumeClick())
 			{
 				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
 			}
