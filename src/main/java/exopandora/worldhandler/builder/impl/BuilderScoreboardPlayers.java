@@ -63,7 +63,7 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 	{
 		if(this.getMode() != null)
 		{
-			this.setNode(3, RegExUtils.replaceAll(name, " ", "_"));
+			this.setNode(3, name != null ? name.replaceAll(" ", "_") : null);
 		}
 	}
 	
