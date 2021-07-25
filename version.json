@@ -2,14 +2,14 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.16.5-latest": "2.12.5",
-		"1.16.5-recommended": "2.12.5",
-		"1.16.4-latest": "2.12.5",
-		"1.16.4-recommended": "2.12.5",
-		"1.16.3-latest": "2.12.5",
-		"1.16.3-recommended": "2.12.5",
-		"1.16.2-latest": "2.12.5",
-		"1.16.2-recommended": "2.12.5",
+		"1.16.5-latest": "2.12.6",
+		"1.16.5-recommended": "2.12.6",
+		"1.16.4-latest": "2.12.6",
+		"1.16.4-recommended": "2.12.6",
+		"1.16.3-latest": "2.12.6",
+		"1.16.3-recommended": "2.12.6",
+		"1.16.2-latest": "2.12.6",
+		"1.16.2-recommended": "2.12.6",
 		"1.16.1-latest": "2.11.1",
 		"1.16.1-recommended": "2.11.1",
 		"1.15.2-latest": "2.9.1",
@@ -67,6 +67,7 @@
 	},
 	"1.16.5":
 	{
+		"2.12.6": "- Fixed Scoreboard Players crash\n- Fixed Confirm GUI not working\n- Fixed bold button for color menus\n- Fixed forge detection for installer\n- Improved config loading",
 		"2.12.5": "- Fixed various keybinding bugs",
 		"2.12.4": "- Updated french translations",
 		"2.12.3": "- Fixed config translations keys",
@@ -77,6 +78,7 @@
 	},
 	"1.16.4":
 	{
+		"2.12.6": "- Fixed Scoreboard Players crash\n- Fixed Confirm GUI not working\n- Fixed bold button for color menus\n- Fixed forge detection for installer\n- Improved config loading",
 		"2.12.5": "- Fixed various keybinding bugs",
 		"2.12.4": "- Updated french translations",
 		"2.12.3": "- Fixed config translations keys",
@@ -87,6 +89,7 @@
 	},
 	"1.16.3":
 	{
+		"2.12.6": "- Fixed Scoreboard Players crash\n- Fixed Confirm GUI not working\n- Fixed bold button for color menus\n- Fixed forge detection for installer\n- Improved config loading",
 		"2.12.5": "- Fixed various keybinding bugs",
 		"2.12.4": "- Updated french translations",
 		"2.12.3": "- Fixed config translations keys",
@@ -97,6 +100,7 @@
 	},
 	"1.16.2":
 	{
+		"2.12.6": "- Fixed Scoreboard Players crash\n- Fixed Confirm GUI not working\n- Fixed bold button for color menus\n- Fixed forge detection for installer\n- Improved config loading",
 		"2.12.5": "- Fixed various keybinding bugs",
 		"2.12.4": "- Updated french translations",
 		"2.12.3": "- Fixed config translations keys",
