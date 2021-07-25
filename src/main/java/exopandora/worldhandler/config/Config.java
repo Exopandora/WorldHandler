@@ -7,14 +7,11 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-
 import exopandora.worldhandler.event.KeyHandler;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.config.ModConfig.Reloading;
 import net.minecraftforge.fml.config.ModConfig.Type;
 
@@ -22,9 +19,6 @@ public class Config
 {
 	public static final ForgeConfigSpec CLIENT_SPEC;
 	public static final ClientConfig CLIENT;
-	
-	private static ModConfig MOD_CONFIG;
-	private static CommentedFileConfig CONFIG_DATA;
 	
 	static
 	{
@@ -94,27 +88,15 @@ public class Config
 	{
 		if(configValue != null && value != null && (!value.equals(configValue.get()) || configValue.get() instanceof List<?>))
 		{
-			Config.CONFIG_DATA.set(configValue.getPath(), value);
-			configValue.clearCache();
-		}
-	}
-	
-	@SubscribeEvent
-	public static void configLoad(ModConfig.Loading event)
-	{
-		if(event.getConfig().getType().equals(Type.CLIENT))
-		{
-			Config.MOD_CONFIG = event.getConfig();
-			Config.CONFIG_DATA = (CommentedFileConfig) Config.MOD_CONFIG.getConfigData();
+			configValue.set(value);
 		}
 	}
 	
 	@SubscribeEvent
 	public static void configReload(Reloading event)
 	{
-		if(event.getConfig().getType().equals(Type.CLIENT) && Config.CONFIG_DATA != null)
+		if(event.getConfig().getType().equals(Type.CLIENT))
 		{
-			Config.CONFIG_DATA.load();
 			KeyHandler.updatePosKeys();
 		}
 	}
