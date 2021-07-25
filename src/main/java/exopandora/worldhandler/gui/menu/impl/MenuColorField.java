@@ -126,7 +126,7 @@ public class MenuColorField extends Menu
 			}));
 			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, new StringTextComponent("B").setStyle(Style.EMPTY.withBold(this.string.getStyle().isBold())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().withItalic(!this.string.getStyle().isBold()));
+				this.string.setStyle(this.string.getStyle().withBold(!this.string.getStyle().isBold()));
 				container.init();
 			}));
 			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, new StringTextComponent("U").setStyle(Style.EMPTY.setUnderlined(this.string.getStyle().isUnderlined())), () ->
