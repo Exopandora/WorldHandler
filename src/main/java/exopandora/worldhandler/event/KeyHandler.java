@@ -26,15 +26,15 @@ public class KeyHandler
 	{
 		if(Minecraft.getInstance() != null && Minecraft.getInstance().screen == null)
 		{
-			if(KEY_WORLD_HANDLER.consumeClick())
+			if(KEY_WORLD_HANDLER.isDown())
 			{
 				ActionHelper.displayGui();
 			}
-			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS1.consumeClick())
+			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS1.isDown())
 			{
 				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
 			}
-			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS2.consumeClick())
+			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS2.isDown())
 			{
 				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
 			}
