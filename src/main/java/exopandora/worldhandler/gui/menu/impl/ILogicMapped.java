@@ -1,27 +1,27 @@
 package exopandora.worldhandler.gui.menu.impl;
 
 import exopandora.worldhandler.util.ILogic;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public interface ILogicMapped<T> extends ILogic
 {
-	IFormattableTextComponent translate(T item);
-	IFormattableTextComponent toTooltip(T item);
+	MutableComponent translate(T item);
+	MutableComponent toTooltip(T item);
 	
-	default IFormattableTextComponent formatTooltip(T item, int index, int max)
+	default MutableComponent formatTooltip(T item, int index, int max)
 	{
-		IFormattableTextComponent tooltip = this.toTooltip(item);
+		MutableComponent tooltip = this.toTooltip(item);
 		
 		if(tooltip != null)
 		{
 			return tooltip.append(String.format(" (%d/%d)", index, max));
 		}
 		
-		return (IFormattableTextComponent) StringTextComponent.EMPTY;
+		return (MutableComponent) TextComponent.EMPTY;
 	}
 	
 	void onClick(T item);

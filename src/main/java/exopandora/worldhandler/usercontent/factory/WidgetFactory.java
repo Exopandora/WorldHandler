@@ -16,11 +16,11 @@ import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
-import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonItem;
+import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.TextUtils;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -34,7 +34,7 @@ public class WidgetFactory extends AbstractWidgetFactory
 	}
 	
 	@Nullable
-	public Widget createWidget(JsonWidget widget, Content content, Container container, int x, int y)
+	public AbstractWidget createWidget(JsonWidget widget, Content content, Container container, int x, int y)
 	{
 		if(JsonWidget.Type.BUTTON.equals(widget.getType()))
 		{

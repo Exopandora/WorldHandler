@@ -5,11 +5,11 @@ import java.util.Set;
 import exopandora.worldhandler.builder.component.impl.ComponentAttributeItem;
 import exopandora.worldhandler.builder.component.impl.ComponentDisplay;
 import exopandora.worldhandler.builder.component.impl.ComponentEnchantment;
-import exopandora.worldhandler.util.MutableStringTextComponent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import exopandora.worldhandler.util.MutableTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -68,32 +68,32 @@ public class BuilderCustomItem extends BuilderGive
 		return this.attribute.getAttributes();
 	}
 	
-	public void setName(MutableStringTextComponent name)
+	public void setName(MutableTextComponent name)
 	{
 		this.display.setName(name);
 	}
 	
-	public MutableStringTextComponent getName()
+	public MutableTextComponent getName()
 	{
 		return this.display.getName();
 	}
 	
-	public void setLore1(ITextComponent lore)
+	public void setLore1(Component lore)
 	{
 		this.display.setLore1(lore);
 	}
 	
-	public ITextComponent getLore1()
+	public Component getLore1()
 	{
 		return this.display.getLore1();
 	}
 	
-	public void setLore2(ITextComponent lore)
+	public void setLore2(Component lore)
 	{
 		this.display.setLore2(lore);
 	}
 	
-	public ITextComponent getLore2()
+	public Component getLore2()
 	{
 		return this.display.getLore2();
 	}

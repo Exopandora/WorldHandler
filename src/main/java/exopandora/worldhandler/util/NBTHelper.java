@@ -6,35 +6,35 @@ import java.util.List;
 import exopandora.worldhandler.builder.INBTWritable;
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.builder.component.impl.EntityNBT;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.DoubleNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.DoubleTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class NBTHelper
 {
-	public static INBT serialize(BlockState blockState)
+	public static Tag serialize(BlockState blockState)
 	{
-		return blockState != null ? NBTUtil.writeBlockState(blockState) : null;
+		return blockState != null ? NbtUtils.writeBlockState(blockState) : null;
 	}
 	
-	public static INBT serialize(double[] vector)
+	public static Tag serialize(double[] vector)
 	{
 		if(vector.length == 3 && (vector[0] != 0D || vector[1] != 0D || vector[2] != 0D))
 		{
-			ListNBT list = new ListNBT();
+			ListTag list = new ListTag();
 			
-			list.add(DoubleNBT.valueOf(vector[0]));
-			list.add(DoubleNBT.valueOf(vector[1]));
-			list.add(DoubleNBT.valueOf(vector[2]));
+			list.add(DoubleTag.valueOf(vector[0]));
+			list.add(DoubleTag.valueOf(vector[1]));
+			list.add(DoubleTag.valueOf(vector[2]));
 			
 			return list;
 		}
@@ -42,28 +42,28 @@ public class NBTHelper
 		return null;
 	}
 	
-	public static INBT serialize(ResourceLocation resource)
+	public static Tag serialize(ResourceLocation resource)
 	{
 		if(resource != null)
 		{
-			return StringNBT.valueOf(resource.toString());
+			return StringTag.valueOf(resource.toString());
 		}
 		
 		return null;
 	}
 	
-	public static INBT serialize(ResourceLocation[] itemArray)
+	public static Tag serialize(ResourceLocation[] itemArray)
 	{
 		if(Arrays.stream(itemArray).allMatch(resource -> resource != null && resource.equals(Items.AIR.getRegistryName())))
 		{
 			return null;
 		}
 		
-		ListNBT list = new ListNBT();
+		ListTag list = new ListTag();
 		
 		for(ResourceLocation item : itemArray)
 		{
-			CompoundNBT compound = new CompoundNBT();
+			CompoundTag compound = new CompoundTag();
 			compound.putString("id", item.toString());
 			compound.putInt("Count", 1);
 			list.add(compound);
@@ -72,13 +72,13 @@ public class NBTHelper
 		return list;
 	}
 	
-	public static INBT serialize(List<EntityNBT> entities)
+	public static Tag serialize(List<EntityNBT> entities)
 	{
-		ListNBT list = new ListNBT();
+		ListTag list = new ListTag();
 		
 		for(EntityNBT entity : entities)
 		{
-			INBT nbt = entity.serialize();
+			Tag nbt = entity.serialize();
 			
 			if(nbt != null)
 			{
@@ -94,17 +94,17 @@ public class NBTHelper
 		return list;
 	}
 	
-	public static void append(CompoundNBT compound, String tag, INBTWritable writable)
+	public static void append(CompoundTag compound, String tag, INBTWritable writable)
 	{
 		NBTHelper.append(compound, tag, writable.serialize());
 	}
 	
-	public static void append(CompoundNBT compound, IBuilderComponent component)
+	public static void append(CompoundTag compound, IBuilderComponent component)
 	{
 		NBTHelper.append(compound, component.getTag(), component.serialize());
 	}
 	
-	public static void append(CompoundNBT compound, String tag, INBT nbt)
+	public static void append(CompoundTag compound, String tag, Tag nbt)
 	{
 		if(nbt != null)
 		{

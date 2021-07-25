@@ -4,10 +4,10 @@ import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -16,15 +16,15 @@ public class ComponentAttributeMob extends ComponentAttribute
 {
 	@Override
 	@Nullable
-	public INBT serialize()
+	public Tag serialize()
 	{
-		ListNBT attributes = new ListNBT();
+		ListTag attributes = new ListTag();
 		
 		for(Entry<Attribute, Double> entry : this.attributes.entrySet())
 		{
 			if(entry.getValue() != 0)
 			{
-				CompoundNBT attribute = new CompoundNBT();
+				CompoundTag attribute = new CompoundTag();
 				String id = entry.getKey().getRegistryName().toString();
 				
 				attribute.putString("Name", id);

@@ -11,22 +11,22 @@ import javax.annotation.Nullable;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.util.MutableStringTextComponent;
+import exopandora.worldhandler.util.MutableTextComponent;
 import exopandora.worldhandler.util.NBTHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.ByteNBT;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.IntNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -41,12 +41,12 @@ public class EntityNBT implements IBuilderComponent
 	private BlockState blockState;
 	private ComponentCustom entity = new ComponentCustom();
 	private ComponentAttributeMob attribute = new ComponentAttributeMob();
-	private MutableStringTextComponent customName = new MutableStringTextComponent();
+	private MutableTextComponent customName = new MutableTextComponent();
 	private List<EntityNBT> passengers = new ArrayList<EntityNBT>();
 	private ResourceLocation[] armorItems = {Items.AIR.getRegistryName(), Items.AIR.getRegistryName(), Items.AIR.getRegistryName(), Items.AIR.getRegistryName()};
 	private ResourceLocation[] handItems = {Items.AIR.getRegistryName(), Items.AIR.getRegistryName()};
 	private ComponentPotionMob potion = new ComponentPotionMob();
-	private CompoundNBT nbt;
+	private CompoundTag nbt;
 	
 	public EntityNBT()
 	{
@@ -94,7 +94,7 @@ public class EntityNBT implements IBuilderComponent
 	}
 	
 	@Nullable
-	public MutableStringTextComponent getCustomName()
+	public MutableTextComponent getCustomName()
 	{
 		return this.customName;
 	}
@@ -270,69 +270,69 @@ public class EntityNBT implements IBuilderComponent
 		this.motion[2] = z;
 	}
 	
-	public void setAmplifier(Effect potion, byte amplifier)
+	public void setAmplifier(MobEffect potion, byte amplifier)
 	{
 		this.potion.setAmplifier(potion, amplifier);
 	}
 	
-	public void setSeconds(Effect potion, int seconds)
+	public void setSeconds(MobEffect potion, int seconds)
 	{
 		this.potion.setSeconds(potion, seconds);
 	}
 	
-	public void setMinutes(Effect potion, int minutes)
+	public void setMinutes(MobEffect potion, int minutes)
 	{
 		this.potion.setMinutes(potion, minutes);
 	}
 	
-	public void setHours(Effect potion, int hours)
+	public void setHours(MobEffect potion, int hours)
 	{
 		this.potion.setHours(potion, hours);
 	}
 	
-	public void setShowParticles(Effect potion, boolean showParticles)
+	public void setShowParticles(MobEffect potion, boolean showParticles)
 	{
 		this.potion.setShowParticles(potion, showParticles);
 	}
 	
-	public void setAmbient(Effect potion, boolean ambient)
+	public void setAmbient(MobEffect potion, boolean ambient)
 	{
 		this.potion.setAmbient(potion, ambient);
 	}
 	
-	public byte getAmplifier(Effect potion)
+	public byte getAmplifier(MobEffect potion)
 	{
 		return this.potion.getAmplifier(potion);
 	}
 	
-	public int getSeconds(Effect potion)
+	public int getSeconds(MobEffect potion)
 	{
 		return this.potion.getSeconds(potion);
 	}
 	
-	public int getMinutes(Effect potion)
+	public int getMinutes(MobEffect potion)
 	{
 		return this.potion.getMinutes(potion);
 	}
 	
-	public int getHours(Effect potion)
+	public int getHours(MobEffect potion)
 	{
 		return this.potion.getHours(potion);
 	}
 	
-	public boolean getShowParticles(Effect potion)
+	public boolean getShowParticles(MobEffect potion)
 	{
 		return this.potion.getShowParticles(potion);
 	}
 	
-	public boolean getAmbient(Effect potion)
+	public boolean getAmbient(MobEffect potion)
 	{
 		return this.potion.getAmbient(potion);
 	}
 	
-	public Set<Effect> getEffects()
+	public Set<MobEffect> getEffects()
 	{
-		return this.potion.getEffects();
+		return this.potion.getMobEffects();
 	}
 	
 	public void setBlockState(BlockState blockState)
@@ -355,7 +355,7 @@ public class EntityNBT implements IBuilderComponent
 		return this.time;
 	}
 	
-	public void setCustomComponent(String tag, INBT nbt)
+	public void setCustomComponent(String tag, Tag nbt)
 	{
 		this.entity.set(tag, nbt);
 	}
@@ -385,12 +385,12 @@ public class EntityNBT implements IBuilderComponent
 		return this.command;
 	}
 	
-	public void setNBT(CompoundNBT nbt)
+	public void setNBT(CompoundTag nbt)
 	{
 		this.nbt = nbt;
 	}
 	
-	public CompoundNBT getNBT()
+	public CompoundTag getNBT()
 	{
 		return this.nbt;
 	}
@@ -399,7 +399,7 @@ public class EntityNBT implements IBuilderComponent
 	{
 		try
 		{
-			this.nbt = JsonToNBT.parseTag("{" + nbt + "}");
+			this.nbt = TagParser.parseTag("{" + nbt + "}");
 		}
 		catch(CommandSyntaxException e)
 		{
@@ -408,23 +408,23 @@ public class EntityNBT implements IBuilderComponent
 	}
 	
 	@Override
-	public CompoundNBT serialize()
+	public CompoundTag serialize()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		
 		if(this.time != null)
 		{
-			NBTHelper.append(nbt, "Time", IntNBT.valueOf(this.time));
+			NBTHelper.append(nbt, "Time", IntTag.valueOf(this.time));
 		}
 		
 		if(this.command != null)
 		{
-			NBTHelper.append(nbt, "Command", StringNBT.valueOf(this.command));
+			NBTHelper.append(nbt, "Command", StringTag.valueOf(this.command));
 		}
 		
 		if(this.isBaby)
 		{
-			NBTHelper.append(nbt, "IsBaby", ByteNBT.valueOf(true));
+			NBTHelper.append(nbt, "IsBaby", ByteTag.valueOf(true));
 		}
 		
 		NBTHelper.append(nbt, "id", NBTHelper.serialize(this.id));

@@ -15,12 +15,12 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonItem;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -30,7 +30,7 @@ public class ContentContainers extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 232, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 232, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.getName(), () ->
 		{
@@ -108,15 +108,15 @@ public class ContentContainers extends Content
 	}
 	
 	@Override
-	public IFormattableTextComponent getTitle()
+	public MutableComponent getTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.title.containers");
+		return new TranslatableComponent("gui.worldhandler.title.containers");
 	}
 	
 	@Override
-	public IFormattableTextComponent getTabTitle()
+	public MutableComponent getTabTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.tab.containers");
+		return new TranslatableComponent("gui.worldhandler.tab.containers");
 	}
 	
 	@Override

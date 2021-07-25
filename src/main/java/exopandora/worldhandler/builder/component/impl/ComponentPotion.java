@@ -8,32 +8,32 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.potion.Effect;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class ComponentPotion implements IBuilderComponent 
 {
-	protected final Map<Effect, EffectNBT> potions = new HashMap<Effect, EffectNBT>();
+	protected final Map<MobEffect, EffectNBT> potions = new HashMap<MobEffect, EffectNBT>();
 	
 	@Override
 	@Nullable
-	public INBT serialize()
+	public Tag serialize()
 	{
-		ListNBT list = new ListNBT();
+		ListTag list = new ListTag();
 		
-		for(Entry<Effect, EffectNBT> entry : this.potions.entrySet())
+		for(Entry<MobEffect, EffectNBT> entry : this.potions.entrySet())
 		{
 			EffectNBT effect = entry.getValue();
 			
 			if(effect.getAmplifier() > 0)
 			{
-				CompoundNBT compound = effect.serialize();
-				compound.putByte("Id", (byte) Effect.getId(entry.getKey()));
+				CompoundTag compound = effect.serialize();
+				compound.putByte("Id", (byte) MobEffect.getId(entry.getKey()));
 				list.add(compound);
 			}
 		}
@@ -46,72 +46,72 @@ public abstract class ComponentPotion implements IBuilderComponent
 		return list;
 	}
 	
-	public void setAmplifier(Effect potion, byte amplifier)
+	public void setAmplifier(MobEffect potion, byte amplifier)
 	{
 		this.getMetadata(potion).setAmplifier(amplifier);
 	}
 	
-	public byte getAmplifier(Effect potion)
+	public byte getAmplifier(MobEffect potion)
 	{
 		return this.getMetadata(potion).getAmplifier();
 	}
 	
-	public void setSeconds(Effect potion, int seconds)
+	public void setSeconds(MobEffect potion, int seconds)
 	{
 		this.getMetadata(potion).setSeconds(seconds);
 	}
 	
-	public int getSeconds(Effect potion)
+	public int getSeconds(MobEffect potion)
 	{
 		return this.getMetadata(potion).getSeconds();
 	}
 	
-	public void setMinutes(Effect potion, int minutes)
+	public void setMinutes(MobEffect potion, int minutes)
 	{
 		this.getMetadata(potion).setMinutes(minutes);
 	}
 	
-	public int getMinutes(Effect potion)
+	public int getMinutes(MobEffect potion)
 	{
 		return this.getMetadata(potion).getMinutes();
 	}
 	
-	public void setHours(Effect potion, int hours)
+	public void setHours(MobEffect potion, int hours)
 	{
 		this.getMetadata(potion).setHours(hours);
 	}
 	
-	public int getHours(Effect potion)
+	public int getHours(MobEffect potion)
 	{
 		return this.getMetadata(potion).getHours();
 	}
 	
-	public void setShowParticles(Effect potion, boolean showParticles)
+	public void setShowParticles(MobEffect potion, boolean showParticles)
 	{
 		this.getMetadata(potion).setShowParticles(showParticles);
 	}
 	
-	public boolean getShowParticles(Effect potion)
+	public boolean getShowParticles(MobEffect potion)
 	{
 		return this.getMetadata(potion).getShowParticles();
 	}
 	
-	public void setAmbient(Effect potion, boolean ambient)
+	public void setAmbient(MobEffect potion, boolean ambient)
 	{
 		this.getMetadata(potion).setAmbient(ambient);
 	}
 	
-	public boolean getAmbient(Effect potion)
+	public boolean getAmbient(MobEffect potion)
 	{
 		return this.getMetadata(potion).getAmbient();
 	}
 	
-	private EffectNBT getMetadata(Effect potion)
+	private EffectNBT getMetadata(MobEffect potion)
 	{
 		return this.potions.get(this.validate(potion));
 	}
 	
-	private Effect validate(Effect potion)
+	private MobEffect validate(MobEffect potion)
 	{
 		if(!this.potions.containsKey(potion))
 		{
@@ -121,12 +121,12 @@ public abstract class ComponentPotion implements IBuilderComponent
 		return potion;
 	}
 	
-	public Set<Effect> getEffects()
+	public Set<MobEffect> getMobEffects()
 	{
 		return this.potions.keySet();
 	}
 	
-	public void remove(Effect potion)
+	public void remove(MobEffect potion)
 	{
 		this.potions.remove(potion);
 	}

@@ -1,7 +1,7 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.impl.BuilderGeneric;
@@ -16,16 +16,15 @@ import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.util.ActionHelper;
-import exopandora.worldhandler.util.RenderUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -81,25 +80,25 @@ public class ContentPlayer extends Content
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.start"), () ->
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.start"), () ->
 		{
 			this.page = Page.START;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.score"), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.score"), () ->
 		{
 			this.page = Page.SCORE;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.position"), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.position"), () ->
 		{
 			this.page = Page.POSITION;
 			container.init();
 		}));
-		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous"), () ->
+		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.miscellaneous"), () ->
 		{
 			this.page = Page.MISC;
 			container.init();
@@ -117,9 +116,9 @@ public class ContentPlayer extends Content
 		{
 			button3.active = false;
 			
-			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.position.copy_position"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.position.copy_position"), () ->
 			{
-				PlayerEntity player = Minecraft.getInstance().player;
+				Player player = Minecraft.getInstance().player;
 				
 				if(player != null)
 				{
@@ -132,19 +131,19 @@ public class ContentPlayer extends Content
 		{
 			button4.active = false;
 			
-			container.add(new GuiButtonBase(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_spawn").withStyle(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.miscellaneous.set_spawn").withStyle(ChatFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSpawnpoint));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").withStyle(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").withStyle(ChatFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSetworldspawn));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.kill").withStyle(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.miscellaneous.kill").withStyle(ChatFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderKill));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.player.miscellaneous.clear_inventory").withStyle(TextFormatting.RED), () ->
+			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.miscellaneous.clear_inventory").withStyle(ChatFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderClear));
 			}));
@@ -154,7 +153,7 @@ public class ContentPlayer extends Content
 	@Override
 	public void tick(Container container)
 	{
-		PlayerEntity player = Minecraft.getInstance().player;
+		Player player = Minecraft.getInstance().player;
 		
 		if(player != null)
 		{
@@ -170,7 +169,7 @@ public class ContentPlayer extends Content
 	}
 	
 	@Override
-	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(Page.START.equals(this.page) && Minecraft.getInstance().player != null)
 		{
@@ -178,10 +177,10 @@ public class ContentPlayer extends Content
 			int yPos = y + 82;
 			int playerNameWidth = Minecraft.getInstance().font.width(Minecraft.getInstance().player.getName()) / 2;
 			
-			AbstractGui.fill(matrix, container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
+			GuiComponent.fill(matrix, container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
 			Minecraft.getInstance().font.draw(matrix, Minecraft.getInstance().player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
-			RenderUtils.color(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			InventoryScreen.renderEntityInInventory(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
 			RenderSystem.defaultBlendFunc();
 		}
@@ -213,15 +212,15 @@ public class ContentPlayer extends Content
 	}
 	
 	@Override
-	public IFormattableTextComponent getTitle()
+	public MutableComponent getTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.title.player.player");
+		return new TranslatableComponent("gui.worldhandler.title.player.player");
 	}
 	
 	@Override
-	public IFormattableTextComponent getTabTitle()
+	public MutableComponent getTabTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.tab.player.player");
+		return new TranslatableComponent("gui.worldhandler.tab.player.player");
 	}
 	
 	@Override

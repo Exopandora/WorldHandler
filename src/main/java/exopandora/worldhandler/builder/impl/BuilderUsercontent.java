@@ -12,8 +12,8 @@ import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.GreedyString;
 import exopandora.worldhandler.builder.types.ItemResourceLocation;
 import exopandora.worldhandler.builder.types.TargetSelector;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -76,7 +76,7 @@ public class BuilderUsercontent extends CommandBuilder
 					this.setNode(index, type.<Long>parseOfDefault(object, ((Double) argument.getDefault()).longValue()));
 					break;
 				case NBT:
-					this.setNode(index, type.<CompoundNBT>parseOfDefault(object, type.parse((String) argument.getDefault())));
+					this.setNode(index, type.<CompoundTag>parseOfDefault(object, type.parse((String) argument.getDefault())));
 					break;
 				case RESOURCE_LOCATION:
 					this.setNode(index, type.<ResourceLocation>parseOfDefault(object, type.parse((String) argument.getDefault())));

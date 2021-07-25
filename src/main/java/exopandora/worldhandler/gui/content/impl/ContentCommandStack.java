@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.component.impl.EntityNBT;
@@ -28,14 +28,14 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.util.ActionHelper;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -44,8 +44,8 @@ public class ContentCommandStack extends ContentChild
 {
 	private static final int HEAD_LENGTH = 1;
 	private static final int TAIL_LENGTH = 2;
-	private static final StringTextComponent PLUS = new StringTextComponent("+");
-	private static final StringTextComponent MINUS = new StringTextComponent("-");
+	private static final TextComponent PLUS = new TextComponent("+");
+	private static final TextComponent MINUS = new TextComponent("-");
 	
 	private final List<GuiTextFieldTooltip> textfields = new ArrayList<GuiTextFieldTooltip>();
 	private int scroll;
@@ -72,7 +72,7 @@ public class ContentCommandStack extends ContentChild
 		
 		EntityNBT blockRemover = new EntityNBT(EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
 		BuilderSetBlock builder = new BuilderSetBlock(new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(-2, EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), Blocks.REPEATING_COMMAND_BLOCK.getRegistryName(), EnumMode.DESTROY);
-		CompoundNBT commandBlock = new CompoundNBT();
+		CompoundTag commandBlock = new CompoundTag();
 		commandBlock.putByte("auto", (byte) 1);
 		commandBlock.putString("Command", new BuilderFill(new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(2, EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), new BlockResourceLocation(Blocks.AIR.getRegistryName())).toActualCommand());
 		builder.setBlockNBT(commandBlock);
@@ -99,7 +99,7 @@ public class ContentCommandStack extends ContentChild
 		{
 			int command = index + this.scroll;
 			
-			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip(x, y + 24 * index, 232 - 48, 20, new TranslationTextComponent("gui.worldhandler.command_stack.command_n", command + 1));
+			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip(x, y + 24 * index, 232 - 48, 20, new TranslatableComponent("gui.worldhandler.command_stack.command_n", command + 1));
 			textfield.setFilter(Predicates.notNull());
 			textfield.setValue(command < this.getCommandCount() ? this.getCommand(command) : null);
 			textfield.setResponder(text ->
@@ -117,8 +117,8 @@ public class ContentCommandStack extends ContentChild
 		GuiButtonBase buttonScrollUp;
 		GuiButtonBase buttonScrollDown;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		this.iterate(index ->
 		{
@@ -126,17 +126,17 @@ public class ContentCommandStack extends ContentChild
 			GuiButtonBase buttonDown;
 			GuiButtonBase buttonRemove;
 			
-			container.add(buttonUp = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 - 1, 20, 10, EnumIcon.ARROW_UP, new TranslationTextComponent("gui.worldhandler.actions.move_up"), () ->
+			container.add(buttonUp = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 - 1, 20, 10, EnumIcon.ARROW_UP, new TranslatableComponent("gui.worldhandler.actions.move_up"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll - 1);
 				container.init();
 			}));
-			container.add(buttonDown = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 + 11, 20, 10, EnumIcon.ARROW_DOWN, new TranslationTextComponent("gui.worldhandler.actions.move_down"), () ->
+			container.add(buttonDown = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 + 11, 20, 10, EnumIcon.ARROW_DOWN, new TranslatableComponent("gui.worldhandler.actions.move_down"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll + 1);
 				container.init();
 			}));
-			container.add(buttonRemove = new GuiButtonTooltip(x + 232 - 20, y + index * 24 - 1, 20, 10, MINUS, new TranslationTextComponent("gui.worldhandler.command_stack.remove_command"), () ->
+			container.add(buttonRemove = new GuiButtonTooltip(x + 232 - 20, y + index * 24 - 1, 20, 10, MINUS, new TranslatableComponent("gui.worldhandler.command_stack.remove_command"), () ->
 			{
 				int pos = index + this.scroll;
 				this.removeCommand(pos);
@@ -148,7 +148,7 @@ public class ContentCommandStack extends ContentChild
 				
 				container.init();
 			}));
-			container.add(new GuiButtonTooltip(x + 232 - 20, y + index * 24 + 11, 20, 10, PLUS, new TranslationTextComponent("gui.worldhandler.command_stack.insert_command"), () ->
+			container.add(new GuiButtonTooltip(x + 232 - 20, y + index * 24 + 11, 20, 10, PLUS, new TranslatableComponent("gui.worldhandler.command_stack.insert_command"), () ->
 			{
 				int pos = index + this.scroll + 1;
 				this.addCommand(pos);
@@ -167,16 +167,16 @@ public class ContentCommandStack extends ContentChild
 			buttonDown.active = index + this.scroll + 1 < this.getCommandCount();
 		});
 		
-		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.command_stack.copy_command"), () -> 
+		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.command_stack.copy_command"), () -> 
 		{
 			Minecraft.getInstance().keyboardHandler.setClipboard(this.builderCommandStack.toActualCommand());
 		}));
-		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, new TranslationTextComponent("gui.worldhandler.actions.move_up"), () ->
+		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, new TranslatableComponent("gui.worldhandler.actions.move_up"), () ->
 		{
 			this.scrollUp();
 			container.init();
 		}));
-		container.add(buttonScrollDown = new GuiButtonIcon(x + 118 + 60, y + 72, 54, 20, EnumIcon.ARROW_DOWN, new TranslationTextComponent("gui.worldhandler.actions.move_down"), () -> 
+		container.add(buttonScrollDown = new GuiButtonIcon(x + 118 + 60, y + 72, 54, 20, EnumIcon.ARROW_DOWN, new TranslatableComponent("gui.worldhandler.actions.move_down"), () -> 
 		{
 			this.scrollDown();
 			container.init();
@@ -197,7 +197,7 @@ public class ContentCommandStack extends ContentChild
 	}
 	
 	@Override
-	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		this.iterate(index ->
 		{
@@ -284,8 +284,8 @@ public class ContentCommandStack extends ContentChild
 	}
 	
 	@Override
-	public IFormattableTextComponent getTitle()
+	public MutableComponent getTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.title.command_stack");
+		return new TranslatableComponent("gui.worldhandler.title.command_stack");
 	}
 }

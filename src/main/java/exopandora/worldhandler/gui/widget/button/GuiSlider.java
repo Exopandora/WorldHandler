@@ -2,8 +2,8 @@ package exopandora.worldhandler.gui.widget.button;
 
 import java.util.Objects;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
@@ -11,9 +11,9 @@ import exopandora.worldhandler.util.ILogic;
 import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -26,7 +26,7 @@ public class GuiSlider extends GuiButtonBase
 	
 	public GuiSlider(int x, int y, int widthIn, int heightIn, double min, double max, double start, Container container, ILogicSlider logic)
 	{
-		super(x, y, widthIn, heightIn, StringTextComponent.EMPTY, null);
+		super(x, y, widthIn, heightIn, TextComponent.EMPTY, null);
 		this.logic = Objects.requireNonNull(logic);
 		this.container = Objects.requireNonNull(container);
 		this.persistence = this.container.getContent().getPersistence(this.logic.getId(), () -> new Persistence(min, max, min == max ? 0.0 : ((start - min) / (max - min))));
@@ -36,7 +36,7 @@ public class GuiSlider extends GuiButtonBase
 	}
 	
 	@Override
-	protected void renderBg(MatrixStack matrix, Minecraft minecraft, int mouseX, int mouseY)
+	protected void renderBg(PoseStack matrix, Minecraft minecraft, int mouseX, int mouseY)
 	{
 		super.renderBg(matrix, minecraft, mouseX, mouseY);
 		
@@ -92,18 +92,18 @@ public class GuiSlider extends GuiButtonBase
 	private void updateDisplayString()
 	{
 		int value = this.persistence.getValueInt();
-		IFormattableTextComponent suffix = this.logic.formatValue(value).append(this.logic.formatSuffix(value));
-		FontRenderer fontRenderer = Minecraft.getInstance().font;
-		IFormattableTextComponent text = TextUtils.stripText(this.logic.formatPrefix(value), this.width - fontRenderer.width(suffix), fontRenderer).append(suffix);
+		MutableComponent suffix = this.logic.formatValue(value).append(this.logic.formatSuffix(value));
+		Font fontRenderer = Minecraft.getInstance().font;
+		MutableComponent text = TextUtils.stripText(this.logic.formatPrefix(value), this.width - fontRenderer.width(suffix), fontRenderer).append(suffix);
 		this.setMessage(text);
 	}
 	
 	@OnlyIn(Dist.CLIENT)
 	public static interface ILogicSlider extends ILogic
 	{
-		IFormattableTextComponent formatPrefix(int value);
-		IFormattableTextComponent formatSuffix(int value);
-		IFormattableTextComponent formatValue(int value);
+		MutableComponent formatPrefix(int value);
+		MutableComponent formatSuffix(int value);
+		MutableComponent formatValue(int value);
 		
 		void onChangeSliderValue(int value);
 	}

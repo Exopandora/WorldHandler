@@ -6,8 +6,8 @@ import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.component.impl.EffectNBT;
 import exopandora.worldhandler.builder.types.ArgumentType;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -33,7 +33,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	{
 		this.setMode(mode);
 		this.setPlayer(player);
-		this.setEffect(effect);
+		this.setMobEffect(effect);
 		this.setDuration(duration);
 		this.setAmplifier(amplifier);
 		this.setHideParticles(hideParticles);
@@ -58,18 +58,18 @@ public class BuilderPotionEffect extends CommandBuilder
 		return this.getNodeAsString(1);
 	}
 	
-	public void setEffect(Effect effect)
+	public void setMobEffect(MobEffect effect)
 	{
-		this.setEffect(effect.getRegistryName());
+		this.setMobEffect(effect.getRegistryName());
 	}
 	
-	public void setEffect(ResourceLocation effect)
+	public void setMobEffect(ResourceLocation effect)
 	{
 		this.setNode(2, effect);
 	}
 	
 	@Nullable
-	public Effect getEffectAsPotion()
+	public MobEffect getMobEffectAsPotion()
 	{
 		ResourceLocation location = this.getNodeAsResourceLocation(2);
 		
@@ -82,7 +82,7 @@ public class BuilderPotionEffect extends CommandBuilder
 	}
 	
 	@Nullable
-	public ResourceLocation getEffect()
+	public ResourceLocation getMobEffect()
 	{
 		return this.getNodeAsResourceLocation(2);
 	}
@@ -152,12 +152,12 @@ public class BuilderPotionEffect extends CommandBuilder
 	
 	public BuilderGeneric buildGive()
 	{
-		return new BuilderGeneric(this.getCommandName(), EnumMode.GIVE.toString(), this.getPlayer(), this.getEffect().toString(), String.valueOf(this.getDuration()), String.valueOf(this.getAmplifier()), String.valueOf(this.getHideParticles()));
+		return new BuilderGeneric(this.getCommandName(), EnumMode.GIVE.toString(), this.getPlayer(), this.getMobEffect().toString(), String.valueOf(this.getDuration()), String.valueOf(this.getAmplifier()), String.valueOf(this.getHideParticles()));
 	}
 	
 	public BuilderGeneric buildRemove()
 	{
-		return new BuilderGeneric(this.getCommandName(), EnumMode.CLEAR.toString(), this.getPlayer(), this.getEffect().toString());
+		return new BuilderGeneric(this.getCommandName(), EnumMode.CLEAR.toString(), this.getPlayer(), this.getMobEffect().toString());
 	}
 	
 	public BuilderGeneric buildClear()

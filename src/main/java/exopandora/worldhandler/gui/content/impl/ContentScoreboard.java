@@ -4,8 +4,8 @@ import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.util.ScoreboardHelper;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,17 +15,17 @@ public abstract class ContentScoreboard extends Content
 	protected static final ScoreboardHelper HELPER = new ScoreboardHelper();
 	private static String objective;
 	
-	protected static boolean isObjectiveValid()
+	protected boolean isObjectiveValid()
 	{
 		return ContentScoreboard.objective != null && ContentScoreboard.objective.length() > 0;
 	}
 	
-	protected static void setObjective(String objective)
+	protected void setObjective(String objective)
 	{
 		ContentScoreboard.objective = objective;
 	}
 	
-	protected static String getObjective()
+	protected String getObjective()
 	{
 		return ContentScoreboard.objective;
 	}
@@ -37,8 +37,8 @@ public abstract class ContentScoreboard extends Content
 	}
 	
 	@Override
-	public IFormattableTextComponent getTitle()
+	public MutableComponent getTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.title.scoreboard");
+		return new TranslatableComponent("gui.worldhandler.title.scoreboard");
 	}
 }

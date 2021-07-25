@@ -3,8 +3,8 @@ package exopandora.worldhandler.gui.widget.button;
 import java.util.function.Consumer;
 
 import exopandora.worldhandler.gui.widget.button.GuiSlider.ILogicSlider;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -12,10 +12,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class LogicSliderSimple implements ILogicSlider
 {
 	private final String id;
-	private final IFormattableTextComponent text;
+	private final MutableComponent text;
 	private final Consumer<Integer> listener;
 	
-	public LogicSliderSimple(String id, IFormattableTextComponent text, Consumer<Integer> listener)
+	public LogicSliderSimple(String id, MutableComponent text, Consumer<Integer> listener)
 	{
 		this.id = id;
 		this.text = text;
@@ -23,21 +23,21 @@ public class LogicSliderSimple implements ILogicSlider
 	}
 	
 	@Override
-	public IFormattableTextComponent formatPrefix(int value)
+	public MutableComponent formatPrefix(int value)
 	{
 		return this.text;
 	}
 	
 	@Override
-	public IFormattableTextComponent formatSuffix(int value)
+	public MutableComponent formatSuffix(int value)
 	{
-		return new StringTextComponent("");
+		return new TextComponent("");
 	}
 	
 	@Override
-	public IFormattableTextComponent formatValue(int value)
+	public MutableComponent formatValue(int value)
 	{
-		return new StringTextComponent(": " + String.valueOf(value));
+		return new TextComponent(": " + String.valueOf(value));
 	}
 	
 	@Override

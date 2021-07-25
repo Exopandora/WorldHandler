@@ -12,11 +12,11 @@ import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
+import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.usercontent.model.JsonMenu;
-import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
 import exopandora.worldhandler.util.ActionHandler;
-import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -68,7 +68,7 @@ public class MenuFactory extends AbstractWidgetFactory
 		}
 		
 		@Override
-		public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, JsonItem item, ActionHandler actionHandler)
+		public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, JsonItem item, ActionHandler actionHandler)
 		{
 			return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 		}

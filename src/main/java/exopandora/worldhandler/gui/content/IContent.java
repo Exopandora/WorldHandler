@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.widget.IWidget;
-import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,8 +15,8 @@ public interface IContent extends IWidget
 {
 	Category getCategory();
 	
-	IFormattableTextComponent getTitle();
-	IFormattableTextComponent getTabTitle();
+	MutableComponent getTitle();
+	MutableComponent getTabTitle();
 	
 	Content getActiveContent();
 	

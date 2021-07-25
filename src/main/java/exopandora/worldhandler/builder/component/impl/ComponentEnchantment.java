@@ -8,10 +8,10 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -23,15 +23,15 @@ public class ComponentEnchantment implements IBuilderComponent
 	
 	@Override
 	@Nullable
-	public INBT serialize()
+	public Tag serialize()
 	{
-		ListNBT enchantments = new ListNBT();
+		ListTag enchantments = new ListTag();
 		
 		for(Entry<Enchantment, Short> entry : this.enchantments.entrySet())
 		{
 			if(entry.getValue() > 0)
 			{
-				CompoundNBT enchantment = new CompoundNBT();
+				CompoundTag enchantment = new CompoundTag();
 				
 				enchantment.putString("id", ForgeRegistries.ENCHANTMENTS.getKey(entry.getKey()).toString());
 				enchantment.putShort("lvl", entry.getValue());

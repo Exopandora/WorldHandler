@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.util.BlockHelper;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

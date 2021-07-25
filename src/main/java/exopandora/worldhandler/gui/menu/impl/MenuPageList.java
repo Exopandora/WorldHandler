@@ -3,7 +3,7 @@ package exopandora.worldhandler.gui.menu.impl;
 import java.util.List;
 import java.util.Objects;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
@@ -11,9 +11,9 @@ import exopandora.worldhandler.gui.menu.Menu;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -78,7 +78,7 @@ public class MenuPageList<T> extends Menu
 			if(index < this.items.size())
 			{
 				T item = this.items.get(index);
-				IFormattableTextComponent text = TextUtils.stripText(this.logic.translate(item), this.width, Minecraft.getInstance().font);
+				MutableComponent text = TextUtils.stripText(this.logic.translate(item), this.width, Minecraft.getInstance().font);
 				button = this.logic.onRegister(this.x, this.y + (this.height + 4) * x, this.width, this.height, text, item, () ->
 				{
 					this.persistence.setSelectedIndex(index);
@@ -92,7 +92,7 @@ public class MenuPageList<T> extends Menu
 			}
 			else
 			{
-				button = new GuiButtonBase(this.x, this.y + (this.height + 4) * x, this.width, this.height, StringTextComponent.EMPTY, null);
+				button = new GuiButtonBase(this.x, this.y + (this.height + 4) * x, this.width, this.height, TextComponent.EMPTY, null);
 				button.active = false;
 			}
 			
@@ -107,7 +107,7 @@ public class MenuPageList<T> extends Menu
 	}
 	
 	@Override
-	public void draw(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void draw(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		Minecraft.getInstance().font.draw(matrix, String.format("%d/%d", this.persistence.getPage() + 1, this.getTotalPages()), this.x, this.y - 11, Config.getSkin().getHeadlineColor());
 	}

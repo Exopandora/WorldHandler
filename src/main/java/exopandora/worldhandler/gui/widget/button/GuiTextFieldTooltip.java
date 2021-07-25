@@ -1,25 +1,25 @@
 package exopandora.worldhandler.gui.widget.button;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiTextFieldTooltip extends TextFieldWidget
+public class GuiTextFieldTooltip extends EditBox
 {
-	private ITextComponent tooltip;
+	private Component tooltip;
 	
 	public GuiTextFieldTooltip(int x, int y, int width, int height)
 	{
 		this(x, y, width, height, null);
 	}
 	
-	public GuiTextFieldTooltip(int x, int y, int width, int height, ITextComponent tooltip)
+	public GuiTextFieldTooltip(int x, int y, int width, int height, Component tooltip)
 	{
 		super(Minecraft.getInstance().font, x, y, width, height, null);
 		this.setMaxLength(Integer.MAX_VALUE);
@@ -27,11 +27,11 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 	}
 	
 	@Override
-	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		super.renderButton(matrix, mouseX, mouseY, partialTicks);
 		
-		if(this.isVisible() && !this.isFocused() && this.tooltip != null && TextFormatting.stripFormatting(this.getValue()).isEmpty())
+		if(this.isVisible() && !this.isFocused() && this.tooltip != null && ChatFormatting.stripFormatting(this.getValue()).isEmpty())
 		{
 			int x = this.x;
 			int y = this.y;
@@ -46,12 +46,12 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 		}
 	}
 	
-	public void setTooltip(ITextComponent tooltip)
+	public void setTooltip(Component tooltip)
 	{
 		this.tooltip = tooltip;
 	}
 	
-	public ITextComponent getTooltip()
+	public Component getTooltip()
 	{
 		return this.tooltip;
 	}
@@ -62,7 +62,7 @@ public class GuiTextFieldTooltip extends TextFieldWidget
 		this.y = y;
 	}
 	
-	public void setText(ITextComponent text)
+	public void setText(Component text)
 	{
 		if(text != null)
 		{

@@ -4,11 +4,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandSyntax;
-import exopandora.worldhandler.builder.types.Coordinate.EnumType;
-import exopandora.worldhandler.util.EnumHelper;
-import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.ArgumentType;
-import net.minecraft.util.math.BlockPos;
+import exopandora.worldhandler.builder.types.Coordinate.EnumType;
+import exopandora.worldhandler.builder.types.CoordinateInt;
+import exopandora.worldhandler.util.EnumHelper;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

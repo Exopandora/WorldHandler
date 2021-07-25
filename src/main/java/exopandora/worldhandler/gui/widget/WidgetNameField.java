@@ -1,14 +1,14 @@
 package exopandora.worldhandler.gui.widget;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.Util;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -36,7 +36,7 @@ public class WidgetNameField implements IContainerWidget
 	}
 	
 	@Override
-	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		String username = container.getPlayer().isEmpty() && !this.nameField.isFocused() ? I18n.get("gui.worldhandler.generic.edit_username") : container.getPlayer();
 		
@@ -81,7 +81,7 @@ public class WidgetNameField implements IContainerWidget
 	
 	private void updateNameField(Container container)
 	{
-		final FontRenderer font = Minecraft.getInstance().font;
+		final Font font = Minecraft.getInstance().font;
 		
 		int x = container.getBackgroundX() + container.getBackgroundWidth() - this.watchOffset() - 7;
 		int y = container.getBackgroundY() + 6;

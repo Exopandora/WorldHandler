@@ -1,13 +1,13 @@
 package exopandora.worldhandler.gui.widget;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class WidgetWatch implements IContainerWidget
 {
 	@Override
-	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		final int watchX = container.getBackgroundX() + 233;
 		final int watchY = container.getBackgroundY() + 5;
@@ -31,7 +31,7 @@ public class WidgetWatch implements IContainerWidget
 		
 		if(Config.getSettings().tooltips() && mouseX >= watchX && mouseX <= watchX + 9 && mouseY >= watchY && mouseY <= watchY + 9)
 		{
-			container.renderTooltip(matrix, new StringTextComponent(TextUtils.formatWorldTime(time)), mouseX, mouseY + 9);
+			container.renderTooltip(matrix, new TextComponent(TextUtils.formatWorldTime(time)), mouseX, mouseY + 9);
 		}
 	}
 	

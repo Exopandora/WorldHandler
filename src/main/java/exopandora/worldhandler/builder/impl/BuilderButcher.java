@@ -4,9 +4,9 @@ import javax.annotation.Nonnull;
 
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
-import exopandora.worldhandler.builder.types.TargetSelector;
 import exopandora.worldhandler.builder.types.ArgumentType;
-import net.minecraft.util.ResourceLocation;
+import exopandora.worldhandler.builder.types.TargetSelector;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

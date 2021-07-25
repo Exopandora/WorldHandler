@@ -3,9 +3,9 @@ package exopandora.worldhandler.builder.impl;
 import java.util.Set;
 
 import exopandora.worldhandler.builder.component.impl.ComponentPotionItem;
-import net.minecraft.item.Item;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -25,69 +25,69 @@ public class BuilderPotionItem extends BuilderGive
 		this.potion = this.registerNBTComponent(potion);
 	}
 	
-	public void setAmplifier(Effect potion, byte amplifier)
+	public void setAmplifier(MobEffect potion, byte amplifier)
 	{
 		this.potion.setAmplifier(potion, amplifier);
 	}
 	
-	public void setSeconds(Effect potion, int seconds)
+	public void setSeconds(MobEffect potion, int seconds)
 	{
 		this.potion.setSeconds(potion, seconds);
 	}
 	
-	public void setMinutes(Effect potion, int minutes)
+	public void setMinutes(MobEffect potion, int minutes)
 	{
 		this.potion.setMinutes(potion, minutes);
 	}
 	
-	public void setHours(Effect potion, int hours)
+	public void setHours(MobEffect potion, int hours)
 	{
 		this.potion.setHours(potion, hours);
 	}
 	
-	public void setShowParticles(Effect potion, boolean showParticles)
+	public void setShowParticles(MobEffect potion, boolean showParticles)
 	{
 		this.potion.setShowParticles(potion, showParticles);
 	}
 	
-	public void setAmbient(Effect potion, boolean ambient)
+	public void setAmbient(MobEffect potion, boolean ambient)
 	{
 		this.potion.setAmbient(potion, ambient);
 	}
 	
-	public byte getAmplifier(Effect potion)
+	public byte getAmplifier(MobEffect potion)
 	{
 		return this.potion.getAmplifier(potion);
 	}
 	
-	public int getSeconds(Effect potion)
+	public int getSeconds(MobEffect potion)
 	{
 		return this.potion.getSeconds(potion);
 	}
 	
-	public int getMinutes(Effect potion)
+	public int getMinutes(MobEffect potion)
 	{
 		return this.potion.getMinutes(potion);
 	}
 	
-	public int getHours(Effect potion)
+	public int getHours(MobEffect potion)
 	{
 		return this.potion.getHours(potion);
 	}
 	
-	public boolean getShowParticles(Effect potion)
+	public boolean getShowParticles(MobEffect potion)
 	{
 		return this.potion.getShowParticles(potion);
 	}
 	
-	public boolean getAmbient(Effect potion)
+	public boolean getAmbient(MobEffect potion)
 	{
 		return this.potion.getAmbient(potion);
 	}
 	
-	public Set<Effect> getEffects()
+	public Set<MobEffect> getMobEffects()
 	{
-		return this.potion.getEffects();
+		return this.potion.getMobEffects();
 	}
 	
 	public BuilderPotionItem build(Item item)

@@ -2,18 +2,18 @@ package exopandora.worldhandler.gui.widget.button;
 
 import java.util.List;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -26,7 +26,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	
 	public GuiButtonList(int x, int y, List<T> items, int widthIn, int heightIn, Container container, ILogicMapped<T> logic)
 	{
-		super(x, y, widthIn, heightIn, StringTextComponent.EMPTY, null, null);
+		super(x, y, widthIn, heightIn, TextComponent.EMPTY, null, null);
 		this.items = items;
 		this.logic = logic;
 		this.persistence = container.getContent().getPersistence(this.logic.getId(), Persistence::new);
@@ -40,32 +40,32 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	}
 	
 	@Override
-	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		this.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
 		this.updateMessage();
 		
-		FontRenderer fontRenderer = Minecraft.getInstance().font;
+		Font font = Minecraft.getInstance().font;
 		
 		if(this.getMessage() != null && !this.getMessage().getString().isEmpty())
 		{
-			ITextComponent leftArrow = this.isHoveringLeft(mouseX, mouseY) ? TextUtils.ARROW_LEFT_BOLD : TextUtils.ARROW_LEFT;
-			ITextComponent rightArrow = this.isHoveringRight(mouseX, mouseY) ? TextUtils.ARROW_RIGHT_BOLD : TextUtils.ARROW_RIGHT;
+			Component leftArrow = this.isHoveringLeft(mouseX, mouseY) ? TextUtils.ARROW_LEFT_BOLD : TextUtils.ARROW_LEFT;
+			Component rightArrow = this.isHoveringRight(mouseX, mouseY) ? TextUtils.ARROW_RIGHT_BOLD : TextUtils.ARROW_RIGHT;
 			
-			int maxWidth = Math.max(0, this.width - fontRenderer.width("<   >"));
-			int spaceWidth = fontRenderer.width(" ");
+			int maxWidth = Math.max(0, this.width - font.width("<   >"));
+			int spaceWidth = font.width(" ");
 			
-			ITextComponent display = TextUtils.stripText((IFormattableTextComponent) this.getMessage(), maxWidth, fontRenderer);
+			Component display = TextUtils.stripText((MutableComponent) this.getMessage(), maxWidth, font);
 			int yPos = this.y + (this.height - 8) / 2;
 			
-			AbstractGui.drawCenteredString(matrix, fontRenderer, display, this.x + this.width / 2, yPos, this.getFGColor());
-			AbstractGui.drawCenteredString(matrix, fontRenderer, leftArrow, this.x + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
-			AbstractGui.drawCenteredString(matrix, fontRenderer, rightArrow, this.x + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
+			GuiComponent.drawCenteredString(matrix, font, display, this.x + this.width / 2, yPos, this.getFGColor());
+			GuiComponent.drawCenteredString(matrix, font, leftArrow, this.x + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
+			GuiComponent.drawCenteredString(matrix, font, rightArrow, this.x + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
 		}
 	}
 	
 	@Override
-	public void renderTooltip(Screen screen, MatrixStack matrix, int mouseX, int mouseY)
+	public void renderTooltip(Screen screen, PoseStack matrix, int mouseX, int mouseY)
 	{
 		this.tooltip = this.logic.formatTooltip(this.items.get(this.persistence.getIndex()), this.persistence.getIndex() + 1, this.items.size());
 		super.renderTooltip(screen, matrix, mouseX, mouseY);

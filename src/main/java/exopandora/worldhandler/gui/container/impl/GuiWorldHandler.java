@@ -3,8 +3,8 @@ package exopandora.worldhandler.gui.container.impl;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.Config;
@@ -24,10 +24,11 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.ResourceHelper;
 import exopandora.worldhandler.util.TextUtils;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Widget;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -60,8 +61,7 @@ public class GuiWorldHandler extends Container
 		{
 			this.widgetButtons.clear();
 			this.menus.clear();
-			this.buttons.clear();
-			this.children.clear();
+			this.clearWidgets();
 			
 			final int x = this.getContentX();
 			final int y = this.getContentY();
@@ -91,10 +91,9 @@ public class GuiWorldHandler extends Container
 	{
 		ActionHelper.tryRun(() ->
 		{
-			this.buttons.clear();
-			this.children.clear();
+			this.clearWidgets();
 			this.content.initButtons(this, this.getContentX(), this.getContentY());
-			this.widgetButtons.forEach(this::add);
+			this.widgetButtons.forEach(w -> this.addRenderableWidget(w));
 			
 			int x = this.getContentX();
 			int y = this.getContentY();
@@ -149,7 +148,7 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks)
 	{
 		ActionHelper.tryRun(() ->
 		{
@@ -159,19 +158,19 @@ public class GuiWorldHandler extends Container
 			if(Config.getSkin().drawBackground())
 			{
 				this.setBlitOffset(-1);
-				super.renderBackground(matrix);
+				super.renderBackground(stack);
 			}
 			
 			RenderSystem.enableBlend();
 			RenderUtils.colorDefaultBackground();
 			
 			this.bindBackground();
-			this.blit(matrix, backgroundX, backgroundY, 0, 0, this.getBackgroundWidth(), this.getBackgroundHeight());
+			this.blit(stack, backgroundX, backgroundY, 0, 0, this.getBackgroundWidth(), this.getBackgroundHeight());
 			
 			final String label = Main.MC_VERSION + "-" + Main.MOD_VERSION;
 			final int versionWidth = this.width - this.font.width(label) - 2;
 			final int versionHeight = this.height - 10;
-			this.font.draw(matrix, label, versionWidth, versionHeight, Config.getSkin().getLabelColor() + 0x33000000);
+			this.font.draw(stack, label, versionWidth, versionHeight, Config.getSkin().getLabelColor() + 0x33000000);
 			
 			int x = this.getContentX();
 			int y = this.getContentY();
@@ -180,52 +179,52 @@ public class GuiWorldHandler extends Container
 			{
 				if(widget.isEnabled() && EnumLayer.BACKGROUND == widget.getLayer())
 				{
-					widget.drawScreen(matrix, this, x, y, mouseX, mouseY, partialTicks);
+					widget.drawScreen(stack, this, x, y, mouseX, mouseY, partialTicks);
 				}
 			}
 			
 			final int maxWidth = this.getBackgroundWidth() - 18 - this.font.width(this.getPlayer()) - (Config.getSettings().watch() ? 9 : 0);
-			this.font.draw(matrix, TextUtils.stripText(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
+			this.font.draw(stack, TextUtils.stripText(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
 			
-			for(int i = 0; i < this.buttons.size(); i++)
+			for(int i = 0; i < this.renderables.size(); i++)
 			{
-				this.buttons.get(i).render(matrix, mouseX, mouseY, partialTicks);
+				this.renderables.get(i).render(stack, mouseX, mouseY, partialTicks);
 			}
 			
-			this.content.drawScreen(matrix, this, x, y, mouseX, mouseY, partialTicks);
+			this.content.drawScreen(stack, this, x, y, mouseX, mouseY, partialTicks);
 			
 			for(IMenu menu : this.menus)
 			{
-				menu.draw(matrix, mouseX, mouseY, partialTicks);
+				menu.draw(stack, mouseX, mouseY, partialTicks);
 			}
 			
 			for(IContainerWidget widget : WIDGETS)
 			{
 				if(widget.isEnabled() && EnumLayer.FOREGROUND == widget.getLayer())
 				{
-					widget.drawScreen(matrix, this, x, y, mouseX, mouseY, partialTicks);
+					widget.drawScreen(stack, this, x, y, mouseX, mouseY, partialTicks);
 				}
 			}
 			
 			if(Config.getSettings().tooltips())
 			{
-				for(Widget button : this.buttons)
+				for(Widget button : this.renderables)
 				{
 					if(button instanceof GuiButtonTooltip)
 					{
-						((GuiButtonTooltip) button).renderTooltip(this, matrix, mouseX, mouseY);
+						((GuiButtonTooltip) button).renderTooltip(this, stack, mouseX, mouseY);
 					}
 				}
 			}
 			
 			if(mouseX >= versionWidth && mouseY >= versionHeight)
 			{
-				matrix.pushPose();
-				matrix.translate(versionWidth - 12, versionHeight + 12, 0);
+				stack.pushPose();
+				stack.translate(versionWidth - 12, versionHeight + 12, 0);
 				
-				this.renderTooltip(matrix, new StringTextComponent(label), 0, 0);
+				this.renderTooltip(stack, new TextComponent(label), 0, 0);
 				
-				matrix.popPose();
+				stack.popPose();
 			}
 			
 			RenderSystem.disableBlend();
@@ -327,9 +326,9 @@ public class GuiWorldHandler extends Container
 	{
 		boolean focused = this.getFocused() != null;
 		
-		if(focused && this.getFocused() instanceof Widget)
+		if(focused && this.getFocused() instanceof AbstractWidget)
 		{
-			focused = ((Widget) this.getFocused()).isFocused();
+			focused = ((AbstractWidget) this.getFocused()).isFocused();
 		}
 		
 		if(!focused && KeyHandler.KEY_WORLD_HANDLER.matches(keyCode, scanCode) && KeyHandler.KEY_WORLD_HANDLER.getKeyModifier().isActive(null))
@@ -492,6 +491,6 @@ public class GuiWorldHandler extends Container
 	@Override
 	public void bindBackground()
 	{
-		Minecraft.getInstance().getTextureManager().bind(ResourceHelper.backgroundTexture());
+		RenderSystem.setShaderTexture(0, ResourceHelper.backgroundTexture());
 	}
 }

@@ -7,40 +7,41 @@ import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.loot.LootPredicateManager;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.resources.IFutureReloadListener;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.resources.IResourcePack;
-import net.minecraft.resources.ResourcePackInfo;
-import net.minecraft.resources.ResourcePackType;
-import net.minecraft.resources.SimpleReloadableResourceManager;
-import net.minecraft.tags.NetworkTagManager;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.server.ServerAdvancementManager;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleReloadableResourceManager;
+import net.minecraft.tags.TagManager;
 import net.minecraft.util.Unit;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.level.storage.loot.PredicateManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class AdvancementHelper implements IFutureReloadListener
+public class AdvancementHelper implements PreparableReloadListener
 {
 	private static final AdvancementHelper INSTANCE = new AdvancementHelper();
-	private final AdvancementManager manager = new AdvancementManager(new LootPredicateManager());
+	private final ServerAdvancementManager manager = new ServerAdvancementManager(new PredicateManager());
 	
 	@Override
-	public CompletableFuture<Void> reload(IStage stage, IResourceManager resourceManager, IProfiler preparationsProfiler, IProfiler reloadProfiler, Executor backgroundExecutor, Executor gameExecutor)
+	public CompletableFuture<Void> reload(PreparationBarrier stage, ResourceManager resourceManager, ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler, Executor backgroundExecutor, Executor gameExecutor)
 	{
 		return CompletableFuture.supplyAsync(() ->
 		{
-			SimpleReloadableResourceManager serverResourceManager = new SimpleReloadableResourceManager(ResourcePackType.SERVER_DATA);
-			serverResourceManager.registerReloadListener(new NetworkTagManager());
+			SimpleReloadableResourceManager serverResourceManager = new SimpleReloadableResourceManager(PackType.SERVER_DATA);
+			serverResourceManager.registerReloadListener(new TagManager(RegistryAccess.builtin()));
 			serverResourceManager.registerReloadListener(this.manager);
 			return serverResourceManager;
 		}).thenCompose(stage::wait).thenAcceptAsync(serverResourceManager ->
 		{
-			List<IResourcePack> list = Minecraft.getInstance().getResourcePackRepository().getSelectedPacks().stream().map(ResourcePackInfo::open).collect(Collectors.toList());
-			serverResourceManager.createFullReload(backgroundExecutor, gameExecutor, CompletableFuture.completedFuture(Unit.INSTANCE), list);
+			List<PackResources> list = Minecraft.getInstance().getResourcePackRepository().getSelectedPacks().stream().map(Pack::open).collect(Collectors.toList());
+			serverResourceManager.createReload(backgroundExecutor, gameExecutor, CompletableFuture.completedFuture(Unit.INSTANCE), list);
 		});
 	}
 	

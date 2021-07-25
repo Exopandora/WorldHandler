@@ -1,38 +1,38 @@
 package exopandora.worldhandler.builder.component.impl;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.util.MutableStringTextComponent;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.text.ITextComponent;
+import exopandora.worldhandler.util.MutableTextComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ComponentDisplay implements IBuilderComponent 
 {
-	private MutableStringTextComponent name = new MutableStringTextComponent();
-	private ITextComponent[] lore = new ITextComponent[2];
+	private MutableTextComponent name = new MutableTextComponent();
+	private Component[] lore = new Component[2];
 	
 	@Override
-	public INBT serialize()
+	public Tag serialize()
 	{
-		CompoundNBT display = new CompoundNBT();
+		CompoundTag display = new CompoundTag();
 		
 		if(this.name.getText() != null && !this.name.getText().isEmpty())
 		{
-			display.putString("Name", ITextComponent.Serializer.toJson(this.name));
+			display.putString("Name", Component.Serializer.toJson(this.name));
 		}
 		
-		ListNBT lore = new ListNBT();
+		ListTag lore = new ListTag();
 		
 		for(int x = 0; x < this.lore.length; x++)
 		{
 			if(this.lore[x] != null && !this.lore[x].getString().isEmpty())
 			{
-				lore.add(StringNBT.valueOf(ITextComponent.Serializer.toJson(this.lore[x])));
+				lore.add(StringTag.valueOf(Component.Serializer.toJson(this.lore[x])));
 			}
 		}
 		
@@ -49,42 +49,42 @@ public class ComponentDisplay implements IBuilderComponent
 		return null;
 	}
 	
-	public void setName(MutableStringTextComponent name)
+	public void setName(MutableTextComponent name)
 	{
 		this.name = name;
 	}
 	
-	public MutableStringTextComponent getName()
+	public MutableTextComponent getName()
 	{
 		return this.name;
 	}
 	
-	public void setLore(ITextComponent[] lore)
+	public void setLore(Component[] lore)
 	{
 		this.lore = lore;
 	}
 	
-	public ITextComponent[] getLore()
+	public Component[] getLore()
 	{
 		return this.lore;
 	}
 	
-	public void setLore1(ITextComponent lore)
+	public void setLore1(Component lore)
 	{
 		this.lore[0] = lore;
 	}
 	
-	public ITextComponent getLore1()
+	public Component getLore1()
 	{
 		return this.lore[0];
 	}
 	
-	public void setLore2(ITextComponent lore)
+	public void setLore2(Component lore)
 	{
 		this.lore[1] = lore;
 	}
 	
-	public ITextComponent getLore2()
+	public Component getLore2()
 	{
 		return this.lore[1];
 	}

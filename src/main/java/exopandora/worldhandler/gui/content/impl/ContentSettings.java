@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
@@ -18,8 +18,8 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -55,13 +55,13 @@ public class ContentSettings extends ContentChild
 		MenuPageList<Setting<?>> settings = new MenuPageList<Setting<?>>(x, y, SETTINGS, 114, 20, 3, container, new ILogicPageList<Setting<?>>()
 		{
 			@Override
-			public IFormattableTextComponent translate(Setting<?> item)
+			public MutableComponent translate(Setting<?> item)
 			{
-				return new TranslationTextComponent("gui.worldhandler.config.settings." + item.getKey());
+				return new TranslatableComponent("gui.worldhandler.config.settings." + item.getKey());
 			}
 			
 			@Override
-			public IFormattableTextComponent toTooltip(Setting<?> item)
+			public MutableComponent toTooltip(Setting<?> item)
 			{
 				return null;
 			}
@@ -74,7 +74,7 @@ public class ContentSettings extends ContentChild
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, Setting<?> item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Setting<?> item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
@@ -88,7 +88,7 @@ public class ContentSettings extends ContentChild
 		
 		container.add(settings);
 
-		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.value"));
+		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.generic.value"));
 		this.valueField.setFilter(string ->
 		{
 			if(string == null)
@@ -118,19 +118,19 @@ public class ContentSettings extends ContentChild
 		GuiButtonBase button1;
 		GuiButtonBase button2;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.setting instanceof BooleanSetting)
 		{
 			BooleanSetting setting = (BooleanSetting) this.setting;
 			
-			container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.enable"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.generic.enable"), () ->
 			{
 				setting.set(true);
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.disable"), () ->
+			container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.generic.disable"), () ->
 			{
 				setting.set(false);
 				container.init();
@@ -147,7 +147,7 @@ public class ContentSettings extends ContentChild
 			this.valueField.setValue(String.valueOf(setting.get()));
 			
 			container.add(this.valueField);
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.set"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.actions.set"), () ->
 			{
 				String text = this.valueField.getValue();
 				
@@ -175,7 +175,7 @@ public class ContentSettings extends ContentChild
 	}
 	
 	@Override
-	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(this.setting instanceof IntegerSetting)
 		{
@@ -184,9 +184,9 @@ public class ContentSettings extends ContentChild
 	}
 	
 	@Override
-	public IFormattableTextComponent getTitle()
+	public MutableComponent getTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.shortcuts.tooltip.settings");
+		return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.settings");
 	}
 	
 	public abstract static class Setting<T>

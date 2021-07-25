@@ -1,43 +1,44 @@
 package exopandora.worldhandler.util;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TextUtils
 {
-	public static final StringTextComponent ARROW_LEFT = new StringTextComponent("<");
-	public static final StringTextComponent ARROW_RIGHT = new StringTextComponent(">");
-	public static final IFormattableTextComponent ARROW_LEFT_BOLD = new StringTextComponent("<").withStyle(net.minecraft.util.text.TextFormatting.BOLD);
-	public static final IFormattableTextComponent ARROW_RIGHT_BOLD = new StringTextComponent(">").withStyle(net.minecraft.util.text.TextFormatting.BOLD);
+	public static final TextComponent ARROW_LEFT = new TextComponent("<");
+	public static final TextComponent ARROW_RIGHT = new TextComponent(">");
+	public static final MutableComponent ARROW_LEFT_BOLD = new TextComponent("<").withStyle(ChatFormatting.BOLD);
+	public static final MutableComponent ARROW_RIGHT_BOLD = new TextComponent(">").withStyle(ChatFormatting.BOLD);
 	
-	public static IFormattableTextComponent stripText(IFormattableTextComponent string, int maxWidth, FontRenderer fontRenderer)
+	public static MutableComponent stripText(MutableComponent string, int maxWidth, Font font)
 	{
-		return TextUtils.stripText(string, (IFormattableTextComponent) StringTextComponent.EMPTY, maxWidth, fontRenderer);
+		return TextUtils.stripText(string, (MutableComponent) TextComponent.EMPTY, maxWidth, font);
 	}
 	
-	public static IFormattableTextComponent stripText(IFormattableTextComponent string, IFormattableTextComponent prefix, int maxWidth, FontRenderer fontRenderer)
+	public static MutableComponent stripText(MutableComponent string, MutableComponent prefix, int maxWidth, Font font)
 	{
-		if(fontRenderer.width(prefix) + fontRenderer.width(string) > (maxWidth - fontRenderer.width(prefix)))
+		if(font.width(prefix) + font.width(string) > (maxWidth - font.width(prefix)))
 		{
-			IFormattableTextComponent result = new StringTextComponent("").setStyle(string.getStyle()); 
+			MutableComponent result = new TextComponent("").setStyle(string.getStyle()); 
 			
 			for(char c : string.getString().toCharArray())
 			{
-				IFormattableTextComponent extension = new StringTextComponent(result.getString() + c + "...").setStyle(string.getStyle());
+				MutableComponent extension = new TextComponent(result.getString() + c + "...").setStyle(string.getStyle());
 				
-				if(fontRenderer.width(extension) < maxWidth)
+				if(font.width(extension) < maxWidth)
 				{
-					result = new StringTextComponent(result.getString() + c).setStyle(string.getStyle());
+					result = new TextComponent(result.getString() + c).setStyle(string.getStyle());
 				}
 				else
 				{
-					return new StringTextComponent(result.getString() + "...").setStyle(string.getStyle());
+					return new TextComponent(result.getString() + "...").setStyle(string.getStyle());
 				}
 			}
 		}
@@ -80,13 +81,13 @@ public class TextUtils
 	
 	public static int toHour(long tick)
 	{
-		return MathHelper.floor((tick + 6000) / 1000F) % 24;
+		return Mth.floor((tick + 6000) / 1000F) % 24;
 	}
 	
 	public static int toMinute(long tick)
 	{
-		int hour = MathHelper.floor((tick + 6000F) / 1000F);
-		int minute = MathHelper.floor((tick + 6000F - hour * 1000) * 6 / 100);
+		int hour = Mth.floor((tick + 6000F) / 1000F);
+		int minute = Mth.floor((tick + 6000F - hour * 1000) * 6 / 100);
 		
 		return minute;
 	}
@@ -99,13 +100,13 @@ public class TextUtils
 		return String.format("%02d:%02d", hour, minute);
 	}
 	
-	public static IFormattableTextComponent formatNonnull(String text, Object... parameters)
+	public static MutableComponent formatNonnull(String text, Object... parameters)
 	{
 		if(text == null)
 		{
-			return (IFormattableTextComponent) StringTextComponent.EMPTY;
+			return (MutableComponent) TextComponent.EMPTY;
 		}
 		
-		return new TranslationTextComponent(text, parameters);
+		return new TranslatableComponent(text, parameters);
 	}
 }

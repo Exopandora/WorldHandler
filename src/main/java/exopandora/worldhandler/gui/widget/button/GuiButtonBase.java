@@ -1,7 +1,7 @@
 package exopandora.worldhandler.gui.widget.button;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.util.ActionHandler;
@@ -9,10 +9,10 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -21,29 +21,29 @@ public class GuiButtonBase extends Button
 {
 	public GuiButtonBase(int x, int y, int widthIn, int heightIn, String translationKey, ActionHandler actionHandler)
 	{
-		this(x, y, widthIn, heightIn, new TranslationTextComponent(translationKey), actionHandler);
+		this(x, y, widthIn, heightIn, new TranslatableComponent(translationKey), actionHandler);
 	}
 	
-	public GuiButtonBase(int x, int y, int widthIn, int heightIn, ITextComponent buttonText, ActionHandler actionHandler)
+	public GuiButtonBase(int x, int y, int widthIn, int heightIn, Component buttonText, ActionHandler actionHandler)
 	{
 		super(x, y, widthIn, heightIn, buttonText, button -> ActionHelper.tryRun(actionHandler));
 	}
 	
 	@Override
-	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		this.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
-		AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, this.getFGColor());
+		GuiComponent.drawCenteredString(matrix, Minecraft.getInstance().font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, this.getFGColor());
 	}
 	
 	@Override
-	protected void renderBg(MatrixStack matrix, Minecraft minecraft, int mouseX, int mouseY)
+	protected void renderBg(PoseStack matrix, Minecraft minecraft, int mouseX, int mouseY)
 	{
 		RenderSystem.enableBlend();
 		RenderUtils.colorDefaultButton();
 		
 		int hovered = this.getYImage(this.isHovered());
-    	Minecraft.getInstance().getTextureManager().bind(ResourceHelper.buttonTexture());
+		RenderSystem.setShaderTexture(0, ResourceHelper.buttonTexture());
     	
 		int hWidth = this.width / 2;
 		int hHeight = this.height / 2;
@@ -68,6 +68,6 @@ public class GuiButtonBase extends Button
 		}
 		
 		RenderSystem.disableBlend();
-		RenderUtils.color(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 }

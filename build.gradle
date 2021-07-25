@@ -15,11 +15,12 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
-version = '1.16.5-2.12.6'
+version = '1.17.1-2.12.6'
 group = 'exopandora.worldhandler' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'WorldHandler'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 minecraft {
 	// The mappings can be changed at any time, and must be in the following format.
@@ -33,7 +34,7 @@ minecraft {
 	//
 	// Use non-default mappings at your own risk. they may not always work.
 	// Simply re-run your setup task after changing the mappings to update your workspace.
-	mappings channel: 'official', version: '1.16.5'
+	mappings channel: 'official', version: '1.17.1'
 	// makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 	
 	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -91,11 +92,21 @@ minecraft {
 	}
 }
 
+repositories {
+	// Put repositories for dependencies here
+    // ForgeGradle automatically adds the Forge maven and Maven Central for you
+
+    // If you have mod jar dependencies in ./libs, you can declare them as a repository like so:
+    // flatDir {
+    //     dir 'libs'
+    // }
+}
+
 dependencies {
 	// Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
 	// that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
 	// The userdev artifact is a special name and will get all sorts of transformations applied to it.
-	minecraft 'net.minecraftforge:forge:1.16.5-36.2.1'
+	minecraft 'net.minecraftforge:forge:1.17.1-37.0.8'
 	
 	// You may put jars on which you depend on in ./libs or you may define them like so..
 	// compile "some.group:artifact:version:classifier"
@@ -114,17 +125,6 @@ dependencies {
 	// For more info...
 	// http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
 	// http://www.gradle.org/docs/current/userguide/dependency_management.html
-}
-
-eclipse {
-	classpath {
-		file {
-			whenMerged {
-				def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
-				jre.accessRules.add(new AccessRule('accessible', 'jdk/nashorn/**'))
-			}
-		}
-	}
 }
 
 jar {

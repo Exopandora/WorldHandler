@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.util.NBTHelper;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -49,9 +49,9 @@ public abstract class CommandBuilderNBT extends CommandBuilder implements IComma
 	}
 	
 	@Nullable
-	protected CompoundNBT buildNBT()
+	protected CompoundTag buildNBT()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		
 		for(IBuilderComponent component : this.TAG_TO_COMPONENT)
 		{

@@ -17,8 +17,8 @@ import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.builder.types.GreedyString;
 import exopandora.worldhandler.builder.types.ItemResourceLocation;
 import exopandora.worldhandler.builder.types.TargetSelector;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -107,7 +107,7 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 		this.set(index, resource, ArgumentType.BLOCK_RESOURCE_LOCATION);
 	}
 	
-	protected void setNode(int index, CompoundNBT nbt)
+	protected void setNode(int index, CompoundTag nbt)
 	{
 		this.set(index, nbt, ArgumentType.NBT);
 	}
@@ -229,7 +229,7 @@ public abstract class CommandBuilder implements ICommandBuilderSyntax
 	}
 	
 	@Nullable
-	protected CompoundNBT getNodeAsNBT(int index)
+	protected CompoundTag getNodeAsNBT(int index)
 	{
 		return this.get(index, ArgumentType.NBT);
 	}

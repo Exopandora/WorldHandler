@@ -1,7 +1,7 @@
 package exopandora.worldhandler.gui.widget;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.impl.BuilderWorldHandler;
 import exopandora.worldhandler.config.Config;
@@ -42,7 +42,7 @@ public class WidgetCommandSyntax implements IContainerWidget
 	}
 	
 	@Override
-	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(this.syntaxField != null)
 		{

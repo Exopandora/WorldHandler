@@ -7,13 +7,13 @@ import java.util.function.Predicate;
 
 import com.google.common.base.Predicates;
 
-import net.minecraft.scoreboard.ScoreCriteria;
-import net.minecraft.scoreboard.Team.CollisionRule;
-import net.minecraft.scoreboard.Team.Visible;
+import net.minecraft.ChatFormatting;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.scores.Team.CollisionRule;
+import net.minecraft.world.scores.Team.Visibility;
+import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -33,14 +33,14 @@ public class ScoreboardHelper
 	private void init()
 	{
 		//Lists
-		final List<Node> colors = this.createList(TextFormatting.values(), TextFormatting::getName, TextFormatting::isColor);
-		final List<Node> visibility = this.createList(Visible.values(), value -> value.name);
+		final List<Node> colors = this.createList(ChatFormatting.values(), ChatFormatting::getName, ChatFormatting::isColor);
+		final List<Node> visibility = this.createList(Visibility.values(), value -> value.name);
 		final List<Node> collision = this.createList(CollisionRule.values(), value -> value.name);
 		final List<Node> bool = this.createList(new Boolean[] {true, false}, String::valueOf);
 		
 		//Objectives
 		
-		for(String scoreCriteria : ScoreCriteria.CRITERIA_BY_NAME.keySet())
+		for(String scoreCriteria : ObjectiveCriteria.getCustomCriteriaNames())
 		{
 			this.objectives.insertNode(scoreCriteria.split("[.:]"));
 		}

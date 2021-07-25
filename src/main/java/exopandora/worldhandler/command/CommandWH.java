@@ -18,14 +18,14 @@ import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.EnumHelper;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.BlockPredicateArgument;
-import net.minecraft.command.arguments.BlockStateArgument;
-import net.minecraft.command.arguments.BlockStateInput;
-import net.minecraft.command.arguments.BlockStateParser;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.blocks.BlockInput;
+import net.minecraft.commands.arguments.blocks.BlockPredicateArgument;
+import net.minecraft.commands.arguments.blocks.BlockStateArgument;
+import net.minecraft.commands.arguments.blocks.BlockStateParser;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.DistExecutor.SafeRunnable;
@@ -33,7 +33,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class CommandWH
 {
-	public static void register(CommandDispatcher<CommandSource> dispatcher)
+	public static void register(CommandDispatcher<CommandSourceStack> dispatcher)
 	{
 		dispatcher.register(Commands.literal("wh")
 				.then(Commands.literal("pos1")
@@ -61,7 +61,7 @@ public class CommandWH
 							.executes(context -> clone(context.getSource(), "replace")))));
 	}
 	
-	private static int pos1(CommandSource source) throws CommandSyntaxException
+	private static int pos1(CommandSourceStack source) throws CommandSyntaxException
 	{
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
@@ -80,7 +80,7 @@ public class CommandWH
 		return 1;
 	}
 	
-	private static int pos2(CommandSource source) throws CommandSyntaxException
+	private static int pos2(CommandSourceStack source) throws CommandSyntaxException
 	{
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
@@ -99,7 +99,7 @@ public class CommandWH
 		return 1;
 	}
 	
-	private static int fill(CommandSource source, BlockStateInput block)
+	private static int fill(CommandSourceStack source, BlockInput block)
 	{
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
@@ -117,7 +117,7 @@ public class CommandWH
 		return 1;
 	}
 	
-	private static int replace(CommandSource source, BlockStateInput block, BlockStateInput replace)
+	private static int replace(CommandSourceStack source, BlockInput block, BlockInput replace)
 	{
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
@@ -139,7 +139,7 @@ public class CommandWH
 		return 1;
 	}
 	
-	private static int clone(CommandSource source, String mask, String filter)
+	private static int clone(CommandSourceStack source, String mask, String filter)
 	{
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
@@ -160,7 +160,7 @@ public class CommandWH
 		return 1;
 	}
 	
-	private static int clone(CommandSource source, String mask)
+	private static int clone(CommandSourceStack source, String mask)
 	{
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
@@ -200,7 +200,7 @@ public class CommandWH
 			return "#" + blockstateparser.getTag();
 		}
 		
-		public static String getBlockPredicate(CommandContext<CommandSource> context, String name) throws CommandSyntaxException
+		public static String getBlockPredicate(CommandContext<CommandSourceStack> context, String name) throws CommandSyntaxException
 		{
 			return context.getArgument(name, String.class);
 		}

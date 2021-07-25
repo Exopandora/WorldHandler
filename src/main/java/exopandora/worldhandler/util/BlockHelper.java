@@ -17,18 +17,18 @@ import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.builder.types.Coordinate.EnumType;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.config.Config;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.play.client.CUpdateCommandBlockPacket;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.CommandBlockTileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.world.World;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ServerboundSetCommandBlockPacket;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.CommandBlockEntity;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -44,20 +44,20 @@ public class BlockHelper
 	@Nonnull
 	public static BlockPos getFocusedBlockPos()
 	{
-		World world = Minecraft.getInstance().level;
-		RayTraceResult result = Minecraft.getInstance().hitResult;
+		Level level = Minecraft.getInstance().level;
+		HitResult result = Minecraft.getInstance().hitResult;
 		
-		if(result != null && Type.BLOCK.equals(result.getType()) && world != null)
+		if(result != null && Type.BLOCK.equals(result.getType()) && level != null)
 		{
-			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+			BlockHitResult blockResult = (BlockHitResult) result;
 			
-			if(!ArrayUtils.contains(BLACKLIST, world.getBlockState(blockResult.getBlockPos()).getBlock()))
+			if(!ArrayUtils.contains(BLACKLIST, level.getBlockState(blockResult.getBlockPos()).getBlock()))
 			{
 				return blockResult.getBlockPos();
 			}
 		}
 		
-		PlayerEntity player = Minecraft.getInstance().player;
+		LocalPlayer player = Minecraft.getInstance().player;
 		
 		if(player != null)
 		{
@@ -76,11 +76,11 @@ public class BlockHelper
 	@Nonnull
 	public static Block getBlock(BlockPos pos)
 	{
-		World world = Minecraft.getInstance().level;
+		Level level = Minecraft.getInstance().level;
 		
-		if(world != null)
+		if(level != null)
 		{
-			return world.getBlockState(pos).getBlock();
+			return level.getBlockState(pos).getBlock();
 		}
 		
 		return Blocks.AIR;
@@ -194,8 +194,8 @@ public class BlockHelper
 			wrapped.setMode2(EnumMode.RUN);
 			wrapped.setCommand(command);
 			
-			Minecraft.getInstance().getConnection().send(new CUpdateCommandBlockPacket(pos, wrapped.toActualCommand(), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
-			Minecraft.getInstance().getConnection().send(new CUpdateCommandBlockPacket(pos.above(), removeFill.toActualCommand(), CommandBlockTileEntity.Mode.REDSTONE, true, false, true));
+			Minecraft.getInstance().getConnection().send(new ServerboundSetCommandBlockPacket(pos, wrapped.toActualCommand(), CommandBlockEntity.Mode.REDSTONE, true, false, true));
+			Minecraft.getInstance().getConnection().send(new ServerboundSetCommandBlockPacket(pos.above(), removeFill.toActualCommand(), CommandBlockEntity.Mode.REDSTONE, true, false, true));
 			
 			return true;
 		}

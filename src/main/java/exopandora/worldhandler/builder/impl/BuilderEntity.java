@@ -10,22 +10,22 @@ import org.apache.commons.lang3.StringUtils;
 
 import exopandora.worldhandler.builder.CommandBuilderNBT;
 import exopandora.worldhandler.builder.component.impl.EntityNBT;
-import exopandora.worldhandler.util.MutableStringTextComponent;
+import exopandora.worldhandler.util.MutableTextComponent;
 import exopandora.worldhandler.util.ResourceHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.ByteNBT;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.IntNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -87,7 +87,7 @@ public abstract class BuilderEntity extends CommandBuilderNBT
 	}
 	
 	@Nullable
-	public MutableStringTextComponent getCustomName()
+	public MutableTextComponent getCustomName()
 	{
 		return this.nbt.getCustomName();
 	}
@@ -228,67 +228,67 @@ public abstract class BuilderEntity extends CommandBuilderNBT
 		this.nbt.setMotionZ(z);
 	}
 	
-	public void setAmplifier(Effect potion, byte amplifier)
+	public void setAmplifier(MobEffect potion, byte amplifier)
 	{
 		this.nbt.setAmplifier(potion, amplifier);
 	}
 	
-	public void setSeconds(Effect potion, int seconds)
+	public void setSeconds(MobEffect potion, int seconds)
 	{
 		this.nbt.setSeconds(potion, seconds);
 	}
 	
-	public void setMinutes(Effect potion, int minutes)
+	public void setMinutes(MobEffect potion, int minutes)
 	{
 		this.nbt.setMinutes(potion, minutes);
 	}
 	
-	public void setHours(Effect potion, int hours)
+	public void setHours(MobEffect potion, int hours)
 	{
 		this.nbt.setHours(potion, hours);
 	}
 	
-	public void setShowParticles(Effect potion, boolean showParticles)
+	public void setShowParticles(MobEffect potion, boolean showParticles)
 	{
 		this.nbt.setShowParticles(potion, showParticles);
 	}
 	
-	public void setAmbient(Effect potion, boolean ambient)
+	public void setAmbient(MobEffect potion, boolean ambient)
 	{
 		this.nbt.setAmbient(potion, ambient);
 	}
 	
-	public byte getAmplifier(Effect potion)
+	public byte getAmplifier(MobEffect potion)
 	{
 		return this.nbt.getAmplifier(potion);
 	}
 
-	public int getSeconds(Effect potion)
+	public int getSeconds(MobEffect potion)
 	{
 		return this.nbt.getSeconds(potion);
 	}
 	
-	public int getMinutes(Effect potion)
+	public int getMinutes(MobEffect potion)
 	{
 		return this.nbt.getMinutes(potion);
 	}
 	
-	public int getHours(Effect potion)
+	public int getHours(MobEffect potion)
 	{
 		return this.nbt.getHours(potion);
 	}
 	
-	public boolean getShowParticles(Effect potion)
+	public boolean getShowParticles(MobEffect potion)
 	{
 		return this.nbt.getShowParticles(potion);
 	}
 	
-	public boolean getAmbient(Effect potion)
+	public boolean getAmbient(MobEffect potion)
 	{
 		return this.nbt.getAmbient(potion);
 	}
 	
-	public Set<Effect> getEffects()
+	public Set<MobEffect> getMobEffects()
 	{
 		return this.nbt.getEffects();
 	}
@@ -328,18 +328,18 @@ public abstract class BuilderEntity extends CommandBuilderNBT
 		this.nbt.setNBT(nbt);
 	}
 	
-	public void setEntityNBT(CompoundNBT nbt)
+	public void setEntityNBT(CompoundTag nbt)
 	{
 		this.nbt.setNBT(nbt);
 	}
 	
-	public CompoundNBT getEntityNBT()
+	public CompoundTag getEntityNBT()
 	{
 		return this.nbt.getNBT();
 	}
 	
 	@Override
-	protected CompoundNBT buildNBT()
+	protected CompoundTag buildNBT()
 	{
 		return this.nbt.serialize();
 	}
@@ -352,7 +352,7 @@ public abstract class BuilderEntity extends CommandBuilderNBT
 		{
 			if(entity.equals(EntityType.CAT.getRegistryName()))
 			{
-				this.nbt.setCustomComponent("CatType", IntNBT.valueOf(new Random().nextInt(11)));
+				this.nbt.setCustomComponent("CatType", IntTag.valueOf(new Random().nextInt(11)));
 			}
 			else if(entity.equals(EntityType.VILLAGER.getRegistryName()))
 			{
@@ -360,7 +360,7 @@ public abstract class BuilderEntity extends CommandBuilderNBT
 				{
 					if(StringUtils.equalsIgnoreCase(name, profession.toString()))
 					{
-						CompoundNBT villagerData = new CompoundNBT();
+						CompoundTag villagerData = new CompoundTag();
 						villagerData.putString("profession", profession.getRegistryName().toString());
 						
 						this.nbt.setCustomComponent("VillagerData", villagerData);
@@ -372,14 +372,14 @@ public abstract class BuilderEntity extends CommandBuilderNBT
 			{
 				if(StringUtils.containsIgnoreCase(name, "Baby"))
 				{
-					this.nbt.setCustomComponent("IsBaby", ByteNBT.valueOf((byte) 1));
+					this.nbt.setCustomComponent("IsBaby", ByteTag.valueOf((byte) 1));
 				}
 			}
 			else if(entity.equals(EntityType.CHICKEN.getRegistryName()))
 			{
 				if(StringUtils.containsIgnoreCase(name, "Jockey") && !this.nbt.hasPassengers())
 				{
-					ListNBT list = new ListNBT();
+					ListTag list = new ListTag();
 					EntityNBT zombie = new EntityNBT(EntityType.ZOMBIE.getRegistryName());
 					
 					zombie.setIsBaby(true);
@@ -391,7 +391,7 @@ public abstract class BuilderEntity extends CommandBuilderNBT
 			{
 				if(StringUtils.containsIgnoreCase(name, "Jockey") && !this.nbt.hasPassengers())
 				{
-					ListNBT list = new ListNBT();
+					ListTag list = new ListTag();
 					EntityNBT skeleton = new EntityNBT(EntityType.SKELETON.getRegistryName());
 					
 					skeleton.setHandItem(0, Items.BOW);

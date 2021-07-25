@@ -1,7 +1,7 @@
 package exopandora.worldhandler.gui.widget;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Category;
@@ -11,11 +11,11 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonTab;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.TextUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -51,7 +51,7 @@ public class WidgetTabRenderer implements IContainerWidget
 	}
 	
 	@Override
-	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		Content content = container.getContent();
 		Category category = content.getCategory();
@@ -69,7 +69,7 @@ public class WidgetTabRenderer implements IContainerWidget
 			int offset = WidgetTabRenderer.offset(container, index, size);
 			
 			Content tab = category.getContent(index);
-			ITextComponent title = TextUtils.stripText(tab.getTabTitle().withStyle(TextFormatting.UNDERLINE), width, Minecraft.getInstance().font);
+			Component title = TextUtils.stripText(tab.getTabTitle().withStyle(ChatFormatting.UNDERLINE), width, Minecraft.getInstance().font);
 			
 			if(content.getActiveContent().equals(tab))
 			{
@@ -85,7 +85,7 @@ public class WidgetTabRenderer implements IContainerWidget
 		RenderUtils.colorDefaultBackground();
 	}
 	
-	private void drawActiveTab(MatrixStack matrix, Container container, int index, int size, int x, int y, int width, int height, ITextComponent title)
+	private void drawActiveTab(PoseStack matrix, Container container, int index, int size, int x, int y, int width, int height, Component title)
 	{
 		RenderUtils.colorDefaultBackground();
 		this.drawTabBackground(matrix, container, x, y, width, height);
@@ -127,7 +127,7 @@ public class WidgetTabRenderer implements IContainerWidget
 		this.drawTabTitle(matrix, container, title, x + width / 2, y + 9, 0xFFFFFF);
 	}
 	
-	private void drawInactiveTab(MatrixStack matrix, Container container, int index, int size, int x, int y, int width, int height, ITextComponent title)
+	private void drawInactiveTab(PoseStack matrix, Container container, int index, int size, int x, int y, int width, int height, Component title)
 	{
 		RenderUtils.colorDarkBackground();
 		this.drawTabBackground(matrix, container, x, y, width, 20);
@@ -142,7 +142,7 @@ public class WidgetTabRenderer implements IContainerWidget
 		this.drawTabTitle(matrix, container, title, x + width / 2, y + 7, 0xE0E0E0);
 	}
 	
-	private void drawTabBackgroundMerge(MatrixStack matrix, Container container, int index, int size, int x, int y, int width, int height)
+	private void drawTabBackgroundMerge(PoseStack matrix, Container container, int index, int size, int x, int y, int width, int height)
 	{
 		if(index == 0)
 		{
@@ -155,13 +155,13 @@ public class WidgetTabRenderer implements IContainerWidget
 		}
 	}
 	
-	private void drawTabBackground(MatrixStack matrix, Container container, int x, int y, int width, int height)
+	private void drawTabBackground(PoseStack matrix, Container container, int x, int y, int width, int height)
 	{
 		container.bindBackground();
 		container.setBlitOffset(-1);
 		
-		int left = MathHelper.ceil(width / 2D);
-		int right = MathHelper.floor(width / 2D);
+		int left = Mth.ceil(width / 2D);
+		int right = Mth.floor(width / 2D);
 		
 		RenderSystem.enableBlend();
 		
@@ -171,10 +171,10 @@ public class WidgetTabRenderer implements IContainerWidget
 		RenderSystem.disableBlend();
 	}
 	
-	private void drawTabTitle(MatrixStack matrix, AbstractGui gui, ITextComponent title, int x, int y, int color)
+	private void drawTabTitle(PoseStack matrix, GuiComponent gui, Component title, int x, int y, int color)
 	{
 		gui.setBlitOffset(0);
-		AbstractGui.drawCenteredString(matrix, Minecraft.getInstance().font, title, x, y, color);
+		GuiComponent.drawCenteredString(matrix, Minecraft.getInstance().font, title, x, y, color);
 	}
 	
 	@Override

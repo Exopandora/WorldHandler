@@ -14,6 +14,7 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 
 import org.apache.commons.io.IOUtils;
+import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,11 +28,10 @@ import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.usercontent.model.Action;
 import exopandora.worldhandler.usercontent.model.BooleanExpression;
-import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
-import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
-import net.minecraft.util.ResourceLocation;
+import exopandora.worldhandler.usercontent.model.JsonWidget;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

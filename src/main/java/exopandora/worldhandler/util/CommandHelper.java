@@ -8,16 +8,16 @@ import exopandora.worldhandler.builder.ICommandBuilderSyntax;
 import exopandora.worldhandler.command.CommandWH;
 import exopandora.worldhandler.command.CommandWorldHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class CommandHelper
 {
-	public static void sendFeedback(CommandSource source, String message)
+	public static void sendFeedback(CommandSourceStack source, String message)
 	{
-		source.sendSuccess(new StringTextComponent(message), false);
+		source.sendSuccess(new TextComponent(message), false);
 	}
 	
 	public static boolean canPlayerIssueCommand()
@@ -30,7 +30,7 @@ public class CommandHelper
 		return false;
 	}
 	
-	public static void registerCommands(CommandDispatcher<CommandSource> dispatcher)
+	public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher)
 	{
 		CommandWorldHandler.register(dispatcher);
 		CommandWH.register(dispatcher);

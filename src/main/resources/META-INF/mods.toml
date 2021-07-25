@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[33,)"
+loaderVersion="[37,)"
 updateJSONURL="https://raw.githubusercontent.com/Exopandora/worldhandler/master/version.json"
 issueTrackerURL="https://github.com/Exopandora/WorldHandler/issues"
 displayURL="https://minecraft.curseforge.com/projects/world-handler-command-gui"
@@ -11,13 +11,13 @@ license="GPL v3.0"
 
 [[mods]]
 	modId="worldhandler"
-	version="1.16.5-2.12.6"
+	version="1.17.1-2.12.6"
 	displayName="World Handler"
 	description="The World Handler provides a simple and easy to use graphical user interface for commands. It lets you create powerful and complex sub-commands alongside NBT-structures within seconds."
 
 [[dependencies.worldhandler]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16,)"
+    versionRange="[1.17,)"
     ordering="NONE"
     side="BOTH"

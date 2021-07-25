@@ -1,18 +1,18 @@
 package exopandora.worldhandler.gui.widget.button;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.util.ActionHandler;
-import exopandora.worldhandler.util.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -24,7 +24,7 @@ public class GuiButtonPiano extends GuiButtonBase
 	private final SoundEvent sound;
 	private final float pitch;
 	
-	public GuiButtonPiano(int x, int y, int widthIn, int heightIn, ITextComponent buttonText, SoundEvent sound, float pitch, Type type, ActionHandler actionHandler)
+	public GuiButtonPiano(int x, int y, int widthIn, int heightIn, Component buttonText, SoundEvent sound, float pitch, Type type, ActionHandler actionHandler)
 	{
 		super(x, y, widthIn, heightIn, buttonText, actionHandler);
 		this.sound = sound;
@@ -33,7 +33,7 @@ public class GuiButtonPiano extends GuiButtonBase
 	}
 	
 	@Override
-	public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		switch(this.type)
 		{
@@ -54,8 +54,9 @@ public class GuiButtonPiano extends GuiButtonBase
 		}
 		
 		int hovered = this.getYImage(this.isHovered());
-		RenderUtils.color(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlpha());
-		Minecraft.getInstance().getTextureManager().bind(NOTE);
+		
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlpha());
+		RenderSystem.setShaderTexture(0, NOTE);
 		
 		switch(this.type)
 		{
@@ -72,16 +73,16 @@ public class GuiButtonPiano extends GuiButtonBase
 		}
 	}
 	
-	protected void drawWhiteKey(MatrixStack matrix, int hoverstate)
+	protected void drawWhiteKey(PoseStack matrix, int hoverstate)
 	{
 		int textColor = this.getFGColor();
-		FontRenderer fontRenderer = Minecraft.getInstance().font;
+		Font font = Minecraft.getInstance().font;
 		
 		this.blit(matrix, this.x, this.y, 25 + hoverstate * 15 - 15, 0, 15, 92);
-		fontRenderer.draw(matrix, this.getMessage(), (float) (this.x + this.width / 2 - fontRenderer.width(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor); //drawString
+		font.draw(matrix, this.getMessage(), (float) (this.x + this.width / 2 - font.width(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor); //drawString
 	}
 	
-	protected void drawBlackKey(MatrixStack matrix, int hoverstate)
+	protected void drawBlackKey(PoseStack matrix, int hoverstate)
 	{
 		this.blit(matrix, this.x, this.y, 55 - hoverstate * 9 + 18, 0, 9, 58);
 	}
@@ -104,11 +105,11 @@ public class GuiButtonPiano extends GuiButtonBase
 	}
 	
 	@Override
-	public void playDownSound(SoundHandler soundHandler)
+	public void playDownSound(SoundManager soundManager)
 	{
 		if(this.sound != null)
 		{
-			soundHandler.play(SimpleSound.forUI(this.sound, this.pitch));
+			soundManager.play(SimpleSoundInstance.forUI(this.sound, this.pitch));
 		}
 	}
 	

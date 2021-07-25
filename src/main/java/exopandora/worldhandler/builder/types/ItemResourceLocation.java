@@ -4,9 +4,9 @@ import javax.annotation.Nullable;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ItemResourceLocation
 {
 	protected ResourceLocation resource;
-	protected CompoundNBT nbt;
+	protected CompoundTag nbt;
 	
 	public ItemResourceLocation()
 	{
@@ -26,7 +26,7 @@ public class ItemResourceLocation
 		this(resource, null);
 	}
 	
-	public ItemResourceLocation(ResourceLocation resource, CompoundNBT nbt)
+	public ItemResourceLocation(ResourceLocation resource, CompoundTag nbt)
 	{
 		this.resource = resource;
 		this.nbt = nbt;
@@ -42,12 +42,12 @@ public class ItemResourceLocation
 		this.resource = resource;
 	}
 	
-	public CompoundNBT getNBT()
+	public CompoundTag getNBT()
 	{
 		return this.nbt;
 	}
 	
-	public void setNBT(CompoundNBT nbt)
+	public void setNBT(CompoundTag nbt)
 	{
 		this.nbt = nbt;
 	}
@@ -57,13 +57,13 @@ public class ItemResourceLocation
 	{
 		int start = input.indexOf("{");
 		ResourceLocation resource = new ResourceLocation(input.substring(0, start));
-		CompoundNBT nbt = null;
+		CompoundTag nbt = null;
 		
 		if(start > 0)
 		{
 			try
 			{
-				nbt = JsonToNBT.parseTag(input.substring(start, input.lastIndexOf("}") + 1));
+				nbt = TagParser.parseTag(input.substring(start, input.lastIndexOf("}") + 1));
 			}
 			catch(CommandSyntaxException e)
 			{

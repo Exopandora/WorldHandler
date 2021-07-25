@@ -3,7 +3,7 @@ package exopandora.worldhandler.builder.impl;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.component.impl.ComponentTag;
-import exopandora.worldhandler.util.MutableStringTextComponent;
+import exopandora.worldhandler.util.MutableTextComponent;
 import exopandora.worldhandler.util.SignText;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -38,7 +38,7 @@ public class BuilderSignEditor extends BuilderData
 	}
 	
 	@Nullable
-	public MutableStringTextComponent getColoredString(int line)
+	public MutableTextComponent getColoredString(int line)
 	{
 		if(this.checkBounds(line))
 		{

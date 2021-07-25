@@ -2,7 +2,7 @@ package exopandora.worldhandler.builder;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.Tag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -10,5 +10,5 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public interface INBTWritable
 {
 	@Nullable
-	INBT serialize();
+	Tag serialize();
 }

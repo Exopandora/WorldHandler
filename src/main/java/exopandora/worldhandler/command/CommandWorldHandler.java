@@ -9,8 +9,8 @@ import exopandora.worldhandler.Main;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.DistExecutor.SafeRunnable;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.VersionChecker;
 
 public class CommandWorldHandler
 {
-	public static void register(CommandDispatcher<CommandSource> dispatcher)
+	public static void register(CommandDispatcher<CommandSourceStack> dispatcher)
 	{
 		dispatcher.register(Commands.literal("worldhandler")
 				.then(Commands.literal("help")
@@ -30,7 +30,7 @@ public class CommandWorldHandler
 					.executes(context -> version(context.getSource()))));
 	}
 	
-	private static int help(CommandSource source) throws CommandSyntaxException
+	private static int help(CommandSourceStack source) throws CommandSyntaxException
 	{
 		CommandHelper.sendFeedback(source, "/worldhandler help");
 		CommandHelper.sendFeedback(source, "/worldhandler display");
@@ -38,7 +38,7 @@ public class CommandWorldHandler
 		return 1;
 	}
 	
-	private static int display(CommandSource source) throws CommandSyntaxException
+	private static int display(CommandSourceStack source) throws CommandSyntaxException
 	{
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
@@ -54,10 +54,10 @@ public class CommandWorldHandler
 		return 1;
 	}
 	
-	private static int version(CommandSource source) throws CommandSyntaxException
+	private static int version(CommandSourceStack source) throws CommandSyntaxException
 	{
 		CommandHelper.sendFeedback(source, "Installed: " + Main.MC_VERSION + "-" + Main.MOD_VERSION);
-		ComparableVersion target = VersionChecker.getResult(ModList.get().getModContainerById(Main.MODID).get().getModInfo()).target;
+		ComparableVersion target = VersionChecker.getResult(ModList.get().getModContainerById(Main.MODID).get().getModInfo()).target();
 		CommandHelper.sendFeedback(source, "Latest: " + Main.MC_VERSION + "-" + (target != null ? target : Main.MOD_VERSION));
 		return 1;
 	}

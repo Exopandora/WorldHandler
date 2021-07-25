@@ -19,11 +19,11 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -41,39 +41,39 @@ public class ContentRecipes extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<IRecipe<?>> recipes = Minecraft.getInstance().player.getRecipeBook().getCollections().stream()
+		List<Recipe<?>> recipes = Minecraft.getInstance().player.getRecipeBook().getCollections().stream()
 				.flatMap(recipe -> recipe.getRecipes().stream())
 				.filter(recipe -> !recipe.isSpecial())
 				.collect(Collectors.toList());
 		
-		MenuPageList<IRecipe<?>> list = new MenuPageList<IRecipe<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<IRecipe<?>>()
+		MenuPageList<Recipe<?>> list = new MenuPageList<Recipe<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<Recipe<?>>()
 		{
 			@Override
-			public IFormattableTextComponent translate(IRecipe<?> item)
+			public MutableComponent translate(Recipe<?> item)
 			{
 				if(!item.getResultItem().equals(ItemStack.EMPTY))
 				{
-					return (IFormattableTextComponent) item.getResultItem().getHoverName();
+					return (MutableComponent) item.getResultItem().getHoverName();
 				}
 				
-				return new StringTextComponent(item.getId().toString());
+				return new TextComponent(item.getId().toString());
 			}
 			
 			@Override
-			public IFormattableTextComponent toTooltip(IRecipe<?> item)
+			public MutableComponent toTooltip(Recipe<?> item)
 			{
-				return new StringTextComponent(item.getId().toString());
+				return new TextComponent(item.getId().toString());
 			}
 			
 			@Override
-			public void onClick(IRecipe<?> item)
+			public void onClick(Recipe<?> item)
 			{
 				ContentRecipes.this.builderRecipe.setRecipe(item);
 				container.initButtons();
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, IRecipe<?> item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Recipe<?> item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}
@@ -91,15 +91,15 @@ public class ContentRecipes extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.recipes.give"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.recipes.give"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe.build(EnumMode.GIVE));
 			container.initButtons();
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.recipes.take"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.recipes.take"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe.build(EnumMode.TAKE));
 			container.initButtons();
@@ -113,15 +113,15 @@ public class ContentRecipes extends Content
 	}
 	
 	@Override
-	public IFormattableTextComponent getTitle()
+	public MutableComponent getTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.title.items.recipes");
+		return new TranslatableComponent("gui.worldhandler.title.items.recipes");
 	}
 	
 	@Override
-	public IFormattableTextComponent getTabTitle()
+	public MutableComponent getTabTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.tab.items.recipes");
+		return new TranslatableComponent("gui.worldhandler.tab.items.recipes");
 	}
 	
 	@Override

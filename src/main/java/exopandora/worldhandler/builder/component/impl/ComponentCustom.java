@@ -1,17 +1,17 @@
 package exopandora.worldhandler.builder.component.impl;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
-import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.Tag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ComponentCustom implements IBuilderComponent
 {
-	private INBT nbt;
+	private Tag nbt;
 	private String tag;
 	
-	public void setNBT(INBT nbt)
+	public void setNBT(Tag nbt)
 	{
 		this.nbt = nbt;
 	}
@@ -21,7 +21,7 @@ public class ComponentCustom implements IBuilderComponent
 		this.tag = tag;
 	}
 
-	public void set(String tag, INBT nbt)
+	public void set(String tag, Tag nbt)
 	{
 		this.setTag(tag);
 		this.setNBT(nbt);
@@ -33,7 +33,7 @@ public class ComponentCustom implements IBuilderComponent
 	}
 	
 	@Override
-	public INBT serialize()
+	public Tag serialize()
 	{
 		return this.nbt;
 	}

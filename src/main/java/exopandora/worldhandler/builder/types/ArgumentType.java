@@ -6,9 +6,9 @@ import javax.annotation.Nullable;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -66,13 +66,13 @@ public enum ArgumentType
 	}
 	
 	@Nullable
-	public static CompoundNBT parseCompoundNBT(String value)
+	public static CompoundTag parseCompoundNBT(String value)
 	{
 		if(value != null)
 		{
 			try
 	        {
-				return JsonToNBT.parseTag(value);
+				return TagParser.parseTag(value);
 	        }
 	        catch(CommandSyntaxException e)
 	        {

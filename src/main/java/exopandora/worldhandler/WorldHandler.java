@@ -2,7 +2,6 @@ package exopandora.worldhandler;
 
 import java.nio.file.Path;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,24 +13,23 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.util.AdvancementHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.SimpleReloadableResourceManager;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.DistExecutor.SafeRunnable;
-import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.network.FMLNetworkConstants;
+import net.minecraftforge.fmlclient.registry.ClientRegistry;
+import net.minecraftforge.fmllegacy.network.FMLNetworkConstants;
 
 @Mod(Main.MODID)
 public class WorldHandler
@@ -51,25 +49,19 @@ public class WorldHandler
 			@Override
 			public void run()
 			{
-				SimpleReloadableResourceManager manager = (SimpleReloadableResourceManager) Minecraft.getInstance().getResourceManager();
-				manager.registerReloadListener(AdvancementHelper.getInstance());
 				Config.setupDirectories(WorldHandler.USERCONTENT_PATH);
 				modLoadingContext.registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
 				UsercontentLoader.load(WorldHandler.USERCONTENT_PATH);
 				modEventBus.register(Config.class);
 				modEventBus.addListener(WorldHandler.this::clientSetup);
+				modEventBus.addListener(WorldHandler.this::registerClientReloadListeners);
 				modEventBus.addListener(Content::createRegistry);
 				modEventBus.addListener(Category::createRegistry);
 				modEventBus.addGenericListener(Content.class, Content::register);
 				modEventBus.addGenericListener(Category.class, Category::register);
 			}
 		});
-		modLoadingContext.registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
-//		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () ->
-//		{
-//			GuiFactoryWorldHandler factory = new GuiFactoryWorldHandler();
-//			return (minecraft, parentScreen) -> factory.createConfigGui(parentScreen);
-//		});
+		modLoadingContext.registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> FMLNetworkConstants.IGNORESERVERONLY, (remote, isServer) -> true));
 	}
 	
 	@SubscribeEvent
@@ -87,5 +79,11 @@ public class WorldHandler
 	public void registerCommands(RegisterCommandsEvent event)
 	{
 		CommandHelper.registerCommands(event.getDispatcher());
+	}
+	
+	@SubscribeEvent
+	public void registerClientReloadListeners(RegisterClientReloadListenersEvent event)
+	{
+		event.registerReloadListener(AdvancementHelper.getInstance());
 	}
 }

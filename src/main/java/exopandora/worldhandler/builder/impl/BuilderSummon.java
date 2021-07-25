@@ -4,8 +4,8 @@ import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.builder.types.Coordinate.EnumType;
 import exopandora.worldhandler.builder.types.CoordinateDouble;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -60,7 +60,7 @@ public class BuilderSummon extends BuilderEntity
 	}
 	
 	@Override
-	public void setNBT(CompoundNBT nbt)
+	public void setNBT(CompoundTag nbt)
 	{
 		this.setNode(4, nbt);
 	}

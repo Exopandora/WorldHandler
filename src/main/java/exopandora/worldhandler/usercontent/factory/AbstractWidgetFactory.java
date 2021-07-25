@@ -6,12 +6,12 @@ import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
-import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
+import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.util.ActionHandler;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -56,20 +56,20 @@ public abstract class AbstractWidgetFactory
 		}
 		
 		@Override
-		public IFormattableTextComponent translate(JsonItem item)
+		public MutableComponent translate(JsonItem item)
 		{
 			if(item.getTranslation() != null)
 			{
-				return new TranslationTextComponent(item.getTranslation());
+				return new TranslatableComponent(item.getTranslation());
 			}
 			
-			return new StringTextComponent(item.getId());
+			return new TextComponent(item.getId());
 		}
 		
 		@Override
-		public IFormattableTextComponent toTooltip(JsonItem item)
+		public MutableComponent toTooltip(JsonItem item)
 		{
-			return new StringTextComponent(item.getId());
+			return new TextComponent(item.getId());
 		}
 		
 		@Override

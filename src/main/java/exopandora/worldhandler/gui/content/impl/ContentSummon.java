@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.component.impl.ComponentAttribute;
@@ -32,19 +33,18 @@ import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.TextUtils;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.item.Items;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -52,6 +52,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 @OnlyIn(Dist.CLIENT)
 public class ContentSummon extends Content
 {
+	private static final ResourceLocation BEACON_LOCATION = new ResourceLocation("textures/gui/container/beacon.png");
+	
 	private GuiTextFieldTooltip mobField;
 	private GuiTextFieldTooltip nbtField;
 	
@@ -136,7 +138,7 @@ public class ContentSummon extends Content
 			}
 		}
 		
-		for(Effect potion : this.builderSummon.getEffects())
+		for(MobEffect potion : this.builderSummon.getMobEffects())
 		{
 			byte amplifier = this.builderSummon.getAmplifier(potion);
 			
@@ -157,7 +159,7 @@ public class ContentSummon extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.mob_id"));
+		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslatableComponent("gui.worldhandler.entities.summon.start.mob_id"));
 		this.mobField.setFilter(Predicates.notNull());
 		this.mobField.setValue(this.mob);
 		this.mobField.setResponder(text ->
@@ -167,7 +169,7 @@ public class ContentSummon extends Content
 			container.initButtons();
 		});
 		
-		this.nbtField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.entities.summon.start.custom_nbt"));
+		this.nbtField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.entities.summon.start.custom_nbt"));
 		this.nbtField.setFilter(Predicates.notNull());
 		this.nbtField.setValue(this.nbt);
 		this.nbtField.setResponder(text ->
@@ -207,15 +209,15 @@ public class ContentSummon extends Content
 			MenuPageList<Attribute> attributes = new MenuPageList<Attribute>(x + 118, y, ComponentAttribute.ATTRIBUTES, 114, 20, 3, container, new ILogicPageList<Attribute>()
 			{
 				@Override
-				public IFormattableTextComponent translate(Attribute item)
+				public MutableComponent translate(Attribute item)
 				{
-					return new TranslationTextComponent(item.getDescriptionId());
+					return new TranslatableComponent(item.getDescriptionId());
 				}
 				
 				@Override
-				public IFormattableTextComponent toTooltip(Attribute item)
+				public MutableComponent toTooltip(Attribute item)
 				{
-					return new StringTextComponent(item.getRegistryName().toString());
+					return new TextComponent(item.getRegistryName().toString());
 				}
 				
 				@Override
@@ -225,7 +227,7 @@ public class ContentSummon extends Content
 				}
 				
 				@Override
-				public GuiButtonBase onRegister(int x, int y, int width, int height, IFormattableTextComponent text, Attribute item, ActionHandler actionHandler)
+				public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Attribute item, ActionHandler actionHandler)
 				{
 					return new GuiSlider(x, y, width, height, -Config.getSliders().getMaxSummonAttributes(), Config.getSliders().getMaxSummonAttributes(), 0, container, new LogicSliderAttribute(item, text, value ->
 					{
@@ -314,9 +316,9 @@ public class ContentSummon extends Content
 			
 			for(ResourceLocation location : this.sortedPotions())
 			{
-				Effect potion = ForgeRegistries.POTIONS.getValue(location);
+				MobEffect potion = ForgeRegistries.POTIONS.getValue(location);
 				
-				if(!potion.equals(Effects.HARM) && !potion.equals(Effects.HEAL))
+				if(!potion.equals(MobEffects.HARM) && !potion.equals(MobEffects.HEAL))
 				{
 					if(this.potionPage == 0)
 					{
@@ -330,15 +332,15 @@ public class ContentSummon extends Content
 					
 					if(count == this.potionPage)
 					{
-						container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), new TranslationTextComponent(potion.getDescriptionId()), value ->
+						container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), new TranslatableComponent(potion.getDescriptionId()), value ->
 						{
 							this.builderSummon.setAmplifier(potion, value.byteValue());
 						})));
-						container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + potion.getRegistryName(), new TranslationTextComponent("gui.worldhandler.potion.time.minutes"), value ->
+						container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + potion.getRegistryName(), new TranslatableComponent("gui.worldhandler.potion.time.minutes"), value ->
 						{
 							this.builderSummon.setMinutes(potion, value);
 						})));
-						container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.potions.effect.particles", this.builderSummon.getShowParticles(potion) ? new TranslationTextComponent("gui.worldhandler.generic.on") : new TranslationTextComponent("gui.worldhandler.generic.off")), () ->
+						container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.potions.effect.particles", this.builderSummon.getShowParticles(potion) ? new TranslatableComponent("gui.worldhandler.generic.on") : new TranslatableComponent("gui.worldhandler.generic.off")), () ->
 						{
 							this.builderSummon.setShowParticles(potion, !this.builderSummon.getShowParticles(potion));
 							container.init();
@@ -417,7 +419,7 @@ public class ContentSummon extends Content
 	}
 	
 	@Override
-	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(Page.START.equals(this.page))
 		{
@@ -433,8 +435,8 @@ public class ContentSummon extends Content
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
-			RenderUtils.color(1.0F, 1.0F, 1.0F, 1.0F);
-		 	Minecraft.getInstance().getTextureManager().bind(new ResourceLocation("textures/gui/container/beacon.png"));
+			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.setShaderTexture(0, BEACON_LOCATION);
 	 		container.setBlitOffset(0);
 	 		
 	 		for(int i = 0; i < 4; i++)
@@ -481,15 +483,15 @@ public class ContentSummon extends Content
 	}
 	
 	@Override
-	public IFormattableTextComponent getTitle()
+	public MutableComponent getTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.title.entities.summon");
+		return new TranslatableComponent("gui.worldhandler.title.entities.summon");
 	}
 	
 	@Override
-	public IFormattableTextComponent getTabTitle()
+	public MutableComponent getTabTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.tab.entities.summon");
+		return new TranslatableComponent("gui.worldhandler.tab.entities.summon");
 	}
 	
 	@Override

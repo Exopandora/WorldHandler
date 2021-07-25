@@ -4,11 +4,11 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.CommandBuilderNBT;
 import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.builder.types.ItemResourceLocation;
 import exopandora.worldhandler.util.ResourceHelper;
-import exopandora.worldhandler.builder.types.ArgumentType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -69,14 +69,14 @@ public class BuilderGive extends CommandBuilderNBT
 	}
 	
 	@Override
-	public void setNBT(CompoundNBT nbt)
+	public void setNBT(CompoundTag nbt)
 	{
 		this.itemResourceLocation.setNBT(nbt);
 		this.setNode(1, this.itemResourceLocation);
 	}
 	
 	@Nullable
-	public CompoundNBT getNBT()
+	public CompoundTag getNBT()
 	{
 		ItemResourceLocation item = this.getItem();
 		

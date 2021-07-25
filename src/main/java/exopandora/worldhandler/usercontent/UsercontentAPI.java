@@ -7,10 +7,10 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.impl.BuilderUsercontent;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -40,7 +40,7 @@ public class UsercontentAPI
 	{
 		if(object != null)
 		{
-			Minecraft.getInstance().gui.handleChat(ChatType.CHAT, new StringTextComponent(object.toString()), Util.NIL_UUID);
+			Minecraft.getInstance().gui.handleChat(ChatType.CHAT, new TextComponent(object.toString()), Util.NIL_UUID);
 		}
 	}
 	

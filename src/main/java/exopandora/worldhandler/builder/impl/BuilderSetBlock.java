@@ -4,10 +4,10 @@ import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.builder.types.CoordinateInt;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.Property;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -56,7 +56,7 @@ public class BuilderSetBlock extends BuilderBlockPos
 		this.setNode(4, mode.toString());
 	}
 	
-	public void setBlockNBT(CompoundNBT nbt)
+	public void setBlockNBT(CompoundTag nbt)
 	{
 		this.blockResourceLocation.setNBT(nbt);
 		this.setBlock(this.blockResourceLocation);
@@ -68,7 +68,7 @@ public class BuilderSetBlock extends BuilderBlockPos
 	}
 	
 	@Override
-	public void setNBT(CompoundNBT nbt)
+	public void setNBT(CompoundTag nbt)
 	{
 		
 	}

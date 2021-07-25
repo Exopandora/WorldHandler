@@ -1,7 +1,7 @@
 package exopandora.worldhandler.builder.component.impl;
 
 import exopandora.worldhandler.builder.INBTWritable;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -101,9 +101,9 @@ public class EffectNBT implements INBTWritable
 	}
 	
 	@Override
-	public CompoundNBT serialize()
+	public CompoundTag serialize()
 	{
-		CompoundNBT compound = new CompoundNBT();
+		CompoundTag compound = new CompoundTag();
 		int ticks = this.toTicks();
 		
 		compound.putByte("Amplifier", (byte) (this.amplifier - 1));

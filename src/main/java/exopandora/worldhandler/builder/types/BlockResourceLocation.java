@@ -5,11 +5,11 @@ import javax.annotation.Nullable;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.command.arguments.BlockStateParser;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.Property;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.commands.arguments.blocks.BlockStateParser;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -29,7 +29,7 @@ public class BlockResourceLocation extends ItemResourceLocation
 		this(resource, null, null);
 	}
 	
-	public BlockResourceLocation(ResourceLocation resource, BlockState state, CompoundNBT nbt)
+	public BlockResourceLocation(ResourceLocation resource, BlockState state, CompoundTag nbt)
 	{
 		super(resource, nbt);
 		this.state = this.findState(state, resource);

@@ -1,14 +1,14 @@
 package exopandora.worldhandler.gui.widget;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.gui.container.Container;
-import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public interface IWidget extends IGuiEventListener
+public interface IWidget extends GuiEventListener
 {
 	default void init(Container container)
 	{
@@ -30,7 +30,7 @@ public interface IWidget extends IGuiEventListener
 		
 	}
 	
-	default void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	default void drawScreen(PoseStack stack, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		
 	}

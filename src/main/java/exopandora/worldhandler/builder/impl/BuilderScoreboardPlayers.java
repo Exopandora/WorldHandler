@@ -2,8 +2,6 @@ package exopandora.worldhandler.builder.impl;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.RegExUtils;
-
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.util.EnumHelper;

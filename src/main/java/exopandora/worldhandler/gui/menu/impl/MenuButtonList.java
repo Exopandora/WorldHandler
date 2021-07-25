@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 
 import javax.annotation.Nullable;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.menu.Menu;
@@ -15,8 +15,8 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonList.Persistence;
 import exopandora.worldhandler.util.Node;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -56,19 +56,19 @@ public class MenuButtonList extends Menu
 		container.add(new GuiButtonList<Node>(this.x, this.y, this.items, 114, 20, container, new ILogicMapped<Node>()
 		{
 			@Override
-			public IFormattableTextComponent translate(Node item)
+			public MutableComponent translate(Node item)
 			{
 				return MenuButtonList.this.logic.translate(MenuButtonList.this.buildKey(container, MenuButtonList.this.logic::buildTranslationKey), MenuButtonList.this.getDepth());
 			}
 			
 			@Override
-			public IFormattableTextComponent toTooltip(Node item)
+			public MutableComponent toTooltip(Node item)
 			{
-				return new StringTextComponent(item.getKey());
+				return new TextComponent(item.getKey());
 			}
 			
 			@Override
-			public IFormattableTextComponent formatTooltip(Node item, int index, int max)
+			public MutableComponent formatTooltip(Node item, int index, int max)
 			{
 				return ILogicMapped.super.formatTooltip(item, index, max);
 			}
@@ -99,7 +99,7 @@ public class MenuButtonList extends Menu
 		{
 			for(int x = this.getDepth() + 1; x < this.maxDepth; x++)
 			{
-				GuiButtonBase button = new GuiButtonBase(this.x, this.y + 24 * x, 114, 20, StringTextComponent.EMPTY, null);
+				GuiButtonBase button = new GuiButtonBase(this.x, this.y + 24 * x, 114, 20, TextComponent.EMPTY, null);
 				button.active = false;
 				container.add(button);
 			}
@@ -113,7 +113,7 @@ public class MenuButtonList extends Menu
 	}
 	
 	@Override
-	public void draw(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void draw(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		
 	}

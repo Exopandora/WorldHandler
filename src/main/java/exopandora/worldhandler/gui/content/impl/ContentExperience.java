@@ -14,8 +14,8 @@ import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -45,24 +45,24 @@ public class ContentExperience extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslationTextComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiSlider(x + 116 / 2, y, 114, 20, 0, Config.getSliders().getMaxExperience(), 0, container, new LogicSliderSimple("experience", new TranslationTextComponent("gui.worldhandler.title.player.experience"), value -> 
+		container.add(new GuiSlider(x + 116 / 2, y, 114, 20, 0, Config.getSliders().getMaxExperience(), 0, container, new LogicSliderSimple("experience", new TranslatableComponent("gui.worldhandler.title.player.experience"), value -> 
 		{
 			this.builderExperience.setLevel(value);
 		})));
 		
-		container.add(this.buttonAdd = new GuiButtonBase(x + 116 / 2, y + 24, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.add"), () ->
+		container.add(this.buttonAdd = new GuiButtonBase(x + 116 / 2, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.actions.add"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderExperience.buildAdd());
 			container.init();
 		}));
-		container.add(this.buttonRemove = new GuiButtonBase(x + 116 / 2, y + 48, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.remove"), () ->
+		container.add(this.buttonRemove = new GuiButtonBase(x + 116 / 2, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.actions.remove"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderExperience.buildRemove());
 		}));
-		container.add(new GuiButtonTooltip(x + 116 / 2, y + 72, 114, 20, new TranslationTextComponent("gui.worldhandler.actions.reset"), new TranslationTextComponent("gui.worldhandler.actions.set_to_0"), () ->
+		container.add(new GuiButtonTooltip(x + 116 / 2, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.actions.reset"), new TranslatableComponent("gui.worldhandler.actions.set_to_0"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderExperience.buildReset());
 			container.init();
@@ -90,15 +90,15 @@ public class ContentExperience extends Content
 	}
 	
 	@Override
-	public IFormattableTextComponent getTitle()
+	public MutableComponent getTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.title.player.experience");
+		return new TranslatableComponent("gui.worldhandler.title.player.experience");
 	}
 	
 	@Override
-	public IFormattableTextComponent getTabTitle()
+	public MutableComponent getTabTitle()
 	{
-		return new TranslationTextComponent("gui.worldhandler.tab.player.experience");
+		return new TranslatableComponent("gui.worldhandler.tab.player.experience");
 	}
 	
 	@Override

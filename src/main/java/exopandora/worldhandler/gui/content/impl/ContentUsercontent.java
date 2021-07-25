@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.builder.CommandSyntax;
@@ -25,25 +25,25 @@ import exopandora.worldhandler.usercontent.UsercontentConfig;
 import exopandora.worldhandler.usercontent.VisibleActiveObject;
 import exopandora.worldhandler.usercontent.VisibleObject;
 import exopandora.worldhandler.usercontent.factory.ActionHandlerFactory;
-import exopandora.worldhandler.usercontent.factory.WidgetFactory;
 import exopandora.worldhandler.usercontent.factory.MenuFactory;
-import exopandora.worldhandler.usercontent.model.JsonWidget;
+import exopandora.worldhandler.usercontent.factory.WidgetFactory;
+import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonCommand;
+import exopandora.worldhandler.usercontent.model.JsonLabel;
 import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonModel;
-import exopandora.worldhandler.usercontent.model.JsonLabel;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
-import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
+import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.TextUtils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -54,8 +54,8 @@ public class ContentUsercontent extends Content
 	private final JsonUsercontent content;
 	private final ScriptEngineAdapter engineAdapter;
 	private final List<VisibleObject<BuilderUsercontent>> builders;
-	private final Map<String, VisibleActiveObject<TextFieldWidget>> textfields = new HashMap<String, VisibleActiveObject<TextFieldWidget>>();
-	private final List<VisibleActiveObject<Widget>> buttons = new ArrayList<VisibleActiveObject<Widget>>();
+	private final Map<String, VisibleActiveObject<EditBox>> textfields = new HashMap<String, VisibleActiveObject<EditBox>>();
+	private final List<VisibleActiveObject<AbstractWidget>> buttons = new ArrayList<VisibleActiveObject<AbstractWidget>>();
 	private final UsercontentAPI api;
 	private final WidgetFactory buttonFactory;
 	private final MenuFactory menuFactory;
@@ -93,16 +93,16 @@ public class ContentUsercontent extends Content
 		
 		for(JsonWidget json : this.getWidgets(this.content.getGui().getWidgets(), AbstractJsonWidget.Type.BUTTON))
 		{
-			Widget widget = this.buttonFactory.createWidget(json, this, container, x, y);
+			AbstractWidget widget = this.buttonFactory.createWidget(json, this, container, x, y);
 			
 			if(JsonWidget.Type.TEXTFIELD.equals(json.getType()))
 			{
-				VisibleActiveObject<TextFieldWidget> visObj = new VisibleActiveObject<TextFieldWidget>(json, (TextFieldWidget) widget);
+				VisibleActiveObject<EditBox> visObj = new VisibleActiveObject<EditBox>(json, (EditBox) widget);
 				this.textfields.put(json.getAttributes().getId(), visObj);
 			}
 			else
 			{
-				this.buttons.add(new VisibleActiveObject<Widget>(json, widget));
+				this.buttons.add(new VisibleActiveObject<AbstractWidget>(json, widget));
 			}
 		}
 		
@@ -124,7 +124,7 @@ public class ContentUsercontent extends Content
 	@Override
 	public void tick(Container container)
 	{
-		for(VisibleObject<TextFieldWidget> textfield : this.textfields.values())
+		for(VisibleObject<EditBox> textfield : this.textfields.values())
 		{
 			if(textfield.isVisible(this.engineAdapter))
 			{
@@ -137,9 +137,9 @@ public class ContentUsercontent extends Content
 	}
 	
 	@Override
-	public void drawScreen(MatrixStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		for(VisibleObject<TextFieldWidget> textfield : this.textfields.values())
+		for(VisibleObject<EditBox> textfield : this.textfields.values())
 		{
 			if(textfield.getObject().visible)
 			{
@@ -166,13 +166,13 @@ public class ContentUsercontent extends Content
 	}
 	
 	@Override
-	public IFormattableTextComponent getTitle()
+	public MutableComponent getTitle()
 	{
 		return TextUtils.formatNonnull(this.content.getGui().getTitle());
 	}
 	
 	@Override
-	public IFormattableTextComponent getTabTitle()
+	public MutableComponent getTabTitle()
 	{
 		return TextUtils.formatNonnull(this.content.getGui().getTab().getTitle());
 	}
@@ -256,13 +256,13 @@ public class ContentUsercontent extends Content
 	
 	private void printError(String type, int index, Throwable e)
 	{
-		ITextComponent message = new StringTextComponent(TextFormatting.RED + "<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage());
+		Component message = new TextComponent(ChatFormatting.RED + "<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage());
 		Minecraft.getInstance().gui.handleChat(ChatType.CHAT, message, Util.NIL_UUID);
 	}
 	
 	private void updateTextfields()
 	{
-		for(VisibleActiveObject<TextFieldWidget> visObj : this.textfields.values())
+		for(VisibleActiveObject<EditBox> visObj : this.textfields.values())
 		{
 			visObj.getObject().setEditable(visObj.isEnabled(this.engineAdapter));
 			visObj.getObject().setVisible(visObj.isVisible(this.engineAdapter));
@@ -271,7 +271,7 @@ public class ContentUsercontent extends Content
 	
 	private void updateButtons()
 	{
-		for(VisibleActiveObject<Widget> visObj : this.buttons)
+		for(VisibleActiveObject<AbstractWidget> visObj : this.buttons)
 		{
 			visObj.getObject().active = visObj.isEnabled(this.engineAdapter);
 			visObj.getObject().visible = visObj.isVisible(this.engineAdapter);

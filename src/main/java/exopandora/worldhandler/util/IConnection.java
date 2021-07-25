@@ -1,8 +1,8 @@
 package exopandora.worldhandler.util;
 
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.world.WorldSettings;
-import net.minecraft.world.gen.settings.DimensionGeneratorSettings;
+import net.minecraft.world.level.LevelSettings;
+import net.minecraft.world.level.levelgen.WorldGenSettings;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -12,14 +12,14 @@ public interface IConnection
 	public static class IntegratedConnection implements IConnection
 	{
 		private final String folder;
-		private final WorldSettings worldSettings;
-		private final DimensionGeneratorSettings dimensionGeneratorSettings;
+		private final LevelSettings levelSettings;
+		private final WorldGenSettings worldGenSettings;
 		
-		public IntegratedConnection(String folderName, WorldSettings worldSettings, DimensionGeneratorSettings dimensionGeneratorSettings)
+		public IntegratedConnection(String folderName, LevelSettings levelSettings, WorldGenSettings worldGenSettings)
 		{
 			this.folder = folderName;
-			this.worldSettings = worldSettings;
-			this.dimensionGeneratorSettings = dimensionGeneratorSettings;
+			this.levelSettings = levelSettings;
+			this.worldGenSettings = worldGenSettings;
 		}
 		
 		public String getFolder()
@@ -27,14 +27,14 @@ public interface IConnection
 			return this.folder;
 		}
 		
-		public WorldSettings getWorldSettings()
+		public LevelSettings getWorldSettings()
 		{
-			return this.worldSettings;
+			return this.levelSettings;
 		}
 		
-		public DimensionGeneratorSettings getDimensionGeneratorSettings()
+		public WorldGenSettings getWorldGenSettings()
 		{
-			return this.dimensionGeneratorSettings;
+			return this.worldGenSettings;
 		}
 	}
 	
