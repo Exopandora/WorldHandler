@@ -12,7 +12,7 @@ public class DummyScreen extends Screen
 	
 	public DummyScreen(Runnable runnable)
 	{
-		super(new StringTextComponent(""));
+		super(StringTextComponent.EMPTY);
 		this.runnable = runnable;
 	}
 	
