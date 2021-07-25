@@ -85,7 +85,9 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 	
 	public int getPoints()
 	{
-		if(!EnumMode.ENABLE.equals(this.getMode()))
+		EnumMode mode = this.getMode();
+		
+		if(mode != null && !EnumMode.ENABLE.equals(mode))
 		{
 			return this.getNodeAsInt(4);
 		}
