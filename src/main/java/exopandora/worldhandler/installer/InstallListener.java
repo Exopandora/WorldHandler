@@ -34,7 +34,7 @@ public class InstallListener implements ActionListener
 			File mods = new File(directory, "mods");
 			File versions = new File(directory, "versions");
 			
-			if(!this.isPartialFileNameInFolder(versions, Main.MC_VERSION, "Forge"))
+			if(!this.isPartialFileNameInFolder(versions, Main.MC_VERSION, "forge"))
 			{
 				JOptionPane.showMessageDialog(null, "Please install Mineceaft Forge", null, JOptionPane.ERROR_MESSAGE);
 			}
@@ -42,7 +42,7 @@ public class InstallListener implements ActionListener
 			{
 				for(File file : mods.listFiles())
 				{
-					if(this.containsIgnoreCase(file.getName(), "World") && this.containsIgnoreCase(file.getName(), "Handler"))
+					if(this.containsIgnoreCase(file.getName(), "world") && this.containsIgnoreCase(file.getName(), "handler"))
 					{
 						file.delete();
 					}
@@ -77,27 +77,28 @@ public class InstallListener implements ActionListener
 	{
 		if(path.exists() && path.isDirectory())
 		{
-			for(File file : path.listFiles())
+			for(File folder : path.listFiles())
 			{
-				int matches = 0;
-				
-				for(String part : parts)
+				if(folder.isDirectory() && this.containsAll(folder.getName(), parts))
 				{
-					if(this.containsIgnoreCase(file.getName(), part))
-					{
-						if(matches < parts.length)
-						{
-							matches++;
-						}
-						else
-						{
-							return true;
-						}
-					}
+					return true;
 				}
 			}
 		}
 		
 		return false;
+	}
+	
+	private boolean containsAll(String string, String... parts)
+	{
+		for(String part : parts)
+		{
+			if(!this.containsIgnoreCase(string, part))
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }
