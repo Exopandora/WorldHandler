@@ -14,7 +14,6 @@ import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.impl.ContentChild;
-import exopandora.worldhandler.gui.content.impl.ContentContinue;
 import net.minecraft.block.AbstractSignBlock;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.client.Minecraft;
@@ -56,7 +55,7 @@ public class ActionHelper
 	
 	public static void open(Content content) throws Exception
 	{
-		if(content != null && !(content instanceof ContentContinue))
+		if(content != null)
 		{
 			if(content instanceof ContentChild && Minecraft.getInstance().screen != null && Minecraft.getInstance().screen instanceof GuiWorldHandler)
 			{
