@@ -48,77 +48,67 @@ public abstract class ComponentPotion implements IBuilderComponent
 	
 	public void setAmplifier(MobEffect potion, byte amplifier)
 	{
-		this.getMetadata(potion).setAmplifier(amplifier);
+		this.get(potion).setAmplifier(amplifier);
 	}
 	
 	public byte getAmplifier(MobEffect potion)
 	{
-		return this.getMetadata(potion).getAmplifier();
+		return this.get(potion).getAmplifier();
 	}
 	
 	public void setSeconds(MobEffect potion, int seconds)
 	{
-		this.getMetadata(potion).setSeconds(seconds);
+		this.get(potion).setSeconds(seconds);
 	}
 	
 	public int getSeconds(MobEffect potion)
 	{
-		return this.getMetadata(potion).getSeconds();
+		return this.get(potion).getSeconds();
 	}
 	
 	public void setMinutes(MobEffect potion, int minutes)
 	{
-		this.getMetadata(potion).setMinutes(minutes);
+		this.get(potion).setMinutes(minutes);
 	}
 	
 	public int getMinutes(MobEffect potion)
 	{
-		return this.getMetadata(potion).getMinutes();
+		return this.get(potion).getMinutes();
 	}
 	
 	public void setHours(MobEffect potion, int hours)
 	{
-		this.getMetadata(potion).setHours(hours);
+		this.get(potion).setHours(hours);
 	}
 	
 	public int getHours(MobEffect potion)
 	{
-		return this.getMetadata(potion).getHours();
+		return this.get(potion).getHours();
 	}
 	
 	public void setShowParticles(MobEffect potion, boolean showParticles)
 	{
-		this.getMetadata(potion).setShowParticles(showParticles);
+		this.get(potion).setShowParticles(showParticles);
 	}
 	
 	public boolean getShowParticles(MobEffect potion)
 	{
-		return this.getMetadata(potion).getShowParticles();
+		return this.get(potion).getShowParticles();
 	}
 	
 	public void setAmbient(MobEffect potion, boolean ambient)
 	{
-		this.getMetadata(potion).setAmbient(ambient);
+		this.get(potion).setAmbient(ambient);
 	}
 	
 	public boolean getAmbient(MobEffect potion)
 	{
-		return this.getMetadata(potion).getAmbient();
+		return this.get(potion).getAmbient();
 	}
 	
-	private EffectNBT getMetadata(MobEffect potion)
+	private EffectNBT get(MobEffect potion)
 	{
-		return this.potions.get(this.validate(potion));
-	}
-	
-	private MobEffect validate(MobEffect potion)
-	{
-		if(!this.potions.containsKey(potion))
-		{
-			this.potions.put(potion, new EffectNBT());
-		}
-		
-		return potion;
+		return this.potions.computeIfAbsent(potion, key -> new EffectNBT());
 	}
 	
 	public Set<MobEffect> getMobEffects()

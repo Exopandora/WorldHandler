@@ -33,7 +33,7 @@ public class RegistryHelper
 	{
 		registerRegistry(ForgeRegistries.BLOCKS, Block::getDescriptionId);
 		registerRegistry(ForgeRegistries.ITEMS, Item::getDescriptionId);
-		registerRegistry(ForgeRegistries.POTIONS, MobEffect::getDescriptionId);
+		registerRegistry(ForgeRegistries.MOB_EFFECTS, MobEffect::getDescriptionId);
 		registerRegistry(ForgeRegistries.BIOMES, biome ->
 		{
 			Registry<Biome> registry = RegistryAccess.builtin().registryOrThrow(Registry.BIOME_REGISTRY);

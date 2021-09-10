@@ -316,7 +316,7 @@ public class ContentSummon extends Content
 			
 			for(ResourceLocation location : this.sortedPotions())
 			{
-				MobEffect potion = ForgeRegistries.POTIONS.getValue(location);
+				MobEffect potion = ForgeRegistries.MOB_EFFECTS.getValue(location);
 				
 				if(!potion.equals(MobEffects.HARM) && !potion.equals(MobEffects.HEAL))
 				{
@@ -325,7 +325,7 @@ public class ContentSummon extends Content
 						button1.active = false;
 					}
 					
-					if(this.potionPage == ForgeRegistries.POTIONS.getKeys().size() - 3)
+					if(this.potionPage == ForgeRegistries.MOB_EFFECTS.getKeys().size() - 3)
 					{
 						button2.active = false;
 					}
@@ -431,7 +431,7 @@ public class ContentSummon extends Content
 		}
 		else if(Page.POTIONS.equals(this.page))
 		{
-			Minecraft.getInstance().font.draw(matrix, (this.potionPage + 1) + "/" + (ForgeRegistries.POTIONS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
+			Minecraft.getInstance().font.draw(matrix, (this.potionPage + 1) + "/" + (ForgeRegistries.MOB_EFFECTS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
@@ -459,8 +459,8 @@ public class ContentSummon extends Content
 	
 	private List<ResourceLocation> sortedPotions()
 	{
-		return ForgeRegistries.POTIONS.getKeys().stream()
-				.sorted((a, b) -> I18n.get(ForgeRegistries.POTIONS.getValue(a).getDescriptionId()).compareTo(I18n.get(ForgeRegistries.POTIONS.getValue(b).getDescriptionId())))
+		return ForgeRegistries.MOB_EFFECTS.getKeys().stream()
+				.sorted((a, b) -> I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(a).getDescriptionId()).compareTo(I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(b).getDescriptionId())))
 				.collect(Collectors.toList());
 	}
 	

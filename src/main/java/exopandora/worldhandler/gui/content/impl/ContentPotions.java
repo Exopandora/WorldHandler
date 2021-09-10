@@ -63,7 +63,7 @@ public class ContentPotions extends ContentChild
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		MenuPageList<MobEffect> potions = new MenuPageList<MobEffect>(x, y, new ArrayList<MobEffect>(ForgeRegistries.POTIONS.getValues()), 114, 20, 3, container, new ILogicPageList<MobEffect>()
+		MenuPageList<MobEffect> potions = new MenuPageList<MobEffect>(x, y, new ArrayList<MobEffect>(ForgeRegistries.MOB_EFFECTS.getValues()), 114, 20, 3, container, new ILogicPageList<MobEffect>()
 		{
 			@Override
 			public MutableComponent translate(MobEffect item)

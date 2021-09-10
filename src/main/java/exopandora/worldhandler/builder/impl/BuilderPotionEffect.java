@@ -75,7 +75,7 @@ public class BuilderPotionEffect extends CommandBuilder
 		
 		if(location != null)
 		{
-			return ForgeRegistries.POTIONS.getValue(location);
+			return ForgeRegistries.MOB_EFFECTS.getValue(location);
 		}
 		
 		return null;
