@@ -7,13 +7,10 @@ import java.util.stream.Collectors;
 import com.google.common.base.Predicates;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class ConfigCategoryButcher
 {
 	private final ConfigValue<List<? extends String>> entities;

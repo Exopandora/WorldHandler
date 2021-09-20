@@ -8,10 +8,7 @@ import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.util.EnumHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderRecipe extends CommandBuilder
 {
 	public BuilderRecipe()
@@ -87,7 +84,6 @@ public class BuilderRecipe extends CommandBuilder
 		return syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		GIVE,

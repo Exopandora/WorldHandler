@@ -17,13 +17,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-@OnlyIn(Dist.CLIENT)
 public class ClientEventHandler
 {
 	@SubscribeEvent

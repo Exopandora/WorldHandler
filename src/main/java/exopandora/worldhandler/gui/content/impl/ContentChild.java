@@ -4,10 +4,7 @@ import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class ContentChild extends Content
 {
 	private Content parent;

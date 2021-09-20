@@ -12,11 +12,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class ComponentEnchantment implements IBuilderComponent
 {
 	private Map<Enchantment, Short> enchantments = new HashMap<Enchantment, Short>();

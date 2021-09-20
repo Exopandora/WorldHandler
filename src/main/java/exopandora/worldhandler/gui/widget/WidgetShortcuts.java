@@ -10,10 +10,7 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class WidgetShortcuts implements IContainerWidget
 {
 	@Override
@@ -41,7 +38,6 @@ public class WidgetShortcuts implements IContainerWidget
 		return EnumLayer.FOREGROUND;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumShortcuts
 	{
 		TIME_DAWN(EnumIcon.TIME_DAWN, ActionHelper::timeDawn, () ->

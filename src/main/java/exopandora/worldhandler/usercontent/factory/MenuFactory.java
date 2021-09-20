@@ -17,10 +17,7 @@ import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class MenuFactory extends AbstractWidgetFactory
 {
 	public MenuFactory(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory)
@@ -49,7 +46,6 @@ public class MenuFactory extends AbstractWidgetFactory
 		return null;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static class UsercontentLogicPageList<T extends Enum<T>> extends UsercontentLogicMapped<T> implements ILogicPageList<JsonItem>
 	{
 		private final Container container;

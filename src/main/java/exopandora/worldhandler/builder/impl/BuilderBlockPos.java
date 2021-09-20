@@ -3,10 +3,7 @@ package exopandora.worldhandler.builder.impl;
 import exopandora.worldhandler.builder.CommandBuilderNBT;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class BuilderBlockPos extends CommandBuilderNBT
 {
 	private final int offset;

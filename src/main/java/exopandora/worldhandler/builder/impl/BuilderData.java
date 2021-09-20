@@ -11,10 +11,7 @@ import exopandora.worldhandler.util.EnumHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderData extends BuilderBlockPos
 {
 	private final TargetSelector targetSelector = new TargetSelector();
@@ -299,7 +296,6 @@ public class BuilderData extends BuilderBlockPos
 		return syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		GET,
@@ -313,7 +309,6 @@ public class BuilderData extends BuilderBlockPos
 		}
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumTarget
 	{
 		BLOCK,

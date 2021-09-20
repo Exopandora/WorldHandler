@@ -2,10 +2,6 @@ package exopandora.worldhandler.builder.types;
 
 import java.util.function.Function;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-@OnlyIn(Dist.CLIENT)
 public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 {
 	protected T value;
@@ -69,7 +65,6 @@ public abstract class Coordinate<T extends Number> implements ICoordinate<T>
 		return coordiante;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumType
 	{
 		/**

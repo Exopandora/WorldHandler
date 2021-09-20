@@ -3,10 +3,7 @@ package exopandora.worldhandler.builder.impl;
 import java.util.Arrays;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderMultiCommand implements ICommandBuilder
 {
 	private final ICommandBuilder[] builders;

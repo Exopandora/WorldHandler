@@ -32,10 +32,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentNoteEditor extends Content
 {
 	private static final ResourceLocation NOTE = new ResourceLocation(Main.MODID, "textures/misc/note.png");

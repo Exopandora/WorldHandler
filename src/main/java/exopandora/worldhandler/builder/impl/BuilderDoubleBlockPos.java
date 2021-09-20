@@ -6,10 +6,7 @@ import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.util.BlockHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class BuilderDoubleBlockPos extends CommandBuilder
 {
 	public BuilderDoubleBlockPos()

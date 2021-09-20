@@ -26,11 +26,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class BuilderEntity extends CommandBuilderNBT
 {
 	private final EntityNBT nbt = new EntityNBT();

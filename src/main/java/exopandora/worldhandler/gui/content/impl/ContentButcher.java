@@ -27,11 +27,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentButcher extends Content
 {
 	private GuiTextFieldTooltip radiusField;

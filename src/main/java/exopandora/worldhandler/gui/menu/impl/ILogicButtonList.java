@@ -4,10 +4,7 @@ import java.util.List;
 
 import exopandora.worldhandler.util.ILogic;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public interface ILogicButtonList extends ILogic
 {
 	MutableComponent translate(String key, int depth);

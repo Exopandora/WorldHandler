@@ -10,8 +10,6 @@ import exopandora.worldhandler.command.CommandWorldHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class CommandHelper
 {
@@ -36,13 +34,11 @@ public class CommandHelper
 		CommandWH.register(dispatcher);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static void sendCommand(String player, ICommandBuilder builder)
 	{
 		CommandHelper.sendCommand(player, builder, false);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static void sendCommand(String player, ICommandBuilder builder, boolean special)
 	{
 		if(builder != null)

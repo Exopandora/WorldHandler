@@ -7,10 +7,7 @@ import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.widget.IWidget;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public interface IContent extends IWidget
 {
 	Category getCategory();

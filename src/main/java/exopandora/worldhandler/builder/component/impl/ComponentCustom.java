@@ -2,10 +2,7 @@ package exopandora.worldhandler.builder.component.impl;
 
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import net.minecraft.nbt.Tag;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ComponentCustom implements IBuilderComponent
 {
 	private Tag nbt;

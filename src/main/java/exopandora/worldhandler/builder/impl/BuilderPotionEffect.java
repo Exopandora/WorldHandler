@@ -8,11 +8,8 @@ import exopandora.worldhandler.builder.component.impl.EffectNBT;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderPotionEffect extends CommandBuilder
 {
 	private int seconds;
@@ -186,7 +183,6 @@ public class BuilderPotionEffect extends CommandBuilder
 		return syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		GIVE,

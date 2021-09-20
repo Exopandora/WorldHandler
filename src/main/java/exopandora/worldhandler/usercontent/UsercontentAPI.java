@@ -11,10 +11,7 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class UsercontentAPI
 {
 	private final Map<String, String> values = new HashMap<String, String>();

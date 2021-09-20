@@ -28,10 +28,7 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentAdvancements extends Content
 {
 	private final BuilderAdvancement builderAdvancement = new BuilderAdvancement(EnumMode.values()[0]);

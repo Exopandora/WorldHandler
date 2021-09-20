@@ -5,10 +5,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class Attributes
 {
 	@SerializedName("id")

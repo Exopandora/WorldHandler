@@ -8,13 +8,10 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fmlclient.registry.ClientRegistry;
 
-@OnlyIn(Dist.CLIENT)
 public class KeyHandler
 {
 	public static final KeyMapping KEY_WORLD_HANDLER = new KeyMapping("key.worldhandler", GLFW.GLFW_KEY_V, "key.categories.worldhandler");

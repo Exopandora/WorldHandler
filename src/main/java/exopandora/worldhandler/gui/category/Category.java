@@ -15,8 +15,6 @@ import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.usercontent.model.JsonTab;
 import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,7 +22,6 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
-@OnlyIn(Dist.CLIENT)
 public class Category extends ForgeRegistryEntry<Category>
 {
 	public static IForgeRegistry<Category> REGISTRY;

@@ -14,10 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class MenuPageList<T> extends Menu
 {
 	private final List<T> items;
@@ -149,7 +146,6 @@ public class MenuPageList<T> extends Menu
 		return Math.max((int) Math.ceil((float) this.items.size() / this.length), 1);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static class Persistence
 	{
 		private int page;

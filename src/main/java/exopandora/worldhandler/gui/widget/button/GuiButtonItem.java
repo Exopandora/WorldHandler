@@ -6,10 +6,7 @@ import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiButtonItem extends GuiButtonBase
 {
 	private final ItemStack stack;

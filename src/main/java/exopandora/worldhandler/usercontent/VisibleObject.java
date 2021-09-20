@@ -1,10 +1,7 @@
 package exopandora.worldhandler.usercontent;
 
 import exopandora.worldhandler.usercontent.model.BooleanExpression;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class VisibleObject<T>
 {
 	private final BooleanExpression visible;

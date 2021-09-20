@@ -9,10 +9,7 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class WidgetNameField implements IContainerWidget
 {
 	private final GuiTextFieldTooltip nameField = Util.make(new GuiTextFieldTooltip(0, 0, 0, 11), textfield -> textfield.setMaxLength(16));

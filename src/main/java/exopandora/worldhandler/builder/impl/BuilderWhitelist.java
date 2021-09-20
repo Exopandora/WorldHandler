@@ -5,10 +5,7 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderWhitelist extends CommandBuilder
 {
 	public BuilderWhitelist()
@@ -77,7 +74,6 @@ public class BuilderWhitelist extends CommandBuilder
 		return syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		ADD,

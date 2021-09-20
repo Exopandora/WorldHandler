@@ -7,10 +7,7 @@ import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.util.EnumHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderAdvancement extends CommandBuilder
 {
 	public BuilderAdvancement(EnumMode mode)
@@ -99,7 +96,6 @@ public class BuilderAdvancement extends CommandBuilder
 		return syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumActionType
 	{
 		GRANT,
@@ -112,7 +108,6 @@ public class BuilderAdvancement extends CommandBuilder
 		}
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		ONLY,

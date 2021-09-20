@@ -19,10 +19,7 @@ import exopandora.worldhandler.builder.types.ItemResourceLocation;
 import exopandora.worldhandler.builder.types.TargetSelector;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class CommandBuilder implements ICommandBuilderSyntax
 {
 	private List<Entry<Argument, String>> command;

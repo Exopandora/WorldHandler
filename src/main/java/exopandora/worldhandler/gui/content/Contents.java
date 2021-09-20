@@ -5,10 +5,7 @@ import exopandora.worldhandler.gui.content.impl.ContentButcherPresets;
 import exopandora.worldhandler.gui.content.impl.ContentChild;
 import exopandora.worldhandler.gui.content.impl.ContentContinue;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class Contents
 {
 	public static final Content MAIN = Contents.getRegisteredContent("main");

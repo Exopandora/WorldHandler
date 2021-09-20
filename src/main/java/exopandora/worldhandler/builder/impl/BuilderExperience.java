@@ -6,10 +6,7 @@ import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.util.EnumHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderExperience extends CommandBuilder
 {
 	public BuilderExperience()
@@ -103,7 +100,6 @@ public class BuilderExperience extends CommandBuilder
 		return new BuilderExperience(EnumMode.SET, 0, this.getPlayer(), EnumUnit.LEVELS);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		ADD,
@@ -117,7 +113,6 @@ public class BuilderExperience extends CommandBuilder
 		}
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumUnit
 	{
 		LEVELS,

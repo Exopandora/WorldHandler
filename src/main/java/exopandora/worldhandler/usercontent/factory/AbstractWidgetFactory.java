@@ -12,10 +12,7 @@ import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class AbstractWidgetFactory
 {
 	private final ActionHandlerFactory actionHandlerFactory;
@@ -37,7 +34,6 @@ public abstract class AbstractWidgetFactory
 		return this.api;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static class UsercontentLogicMapped<T extends Enum<T>> implements ILogicMapped<JsonItem>
 	{
 		private final ActionHandlerFactory actionHandlerFactory;

@@ -32,10 +32,7 @@ import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
 import exopandora.worldhandler.usercontent.model.JsonWidget;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class UsercontentLoader
 {
 	public static final List<UsercontentConfig> CONFIGS = new ArrayList<UsercontentConfig>();
@@ -164,7 +161,6 @@ public class UsercontentLoader
 		return valid;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static class EnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T>
 	{
 		private final Class<T> klass;

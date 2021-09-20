@@ -4,10 +4,6 @@ import java.util.Arrays;
 
 import com.google.gson.annotations.SerializedName;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-@OnlyIn(Dist.CLIENT)
 public abstract class AbstractJsonWidget<T extends Enum<T>>
 {
 	@SerializedName("action")
@@ -73,7 +69,6 @@ public abstract class AbstractJsonWidget<T extends Enum<T>>
 		}
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Type
 	{
 		BUTTON,

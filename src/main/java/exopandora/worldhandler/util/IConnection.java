@@ -3,12 +3,9 @@ package exopandora.worldhandler.util;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.world.level.LevelSettings;
 import net.minecraft.world.level.levelgen.WorldGenSettings;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public interface IConnection
 {
-	@OnlyIn(Dist.CLIENT)
 	public static class IntegratedConnection implements IConnection
 	{
 		private final String folder;
@@ -38,7 +35,6 @@ public interface IConnection
 		}
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static class DedicatedConnection implements IConnection
 	{
 		private final ServerData data;

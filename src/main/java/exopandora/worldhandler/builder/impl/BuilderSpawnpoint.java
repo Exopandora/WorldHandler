@@ -2,13 +2,10 @@ package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
+import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.builder.types.Coordinate.EnumType;
 import exopandora.worldhandler.builder.types.CoordinateInt;
-import exopandora.worldhandler.builder.types.ArgumentType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderSpawnpoint extends CommandBuilder
 {
 	public BuilderSpawnpoint()

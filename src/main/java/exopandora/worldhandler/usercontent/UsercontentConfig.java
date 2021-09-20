@@ -5,10 +5,7 @@ import java.nio.file.Path;
 import javax.script.ScriptEngine;
 
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class UsercontentConfig
 {
 	private final String id;
@@ -44,7 +41,6 @@ public class UsercontentConfig
 		return this.engine;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static class Builder
 	{
 		private final String id;

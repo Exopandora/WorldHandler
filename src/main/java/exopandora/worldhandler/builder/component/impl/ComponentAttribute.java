@@ -9,11 +9,8 @@ import java.util.stream.Collectors;
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class ComponentAttribute implements IBuilderComponent
 {	
 	public static final List<Attribute> ATTRIBUTES = ForgeRegistries.ATTRIBUTES.getValues().stream().filter(attribute -> !attribute.getDescriptionId().equals(I18n.get(attribute.getDescriptionId()))).collect(Collectors.toList());

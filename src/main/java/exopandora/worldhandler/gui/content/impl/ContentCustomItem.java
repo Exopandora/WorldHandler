@@ -32,11 +32,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentCustomItem extends Content
 {
 	private GuiTextFieldTooltip itemField;
@@ -345,7 +342,6 @@ public class ContentCustomItem extends Content
 		this.builderCutomItem.setPlayer(username);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Page
 	{
 		START,

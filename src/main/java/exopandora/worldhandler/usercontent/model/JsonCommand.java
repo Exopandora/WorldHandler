@@ -5,10 +5,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 import exopandora.worldhandler.builder.CommandSyntax.Argument;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class JsonCommand
 {
 	@SerializedName("name")

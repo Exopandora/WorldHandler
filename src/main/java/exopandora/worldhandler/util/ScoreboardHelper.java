@@ -14,11 +14,8 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.scores.Team.CollisionRule;
 import net.minecraft.world.scores.Team.Visibility;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class ScoreboardHelper
 {
 	private final Node objectives = new Node();

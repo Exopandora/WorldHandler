@@ -3,10 +3,7 @@ package exopandora.worldhandler.usercontent.model;
 import com.google.gson.annotations.SerializedName;
 
 import exopandora.worldhandler.usercontent.ScriptEngineAdapter;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BooleanExpression
 {
 	@SerializedName("type")
@@ -74,7 +71,6 @@ public class BooleanExpression
 		return true;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Type
 	{
 		BOOL,

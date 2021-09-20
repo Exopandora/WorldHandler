@@ -6,10 +6,7 @@ import exopandora.worldhandler.builder.component.impl.ComponentPotionItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderPotionItem extends BuilderGive
 {
 	private final ComponentPotionItem potion;

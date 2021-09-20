@@ -17,10 +17,7 @@ import exopandora.worldhandler.usercontent.model.Action;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ActionHandlerFactory
 {
 	private final UsercontentAPI api;

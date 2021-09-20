@@ -1,10 +1,7 @@
 package exopandora.worldhandler.builder;
 
 import net.minecraft.ChatFormatting;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class CommandString
 {
 	private final StringBuilder command = new StringBuilder("/");

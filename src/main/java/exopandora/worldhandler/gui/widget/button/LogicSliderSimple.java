@@ -5,10 +5,7 @@ import java.util.function.Consumer;
 import exopandora.worldhandler.gui.widget.button.GuiSlider.ILogicSlider;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class LogicSliderSimple implements ILogicSlider
 {
 	private final String id;

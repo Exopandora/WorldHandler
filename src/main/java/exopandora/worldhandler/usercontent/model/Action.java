@@ -2,10 +2,6 @@ package exopandora.worldhandler.usercontent.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-@OnlyIn(Dist.CLIENT)
 public class Action
 {
 	@SerializedName("type")
@@ -85,7 +81,6 @@ public class Action
 		}
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Type
 	{
 		OPEN,

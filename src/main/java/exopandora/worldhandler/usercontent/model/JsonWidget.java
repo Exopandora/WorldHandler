@@ -3,10 +3,7 @@ package exopandora.worldhandler.usercontent.model;
 import com.google.gson.annotations.SerializedName;
 
 import exopandora.worldhandler.usercontent.model.JsonWidget.Type;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class JsonWidget extends AbstractJsonWidget<Type>
 {
 	@SerializedName("text")
@@ -121,7 +118,6 @@ public class JsonWidget extends AbstractJsonWidget<Type>
 		}
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Type
 	{
 		BUTTON,

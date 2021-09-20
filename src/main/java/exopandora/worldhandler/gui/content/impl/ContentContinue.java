@@ -11,10 +11,7 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentContinue extends ContentChild
 {
 	private ICommandBuilder builder;

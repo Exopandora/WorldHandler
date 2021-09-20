@@ -7,10 +7,7 @@ import exopandora.worldhandler.builder.impl.BuilderWorldHandler;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class WidgetCommandSyntax implements IContainerWidget
 {
 	private static final BuilderWorldHandler BUILDER_WORLD_HANDLER = new BuilderWorldHandler();

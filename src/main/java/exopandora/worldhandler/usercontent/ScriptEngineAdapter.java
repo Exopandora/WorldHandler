@@ -6,10 +6,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import exopandora.worldhandler.WorldHandler;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ScriptEngineAdapter
 {
 	private final ScriptEngine engine;

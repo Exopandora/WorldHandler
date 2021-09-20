@@ -13,10 +13,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiButtonBase extends Button
 {
 	public GuiButtonBase(int x, int y, int widthIn, int heightIn, String translationKey, ActionHandler actionHandler)

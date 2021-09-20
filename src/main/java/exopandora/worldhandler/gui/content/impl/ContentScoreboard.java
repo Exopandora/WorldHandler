@@ -6,10 +6,7 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.util.ScoreboardHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class ContentScoreboard extends Content
 {
 	protected static final ScoreboardHelper HELPER = new ScoreboardHelper();

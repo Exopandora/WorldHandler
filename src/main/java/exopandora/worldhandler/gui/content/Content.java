@@ -36,8 +36,6 @@ import exopandora.worldhandler.usercontent.UsercontentConfig;
 import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -45,7 +43,6 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class Content extends ForgeRegistryEntry<Content> implements IContent
 {
 	public static IForgeRegistry<Content> REGISTRY;

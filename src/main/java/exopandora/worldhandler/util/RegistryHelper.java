@@ -17,14 +17,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-@OnlyIn(Dist.CLIENT)
 public class RegistryHelper
 {
 	private static final Map<IForgeRegistry<?>, Function<? extends ForgeRegistryEntry<?>, String>> FORGE = new HashMap<IForgeRegistry<?>, Function<? extends ForgeRegistryEntry<?>, String>>();

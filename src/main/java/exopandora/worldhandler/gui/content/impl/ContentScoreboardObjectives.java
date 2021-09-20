@@ -29,12 +29,9 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentScoreboardObjectives extends ContentScoreboard
 {
 	private GuiTextFieldTooltip objectField;
@@ -295,7 +292,6 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		return Contents.SCOREBOARD_OBJECTIVES;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Page
 	{
 		CREATE(0),

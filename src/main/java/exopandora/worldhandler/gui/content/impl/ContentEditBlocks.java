@@ -29,11 +29,8 @@ import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentEditBlocks extends Content
 {
 	private GuiTextFieldTooltip x1Field;
@@ -436,7 +433,6 @@ public class ContentEditBlocks extends Content
 		return Contents.EDIT_BLOCKS;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Page
 	{
 		COORDINATES,

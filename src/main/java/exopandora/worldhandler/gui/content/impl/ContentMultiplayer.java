@@ -27,10 +27,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentMultiplayer extends Content
 {
 	private GuiTextFieldTooltip playerField;
@@ -333,7 +330,6 @@ public class ContentMultiplayer extends Content
 		return null;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Page
 	{
 		KICK_AND_BAN(0),

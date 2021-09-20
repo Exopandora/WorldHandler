@@ -2,10 +2,7 @@ package exopandora.worldhandler.builder.component.impl;
 
 import exopandora.worldhandler.builder.INBTWritable;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class EffectNBT implements INBTWritable
 {
 	private byte amplifier;

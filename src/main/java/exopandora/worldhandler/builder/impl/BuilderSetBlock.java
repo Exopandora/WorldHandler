@@ -8,10 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderSetBlock extends BuilderBlockPos
 {
 	private final BlockResourceLocation blockResourceLocation = new BlockResourceLocation();
@@ -93,7 +90,6 @@ public class BuilderSetBlock extends BuilderBlockPos
 		return syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		KEEP,

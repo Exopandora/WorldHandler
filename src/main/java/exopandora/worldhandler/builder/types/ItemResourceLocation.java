@@ -7,10 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ItemResourceLocation
 {
 	protected ResourceLocation resource;

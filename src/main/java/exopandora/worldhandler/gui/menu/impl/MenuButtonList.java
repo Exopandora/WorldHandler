@@ -17,10 +17,7 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonList.Persistence;
 import exopandora.worldhandler.util.Node;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class MenuButtonList extends Menu
 {
 	private final List<Node> items;

@@ -6,10 +6,7 @@ import com.mojang.math.Vector3f;
 
 import exopandora.worldhandler.config.Config;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class RenderUtils
 {
 	public static void drawWatchIntoGui(PoseStack matrix, GuiComponent gui, int width, int height, long worldTicks, boolean smooth)

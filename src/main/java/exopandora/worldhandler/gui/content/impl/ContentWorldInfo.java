@@ -19,10 +19,7 @@ import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentWorldInfo extends Content
 {
 	private Page page = Page.START;
@@ -209,7 +206,6 @@ public class ContentWorldInfo extends Content
 		return Contents.WORLD_INFO;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Page
 	{
 		START,

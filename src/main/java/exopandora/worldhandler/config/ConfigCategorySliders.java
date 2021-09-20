@@ -1,11 +1,8 @@
 package exopandora.worldhandler.config;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 
-@OnlyIn(Dist.CLIENT)
 public class ConfigCategorySliders
 {
 	private final DoubleValue maxPotionAmplifier;

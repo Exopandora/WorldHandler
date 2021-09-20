@@ -21,11 +21,8 @@ import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class WidgetFactory extends AbstractWidgetFactory
 {
 	public WidgetFactory(UsercontentAPI api, ActionHandlerFactory actionHandlerFactory)

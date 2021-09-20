@@ -4,10 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.gui.container.Container;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public interface IWidget extends GuiEventListener
 {
 	default void init(Container container)

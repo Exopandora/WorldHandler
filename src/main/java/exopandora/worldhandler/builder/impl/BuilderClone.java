@@ -9,10 +9,7 @@ import exopandora.worldhandler.builder.types.Coordinate.EnumType;
 import exopandora.worldhandler.builder.types.CoordinateInt;
 import exopandora.worldhandler.util.EnumHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderClone extends BuilderDoubleBlockPos
 {
 	public BuilderClone()
@@ -156,7 +153,6 @@ public class BuilderClone extends BuilderDoubleBlockPos
 		return syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMask
 	{
 		FILTERED,

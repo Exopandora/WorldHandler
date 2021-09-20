@@ -22,10 +22,7 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentScoreboardPlayers extends ContentScoreboard
 {
 	private GuiTextFieldTooltip objectField;
@@ -279,7 +276,6 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		this.builderTag.setPlayer(username);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Page
 	{
 		ADD_SET_REMOVE("add|set|remove"),

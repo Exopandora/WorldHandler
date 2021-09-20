@@ -18,10 +18,7 @@ import net.minecraft.server.packs.resources.SimpleReloadableResourceManager;
 import net.minecraft.util.Unit;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.storage.loot.PredicateManager;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class AdvancementHelper implements PreparableReloadListener
 {
 	private static final AdvancementHelper INSTANCE = new AdvancementHelper();

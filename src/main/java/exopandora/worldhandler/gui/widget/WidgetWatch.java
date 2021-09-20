@@ -8,10 +8,7 @@ import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class WidgetWatch implements IContainerWidget
 {
 	@Override

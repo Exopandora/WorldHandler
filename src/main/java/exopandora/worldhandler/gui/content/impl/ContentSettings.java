@@ -20,10 +20,7 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentSettings extends ContentChild
 {
 	private static final List<Setting<?>> SETTINGS = new ArrayList<Setting<?>>();
@@ -217,7 +214,6 @@ public class ContentSettings extends ContentChild
 			this.setter.accept(value);
 		}
 		
-		@OnlyIn(Dist.CLIENT)
 		public static class BooleanSetting extends Setting<Boolean>
 		{
 			public BooleanSetting(String key, Supplier<Boolean> getter, Consumer<Boolean> setter)
@@ -226,7 +222,6 @@ public class ContentSettings extends ContentChild
 			}
 		}
 		
-		@OnlyIn(Dist.CLIENT)
 		public static class IntegerSetting extends Setting<Integer>
 		{
 			public IntegerSetting(String key, Supplier<Integer> getter, Consumer<Integer> setter)

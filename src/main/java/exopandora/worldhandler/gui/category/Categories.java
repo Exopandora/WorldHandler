@@ -2,10 +2,7 @@ package exopandora.worldhandler.gui.category;
 
 import exopandora.worldhandler.Main;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class Categories
 {
 	public static final Category MAIN = Categories.getRegisteredCategory("main");

@@ -8,10 +8,7 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.builder.component.IBuilderComponent;
 import exopandora.worldhandler.util.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class CommandBuilderNBT extends CommandBuilder implements ICommandBuilderNBT
 {
 	private final List<IBuilderComponent> TAG_TO_COMPONENT = new ArrayList<IBuilderComponent>();

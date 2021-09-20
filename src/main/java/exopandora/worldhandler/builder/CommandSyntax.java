@@ -6,10 +6,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 import exopandora.worldhandler.builder.types.ArgumentType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class CommandSyntax
 {
 	private List<Argument> syntax = new ArrayList<Argument>();
@@ -53,7 +50,6 @@ public class CommandSyntax
 		return this.syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static class Argument
 	{
 		@SerializedName("name")

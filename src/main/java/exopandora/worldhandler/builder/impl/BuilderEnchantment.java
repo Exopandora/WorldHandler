@@ -7,10 +7,7 @@ import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderEnchantment extends CommandBuilder
 {
 	@Nullable

@@ -7,10 +7,7 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiButtonIcon extends GuiButtonTooltip
 {
 	private final EnumIcon icon;

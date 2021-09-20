@@ -7,11 +7,8 @@ import exopandora.worldhandler.builder.types.BlockResourceLocation;
 import exopandora.worldhandler.builder.types.ItemResourceLocation;
 import exopandora.worldhandler.config.Config;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@OnlyIn(Dist.CLIENT)
 public class ResourceHelper
 {
 	private static final ResourceLocation BACKGROUND = new ResourceLocation("textures/gui/demo_background.png");

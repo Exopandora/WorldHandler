@@ -9,11 +9,8 @@ import exopandora.worldhandler.builder.types.ItemResourceLocation;
 import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderGive extends CommandBuilderNBT
 {
 	private final ItemResourceLocation itemResourceLocation = new ItemResourceLocation();

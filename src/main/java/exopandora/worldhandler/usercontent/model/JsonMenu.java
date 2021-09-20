@@ -3,10 +3,7 @@ package exopandora.worldhandler.usercontent.model;
 import com.google.gson.annotations.SerializedName;
 
 import exopandora.worldhandler.usercontent.model.JsonMenu.Type;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class JsonMenu extends AbstractJsonWidget<Type>
 {
 	@SerializedName("type")
@@ -28,7 +25,6 @@ public class JsonMenu extends AbstractJsonWidget<Type>
 		this.type = type;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Type
 	{
 		PAGE_LIST;

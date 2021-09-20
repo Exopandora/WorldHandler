@@ -5,10 +5,7 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.util.EnumHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderScoreboardPlayers extends BuilderScoreboard
 {
 	public BuilderScoreboardPlayers()
@@ -156,7 +153,6 @@ public class BuilderScoreboardPlayers extends BuilderScoreboard
 		return syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		ADD,

@@ -14,10 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiSlider extends GuiButtonBase
 {
 	private final Persistence persistence;
@@ -98,7 +95,6 @@ public class GuiSlider extends GuiButtonBase
 		this.setMessage(text);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static interface ILogicSlider extends ILogic
 	{
 		MutableComponent formatPrefix(int value);
@@ -108,7 +104,6 @@ public class GuiSlider extends GuiButtonBase
 		void onChangeSliderValue(int value);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public class Persistence
 	{
 		private double min;

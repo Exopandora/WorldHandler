@@ -7,10 +7,7 @@ import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.builder.types.TargetSelector;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderButcher extends CommandBuilder
 {
 	private final TargetSelector targetSelector = new TargetSelector();

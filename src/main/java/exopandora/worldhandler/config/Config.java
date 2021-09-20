@@ -8,8 +8,6 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import exopandora.worldhandler.event.KeyHandler;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -27,7 +25,6 @@ public class Config
 		CLIENT = pair.getLeft();
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static class ClientConfig
 	{
 		private final ConfigCategorySettings settings;

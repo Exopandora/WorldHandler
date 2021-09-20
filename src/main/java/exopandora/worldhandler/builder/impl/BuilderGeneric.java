@@ -2,10 +2,7 @@ package exopandora.worldhandler.builder.impl;
 
 import exopandora.worldhandler.builder.CommandString;
 import exopandora.worldhandler.builder.ICommandBuilder;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderGeneric implements ICommandBuilder
 {
 	private final String command;

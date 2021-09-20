@@ -12,10 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class ComponentPotion implements IBuilderComponent 
 {
 	protected final Map<MobEffect, EffectNBT> potions = new HashMap<MobEffect, EffectNBT>();

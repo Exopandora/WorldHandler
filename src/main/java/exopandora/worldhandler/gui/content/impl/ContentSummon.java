@@ -45,11 +45,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@OnlyIn(Dist.CLIENT)
 public class ContentSummon extends Content
 {
 	private static final ResourceLocation BEACON_LOCATION = new ResourceLocation("textures/gui/container/beacon.png");
@@ -500,7 +497,6 @@ public class ContentSummon extends Content
 		return Contents.SUMMON;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum Page
 	{
 		START,

@@ -18,10 +18,7 @@ import net.minecraft.nbt.LongTag;
 import net.minecraft.nbt.ShortTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ComponentTag<T> implements IBuilderComponent
 {
 	private final Function<T, Tag> serializer;

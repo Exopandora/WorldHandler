@@ -5,10 +5,7 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.builder.component.impl.ComponentTag;
 import exopandora.worldhandler.util.MutableTextComponent;
 import exopandora.worldhandler.util.SignText;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderSignEditor extends BuilderData
 {
 	@SuppressWarnings("unchecked")

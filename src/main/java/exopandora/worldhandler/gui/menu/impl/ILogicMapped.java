@@ -3,10 +3,7 @@ package exopandora.worldhandler.gui.menu.impl;
 import exopandora.worldhandler.util.ILogic;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public interface ILogicMapped<T> extends ILogic
 {
 	MutableComponent translate(T item);

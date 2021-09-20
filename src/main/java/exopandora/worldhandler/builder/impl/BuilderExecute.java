@@ -6,10 +6,7 @@ import exopandora.worldhandler.builder.CommandBuilder;
 import exopandora.worldhandler.builder.CommandSyntax;
 import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.util.EnumHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class BuilderExecute extends CommandBuilder
 {
 	public void setMode1(EnumMode mode)
@@ -82,7 +79,6 @@ public class BuilderExecute extends CommandBuilder
 		return syntax;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumMode
 	{
 		ALIGN,

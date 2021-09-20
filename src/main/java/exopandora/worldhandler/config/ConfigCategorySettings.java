@@ -2,14 +2,11 @@ package exopandora.worldhandler.config;
 
 import exopandora.worldhandler.builder.impl.BuilderSetBlock.EnumMode;
 import exopandora.worldhandler.event.KeyHandler;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
-@OnlyIn(Dist.CLIENT)
 public class ConfigCategorySettings
 {
 	private final BooleanValue commandSyntax;

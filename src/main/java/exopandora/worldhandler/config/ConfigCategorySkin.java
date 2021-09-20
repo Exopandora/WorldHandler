@@ -2,14 +2,11 @@ package exopandora.worldhandler.config;
 
 import java.util.Arrays;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
-@OnlyIn(Dist.CLIENT)
 public class ConfigCategorySkin
 {
 	private final ConfigValue<EnumIconSize> iconSize;
@@ -275,7 +272,6 @@ public class ConfigCategorySkin
 		Config.set(this.buttonAlpha, alpha);
 	}
 	
-	@OnlyIn(Dist.CLIENT)
 	public static enum EnumIconSize
 	{
 		x16,

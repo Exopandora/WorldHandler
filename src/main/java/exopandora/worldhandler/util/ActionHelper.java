@@ -25,10 +25,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.SignBlock;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class ActionHelper
 {
 	public static void backToGame()
