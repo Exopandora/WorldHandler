@@ -21,7 +21,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.DistExecutor.SafeRunnable;
-import net.minecraftforge.fml.IExtensionPoint;
+import net.minecraftforge.fml.IExtensionPoint.DisplayTest;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -44,8 +44,6 @@ public class WorldHandler
 		MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
-			private static final long serialVersionUID = 1457410143759855413L;
-			
 			@Override
 			public void run()
 			{
@@ -61,7 +59,7 @@ public class WorldHandler
 				modEventBus.addGenericListener(Category.class, Category::register);
 			}
 		});
-		modLoadingContext.registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> FMLNetworkConstants.IGNORESERVERONLY, (remote, isServer) -> true));
+		modLoadingContext.registerExtensionPoint(DisplayTest.class, () -> new DisplayTest(() -> FMLNetworkConstants.IGNORESERVERONLY, (remote, isServer) -> true));
 	}
 	
 	@SubscribeEvent
