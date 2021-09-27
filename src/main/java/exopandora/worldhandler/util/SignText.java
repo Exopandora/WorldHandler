@@ -2,46 +2,23 @@ package exopandora.worldhandler.util;
 
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.builder.INBTWritable;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.ClickEvent.Action;
 
-public class SignText implements INBTWritable
+public class SignText extends MutableTextComponent
 {
-	private MutableTextComponent text = new MutableTextComponent();
-	private final int line;
-	
-	public SignText(int line)
-	{
-		this.line = line;
-	}
-	
-	public int getLine()
-	{
-		return this.line;
-	}
-	
-	public MutableTextComponent getString()
-	{
-		return this.text;
-	}
-	
-	public void setString(MutableTextComponent string)
-	{
-		this.text = string;
-	}
-	
 	public void setCommand(String command)
 	{
 		if(command != null && !command.isEmpty())
 		{
-			this.text.setStyle(this.text.getStyle().withClickEvent(new ClickEvent(Action.RUN_COMMAND, command)));
+			this.setStyle(this.getStyle().withClickEvent(new ClickEvent(Action.RUN_COMMAND, command)));
 		}
 		else
 		{
-			this.text.setStyle(this.text.getStyle().withClickEvent(null));
+			this.setStyle(this.getStyle().withClickEvent(null));
 		}
 	}
 	
@@ -50,7 +27,7 @@ public class SignText implements INBTWritable
 	{
 		if(this.hasCommand())
 		{
-			return this.text.getStyle().getClickEvent().getValue();
+			return this.getStyle().getClickEvent().getValue();
 		}
 		
 		return null;
@@ -58,7 +35,7 @@ public class SignText implements INBTWritable
 	
 	public boolean hasCommand()
 	{
-		return this.text.getStyle().getClickEvent() != null && this.text.getStyle().getClickEvent().getAction() == Action.RUN_COMMAND && this.text.getStyle().getClickEvent().getValue() != null;
+		return this.getStyle().getClickEvent() != null && this.getStyle().getClickEvent().getAction() == Action.RUN_COMMAND && this.getStyle().getClickEvent().getValue() != null;
 	}
 	
 	@Override
@@ -70,16 +47,11 @@ public class SignText implements INBTWritable
 	@Override
 	public String toString()
 	{
-		if(this.text.getContents().isEmpty())
+		if(Style.EMPTY.equals(this.getStyle()) && !this.isSpecial())
 		{
-			return this.text.getContents();
+			return this.getText();
 		}
 		
-		if(this.text.getStyle().isEmpty() && !this.hasCommand())
-		{
-			return this.text.getString();
-		}
-		
-		return this.text.toString();
+		return super.toString();
 	}
 }

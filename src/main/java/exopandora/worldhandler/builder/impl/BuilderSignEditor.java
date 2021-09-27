@@ -18,20 +18,21 @@ public class BuilderSignEditor extends BuilderData
 		
 		for(int x = 0; x < 4; x++)
 		{
-			this.sign[x] = this.registerNBTComponent(new ComponentTag<SignText>("Text" + (x + 1), new SignText(x), SignText::serialize));
+			this.sign[x] = this.registerNBTComponent(new ComponentTag<SignText>("Text" + (x + 1), new SignText(), SignText::serialize));
 		}
 	}
 	
 	public boolean isSpecial()
 	{
-		boolean special = false;
-		
 		for(int x = 0; x < this.sign.length; x++)
 		{
-			special = special || this.getColoredString(x).isSpecial();
+			if(this.getColoredString(x).isSpecial())
+			{
+				return true;
+			}
 		}
 		
-		return special;
+		return false;
 	}
 	
 	@Nullable
@@ -39,7 +40,7 @@ public class BuilderSignEditor extends BuilderData
 	{
 		if(this.checkBounds(line))
 		{
-			return this.sign[line].getValue().getString();
+			return this.sign[line].getValue();
 		}
 		
 		return null;
