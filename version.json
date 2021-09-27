@@ -2,8 +2,8 @@
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos":
 	{
-		"1.17.1-latest": "2.12.7",
-		"1.17.1-recommended": "2.12.7",
+		"1.17.1-latest": "2.12.8",
+		"1.17.1-recommended": "2.12.8",
 		"1.16.5-latest": "2.12.6",
 		"1.16.5-recommended": "2.12.6",
 		"1.16.4-latest": "2.12.6",
@@ -69,6 +69,7 @@
 	},
 	"1.17.1":
 	{
+		"2.12.8": "- Fixed commands for \"Sign Editor\"",
 		"2.12.7": "- Fixed compatibility with Forge 37.0.22+\n- Fixed errors in log files when booting the game",
 		"2.12.6": "- Added 1.17.1 compatibility"
 	},
