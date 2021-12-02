@@ -119,7 +119,7 @@ public class ContentEditBlocks extends Content
 		this.block2Field.setResponder(text ->
 		{
 			this.block2 = text;
-			this.builderFill.filter().deserialize(this.block2); //TODO block2 = filter ???
+			this.builderFill.filter().deserialize(this.block2);
 			container.initButtons();
 		});
 		
