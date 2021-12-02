@@ -1,7 +1,8 @@
 {
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
-	"promos":
-	{
+	"promos": {
+		"1.18-latest": "3.0",
+		"1.18-recommended": "3.0",
 		"1.17.1-latest": "2.12.8",
 		"1.17.1-recommended": "2.12.8",
 		"1.16.5-latest": "2.12.6",
@@ -67,14 +68,15 @@
 		"1.5-latest": "1.0",
 		"1.5-recommended": "1.0"
 	},
-	"1.17.1":
-	{
+	"1.17.1": {
+		"3.0": "- Added 1.18 compatibility\n- Usercontent API 2\n- Rewritten command builders"
+	},
+	"1.17.1": {
 		"2.12.8": "- Fixed commands for \"Sign Editor\"",
 		"2.12.7": "- Fixed compatibility with Forge 37.0.22+\n- Fixed errors in log files when booting the game",
 		"2.12.6": "- Added 1.17.1 compatibility"
 	},
-	"1.16.5":
-	{
+	"1.16.5": {
 		"2.12.6": "- Fixed Scoreboard Players crash\n- Fixed Confirm GUI not working\n- Fixed bold button for color menus\n- Fixed forge detection for installer\n- Improved config loading",
 		"2.12.5": "- Fixed various keybinding bugs",
 		"2.12.4": "- Updated french translations",
@@ -84,8 +86,7 @@
 		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
 		"2.11.1": "- Added 1.16.2, 1.16.3 and 1.16.4 compatibility"
 	},
-	"1.16.4":
-	{
+	"1.16.4": {
 		"2.12.6": "- Fixed Scoreboard Players crash\n- Fixed Confirm GUI not working\n- Fixed bold button for color menus\n- Fixed forge detection for installer\n- Improved config loading",
 		"2.12.5": "- Fixed various keybinding bugs",
 		"2.12.4": "- Updated french translations",
@@ -95,8 +96,7 @@
 		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
 		"2.11.1": "- Added 1.16.2, 1.16.3 and 1.16.4 compatibility"
 	},
-	"1.16.3":
-	{
+	"1.16.3": {
 		"2.12.6": "- Fixed Scoreboard Players crash\n- Fixed Confirm GUI not working\n- Fixed bold button for color menus\n- Fixed forge detection for installer\n- Improved config loading",
 		"2.12.5": "- Fixed various keybinding bugs",
 		"2.12.4": "- Updated french translations",
@@ -106,8 +106,7 @@
 		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
 		"2.11.1": "- Added 1.16.2, 1.16.3 and 1.16.4 compatibility"
 	},
-	"1.16.2":
-	{
+	"1.16.2": {
 		"2.12.6": "- Fixed Scoreboard Players crash\n- Fixed Confirm GUI not working\n- Fixed bold button for color menus\n- Fixed forge detection for installer\n- Improved config loading",
 		"2.12.5": "- Fixed various keybinding bugs",
 		"2.12.4": "- Updated french translations",
@@ -117,8 +116,7 @@
 		"2.12": "- Added submenu for custom name formatting for summon\n- Replaced passenger textfield with nbt textfield for summon\n- Fixed gui not closing when pressing activation button\n- Fixed existing file discovery for installer\n- Keys and Key categories are now translatable\n- Improved entity name parsing\n- Improved gui transparency rendering\n- Stability fixes\n",
 		"2.11.1": "- Added 1.16.2, 1.16.3 and 1.16.4 compatibility"
 	},
-	"1.16.1":
-	{
+	"1.16.1": {
 		"2.11.1": "- Fixed butcher preset entity filtering",
 		"2.11": "- Added Butcher presets\n- Commands exceeding the chat message character limit (therefore executed from command blocks) now execute at the player\n- Fixed Summon armor ordering",
 		"2.10.3": "- Fixed crash for newer forge versions\n- Fixed \"/wh clone\" command",
@@ -126,25 +124,21 @@
 		"2.10.1": "- Fixed username position when watch is disabled",
 		"2.10": "- Added to 1.16.1 compatibility\n- Watch is now disabled by default\n- Butcher only executes commands for entity classes existing in the given radius"
 	},
-	"1.15.2":
-	{
+	"1.15.2": {
 		"2.9.1": "- Fixed translations minecraft.custom stats\n- Fixed teams leave\n- Fixed hand items for summon equipment\n- Fixed crash for summon equipment\n- Fixed slider hover rendering\n- Fixed note editor not setting notes",
 		"2.9": "- Added \"Command Stack\"\n- Added russian translations (vanja-san)\n- Moved \"Butcher\" to \"Entities\" category\n- Fixed font colors for piano buttons\n- Fixed icon color of button not matching vanilla\n- Fixed \"Summon\" not spawning villagers with their professions\n- Fixed \"Summon\" not spawning spider jockeys with bows\n- Fixed \"Summon\" not spawning all possible cat types",
 		"2.8.3": "- Reimplemented \"Highlight Blocks\"",
 		"2.8.2": "- Updated french translations",
 		"2.8.1": "- Added 1.15.2 compatibility"
 	},
-	"1.15.1":
-	{
+	"1.15.1": {
 		"2.8.1": "- Added compatibility for latest Forge version",
 		"2.8": "- Added 1.15 compatibility\n- Removed \"Highlight Blocks\" temporarily"
 	},
-	"1.15":
-	{
+	"1.15": {
 		"2.8": "- Added 1.15 compatibility\n- Removed \"Highlight Blocks\" temporarily"
 	},
-	"1.14.4":
-	{
+	"1.14.4": {
 		"2.7.2": "- Added option to change \"back\" content for usercontents\n- Added visibility option for texts for usercontents\n- Renamed \"Element\" to \"Menu\"",
 		"2.7.1": "- Improved config loading/reloading\n- Fixed crash for butcher settings\n- Removed back function from ActionHelper",
 		"2.7": "- Added custom usercontent which are configurable via json and js files\n- Added mod support for public gui announcements\n- Moved config file from ./config/ to ./config/worldhandler/",
@@ -154,31 +148,26 @@
 		"2.6.3": "- Updated mods.toml description\n- Fixed \"/wh clone filtered\"\n- Fixed wrong translation string for permission query message",
 		"2.6.2": "- Added to 1.14.4 compatibility"
 	},
-	"1.14.3":
-	{
+	"1.14.3": {
 		"2.6.2": "- Append /wh and /worldhandler to chat history in multiplayer\n- Fixed /wh clone",
 		"2.6.1": "- Fixed BlockState arguments for /wh",
 		"2.6": "- Added 1.14.3 compatibility"
 	},
-	"1.14.2":
-	{
+	"1.14.2": {
 		"2.5.2": "- Faster command execution with command blocks",
 		"2.5.1": "- Changed key category from Miscellaneous to World Handler\n- Changed child mod registration from IMC to proper registry events",
 		"2.5": "- Added 1.14.2 compatibility\n- Changed command block execution for longer commands due to MC-145113"
 	},
-	"1.13.2":
-	{
+	"1.13.2": {
 		"2.4.1": "- Fixed \"/worldhandler version\" installed version\n- Fixed note blocks instrument after being changed with the gui\n- Fixed note block editor color issue\n- Cleaned up translation files\n- Removed debug code",
 		"2.4": "- Added IMC support for mods\n- Fixed event registration",
 		"2.3": "- Added 1.13.2 compatibility\n- Added new command block execution\n- Added /trigger command\n- Added \"Copy Seed\" button\n- Unified block highlighting\n- Removed \"Biome Indicator\""
 	},
-	"1.13":
-	{
+	"1.13": {
 		"2.4": "- Added IMC support for mods\n- Fixed event registration",
 		"2.3": "- Added 1.13.2 compatibility\n- Added new command block execution\n- Added /trigger command\n- Added \"Copy Seed\" button\n- Unified block highlighting\n- Removed \"Biome Indicator\""
 	},
-	"1.12.2":
-	{
+	"1.12.2": {
 		"2.2.2": "- Fixed /effect command giving 20 times as much duration\n- Fixed crash for \"Butcher\"\n- Fixed tooltips not displaying for autosave buttons",
 		"2.2.1": "- Added crash recovery\n- Fixed crash when starting the game with certain mods",
 		"2.2.0": "- Added Recipe GUI\n- Added block highlighting for edit blocks\n- Added functionality to skip 10 pages while shift-clicking for lists\n- Changed logo\n- Fixed double space for multi-command syntax\n- Fixed item buttons not working for containers screen",
@@ -193,8 +182,7 @@
 		"1.48": "- Fixed crash for Forge Version 14.21.0.2348",
 		"1.47": "- Added Command Block placing mode option\n- Added Advancement Gui\n- Changed skin alpha value range to 0-255 so it matches the tooltip\n- Changed clock hands colors (swapped)\n- Changed the default position with /wh pos1 and /wh pos2 if nothing is targeted to the players current position\n- Changed default key to 'V' to avoid conflicts\n- Removed Play Sound\n- Minor Icon changes\n- Fixed permission issues\n- Fixed Potion Particles in Summon\n- Fixed Potion Particles in Potion"
 	},
-	"1.12.1":
-	{
+	"1.12.1": {
 		"2.2.2": "- Fixed /effect command giving 20 times as much duration\n- Fixed crash for \"Butcher\"\n- Fixed tooltips not displaying for autosave buttons",
 		"2.2.0": "- Added Recipe GUI\n- Added block highlighting for edit blocks\n- Added functionality to skip 10 pages while shift-clicking for lists\n- Changed logo\n- Fixed double space for multi-command syntax\n- Fixed item buttons not working for containers screen",
 		"2.1.4": "- Fixed enchantment level sliders",
@@ -208,8 +196,7 @@
 		"1.48": "- Fixed crash for Forge Version 14.21.0.2348",
 		"1.47": "- Added Command Block placing mode option\n- Added Advancement Gui\n- Changed skin alpha value range to 0-255 so it matches the tooltip\n- Changed clock hands colors (swapped)\n- Changed the default position with /wh pos1 and /wh pos2 if nothing is targeted to the players current position\n- Changed default key to 'V' to avoid conflicts\n- Removed Play Sound\n- Minor Icon changes\n- Fixed permission issues\n- Fixed Potion Particles in Summon\n- Fixed Potion Particles in Potion"
 	},
-	"1.12":
-	{
+	"1.12": {
 		"2.2.2": "- Fixed /effect command giving 20 times as much duration\n- Fixed crash for \"Butcher\"\n- Fixed tooltips not displaying for autosave buttons",
 		"2.2.0": "- Added Recipe GUI\n- Added block highlighting for edit blocks\n- Added functionality to skip 10 pages while shift-clicking for lists\n- Changed logo\n- Fixed double space for multi-command syntax\n- Fixed item buttons not working for containers screen",
 		"2.1.4": "- Fixed enchantment level sliders",
@@ -223,89 +210,74 @@
 		"1.48": "- Fixed crash for Forge Version 14.21.0.2348",
 		"1.47": "- Added Command Block placing mode option\n- Added Advancement Gui\n- Changed skin alpha value range to 0-255 so it matches the tooltip\n- Changed clock hands colors (swapped)\n- Changed the default position with /wh pos1 and /wh pos2 if nothing is targeted to the players current position\n- Changed default key to 'V' to avoid conflicts\n- Removed Play Sound\n- Minor Icon changes\n- Fixed permission issues\n- Fixed Potion Particles in Summon\n- Fixed Potion Particles in Potion"
 	},
-	"1.11.2":
-	{
+	"1.11.2": {
 		"1.46": "- Added Commands to Sign Editor\n- Added previously missing translations\n- Signs for Color Commands now disappear\n- Fixed inverted shortcut translation\n- Fixed \"/worldhander version\" not showing the latest available version\n- Fixed shortened translations\n- Fixed wrong translation in World Info",
 		"1.45": "- Added Attribute generic.armorToughness\n- Added Attribute generic.attackSpeed\n- Added Attribute generic.luck\n- Added Attribute horse.jumpStrength\n- Added Attribute zombie.spawnReinforcements\n- Fixed generic.maxHealth UUIDs\n- Fixed Command Syntax Crash",
 		"1.44": "- Fixed Attributes in Give Custom Item\n- Fixed Command Syntax for Sliders\n- Fixed Tab Completions",
 		"1.43": "- Added 1.11.2 Compatibility\n    \u003E Added Sweeping Edge Enchantment"
 	},
-	"1.11":
-	{
+	"1.11": {
 		"1.42": "- Fixed Username Textfield",
 		"1.41": "- Added 1.11 Compatibility\n    \u003E Chat\n        \u003E 256 increased character limit\n    \u003E Gamerules\n        \u003E maxEntityCramming\n        \u003E doWeatherCycle\n    \u003E Enchantments\n        \u003E Curse of Vanishing\n        \u003E Curse of Binding\n    \u003E Sounds\n        \u003E Llama\n            \u003E entity.llama.ambient\n            \u003E entity.llama.angry\n            \u003E entity.llama.chest\n            \u003E entity.llama.death\n            \u003E entity.llama.eat\n            \u003E entity.llama.hurt\n            \u003E entity.llama.spit\n            \u003E entity.llama.step\n        \u003E Vex\n            \u003E entity.vex.ambient\n            \u003E entity.vex.charge\n            \u003E entity.vex.death\n            \u003E entity.vex.hurt\n        \u003E Vindicator\n            \u003E entity.vindication_illager.ambient\n            \u003E entity.vindication_illager.death\n            \u003E entity.vindication_illager.hurt\n        \u003E Evoker\n            \u003E entity.evocation_illager.ambient\n            \u003E entity.evocation_illager.cast_spell\n            \u003E entity.evocation_illager.death\n            \u003E entity.evocation_illager.hurt\n            \u003E entity.evocation_illager.prepare_attack\n            \u003E entity.evocation_illager.prepare_summon\n        \u003E Mule\n            \u003E entity.mule.ambient\n            \u003E entity.mule.chest\n            \u003E entity.mule.death\n            \u003E entity.mule.hurt\n        \u003E Donkey\n            \u003E entity.donkey.ambient\n            \u003E entity.donkey.chest\n            \u003E entity.donkey.angry\n            \u003E entity.donkey.death\n            \u003E entity.donkey.hurt\n        \u003E Skeleton Horse\n            \u003E entity.skeleton_horse.ambient\n            \u003E entity.skeleton_horse.hurt\n            \u003E entity.skeleton_horse.death\n        \u003E Zombie Horse\n            \u003E entity.zombie_horse.ambient\n            \u003E entity.zombie_horse.hurt\n            \u003E entity.zombie_horse.death\n        \u003E Zombie Villager\n            \u003E entity.zombie_villager.ambient\n            \u003E entity.zombie_villager.hurt\n            \u003E entity.zombie_villager.converted\n            \u003E entity.zombie_villager.cure\n            \u003E entity.zombie_villager.step\n            \u003E entity.zombie_villager.death\n        \u003E Bottle\n            \u003E item.bottle.empty\n        \u003E Armor\n            \u003E item.armor.equip_elytra\n        \u003E Damage\n            \u003E item.totem.use\n        \u003E Shulker Box\n            \u003E block.shulker_box.close\n            \u003E block.shulker_box.open\n- Updated Translation Strings\n- Fixed Change World Gui Tab Buttons\n- Removed \"Constant Weather\""
 	},
-	"1.10.2":
-	{
+	"1.10.2": {
 		"1.40": "- Fixed Edit Blocks ID Filter",
 		"1.39": "- Added Clickable Tabs to Potions\n- Added Clickable Tabs to Change World\n- Added Clickable Tabs to Butcher\n- Added Localization: Simplified Chinese\n- Added Localization: German\n- Added Digital Tooltip to Watch\n- Changed Potions' Layout\n- Changed localization Strings to new format\n- Changed Tooltips\n- Fixed Sign Editor Command Generator\n- Fixed Note Block Editor Key-Mappings\n- Reworked Scoreboard",
 		"1.38": "- Added 1.10.2 Compatibility\n- Fixed Attributes Crash"
 	},
-	"1.10":
-	{
+	"1.10": {
 		"1.40": "- Fixed Edit Blocks ID Filter",
 		"1.39": "- Added Clickable Tabs to Potions\n- Added Clickable Tabs to Change World\n- Added Clickable Tabs to Butcher\n- Added Localization: Simplified Chinese\n- Added Localization: German\n- Added Digital Tooltip to Watch\n- Changed Potions' Layout\n- Changed localization Strings to new format\n- Changed Tooltips\n- Fixed Sign Editor Command Generator\n- Fixed Note Block Editor Key-Mappings\n- Reworked Scoreboard",
 		"1.38": "- Added 1.10.2 Compatibility\n- Fixed Attributes Crash",
 		"1.37": "- Changed Command Generator From JSON To NBT\n- Fixed Iron Boots Icon In Summon\n- Fixed Particles For Potions In Summon\n- Fixed Swords In Summon\n- Fixed Enchantment Crash\n- Fixed Ambient Potion Particles Boolean Being Inverted",
 		"1.36": "- Added 1.10 Compatibility\n    \u003E Sounds\n        \u003E Stray\n            \u003E entity.stray.ambient\n            \u003E entity.stray.death\n            \u003E entity.stray.hurt\n            \u003E entity.stray.step\n        \u003E Wither Skeleton\n            \u003E entity.wither_skeleton.ambient\n            \u003E entity.wither_skeleton.death\n            \u003E entity.wither_skeleton.hurt\n            \u003E entity.wither_skeleton.step\n        \u003E Polar Bear\n            \u003E entity.polar_bear.ambient\n            \u003E entity.polar_bear.baby_ambient\n            \u003E entity.polar_bear.death\n            \u003E entity.polar_bear.hurt\n            \u003E entity.polar_bear.step\n            \u003E entity.polar_bear.warning\n        \u003E Husk\n            \u003E entity.husk.ambient\n            \u003E entity.husk.death\n            \u003E entity.husk.hurt\n            \u003E entity.husk.step\n        \u003E Wither Skeleton\n            \u003E entity.wither_skeleton.ambient\n            \u003E entity.wither_skeleton.death\n            \u003E entity.wither_skeleton.hurt\n            \u003E entity.wither_skeleton.step\n        \u003E Enchant\n            \u003E block.enchantment_table.use\n- Added Config Option \"Permission Query\"\n- Changed List Arrangement To Be Alphabetically\n- Removed Sound \"entity.creeper.ambient\"\n- Fixed Missing Translations"
 	},
-	"1.9.4":
-	{
+	"1.9.4": {
 		"1.35": "- Added Option For \"Smooth Watch\"\n- Added Icons For \"64x64 Font Textures\"\n- Changes to \"Watch\"\n- Changes to \"Tooltips\"\n- Changes to \"Icons\"\n- Changes to \"Note Block Editor\"\n- Fixes to \"Butcher Config\"\n- Fixes to Version Number\n- Removed \"Changelog\"",
 		"1.34": "- Added Support for Mod-Enachntments\n- Added Support for Mod-Potions\n- Added Support for Mod-Mobs\n- Added Support for Mob-Variants (Vanilla)\n- Added Support for Color Codes on Items\n- Added Duration Modifier for Potions\n- Added Key Shortcuts for \"pos1\" & \"pos2\"\n- Changed to Internal Version Manager\n- Changed to Internal Config Manager\n- Changed to Internal Localization System\n- Changed whl.png and renamed to logo.png\n- Changed \"+\" Buttons to Command Block Icons\n- Skin Configuration Also Available Ingame\n- Fixed Assets Paths\n- Fixed Missing Localizations\n- Fixed Command Syntax Not Scrolling\n- Removed \"Update Available\" Splash"
 	},
-	"1.9":
-	{
+	"1.9": {
 		"1.33": "- Fixed Enchantment Slider Values\n- Fixed \"Update Available\" Button being too small\n- Fixed Localization in \"Give Custom Item\"",
 		"1.32": "- Added Gamerule spawnRadius\n- Added Gamerule doEntityDrops\n- Added Support for Gamerules from mods\n- Added Proper Command Tag Generation\n- Changed Potion Icon\n- Changed Some Layout Sizes\n- Changed Event Handling\n- Changed Headlines\n- Changed /worldhandler Command\n- Fixed Sign Editor Command\n- Fixed Render Layers of Splash Texts\n- Fixed /worldhandler Command\n- Fixed /wh Command\n- Fixed Butcher Config\n- Fixed lots of deprecated tags",
 		"1.31": "- Added 1.9 Compatibility\n- Added 1.9 Features\n    \u003E Attributes\n        - Added generic.armor\n    \u003E Enchantments\n        - Frost Walker\n        - Mending\n    \u003E Potions\n        - Added Glowing\n        - Added Levitation\n        - Added Luck\n        - Added Bad Luck\n    \u003E Gamerules\n        - Added spectatorsGenerateChunks\n        - Added disableElytraMovementCheck\n    \u003E Sounds\n        \u003E Bottle\n            \u003E item.bottle.fill\n            \u003E item.bottle.fill_dragonbreath\n        \u003E Fire\n            \u003E fire.fire\n            \u003E fire.ignite\n            \u003E block.furnace.fire_crackle\n            \u003E random.fizz\n        \u003E Misc    \n            \u003E block.boat.place\n            \u003E block.brewing_stand.brew\n            \u003E minecart.inside\n            \u003E minecart.base\n            \u003E random.wood_click\n        \u003E Door\n            \u003E random.door_open\n            \u003E random.door_close\n            \u003E random.break\n        \u003E Blocks\n            \u003E block.waterlily.place\n        \u003E Bucket\n            \u003E item.bucket.empty\n            \u003E item.bucket.empty_lava\n            \u003E item.bucket.fill\n            \u003E item.bucket.fill_lava\n        \u003E Chorus\n            \u003E item.chorus_fruit.teleport\n            \u003E block.chorus_flower.death\n            \u003E block.chorus_flower.grow\n        \u003E Item Frame\n            \u003E entity.itemframe.add_item\n            \u003E entity.itemframe.break\n            \u003E entity.itemframe.place\n            \u003E entity.itemframe.remove_item\n            \u003E entity.itemframe.rotate_item\n        \u003E Leashknot\n            \u003E entity.leashknot.place\n            \u003E entity.leashknot.break\n        \u003E Painting\n            \u003E entity.painting.break\n            \u003E entity.painting.place\n        \u003E Armorstand\n            \u003E entity.armorstand.place\n            \u003E entity.armorstand.fall\n            \u003E entity.armorstand.hit\n            \u003E entity.armorstand.break\n        \u003E Mobs\n            \u003E Shulker\n                \u003E entity.shulker.ambient\n                \u003E entity.shulker.death\n                \u003E entity.shulker.close\n                \u003E entity.shulker.open\n                \u003E entity.shulker.teleport\n                \u003E entity.shulker_bullet.hit\n                \u003E entity.shulker_bullet.hurt\n                \u003E entity.shulker.hurt_closed\n            \u003E Witch\n                \u003E entity.witch.ambient\n                \u003E entity.witch.death\n                \u003E entity.witch.drink\n                \u003E entity.witch.throw\n                \u003E entity.witch.hurt\n            \u003E Horse\n                \u003E entity.horse.eat\n            \u003E Snowman\n                \u003E entity.snowman.death\n                \u003E entity.snowman.hurt\n            \u003E Cow\n                \u003E entity.cow.milk\n            \u003E Squid\n                \u003E entity.squid.ambient\n                \u003E entity.squid.death\n                \u003E entity.squid.hurt\n        \u003E Player\n            \u003E entity.player.attack\n            \u003E entity.player.crit\n            \u003E entity.player.knockback\n            \u003E entity.player.strong\n            \u003E entity.player.sweep\n            \u003E entity.player.weak\n            \u003E enchant.thorns.hit\n            \u003E entity.shield.block\n        \u003E Armor\n            \u003E item.armor.equip_chain\n            \u003E item.armor.equip_diamond\n            \u003E item.armor.equip_generic\n            \u003E item.armor.equip_gold\n            \u003E item.armor.equip_iron\n            \u003E item.armor.equip_leather\n- Changes to some Layout Sizes\n- Changes to Command Syntax\n- Changes to existing Playsound buttons\n- Fixes to Attributes in Entities \u003E\u003E Summon\n- Fixes to Amplifier in Potions\n- Removed Potions Indicator"
 	},
-	"1.8.8":
-	{
+	"1.8.8": {
 		"1.30": "- Added 1.8.8 Compatibility\n- Fixed \"Multiplayer\" GUI"
 	},
-	"1.8":
-	{
+	"1.8": {
 		"1.29": "- Added quick access to name change\n- Fixed Command Block east placing\n- Fixed \"Enchant\"\n- Fixed \"Potions\"",
 		"1.28": "- Added \"Sign Editor\"\n- Added \"Noteblock Editor\"\n- Changes to \"Give Custom Item\"\n- Changes to \"Default Settings\"\n- Changes to Skins (Editable Config)\n- Fixes to \"Give Custom Item\" (Attributes)\n- Fixes to \"Command Syntax\"\n- Fixes to \"Edit Blocks\" (Command Syntax)\n- Fixes to Performance\n- Removed \"Flat\"-Skin\n- Removed \"Alpha\"-Skin\n- Removed \"Mini\"-GUI",
 		"1.27": "- Changes to \"Player\" GUI\n- Changes to \"World Info\" GUI\n- Fixes to \"Give Custom Item\"\n- Fixes to \"x32 Textures\"\n- Fixes to Multiplayer Issues\n- Removed unused Code (Clean Up)\n- Removed \"About\" GUI",
 		"1.26": "- Added 1.8 Compatibility\n- Added new 1.8 Features\n \u003E Added new \"/clone\" GUI\n \u003E Added new \"/fill\" GUI\n \u003E Added new \"Guardians\" to \"Playsound\"\n \u003E Added new \"Rabbits\" to \"Playsound\"\n- Added new \"/wh\" Command\n- Added new \"Alpha\" Skin\n- Added new \"Shortcuts\"\n- Added new \"File System\"\n- Added new Config File \"..\\config_butcher.cfg\"\n- Added new \"Potion Indicators\" inspired by StatusEffectHUD\n- Added new option to enable/disable \"Watch\"\n- Changes to \"Command Syntax\"\n- Changes to \"Version Manager\"\n- Changes to \"/worldhandler\" Command\n- Changes to \"Data Storage\"\n- Changes to \"Small\" GUI\n- Changes to \"Enchant\" GUI\n- Changes to \"Settings\" GUI\n- Changes to \"Potions\" GUI\n- Changes to \"Biome Indicators\" to fit 1.8\n- Fixes to \"Summon\" GUI\n- Fixes to \"Data Storage\"\n- Other Fixes"
 	},
-	"1.7.10":
-	{
+	"1.7.10": {
 		"1.25": "- 1.7.10 Compatibility\n- Removed \"Running Notification\"\n- Fixes to \"Version Managing\""
 	},
-	"1.7.2":
-	{
+	"1.7.2": {
 		"1.24": "- Fixes to \"Items\"\n- Fixes to \"Main Page\"\n- Fixes to \"Update Check\"\n- Fixes to \"World Info\"",
 		"1.23": "- Added \"/summon\" Command completely\n- Added new Translation system\n- Changes to \"Gamerules\"\n- Fixes to \"Items\"\n- Fixes to \"Potions\"",
 		"1.22": "- Added 1.7.2 Compatibility\n- Added \"Clock\"\n- Added \"Luck of the Sea\" & \"Lure\" Enchantment\n- Added \"Mini-Version\" of the GUI\n- Changes to the \"Config File Format\"\n \u003E \"cfg\" File Format\n \u003E New reading system\n- Changes to \"Item Customization\"\n- Changes to \"Tooltips\"\n- Changes to \"Settings Screen\"\n- Changes to \"Containers\"\n \u003E Now places a block intead of opneing it immediately\n \u003E Due to the new Network-System of Minecraft\n- Fixes to \"Enchantments\"\n- Fixes to \"Tooltips\""
 	},
-	"1.6.4":
-	{
+	"1.6.4": {
 		"1.21": "- Added 1.6.4 Compatibility\n- Added \"Sliders\" to \"Potions\" and \"Settings\"\n- Added \"Skins\"\n \u003E Custom skins\n \u003E Customizable RGB\n- Added \"Biome Notification\"\n- Added \"Customizable Items\"\n- Added \"Server Commands\"\n- Changes to \"Potions\"\n- Changes to \"Settings\"\n- Changes to \"Enchanting\"\n- Changes to \"Toolstips\"\n- Changes to \"Key Selection\"\n- Fixes to \"Play Sound\"\n- Fixes to \"Translations\"\n- Fixes to \"Opening\" (SSP no longer required)\n- Removed constant Time option due to doDaylightCycle gamerule"
 	},
-	"1.6.2":
-	{
+	"1.6.2": {
 		"1.20": "- Added \"Play Sound\"\n- Added an option for multiple usernames\n- Added an option to disable update check\n- Added an option to enable the game pausing\n- Added \"Saturation\" effect to \"Potions\"\n- Changes to \"Changelog\"\n- Fixes to \"Potion Tooltips\"\n- Fixes to Sword / Bow enchanting\n- Fixes to \"World Handler Command\"\n- Other changes and fixes",
 		"1.19": "- Added 1.6.2 compatibility\n- Added \"Tabs\"\n- Added \"Tooltips\"\n- Added \"/worldhandler\" command\n- Added \"Shortcuts\" (the hidden feature)\n- Added more features to \"World Info\"\n- Keybinding now be found in \"Settings\" of the GUI and no longer in the original Minecraft control settings\n- Multiple disign changes\n- Moved files to \"/mods/mod_WorldHandler\"\n- Removed \"Items\"\n \u003E will be replaced with \"Play Sound\"\n- Other changes and fixes"
 	},
-	"1.5.2":
-	{
+	"1.5.2": {
 		"1.18": "- Added a 3D rendered player to \"Player Info\"\n \u003E Diverse changes to \"Player Info\"\n- Added \"mcmod.info\" for Minecraft Forge Modloader users\n- \"Times\" are now editable ingame\n- Experience will no longer be consumed if the enchanting wasn't successfull\n- Consumable Experience are now ediatble (also ingame)\n- Fixes to \"Settings\"\n- The \"remove Experience\" Button now removes the Experience of the Player correctly\n- More changes and fixes\n \u003E Moved and renamed \\com\\worldhandler\\environment.png to \\com\\worldhandler\\icons.png\n- Added a currently hidden feature",
 		"1.17": "- Added \"Information pages\" in \"Settings\"\n- Added \"Reset\" button in \"Settings\"\n- Simplified \"Settings\"\n- Fixes to \"Update Check\"\n- \"Times\" are now editable\n \u003E Config only but will be featured in next update",
 		"1.16": "- Added \"Command Syntax\"\n- Added config file\n \u003E Settings will now be editable and saved\n- 1.5.2 Compatibility\n- Improvements to \"Update Check\"\n- Adjusted \"Times\"\n \u003E Day will now start at 23000 game ticks\n \u003E Night will now start at 12500 game ticks"
 	},
-	"1.5.1":
-	{
+	"1.5.1": {
 		"1.15": "- Added \"Update Check\"\n- Added \"Settings\"\n- Added \"Cheats enabled\" check\n- Added \"Items\"\n- Added \"Translations\"\n \u003E Please help translating\n- Added \"Note\"\n- Fixed Potion's wrong characters\n- Fixed Potion's give wrong ampflier",
 		"1.14": "- Changed the way \"Create & Display Object\" in \"Scoreboard\" works\n- Changed the way \"Create Object\" in \"Scoreboard\" works\n- Changed the way \"Display Object\" in \"Scoreboard\" works\n- Fixed \"Inverted Player Points\" in \"Scoreboard\"",
 		"1.13": "- Added \"Customisation\" to \"Potions\"\n- Changes to \"Gamerules\"\n \u003E Now shows the Rule itself (commandBlockOutput, doFireTick, doMobLoot, doMobSpawning, doTileDrops, keepInventory, mobGriefing)\n- Changes to \"Scoreboard\"\n \u003E Now remembers your input\n- Changed \"Open-Button\" from \"^\" to \"C\"\n- Removed \"Infinite Potion Effects\"\n \u003E Replaced with \"Max time\" (1.000.000 sec)\n- Renamed \"Gamerule\" to \"Gamerules\"",
 		"1.12": "- Improved 1.5.1 Compatibility\n- Added \"Player Info\" in \"World Info\"\n- Added \"Shortcuts\" in the \"Main Menu\"\n- Added \"Consume Exp\" to \"Enchant\"\n- Renamed \" World Info\" to \"Information\" in the Main Menu\"\n- Changed \"Difficulty\" & \"Gamemode\"\n- Changed \"Potion\" Design",
 		"1.11": "- 1.5.1 Compatibility"
 	},
-	"1.5":
-	{
+	"1.5": {
 		"1.0": "- Release"
 	}
 }
