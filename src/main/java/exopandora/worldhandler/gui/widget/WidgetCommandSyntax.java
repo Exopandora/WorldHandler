@@ -3,14 +3,14 @@ package exopandora.worldhandler.gui.widget;
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import exopandora.worldhandler.builder.impl.BuilderWorldHandler;
+import exopandora.worldhandler.builder.impl.WorldHandlerCommandBuilder;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 
 public class WidgetCommandSyntax implements IContainerWidget
 {
-	private static final BuilderWorldHandler BUILDER_WORLD_HANDLER = new BuilderWorldHandler();
+	private static final WorldHandlerCommandBuilder BUILDER_WORLD_HANDLER = new WorldHandlerCommandBuilder();
 	
 	private GuiTextFieldTooltip syntaxField;
 	
@@ -53,13 +53,13 @@ public class WidgetCommandSyntax implements IContainerWidget
 		{
 			this.syntaxField.setFilter(Predicates.alwaysTrue());
 			
-			if(container.getContent().getCommandBuilder() != null)
+			if(container.getContent().getCommandPreview() != null)
 			{
-				this.syntaxField.setValue(container.getContent().getCommandBuilder().toCommand());
+				this.syntaxField.setValue(container.getContent().getCommandPreview().toString());
 			}
 			else
 			{
-				this.syntaxField.setValue(BUILDER_WORLD_HANDLER.toCommand());
+				this.syntaxField.setValue(BUILDER_WORLD_HANDLER.toCommand(null, true));
 			}
 			
 			this.syntaxField.setFilter(string -> string.equals(this.syntaxField.getValue()));

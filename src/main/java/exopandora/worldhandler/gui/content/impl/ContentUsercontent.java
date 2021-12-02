@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.builder.CommandSyntax;
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
-import exopandora.worldhandler.builder.impl.BuilderUsercontent;
+import exopandora.worldhandler.builder.impl.UsercontentCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -31,7 +30,6 @@ import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonCommand;
 import exopandora.worldhandler.usercontent.model.JsonLabel;
 import exopandora.worldhandler.usercontent.model.JsonMenu;
-import exopandora.worldhandler.usercontent.model.JsonModel;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
 import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.TextUtils;
@@ -43,6 +41,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 
 public class ContentUsercontent extends Content
@@ -50,11 +49,11 @@ public class ContentUsercontent extends Content
 	private final String id;
 	private final JsonUsercontent content;
 	private final ScriptEngineAdapter engineAdapter;
-	private final List<VisibleObject<BuilderUsercontent>> builders;
+	private final Map<String, VisibleObject<UsercontentCommandBuilder>> builders;
 	private final Map<String, VisibleActiveObject<EditBox>> textfields = new HashMap<String, VisibleActiveObject<EditBox>>();
-	private final List<VisibleActiveObject<AbstractWidget>> buttons = new ArrayList<VisibleActiveObject<AbstractWidget>>();
+	private final List<VisibleActiveObject<AbstractWidget>> widgets = new ArrayList<VisibleActiveObject<AbstractWidget>>();
 	private final UsercontentAPI api;
-	private final WidgetFactory buttonFactory;
+	private final WidgetFactory widgetFactory;
 	private final MenuFactory menuFactory;
 	
 	public ContentUsercontent(UsercontentConfig config) throws Exception
@@ -62,35 +61,42 @@ public class ContentUsercontent extends Content
 		this.id = config.getId();
 		this.content = config.getContent();
 		this.engineAdapter = new ScriptEngineAdapter(config.getScriptEngine());
-		this.builders = this.createBuilders(this.content.getModel());
-		this.api = new UsercontentAPI(this.builders.stream().map(VisibleObject::getObject).collect(Collectors.toList()));
+		this.builders = this.createBuilders(this.content.getCommands());
+		this.api = new UsercontentAPI(this.builders.entrySet().stream().collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().get())));
 		ActionHandlerFactory actionHandlerFactory = new ActionHandlerFactory(this.api, this.builders, this.engineAdapter);
-		this.buttonFactory = new WidgetFactory(this.api, actionHandlerFactory);
+		this.widgetFactory = new WidgetFactory(this.api, actionHandlerFactory);
 		this.menuFactory = new MenuFactory(this.api, actionHandlerFactory);
 		this.engineAdapter.addObject("api", this.api);
 		this.engineAdapter.eval(config.getJs());
 	}
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		ICommandBuilder[] builders = this.builders.stream()
+		List<UsercontentCommandBuilder> builders = this.builders.values().stream()
 				.filter(builder -> builder.isVisible(this.engineAdapter))
-				.map(VisibleObject::getObject)
-				.toArray(ICommandBuilder[]::new);
+				.map(VisibleObject::get)
+				.collect(Collectors.toList());
 		
-		return builders.length > 0 ? new BuilderMultiCommand(builders) : null;
+		if(builders.isEmpty())
+		{
+			return null;
+		}
+		
+		CommandPreview preview = new CommandPreview();
+		builders.forEach(builder -> preview.add(builder, builder.getLabel()));
+		return preview;
 	}
 	
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
 		this.textfields.clear();
-		this.buttons.clear();
+		this.widgets.clear();
 		
 		for(JsonWidget json : this.getWidgets(this.content.getGui().getWidgets(), AbstractJsonWidget.Type.BUTTON))
 		{
-			AbstractWidget widget = this.buttonFactory.createWidget(json, this, container, x, y);
+			AbstractWidget widget = this.widgetFactory.createWidget(json, this, container, x, y);
 			
 			if(JsonWidget.Type.TEXTFIELD.equals(json.getType()))
 			{
@@ -99,7 +105,7 @@ public class ContentUsercontent extends Content
 			}
 			else
 			{
-				this.buttons.add(new VisibleActiveObject<AbstractWidget>(json, widget));
+				this.widgets.add(new VisibleActiveObject<AbstractWidget>(json, widget));
 			}
 		}
 		
@@ -115,7 +121,7 @@ public class ContentUsercontent extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		Stream.concat(this.textfields.values().stream(), this.buttons.stream()).map(VisibleObject::getObject).forEach(container::add);
+		Stream.concat(this.textfields.values().stream(), this.widgets.stream()).map(VisibleObject::get).forEach(container::add);
 	}
 	
 	@Override
@@ -125,7 +131,7 @@ public class ContentUsercontent extends Content
 		{
 			if(textfield.isVisible(this.engineAdapter))
 			{
-				textfield.getObject().tick();
+				textfield.get().tick();
 			}
 		}
 		
@@ -138,9 +144,9 @@ public class ContentUsercontent extends Content
 	{
 		for(VisibleObject<EditBox> textfield : this.textfields.values())
 		{
-			if(textfield.getObject().visible)
+			if(textfield.get().visible)
 			{
-				textfield.getObject().renderButton(matrix, mouseX, mouseY, partialTicks);
+				textfield.get().renderButton(matrix, mouseX, mouseY, partialTicks);
 			}
 		}
 		
@@ -199,24 +205,27 @@ public class ContentUsercontent extends Content
 	@Override
 	public void onPlayerNameChanged(String username)
 	{
-		for(VisibleObject<BuilderUsercontent> visObj : this.builders)
+		for(VisibleObject<UsercontentCommandBuilder> visObj : this.builders.values())
 		{
-			visObj.getObject().setPlayerName(username);
+			visObj.get().setPlayerName(username);
 		}
 	}
 	
-	private List<VisibleObject<BuilderUsercontent>> createBuilders(JsonModel model)
+	private Map<String, VisibleObject<UsercontentCommandBuilder>> createBuilders(Map<String, JsonCommand> commands)
 	{
-		List<VisibleObject<BuilderUsercontent>> builders = new ArrayList<VisibleObject<BuilderUsercontent>>();
+		Map<String, VisibleObject<UsercontentCommandBuilder>> builders = new TreeMap<String, VisibleObject<UsercontentCommandBuilder>>();
 		
-		if(model != null && model.getCommands() != null)
+		if(commands != null)
 		{
-			for(JsonCommand command : model.getCommands())
+			for(Entry<String, JsonCommand> command : commands.entrySet())
 			{
-				if(command.getName() != null && command.getSyntax() != null)
+				JsonCommand root = command.getValue();
+				
+				if(root.getSyntax() != null)
 				{
-					BuilderUsercontent builder = new BuilderUsercontent(command.getName(), new CommandSyntax(command.getSyntax()));
-					builders.add(new VisibleObject<BuilderUsercontent>(command.getVisible(), builder));
+					root.getSyntax().validate();
+					UsercontentCommandBuilder builder = new UsercontentCommandBuilder(root.getSyntax(), root.getLabel());
+					builders.put(command.getKey(), new VisibleObject<UsercontentCommandBuilder>(root.getVisible(), builder));
 				}
 			}
 		}
@@ -253,7 +262,7 @@ public class ContentUsercontent extends Content
 	
 	private void printError(String type, int index, Throwable e)
 	{
-		Component message = new TextComponent(ChatFormatting.RED + "<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage());
+		Component message = new TextComponent("<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage()).setStyle(Style.EMPTY.withColor(ChatFormatting.RED));
 		Minecraft.getInstance().gui.handleChat(ChatType.CHAT, message, Util.NIL_UUID);
 	}
 	
@@ -261,17 +270,17 @@ public class ContentUsercontent extends Content
 	{
 		for(VisibleActiveObject<EditBox> visObj : this.textfields.values())
 		{
-			visObj.getObject().setEditable(visObj.isEnabled(this.engineAdapter));
-			visObj.getObject().setVisible(visObj.isVisible(this.engineAdapter));
+			visObj.get().setEditable(visObj.isEnabled(this.engineAdapter));
+			visObj.get().setVisible(visObj.isVisible(this.engineAdapter));
 		}
 	}
 	
 	private void updateButtons()
 	{
-		for(VisibleActiveObject<AbstractWidget> visObj : this.buttons)
+		for(VisibleActiveObject<AbstractWidget> visObj : this.widgets)
 		{
-			visObj.getObject().active = visObj.isEnabled(this.engineAdapter);
-			visObj.getObject().visible = visObj.isVisible(this.engineAdapter);
+			visObj.get().active = visObj.isEnabled(this.engineAdapter);
+			visObj.get().visible = visObj.isVisible(this.engineAdapter);
 		}
 	}
 }

@@ -3,8 +3,8 @@ package exopandora.worldhandler.gui.container;
 import java.util.ArrayList;
 import java.util.List;
 
-import exopandora.worldhandler.gui.menu.IMenu;
-import exopandora.worldhandler.gui.menu.Menu;
+import exopandora.worldhandler.gui.widget.menu.IMenu;
+import exopandora.worldhandler.gui.widget.menu.Menu;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Widget;

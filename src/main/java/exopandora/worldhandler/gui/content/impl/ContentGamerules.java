@@ -9,18 +9,17 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderGamerule;
+import exopandora.worldhandler.builder.impl.GameRuleCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
-import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
@@ -37,12 +36,13 @@ public class ContentGamerules extends Content
 	private boolean booleanValue;
 	private String value;
 	
-	private final BuilderGamerule builderGamerule = new BuilderGamerule();
+	private final GameRuleCommandBuilder builderGamerule = new GameRuleCommandBuilder();
+	private final CommandPreview preview = new CommandPreview(this.builderGamerule, GameRuleCommandBuilder.Label.GAMERULE_VALUE);
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builderGamerule;
+		return this.preview;
 	}
 	
 	@Override
@@ -55,7 +55,7 @@ public class ContentGamerules extends Content
 		this.valueField.setResponder(text ->
 		{
 			this.value = text;
-			this.builderGamerule.setValue(this.value);
+			this.builderGamerule.value().set(text);
 		});
 		
 		Map<String, ArgumentType<?>> map = new HashMap<String, ArgumentType<?>>();
@@ -72,30 +72,30 @@ public class ContentGamerules extends Content
 		MenuPageList<String> rules = new MenuPageList<String>(x, y, new ArrayList<String>(map.keySet()), 114, 20, 3, container, new ILogicPageList<String>()
 		{
 			@Override
-			public MutableComponent translate(String item)
+			public MutableComponent translate(String rule)
 			{
-				return new TranslatableComponent("gamerule." + item);
+				return new TranslatableComponent("gamerule." + rule);
 			}
 			
 			@Override
-			public MutableComponent toTooltip(String item)
+			public MutableComponent toTooltip(String rule)
 			{
-				return new TextComponent(item);
+				return new TextComponent(rule);
 			}
 			
 			@Override
-			public void onClick(String item)
+			public void onClick(String rule)
 			{
-				ContentGamerules.this.builderGamerule.setRule(item);
-				ContentGamerules.this.booleanValue = map.get(item) instanceof BoolArgumentType;
+				ContentGamerules.this.builderGamerule.rule().set(rule);
+				ContentGamerules.this.booleanValue = map.get(rule) instanceof BoolArgumentType;
 				
 				if(ContentGamerules.this.booleanValue)
 				{
-					ContentGamerules.this.builderGamerule.setValue(null);
+					ContentGamerules.this.builderGamerule.value().set(null);
 				}
 				else
 				{
-					ContentGamerules.this.builderGamerule.setValue(ContentGamerules.this.value);
+					ContentGamerules.this.builderGamerule.value().set(ContentGamerules.this.value);
 				}
 				
 				container.initButtons();
@@ -127,11 +127,11 @@ public class ContentGamerules extends Content
 		{
 			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.generic.enable"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderGamerule.build(String.valueOf(true)));
+				this.setGameRule(container.getPlayer(), String.valueOf(true));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.generic.disable"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderGamerule.build(String.valueOf(false)));
+				this.setGameRule(container.getPlayer(), String.valueOf(false));
 			}));
 		}
 		else
@@ -139,9 +139,17 @@ public class ContentGamerules extends Content
 			container.add(this.valueField);
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.actions.perform"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderGamerule);
+				this.setGameRule(container.getPlayer(), this.value);
 			}));
 		}
+	}
+	
+	private void setGameRule(String player, String value)
+	{
+		GameRuleCommandBuilder builder = new GameRuleCommandBuilder();
+		builder.rule().set(this.builderGamerule.rule().get());
+		builder.value().set(value);
+		CommandHelper.sendCommand(player, builder, GameRuleCommandBuilder.Label.GAMERULE_VALUE);
 	}
 	
 	@Override

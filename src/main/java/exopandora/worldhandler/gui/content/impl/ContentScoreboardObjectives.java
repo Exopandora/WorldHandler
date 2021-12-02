@@ -8,16 +8,14 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderScoreboardObjectives;
-import exopandora.worldhandler.builder.impl.BuilderScoreboardObjectives.EnumMode;
+import exopandora.worldhandler.builder.impl.ScoreboardCommandBuilder;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.menu.impl.ILogicButtonList;
-import exopandora.worldhandler.gui.menu.impl.MenuButtonList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicButtonList;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuButtonList;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.RegistryHelper;
@@ -37,12 +35,10 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	private GuiTextFieldTooltip objectField;
 	private Page page = Page.CREATE;
 	
-	private final BuilderScoreboardObjectives builderObjectives = new BuilderScoreboardObjectives();
-	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builderObjectives;
+		return new CommandPreview(BUILDER, this.page.getLabel());
 	}
 	
 	@Override
@@ -50,13 +46,13 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	{
 		this.objectField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setFilter(Predicates.notNull());
-		this.objectField.setValue(this.getObjective());
 		this.objectField.setResponder(text ->
 		{
-			this.setObjective(text);
-			this.builderObjectives.setObjective(this.getObjective());
+			BUILDER.objective().set(text);
+			BUILDER.displayName().deserialize(text);
 			container.initButtons();
 		});
+		this.objectField.setValue(BUILDER.objective().get());
 		
 		if(Page.CREATE.equals(this.page))
 		{
@@ -115,7 +111,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				@Override
 				public void onClick(String key, int depth)
 				{
-					ContentScoreboardObjectives.this.builderObjectives.setCriteria(key);
+					BUILDER.criteria().set(key);
 				}
 				
 				@Override
@@ -188,7 +184,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				@Override
 				public void onClick(String key, int depth)
 				{
-					ContentScoreboardObjectives.this.builderObjectives.setSlot(key);
+					BUILDER.slot().set(key);
 				}
 				
 				@Override
@@ -239,27 +235,17 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		button3.active = !Page.UNDISPLAY.equals(this.page);
 		button4.active = !Page.REMOVE.equals(this.page);
 		
-		if(Page.UNDISPLAY.equals(this.page))
-		{
-			this.builderObjectives.setObjective(null);
-		}
-		else if(Page.REMOVE.equals(this.page))
-		{
-			this.builderObjectives.setMode(EnumMode.REMOVE);
-		}
-		
 		if(!Page.UNDISPLAY.equals(this.page))
 		{
 			container.add(this.objectField);
-			this.builderObjectives.setObjective(this.getObjective());
 		}
 		
 		container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, new TranslatableComponent("gui.worldhandler.actions.perform"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderObjectives);
+			CommandHelper.sendCommand(container.getPlayer(), BUILDER, this.page.getLabel());
 			container.init();
 		}));
-		button1.active = Page.UNDISPLAY.equals(this.page) || this.isObjectiveValid();
+		button1.active = Page.UNDISPLAY.equals(this.page) || BUILDER.objective().get() != null && !BUILDER.objective().get().isEmpty();
 	}
 	
 	@Override
@@ -294,21 +280,28 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	
 	public static enum Page
 	{
-		CREATE(0),
-		DISPLAY(0),
-		UNDISPLAY(12),
-		REMOVE(24);
+		CREATE(0, ScoreboardCommandBuilder.Label.OBJECTIVES_ADD_DISPLAYNAME),
+		DISPLAY(0, ScoreboardCommandBuilder.Label.OBJECTIVES_SETDISPLAY_SLOT_OBJECTIVE),
+		UNDISPLAY(12, ScoreboardCommandBuilder.Label.OBJECTIVES_SETDISPLAY_SLOT),
+		REMOVE(24, ScoreboardCommandBuilder.Label.OBJECTIVES_REMOVE);
 		
 		private final int shift;
+		private final ScoreboardCommandBuilder.Label label;
 		
-		private Page(int shift)
+		private Page(int shift, ScoreboardCommandBuilder.Label label)
 		{
 			this.shift = shift;
+			this.label = label;
 		}
 		
 		public int getShift()
 		{
 			return this.shift;
+		}
+		
+		public ScoreboardCommandBuilder.Label getLabel()
+		{
+			return this.label;
 		}
 	}
 }

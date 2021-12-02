@@ -4,21 +4,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderAdvancement;
-import exopandora.worldhandler.builder.impl.BuilderAdvancement.EnumActionType;
-import exopandora.worldhandler.builder.impl.BuilderAdvancement.EnumMode;
+import exopandora.worldhandler.builder.impl.AdvancementCommandBuilder;
+import exopandora.worldhandler.builder.impl.AdvancementCommandBuilder.Label;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
-import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
-import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicMapped;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.AdvancementHelper;
@@ -31,13 +29,16 @@ import net.minecraft.network.chat.TranslatableComponent;
 
 public class ContentAdvancements extends Content
 {
-	private final BuilderAdvancement builderAdvancement = new BuilderAdvancement(EnumMode.values()[0]);
-	private final List<EnumMode> modes = Arrays.stream(EnumMode.values()).filter(mode -> !mode.equals(EnumMode.EVERYTHING)).collect(Collectors.toList());
+	private final AdvancementCommandBuilder builderAdvancement = new AdvancementCommandBuilder();
+	private Mode mode = Mode.ONLY;
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builderAdvancement;
+		CommandPreview preview = new CommandPreview()
+				.add(this.builderAdvancement, this.mode.getGrant())
+				.add(this.builderAdvancement, this.mode.getRevoke());
+		return preview;
 	}
 	
 	@Override
@@ -64,7 +65,7 @@ public class ContentAdvancements extends Content
 			@Override
 			public void onClick(Advancement item)
 			{
-				ContentAdvancements.this.builderAdvancement.setAdvancement(item.getId());
+				ContentAdvancements.this.builderAdvancement.advancement().set(item.getId());
 				container.initButtons();
 			}
 			
@@ -90,24 +91,24 @@ public class ContentAdvancements extends Content
 		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
 		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonList<EnumMode>(x + 118, y, this.modes, 114, 20, container, new ILogicMapped<EnumMode>()
+		container.add(new GuiButtonList<Mode>(x + 118, y, Arrays.asList(Mode.values()), 114, 20, container, new ILogicMapped<Mode>()
 		{
 			@Override
-			public MutableComponent translate(EnumMode item)
+			public MutableComponent translate(Mode mode)
 			{
-				return new TranslatableComponent("gui.worldhandler.advancements." + item.toString());
+				return new TranslatableComponent("gui.worldhandler.advancements." + mode.toString());
 			}
 			
 			@Override
-			public MutableComponent toTooltip(EnumMode item)
+			public MutableComponent toTooltip(Mode mode)
 			{
-				return new TextComponent(item.toString());
+				return new TextComponent(mode.toString());
 			}
 			
 			@Override
-			public void onClick(EnumMode item)
+			public void onClick(Mode mode)
 			{
-				ContentAdvancements.this.builderAdvancement.setMode(item);
+				ContentAdvancements.this.mode = mode;
 			}
 			
 			@Override
@@ -119,15 +120,15 @@ public class ContentAdvancements extends Content
 		
 		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.advancements.grant"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement.build(EnumActionType.GRANT));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement, this.mode.getGrant());
 		}));
 		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.advancements.revoke"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement.build(EnumActionType.REVOKE));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement, this.mode.getRevoke());
 		}));
 		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.actions.reset").withStyle(ChatFormatting.RED), () ->
 		{
-			ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderAdvancement.build(EnumActionType.REVOKE, EnumMode.EVERYTHING)));
+			ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderAdvancement, AdvancementCommandBuilder.Label.REVOKE_EVERYTHING));
 		}));
 	}
 	
@@ -158,6 +159,39 @@ public class ContentAdvancements extends Content
 	@Override
 	public void onPlayerNameChanged(String username)
 	{
-		this.builderAdvancement.setPlayer(username);
+		this.builderAdvancement.targets().setTarget(username);
+	}
+	
+	private static enum Mode
+	{
+		ONLY(AdvancementCommandBuilder.Label.GRANT_ONLY, AdvancementCommandBuilder.Label.REVOKE_ONLY),
+		UNTIL(AdvancementCommandBuilder.Label.GRANT_UNTIL, AdvancementCommandBuilder.Label.REVOKE_UNTIL),
+		FROM(AdvancementCommandBuilder.Label.GRANT_FROM, AdvancementCommandBuilder.Label.REVOKE_FROM),
+		THROUGH(AdvancementCommandBuilder.Label.GRANT_THROUGH, AdvancementCommandBuilder.Label.REVOKE_THROUGH);
+		
+		private final AdvancementCommandBuilder.Label grant;
+		private final AdvancementCommandBuilder.Label revoke;
+		
+		private Mode(Label grant, Label revoke)
+		{
+			this.grant = grant;
+			this.revoke = revoke;
+		}
+		
+		public AdvancementCommandBuilder.Label getGrant()
+		{
+			return this.grant;
+		}
+		
+		public AdvancementCommandBuilder.Label getRevoke()
+		{
+			return this.revoke;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return this.name().toLowerCase();
+		}
 	}
 }

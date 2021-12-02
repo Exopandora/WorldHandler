@@ -24,9 +24,9 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import exopandora.worldhandler.WorldHandler;
-import exopandora.worldhandler.builder.types.ArgumentType;
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.usercontent.model.Action;
+import exopandora.worldhandler.usercontent.model.ArgumentType;
 import exopandora.worldhandler.usercontent.model.BooleanExpression;
 import exopandora.worldhandler.usercontent.model.JsonMenu;
 import exopandora.worldhandler.usercontent.model.JsonUsercontent;
@@ -173,7 +173,7 @@ public class UsercontentLoader
 		@Override
 		public void write(JsonWriter writer, T value) throws IOException
 		{
-			writer.value(value.name().toLowerCase());
+			writer.value(value.toString());
 		}
 		
 		@Override

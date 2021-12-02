@@ -1,27 +1,30 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.component.impl.ComponentAttribute;
-import exopandora.worldhandler.builder.impl.BuilderSummon;
+import exopandora.worldhandler.builder.argument.Coordinate;
+import exopandora.worldhandler.builder.argument.tag.AbstractAttributeTag;
+import exopandora.worldhandler.builder.argument.tag.ActiveEffectsTag;
+import exopandora.worldhandler.builder.argument.tag.AttributesTag;
+import exopandora.worldhandler.builder.argument.tag.EffectInstance;
+import exopandora.worldhandler.builder.argument.tag.EntityTag;
+import exopandora.worldhandler.builder.argument.tag.MutableTag;
+import exopandora.worldhandler.builder.impl.SummonCommandBuilder;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.menu.impl.ILogicColorMenu;
-import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
-import exopandora.worldhandler.gui.menu.impl.MenuColorField;
-import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
@@ -30,26 +33,89 @@ import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.widget.button.LogicSliderAttribute;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicColorMenu;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuColorField;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContentSummon extends Content
 {
 	private static final ResourceLocation BEACON_LOCATION = new ResourceLocation("textures/gui/container/beacon.png");
+	private static final Item[] HELMETS =
+	{
+		Items.AIR,
+		Items.LEATHER_HELMET,
+		Items.IRON_HELMET,
+		Items.CHAINMAIL_HELMET,
+		Items.GOLDEN_HELMET,
+		Items.DIAMOND_HELMET,
+		Items.NETHERITE_HELMET
+	};
+	private static final Item[] CHESTPLATES =
+	{
+		Items.AIR,
+		Items.LEATHER_CHESTPLATE,
+		Items.IRON_CHESTPLATE,
+		Items.CHAINMAIL_CHESTPLATE,
+		Items.GOLDEN_CHESTPLATE,
+		Items.DIAMOND_CHESTPLATE,
+		Items.NETHERITE_CHESTPLATE
+	};
+	private static final Item[] LEGGINGS =
+	{
+		Items.AIR,
+		Items.LEATHER_LEGGINGS,
+		Items.IRON_LEGGINGS,
+		Items.CHAINMAIL_LEGGINGS,
+		Items.GOLDEN_LEGGINGS,
+		Items.DIAMOND_LEGGINGS,
+		Items.NETHERITE_LEGGINGS
+	};
+	private static final Item[] BOOTS =
+	{
+		Items.AIR,
+		Items.LEATHER_BOOTS,
+		Items.IRON_BOOTS,
+		Items.CHAINMAIL_BOOTS,
+		Items.GOLDEN_BOOTS,
+		Items.DIAMOND_BOOTS,
+		Items.NETHERITE_BOOTS
+	};
+	private static final Item[] SWORDS =
+	{
+		Items.AIR,
+		Items.WOODEN_SWORD,
+		Items.STONE_SWORD,
+		Items.IRON_SWORD,
+		Items.GOLDEN_SWORD,
+		Items.DIAMOND_SWORD,
+		Items.NETHERITE_SWORD
+	};
+	private static final Item[][] ARMOR = {HELMETS, CHESTPLATES, LEGGINGS, BOOTS};
+	private static final Item[][] HANDS = {SWORDS, SWORDS};
+	private static final Random RANDOM = new Random();
 	
 	private GuiTextFieldTooltip mobField;
 	private GuiTextFieldTooltip nbtField;
@@ -61,94 +127,55 @@ public class ContentSummon extends Content
 	private String mob;
 	private String nbt;
 	
-	private final BuilderSummon builderSummon = new BuilderSummon();
+	private final SummonCommandBuilder builderSummon = new SummonCommandBuilder();
+	private final EntityTag entity = new EntityTag();
+	private final AttributesTag attributes = new AttributesTag();
+	private final ActiveEffectsTag effects = new ActiveEffectsTag();
+	private final MutableTag mutable = new MutableTag();
+	private final CommandPreview preview = new CommandPreview(this.builderSummon, SummonCommandBuilder.Label.SUMMON_POS_NBT);
 	
-	private final ResourceLocation[] helmets =
+	public ContentSummon()
 	{
-			Blocks.AIR.getRegistryName(),
-			Items.LEATHER_HELMET.getRegistryName(),
-			Items.IRON_HELMET.getRegistryName(),
-			Items.CHAINMAIL_HELMET.getRegistryName(),
-			Items.GOLDEN_HELMET.getRegistryName(),
-			Items.DIAMOND_HELMET.getRegistryName(),
-			Items.NETHERITE_HELMET.getRegistryName()
-	};
-	private final ResourceLocation[] chestplates =
-	{
-			Blocks.AIR.getRegistryName(),
-			Items.LEATHER_CHESTPLATE.getRegistryName(),
-			Items.IRON_CHESTPLATE.getRegistryName(),
-			Items.CHAINMAIL_CHESTPLATE.getRegistryName(),
-			Items.GOLDEN_CHESTPLATE.getRegistryName(),
-			Items.DIAMOND_CHESTPLATE.getRegistryName(),
-			Items.NETHERITE_CHESTPLATE.getRegistryName()
-	};
-	private final ResourceLocation[] leggings =
-	{
-			Blocks.AIR.getRegistryName(),
-			Items.LEATHER_LEGGINGS.getRegistryName(),
-			Items.IRON_LEGGINGS.getRegistryName(),
-			Items.CHAINMAIL_LEGGINGS.getRegistryName(),
-			Items.GOLDEN_LEGGINGS.getRegistryName(),
-			Items.DIAMOND_LEGGINGS.getRegistryName(),
-			Items.NETHERITE_LEGGINGS.getRegistryName()
-	};
-	private final ResourceLocation[] boots =
-	{
-			Blocks.AIR.getRegistryName(),
-			Items.LEATHER_BOOTS.getRegistryName(),
-			Items.IRON_BOOTS.getRegistryName(),
-			Items.CHAINMAIL_BOOTS.getRegistryName(),
-			Items.GOLDEN_BOOTS.getRegistryName(),
-			Items.DIAMOND_BOOTS.getRegistryName(),
-			Items.NETHERITE_BOOTS.getRegistryName()
-	};
-	private final ResourceLocation[] swords =
-	{
-			Blocks.AIR.getRegistryName(),
-			Items.WOODEN_SWORD.getRegistryName(),
-			Items.STONE_SWORD.getRegistryName(),
-			Items.IRON_SWORD.getRegistryName(),
-			Items.GOLDEN_SWORD.getRegistryName(),
-			Items.DIAMOND_SWORD.getRegistryName(),
-			Items.NETHERITE_SWORD.getRegistryName()
-	};
-	private final ResourceLocation[][] armor = {this.helmets, this.chestplates, this.leggings, this.boots};
-	private final ResourceLocation[][] hands = {this.swords, this.swords};
+		this.builderSummon.pos().setX(new Coordinate.Ints(Coordinate.Type.LOCAL));
+		this.builderSummon.pos().setY(new Coordinate.Ints(Coordinate.Type.LOCAL));
+		this.builderSummon.pos().setZ(new Coordinate.Ints(2, Coordinate.Type.LOCAL));
+		this.builderSummon.nbt().addTagProvider(this.entity);
+		this.builderSummon.nbt().addTagProvider(this.attributes);
+		this.builderSummon.nbt().addTagProvider(this.effects);
+		this.builderSummon.nbt().addTagProvider(this.mutable);
+	}
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builderSummon;
+		return this.preview;
 	}
 	
 	@Override
 	public void init(Container container)
 	{
-		for(Attribute attribute : this.builderSummon.getAttributes())
+		for(Attribute attribute : this.attributes.getAttributes())
 		{
-			double ammount = this.builderSummon.getAttributeAmmount(attribute);
+			double value = this.attributes.get(attribute);
 			
-			if(ammount > Config.getSliders().getMaxSummonAttributes())
+			if(value > Config.getSliders().getMaxSummonAttributes())
 			{
-				this.builderSummon.setAttribute(attribute, Config.getSliders().getMaxSummonAttributes());
+				this.attributes.set(attribute, Config.getSliders().getMaxSummonAttributes());
 			}
 		}
 		
-		for(MobEffect potion : this.builderSummon.getMobEffects())
+		for(MobEffect effect : this.effects.getMobEffects())
 		{
-			byte amplifier = this.builderSummon.getAmplifier(potion);
+			EffectInstance tag = this.effects.getOrCreate(effect);
 			
-			if(amplifier > Config.getSliders().getMaxSummonPotionAmplifier())
+			if(tag.getAmplifier() > Config.getSliders().getMaxSummonPotionAmplifier())
 			{
-				this.builderSummon.setAmplifier(potion, (byte) Config.getSliders().getMaxSummonPotionAmplifier());
+				tag.setAmplifier((byte) Config.getSliders().getMaxSummonPotionAmplifier());
 			}
 			
-			int minutes = this.builderSummon.getMinutes(potion);
-			
-			if(minutes > Config.getSliders().getMaxSummonPotionMinutes())
+			if(tag.getMinutes() > Config.getSliders().getMaxSummonPotionMinutes())
 			{
-				this.builderSummon.setMinutes(potion, (int) Config.getSliders().getMaxSummonPotionMinutes());
+				tag.setMinutes((int) Config.getSliders().getMaxSummonPotionMinutes());
 			}
 		}
 	}
@@ -162,7 +189,8 @@ public class ContentSummon extends Content
 		this.mobField.setResponder(text ->
 		{
 			this.mob = text;
-			this.builderSummon.setName(this.mob);
+			this.builderSummon.entity().deserialize(this.mob);
+			this.updateMutableTag();
 			container.initButtons();
 		});
 		
@@ -172,13 +200,13 @@ public class ContentSummon extends Content
 		this.nbtField.setResponder(text ->
 		{
 			this.nbt = text;
-			this.builderSummon.setEntityNBT(this.nbt);
+			this.entity.setNBT(this.nbt);
 			container.initButtons();
 		});
 		
 		if(Page.START.equals(this.page))
 		{
-			MenuColorField customName = new MenuColorField(x, y, "gui.worldhandler.entities.summon.start.custom_name", this.builderSummon.getCustomName(), new ILogicColorMenu()
+			MenuColorField customName = new MenuColorField(x, y, "gui.worldhandler.entities.summon.start.custom_name", this.entity.getCustomName(), new ILogicColorMenu()
 			{
 				@Override
 				public boolean doDrawButtons()
@@ -203,18 +231,18 @@ public class ContentSummon extends Content
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
-			MenuPageList<Attribute> attributes = new MenuPageList<Attribute>(x + 118, y, ComponentAttribute.ATTRIBUTES, 114, 20, 3, container, new ILogicPageList<Attribute>()
+			MenuPageList<Attribute> attributes = new MenuPageList<Attribute>(x + 118, y, AbstractAttributeTag.ATTRIBUTES, 114, 20, 3, container, new ILogicPageList<Attribute>()
 			{
 				@Override
-				public MutableComponent translate(Attribute item)
+				public MutableComponent translate(Attribute attribute)
 				{
-					return new TranslatableComponent(item.getDescriptionId());
+					return new TranslatableComponent(attribute.getDescriptionId());
 				}
 				
 				@Override
-				public MutableComponent toTooltip(Attribute item)
+				public MutableComponent toTooltip(Attribute attribute)
 				{
-					return new TextComponent(item.getRegistryName().toString());
+					return new TextComponent(attribute.getRegistryName().toString());
 				}
 				
 				@Override
@@ -224,11 +252,11 @@ public class ContentSummon extends Content
 				}
 				
 				@Override
-				public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Attribute item, ActionHandler actionHandler)
+				public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Attribute attribute, ActionHandler actionHandler)
 				{
-					return new GuiSlider(x, y, width, height, -Config.getSliders().getMaxSummonAttributes(), Config.getSliders().getMaxSummonAttributes(), 0, container, new LogicSliderAttribute(item, text, value ->
+					return new GuiSlider(x, y, width, height, -Config.getSliders().getMaxSummonAttributes(), Config.getSliders().getMaxSummonAttributes(), 0, container, new LogicSliderAttribute(attribute, text, value ->
 					{
-						ContentSummon.this.builderSummon.setAttribute(item, value);
+						ContentSummon.this.attributes.set(attribute, value);
 					}));
 				}
 				
@@ -282,7 +310,7 @@ public class ContentSummon extends Content
 				container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, "gui.worldhandler.entities.summon.start.custom_name", () -> this.toggleEditColor(container)));
 				container.add(this.nbtField);
 				
-				if(!this.builderSummon.needsCommandBlock() && !this.builderSummon.getCustomName().isSpecial())
+				if(!this.builderSummon.needsCommandBlock(SummonCommandBuilder.Label.SUMMON_POS_NBT, false) && !this.entity.getCustomName().isSpecial())
 				{
 					container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.title.entities.summon", () -> this.send(container.getPlayer())));
 				}
@@ -291,7 +319,7 @@ public class ContentSummon extends Content
 					container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.actions.place_command_block", () -> this.send(container.getPlayer())));
 				}
 				
-				button3.active = ForgeRegistries.ENTITIES.containsKey(this.builderSummon.getEntity());
+				button3.active = this.builderSummon.entity().hasValue();
 			}
 		}
 		else if(Page.POTIONS.equals(this.page))
@@ -311,42 +339,46 @@ public class ContentSummon extends Content
 			
 			int count = 0;
 			
-			for(ResourceLocation location : this.sortedPotions())
+			for(ResourceLocation location : this.sortedEffects())
 			{
-				MobEffect potion = ForgeRegistries.MOB_EFFECTS.getValue(location);
+				MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(location);
 				
-				if(!potion.equals(MobEffects.HARM) && !potion.equals(MobEffects.HEAL))
+				if(effect.equals(MobEffects.HARM) || effect.equals(MobEffects.HEAL))
 				{
-					if(this.potionPage == 0)
-					{
-						button1.active = false;
-					}
-					
-					if(this.potionPage == ForgeRegistries.MOB_EFFECTS.getKeys().size() - 3)
-					{
-						button2.active = false;
-					}
-					
-					if(count == this.potionPage)
-					{
-						container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + potion.getRegistryName(), new TranslatableComponent(potion.getDescriptionId()), value ->
-						{
-							this.builderSummon.setAmplifier(potion, value.byteValue());
-						})));
-						container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + potion.getRegistryName(), new TranslatableComponent("gui.worldhandler.potion.time.minutes"), value ->
-						{
-							this.builderSummon.setMinutes(potion, value);
-						})));
-						container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.potions.effect.particles", this.builderSummon.getShowParticles(potion) ? new TranslatableComponent("gui.worldhandler.generic.on") : new TranslatableComponent("gui.worldhandler.generic.off")), () ->
-						{
-							this.builderSummon.setShowParticles(potion, !this.builderSummon.getShowParticles(potion));
-							container.init();
-						}));
-						break;
-					}
-					
-					count++;
+					continue;
 				}
+				
+				if(this.potionPage == 0)
+				{
+					button1.active = false;
+				}
+				
+				if(this.potionPage == ForgeRegistries.MOB_EFFECTS.getKeys().size() - 3)
+				{
+					button2.active = false;
+				}
+				
+				if(count == this.potionPage)
+				{
+					EffectInstance tag = this.effects.getOrCreate(effect);
+					
+					container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + effect.getRegistryName(), new TranslatableComponent(effect.getDescriptionId()), value ->
+					{
+						tag.setAmplifier(value.byteValue());
+					})));
+					container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + effect.getRegistryName(), new TranslatableComponent("gui.worldhandler.potion.time.minutes"), value ->
+					{
+						tag.setMinutes(value.intValue());
+					})));
+					container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.potions.effect.particles", tag.doShowParticles() ? new TranslatableComponent("gui.worldhandler.generic.on") : new TranslatableComponent("gui.worldhandler.generic.off")), () ->
+					{
+						tag.setShowParticles(!tag.doShowParticles());
+						container.init();
+					}));
+					break;
+				}
+				
+				count++;
 			}
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
@@ -361,13 +393,13 @@ public class ContentSummon extends Content
 				
 				container.add(new GuiButtonBase(x + 118, y + 24 * i, 20, 20, TextUtils.ARROW_LEFT, () ->
 				{
-					this.builderSummon.setArmorItem(3 - index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(3 - index)) - 1, this.armor[index].length)]);
+					this.entity.setArmorItem(3 - index, ARMOR[index][Math.floorMod(ArrayUtils.indexOf(ARMOR[index], this.entity.getArmorItem(3 - index)) - 1, ARMOR[index].length)]);
 					container.init();
 				}));
-				container.add(button1 = new GuiButtonItem(x + 118 + 24, y + 24 * i, 20, 20, ForgeRegistries.ITEMS.getValue(this.builderSummon.getArmorItem(3 - i)), null));
+				container.add(button1 = new GuiButtonItem(x + 118 + 24, y + 24 * i, 20, 20, this.entity.getArmorItem(3 - i), null));
 				container.add(new GuiButtonBase(x + 118 + 47, y + 24 * i, 20, 20, TextUtils.ARROW_RIGHT, () ->
 				{
-					this.builderSummon.setArmorItem(3 - index, this.armor[index][Math.floorMod(ArrayUtils.indexOf(this.armor[index], this.builderSummon.getArmorItem(3 - index)) + 1, this.armor[index].length)]);
+					this.entity.setArmorItem(3 - index, ARMOR[index][Math.floorMod(ArrayUtils.indexOf(ARMOR[index], this.entity.getArmorItem(3 - index)) + 1, ARMOR[index].length)]);
 					container.init();
 				}));
 				
@@ -380,13 +412,13 @@ public class ContentSummon extends Content
 				
 				container.add(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 12, 20, 20, EnumIcon.ARROW_UP, null, () ->
 				{
-					this.builderSummon.setHandItem(index, this.hands[index][Math.floorMod(ArrayUtils.indexOf(this.hands[index], this.builderSummon.getHandItem(index)) - 1, this.hands[index].length)]);
+					this.entity.setHandItem(index, HANDS[index][Math.floorMod(ArrayUtils.indexOf(HANDS[index], this.entity.getHandItem(index)) - 1, HANDS[index].length)]);
 					container.init();
 				}));
-				container.add(button1 = new GuiButtonItem(x + 118 + 70 + 24 * i, y + 36, 20, 20, ForgeRegistries.ITEMS.getValue(this.builderSummon.getHandItem(i)), null));
+				container.add(button1 = new GuiButtonItem(x + 118 + 70 + 24 * i, y + 36, 20, 20, this.entity.getHandItem(i), null));
 				container.add(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 60, 20, 20, EnumIcon.ARROW_DOWN, null, () ->
 				{
-					this.builderSummon.setHandItem(index, this.hands[index][Math.floorMod(ArrayUtils.indexOf(this.hands[index], this.builderSummon.getHandItem(index)) + 1, this.hands[index].length)]);
+					this.entity.setHandItem(index, HANDS[index][Math.floorMod(ArrayUtils.indexOf(HANDS[index], this.entity.getHandItem(index)) + 1, HANDS[index].length)]);
 					container.init();
 				}));
 				
@@ -399,7 +431,67 @@ public class ContentSummon extends Content
 	
 	private void send(String player)
 	{
-		CommandHelper.sendCommand(player, this.builderSummon, this.builderSummon.getCustomName().isSpecial());
+		CommandHelper.sendCommand(player, this.builderSummon, SummonCommandBuilder.Label.SUMMON_POS_NBT, this.entity.getCustomName().isSpecial());
+	}
+	
+	private void updateMutableTag()
+	{
+		EntityType<?> entity = this.builderSummon.entity().getEntity();
+		
+		if(EntityType.CAT.equals(entity))
+		{
+			this.mutable.setKey("CatType");
+			this.mutable.setTag(IntTag.valueOf(RANDOM.nextInt(11)));
+		}
+		else if(EntityType.VILLAGER.equals(entity))
+		{
+			for(VillagerProfession profession : ForgeRegistries.PROFESSIONS)
+			{
+				if(StringUtils.equalsIgnoreCase(this.mob, profession.toString()))
+				{
+					CompoundTag villagerData = new CompoundTag();
+					villagerData.putString("profession", profession.getRegistryName().toString());
+					
+					this.mutable.setKey("VillagerData");
+					this.mutable.setTag(villagerData);
+					
+					return;
+				}
+			}
+			
+			this.mutable.reset();
+		}
+		else if(EntityType.ZOMBIE.equals(entity) && StringUtils.containsIgnoreCase(this.mob, "Baby"))
+		{
+			this.mutable.setKey("IsBaby");
+			this.mutable.setTag(ByteTag.valueOf((byte) 1));
+		}
+		else if(EntityType.CHICKEN.equals(entity) && StringUtils.containsIgnoreCase(this.mob, "Jockey") && !this.entity.hasPassengers())
+		{
+			ListTag list = new ListTag();
+			EntityTag zombie = new EntityTag(EntityType.ZOMBIE.getRegistryName());
+			
+			zombie.setIsBaby(true);
+			list.add(zombie.value());
+			
+			this.mutable.setKey("Passengers");
+			this.mutable.setTag(list);
+		}
+		else if(EntityType.SPIDER.equals(entity) && StringUtils.containsIgnoreCase(this.mob, "Jockey") && !this.entity.hasPassengers())
+		{
+			ListTag list = new ListTag();
+			EntityTag skeleton = new EntityTag(EntityType.SKELETON.getRegistryName());
+			
+			skeleton.setHandItem(0, Items.BOW);
+			list.add(skeleton.value());
+			
+			this.mutable.setKey("Passengers");
+			this.mutable.setTag(list);
+		}
+		else
+		{
+			this.mutable.reset();
+		}
 	}
 	
 	@Override
@@ -438,7 +530,7 @@ public class ContentSummon extends Content
 	 		
 	 		for(int i = 0; i < 4; i++)
 	 		{
-		 		if(this.builderSummon.getArmorItem(3 - i).equals(Items.AIR.getRegistryName()))
+		 		if(Items.AIR.equals(this.entity.getArmorItem(3 - i)))
 		 		{
 			 		container.blit(matrix, x + 118 + 24 + 2, y + 2 + 24 * i, 112, 221, 16, 16);
 		 		}
@@ -446,7 +538,7 @@ public class ContentSummon extends Content
 	 		
 	 		for(int i = 0; i < 2; i++)
 	 		{
-		 		if(this.builderSummon.getHandItem(i).equals(Items.AIR.getRegistryName()))
+		 		if(Items.AIR.equals(this.entity.getHandItem(i)))
 		 		{
 			 		container.blit(matrix, x + 118 + 70 + 2 + 24 * i, y + 2 + 36, 112, 221, 16, 16);
 		 		}
@@ -454,7 +546,7 @@ public class ContentSummon extends Content
 		}
 	}
 	
-	private List<ResourceLocation> sortedPotions()
+	private List<ResourceLocation> sortedEffects()
 	{
 		return ForgeRegistries.MOB_EFFECTS.getKeys().stream()
 				.sorted((a, b) -> I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(a).getDescriptionId()).compareTo(I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(b).getDescriptionId())))

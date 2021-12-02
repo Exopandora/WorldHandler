@@ -10,6 +10,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
+import exopandora.worldhandler.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
@@ -18,31 +19,31 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.ClientChatEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ClientEventHandler
 {
 	@SubscribeEvent
-	public static void renderWorldLastEvent(RenderWorldLastEvent event)
+	public static void renderLevelLastEvent(RenderLevelLastEvent event)
 	{
 		if(Config.getSettings().highlightBlocks() && Minecraft.getInstance().level != null && Minecraft.getInstance().getEntityRenderDispatcher().camera != null)
 		{
 			Vec3 projected = Minecraft.getInstance().getEntityRenderDispatcher().camera.getPosition();
 			
-			double minX = Math.min(BlockHelper.getPos1().getX(), BlockHelper.getPos2().getX());
-			double minY = Math.min(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY());
-			double minZ = Math.min(BlockHelper.getPos1().getZ(), BlockHelper.getPos2().getZ());
+			double minX = Math.min(BlockHelper.pos1().getX(), BlockHelper.pos2().getX()) - RenderUtils.EPS;
+			double minY = Math.min(BlockHelper.pos1().getY(), BlockHelper.pos2().getY()) - RenderUtils.EPS;
+			double minZ = Math.min(BlockHelper.pos1().getZ(), BlockHelper.pos2().getZ()) - RenderUtils.EPS;
 			
-			double maxX = Math.max(BlockHelper.getPos1().getX(), BlockHelper.getPos2().getX()) + 1;
-			double maxY = Math.max(BlockHelper.getPos1().getY(), BlockHelper.getPos2().getY()) + 1;
-			double maxZ = Math.max(BlockHelper.getPos1().getZ(), BlockHelper.getPos2().getZ()) + 1;
+			double maxX = Math.max(BlockHelper.pos1().getX(), BlockHelper.pos2().getX()) + 1 + RenderUtils.EPS;
+			double maxY = Math.max(BlockHelper.pos1().getY(), BlockHelper.pos2().getY()) + 1 + RenderUtils.EPS;
+			double maxZ = Math.max(BlockHelper.pos1().getZ(), BlockHelper.pos2().getZ()) + 1 + RenderUtils.EPS;
 			
 			AABB aabb = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
 			
 			if(aabb.getCenter().distanceTo(projected) < 96)
 			{
-				PoseStack matrix = event.getMatrixStack();
+				PoseStack matrix = event.getPoseStack();
 				matrix.pushPose();
 				matrix.translate(-projected.x(), -projected.y(), -projected.z());
 				
@@ -53,29 +54,6 @@ public class ClientEventHandler
 				
 				buffer.endBatch(RenderType.lines());
 				buffer.endBatch();
-				
-//				try
-//				{
-//					Field transparencyChain = WorldRenderer.class.getDeclaredField("transparencyChain");
-//					transparencyChain.setAccessible(true);
-//					ShaderGroup shader = (ShaderGroup) transparencyChain.get(event.getContext());
-//					
-//					if(shader != null)
-//					{
-//						Field ITEM_ENTITY_TARGET = RenderState.class.getDeclaredField("ITEM_ENTITY_TARGET");
-//						ITEM_ENTITY_TARGET.setAccessible(true);
-//						RenderState.TargetState target = (RenderState.TargetState) ITEM_ENTITY_TARGET.get(null);
-//						target.setupRenderState();
-//						event.getContext().getItemEntityTarget().framebufferClear(Minecraft.IS_RUNNING_ON_MAC);
-//						event.getContext().getItemEntityTarget().copyDepthFrom(Minecraft.getInstance().getFramebuffer());
-//				        Minecraft.getInstance().getFramebuffer().bindFramebuffer(false);
-//						target.clearRenderState();
-//					}
-//				}
-//				catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
-//				{
-//					e.printStackTrace();
-//				}
 				
 				matrix.popPose();
 			}

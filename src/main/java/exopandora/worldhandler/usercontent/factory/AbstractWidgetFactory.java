@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicMapped;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
 import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonItem;
@@ -73,7 +73,7 @@ public abstract class AbstractWidgetFactory
 		{
 			try
 			{
-				this.api.updateValue(this.widget.getAttributes().getId(), item.getId());
+				this.api.setValue(this.widget.getAttributes().getId(), item.getId());
 				ActionHandler action = this.actionHandlerFactory.createActionHandler(this.content, this.widget.getAction(), this.player, item.getId());
 				
 				if(action != null)

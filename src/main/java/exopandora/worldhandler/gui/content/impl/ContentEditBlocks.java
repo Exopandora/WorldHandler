@@ -5,71 +5,64 @@ import java.util.Arrays;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.brigadier.StringReader;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderClone;
-import exopandora.worldhandler.builder.impl.BuilderClone.EnumMask;
-import exopandora.worldhandler.builder.impl.BuilderFill;
-import exopandora.worldhandler.builder.impl.BuilderWH;
-import exopandora.worldhandler.command.CommandWH.StringBlockPredicateArgument;
+import exopandora.worldhandler.builder.impl.CloneCommandBuilder;
+import exopandora.worldhandler.builder.impl.FillCommandBuilder;
+import exopandora.worldhandler.builder.impl.WHCommandBuilder;
+import exopandora.worldhandler.builder.impl.CloneCommandBuilder.Label;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonList;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicMapped;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import exopandora.worldhandler.util.ResourceHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContentEditBlocks extends Content
 {
 	private GuiTextFieldTooltip x1Field;
 	private GuiTextFieldTooltip y1Field;
 	private GuiTextFieldTooltip z1Field;
-	
 	private GuiTextFieldTooltip x2Field;
 	private GuiTextFieldTooltip y2Field;
 	private GuiTextFieldTooltip z2Field;
-	
 	private GuiTextFieldTooltip block1Field;
 	private GuiTextFieldTooltip block2Field;
-	
 	private GuiTextFieldTooltip filterField;
 	
-	private final BuilderFill builderFill = BlockHelper.addPositionObservers(new BuilderFill(), builder -> builder::setPosition1, builder -> builder::setPosition2);
-	private final BuilderClone builderClone = BlockHelper.addPositionObservers(new BuilderClone(), builder -> builder::setPosition1, builder -> builder::setPosition2);
-	private final BuilderWH builderWH = new BuilderWH();
+	private final FillCommandBuilder builderFill = new FillCommandBuilder();
+	private final CloneCommandBuilder builderClone = new CloneCommandBuilder();
+	private final WHCommandBuilder builderWH = new WHCommandBuilder();
 	
 	private String block1;
 	private String block2;
 	private String filter;
-	
 	private Page page = Page.COORDINATES;
+	private Mask mask = Mask.FILTERED;
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
 		if(Page.COORDINATES.equals(this.page))
 		{
-			return this.builderWH;
+			return new CommandPreview(this.builderWH, null);
 		}
 		else if(Page.FILL.equals(this.page) || Page.REPLACE.equals(this.page))
 		{
-			return this.builderFill;
+			return new CommandPreview(this.builderFill, FillCommandBuilder.Label.FILL);
 		}
 		else if(Page.CLONE.equals(this.page))
 		{
-			return this.builderClone;
+			return new CommandPreview(this.builderClone, this.mask.getLabel());
 		}
 		
 		return null;
@@ -78,53 +71,37 @@ public class ContentEditBlocks extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
+		this.updatePositions();
+		
 		this.x1Field = new GuiTextFieldTooltip(x + 118, y, 55, 20);
-		this.x1Field.setFilter(this.getCoordinatePredicate("X1"));
-		this.x1Field.setValue("X1: " + BlockHelper.getPos1().getX());
-		this.x1Field.setResponder(text ->
-		{
-			BlockHelper.setPos1(BlockHelper.setX(BlockHelper.getPos1(), this.parseCoordinate(text)));
-		});
+		this.x1Field.setFilter(this.coordinatePredicate("X1"));
+		this.x1Field.setValue("X1: " + BlockHelper.pos1().getX());
+		this.x1Field.setResponder(text -> BlockHelper.pos1().setX(this.parseCoordinate(text)));
 		
 		this.y1Field = new GuiTextFieldTooltip(x + 118, y + 24, 55, 20);
-		this.y1Field.setFilter(this.getCoordinatePredicate("Y1"));
-		this.y1Field.setValue("Y1: " + BlockHelper.getPos1().getY());
-		this.y1Field.setResponder(text ->
-		{
-			BlockHelper.setPos1(BlockHelper.setY(BlockHelper.getPos1(), this.parseCoordinate(text)));
-		});
+		this.y1Field.setFilter(this.coordinatePredicate("Y1"));
+		this.y1Field.setValue("Y1: " + BlockHelper.pos1().getY());
+		this.y1Field.setResponder(text -> BlockHelper.pos1().setY(this.parseCoordinate(text)));
 		
 		this.z1Field = new GuiTextFieldTooltip(x + 118, y + 48, 55, 20);
-		this.z1Field.setFilter(this.getCoordinatePredicate("Z1"));
-		this.z1Field.setValue("Z1: " + BlockHelper.getPos1().getZ());
-		this.z1Field.setResponder(text ->
-		{
-			BlockHelper.setPos1(BlockHelper.setZ(BlockHelper.getPos1(), this.parseCoordinate(text)));
-		});
+		this.z1Field.setFilter(this.coordinatePredicate("Z1"));
+		this.z1Field.setValue("Z1: " + BlockHelper.pos1().getZ());
+		this.z1Field.setResponder(text -> BlockHelper.pos1().setZ(this.parseCoordinate(text)));
 		
 		this.x2Field = new GuiTextFieldTooltip(x + 118 + 59, y, 55, 20);
-		this.x2Field.setFilter(this.getCoordinatePredicate("X2"));
-		this.x2Field.setValue("X2: " + BlockHelper.getPos2().getX());
-		this.x2Field.setResponder(text ->
-		{
-			BlockHelper.setPos2(BlockHelper.setX(BlockHelper.getPos2(), this.parseCoordinate(text)));
-		});
+		this.x2Field.setFilter(this.coordinatePredicate("X2"));
+		this.x2Field.setValue("X2: " + BlockHelper.pos2().getX());
+		this.x2Field.setResponder(text -> BlockHelper.pos2().setX(this.parseCoordinate(text)));
 		
 		this.y2Field = new GuiTextFieldTooltip(x + 118 + 59, y + 24, 55, 20);
-		this.y2Field.setFilter(this.getCoordinatePredicate("Y2"));
-		this.y2Field.setValue("Y2: " + BlockHelper.getPos2().getY());
-		this.y2Field.setResponder(text ->
-		{
-			BlockHelper.setPos2(BlockHelper.setY(BlockHelper.getPos2(), this.parseCoordinate(text)));
-		});
+		this.y2Field.setFilter(this.coordinatePredicate("Y2"));
+		this.y2Field.setValue("Y2: " + BlockHelper.pos2().getY());
+		this.y2Field.setResponder(text -> BlockHelper.pos2().setY(this.parseCoordinate(text)));
 		
 		this.z2Field = new GuiTextFieldTooltip(x + 118 + 59, y + 48, 55, 20);
-		this.z2Field.setFilter(this.getCoordinatePredicate("Z2"));
-		this.z2Field.setValue("Z2: " + BlockHelper.getPos2().getZ());
-		this.z2Field.setResponder(text ->
-		{
-			BlockHelper.setPos2(BlockHelper.setZ(BlockHelper.getPos2(), this.parseCoordinate(text)));
-		});
+		this.z2Field.setFilter(this.coordinatePredicate("Z2"));
+		this.z2Field.setValue("Z2: " + BlockHelper.pos2().getZ());
+		this.z2Field.setResponder(text -> BlockHelper.pos2().setZ(this.parseCoordinate(text)));
 		
 		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, Page.FILL.equals(this.page) ? new TranslatableComponent("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : new TranslatableComponent("gui.worldhandler.edit_blocks.replace.block_id_replace"));
 		this.block1Field.setFilter(Predicates.notNull());
@@ -132,7 +109,7 @@ public class ContentEditBlocks extends Content
 		this.block1Field.setResponder(text ->
 		{
 			this.block1 = text;
-			this.builderFill.setBlock1(this.block1);
+			this.builderFill.block().deserialize(this.block1);
 			container.initButtons();
 		});
 		
@@ -142,7 +119,7 @@ public class ContentEditBlocks extends Content
 		this.block2Field.setResponder(text ->
 		{
 			this.block2 = text;
-			this.builderFill.setBlock2(this.block2);
+			this.builderFill.filter().deserialize(this.block2); //TODO block2 = filter ???
 			container.initButtons();
 		});
 		
@@ -152,7 +129,7 @@ public class ContentEditBlocks extends Content
 		this.filterField.setResponder(text ->
 		{
 			this.filter = text;
-			this.builderClone.setFilter(this.filter);
+			this.builderClone.filter().deserialize(this.filter);
 			container.initButtons();
 		});
 	}
@@ -225,9 +202,9 @@ public class ContentEditBlocks extends Content
 			container.add(this.block1Field);
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.fill"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderFill.build());
+				CommandHelper.sendCommand(container.getPlayer(), this.builderFill, FillCommandBuilder.Label.FILL);
 			}));
-			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS);
+			button1.active = this.builderFill.block().hasValue();
 		}
 		else if(Page.REPLACE.equals(this.page))
 		{
@@ -243,9 +220,9 @@ public class ContentEditBlocks extends Content
 			container.add(this.block2Field);
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.replace"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderFill.buildReplace());
+				CommandHelper.sendCommand(container.getPlayer(), this.builderFill, FillCommandBuilder.Label.REPLACE);
 			}));
-			button1.active = ResourceHelper.isRegistered(this.builderFill.getBlock1(), ForgeRegistries.BLOCKS) && ResourceHelper.isRegistered(this.builderFill.getBlock2(), ForgeRegistries.BLOCKS);
+			button1.active = this.builderFill.block().hasValue() && this.builderFill.filter().hasValue();
 		}
 		else if(Page.CLONE.equals(this.page))
 		{
@@ -257,36 +234,34 @@ public class ContentEditBlocks extends Content
 			width2 = 56;
 			xOffset2 = 58;
 			
-			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
+			if(Mask.FILTERED.equals(this.mask))
 			{
-				this.builderClone.setFilter(this.filter);
 				container.add(this.filterField);
 			}
 			else
 			{
-				this.builderClone.setFilter(null);
 				container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, TextComponent.EMPTY, null));
 				button1.active = false;
 			}
 			
-			container.add(new GuiButtonList<EnumMask>(x + 118, y, Arrays.asList(EnumMask.values()), 114, 20, container, new ILogicMapped<EnumMask>()
+			container.add(new GuiButtonList<Mask>(x + 118, y, Arrays.asList(Mask.values()), 114, 20, container, new ILogicMapped<Mask>()
 			{
 				@Override
-				public MutableComponent translate(EnumMask item)
+				public MutableComponent translate(Mask mask)
 				{
-					return new TranslatableComponent("gui.worldhandler.edit_blocks.clone.mode." + item.toString());
+					return new TranslatableComponent("gui.worldhandler.edit_blocks.clone.mode." + mask.toString());
 				}
 				
 				@Override
-				public MutableComponent toTooltip(EnumMask item)
+				public MutableComponent toTooltip(Mask mask)
 				{
-					return new TextComponent(item.toString());
+					return new TextComponent(mask.toString());
 				}
 				
 				@Override
-				public void onClick(EnumMask item)
+				public void onClick(Mask mask)
 				{
-					ContentEditBlocks.this.builderClone.setMask(item);
+					ContentEditBlocks.this.mask = mask;
 					container.init();
 				}
 				
@@ -299,32 +274,36 @@ public class ContentEditBlocks extends Content
 			
 			container.add(button2 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.clone"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderClone);
+				System.out.println(this.builderClone.toCommand(this.mask.getLabel(), false));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderClone, this.mask.getLabel());
 			}));
 			
-			try
+			if(Mask.FILTERED.equals(this.mask))
 			{
-				if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
-				{
-					StringBlockPredicateArgument.blockPredicate().parse(new StringReader(this.builderClone.getFilter()));
-				}
-			}
-			catch(Exception e)
-			{
-				button2.active = false;
+				button2.active = this.builderClone.filter().hasValue();
 			}
 		}
 		
 		container.add(new GuiButtonBase(x + 118, y + yOffset1, width1, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.pos.set_pos_1"), () ->
 		{
-			BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
+			BlockHelper.pos1().set(BlockHelper.getFocusedBlockPos());
+			this.updatePositions();
 			container.init();
 		}));
 		container.add(new GuiButtonBase(x + 118 + xOffset2, y + yOffset2, width2, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.pos.set_pos_2"), () ->
 		{
-			BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
+			BlockHelper.pos2().set(BlockHelper.getFocusedBlockPos());
+			this.updatePositions();
 			container.init();
 		}));
+	}
+	
+	private void updatePositions()
+	{
+		this.builderFill.from().set(BlockHelper.pos1());
+		this.builderFill.to().set(BlockHelper.pos2());
+		this.builderClone.begin().set(BlockHelper.pos1());
+		this.builderClone.end().set(BlockHelper.pos2());
 	}
 	
 	@Override
@@ -351,7 +330,9 @@ public class ContentEditBlocks extends Content
 		}
 		else if(Page.CLONE.equals(this.page))
 		{
-			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
+			this.builderClone.destination().set(Minecraft.getInstance().player.blockPosition());	
+			
+			if(Mask.FILTERED.equals(this.mask))
 			{
 				this.filterField.tick();
 			}
@@ -382,14 +363,14 @@ public class ContentEditBlocks extends Content
 		}
 		else if(Page.CLONE.equals(this.page))
 		{
-			if(EnumMask.FILTERED.equals(this.builderClone.getMask()))
+			if(Mask.FILTERED.equals(this.mask))
 			{
 				this.filterField.renderButton(matrix, mouseX, mouseY, partialTicks);
 			}
 		}
 	}
 	
-	private Predicate<String> getCoordinatePredicate(String coordinate)
+	private Predicate<String> coordinatePredicate(String coordinate)
 	{
 		return string -> string.matches(coordinate + ": [-]?[0-9]*");
 	}
@@ -433,11 +414,36 @@ public class ContentEditBlocks extends Content
 		return Contents.EDIT_BLOCKS;
 	}
 	
-	public static enum Page
+	private static enum Page
 	{
 		COORDINATES,
 		FILL,
 		REPLACE,
 		CLONE;
+	}
+	
+	private static enum Mask
+	{
+		FILTERED(CloneCommandBuilder.Label.FILTERED),
+		MASKED(CloneCommandBuilder.Label.MASKED),
+		REPLACE(CloneCommandBuilder.Label.REPLACE);
+		
+		private final CloneCommandBuilder.Label label;
+		
+		private Mask(Label label)
+		{
+			this.label = label;
+		}
+		
+		public CloneCommandBuilder.Label getLabel()
+		{
+			return this.label;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return this.name().toLowerCase();
+		}
 	}
 }

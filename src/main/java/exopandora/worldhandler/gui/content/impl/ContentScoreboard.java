@@ -1,5 +1,6 @@
 package exopandora.worldhandler.gui.content.impl;
 
+import exopandora.worldhandler.builder.impl.ScoreboardCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
@@ -10,21 +11,11 @@ import net.minecraft.network.chat.TranslatableComponent;
 public abstract class ContentScoreboard extends Content
 {
 	protected static final ScoreboardHelper HELPER = new ScoreboardHelper();
-	private static String objective;
+	protected static final ScoreboardCommandBuilder BUILDER = new ScoreboardCommandBuilder();
 	
-	protected boolean isObjectiveValid()
+	static
 	{
-		return ContentScoreboard.objective != null && ContentScoreboard.objective.length() > 0;
-	}
-	
-	protected void setObjective(String objective)
-	{
-		ContentScoreboard.objective = objective;
-	}
-	
-	protected String getObjective()
-	{
-		return ContentScoreboard.objective;
+		BUILDER.score().set(0);
 	}
 	
 	@Override

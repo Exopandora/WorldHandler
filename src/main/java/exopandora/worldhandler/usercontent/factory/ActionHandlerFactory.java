@@ -1,14 +1,14 @@
 package exopandora.worldhandler.usercontent.factory;
 
-import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.builder.impl.BuilderGeneric;
-import exopandora.worldhandler.builder.impl.BuilderUsercontent;
+import exopandora.worldhandler.builder.impl.LiteralCommandBuilder;
+import exopandora.worldhandler.builder.impl.UsercontentCommandBuilder;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.usercontent.ScriptEngineAdapter;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
@@ -21,10 +21,10 @@ import exopandora.worldhandler.util.CommandHelper;
 public class ActionHandlerFactory
 {
 	private final UsercontentAPI api;
-	private final List<VisibleObject<BuilderUsercontent>> builders;
+	private final Map<String, VisibleObject<UsercontentCommandBuilder>> builders;
 	private final ScriptEngineAdapter engine;
 	
-	public ActionHandlerFactory(UsercontentAPI api, List<VisibleObject<BuilderUsercontent>> builders, ScriptEngineAdapter engine)
+	public ActionHandlerFactory(UsercontentAPI api, Map<String, VisibleObject<UsercontentCommandBuilder>> builders, ScriptEngineAdapter engine)
 	{
 		this.api = api;
 		this.builders = builders;
@@ -57,11 +57,11 @@ public class ActionHandlerFactory
 			{
 				return () ->
 				{
-					VisibleObject<BuilderUsercontent> visObj = this.builders.get(action.getAttributes().getCommand());
+					VisibleObject<UsercontentCommandBuilder> visObj = this.builders.get(action.getAttributes().getCommand());
 					
-					if(visObj != null && visObj.getObject() != null)
+					if(visObj != null && visObj.get() != null)
 					{
-						visObj.getObject().set(action.getAttributes().getIndex(), value != null ? value : action.getAttributes().getValue());
+						visObj.get().setArgument(action.getAttributes().getArgument(), value != null ? value : action.getAttributes().getValue());
 					}
 				};
 			}
@@ -72,11 +72,20 @@ public class ActionHandlerFactory
 			{
 				return () ->
 				{
-					if(action.getAttributes().getValue() == null)
+					if(action.getAttributes().getValue() != null && !action.getAttributes().getValue().isEmpty() && action.getAttributes().getCommand() != null)
 					{
-						CommandHelper.sendCommand(player.get(), this.builders.get(action.getAttributes().getCommand()).getObject());
+						CommandHelper.sendCommand(player.get(), this.builders.get(action.getAttributes().getCommand()).get(), action.getAttributes().getValue());
 					}
-					else if(!action.getAttributes().getValue().isEmpty())
+				};
+			}
+		}
+		else if(Action.Type.RUN_STRING.equals(action.getType()))
+		{
+			if(action.getAttributes() != null)
+			{
+				return () ->
+				{
+					if(action.getAttributes().getValue() != null && !action.getAttributes().getValue().isEmpty())
 					{
 						String command = action.getAttributes().getValue();
 						
@@ -85,7 +94,7 @@ public class ActionHandlerFactory
 							command = command.substring(1);
 						}
 						
-						CommandHelper.sendCommand(player.get(), new BuilderGeneric(command));
+						CommandHelper.sendCommand(player.get(), new LiteralCommandBuilder(command), LiteralCommandBuilder.Label.ROOT);
 					}
 				};
 			}
@@ -118,8 +127,8 @@ public class ActionHandlerFactory
 				return string ->
 				{
 					String value = toStringMapper.apply(string);
-					this.api.updateValue(id, value);
-					this.builders.get(action.getAttributes().getCommand()).getObject().set(action.getAttributes().getIndex(), value);
+					this.api.setValue(id, value);
+					this.builders.get(action.getAttributes().getCommand()).get().setArgument(action.getAttributes().getArgument(), value);
 				};
 			}
 		}
@@ -130,12 +139,12 @@ public class ActionHandlerFactory
 				return string ->
 				{
 					String value = toStringMapper.apply(string);
-					this.api.updateValue(id, value);
+					this.api.setValue(id, value);
 					this.engine.invokeFunction(action.getAttributes().getFunction(), value);
 				};
 			}
 		}
 		
-		return string -> this.api.updateValue(id, toStringMapper.apply(string));
+		return string -> this.api.setValue(id, toStringMapper.apply(string));
 	}
 }

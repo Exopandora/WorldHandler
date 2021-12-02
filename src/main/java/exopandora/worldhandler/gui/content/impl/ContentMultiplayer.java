@@ -3,13 +3,16 @@ package exopandora.worldhandler.gui.content.impl;
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderGeneric;
-import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
-import exopandora.worldhandler.builder.impl.BuilderPlayer;
-import exopandora.worldhandler.builder.impl.BuilderPlayerReason;
-import exopandora.worldhandler.builder.impl.BuilderWhitelist;
-import exopandora.worldhandler.builder.impl.BuilderWhitelist.EnumMode;
+import exopandora.worldhandler.builder.impl.BanCommandBuilder;
+import exopandora.worldhandler.builder.impl.DeOpCommandBuilder;
+import exopandora.worldhandler.builder.impl.KickCommandBuilder;
+import exopandora.worldhandler.builder.impl.OpCommandBuilder;
+import exopandora.worldhandler.builder.impl.PardonCommandBuilder;
+import exopandora.worldhandler.builder.impl.SaveAllCommandBuilder;
+import exopandora.worldhandler.builder.impl.SaveOffCommandBuilder;
+import exopandora.worldhandler.builder.impl.SaveOnCommandBuilder;
+import exopandora.worldhandler.builder.impl.StopCommandBuilder;
+import exopandora.worldhandler.builder.impl.WhitelistCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -35,43 +38,53 @@ public class ContentMultiplayer extends Content
 	
 	private Page page = Page.KICK_AND_BAN;
 	
-	private final BuilderPlayerReason builderKick = new BuilderPlayerReason("kick");
-	private final BuilderPlayerReason builderBan = new BuilderPlayerReason("ban");
-	private final BuilderPlayer builderPardon = new BuilderPlayer("pardon");
-	private final BuilderPlayer builderOp = new BuilderPlayer("op");
-	private final BuilderPlayer builderDeop = new BuilderPlayer("deop");
-	private final BuilderGeneric builderSaveAll = new BuilderGeneric("save-all");
-	private final BuilderGeneric builderSaveOn = new BuilderGeneric("save-on");
-	private final BuilderGeneric builderSaveOff = new BuilderGeneric("save-off");
-	private final BuilderGeneric builderStop = new BuilderGeneric("stop");
-	private final BuilderWhitelist builderWhitelist = new BuilderWhitelist();
+	private final KickCommandBuilder builderKick = new KickCommandBuilder();
+	private final BanCommandBuilder builderBan = new BanCommandBuilder();
+	private final PardonCommandBuilder builderPardon = new PardonCommandBuilder();
+	private final OpCommandBuilder builderOp = new OpCommandBuilder();
+	private final DeOpCommandBuilder builderDeop = new DeOpCommandBuilder();
+	private final SaveAllCommandBuilder builderSaveAll = new SaveAllCommandBuilder();
+	private final SaveOnCommandBuilder builderSaveOn = new SaveOnCommandBuilder();
+	private final SaveOffCommandBuilder builderSaveOff = new SaveOffCommandBuilder();
+	private final StopCommandBuilder builderStop = new StopCommandBuilder();
+	private final WhitelistCommandBuilder builderWhitelist = new WhitelistCommandBuilder();
 	
-	private final BuilderMultiCommand builderKickBan = new BuilderMultiCommand(this.builderKick, this.builderBan);
-	private final BuilderMultiCommand builderPermissions = new BuilderMultiCommand(this.builderOp, this.builderDeop);
-	private final BuilderMultiCommand builderRuntime = new BuilderMultiCommand(this.builderSaveAll, this.builderSaveOn, this.builderSaveOff, this.builderStop);
+	private final CommandPreview previewKickBan = new CommandPreview()
+			.add(this.builderKick, KickCommandBuilder.Label.KICK)
+			.add(this.builderBan, BanCommandBuilder.Label.BAN);
+	private final CommandPreview previewPardon = new CommandPreview(this.builderPardon, PardonCommandBuilder.Label.PARDON);
+	private final CommandPreview previewPermissions = new CommandPreview()
+			.add(this.builderOp, OpCommandBuilder.Label.OP)
+			.add(this.builderDeop, DeOpCommandBuilder.Label.DEOP);
+	private final CommandPreview previewRuntime = new CommandPreview()
+			.add(this.builderSaveAll, SaveAllCommandBuilder.Label.SAVE_ALL)
+			.add(this.builderSaveOn, SaveOnCommandBuilder.Label.SAVE_ON)
+			.add(this.builderSaveOff, SaveOffCommandBuilder.Label.SAVE_OFF)
+			.add(this.builderStop, StopCommandBuilder.Label.STOP);
+	private final CommandPreview previewWhitelist = new CommandPreview(this.builderWhitelist, null);
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
 		if(Page.KICK_AND_BAN.equals(this.page))
 		{
-			return this.builderKickBan;
+			return this.previewKickBan;
 		}
 		else if(Page.PARDON.equals(this.page))
 		{
-			return this.builderPardon;
+			return this.previewPardon;
 		}
 		else if(Page.PERMISSIONS.equals(this.page))
 		{
-			return this.builderPermissions;
+			return this.previewPermissions;
 		}
 		else if(Page.RUNTIME.equals(this.page))
 		{
-			return this.builderRuntime;
+			return this.previewRuntime;
 		}
 		else if(Page.WHITELIST.equals(this.page))
 		{
-			return this.builderWhitelist;
+			return this.previewWhitelist;
 		}
 		
 		return null;
@@ -83,7 +96,7 @@ public class ContentMultiplayer extends Content
 		this.playerField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.username"));
 		this.playerField.setFilter(Predicates.notNull());
 		this.playerField.setFocus(false);
-		this.playerField.setValue(this.builderKick.getPlayer());
+		this.playerField.setValue(this.builderKick.targets().getTarget());
 		this.playerField.setMaxLength(16);
 		this.playerField.setResponder(text ->
 		{
@@ -94,7 +107,7 @@ public class ContentMultiplayer extends Content
 		this.reasonField = new GuiTextFieldTooltip(x + 118, y + 24 + this.page.getShift(), 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.kick_ban.reason"));
 		this.reasonField.setFilter(Predicates.notNull());
 		this.reasonField.setFocus(false);
-		this.reasonField.setValue(this.builderKick.getReason());
+		this.reasonField.setValue(this.builderKick.reason().get());
 		this.reasonField.setResponder(text ->
 		{
 			this.setReason(this.reasonField.getValue());
@@ -145,13 +158,13 @@ public class ContentMultiplayer extends Content
 		{
 			container.add(this.playerField);
 			container.add(this.reasonField);
-			container.add(button6 = new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.kick"), new TextComponent(this.builderKick.toActualCommand()), () ->
+			container.add(button6 = new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.kick"), new TextComponent(this.builderKick.toCommand(KickCommandBuilder.Label.KICK_REASON, false)), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderKick);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderKick, KickCommandBuilder.Label.KICK_REASON);
 			}));
-			container.add(button7 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.ban"), new TextComponent(this.builderBan.toActualCommand()), () ->
+			container.add(button7 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.ban"), new TextComponent(this.builderBan.toCommand(BanCommandBuilder.Label.BAN_REASON, false)), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderBan);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderBan, BanCommandBuilder.Label.BAN_REASON);
 			}));
 			
 			if(this.playerField.getValue().isEmpty())
@@ -165,9 +178,9 @@ public class ContentMultiplayer extends Content
 		else if(Page.PARDON.equals(this.page))
 		{
 			container.add(this.playerField);
-			container.add(button6 = new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.pardon"), new TextComponent(this.builderPardon.toActualCommand()), () ->
+			container.add(button6 = new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.pardon"), new TextComponent(this.builderPardon.toCommand(PardonCommandBuilder.Label.PARDON, false)), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderPardon);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderPardon, PardonCommandBuilder.Label.PARDON);
 			}));
 			
 			if(this.playerField.getValue().isEmpty())
@@ -180,13 +193,13 @@ public class ContentMultiplayer extends Content
 		else if(Page.PERMISSIONS.equals(this.page))
 		{
 			container.add(this.playerField);
-			container.add(button6 = new GuiButtonTooltip(x + 118, y + 24 + 12, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.permissions.give"), new TextComponent(this.builderOp.toActualCommand()), () ->
+			container.add(button6 = new GuiButtonTooltip(x + 118, y + 24 + 12, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.permissions.give"), new TextComponent(this.builderOp.toCommand(OpCommandBuilder.Label.OP, false)), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderOp);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderOp, OpCommandBuilder.Label.OP);
 			}));
-			container.add(button7 = new GuiButtonTooltip(x + 118, y + 48 + 12, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.permissions.take"), new TextComponent(this.builderDeop.toActualCommand()), () ->
+			container.add(button7 = new GuiButtonTooltip(x + 118, y + 48 + 12, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.permissions.take"), new TextComponent(this.builderDeop.toCommand(DeOpCommandBuilder.Label.DEOP, false)), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderDeop);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderDeop, DeOpCommandBuilder.Label.DEOP);
 			}));
 			
 			if(this.playerField.getValue().isEmpty())
@@ -199,21 +212,21 @@ public class ContentMultiplayer extends Content
 		}
 		else if(Page.RUNTIME.equals(this.page))
 		{
-			container.add(new GuiButtonTooltip(x + 118, y, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.runtime.save_world"), new TextComponent(this.builderSaveAll.toActualCommand()), () ->
+			container.add(new GuiButtonTooltip(x + 118, y, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.runtime.save_world"), new TextComponent(this.builderSaveAll.toCommand(SaveAllCommandBuilder.Label.SAVE_ALL, false)), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderSaveAll);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderSaveAll, SaveAllCommandBuilder.Label.SAVE_ALL);
 			}));
-			container.add(new GuiButtonTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.runtime.autosave", new TranslatableComponent("gui.worldhandler.generic.on")), new TextComponent(this.builderSaveOn.toActualCommand()), () ->
+			container.add(new GuiButtonTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.runtime.autosave", new TranslatableComponent("gui.worldhandler.generic.on")), new TextComponent(this.builderSaveOn.toCommand(SaveOnCommandBuilder.Label.SAVE_ON, false)), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderSaveOn);
+				CommandHelper.sendCommand(container.getPlayer(), this.builderSaveOn, SaveOnCommandBuilder.Label.SAVE_ON);
 			}));
-			container.add(new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.runtime.autosave", new TranslatableComponent("gui.worldhandler.generic.off")).withStyle(ChatFormatting.RED), new TextComponent(this.builderSaveOff.toActualCommand()), () ->
+			container.add(new GuiButtonTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.runtime.autosave", new TranslatableComponent("gui.worldhandler.generic.off")).withStyle(ChatFormatting.RED), new TextComponent(this.builderSaveOff.toCommand(SaveOffCommandBuilder.Label.SAVE_OFF, false)), () ->
 			{
-				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSaveOff));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSaveOff, SaveOffCommandBuilder.Label.SAVE_OFF));
 			}));
-			container.add(new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.runtime.stop_server").withStyle(ChatFormatting.RED), new TextComponent(this.builderStop.toActualCommand()), () ->
+			container.add(new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.runtime.stop_server").withStyle(ChatFormatting.RED), new TextComponent(this.builderStop.toCommand(StopCommandBuilder.Label.STOP, false)), () ->
 			{
-				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderStop));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderStop, StopCommandBuilder.Label.STOP));
 			}));
 			
 			button4.active = false;
@@ -223,25 +236,25 @@ public class ContentMultiplayer extends Content
 			container.add(this.playerField);
 			container.add(button6 = new GuiButtonBase(x + 118, y + 24, 44, 20, new TranslatableComponent("gui.worldhandler.multiplayer.whitelist.add"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.ADD));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist, WhitelistCommandBuilder.Label.ADD);
 			}));
 			container.add(button7 = new GuiButtonBase(x + 118 + 47, y + 24, 44, 20, new TranslatableComponent("gui.worldhandler.multiplayer.whitelist.remove"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.REMOVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist, WhitelistCommandBuilder.Label.REMOVE);
 			}));
 			
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.whitelist.whitelist", new TranslatableComponent("gui.worldhandler.generic.on")), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.ON));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist, WhitelistCommandBuilder.Label.ON);
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.multiplayer.whitelist.whitelist", new TranslatableComponent("gui.worldhandler.generic.off")), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.OFF));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist, WhitelistCommandBuilder.Label.OFF);
 			}));
 			
 			container.add(new GuiButtonIcon(x + 232 - 20, y + 24, 20, 20, EnumIcon.RELOAD, new TranslatableComponent("gui.worldhandler.multiplayer.whitelist.reload"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist.build(EnumMode.RELOAD));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderWhitelist, WhitelistCommandBuilder.Label.RELOAD);
 			}));
 			
 			if(this.playerField.getValue().isEmpty())
@@ -284,20 +297,18 @@ public class ContentMultiplayer extends Content
 	
 	private void setPlayer(String player)
 	{
-		this.builderBan.setPlayer(player);
-		this.builderKick.setPlayer(player);
-		
-		this.builderPardon.setPlayer(player);
-		this.builderOp.setPlayer(player);
-		this.builderDeop.setPlayer(player);
-		
-		this.builderWhitelist.setPlayer(player);
+		this.builderBan.targets().setTarget(player);
+		this.builderKick.targets().setTarget(player);
+		this.builderPardon.targets().setTarget(player);
+		this.builderOp.targets().setTarget(player);
+		this.builderDeop.targets().setTarget(player);
+		this.builderWhitelist.targets().setTarget(player);
 	}
 	
 	private void setReason(String reason)
 	{
-		this.builderBan.setReason(reason);
-		this.builderKick.setReason(reason);
+		this.builderBan.reason().set(reason);
+		this.builderKick.reason().set(reason);
 	}
 	
 	@Override

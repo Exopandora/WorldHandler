@@ -1,9 +1,8 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import exopandora.worldhandler.builder.impl.BuilderGive;
-import exopandora.worldhandler.builder.impl.BuilderSetBlock;
-import exopandora.worldhandler.builder.types.Coordinate.EnumType;
-import exopandora.worldhandler.builder.types.CoordinateInt;
+import exopandora.worldhandler.builder.argument.Coordinate;
+import exopandora.worldhandler.builder.impl.GiveCommandBuilder;
+import exopandora.worldhandler.builder.impl.SetBlockCommandBuilder;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
@@ -18,7 +17,9 @@ import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -29,21 +30,9 @@ public class ContentContainers extends Content
 	{
 		container.add(new GuiButtonBase(x, y + 96, 232, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.getName(), () ->
-		{
-			BlockHelper.setBlockNearPlayer(container.getPlayer(), Blocks.CRAFTING_TABLE);
-			ActionHelper.backToGame();
-		}));
-		container.add(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.getName(), () ->
-		{
-			BlockHelper.setBlockNearPlayer(container.getPlayer(), Blocks.ENDER_CHEST);
-			ActionHelper.backToGame();
-		}));
-		container.add(new GuiButtonBase(x + 24, y + 48, 208, 20, Blocks.ANVIL.getName(), () ->
-		{
-			BlockHelper.setBlockNearPlayer(container.getPlayer(), Blocks.ANVIL);
-			ActionHelper.backToGame();
-		}));
+		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.CRAFTING_TABLE)));
+		container.add(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.ENDER_CHEST)));
+		container.add(new GuiButtonBase(x + 24, y + 48, 208, 20, Blocks.ANVIL.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.ANVIL)));
 		container.add(new GuiButtonBase(x + 24, y + 72, 208, 20, Blocks.ENCHANTING_TABLE.getName(), () ->
 		{
 			double angle = Minecraft.getInstance().player.getDirection().get2DDataValue() * Math.PI / 2;
@@ -68,10 +57,28 @@ public class ContentContainers extends Content
 						{
 							block = Blocks.ENCHANTING_TABLE;
 						}
-						
-						if(block != null)
+						else
 						{
-							CommandHelper.sendCommand(container.getPlayer(), new BuilderSetBlock(new CoordinateInt(cx, EnumType.GLOBAL), new CoordinateInt(yOffset, EnumType.GLOBAL), new CoordinateInt(cz, EnumType.GLOBAL), block.getRegistryName(), Config.getSettings().getBlockPlacingMode()));
+							continue;
+						}
+						
+						SetBlockCommandBuilder builder = new SetBlockCommandBuilder();
+						builder.pos().setX(new Coordinate.Ints(cx, Coordinate.Type.RELATIVE));
+						builder.pos().setY(new Coordinate.Ints(yOffset, Coordinate.Type.RELATIVE));
+						builder.pos().setZ(new Coordinate.Ints(cz, Coordinate.Type.RELATIVE));
+						builder.block().set(block);
+						
+						switch(Config.getSettings().getBlockPlacingMode())
+						{
+							case KEEP:
+								CommandHelper.sendCommand(container.getPlayer(), builder, SetBlockCommandBuilder.Label.KEEP);
+								break;
+							case REPLACE:
+								CommandHelper.sendCommand(container.getPlayer(), builder, SetBlockCommandBuilder.Label.REPLACE);
+								break;
+							case DESTROY:
+								CommandHelper.sendCommand(container.getPlayer(), builder, SetBlockCommandBuilder.Label.DESTROY);
+								break;
 						}
 					}
 				}
@@ -80,22 +87,24 @@ public class ContentContainers extends Content
 			ActionHelper.backToGame();
 		}));
 		
-		container.add(new GuiButtonItem(x, y, 20, 20, new ItemStack(Blocks.CRAFTING_TABLE), () ->
-		{
-			CommandHelper.sendCommand(container.getPlayer(), new BuilderGive(container.getPlayer(), Blocks.CRAFTING_TABLE.getRegistryName()));
-		}));
-		container.add(new GuiButtonItem(x, y + 24, 20, 20, new ItemStack(Blocks.ENDER_CHEST), () ->
-		{
-			CommandHelper.sendCommand(container.getPlayer(), new BuilderGive(container.getPlayer(), Blocks.ENDER_CHEST.getRegistryName()));
-		}));
-		container.add(new GuiButtonItem(x, y + 48, 20, 20, new ItemStack(Blocks.ANVIL), () ->
-		{
-			CommandHelper.sendCommand(container.getPlayer(), new BuilderGive(container.getPlayer(), Blocks.ANVIL.getRegistryName()));
-		}));
-		container.add(new GuiButtonItem(x, y + 72, 20, 20, new ItemStack(Blocks.ENCHANTING_TABLE), () ->
-		{
-			CommandHelper.sendCommand(container.getPlayer(), new BuilderGive(container.getPlayer(), Blocks.ENCHANTING_TABLE.getRegistryName()));
-		}));
+		container.add(new GuiButtonItem(x, y, 20, 20, new ItemStack(Blocks.CRAFTING_TABLE), () -> this.giveItem(container.getPlayer(), Items.CRAFTING_TABLE)));
+		container.add(new GuiButtonItem(x, y + 24, 20, 20, new ItemStack(Blocks.ENDER_CHEST), () -> this.giveItem(container.getPlayer(), Items.ENDER_CHEST)));
+		container.add(new GuiButtonItem(x, y + 48, 20, 20, new ItemStack(Blocks.ANVIL), () -> this.giveItem(container.getPlayer(), Items.ANVIL)));
+		container.add(new GuiButtonItem(x, y + 72, 20, 20, new ItemStack(Blocks.ENCHANTING_TABLE), () -> this.giveItem(container.getPlayer(), Items.ENCHANTING_TABLE)));
+	}
+	
+	private void giveItem(String player, Item item)
+	{
+		GiveCommandBuilder builder = new GiveCommandBuilder();
+		builder.targets().setTarget(player);
+		builder.item().set(item);
+		CommandHelper.sendCommand(player, builder, GiveCommandBuilder.Label.GIVE);
+	}
+	
+	private void placeBlock(String player, Block block)
+	{
+		BlockHelper.setBlockNearPlayer(player, block);
+		ActionHelper.backToGame();
 	}
 	
 	@Override

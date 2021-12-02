@@ -50,7 +50,7 @@ public class GuiButtonPiano extends GuiButtonBase
 				break;
 		}
 		
-		int hovered = this.getYImage(this.isHovered());
+		int hovered = this.getYImage(this.isHoveredOrFocused());
 		
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlpha());
 		RenderSystem.setShaderTexture(0, NOTE);
@@ -76,7 +76,7 @@ public class GuiButtonPiano extends GuiButtonBase
 		Font font = Minecraft.getInstance().font;
 		
 		this.blit(matrix, this.x, this.y, 25 + hoverstate * 15 - 15, 0, 15, 92);
-		font.draw(matrix, this.getMessage(), (float) (this.x + this.width / 2 - font.width(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor); //drawString
+		font.draw(matrix, this.getMessage(), (float) (this.x + this.width / 2 - font.width(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor);
 	}
 	
 	protected void drawBlackKey(PoseStack matrix, int hoverstate)
@@ -93,7 +93,7 @@ public class GuiButtonPiano extends GuiButtonBase
 		{
 			textColor = 0xA0A0A0;
 		}
-		else if(this.isHovered())
+		else if(this.isHoveredOrFocused())
 		{
 			textColor = 0x8B8B8B;
 		}

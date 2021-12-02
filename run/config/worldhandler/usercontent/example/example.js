@@ -24,7 +24,7 @@ function selected(arg) {
 }
 
 function updateText(arg) {
-	api.setCommandArgument(0, 4, arg);
+	api.setArgument("example1", "textfield", arg);
 }
 
 function openContent(arg) {

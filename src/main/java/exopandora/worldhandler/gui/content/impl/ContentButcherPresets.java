@@ -13,25 +13,25 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContentButcherPresets extends ContentChild
 {
-	private ICommandBuilder builder;
-	private int radius;
+	private CommandPreview preview;
+	private double radius;
 	
-	public ContentButcherPresets withBuilder(ICommandBuilder builder)
+	public ContentButcherPresets withBuilder(ICommandBuilder builder, Object label)
 	{
-		this.builder = builder;
+		this.preview = new CommandPreview(builder, label);
 		return this;
 	}
 	
-	public ContentButcherPresets withRadius(int radius)
+	public ContentButcherPresets withRadius(double radius)
 	{
 		this.radius = radius;
 		return this;
 	}
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builder;
+		return this.preview;
 	}
 	
 	@Override

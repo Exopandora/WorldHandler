@@ -2,19 +2,18 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.ArrayList;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderEnchantment;
+import exopandora.worldhandler.builder.impl.EnchantCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
-import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
@@ -26,12 +25,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContentEnchantment extends Content
 {
-	private final BuilderEnchantment builderEnchantment = new BuilderEnchantment();
+	private final EnchantCommandBuilder builderEnchantment = new EnchantCommandBuilder();
+	private final CommandPreview preview = new CommandPreview(this.builderEnchantment, EnchantCommandBuilder.Label.ENCHANT_LEVEL);
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builderEnchantment;
+		return this.preview;
 	}
 	
 	@Override
@@ -40,22 +40,22 @@ public class ContentEnchantment extends Content
 		MenuPageList<Enchantment> enchantments = new MenuPageList<Enchantment>(x, y, new ArrayList<Enchantment>(ForgeRegistries.ENCHANTMENTS.getValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
 		{
 			@Override
-			public MutableComponent translate(Enchantment item)
+			public MutableComponent translate(Enchantment enchantment)
 			{
-				return new TranslatableComponent(item.getDescriptionId());
+				return new TranslatableComponent(enchantment.getDescriptionId());
 			}
 			
 			@Override
-			public MutableComponent toTooltip(Enchantment item)
+			public MutableComponent toTooltip(Enchantment enchantment)
 			{
-				return new TextComponent(item.getRegistryName().toString());
+				return new TextComponent(enchantment.getRegistryName().toString());
 			}
 			
 			@Override
-			public void onClick(Enchantment item)
+			public void onClick(Enchantment enchantment)
 			{
-				ContentEnchantment.this.builderEnchantment.setEnchantment(item);
-				ContentEnchantment.this.builderEnchantment.setLevel(1);
+				ContentEnchantment.this.builderEnchantment.enchantment().set(enchantment);
+				ContentEnchantment.this.builderEnchantment.level().set(1);
 				container.initButtons();
 			}
 			
@@ -81,14 +81,14 @@ public class ContentEnchantment extends Content
 		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
 		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiSlider(x + 118, y + 24, 114, 20, 1, ForgeRegistries.ENCHANTMENTS.getValue(this.builderEnchantment.getEnchantment()).getMaxLevel(), 1, container, new LogicSliderSimple("enchantment", new TranslatableComponent("gui.worldhandler.items.enchantment.level"), value ->
+		container.add(new GuiSlider(x + 118, y + 24, 114, 20, 1, this.builderEnchantment.enchantment().getEnchantment().getMaxLevel(), 1, container, new LogicSliderSimple("enchantment", new TranslatableComponent("gui.worldhandler.items.enchantment.level"), value ->
 		{
-			this.builderEnchantment.setLevel(value.intValue());
+			this.builderEnchantment.level().set(value.intValue());
 		})));
 		
 		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.items.enchantment.enchant"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderEnchantment);
+			CommandHelper.sendCommand(container.getPlayer(), this.builderEnchantment, EnchantCommandBuilder.Label.ENCHANT_LEVEL);
 		}));
 	}
 	
@@ -119,6 +119,6 @@ public class ContentEnchantment extends Content
 	@Override
 	public void onPlayerNameChanged(String username)
 	{
-		this.builderEnchantment.setPlayer(username);
+		this.builderEnchantment.target().setTarget(username);
 	}
 }

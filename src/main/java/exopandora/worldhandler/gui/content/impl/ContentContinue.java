@@ -3,7 +3,6 @@ package exopandora.worldhandler.gui.content.impl;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.ICommandBuilderSyntax;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
@@ -16,24 +15,26 @@ public class ContentContinue extends ContentChild
 {
 	private ICommandBuilder builder;
 	private GuiTextFieldTooltip commandField;
+	private Object label;
 	private boolean special;
 	
-	public ContentContinue withBuilder(ICommandBuilder builder)
+	public ContentContinue withBuilder(ICommandBuilder builder, Object label)
 	{
-		return this.withBuilder(builder, false);
+		return this.withBuilder(builder, label, false);
 	}
 	
-	public ContentContinue withBuilder(ICommandBuilder builder, boolean special)
+	public ContentContinue withBuilder(ICommandBuilder builder, Object label, boolean special)
 	{
 		this.builder = builder;
+		this.label = label;
 		this.special = special;
 		return this;
 	}
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builder;
+		return new CommandPreview(this.builder, this.label);
 	}
 	
 	@Override
@@ -41,16 +42,7 @@ public class ContentContinue extends ContentChild
 	{
 		this.commandField = new GuiTextFieldTooltip(x + 116 / 2, y + 12, 116, 20);
 		this.commandField.setFocus(false);
-		
-		if(this.builder instanceof ICommandBuilderSyntax)
-		{
-			this.commandField.setValue(((ICommandBuilderSyntax) this.builder).toActualCommand());
-		}
-		else
-		{
-			this.commandField.setValue(this.builder.toCommand());
-		}
-		
+		this.commandField.setValue(this.builder.toCommand(this.label, false));
 		this.commandField.moveCursorToStart();
 		this.commandField.setFilter(text -> text.equals(this.commandField.getValue()));
 	}
@@ -64,7 +56,7 @@ public class ContentContinue extends ContentChild
 		container.add(this.commandField);
 		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, new TranslatableComponent("gui.worldhandler.generic.yes").withStyle(ChatFormatting.RED), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builder, this.special);
+			CommandHelper.sendCommand(container.getPlayer(), this.builder, this.label, this.special);
 			ActionHelper.open(this.getParentContent());
 		}));
 		container.add(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, new TranslatableComponent("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));

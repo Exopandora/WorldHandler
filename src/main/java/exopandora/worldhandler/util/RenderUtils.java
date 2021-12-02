@@ -9,6 +9,8 @@ import net.minecraft.client.gui.GuiComponent;
 
 public class RenderUtils
 {
+	public static final double EPS = 0.0020000000949949026D;
+	
 	public static void drawWatchIntoGui(PoseStack matrix, GuiComponent gui, int width, int height, long worldTicks, boolean smooth)
 	{
 		float hour = TextUtils.toHour(worldTicks);

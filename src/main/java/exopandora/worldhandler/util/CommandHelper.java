@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher;
 
 import exopandora.worldhandler.WorldHandler;
 import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.ICommandBuilderSyntax;
 import exopandora.worldhandler.command.CommandWH;
 import exopandora.worldhandler.command.CommandWorldHandler;
 import net.minecraft.client.Minecraft;
@@ -13,6 +12,8 @@ import net.minecraft.network.chat.TextComponent;
 
 public class CommandHelper
 {
+	public static final int MAX_COMMAND_LENGTH = 256;
+	
 	public static void sendFeedback(CommandSourceStack source, String message)
 	{
 		source.sendSuccess(new TextComponent(message), false);
@@ -34,36 +35,24 @@ public class CommandHelper
 		CommandWH.register(dispatcher);
 	}
 	
-	public static void sendCommand(String player, ICommandBuilder builder)
+	public static void sendCommand(String player, ICommandBuilder builder, Object label)
 	{
-		CommandHelper.sendCommand(player, builder, false);
+		CommandHelper.sendCommand(player, builder, label, false);
 	}
 	
-	public static void sendCommand(String player, ICommandBuilder builder, boolean special)
+	public static void sendCommand(String player, ICommandBuilder builder, Object label, boolean special)
 	{
-		if(builder != null)
+		String command = builder.toCommand(label, false);
+		
+		if(builder.needsCommandBlock(label, false) || special)
 		{
-			String command;
-			
-			if(builder instanceof ICommandBuilderSyntax)
-			{
-				command = ((ICommandBuilderSyntax) builder).toActualCommand();
-			}
-			else
-			{
-				command = builder.toCommand();
-			}
-			
-			WorldHandler.LOGGER.info("Command: " + command);
-			
-			if(builder.needsCommandBlock() || special)
-			{
-				BlockHelper.setCommandBlockNearPlayer(player, command);
-			}
-			else if(Minecraft.getInstance().player != null)
-			{
-				Minecraft.getInstance().player.chat(command);
-			}
+			BlockHelper.setCommandBlockNearPlayer(player, builder, label);
 		}
+		else if(Minecraft.getInstance().player != null)
+		{
+			Minecraft.getInstance().player.chat(command);
+		}
+		
+		WorldHandler.LOGGER.info("Command: " + command);
 	}
 }

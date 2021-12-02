@@ -52,7 +52,6 @@ public class Node
 	{
 		this.validateEntries();
 		this.entries.add(node);
-		
 		return node;
 	}
 	
@@ -145,8 +144,7 @@ public class Node
 			}
 		}
 		
-		root.addNode(node);
-		return this.insertNode(index + 1, path, node);
+		return this.insertNode(index + 1, path, root.addNode(node));
 	}
 	
 	public void mergeItems()

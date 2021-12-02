@@ -23,7 +23,7 @@ public class VisibleObject<T>
 		return true;
 	}
 	
-	public T getObject()
+	public T get()
 	{
 		return this.object;
 	}

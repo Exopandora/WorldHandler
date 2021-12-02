@@ -75,7 +75,7 @@ public class JsonWidget extends AbstractJsonWidget<Type>
 				throw new IllegalStateException("widget.attributes.item is null");
 			}
 			
-			this.validateAction(Action.Type.OPEN, Action.Type.SET, Action.Type.RUN, Action.Type.BACK, Action.Type.BACK_TO_GAME, Action.Type.JS);
+			this.validateAction(Action.Type.OPEN, Action.Type.SET, Action.Type.RUN, Action.Type.RUN_STRING, Action.Type.BACK, Action.Type.BACK_TO_GAME, Action.Type.JS);
 		}
 		else if(this.type == Type.ICON_BUTTON)
 		{
@@ -88,7 +88,7 @@ public class JsonWidget extends AbstractJsonWidget<Type>
 				throw new IllegalStateException("widget.attributes.icon is null");
 			}
 			
-			this.validateAction(Action.Type.OPEN, Action.Type.SET, Action.Type.RUN, Action.Type.BACK, Action.Type.BACK_TO_GAME, Action.Type.JS);
+			this.validateAction(Action.Type.OPEN, Action.Type.SET, Action.Type.RUN, Action.Type.RUN_STRING, Action.Type.BACK, Action.Type.BACK_TO_GAME, Action.Type.JS);
 		}
 		else if(this.type == Type.LIST_BUTTON)
 		{

@@ -8,19 +8,19 @@ public class ActionAttributes
 	private String function;
 	
 	@SerializedName("command")
-	private int command;
+	private String command;
 	
-	@SerializedName("index")
-	private int index;
+	@SerializedName("argument")
+	private String argument;
 	
 	@SerializedName("value")
 	private String value;
 	
-	public ActionAttributes(String function, int command, int index, String value)
+	public ActionAttributes(String function, String command, String argument, String value)
 	{
 		this.function = function;
 		this.command = command;
-		this.index = index;
+		this.argument = argument;
 		this.value = value;
 	}
 	
@@ -34,24 +34,24 @@ public class ActionAttributes
 		this.function = function;
 	}
 	
-	public int getCommand()
+	public String getCommand()
 	{
 		return this.command;
 	}
 	
-	public void setCommand(int command)
+	public void setCommand(String command)
 	{
 		this.command = command;
 	}
 	
-	public int getIndex()
+	public String getArgument()
 	{
-		return this.index;
+		return this.argument;
 	}
 	
-	public void setIndex(int index)
+	public void setArgument(String argument)
 	{
-		this.index = index;
+		this.argument = argument;
 	}
 	
 	public String getValue()

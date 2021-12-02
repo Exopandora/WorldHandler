@@ -1,6 +1,5 @@
 package exopandora.worldhandler.util;
 
-import exopandora.worldhandler.builder.INBTWritable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -8,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
 
-public class MutableTextComponent extends TextComponent implements INBTWritable
+public class MutableTextComponent extends TextComponent
 {	
 	public MutableTextComponent()
 	{
@@ -70,7 +69,6 @@ public class MutableTextComponent extends TextComponent implements INBTWritable
 		return FormattedCharSequence.forward(string, this.getStyle());
 	}
 	
-	@Override
 	public Tag serialize()
 	{
 		if(this.getContents() != null && !this.getContents().isEmpty())

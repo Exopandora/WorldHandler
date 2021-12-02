@@ -1,7 +1,7 @@
 package exopandora.worldhandler.gui.container;
 
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.gui.menu.Menu;
+import exopandora.worldhandler.gui.widget.menu.Menu;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;

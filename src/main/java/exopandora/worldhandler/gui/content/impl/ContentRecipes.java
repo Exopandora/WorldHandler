@@ -3,18 +3,16 @@ package exopandora.worldhandler.gui.content.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderRecipe;
-import exopandora.worldhandler.builder.impl.BuilderRecipe.EnumMode;
+import exopandora.worldhandler.builder.impl.RecipeCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
-import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
@@ -27,12 +25,13 @@ import net.minecraft.world.item.crafting.Recipe;
 
 public class ContentRecipes extends Content
 {
-	private final BuilderRecipe builderRecipe = new BuilderRecipe();
+	private final RecipeCommandBuilder builderRecipe = new RecipeCommandBuilder();
+	private final CommandPreview preview = new CommandPreview(this.builderRecipe, null);
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builderRecipe;
+		return this.preview;
 	}
 	
 	@Override
@@ -46,33 +45,33 @@ public class ContentRecipes extends Content
 		MenuPageList<Recipe<?>> list = new MenuPageList<Recipe<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<Recipe<?>>()
 		{
 			@Override
-			public MutableComponent translate(Recipe<?> item)
+			public MutableComponent translate(Recipe<?> recipe)
 			{
-				if(!item.getResultItem().equals(ItemStack.EMPTY))
+				if(!ItemStack.EMPTY.equals(recipe.getResultItem()))
 				{
-					return (MutableComponent) item.getResultItem().getHoverName();
+					return (MutableComponent) recipe.getResultItem().getHoverName();
 				}
 				
-				return new TextComponent(item.getId().toString());
+				return new TextComponent(recipe.getId().toString());
 			}
 			
 			@Override
-			public MutableComponent toTooltip(Recipe<?> item)
+			public MutableComponent toTooltip(Recipe<?> recipe)
 			{
-				return new TextComponent(item.getId().toString());
+				return new TextComponent(recipe.getId().toString());
 			}
 			
 			@Override
-			public void onClick(Recipe<?> item)
+			public void onClick(Recipe<?> recipe)
 			{
-				ContentRecipes.this.builderRecipe.setRecipe(item);
+				ContentRecipes.this.builderRecipe.recipe().set(recipe.getId());
 				container.initButtons();
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Recipe<?> item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Recipe<?> recipe, ActionHandler actionHandler)
 			{
-				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
+				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(recipe), actionHandler);
 			}
 			
 			@Override
@@ -93,12 +92,12 @@ public class ContentRecipes extends Content
 		
 		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.recipes.give"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe.build(EnumMode.GIVE));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe, RecipeCommandBuilder.Label.GIVE);
 			container.initButtons();
 		}));
 		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.recipes.take"), () ->
 		{
-			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe.build(EnumMode.TAKE));
+			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe, RecipeCommandBuilder.Label.TAKE);
 			container.initButtons();
 		}));
 	}
@@ -130,6 +129,6 @@ public class ContentRecipes extends Content
 	@Override
 	public void onPlayerNameChanged(String username)
 	{
-		this.builderRecipe.setPlayer(username);
+		this.builderRecipe.targets().setTarget(username);
 	}
 }

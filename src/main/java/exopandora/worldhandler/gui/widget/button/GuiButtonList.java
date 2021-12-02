@@ -5,7 +5,7 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.menu.impl.ILogicMapped;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicMapped;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

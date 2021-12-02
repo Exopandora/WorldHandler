@@ -3,7 +3,7 @@
 
 # Except
 
-!/src/
+!/src/main/
 !/gradle/
 !/run/config/worldhandler/usercontent/
 !build.gradle

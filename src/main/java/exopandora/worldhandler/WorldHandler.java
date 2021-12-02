@@ -14,6 +14,7 @@ import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.util.AdvancementHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -28,8 +29,6 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fmlclient.registry.ClientRegistry;
-import net.minecraftforge.fmllegacy.network.FMLNetworkConstants;
 
 @Mod(Main.MODID)
 public class WorldHandler
@@ -37,6 +36,7 @@ public class WorldHandler
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final Path USERCONTENT_PATH = FMLPaths.CONFIGDIR.get().resolve(Main.MODID).resolve("usercontent");
 	
+	@SuppressWarnings("serial")
 	public WorldHandler()
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -59,14 +59,14 @@ public class WorldHandler
 				modEventBus.addGenericListener(Category.class, Category::register);
 			}
 		});
-		modLoadingContext.registerExtensionPoint(DisplayTest.class, () -> new DisplayTest(() -> FMLNetworkConstants.IGNORESERVERONLY, (remote, isServer) -> true));
+		modLoadingContext.registerExtensionPoint(DisplayTest.class, () -> new DisplayTest(() -> "ANY", (remote, isServer) -> true));
 	}
 	
 	@SubscribeEvent
 	public void clientSetup(FMLClientSetupEvent event)
 	{
 		MinecraftForge.EVENT_BUS.addListener(KeyHandler::keyInputEvent);
-		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::renderWorldLastEvent);
+		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::renderLevelLastEvent);
 		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::clientChatEvent);
 		
 		ClientRegistry.registerKeyBinding(KeyHandler.KEY_WORLD_HANDLER);

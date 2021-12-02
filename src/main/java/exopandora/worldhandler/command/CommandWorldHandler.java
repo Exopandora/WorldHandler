@@ -13,7 +13,6 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.DistExecutor.SafeRunnable;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 
@@ -40,17 +39,7 @@ public class CommandWorldHandler
 	
 	private static int display(CommandSourceStack source) throws CommandSyntaxException
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
-		{
-			private static final long serialVersionUID = 210782927512442500L;
-			
-			@Override
-			public void run()
-			{
-				Minecraft.getInstance().execute(ActionHelper::displayGui);
-			}
-		});
-		
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().execute(ActionHelper::displayGui));
 		return 1;
 	}
 	

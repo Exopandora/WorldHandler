@@ -3,11 +3,10 @@ package exopandora.worldhandler.gui.content.impl;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderGeneric;
-import exopandora.worldhandler.builder.impl.BuilderMultiCommand;
-import exopandora.worldhandler.builder.impl.BuilderPlayer;
-import exopandora.worldhandler.builder.impl.BuilderSpawnpoint;
+import exopandora.worldhandler.builder.impl.ClearInventoryCommandBuilder;
+import exopandora.worldhandler.builder.impl.KillCommandBuilder;
+import exopandora.worldhandler.builder.impl.SetSpawnCommandBuilder;
+import exopandora.worldhandler.builder.impl.SetWorldSpawnCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -38,19 +37,22 @@ public class ContentPlayer extends Content
 	private GuiTextFieldTooltip coinsField;
 	private GuiTextFieldTooltip xpField;
 	
-	private final BuilderGeneric builderSetworldspawn = new BuilderGeneric("setworldspawn");
-	private final BuilderSpawnpoint builderSpawnpoint = new BuilderSpawnpoint();
-	private final BuilderPlayer builderKill = new BuilderPlayer("kill");
-	private final BuilderGeneric builderClear = new BuilderGeneric("clear");
-	
-	private final BuilderMultiCommand builderMiscellaneous = new BuilderMultiCommand(this.builderSetworldspawn, this.builderSpawnpoint, this.builderKill, this.builderClear);
+	private final SetWorldSpawnCommandBuilder builderSetWorldSpawn = new SetWorldSpawnCommandBuilder();
+	private final SetSpawnCommandBuilder builderSpawnpoint = new SetSpawnCommandBuilder();
+	private final KillCommandBuilder builderKill = new KillCommandBuilder();
+	private final ClearInventoryCommandBuilder builderClear = new ClearInventoryCommandBuilder();
+	private final CommandPreview preview = new CommandPreview()
+			.add(this.builderSetWorldSpawn, SetWorldSpawnCommandBuilder.Label.SET_WORLD_SPAWN)
+			.add(this.builderSpawnpoint, SetSpawnCommandBuilder.Label.SPAWNPOINT)
+			.add(this.builderKill, KillCommandBuilder.Label.KILL)
+			.add(this.builderClear, ClearInventoryCommandBuilder.Label.CLEAR);
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
 		if(Page.MISC.equals(this.page))
 		{
-			return this.builderMiscellaneous;
+			return this.preview;
 		}
 		
 		return null;
@@ -130,19 +132,19 @@ public class ContentPlayer extends Content
 			
 			container.add(new GuiButtonBase(x + 118, y, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.miscellaneous.set_spawn").withStyle(ChatFormatting.RED), () ->
 			{
-				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSpawnpoint));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSpawnpoint, SetSpawnCommandBuilder.Label.SPAWNPOINT));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").withStyle(ChatFormatting.RED), () ->
 			{
-				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSetworldspawn));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSetWorldSpawn, SetWorldSpawnCommandBuilder.Label.SET_WORLD_SPAWN));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.miscellaneous.kill").withStyle(ChatFormatting.RED), () ->
 			{
-				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderKill));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderKill, KillCommandBuilder.Label.KILL));
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.entities.player.miscellaneous.clear_inventory").withStyle(ChatFormatting.RED), () ->
 			{
-				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderClear));
+				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderClear, ClearInventoryCommandBuilder.Label.CLEAR));
 			}));
 		}
 	}
@@ -198,8 +200,8 @@ public class ContentPlayer extends Content
 	@Override
 	public void onPlayerNameChanged(String username)
 	{
-		this.builderSpawnpoint.setPlayer(username);
-		this.builderKill.setPlayer(username);
+		this.builderSpawnpoint.targets().setTarget(username);
+		this.builderKill.targets().setTarget(username);
 	}
 	
 	@Override

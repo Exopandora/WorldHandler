@@ -6,11 +6,11 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.gui.menu.Menu;
-import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
-import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
+import exopandora.worldhandler.gui.widget.menu.Menu;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
 import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonItem;

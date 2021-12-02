@@ -2,13 +2,11 @@ package exopandora.worldhandler.util;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.WorldHandler;
-import exopandora.worldhandler.builder.impl.BuilderDifficulty;
-import exopandora.worldhandler.builder.impl.BuilderGamemode;
-import exopandora.worldhandler.builder.impl.BuilderGamemode.EnumGamemode;
-import exopandora.worldhandler.builder.impl.BuilderTime;
-import exopandora.worldhandler.builder.impl.BuilderTime.EnumMode;
-import exopandora.worldhandler.builder.impl.BuilderWeather;
-import exopandora.worldhandler.builder.impl.BuilderWeather.EnumWeather;
+import exopandora.worldhandler.builder.argument.Gamemode;
+import exopandora.worldhandler.builder.impl.DifficultyCommandBuilder;
+import exopandora.worldhandler.builder.impl.GamemodeCommandBuilder;
+import exopandora.worldhandler.builder.impl.TimeCommandBuilder;
+import exopandora.worldhandler.builder.impl.WeatherCommandBuilder;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.impl.GuiWorldHandler;
 import exopandora.worldhandler.gui.content.Content;
@@ -67,77 +65,98 @@ public class ActionHelper
 	
 	public static void timeDawn()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getDawn()));
+		ActionHelper.setDayTime(Config.getSettings().getDawn());
 	}
 	
 	public static void timeNoon()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getNoon()));
+		ActionHelper.setDayTime(Config.getSettings().getNoon());
 	}
 	
 	public static void timeSunset()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getSunset()));
+		ActionHelper.setDayTime(Config.getSettings().getSunset());
 	}
 	
 	public static void timeMidnight()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderTime(EnumMode.SET, Config.getSettings().getMidnight()));
+		ActionHelper.setDayTime(Config.getSettings().getMidnight());
+	}
+	
+	public static void setDayTime(int time)
+	{
+		TimeCommandBuilder builder = new TimeCommandBuilder();
+		builder.time().set((float) time);
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), builder, TimeCommandBuilder.Label.SET);
 	}
 	
 	public static void weatherClear()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderWeather(EnumWeather.CLEAR));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new WeatherCommandBuilder(), WeatherCommandBuilder.Label.CLEAR);
 	}
 	
 	public static void weatherRain()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderWeather(EnumWeather.RAIN));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new WeatherCommandBuilder(), WeatherCommandBuilder.Label.RAIN);
 	}
 	
 	public static void weatherThunder()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderWeather(EnumWeather.THUNDER));
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new WeatherCommandBuilder(), WeatherCommandBuilder.Label.THUNDER);
 	}
 	
 	public static void difficultyPeaceful()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderDifficulty(Difficulty.PEACEFUL));
+		ActionHelper.setDifficulty(Difficulty.PEACEFUL);
 	}
 	
 	public static void difficultyEasy()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderDifficulty(Difficulty.EASY));
+		ActionHelper.setDifficulty(Difficulty.EASY);
 	}
 	
 	public static void difficultyNormal()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderDifficulty(Difficulty.NORMAL));
+		ActionHelper.setDifficulty(Difficulty.NORMAL);
 	}
 	
 	public static void difficultyHard()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderDifficulty(Difficulty.HARD));
+		ActionHelper.setDifficulty(Difficulty.HARD);
+	}
+	
+	private static void setDifficulty(Difficulty difficulty)
+	{
+		DifficultyCommandBuilder builder = new DifficultyCommandBuilder();
+		builder.difficulty().set(difficulty);
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), builder, DifficultyCommandBuilder.Label.DIFFICULTY);
 	}
 	
 	public static void gamemodeSurvival()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderGamemode(EnumGamemode.SURVIVAL));
+		ActionHelper.setGamemode(Gamemode.SURVIVAL);
 	}
 	
 	public static void gamemodeCreative()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderGamemode(EnumGamemode.CREATIVE));
+		ActionHelper.setGamemode(Gamemode.CREATIVE);
 	}
 	
 	public static void gamemodeAdventure()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderGamemode(EnumGamemode.ADVENTURE));
+		ActionHelper.setGamemode(Gamemode.ADVENTURE);
 	}
 	
 	public static void gamemodeSpectator()
 	{
-		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), new BuilderGamemode(EnumGamemode.SPECTATOR));
+		ActionHelper.setGamemode(Gamemode.SPECTATOR);
+	}
+	
+	private static void setGamemode(Gamemode gamemode)
+	{
+		GamemodeCommandBuilder builder = new GamemodeCommandBuilder();
+		builder.gamemode().set(gamemode);
+		CommandHelper.sendCommand(Minecraft.getInstance().getUser().getName(), builder, GamemodeCommandBuilder.Label.GAMEMODE);
 	}
 	
 	public static void tryRun(ActionHandler action)

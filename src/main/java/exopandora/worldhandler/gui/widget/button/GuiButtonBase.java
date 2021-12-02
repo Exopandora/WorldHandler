@@ -39,7 +39,7 @@ public class GuiButtonBase extends Button
 		RenderSystem.enableBlend();
 		RenderUtils.colorDefaultButton();
 		
-		int hovered = this.getYImage(this.isHovered());
+		int hovered = this.getYImage(this.isHoveredOrFocused());
 		RenderSystem.setShaderTexture(0, ResourceHelper.buttonTexture());
     	
 		int hWidth = this.width / 2;

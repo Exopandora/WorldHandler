@@ -1,73 +1,80 @@
 {
-	"model": {
-		"commands": [
-			{
+	"commands": {
+		"example1": {
+			"label": "textfield",
+			"syntax": {
 				"name": "example",
-				"syntax": [
+				"children": [
 					{
 						"name": "list_button",
 						"type": "resource_location",
-						"required": true
-					},
-					{
-						"name": "page_list",
-						"type": "resource_location",
-						"default": "minecraft:air",
-						"required": false
-					},
-					{
-						"name": "slider",
-						"type": "int",
-						"default": 0,
-						"required": false
-					},
-					{
-						"name": "player",
-						"type": "player",
-						"required": false
-					},
-					{
-						"name": "textfield",
-						"type": "string",
-						"required": false
+						"children": [
+							{
+								"name": "page_list",
+								"type": "resource_location",
+								"children": [
+									{
+										"name": "slider",
+										"type": "int",
+										"children": [
+											{
+												"name": "player",
+												"type": "player",
+												"children": [
+													{
+														"name": "textfield",
+														"label": "textfield",
+														"type": "string"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
 					}
-				],
-				"visible": {
-					"type": "bool",
-					"bool": true
-				}
+				]
 			},
-			{
-				"name": "example2",
-				"syntax": [
-					{
-						"name": "arg1",
-						"type": "float",
-						"default": 0,
-						"required": true
-					}
-				],
-				"visible": {
-					"type": "bool",
-					"bool": true
-				}
-			},
-			{
-				"name": "example3",
-				"syntax": [
-					{
-						"name": "arg1",
-						"type": "int",
-						"default": "0",
-						"required": false
-					}
-				],
-				"visible": {
-					"type": "bool",
-					"bool": false
-				}
+			"visible": {
+				"type": "bool",
+				"bool": true
 			}
-		]
+		},
+		"example2": {
+			"label": "arg1",
+			"syntax": {
+				"name": "example2",
+				"children": [
+					{
+						"name": "arg1",
+						"label": "arg1",
+						"type": "float"
+					}
+				]
+			},
+			"visible": {
+				"type": "bool",
+				"bool": true
+			}
+		},
+		"example3": {
+			"label": "arg1",
+			"syntax": {
+				"name": "example3",
+				"children": [
+					{
+						"name": "arg1",
+						"label": "arg1",
+						"type": "int"
+					}
+				]
+			},
+			"visible": {
+				"type": "bool",
+				"bool": false
+			}
+		}
 	},
 	"gui": {
 		"title": "Example Title",
@@ -84,7 +91,7 @@
 				"layout": {
 					"x": 0,
 					"y": 0,
-					"width": 114,
+					"width": 56,
 					"height": 20
 				},
 				"action": {
@@ -92,6 +99,33 @@
 					"attributes": {
 						"function": "addChatMessage",
 						"value": "Example message"
+					}
+				},
+				"attributes": {
+					"visible": {
+						"type": "bool",
+						"bool": true
+					},
+					"enabled": {
+						"type": "bool",
+						"bool": true
+					}
+				}
+			},
+			{
+				"text": "Send",
+				"type": "button",
+				"layout": {
+					"x": 58,
+					"y": 0,
+					"width": 56,
+					"height": 20
+				},
+				"action": {
+					"type": "run",
+					"attributes": {
+						"command": "example1",
+						"value": "textfield"
 					}
 				},
 				"attributes": {
@@ -135,7 +169,7 @@
 			{
 				"type": "item_button",
 				"action": {
-					"type": "run",
+					"type": "run_string",
 					"attributes": {
 						"value": "/give @p minecraft:diamond_sword 1"
 					}
@@ -193,8 +227,8 @@
 				"action": {
 					"type": "set",
 					"attributes": {
-						"command": 0,
-						"index": 0
+						"command": "example1",
+						"argument": "list_button"
 					}
 				},
 				"layout": {
@@ -230,8 +264,8 @@
 				"action": {
 					"type": "set",
 					"attributes": {
-						"command": 0,
-						"index": 2
+						"command": "example1",
+						"argument": "slider"
 					}
 				},
 				"layout": {
@@ -311,8 +345,8 @@
 				"action": {
 					"type": "set",
 					"attributes": {
-						"command": 0,
-						"index": 1
+						"command": "example1",
+						"argument": "page_list"
 					}
 				},
 				"attributes": {

@@ -36,7 +36,6 @@ public class RegistryHelper
 			Registry<Biome> registry = RegistryAccess.builtin().registryOrThrow(Registry.BIOME_REGISTRY);
 			ResourceLocation resource = registry.getKey(biome);
 			String key = "biome." + biome.getRegistryName().getNamespace() + "." + resource.getPath();
-			
 			return Language.getInstance().has(key) ? key : resource.toString();
 		});
 		registerRegistry(ForgeRegistries.ENCHANTMENTS, Enchantment::getDescriptionId);

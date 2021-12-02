@@ -1,34 +1,28 @@
 package exopandora.worldhandler.command;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.List;
+
+import javax.annotation.Nullable;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.arguments.ArgumentType;
-import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.context.ParsedCommandNode;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.suggestion.Suggestions;
-import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
-import exopandora.worldhandler.builder.impl.BuilderClone;
-import exopandora.worldhandler.builder.impl.BuilderClone.EnumMask;
-import exopandora.worldhandler.builder.impl.BuilderFill;
-import exopandora.worldhandler.builder.impl.BuilderFill.EnumBlockFilter;
-import exopandora.worldhandler.builder.types.BlockResourceLocation;
+import exopandora.worldhandler.builder.argument.Coordinate;
+import exopandora.worldhandler.builder.argument.Coordinate.Type;
+import exopandora.worldhandler.builder.impl.CloneCommandBuilder;
+import exopandora.worldhandler.builder.impl.FillCommandBuilder;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import exopandora.worldhandler.util.EnumHelper;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.blocks.BlockInput;
 import net.minecraft.commands.arguments.blocks.BlockPredicateArgument;
 import net.minecraft.commands.arguments.blocks.BlockStateArgument;
-import net.minecraft.commands.arguments.blocks.BlockStateParser;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.DistExecutor.SafeRunnable;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CommandWH
@@ -47,34 +41,28 @@ public class CommandWH
 				.then(Commands.literal("replace")
 					.requires(source -> source.hasPermission(2))
 						.then(Commands.argument("block", BlockStateArgument.block())
-							.then(Commands.argument("replace", BlockStateArgument.block())
-								.executes(context -> replace(context.getSource(), BlockStateArgument.getBlock(context, "block"), BlockStateArgument.getBlock(context, "replace"))))))
+							.then(Commands.argument("filter", BlockPredicateArgument.blockPredicate())
+								.executes(context -> replace(context.getSource(), BlockStateArgument.getBlock(context, "block"), getCommandNode("filter", context.getNodes()).getRange().get(context.getInput()))))))
 				.then(Commands.literal("clone")
 					.requires(source -> source.hasPermission(2))
-					.executes(context -> clone(context.getSource(), "masked"))
+					.executes(context -> clone(context.getSource(), "masked", null))
 						.then(Commands.literal("filtered")
-							.then(Commands.argument("filter", StringBlockPredicateArgument.blockPredicate())
-								.executes(context -> clone(context.getSource(), "filter", StringBlockPredicateArgument.getBlockPredicate(context, "filter")))))
+							.then(Commands.argument("filter", BlockPredicateArgument.blockPredicate())
+								.executes(context -> clone(context.getSource(), "filter", getCommandNode("filter", context.getNodes()).getRange().get(context.getInput())))))
 						.then(Commands.literal("masked")
-								.executes(context -> clone(context.getSource(), "masked")))
+								.executes(context -> clone(context.getSource(), "masked", null)))
 						.then(Commands.literal("replace")
-							.executes(context -> clone(context.getSource(), "replace")))));
+							.executes(context -> clone(context.getSource(), "replace", null)))));
 	}
 	
 	private static int pos1(CommandSourceStack source) throws CommandSyntaxException
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
 		{
-			private static final long serialVersionUID = 818420798194963795L;
-			
-			@Override
-			public void run()
-			{
-				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
-				BlockPos pos = BlockHelper.getPos1();
-				ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
-				CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
-			}
+			BlockHelper.pos1().set(BlockHelper.getFocusedBlockPos());
+			BlockPos pos = BlockHelper.pos1();
+			ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+			CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
 		});
 		
 		return 1;
@@ -82,18 +70,12 @@ public class CommandWH
 	
 	private static int pos2(CommandSourceStack source) throws CommandSyntaxException
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
 		{
-			private static final long serialVersionUID = 5436684018502529063L;
-			
-			@Override
-			public void run()
-			{
-				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
-				BlockPos pos = BlockHelper.getPos2();
-				ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
-				CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
-			}
+			BlockHelper.pos2().set(BlockHelper.getFocusedBlockPos());
+			BlockPos pos = BlockHelper.pos2();
+			ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+			CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
 		});
 		
 		return 1;
@@ -101,39 +83,28 @@ public class CommandWH
 	
 	private static int fill(CommandSourceStack source, BlockInput block)
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
 		{
-			private static final long serialVersionUID = 7622739284160142817L;
-			
-			@Override
-			public void run()
-			{
-				BuilderFill builder = new BuilderFill();
-				builder.setBlock1(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-				CommandHelper.sendCommand(source.getTextName(), builder);
-			}
+			FillCommandBuilder builder = new FillCommandBuilder();
+			builder.from().set(BlockHelper.pos1());
+			builder.to().set(BlockHelper.pos2());
+			builder.block().set(block.getState(), block.tag);
+			CommandHelper.sendCommand(source.getTextName(), builder, FillCommandBuilder.Label.FILL);
 		});
 		
 		return 1;
 	}
 	
-	private static int replace(CommandSourceStack source, BlockInput block, BlockInput replace)
+	private static int replace(CommandSourceStack source, BlockInput block, String filter)
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
 		{
-			private static final long serialVersionUID = -5007303344454187200L;
-			
-			@Override
-			public void run()
-			{
-				BuilderFill builder = new BuilderFill();
-				builder.setPosition1(BlockHelper.getPos1());
-				builder.setPosition2(BlockHelper.getPos2());
-				builder.setBlockHandling(EnumBlockFilter.REPLACE);
-				builder.setBlock1(new BlockResourceLocation(replace.getState().getBlock().getRegistryName(), replace.getState(), replace.tag));
-				builder.setBlock2(new BlockResourceLocation(block.getState().getBlock().getRegistryName(), block.getState(), block.tag));
-				CommandHelper.sendCommand(source.getTextName(), builder);
-			}
+			FillCommandBuilder builder = new FillCommandBuilder();
+			builder.from().set(BlockHelper.pos1());
+			builder.to().set(BlockHelper.pos2());
+			builder.block().set(block.getState(), block.tag);
+			builder.filter().deserialize(filter);
+			CommandHelper.sendCommand(source.getTextName(), builder, FillCommandBuilder.Label.REPLACE);
 		});
 		
 		return 1;
@@ -141,74 +112,44 @@ public class CommandWH
 	
 	private static int clone(CommandSourceStack source, String mask, String filter)
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
 		{
-			private static final long serialVersionUID = -2849956095821394079L;
+			CloneCommandBuilder builder = new CloneCommandBuilder();
+			builder.begin().set(BlockHelper.pos1());
+			builder.end().set(BlockHelper.pos2());
+			builder.destination().setX(new Coordinate.Ints(Type.RELATIVE));
+			builder.destination().setY(new Coordinate.Ints(Type.RELATIVE));
+			builder.destination().setZ(new Coordinate.Ints(Type.RELATIVE));
 			
-			@Override
-			public void run()
+			switch(mask)
 			{
-				BuilderClone builder = new BuilderClone();
-				builder.setPosition1(BlockHelper.getPos1());
-				builder.setPosition2(BlockHelper.getPos2());
-				builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
-				builder.setFilter(filter);
-				CommandHelper.sendCommand(source.getTextName(), builder);
+				case "filtered":
+					builder.filter().deserialize(filter);
+					CommandHelper.sendCommand(source.getTextName(), builder, CloneCommandBuilder.Label.FILTERED);
+					break;
+				case "masked":
+					CommandHelper.sendCommand(source.getTextName(), builder, CloneCommandBuilder.Label.MASKED);
+					break;
+				case "replace":
+					CommandHelper.sendCommand(source.getTextName(), builder, CloneCommandBuilder.Label.REPLACE);
+					break;
 			}
 		});
 		
 		return 1;
 	}
 	
-	private static int clone(CommandSourceStack source, String mask)
+	@Nullable
+	private static <T> ParsedCommandNode<T> getCommandNode(String name, List<ParsedCommandNode<T>> nodes)
 	{
-		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
+		for(ParsedCommandNode<T> node : nodes)
 		{
-			private static final long serialVersionUID = -7349335271543407747L;
-			
-			@Override
-			public void run()
+			if(name.equals(node.getNode().getName()))
 			{
-				BuilderClone builder = new BuilderClone();
-				builder.setPosition1(BlockHelper.getPos1());
-				builder.setPosition2(BlockHelper.getPos2());
-				builder.setMask(EnumHelper.valueOf(mask, EnumMask.class));
-				CommandHelper.sendCommand(source.getTextName(), builder);
+				return node;
 			}
-		});
-		
-		return 1;
-	}
-	
-	public static class StringBlockPredicateArgument implements ArgumentType<String>
-	{
-		public static StringBlockPredicateArgument blockPredicate()
-		{
-			return new StringBlockPredicateArgument();
 		}
 		
-		@Override
-		public String parse(StringReader reader) throws CommandSyntaxException
-		{
-			BlockStateParser blockstateparser = new BlockStateParser(reader, true).parse(true);
-			
-			if(blockstateparser.getState() != null)
-			{
-				return new BlockResourceLocation(blockstateparser.getState().getBlock().getRegistryName(), blockstateparser.getState(), blockstateparser.getNbt()).toString();
-			}
-			
-			return "#" + blockstateparser.getTag();
-		}
-		
-		public static String getBlockPredicate(CommandContext<CommandSourceStack> context, String name) throws CommandSyntaxException
-		{
-			return context.getArgument(name, String.class);
-		}
-		
-		@Override
-		public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
-		{
-			return BlockPredicateArgument.blockPredicate().listSuggestions(context, builder);
-		}
+		return null;
 	}
 }

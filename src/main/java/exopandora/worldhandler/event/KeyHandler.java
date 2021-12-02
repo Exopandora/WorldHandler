@@ -8,9 +8,9 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fmlclient.registry.ClientRegistry;
 
 public class KeyHandler
 {
@@ -29,11 +29,11 @@ public class KeyHandler
 			}
 			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS1.isDown())
 			{
-				BlockHelper.setPos1(BlockHelper.getFocusedBlockPos());
+				BlockHelper.pos1().set(BlockHelper.getFocusedBlockPos());
 			}
 			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS2.isDown())
 			{
-				BlockHelper.setPos2(BlockHelper.getFocusedBlockPos());
+				BlockHelper.pos2().set(BlockHelper.getFocusedBlockPos());
 			}
 		}
 	}

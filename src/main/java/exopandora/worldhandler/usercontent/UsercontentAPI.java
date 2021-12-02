@@ -1,12 +1,12 @@
 package exopandora.worldhandler.usercontent;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.builder.impl.BuilderUsercontent;
+import exopandora.worldhandler.builder.argument.IDeserializableArgument;
+import exopandora.worldhandler.builder.impl.UsercontentCommandBuilder;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ChatType;
@@ -15,9 +15,9 @@ import net.minecraft.network.chat.TextComponent;
 public class UsercontentAPI
 {
 	private final Map<String, String> values = new HashMap<String, String>();
-	private final List<BuilderUsercontent> builders;
+	private final Map<String, UsercontentCommandBuilder> builders;
 	
-	public UsercontentAPI(List<BuilderUsercontent> builders)
+	public UsercontentAPI(Map<String, UsercontentCommandBuilder> builders)
 	{
 		this.builders = builders;
 	}
@@ -28,33 +28,47 @@ public class UsercontentAPI
 		return this.values.get(id);
 	}
 	
-	public void updateValue(String id, String value)
+	public void setValue(String id, String value)
 	{
 		this.values.put(id, value);
 	}
 	
 	public void addChatMessage(Object object)
 	{
-		if(object != null)
-		{
-			Minecraft.getInstance().gui.handleChat(ChatType.CHAT, new TextComponent(object.toString()), Util.NIL_UUID);
-		}
+		Minecraft.getInstance().gui.handleChat(ChatType.CHAT, new TextComponent(object != null ? object.toString() : "null"), Util.NIL_UUID);
 	}
 	
-	public void setCommandArgument(int command, int index, String object)
+	public void setArgument(String command, String argument, String value)
 	{
-		if(command < this.builders.size() && command >= 0)
+		UsercontentCommandBuilder builder = this.builders.get(command);
+		
+		if(builder != null)
 		{
-			this.builders.get(command).set(index, object);
+			builder.setArgument(argument, value);
 		}
 	}
 	
 	@Nullable
-	public String getCommandArgument(int command, int index)
+	private IDeserializableArgument getArgumentInternal(String command, String argument)
 	{
-		if(command < this.builders.size() && command >= 0)
+		UsercontentCommandBuilder builder = this.builders.get(command);
+		
+		if(builder != null)
 		{
-			return this.builders.get(command).get(index);
+			return builder.getArgument(argument);
+		}
+		
+		return null;
+	}
+	
+	@Nullable
+	public String getArgument(String command, String argument)
+	{
+		IDeserializableArgument result = this.getArgumentInternal(command, argument);
+		
+		if(result != null)
+		{
+			return result.serialize();
 		}
 		
 		return null;

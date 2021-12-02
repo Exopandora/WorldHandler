@@ -6,16 +6,14 @@ import java.util.List;
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderTeams;
-import exopandora.worldhandler.builder.impl.BuilderTeams.EnumMode;
+import exopandora.worldhandler.builder.impl.TeamCommandBuilder;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.menu.impl.ILogicButtonList;
-import exopandora.worldhandler.gui.menu.impl.MenuButtonList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicButtonList;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuButtonList;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.ChatFormatting;
@@ -26,17 +24,35 @@ import net.minecraft.network.chat.TranslatableComponent;
 
 public class ContentScoreboardTeams extends ContentScoreboard
 {
-	private GuiTextFieldTooltip teamField;
+	private final TeamCommandBuilder builderTeams = new TeamCommandBuilder();
+	private final CommandPreview previewAdd = new CommandPreview(this.builderTeams, TeamCommandBuilder.Label.ADD_DISPLAYNAME);
+	private final CommandPreview previewJoinOrLeave = new CommandPreview()
+			.add(this.builderTeams, TeamCommandBuilder.Label.JOIN)
+			.add(this.builderTeams, TeamCommandBuilder.Label.LEAVE);
+	private final CommandPreview previewRemoveOrEmpty = new CommandPreview()
+			.add(this.builderTeams, TeamCommandBuilder.Label.REMOVE)
+			.add(this.builderTeams, TeamCommandBuilder.Label.EMPTY);
+	private final CommandPreview previewModify = new CommandPreview(this.builderTeams, TeamCommandBuilder.Label.MODIFY);
 	
-	private String team;
+	private GuiTextFieldTooltip teamField;
 	private Page page = Page.ADD;
 	
-	private final BuilderTeams builderTeams = new BuilderTeams();
-	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builderTeams;
+		switch(this.page)
+		{
+			case ADD:
+				return this.previewAdd;
+			case JOIN_OR_LEAVE:
+				return this.previewJoinOrLeave;
+			case REMOVE_OR_EMPTY:
+				return this.previewRemoveOrEmpty;
+			case OPTION:
+				return this.previewModify;
+			default:
+				return null;
+		}
 	}
 	
 	@Override
@@ -44,11 +60,11 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	{
 		this.teamField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.team.team"));
 		this.teamField.setFilter(Predicates.notNull());
-		this.teamField.setValue(this.team);
+		this.teamField.setValue(this.builderTeams.team().get());
 		this.teamField.setResponder(text ->
 		{
-			this.team = text;
-			this.builderTeams.setTeam(this.team);
+			this.builderTeams.team().set(text);
+			this.builderTeams.displayName().deserialize(text);
 			container.initButtons();
 		});
 		
@@ -87,11 +103,11 @@ public class ContentScoreboardTeams extends ContentScoreboard
 				{
 					if(depth == 0)
 					{
-						ContentScoreboardTeams.this.builderTeams.setRule(key);
+						ContentScoreboardTeams.this.builderTeams.option().set(key);
 					}
 					else if(depth == 1)
 					{
-						ContentScoreboardTeams.this.builderTeams.setValue(key);
+						ContentScoreboardTeams.this.builderTeams.value().set(key);
 					}
 				}
 				
@@ -143,26 +159,18 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		button3.active = !Page.REMOVE_OR_EMPTY.equals(this.page);
 		button4.active = !Page.OPTION.equals(this.page);
 		
-		this.builderTeams.setMode(this.page.getMode());
+		boolean enabled = this.builderTeams.team().get() != null && !this.builderTeams.team().get().isEmpty();
 		
-		boolean enabled = this.team != null && this.team.length() > 0;
-		
-		if(Page.ADD.equals(this.page))
+		if(Page.JOIN_OR_LEAVE.equals(this.page))
 		{
-			this.builderTeams.setTeam(this.team);
-		}
-		else if(Page.JOIN_OR_LEAVE.equals(this.page))
-		{
-			this.builderTeams.setPlayer(container.getPlayer());
-			
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.team.join"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.build(EnumMode.JOIN));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.JOIN);
 				container.initButtons();
 			}));
 			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.team.leave"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.build(EnumMode.LEAVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.LEAVE);
 				container.initButtons();
 			}));
 			
@@ -172,12 +180,12 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.team.remove"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.build(EnumMode.REMOVE));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.REMOVE);
 				container.initButtons();
 			}));
 			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.team.empty"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams.build(EnumMode.EMPTY));
+				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.EMPTY);
 				container.initButtons();
 			}));
 			
@@ -189,7 +197,14 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		{
 			container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, new TranslatableComponent("gui.worldhandler.actions.perform"), () ->
 			{
-				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams);
+				if(Page.ADD.equals(this.page))
+				{
+					CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.ADD_DISPLAYNAME);
+				}
+				else if(Page.OPTION.equals(this.page))
+				{
+					CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.MODIFY);
+				}
 				container.initButtons();
 			}));
 			button1.active = enabled;
@@ -227,29 +242,22 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	{
 		if(Page.JOIN_OR_LEAVE.equals(this.page))
 		{
-			this.builderTeams.setPlayer(username);
+			this.builderTeams.members().setTarget(username);
 		}
 	}
 	
 	public static enum Page
 	{
-		ADD(EnumMode.ADD, 24),
-		JOIN_OR_LEAVE(EnumMode.JOIN_OR_LEAVE, 12),
-		REMOVE_OR_EMPTY(EnumMode.REMOVE_OR_EMPTY, 12),
-		OPTION(EnumMode.MODIFY, 0);
+		ADD(24),
+		JOIN_OR_LEAVE(12),
+		REMOVE_OR_EMPTY(12),
+		OPTION(0);
 		
-		private final EnumMode mode;
 		private final int shift;
 		
-		private Page(EnumMode mode, int shift)
+		private Page(int shift)
 		{
 			this.shift = shift;
-			this.mode = mode;
-		}
-		
-		public EnumMode getMode()
-		{
-			return this.mode;
 		}
 		
 		public int getShift()

@@ -88,7 +88,7 @@ public class ContentMain extends Content
 	{
 		return Contents.MAIN;
 	}
-
+	
 	@Override
 	public Content getBackContent()
 	{

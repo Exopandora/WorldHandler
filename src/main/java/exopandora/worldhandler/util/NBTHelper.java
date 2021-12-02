@@ -3,9 +3,8 @@ package exopandora.worldhandler.util;
 import java.util.Arrays;
 import java.util.List;
 
-import exopandora.worldhandler.builder.INBTWritable;
-import exopandora.worldhandler.builder.component.IBuilderComponent;
-import exopandora.worldhandler.builder.component.impl.EntityNBT;
+import exopandora.worldhandler.builder.argument.tag.EntityTag;
+import exopandora.worldhandler.builder.argument.tag.ITagProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.DoubleTag;
 import net.minecraft.nbt.ListTag;
@@ -13,6 +12,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -49,19 +49,19 @@ public class NBTHelper
 		return null;
 	}
 	
-	public static Tag serialize(ResourceLocation[] itemArray)
+	public static Tag serialize(Item[] itemArray)
 	{
-		if(Arrays.stream(itemArray).allMatch(resource -> resource != null && resource.equals(Items.AIR.getRegistryName())))
+		if(Arrays.stream(itemArray).allMatch(Items.AIR::equals))
 		{
 			return null;
 		}
 		
 		ListTag list = new ListTag();
 		
-		for(ResourceLocation item : itemArray)
+		for(Item item : itemArray)
 		{
 			CompoundTag compound = new CompoundTag();
-			compound.putString("id", item.toString());
+			compound.putString("id", item.getRegistryName().toString());
 			compound.putInt("Count", 1);
 			list.add(compound);
 		}
@@ -69,13 +69,13 @@ public class NBTHelper
 		return list;
 	}
 	
-	public static Tag serialize(List<EntityNBT> entities)
+	public static Tag serialize(List<EntityTag> entities)
 	{
 		ListTag list = new ListTag();
 		
-		for(EntityNBT entity : entities)
+		for(EntityTag entity : entities)
 		{
-			Tag nbt = entity.serialize();
+			Tag nbt = entity.value();
 			
 			if(nbt != null)
 			{
@@ -91,24 +91,16 @@ public class NBTHelper
 		return list;
 	}
 	
-	public static void append(CompoundTag compound, String tag, INBTWritable writable)
+	public static void append(CompoundTag compound, ITagProvider component)
 	{
-		NBTHelper.append(compound, tag, writable.serialize());
-	}
-	
-	public static void append(CompoundTag compound, IBuilderComponent component)
-	{
-		NBTHelper.append(compound, component.getTag(), component.serialize());
+		NBTHelper.append(compound, component.key(), component.value());
 	}
 	
 	public static void append(CompoundTag compound, String tag, Tag nbt)
 	{
-		if(nbt != null)
+		if(nbt != null && !compound.contains(tag))
 		{
-			if(!compound.contains(tag))
-			{
-				compound.put(tag, nbt);
-			}
+			compound.put(tag, nbt);
 		}
 	}
 }

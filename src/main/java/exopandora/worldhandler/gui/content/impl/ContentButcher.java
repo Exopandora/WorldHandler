@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.impl.BuilderButcher;
+import exopandora.worldhandler.builder.argument.TargetArgument.SelectorTypes;
+import exopandora.worldhandler.builder.impl.KillCommandBuilder;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
@@ -33,12 +33,13 @@ public class ContentButcher extends Content
 {
 	private GuiTextFieldTooltip radiusField;
 	private String radius;
-	private final BuilderButcher builderButcher = new BuilderButcher();
+	private final KillCommandBuilder builderKill = new KillCommandBuilder();
+	private final CommandPreview preview = new CommandPreview(this.builderKill, KillCommandBuilder.Label.KILL_TARGETS);
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builderButcher;
+		return this.preview;
 	}
 	
 	@Override
@@ -73,11 +74,11 @@ public class ContentButcher extends Content
 			
 			if(!this.radius.isEmpty())
 			{
-				this.builderButcher.setDistance(Integer.valueOf(this.radius));
+				this.builderKill.targets().setDistance(Double.valueOf(this.radius));
 			}
 			else
 			{
-				this.builderButcher.setDistance(0);
+				this.builderKill.targets().setDistance(0D);
 			}
 			
 			container.initButtons();
@@ -102,18 +103,19 @@ public class ContentButcher extends Content
 		
 		container.add(slaughter = new GuiButtonBase(x + 58, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.butcher.slaughter"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITIES::getValue).filter(Predicates.notNull()).collect(Collectors.toList()), Integer.parseInt(this.radius));
+			Collection<EntityType<?>> entities = Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITIES::getValue).filter(Predicates.notNull()).collect(Collectors.toList());
+			ContentButcher.slaughter(container.getPlayer(), entities, Integer.parseInt(this.radius));
 		}));
 		slaughter.active = enabled && !Config.getButcher().getEntities().isEmpty();
 		
 		container.add(slaughter = new GuiButtonBase(x + 58, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.butcher.presets"), () ->
 		{
-			ActionHelper.open(Contents.BUTCHER_PRESETS.withBuilder(this.builderButcher).withRadius(Integer.parseInt(this.radius)));
+			ActionHelper.open(Contents.BUTCHER_PRESETS.withBuilder(this.builderKill, KillCommandBuilder.Label.KILL_TARGETS).withRadius(Double.parseDouble(this.radius)));
 		}));
 		slaughter.active = enabled;
 	}
 	
-	public static void slaughter(String username, Collection<EntityType<?>> entities, int radius)
+	public static void slaughter(String username, Collection<EntityType<?>> entities, double radius)
 	{
 		Player player = Minecraft.getInstance().player;
 		Level level = Minecraft.getInstance().level;
@@ -129,7 +131,11 @@ public class ContentButcher extends Content
 				
 				if(!targets.isEmpty())
 				{
-					CommandHelper.sendCommand(username, new BuilderButcher(entity.getRegistryName(), radius));
+					KillCommandBuilder kill = new KillCommandBuilder();
+					kill.targets().setSelectorType(SelectorTypes.ALL_ENTITIES);
+					kill.targets().setType(entity.getRegistryName());
+					kill.targets().setDistanceMax(radius);
+					CommandHelper.sendCommand(username, kill, KillCommandBuilder.Label.KILL_TARGETS);
 				}
 			}
 		}

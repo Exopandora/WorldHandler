@@ -68,6 +68,13 @@ public class Action
 				throw new IllegalStateException("action.attributes is null");
 			}
 		}
+		else if(this.type == Type.RUN_STRING)
+		{
+			if(this.getAttributes() == null)
+			{
+				throw new IllegalStateException("action.attributes is null");
+			}
+		}
 		else if(this.type == Type.JS)
 		{
 			if(this.getAttributes() == null)
@@ -86,6 +93,7 @@ public class Action
 		OPEN,
 		SET,
 		RUN,
+		RUN_STRING,
 		BACK,
 		BACK_TO_GAME,
 		JS;

@@ -10,17 +10,13 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.component.impl.EntityNBT;
-import exopandora.worldhandler.builder.impl.BuilderButcher;
-import exopandora.worldhandler.builder.impl.BuilderFill;
-import exopandora.worldhandler.builder.impl.BuilderSetBlock;
-import exopandora.worldhandler.builder.impl.BuilderSetBlock.EnumMode;
-import exopandora.worldhandler.builder.impl.BuilderSummon;
-import exopandora.worldhandler.builder.types.BlockResourceLocation;
-import exopandora.worldhandler.builder.types.Coordinate.EnumType;
-import exopandora.worldhandler.builder.types.CoordinateDouble;
-import exopandora.worldhandler.builder.types.CoordinateInt;
+import exopandora.worldhandler.builder.argument.Coordinate;
+import exopandora.worldhandler.builder.argument.TargetArgument.SelectorTypes;
+import exopandora.worldhandler.builder.argument.tag.EntityTag;
+import exopandora.worldhandler.builder.impl.FillCommandBuilder;
+import exopandora.worldhandler.builder.impl.KillCommandBuilder;
+import exopandora.worldhandler.builder.impl.SetBlockCommandBuilder;
+import exopandora.worldhandler.builder.impl.SummonCommandBuilder;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
@@ -48,43 +44,63 @@ public class ContentCommandStack extends ContentChild
 	private int scroll;
 	private GuiButtonBase buttonCopy;
 	
-	private final BuilderSummon builderCommandStack = new BuilderSummon();
-    
+	private final SummonCommandBuilder builderCommandStack = new SummonCommandBuilder();
+	private final CommandPreview preview = new CommandPreview(this.builderCommandStack, SummonCommandBuilder.Label.SUMMON_POS_NBT);
+	private final EntityTag activatorRail = new EntityTag();
+	
 	public ContentCommandStack()
 	{
-		this.builderCommandStack.setEntity(EntityType.FALLING_BLOCK.getRegistryName());
-		this.builderCommandStack.setX(new CoordinateDouble(0.0D, EnumType.GLOBAL));
-		this.builderCommandStack.setY(new CoordinateDouble(0.5D, EnumType.GLOBAL));
-		this.builderCommandStack.setZ(new CoordinateDouble(0.0D, EnumType.GLOBAL));
-		this.builderCommandStack.setMotion(0.0D, 0.315D, 0.0D);
-		this.builderCommandStack.setTime(1);
-		this.builderCommandStack.setBlockState(Blocks.ACTIVATOR_RAIL.defaultBlockState());
+		this.builderCommandStack.entity().set(EntityType.FALLING_BLOCK);
+		this.builderCommandStack.pos().setX(new Coordinate.Doubles(Coordinate.Type.RELATIVE));
+		this.builderCommandStack.pos().setY(new Coordinate.Doubles(0.5, Coordinate.Type.RELATIVE));
+		this.builderCommandStack.pos().setZ(new Coordinate.Doubles(Coordinate.Type.RELATIVE));
 		
-		EntityNBT redstoneBlock = new EntityNBT(EntityType.FALLING_BLOCK.getRegistryName());
+		this.activatorRail.setMotion(0.0D, 0.315D, 0.0D);
+		this.activatorRail.setTime(1);
+		this.activatorRail.setBlockState(Blocks.ACTIVATOR_RAIL.defaultBlockState());
+		this.builderCommandStack.nbt().addTagProvider(this.activatorRail);
+		
+		EntityTag redstoneBlock = new EntityTag(EntityType.FALLING_BLOCK.getRegistryName());
 		redstoneBlock.setTime(1);
 		redstoneBlock.setBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState());
-		this.builderCommandStack.addPassenger(redstoneBlock);
+		this.activatorRail.addPassenger(redstoneBlock);
 		
 		this.addCommand(0);
 		
-		EntityNBT blockRemover = new EntityNBT(EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
-		BuilderSetBlock builder = new BuilderSetBlock(new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(-2, EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), Blocks.REPEATING_COMMAND_BLOCK.getRegistryName(), EnumMode.DESTROY);
+		EntityTag blockRemover = new EntityTag(EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
+		SetBlockCommandBuilder builder = new SetBlockCommandBuilder();
+		builder.pos().setX(new Coordinate.Ints(Coordinate.Type.RELATIVE));
+		builder.pos().setY(new Coordinate.Ints(-2, Coordinate.Type.RELATIVE));
+		builder.pos().setZ(new Coordinate.Ints(Coordinate.Type.RELATIVE));
+		builder.block().set(Blocks.REPEATING_COMMAND_BLOCK);
 		CompoundTag commandBlock = new CompoundTag();
 		commandBlock.putByte("auto", (byte) 1);
-		commandBlock.putString("Command", new BuilderFill(new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), new CoordinateInt(2, EnumType.GLOBAL), new CoordinateInt(EnumType.GLOBAL), new BlockResourceLocation(Blocks.AIR.getRegistryName())).toActualCommand());
-		builder.setBlockNBT(commandBlock);
-		blockRemover.setCommand(builder.toActualCommand());
-		this.builderCommandStack.addPassenger(blockRemover);
+		FillCommandBuilder fill = new FillCommandBuilder();
+		fill.from().setX(new Coordinate.Ints(Coordinate.Type.RELATIVE));
+		fill.from().setY(new Coordinate.Ints(Coordinate.Type.RELATIVE));
+		fill.from().setZ(new Coordinate.Ints(Coordinate.Type.RELATIVE));
+		fill.to().setX(new Coordinate.Ints(Coordinate.Type.RELATIVE));
+		fill.to().setY(new Coordinate.Ints(2, Coordinate.Type.RELATIVE));
+		fill.to().setZ(new Coordinate.Ints(Coordinate.Type.RELATIVE));
+		fill.block().set(Blocks.AIR);
+		commandBlock.putString("Command", fill.toCommand(FillCommandBuilder.Label.FILL, false));
+		builder.block().setTag(commandBlock);
+		blockRemover.setCommand(builder.toCommand(SetBlockCommandBuilder.Label.DESTROY, false));
+		this.activatorRail.addPassenger(blockRemover);
 		
-		EntityNBT entityRemover = new EntityNBT(EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
-		entityRemover.setCommand(new BuilderButcher(EntityType.COMMAND_BLOCK_MINECART.getRegistryName(), 1).toActualCommand());
-		this.builderCommandStack.addPassenger(entityRemover);
+		EntityTag entityRemover = new EntityTag(EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
+		KillCommandBuilder kill = new KillCommandBuilder();
+		kill.targets().setSelectorType(SelectorTypes.ALL_ENTITIES);
+		kill.targets().setType(EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
+		kill.targets().setDistanceMax(1.0D);
+		entityRemover.setCommand(kill.toCommand(KillCommandBuilder.Label.KILL_TARGETS, false));
+		this.activatorRail.addPassenger(entityRemover);
 	}
 	
 	@Override
-	public ICommandBuilder getCommandBuilder()
+	public CommandPreview getCommandPreview()
 	{
-		return this.builderCommandStack;
+		return this.preview;
 	}
 	
 	@Override
@@ -166,7 +182,7 @@ public class ContentCommandStack extends ContentChild
 		
 		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.command_stack.copy_command"), () -> 
 		{
-			Minecraft.getInstance().keyboardHandler.setClipboard(this.builderCommandStack.toActualCommand());
+			Minecraft.getInstance().keyboardHandler.setClipboard(this.builderCommandStack.toCommand(SummonCommandBuilder.Label.SUMMON_POS_NBT, false));
 		}));
 		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, new TranslatableComponent("gui.worldhandler.actions.move_up"), () ->
 		{
@@ -239,7 +255,7 @@ public class ContentCommandStack extends ContentChild
 	
 	private void setCommand(int index, String command)
 	{
-		EntityNBT entity = this.builderCommandStack.getPassenger(index + HEAD_LENGTH);
+		EntityTag entity = this.activatorRail.getPassenger(index + HEAD_LENGTH);
 		
 		if(entity != null)
 		{
@@ -249,18 +265,18 @@ public class ContentCommandStack extends ContentChild
 	
 	private void addCommand(int index)
 	{
-		this.builderCommandStack.addPassenger(index + HEAD_LENGTH, new EntityNBT(EntityType.COMMAND_BLOCK_MINECART.getRegistryName()));
+		this.activatorRail.addPassenger(index + HEAD_LENGTH, new EntityTag(EntityType.COMMAND_BLOCK_MINECART.getRegistryName()));
 	}
 	
 	private void removeCommand(int index)
 	{
-		this.builderCommandStack.removePassenger(index + HEAD_LENGTH);
+		this.activatorRail.removePassenger(index + HEAD_LENGTH);
 	}
 	
 	@Nullable
 	private String getCommand(int index)
 	{
-		EntityNBT entity = this.builderCommandStack.getPassenger(index + HEAD_LENGTH);
+		EntityTag entity = this.activatorRail.getPassenger(index + HEAD_LENGTH);
 		
 		if(entity != null)
 		{
@@ -272,12 +288,12 @@ public class ContentCommandStack extends ContentChild
 	
 	private int getCommandCount()
 	{
-		return this.builderCommandStack.getPassengerCount() - HEAD_LENGTH - TAIL_LENGTH;
+		return this.activatorRail.getPassengerCount() - HEAD_LENGTH - TAIL_LENGTH;
 	}
 	
 	private void swapCommands(int i, int j)
 	{
-		Collections.swap(this.builderCommandStack.getPassengers(), i + HEAD_LENGTH, j + HEAD_LENGTH);
+		Collections.swap(this.activatorRail.getPassengers(), i + HEAD_LENGTH, j + HEAD_LENGTH);
 	}
 	
 	@Override

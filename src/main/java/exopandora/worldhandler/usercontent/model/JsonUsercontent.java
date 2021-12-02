@@ -1,29 +1,31 @@
 package exopandora.worldhandler.usercontent.model;
 
+import java.util.Map;
+
 import com.google.gson.annotations.SerializedName;
 
 public class JsonUsercontent
 {
-	@SerializedName("model")
-	private JsonModel model;
+	@SerializedName("commands")
+	private Map<String, JsonCommand> commands = null;
 	
 	@SerializedName("gui")
 	private JsonGui gui;
 	
-	public JsonUsercontent(JsonModel model, JsonGui gui)
+	public JsonUsercontent(Map<String, JsonCommand> commands, JsonGui gui)
 	{
-		this.model = model;
+		this.commands = commands;
 		this.gui = gui;
 	}
 	
-	public JsonModel getModel()
+	public Map<String, JsonCommand> getCommands()
 	{
-		return this.model;
+		return this.commands;
 	}
 	
-	public void setModel(JsonModel model)
+	public void setCommands(Map<String, JsonCommand> commands)
 	{
-		this.model = model;
+		this.commands = commands;
 	}
 	
 	public JsonGui getGui()

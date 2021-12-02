@@ -1,45 +1,41 @@
 package exopandora.worldhandler.usercontent.model;
 
-import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
-
-import exopandora.worldhandler.builder.CommandSyntax.Argument;
 
 public class JsonCommand
 {
-	@SerializedName("name")
-	private String name;
+	@SerializedName("label")
+	private String label;
 	
 	@SerializedName("syntax")
-	private List<Argument> syntax = null;
+	private JsonArgument syntax = null;
 	
 	@SerializedName("visible")
 	private BooleanExpression visible;
 	
-	public JsonCommand(String name, List<Argument> syntax, BooleanExpression visible)
+	public JsonCommand(String label, JsonArgument syntax, BooleanExpression visible)
 	{
-		this.name = name;
+		this.label = label;
 		this.syntax = syntax;
 		this.visible = visible;
 	}
 	
-	public String getName()
+	public String getLabel()
 	{
-		return this.name;
+		return this.label;
 	}
 	
-	public void setName(String name)
+	public void setLabel(String label)
 	{
-		this.name = name;
+		this.label = label;
 	}
 	
-	public List<Argument> getSyntax()
+	public JsonArgument getSyntax()
 	{
 		return this.syntax;
 	}
 	
-	public void setSyntax(List<Argument> syntax)
+	public void setSyntax(JsonArgument syntax)
 	{
 		this.syntax = syntax;
 	}

@@ -5,27 +5,28 @@ import java.util.ArrayList;
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import exopandora.worldhandler.builder.ICommandBuilder;
-import exopandora.worldhandler.builder.component.impl.ComponentAttribute;
-import exopandora.worldhandler.builder.impl.BuilderCustomItem;
+import exopandora.worldhandler.builder.argument.tag.AbstractAttributeTag;
+import exopandora.worldhandler.builder.argument.tag.AttributeModifiersTag;
+import exopandora.worldhandler.builder.argument.tag.DisplayTag;
+import exopandora.worldhandler.builder.argument.tag.EnchantmentsTag;
+import exopandora.worldhandler.builder.impl.GiveCommandBuilder;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
-import exopandora.worldhandler.gui.menu.impl.ILogicPageList;
-import exopandora.worldhandler.gui.menu.impl.MenuColorField;
-import exopandora.worldhandler.gui.menu.impl.MenuPageList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.widget.button.LogicSliderAttribute;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
+import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuColorField;
+import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import exopandora.worldhandler.util.ResourceHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -40,39 +41,49 @@ public class ContentCustomItem extends Content
 	private GuiTextFieldTooltip itemLore1Field;
 	private GuiTextFieldTooltip itemLore2Field;
 	
-	private final BuilderCustomItem builderCutomItem = new BuilderCustomItem();
+	private final GiveCommandBuilder builderCutomItem = new GiveCommandBuilder();
+	private final AttributeModifiersTag attributes = new AttributeModifiersTag();
+	private final DisplayTag display = new DisplayTag();
+	private final EnchantmentsTag enchantments = new EnchantmentsTag();
+	private final CommandPreview preview = new CommandPreview(this.builderCutomItem, GiveCommandBuilder.Label.GIVE);
 	
 	private int startPage;
-	
 	private Page page = Page.START;
 	private String item;
 	
-	@Override
-	public ICommandBuilder getCommandBuilder()
+	public ContentCustomItem()
 	{
-		return this.builderCutomItem;
+		this.builderCutomItem.item().addTagProvider(this.attributes);
+		this.builderCutomItem.item().addTagProvider(this.display);
+		this.builderCutomItem.item().addTagProvider(this.enchantments);
+	}
+	
+	@Override
+	public CommandPreview getCommandPreview()
+	{
+		return this.preview;
 	}
 	
 	@Override
 	public void init(Container container)
 	{
-		for(Attribute attribute : this.builderCutomItem.getAttributes())
+		for(Attribute attribute : this.attributes.getAttributes())
 		{
-			double ammount = this.builderCutomItem.getAttributeAmmount(attribute);
+			double value = this.attributes.get(attribute);
 			
-			if(ammount > Config.getSliders().getMaxItemAttributes())
+			if(value > Config.getSliders().getMaxItemAttributes())
 			{
-				this.builderCutomItem.setAttribute(attribute, Config.getSliders().getMaxItemAttributes());
+				this.attributes.set(attribute, Config.getSliders().getMaxItemAttributes());
 			}
 		}
 		
-		for(Enchantment enchantment : this.builderCutomItem.getEnchantments())
+		for(Enchantment enchantment : this.enchantments.getEnchantments())
 		{
-			short level = this.builderCutomItem.getEnchantmentLevel(enchantment);
+			short level = this.enchantments.get(enchantment);
 			
 			if(level > Config.getSliders().getMaxItemEnchantment())
 			{
-				this.builderCutomItem.setEnchantment(enchantment, (short) Config.getSliders().getMaxItemEnchantment());
+				this.enchantments.set(enchantment, (short) Config.getSliders().getMaxItemEnchantment());
 			}
 		}
 	}
@@ -86,25 +97,25 @@ public class ContentCustomItem extends Content
 		this.itemField.setResponder(text ->
 		{
 			this.item = text;
-			this.builderCutomItem.setItem(this.item);
+			this.builderCutomItem.item().deserialize(this.item);
 			container.initButtons();
 		});
 		
 		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.start.lore_1"));
 		this.itemLore1Field.setFilter(Predicates.<String>notNull());
-		this.itemLore1Field.setText(this.builderCutomItem.getLore1());
+		this.itemLore1Field.setText(this.display.getLore1());
 		this.itemLore1Field.setResponder(text ->
 		{
-			this.builderCutomItem.setLore1(new TextComponent(text));
+			this.display.setLore1(new TextComponent(text));
 			container.initButtons();
 		});
 		
 		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.start.lore_2"));
 		this.itemLore2Field.setFilter(Predicates.<String>notNull());
-		this.itemLore2Field.setText(this.builderCutomItem.getLore2());
+		this.itemLore2Field.setText(this.display.getLore2());
 		this.itemLore2Field.setResponder(text ->
 		{
-			this.builderCutomItem.setLore2(new TextComponent(text));
+			this.display.setLore2(new TextComponent(text));
 			container.initButtons();
 		});
 		
@@ -112,7 +123,7 @@ public class ContentCustomItem extends Content
 		{
 			if(this.startPage == 1)
 			{
-				container.add(new MenuColorField(x, y, "gui.worldhandler.items.custom_item.start.custom_name", this.builderCutomItem.getName()));
+				container.add(new MenuColorField(x, y, "gui.worldhandler.items.custom_item.start.custom_name", this.display.getName()));
 			}
 		}
 		else if(Page.ENCHANT.equals(this.page))
@@ -142,7 +153,7 @@ public class ContentCustomItem extends Content
 				{
 					return new GuiSlider(x, y, width, height, 0, Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderSimple(item.getRegistryName().toString(), text, value ->
 					{
-						ContentCustomItem.this.builderCutomItem.setEnchantment(item, value.shortValue());
+						ContentCustomItem.this.enchantments.set(item, value.shortValue());
 					}));
 				}
 				
@@ -162,32 +173,32 @@ public class ContentCustomItem extends Content
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
-			MenuPageList<Attribute> attributes = new MenuPageList<Attribute>(x + 118, y, ComponentAttribute.ATTRIBUTES, 114, 20, 3, container, new ILogicPageList<Attribute>()
+			MenuPageList<Attribute> attributes = new MenuPageList<Attribute>(x + 118, y, AbstractAttributeTag.ATTRIBUTES, 114, 20, 3, container, new ILogicPageList<Attribute>()
 			{
 				@Override
-				public MutableComponent translate(Attribute item)
+				public MutableComponent translate(Attribute attribute)
 				{
-					return new TranslatableComponent(item.getDescriptionId());
+					return new TranslatableComponent(attribute.getDescriptionId());
 				}
 				
 				@Override
-				public MutableComponent toTooltip(Attribute item)
+				public MutableComponent toTooltip(Attribute attribute)
 				{
-					return new TextComponent(item.getRegistryName().toString());
+					return new TextComponent(attribute.getRegistryName().toString());
 				}
 				
 				@Override
-				public void onClick(Attribute item)
+				public void onClick(Attribute attribute)
 				{
 					
 				}
 				
 				@Override
-				public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Attribute item, ActionHandler actionHandler)
+				public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Attribute attribute, ActionHandler actionHandler)
 				{
-					return new GuiSlider(x, y, width, height, -Config.getSliders().getMaxItemAttributes(), Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderAttribute(item, text, value ->
+					return new GuiSlider(x, y, width, height, -Config.getSliders().getMaxItemAttributes(), Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderAttribute(attribute, text, value ->
 					{
-						ContentCustomItem.this.builderCutomItem.setAttribute(item, value);
+						ContentCustomItem.this.attributes.set(attribute, value);
 					}));
 				}
 				
@@ -273,21 +284,21 @@ public class ContentCustomItem extends Content
 			button3.active = false;
 		}
 		
-		if(!this.builderCutomItem.needsCommandBlock() && !this.builderCutomItem.getName().isSpecial())
+		if(!this.builderCutomItem.needsCommandBlock(GiveCommandBuilder.Label.GIVE, false) && !this.display.getName().isSpecial())
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.custom_item"), () -> this.send(container.getPlayer())));
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.custom_item"), () -> this.giveItem(container.getPlayer())));
 		}
 		else
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.actions.place_command_block"), () -> this.send(container.getPlayer())));
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.actions.place_command_block"), () -> this.giveItem(container.getPlayer())));
 		}
 		
-		button4.active = ResourceHelper.isRegistered(ResourceHelper.stringToResourceLocation(this.item), ForgeRegistries.ITEMS);
+		button4.active = this.builderCutomItem.item().hasValue();
 	}
 	
-	private void send(String player)
+	private void giveItem(String player)
 	{
-		CommandHelper.sendCommand(player, this.builderCutomItem, this.builderCutomItem.getName().isSpecial());
+		CommandHelper.sendCommand(player, this.builderCutomItem, GiveCommandBuilder.Label.GIVE, this.display.getName().isSpecial());
 	}
 	
 	@Override
@@ -339,7 +350,7 @@ public class ContentCustomItem extends Content
 	@Override
 	public void onPlayerNameChanged(String username)
 	{
-		this.builderCutomItem.setPlayer(username);
+		this.builderCutomItem.targets().setTarget(username);
 	}
 	
 	public static enum Page
