@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.ClickEvent.Action;
 
 public class SignText extends MutableTextComponent
@@ -42,16 +41,5 @@ public class SignText extends MutableTextComponent
 	public Tag serialize()
 	{
 		return StringTag.valueOf(this.toString());
-	}
-	
-	@Override
-	public String toString()
-	{
-		if(Style.EMPTY.equals(this.getStyle()) && !this.isSpecial())
-		{
-			return this.getText();
-		}
-		
-		return super.toString();
 	}
 }
