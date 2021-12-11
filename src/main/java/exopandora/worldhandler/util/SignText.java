@@ -1,5 +1,6 @@
 package exopandora.worldhandler.util;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.StringTag;
@@ -37,6 +38,7 @@ public class SignText extends MutableTextComponent
 		return this.getStyle().getClickEvent() != null && this.getStyle().getClickEvent().getAction() == Action.RUN_COMMAND && this.getStyle().getClickEvent().getValue() != null;
 	}
 	
+	@Nonnull
 	@Override
 	public Tag serialize()
 	{

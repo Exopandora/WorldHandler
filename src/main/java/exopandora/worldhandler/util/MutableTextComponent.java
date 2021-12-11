@@ -1,5 +1,7 @@
 package exopandora.worldhandler.util;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -69,6 +71,7 @@ public class MutableTextComponent extends TextComponent
 		return FormattedCharSequence.forward(string, this.getStyle());
 	}
 	
+	@Nullable
 	public Tag serialize()
 	{
 		if(this.getContents() != null && !this.getContents().isEmpty())
