@@ -40,9 +40,9 @@ public class CommandWH
 							.executes(context -> fill(context.getSource(), BlockStateArgument.getBlock(context, "block")))))
 				.then(Commands.literal("replace")
 					.requires(source -> source.hasPermission(2))
-						.then(Commands.argument("block", BlockStateArgument.block())
-							.then(Commands.argument("filter", BlockPredicateArgument.blockPredicate())
-								.executes(context -> replace(context.getSource(), BlockStateArgument.getBlock(context, "block"), getCommandNode("filter", context.getNodes()).getRange().get(context.getInput()))))))
+						.then(Commands.argument("filter", BlockPredicateArgument.blockPredicate())
+								.then(Commands.argument("block", BlockStateArgument.block())
+								.executes(context -> replace(context.getSource(), getCommandNode("filter", context.getNodes()).getRange().get(context.getInput()), BlockStateArgument.getBlock(context, "block"))))))
 				.then(Commands.literal("clone")
 					.requires(source -> source.hasPermission(2))
 					.executes(context -> clone(context.getSource(), "masked", null))
@@ -95,7 +95,7 @@ public class CommandWH
 		return 1;
 	}
 	
-	private static int replace(CommandSourceStack source, BlockInput block, String filter)
+	private static int replace(CommandSourceStack source, String filter, BlockInput block)
 	{
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
 		{

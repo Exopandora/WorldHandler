@@ -13,8 +13,8 @@ import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.SimpleReloadableResourceManager;
 import net.minecraft.util.Unit;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.storage.loot.PredicateManager;
@@ -29,7 +29,7 @@ public class AdvancementHelper implements PreparableReloadListener
 	{
 		return CompletableFuture.supplyAsync(() ->
 		{
-			SimpleReloadableResourceManager serverResourceManager = new SimpleReloadableResourceManager(PackType.SERVER_DATA);
+			ReloadableResourceManager serverResourceManager = new ReloadableResourceManager(PackType.SERVER_DATA);
 			serverResourceManager.registerReloadListener(this.manager);
 			return serverResourceManager;
 		}).thenCompose(stage::wait).thenAcceptAsync(serverResourceManager ->

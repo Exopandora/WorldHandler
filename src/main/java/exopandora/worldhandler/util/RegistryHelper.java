@@ -7,15 +7,12 @@ import java.util.function.Function;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.Main;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.locale.Language;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -33,8 +30,7 @@ public class RegistryHelper
 		registerRegistry(ForgeRegistries.MOB_EFFECTS, MobEffect::getDescriptionId);
 		registerRegistry(ForgeRegistries.BIOMES, biome ->
 		{
-			Registry<Biome> registry = RegistryAccess.builtin().registryOrThrow(Registry.BIOME_REGISTRY);
-			ResourceLocation resource = registry.getKey(biome);
+			ResourceLocation resource = biome.getRegistryName();
 			String key = "biome." + biome.getRegistryName().getNamespace() + "." + resource.getPath();
 			return Language.getInstance().has(key) ? key : resource.toString();
 		});

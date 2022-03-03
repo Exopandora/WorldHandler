@@ -18,12 +18,8 @@ import net.minecraft.client.gui.screens.multiplayer.SafetyScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
-import net.minecraft.client.server.IntegratedServer;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.level.LevelSettings;
-import net.minecraft.world.level.levelgen.WorldGenSettings;
 
 public class ContentChangeWorld extends ContentChild
 {
@@ -63,15 +59,11 @@ public class ContentChangeWorld extends ContentChild
 		
 		if(isIntegrated)
 		{
-			IntegratedServer integrated = Minecraft.getInstance().getSingleplayerServer();
-			String folder = integrated.storageSource.getLevelId();
-			WorldGenSettings worldGenSettings = integrated.getWorldData().worldGenSettings();
-			LevelSettings levelSettings = integrated.getWorldData().getLevelSettings();
-			
+			String folder = Minecraft.getInstance().getSingleplayerServer().storageSource.getLevelId();
 			Minecraft.getInstance().level.disconnect();
 			Minecraft.getInstance().clearLevel(new GenericDirtMessageScreen(new TranslatableComponent("menu.savingLevel")));
 			
-			return new IntegratedConnection(folder, levelSettings, worldGenSettings);
+			return new IntegratedConnection(folder);
 		}
 		
 		if(Minecraft.getInstance().level != null)
@@ -94,15 +86,13 @@ public class ContentChangeWorld extends ContentChild
 		{
 			Minecraft.getInstance().setScreen(new RealmsMainScreen(new TitleScreen()));
 		}
-		else if(connection instanceof IntegratedConnection)
+		else if(connection instanceof IntegratedConnection integrated)
 		{
-			IntegratedConnection integrated = (IntegratedConnection) connection;
-			Minecraft.getInstance().createLevel(integrated.getFolder(), integrated.getWorldSettings(), RegistryAccess.builtin(), integrated.getWorldGenSettings());
+			Minecraft.getInstance().loadLevel(integrated.getFolder());;
 			Minecraft.getInstance().mouseHandler.grabMouse();
 		}
-		else if(connection instanceof DedicatedConnection)
+		else if(connection instanceof DedicatedConnection dedicated)
 		{
-			DedicatedConnection dedicated = (DedicatedConnection) connection;
 			ServerData data = dedicated.getData();
 			ConnectScreen.startConnecting(new TitleScreen(), Minecraft.getInstance(), ServerAddress.parseString(data.ip), data);
 		}

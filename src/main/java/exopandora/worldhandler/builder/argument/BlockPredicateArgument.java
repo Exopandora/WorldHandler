@@ -139,7 +139,7 @@ public class BlockPredicateArgument extends TagArgument
 				}
 				else
 				{
-					this.resource = parser.getTag();
+					this.resource = parser.getTag().location();
 					this.isTag = true;
 					this.properties = parser.getVagueProperties();
 					this.setTag(parser.getNbt());

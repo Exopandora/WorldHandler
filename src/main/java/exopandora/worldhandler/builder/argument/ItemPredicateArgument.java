@@ -70,7 +70,7 @@ public class ItemPredicateArgument extends TagArgument
 				}
 				else
 				{
-					this.resource = parser.getTag();
+					this.resource = parser.getTag().location();
 					this.setTag(parser.getNbt());
 					this.isTag = true;
 				}
