@@ -15,7 +15,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
-version = '1.18.2-3.1'
+version = '1.18.2-3.1.1'
 group = 'exopandora.worldhandler' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'WorldHandler'
 
