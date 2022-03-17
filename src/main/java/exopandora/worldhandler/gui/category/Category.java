@@ -15,11 +15,11 @@ import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.usercontent.model.JsonTab;
 import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
 public class Category extends ForgeRegistryEntry<Category>
@@ -76,14 +76,13 @@ public class Category extends ForgeRegistryEntry<Category>
 	}
 	
 	@SubscribeEvent
-	public static void createRegistry(NewRegistry event)
+	public static void createRegistry(NewRegistryEvent event)
 	{
-		REGISTRY = new RegistryBuilder<Category>()
+		event.create(new RegistryBuilder<Category>()
 				.setType(Category.class)
 				.setName(new ResourceLocation(Main.MODID + "_category"))
 				.disableSaving()
-				.disableSync()
-				.create();
+				.disableSync(), registry -> REGISTRY = registry);
 	}
 	
 	@SubscribeEvent

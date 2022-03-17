@@ -36,11 +36,11 @@ import exopandora.worldhandler.usercontent.UsercontentConfig;
 import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
 public abstract class Content extends ForgeRegistryEntry<Content> implements IContent
@@ -48,14 +48,13 @@ public abstract class Content extends ForgeRegistryEntry<Content> implements ICo
 	public static IForgeRegistry<Content> REGISTRY;
 	
 	@SubscribeEvent
-	public static void createRegistry(NewRegistry event)
+	public static void createRegistry(NewRegistryEvent event)
 	{
-		REGISTRY = new RegistryBuilder<Content>()
+		event.create(new RegistryBuilder<Content>()
 				.setType(Content.class)
 				.setName(new ResourceLocation(Main.MODID + "_content"))
 				.disableSaving()
-				.disableSync()
-				.create();
+				.disableSync(), registry -> REGISTRY = registry);
 	}
 	
 	@SubscribeEvent
