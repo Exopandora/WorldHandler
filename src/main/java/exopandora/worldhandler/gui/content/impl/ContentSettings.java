@@ -18,8 +18,8 @@ import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
 import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class ContentSettings extends ContentChild
 {
@@ -54,7 +54,7 @@ public class ContentSettings extends ContentChild
 			@Override
 			public MutableComponent translate(Setting<?> item)
 			{
-				return new TranslatableComponent("gui.worldhandler.config.settings." + item.getKey());
+				return Component.translatable("gui.worldhandler.config.settings." + item.getKey());
 			}
 			
 			@Override
@@ -85,7 +85,7 @@ public class ContentSettings extends ContentChild
 		
 		container.add(settings);
 
-		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.generic.value"));
+		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.value"));
 		this.valueField.setFilter(string ->
 		{
 			if(string == null)
@@ -115,19 +115,19 @@ public class ContentSettings extends ContentChild
 		GuiButtonBase button1;
 		GuiButtonBase button2;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.setting instanceof BooleanSetting)
 		{
 			BooleanSetting setting = (BooleanSetting) this.setting;
 			
-			container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.generic.enable"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
 			{
 				setting.set(true);
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.generic.disable"), () ->
+			container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.generic.disable"), () ->
 			{
 				setting.set(false);
 				container.init();
@@ -144,7 +144,7 @@ public class ContentSettings extends ContentChild
 			this.valueField.setValue(String.valueOf(setting.get()));
 			
 			container.add(this.valueField);
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.actions.set"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.actions.set"), () ->
 			{
 				String text = this.valueField.getValue();
 				
@@ -183,7 +183,7 @@ public class ContentSettings extends ContentChild
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.settings");
+		return Component.translatable("gui.worldhandler.shortcuts.tooltip.settings");
 	}
 	
 	public abstract static class Setting<T>

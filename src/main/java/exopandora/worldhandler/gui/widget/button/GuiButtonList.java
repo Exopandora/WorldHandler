@@ -13,7 +13,6 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 
 public class GuiButtonList<T> extends GuiButtonTooltip
 {
@@ -23,7 +22,7 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	
 	public GuiButtonList(int x, int y, List<T> items, int widthIn, int heightIn, Container container, ILogicMapped<T> logic)
 	{
-		super(x, y, widthIn, heightIn, TextComponent.EMPTY, null, null);
+		super(x, y, widthIn, heightIn, Component.empty(), null, null);
 		this.items = items;
 		this.logic = logic;
 		this.persistence = container.getContent().getPersistence(this.logic.getId(), Persistence::new);

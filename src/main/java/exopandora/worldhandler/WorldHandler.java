@@ -55,8 +55,8 @@ public class WorldHandler
 				modEventBus.addListener(WorldHandler.this::registerClientReloadListeners);
 				modEventBus.addListener(Content::createRegistry);
 				modEventBus.addListener(Category::createRegistry);
-				modEventBus.addGenericListener(Content.class, Content::register);
-				modEventBus.addGenericListener(Category.class, Category::register);
+				modEventBus.addListener(Content::register);
+				modEventBus.addListener(Category::register);
 			}
 		});
 		modLoadingContext.registerExtensionPoint(DisplayTest.class, () -> new DisplayTest(() -> "ANY", (remote, isServer) -> true));
@@ -76,7 +76,7 @@ public class WorldHandler
 	@SubscribeEvent
 	public void registerCommands(RegisterCommandsEvent event)
 	{
-		CommandHelper.registerCommands(event.getDispatcher());
+		CommandHelper.registerCommands(event.getDispatcher(), event.getBuildContext());
 	}
 	
 	@SubscribeEvent

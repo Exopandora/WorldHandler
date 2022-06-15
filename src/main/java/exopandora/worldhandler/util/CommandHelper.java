@@ -7,8 +7,9 @@ import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.command.CommandWH;
 import exopandora.worldhandler.command.CommandWorldHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class CommandHelper
 {
@@ -16,7 +17,7 @@ public class CommandHelper
 	
 	public static void sendFeedback(CommandSourceStack source, String message)
 	{
-		source.sendSuccess(new TextComponent(message), false);
+		source.sendSuccess(Component.literal(message), false);
 	}
 	
 	public static boolean canPlayerIssueCommand()
@@ -29,10 +30,10 @@ public class CommandHelper
 		return false;
 	}
 	
-	public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher)
+	public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext)
 	{
 		CommandWorldHandler.register(dispatcher);
-		CommandWH.register(dispatcher);
+		CommandWH.register(dispatcher, buildContext);
 	}
 	
 	public static void sendCommand(String player, ICommandBuilder builder, Object label)
@@ -50,7 +51,7 @@ public class CommandHelper
 		}
 		else if(Minecraft.getInstance().player != null)
 		{
-			Minecraft.getInstance().player.chat(command);
+			Minecraft.getInstance().player.command(command.substring(1));
 		}
 		
 		WorldHandler.LOGGER.info("Command: " + command);

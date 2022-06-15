@@ -17,9 +17,8 @@ import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -42,13 +41,13 @@ public class ContentEnchantment extends Content
 			@Override
 			public MutableComponent translate(Enchantment enchantment)
 			{
-				return new TranslatableComponent(enchantment.getDescriptionId());
+				return Component.translatable(enchantment.getDescriptionId());
 			}
 			
 			@Override
 			public MutableComponent toTooltip(Enchantment enchantment)
 			{
-				return new TextComponent(enchantment.getRegistryName().toString());
+				return Component.literal(ForgeRegistries.ENCHANTMENTS.getKey(enchantment).toString());
 			}
 			
 			@Override
@@ -78,15 +77,15 @@ public class ContentEnchantment extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiSlider(x + 118, y + 24, 114, 20, 1, this.builderEnchantment.enchantment().getEnchantment().getMaxLevel(), 1, container, new LogicSliderSimple("enchantment", new TranslatableComponent("gui.worldhandler.items.enchantment.level"), value ->
+		container.add(new GuiSlider(x + 118, y + 24, 114, 20, 1, this.builderEnchantment.enchantment().getEnchantment().getMaxLevel(), 1, container, new LogicSliderSimple("enchantment", Component.translatable("gui.worldhandler.items.enchantment.level"), value ->
 		{
 			this.builderEnchantment.level().set(value.intValue());
 		})));
 		
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.items.enchantment.enchant"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.items.enchantment.enchant"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderEnchantment, EnchantCommandBuilder.Label.ENCHANT_LEVEL);
 		}));
@@ -101,13 +100,13 @@ public class ContentEnchantment extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.items.enchantment");
+		return Component.translatable("gui.worldhandler.title.items.enchantment");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.items.enchantment");
+		return Component.translatable("gui.worldhandler.tab.items.enchantment");
 	}
 	
 	@Override

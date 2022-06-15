@@ -54,7 +54,7 @@ public class EnchantmentArgument implements IDeserializableArgument
 			return null;
 		}
 		
-		return this.enchantment.getRegistryName().toString();
+		return ForgeRegistries.ENCHANTMENTS.getKey(this.enchantment).toString();
 	}
 	
 	@Override

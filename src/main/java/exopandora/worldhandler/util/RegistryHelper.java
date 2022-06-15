@@ -3,11 +3,14 @@ package exopandora.worldhandler.util;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.Main;
+import net.minecraft.core.Registry;
 import net.minecraft.locale.Language;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
@@ -15,13 +18,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.RegisterEvent;
 
 public class RegistryHelper
 {
-	private static final Map<IForgeRegistry<?>, Function<? extends ForgeRegistryEntry<?>, String>> FORGE = new HashMap<IForgeRegistry<?>, Function<? extends ForgeRegistryEntry<?>, String>>();
+	private static final Map<IForgeRegistry<?>, Function<?, String>> FORGE = new HashMap<IForgeRegistry<?>, Function<?, String>>();
 	
 	static
 	{
@@ -30,8 +32,8 @@ public class RegistryHelper
 		registerRegistry(ForgeRegistries.MOB_EFFECTS, MobEffect::getDescriptionId);
 		registerRegistry(ForgeRegistries.BIOMES, biome ->
 		{
-			ResourceLocation resource = biome.getRegistryName();
-			String key = "biome." + biome.getRegistryName().getNamespace() + "." + resource.getPath();
+			ResourceLocation resource = ForgeRegistries.BIOMES.getKey(biome);
+			String key = "biome." + resource.getNamespace() + "." + resource.getPath();
 			return Language.getInstance().has(key) ? key : resource.toString();
 		});
 		registerRegistry(ForgeRegistries.ENCHANTMENTS, Enchantment::getDescriptionId);
@@ -39,14 +41,14 @@ public class RegistryHelper
 		registerRegistry(ForgeRegistries.STAT_TYPES, stat -> "stat." + stat.toString().replace(':', '.'));
 	}
 	
-	private static <T extends ForgeRegistryEntry<T>> void registerRegistry(IForgeRegistry<T> registry, Function<T, String> mapper)
+	private static <T> void registerRegistry(IForgeRegistry<T> registry, Function<T, String> mapper)
 	{
 		FORGE.put(registry, mapper);
 	}
 	
 	@Nullable
 	@SuppressWarnings("unchecked")
-	public static <T extends ForgeRegistryEntry<T>> String translate(ResourceLocation resource)
+	public static <T> String translate(ResourceLocation resource)
 	{
 		for(IForgeRegistry<?> registry : FORGE.keySet())
 		{
@@ -59,13 +61,8 @@ public class RegistryHelper
 		return null;
 	}
 	
-	public static <T extends IForgeRegistryEntry<T>> void register(IForgeRegistry<T> registry, String name, T entry)
+	public static <T> void register(RegisterEvent event, ResourceKey<Registry<T>> key, String location, Supplier<T> valueSupplier)
 	{
-		register(registry, Main.MODID, name, entry);
-	}
-	
-	public static <T extends IForgeRegistryEntry<T>> void register(IForgeRegistry<T> registry, String modid, String name, T entry)
-	{
-		registry.register(entry.setRegistryName(new ResourceLocation(modid, name)));
+		event.register(key, new ResourceLocation(Main.MODID, location), valueSupplier);
 	}
 }

@@ -15,7 +15,6 @@ import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria.RenderType;
@@ -24,7 +23,7 @@ public class Arguments
 {
 	public static PrimitiveArgument<Short> shortArg()
 	{
-		return new PrimitiveArgument.Builder<Short>(string ->
+		return PrimitiveArgument.builder(string ->
 		{
 			try
 			{
@@ -39,7 +38,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<Byte> byteArg()
 	{
-		return new PrimitiveArgument.Builder<Byte>(string ->
+		return PrimitiveArgument.builder(string ->
 		{
 			try
 			{
@@ -54,7 +53,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<Integer> intArg()
 	{
-		return new PrimitiveArgument.Builder<Integer>(string ->
+		return PrimitiveArgument.builder(string ->
 		{
 			try
 			{
@@ -69,7 +68,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<Float> floatArg()
 	{
-		return new PrimitiveArgument.Builder<Float>(string ->
+		return PrimitiveArgument.builder(string ->
 		{
 			try
 			{
@@ -84,7 +83,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<Double> doubleArg()
 	{
-		return new PrimitiveArgument.Builder<Double>(string ->
+		return PrimitiveArgument.builder(string ->
 		{
 			try
 			{
@@ -99,7 +98,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<Long> longArg()
 	{
-		return new PrimitiveArgument.Builder<Long>(string ->
+		return PrimitiveArgument.builder(string ->
 		{
 			try
 			{
@@ -114,7 +113,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<Boolean> boolArg()
 	{
-		return new PrimitiveArgument.Builder<Boolean>(string ->
+		return PrimitiveArgument.builder(string ->
 		{
 			try
 			{
@@ -129,14 +128,14 @@ public class Arguments
 	
 	public static PrimitiveArgument<String> string()
 	{
-		return new PrimitiveArgument.Builder<String>(Function.identity())
+		return PrimitiveArgument.builder(Function.identity())
 				.serializer(string -> string.isBlank() ? null : StringArgumentType.escapeIfRequired(string))
 				.build();
 	}
 	
 	public static PrimitiveArgument<String> greedyString()
 	{
-		return new PrimitiveArgument.Builder<String>(string -> string == null || string.isBlank() ? null : string)
+		return PrimitiveArgument.builder(string -> string == null || string.isBlank() ? null : string)
 				.serializer(string -> string.isBlank() ? null : string)
 				.defaultOverride(string -> string == null || string.isBlank())
 				.build();
@@ -144,7 +143,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<String> word()
 	{
-		return new PrimitiveArgument.Builder<String>(string -> string == null || string.isBlank() ? null : string)
+		return PrimitiveArgument.builder(string -> string == null || string.isBlank() ? null : string)
 				.serializer(string -> string.isBlank() ? null : string.replaceAll("[^0-9A-Za-z_\\-.+]", "_"))
 				.defaultOverride(string -> string == null || string.isBlank())
 				.build();
@@ -152,7 +151,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<ResourceLocation> resourceLocation()
 	{
-		return new PrimitiveArgument.Builder<ResourceLocation>(string -> string.isEmpty() ? null : new ResourceLocation(string)).build();
+		return PrimitiveArgument.builder(string -> string.isEmpty() ? null : new ResourceLocation(string)).build();
 	}
 	
 	public static ItemArgument item()
@@ -177,12 +176,12 @@ public class Arguments
 	
 	public static PrimitiveArgument<Coordinate<Integer>> intCoordinate()
 	{
-		return new PrimitiveArgument.Builder<Coordinate<Integer>>(Coordinate.Ints::parse).build();
+		return PrimitiveArgument.<Coordinate<Integer>>builder(Coordinate.Ints::parse).build();
 	}
 	
 	public static PrimitiveArgument<Coordinate<Double>> doubleCoordinate()
 	{
-		return new PrimitiveArgument.Builder<Coordinate<Double>>(Coordinate.Doubles::parse).build();
+		return PrimitiveArgument.<Coordinate<Double>>builder(Coordinate.Doubles::parse).build();
 	}
 	
 	public static RangeArgument<Integer> intRange()
@@ -232,7 +231,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<Gamemode> gamemode()
 	{
-		return new PrimitiveArgument.Builder<Gamemode>(string -> EnumHelper.find(string, Gamemode.values(), Gamemode::toString)).build();
+		return PrimitiveArgument.builder(string -> EnumHelper.find(string, Gamemode.values(), Gamemode::toString)).build();
 	}
 	
 	public static TimeArgument time()
@@ -247,40 +246,40 @@ public class Arguments
 	
 	public static PrimitiveArgument<Axis> axis()
 	{
-		return new PrimitiveArgument.Builder<Axis>(string -> EnumHelper.find(string, Axis.values(), Axis::getName))
+		return PrimitiveArgument.builder(string -> EnumHelper.find(string, Axis.values(), Axis::getName))
 				.serializer(Axis::getName)
 				.build();
 	}
 	
 	public static PrimitiveArgument<Anchor> anchor()
 	{
-		return new PrimitiveArgument.Builder<Anchor>(string -> EnumHelper.find(string, Anchor.values(), anchor -> anchor.name))
+		return PrimitiveArgument.builder(string -> EnumHelper.find(string, Anchor.values(), anchor -> anchor.name))
 				.serializer(anchor -> anchor.name)
 				.build();
 	}
 	
 	public static PrimitiveArgument<Difficulty> difficulty()
 	{
-		return new PrimitiveArgument.Builder<Difficulty>(string -> EnumHelper.find(string, Difficulty.values(), Difficulty::getKey))
+		return PrimitiveArgument.builder(string -> EnumHelper.find(string, Difficulty.values(), Difficulty::getKey))
 				.serializer(Difficulty::getKey)
 				.build();
 	}
 	
 	public static PrimitiveArgument<RenderType> renderType()
 	{
-		return new PrimitiveArgument.Builder<RenderType>(string -> EnumHelper.find(string, RenderType.values(), RenderType::getId))
+		return PrimitiveArgument.builder(string -> EnumHelper.find(string, RenderType.values(), RenderType::getId))
 				.serializer(RenderType::getId)
 				.build();
 	}
 	
 	public static PrimitiveArgument<PrimitiveArgument.Operation> operation()
 	{
-		return new PrimitiveArgument.Builder<Operation>(string -> EnumHelper.find(string, Operation.values(), Operation::toString)).build();
+		return PrimitiveArgument.builder(string -> EnumHelper.find(string, Operation.values(), Operation::toString)).build();
 	}
 	
 	public static PrimitiveArgument<Component> textComponent()
 	{
-		return new PrimitiveArgument.Builder<Component>(string ->
+		return PrimitiveArgument.<Component>builder(string ->
 		{
 			try
 			{
@@ -288,24 +287,24 @@ public class Arguments
 			}
 			catch(Exception e)
 			{
-				return new TextComponent(string);
+				return Component.literal(string);
 			}
 		}).serializer(Component.Serializer::toJson).build();
 	}
 	
 	public static PrimitiveArgument<PrimitiveArgument.Relation> relation()
 	{
-		return new PrimitiveArgument.Builder<Relation>(string -> EnumHelper.find(string, Relation.values(), Relation::toString)).build();
+		return PrimitiveArgument.builder(string -> EnumHelper.find(string, Relation.values(), Relation::toString)).build();
 	}
 	
 	public static PrimitiveArgument<PrimitiveArgument.Type> type()
 	{
-		return new PrimitiveArgument.Builder<Type>(string -> EnumHelper.find(string, Type.values(), Type::toString)).build();
+		return PrimitiveArgument.builder(string -> EnumHelper.find(string, Type.values(), Type::toString)).build();
 	}
 	
 	public static PrimitiveArgument<PrimitiveArgument.Linkage> linkage()
 	{
-		return new PrimitiveArgument.Builder<Linkage>(string -> EnumHelper.find(string, Linkage.values(), Linkage::toString)).build();
+		return PrimitiveArgument.builder(string -> EnumHelper.find(string, Linkage.values(), Linkage::toString)).build();
 	}
 	
 	public static NbtPathArgument nbtPath()
@@ -320,7 +319,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<String> criteria()
 	{
-		return new PrimitiveArgument.Builder<String>(string -> string == null || string.isBlank() ? null : string)
+		return PrimitiveArgument.builder(string -> string == null || string.isBlank() ? null : string)
 				.serializer(string -> string.isBlank() ? null : string.replaceAll(" ", "_"))
 				.defaultOverride(string -> string == null || string.isBlank())
 				.build();

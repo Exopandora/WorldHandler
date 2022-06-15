@@ -2,10 +2,9 @@ package exopandora.worldhandler.builder.argument;
 
 import javax.annotation.Nullable;
 
-import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.commands.arguments.blocks.BlockStateParser;
+import exopandora.worldhandler.util.BlockPredicateParser;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -63,9 +62,9 @@ public class BlockStateArgument extends TagArgument
 	}
 	
 	@Override
-	public void deserialize(@Nullable String block)
+	public void deserialize(@Nullable String string)
 	{
-		if(block == null)
+		if(string == null)
 		{
 			this.reset();
 		}
@@ -73,9 +72,13 @@ public class BlockStateArgument extends TagArgument
 		{
 			try
 			{
-				BlockStateParser parser = new BlockStateParser(new StringReader(block), false).parse(true);
-				this.state = parser.getState();
-				this.setTag(parser.getNbt());
+				BlockPredicateParser parser = new BlockPredicateParser(string);
+				parser.parse(false);
+				parser.getBlock().ifPresentOrElse(block ->
+				{
+					this.state = block.defaultBlockState();
+					this.setTag(parser.getNbt());
+				}, this::reset);
 			}
 			catch(CommandSyntaxException e)
 			{
@@ -101,7 +104,7 @@ public class BlockStateArgument extends TagArgument
 		
 		StringBuilder builder = new StringBuilder(this.state.toString());
 		String block = this.state.getBlock().toString();
-		builder.replace(0, block.length(), this.state.getBlock().getRegistryName().toString());
+		builder.replace(0, block.length(), ForgeRegistries.BLOCKS.getKey(this.state.getBlock()).toString());
 		String nbt = super.serialize();
 		
 		if(nbt != null && this.state.hasBlockEntity())

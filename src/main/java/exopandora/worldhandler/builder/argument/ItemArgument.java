@@ -2,10 +2,9 @@ package exopandora.worldhandler.builder.argument;
 
 import javax.annotation.Nullable;
 
-import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.commands.arguments.item.ItemParser;
+import exopandora.worldhandler.util.ItemPredicateParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -42,15 +41,23 @@ public class ItemArgument extends TagArgument
 	}
 	
 	@Override
-	public void deserialize(@Nullable String item)
+	public void deserialize(@Nullable String string)
 	{
-		if(item != null)
+		if(string != null)
 		{
 			try
 			{
-				ItemParser parser = new ItemParser(new StringReader(item), false).parse();
-				this.item = parser.getItem();
-				this.setTag(parser.getNbt());
+				ItemPredicateParser parser = new ItemPredicateParser(string);
+				parser.parse(false);
+				parser.getItem().ifPresentOrElse(item ->
+				{
+					this.item = item;
+					this.setTag(parser.getNbt());
+				}, () ->
+				{
+					this.item = null;
+					this.setTag(null);
+				});
 			}
 			catch(CommandSyntaxException e)
 			{
@@ -78,10 +85,10 @@ public class ItemArgument extends TagArgument
 		
 		if(tag != null)
 		{
-			return this.item.getRegistryName().toString() + tag;
+			return ForgeRegistries.ITEMS.getKey(this.item).toString() + tag;
 		}
 		
-		return this.item.getRegistryName().toString();
+		return ForgeRegistries.ITEMS.getKey(this.item).toString();
 	}
 	
 	@Override

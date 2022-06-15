@@ -9,9 +9,8 @@ import exopandora.worldhandler.usercontent.UsercontentAPI;
 import exopandora.worldhandler.usercontent.model.AbstractJsonWidget;
 import exopandora.worldhandler.usercontent.model.JsonItem;
 import exopandora.worldhandler.util.ActionHandler;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public abstract class AbstractWidgetFactory
 {
@@ -56,16 +55,16 @@ public abstract class AbstractWidgetFactory
 		{
 			if(item.getTranslation() != null)
 			{
-				return new TranslatableComponent(item.getTranslation());
+				return Component.translatable(item.getTranslation());
 			}
 			
-			return new TextComponent(item.getId());
+			return Component.literal(item.getId());
 		}
 		
 		@Override
 		public MutableComponent toTooltip(JsonItem item)
 		{
-			return new TextComponent(item.getId());
+			return Component.literal(item.getId());
 		}
 		
 		@Override

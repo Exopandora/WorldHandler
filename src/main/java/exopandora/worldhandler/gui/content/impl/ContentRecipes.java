@@ -17,9 +17,8 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 
@@ -52,13 +51,13 @@ public class ContentRecipes extends Content
 					return (MutableComponent) recipe.getResultItem().getHoverName();
 				}
 				
-				return new TextComponent(recipe.getId().toString());
+				return Component.literal(recipe.getId().toString());
 			}
 			
 			@Override
 			public MutableComponent toTooltip(Recipe<?> recipe)
 			{
-				return new TextComponent(recipe.getId().toString());
+				return Component.literal(recipe.getId().toString());
 			}
 			
 			@Override
@@ -87,15 +86,15 @@ public class ContentRecipes extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.recipes.give"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.recipes.give"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe, RecipeCommandBuilder.Label.GIVE);
 			container.initButtons();
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.recipes.take"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.recipes.take"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe, RecipeCommandBuilder.Label.TAKE);
 			container.initButtons();
@@ -111,13 +110,13 @@ public class ContentRecipes extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.items.recipes");
+		return Component.translatable("gui.worldhandler.title.items.recipes");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.items.recipes");
+		return Component.translatable("gui.worldhandler.tab.items.recipes");
 	}
 	
 	@Override

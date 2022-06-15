@@ -1,6 +1,6 @@
 package exopandora.worldhandler.builder.argument.tag;
 
-import exopandora.worldhandler.util.MutableTextComponent;
+import exopandora.worldhandler.util.UserStylableComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 
 public class DisplayTag implements ITagProvider 
 {
-	private MutableTextComponent name = new MutableTextComponent();
+	private UserStylableComponent name = new UserStylableComponent();
 	private Component[] lore = new Component[2];
 	
 	@Override
@@ -45,12 +45,12 @@ public class DisplayTag implements ITagProvider
 		return null;
 	}
 	
-	public void setName(MutableTextComponent name)
+	public void setName(String name)
 	{
-		this.name = name;
+		this.name.setText(name);
 	}
 	
-	public MutableTextComponent getName()
+	public UserStylableComponent getName()
 	{
 		return this.name;
 	}

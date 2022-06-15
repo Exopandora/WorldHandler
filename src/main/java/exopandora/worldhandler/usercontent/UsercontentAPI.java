@@ -7,10 +7,8 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.builder.argument.IDeserializableArgument;
 import exopandora.worldhandler.builder.impl.UsercontentCommandBuilder;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class UsercontentAPI
 {
@@ -35,7 +33,7 @@ public class UsercontentAPI
 	
 	public void addChatMessage(Object object)
 	{
-		Minecraft.getInstance().gui.handleChat(ChatType.CHAT, new TextComponent(object != null ? object.toString() : "null"), Util.NIL_UUID);
+		Minecraft.getInstance().player.displayClientMessage(Component.literal(object != null ? object.toString() : "null"), false);
 	}
 	
 	public void setArgument(String command, String argument, String value)

@@ -1,7 +1,7 @@
 package exopandora.worldhandler.gui;
 
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class DummyScreen extends Screen
 {
@@ -9,7 +9,7 @@ public class DummyScreen extends Screen
 	
 	public DummyScreen(Runnable runnable)
 	{
-		super(TextComponent.EMPTY);
+		super(Component.empty());
 		this.runnable = runnable;
 	}
 	

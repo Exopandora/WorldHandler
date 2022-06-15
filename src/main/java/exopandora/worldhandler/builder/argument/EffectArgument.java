@@ -54,7 +54,7 @@ public class EffectArgument implements IDeserializableArgument
 			return null;
 		}
 		
-		return this.effect.getRegistryName().toString();
+		return ForgeRegistries.MOB_EFFECTS.getKey(this.effect).toString();
 	}
 	
 	@Override

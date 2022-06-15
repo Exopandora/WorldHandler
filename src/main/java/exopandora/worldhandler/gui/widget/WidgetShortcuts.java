@@ -9,7 +9,6 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class WidgetShortcuts implements IContainerWidget
 {
@@ -42,63 +41,63 @@ public class WidgetShortcuts implements IContainerWidget
 	{
 		TIME_DAWN(EnumIcon.TIME_DAWN, ActionHelper::timeDawn, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.time", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.time.dawn", Config.getSettings().getDawn()));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.time", Component.translatable("gui.worldhandler.shortcuts.tooltip.time.dawn", Config.getSettings().getDawn()));
 		}),
 		TIME_NOON(EnumIcon.TIME_NOON, ActionHelper::timeNoon, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.time", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.time.noon", Config.getSettings().getNoon()));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.time", Component.translatable("gui.worldhandler.shortcuts.tooltip.time.noon", Config.getSettings().getNoon()));
 		}),
 		TIME_SUNSET(EnumIcon.TIME_SUNSET, ActionHelper::timeSunset, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.time", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.time.sunset", Config.getSettings().getSunset()));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.time", Component.translatable("gui.worldhandler.shortcuts.tooltip.time.sunset", Config.getSettings().getSunset()));
 		}),
 		TIME_MIDNIGHT(EnumIcon.TIME_MIDNIGHT, ActionHelper::timeMidnight, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.time", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.time.midnight", Config.getSettings().getMidnight()));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.time", Component.translatable("gui.worldhandler.shortcuts.tooltip.time.midnight", Config.getSettings().getMidnight()));
 		}),
 		WEATHER_SUN(EnumIcon.WEATHER_SUN, ActionHelper::weatherClear, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.weather", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.weather.clear"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.weather", Component.translatable("gui.worldhandler.shortcuts.tooltip.weather.clear"));
 		}),
 		WEATHER_RAIN(EnumIcon.WEATHER_RAIN, ActionHelper::weatherRain, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.weather", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.weather.rainy"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.weather", Component.translatable("gui.worldhandler.shortcuts.tooltip.weather.rainy"));
 		}),
 		WEATHER_STORM(EnumIcon.WEATHER_STORM, ActionHelper::weatherThunder, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.weather", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.weather.thunder"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.weather", Component.translatable("gui.worldhandler.shortcuts.tooltip.weather.thunder"));
 		}),
 		DIFFICULTY_PEACEFUL(EnumIcon.DIFFICULTY_PEACEFUL, ActionHelper::difficultyPeaceful, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.difficulty.peaceful"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.difficulty", Component.translatable("gui.worldhandler.shortcuts.tooltip.difficulty.peaceful"));
 		}),
 		DIFFICULTY_EASY(EnumIcon.DIFFICULTY_EASY, ActionHelper::difficultyEasy, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.difficulty.easy"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.difficulty", Component.translatable("gui.worldhandler.shortcuts.tooltip.difficulty.easy"));
 		}),
 		DIFFICULTY_NORMAL(EnumIcon.DIFFICULTY_NORMAL, ActionHelper::difficultyNormal, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.difficulty.normal"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.difficulty", Component.translatable("gui.worldhandler.shortcuts.tooltip.difficulty.normal"));
 		}),
 		DIFFICULTY_HARD(EnumIcon.DIFFICULTY_HARD, ActionHelper::difficultyHard, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.difficulty", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.difficulty.hard"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.difficulty", Component.translatable("gui.worldhandler.shortcuts.tooltip.difficulty.hard"));
 		}),
 		GAMEMODE_SURVIVAL(EnumIcon.GAMEMODE_SURVIVAL, ActionHelper::gamemodeSurvival, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.gamemode.survival"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.gamemode", Component.translatable("gui.worldhandler.shortcuts.tooltip.gamemode.survival"));
 		}),
 		GAMEMODE_CREATIVE(EnumIcon.GAMEMODE_CREATIVE, ActionHelper::gamemodeCreative, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.gamemode.creative"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.gamemode", Component.translatable("gui.worldhandler.shortcuts.tooltip.gamemode.creative"));
 		}),
 		GAMEMODE_ADVENTURE(EnumIcon.GAMEMODE_ADVENTURE, ActionHelper::gamemodeAdventure, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.gamemode.adventure"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.gamemode", Component.translatable("gui.worldhandler.shortcuts.tooltip.gamemode.adventure"));
 		}),
 		GAMEMODE_SPECTATOR(EnumIcon.GAMEMODE_SPECTATOR, ActionHelper::gamemodeSpectator, () ->
 		{
-			return new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.gamemode", new TranslatableComponent("gui.worldhandler.shortcuts.tooltip.gamemode.spectator"));
+			return Component.translatable("gui.worldhandler.shortcuts.tooltip.gamemode", Component.translatable("gui.worldhandler.shortcuts.tooltip.gamemode.spectator"));
 		});
 		
 		private final EnumIcon icon;

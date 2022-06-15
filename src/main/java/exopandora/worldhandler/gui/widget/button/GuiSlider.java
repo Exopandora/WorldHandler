@@ -12,8 +12,8 @@ import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 
 public class GuiSlider extends GuiButtonBase
 {
@@ -23,7 +23,7 @@ public class GuiSlider extends GuiButtonBase
 	
 	public GuiSlider(int x, int y, int widthIn, int heightIn, double min, double max, double start, Container container, ILogicSlider logic)
 	{
-		super(x, y, widthIn, heightIn, TextComponent.EMPTY, null);
+		super(x, y, widthIn, heightIn, Component.empty(), null);
 		this.logic = Objects.requireNonNull(logic);
 		this.container = Objects.requireNonNull(container);
 		this.persistence = this.container.getContent().getPersistence(this.logic.getId(), () -> new Persistence(min, max, min == max ? 0.0 : ((start - min) / (max - min))));

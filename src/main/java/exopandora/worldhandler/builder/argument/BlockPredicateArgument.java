@@ -9,14 +9,14 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.commands.arguments.blocks.BlockStateParser;
+import exopandora.worldhandler.util.BlockPredicateParser;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockPredicateArgument extends TagArgument
 {
@@ -38,7 +38,7 @@ public class BlockPredicateArgument extends TagArgument
 	{
 		if(state != null)
 		{
-			this.resource = state.getBlock().getRegistryName();
+			this.resource = ForgeRegistries.BLOCKS.getKey(state.getBlock());
 			this.properties = propertiesToString(state.getValues());
 		}
 		else
@@ -128,22 +128,12 @@ public class BlockPredicateArgument extends TagArgument
 		{
 			try
 			{
-				BlockStateParser parser = new BlockStateParser(new StringReader(predicate), true).parse(true);
-				
-				if(parser.getState() != null)
-				{
-					this.resource = parser.getState().getBlock().getRegistryName();
-					this.isTag = false;
-					this.properties = propertiesToString(parser.getProperties());
-					this.setTag(parser.getNbt());
-				}
-				else
-				{
-					this.resource = parser.getTag().location();
-					this.isTag = true;
-					this.properties = parser.getVagueProperties();
-					this.setTag(parser.getNbt());
-				}
+				BlockPredicateParser parser = new BlockPredicateParser(predicate);
+				parser.parse(true);
+				this.resource = parser.getResourceLocation();
+				this.isTag = parser.isTag();
+				this.properties = parser.getVagueProperties();
+				this.setTag(parser.getNbt());
 			}
 			catch(CommandSyntaxException e)
 			{
@@ -205,14 +195,14 @@ public class BlockPredicateArgument extends TagArgument
 	{
 		return properties.entrySet().stream().map(entry ->
 		{
-	        Property<?> property = entry.getKey();
-	        return new SimpleEntry<String, String>(property.getName(), getName(property, entry.getValue()));
+			Property<?> property = entry.getKey();
+			return new SimpleEntry<String, String>(property.getName(), getName(property, entry.getValue()));
 		}).collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 	
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	private static <T extends Comparable<T>> String getName(Property<T> key, Comparable<?> value)
-    {
-       return key.getName((T) value);
-    }
+	{
+		return key.getName((T) value);
+	}
 }

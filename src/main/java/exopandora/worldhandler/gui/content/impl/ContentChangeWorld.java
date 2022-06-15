@@ -18,24 +18,24 @@ import net.minecraft.client.gui.screens.multiplayer.SafetyScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class ContentChangeWorld extends ContentChild
 {
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 116 / 2, y + 24, 232 / 2, 20, new TranslatableComponent("gui.worldhandler.change_world.singleplayer"), () ->
+		container.add(new GuiButtonBase(x + 116 / 2, y + 24, 232 / 2, 20, Component.translatable("gui.worldhandler.change_world.singleplayer"), () ->
 		{
 			IConnection connection = ContentChangeWorld.disconnect();
 			Minecraft.getInstance().setScreen(new SelectWorldScreen(new DummyScreen(() -> ContentChangeWorld.reconnect(connection))));
 		}));
 		
-		container.add(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, new TranslatableComponent("gui.worldhandler.change_world.multiplayer"), () ->
+		container.add(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, Component.translatable("gui.worldhandler.change_world.multiplayer"), () ->
 		{
 			IConnection connection = ContentChangeWorld.disconnect();
 			DummyScreen dummy = new DummyScreen(() -> ContentChangeWorld.reconnect(connection));
@@ -61,7 +61,7 @@ public class ContentChangeWorld extends ContentChild
 		{
 			String folder = Minecraft.getInstance().getSingleplayerServer().storageSource.getLevelId();
 			Minecraft.getInstance().level.disconnect();
-			Minecraft.getInstance().clearLevel(new GenericDirtMessageScreen(new TranslatableComponent("menu.savingLevel")));
+			Minecraft.getInstance().clearLevel(new GenericDirtMessageScreen(Component.translatable("menu.savingLevel")));
 			
 			return new IntegratedConnection(folder);
 		}
@@ -88,7 +88,7 @@ public class ContentChangeWorld extends ContentChild
 		}
 		else if(connection instanceof IntegratedConnection integrated)
 		{
-			Minecraft.getInstance().loadLevel(integrated.getFolder());;
+			Minecraft.getInstance().createWorldOpenFlows().loadLevel(new TitleScreen(), integrated.getFolder());
 			Minecraft.getInstance().mouseHandler.grabMouse();
 		}
 		else if(connection instanceof DedicatedConnection dedicated)
@@ -101,6 +101,6 @@ public class ContentChangeWorld extends ContentChild
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.change_world");
+		return Component.translatable("gui.worldhandler.title.change_world");
 	}
 }

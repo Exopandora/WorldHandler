@@ -15,8 +15,8 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -28,7 +28,7 @@ public class ContentContainers extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 232, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 232, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.CRAFTING_TABLE)));
 		container.add(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.ENDER_CHEST)));
@@ -116,13 +116,13 @@ public class ContentContainers extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.containers");
+		return Component.translatable("gui.worldhandler.title.containers");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.containers");
+		return Component.translatable("gui.worldhandler.tab.containers");
 	}
 	
 	@Override

@@ -11,9 +11,8 @@ import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
 import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -32,19 +31,19 @@ public class ContentButcherSettings extends ContentChild
 			@Override
 			public MutableComponent translate(EntityType<?> item)
 			{
-				return new TranslatableComponent(item.getDescriptionId());
+				return Component.translatable(item.getDescriptionId());
 			}
 			
 			@Override
 			public MutableComponent toTooltip(EntityType<?> item)
 			{
-				return new TextComponent(item.getRegistryName().toString());
+				return Component.literal(ForgeRegistries.ENTITIES.getKey(item).toString());
 			}
 			
 			@Override
 			public void onClick(EntityType<?> item)
 			{
-				ContentButcherSettings.this.entity = item.getRegistryName();
+				ContentButcherSettings.this.entity = ForgeRegistries.ENTITIES.getKey(item);
 				container.initButtons();
 			}
 			
@@ -70,15 +69,15 @@ public class ContentButcherSettings extends ContentChild
 		GuiButtonBase button1;
 		GuiButtonBase button2;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.generic.enable"), () ->
+		container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
 		{
 			Config.CLIENT.getButcher().addEntity(this.entity);
 			container.initButtons();
 		}));
-		container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.generic.disable"), () ->
+		container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.generic.disable"), () ->
 		{
 			Config.CLIENT.getButcher().removeEntity(this.entity);
 			container.initButtons();

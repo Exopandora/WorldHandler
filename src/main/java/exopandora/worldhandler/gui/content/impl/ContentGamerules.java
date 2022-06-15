@@ -23,9 +23,8 @@ import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameRules.GameRuleTypeVisitor;
 
@@ -48,7 +47,7 @@ public class ContentGamerules extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.generic.value"));
+		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.value"));
 		this.valueField.setFilter(Predicates.notNull());
 		this.valueField.setValue(this.value);
 		this.valueField.moveCursorToEnd();
@@ -74,13 +73,13 @@ public class ContentGamerules extends Content
 			@Override
 			public MutableComponent translate(String rule)
 			{
-				return new TranslatableComponent("gamerule." + rule);
+				return Component.translatable("gamerule." + rule);
 			}
 			
 			@Override
 			public MutableComponent toTooltip(String rule)
 			{
-				return new TextComponent(rule);
+				return Component.literal(rule);
 			}
 			
 			@Override
@@ -120,16 +119,16 @@ public class ContentGamerules extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.booleanValue)
 		{
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.generic.enable"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
 			{
 				this.setGameRule(container.getPlayer(), String.valueOf(true));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.generic.disable"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.generic.disable"), () ->
 			{
 				this.setGameRule(container.getPlayer(), String.valueOf(false));
 			}));
@@ -137,7 +136,7 @@ public class ContentGamerules extends Content
 		else
 		{
 			container.add(this.valueField);
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.actions.perform"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.actions.perform"), () ->
 			{
 				this.setGameRule(container.getPlayer(), this.value);
 			}));
@@ -179,13 +178,13 @@ public class ContentGamerules extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.world.gamerules");
+		return Component.translatable("gui.worldhandler.title.world.gamerules");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.world.gamerules");
+		return Component.translatable("gui.worldhandler.tab.world.gamerules");
 	}
 	
 	@Override

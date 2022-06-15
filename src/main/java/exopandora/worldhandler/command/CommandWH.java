@@ -14,6 +14,7 @@ import exopandora.worldhandler.builder.impl.CloneCommandBuilder;
 import exopandora.worldhandler.builder.impl.FillCommandBuilder;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.blocks.BlockInput;
@@ -27,7 +28,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class CommandWH
 {
-	public static void register(CommandDispatcher<CommandSourceStack> dispatcher)
+	public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext)
 	{
 		dispatcher.register(Commands.literal("wh")
 				.then(Commands.literal("pos1")
@@ -36,18 +37,18 @@ public class CommandWH
 					.executes(context -> pos2(context.getSource())))
 				.then(Commands.literal("fill")
 					.requires(source -> source.hasPermission(2))
-						.then(Commands.argument("block", BlockStateArgument.block())
+						.then(Commands.argument("block", BlockStateArgument.block(buildContext))
 							.executes(context -> fill(context.getSource(), BlockStateArgument.getBlock(context, "block")))))
 				.then(Commands.literal("replace")
 					.requires(source -> source.hasPermission(2))
-						.then(Commands.argument("filter", BlockPredicateArgument.blockPredicate())
-								.then(Commands.argument("block", BlockStateArgument.block())
+						.then(Commands.argument("filter", BlockPredicateArgument.blockPredicate(buildContext))
+								.then(Commands.argument("block", BlockStateArgument.block(buildContext))
 								.executes(context -> replace(context.getSource(), getCommandNode("filter", context.getNodes()).getRange().get(context.getInput()), BlockStateArgument.getBlock(context, "block"))))))
 				.then(Commands.literal("clone")
 					.requires(source -> source.hasPermission(2))
 					.executes(context -> clone(context.getSource(), "masked", null))
 						.then(Commands.literal("filtered")
-							.then(Commands.argument("filter", BlockPredicateArgument.blockPredicate())
+							.then(Commands.argument("filter", BlockPredicateArgument.blockPredicate(buildContext))
 								.executes(context -> clone(context.getSource(), "filter", getCommandNode("filter", context.getNodes()).getRange().get(context.getInput())))))
 						.then(Commands.literal("masked")
 								.executes(context -> clone(context.getSource(), "masked", null)))

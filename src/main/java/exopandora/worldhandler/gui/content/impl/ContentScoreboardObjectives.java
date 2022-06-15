@@ -21,9 +21,8 @@ import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
@@ -44,7 +43,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.objectField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.objectives.objective"));
+		this.objectField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setFilter(Predicates.notNull());
 		this.objectField.setResponder(text ->
 		{
@@ -71,25 +70,25 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 						{
 							if(type.equals(Stats.CUSTOM))
 							{
-								return new TranslatableComponent("gui.worldhandler.scoreboard.objectives.stat.custom");
+								return Component.translatable("gui.worldhandler.scoreboard.objectives.stat.custom");
 							}
 							else if(type.equals(Stats.ENTITY_KILLED))
 							{
-								return new TranslatableComponent("gui.worldhandler.scoreboard.objectives.stat.killed");
+								return Component.translatable("gui.worldhandler.scoreboard.objectives.stat.killed");
 							}
 							else if(type.equals(Stats.ENTITY_KILLED_BY))
 							{
-								return new TranslatableComponent("gui.worldhandler.scoreboard.objectives.stat.killed_by");
+								return Component.translatable("gui.worldhandler.scoreboard.objectives.stat.killed_by");
 							}
 							
-							return new TranslatableComponent(type.getTranslationKey());
+							return Component.translatable(type.getTranslationKey());
 						}
 						
 						String translation = RegistryHelper.translate(resource);
 						
 						if(translation != null)
 						{
-							return new TranslatableComponent(translation);
+							return Component.translatable(translation);
 						}
 					}
 					
@@ -97,15 +96,15 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 					
 					if(!translation.equals(I18n.get(translation)))
 					{
-						return new TranslatableComponent(translation);
+						return Component.translatable(translation);
 					}
 					
 					if(Arrays.stream(ChatFormatting.values()).map(ChatFormatting::getName).anyMatch(Predicates.equalTo(key)))
 					{
-						return new TranslatableComponent("gui.worldhandler.color." + key);
+						return Component.translatable("gui.worldhandler.color." + key);
 					}
 					
-					return new TranslatableComponent("gui.worldhandler.scoreboard.objectives.stat." + key);
+					return Component.translatable("gui.worldhandler.scoreboard.objectives.stat." + key);
 				}
 				
 				@Override
@@ -171,14 +170,14 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				{
 					if(depth == 0)
 					{
-						return new TranslatableComponent("gui.worldhandler.scoreboard.slot." + key);
+						return Component.translatable("gui.worldhandler.scoreboard.slot." + key);
 					}
 					else if(depth == 1)
 					{
-						return new TranslatableComponent("gui.worldhandler.color." + key); 
+						return Component.translatable("gui.worldhandler.color." + key); 
 					}
 					
-					return new TextComponent(key);
+					return Component.literal(key);
 				}
 				
 				@Override
@@ -206,25 +205,25 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.objectives.create"), () ->
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.create"), () ->
 		{
 			this.page = Page.CREATE;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.objectives.display"), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.display"), () ->
 		{
 			this.page = Page.DISPLAY;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.objectives.undisplay"), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.undisplay"), () ->
 		{
 			this.page = Page.UNDISPLAY;
 			container.init();
 		}));
-		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.objectives.remove"), () ->
+		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.remove"), () ->
 		{
 			this.page = Page.REMOVE;
 			container.init();
@@ -240,7 +239,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 			container.add(this.objectField);
 		}
 		
-		container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, new TranslatableComponent("gui.worldhandler.actions.perform"), () ->
+		container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.actions.perform"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), BUILDER, this.page.getLabel());
 			container.init();
@@ -269,7 +268,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.scoreboard.objectives");
+		return Component.translatable("gui.worldhandler.tab.scoreboard.objectives");
 	}
 	
 	@Override

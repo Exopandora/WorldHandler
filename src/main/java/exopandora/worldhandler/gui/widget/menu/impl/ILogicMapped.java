@@ -1,8 +1,8 @@
 package exopandora.worldhandler.gui.widget.menu.impl;
 
 import exopandora.worldhandler.util.ILogic;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 
 public interface ILogicMapped<T> extends ILogic
 {
@@ -18,7 +18,7 @@ public interface ILogicMapped<T> extends ILogic
 			return tooltip.append(String.format(" (%d/%d)", index, max));
 		}
 		
-		return (MutableComponent) TextComponent.EMPTY;
+		return Component.empty();
 	}
 	
 	void onClick(T item);

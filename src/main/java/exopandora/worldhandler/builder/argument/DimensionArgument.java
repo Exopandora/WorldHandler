@@ -55,7 +55,7 @@ public class DimensionArgument implements IDeserializableArgument
 			return null;
 		}
 		
-		return this.dimension.getRegistryName().toString();
+		return this.dimension.location().toString();
 	}
 	
 	@Override

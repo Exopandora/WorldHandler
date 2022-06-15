@@ -15,7 +15,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.ClientChatEvent;
@@ -66,7 +68,7 @@ public class ClientEventHandler
 		if(!Minecraft.getInstance().hasSingleplayerServer() && Minecraft.getInstance().player != null)
 		{
 			CommandDispatcher<CommandSourceStack> dispatcher = new CommandDispatcher<CommandSourceStack>();
-			CommandHelper.registerCommands(dispatcher);
+			CommandHelper.registerCommands(dispatcher, new CommandBuildContext(RegistryAccess.BUILTIN.get()));
 			
 			StringReader command = new StringReader(event.getMessage());
 			command.skip();

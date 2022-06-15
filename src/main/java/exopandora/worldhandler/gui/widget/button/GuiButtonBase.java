@@ -12,13 +12,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class GuiButtonBase extends Button
 {
 	public GuiButtonBase(int x, int y, int widthIn, int heightIn, String translationKey, ActionHandler actionHandler)
 	{
-		this(x, y, widthIn, heightIn, new TranslatableComponent(translationKey), actionHandler);
+		this(x, y, widthIn, heightIn, Component.translatable(translationKey), actionHandler);
 	}
 	
 	public GuiButtonBase(int x, int y, int widthIn, int heightIn, Component buttonText, ActionHandler actionHandler)

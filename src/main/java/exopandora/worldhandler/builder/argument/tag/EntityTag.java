@@ -10,14 +10,15 @@ import javax.annotation.Nullable;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import exopandora.worldhandler.util.MutableTextComponent;
 import exopandora.worldhandler.util.NBTHelper;
+import exopandora.worldhandler.util.UserStylableComponent;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.TagParser;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -34,7 +35,7 @@ public class EntityTag implements ITagProvider
 	private boolean isBaby;
 	private BlockState blockState;
 	private AttributesTag attribute = new AttributesTag();
-	private MutableTextComponent customName = new MutableTextComponent();
+	private UserStylableComponent customName = new UserStylableComponent();
 	private List<EntityTag> passengers = new ArrayList<EntityTag>();
 	private Item[] armorItems = {Items.AIR, Items.AIR, Items.AIR, Items.AIR};
 	private Item[] handItems = {Items.AIR, Items.AIR};
@@ -86,8 +87,7 @@ public class EntityTag implements ITagProvider
 		this.customName.setText(name);
 	}
 	
-	@Nullable
-	public MutableTextComponent getCustomName()
+	public UserStylableComponent getCustomName()
 	{
 		return this.customName;
 	}
@@ -403,7 +403,10 @@ public class EntityTag implements ITagProvider
 		NBTHelper.append(nbt, "HandItems", NBTHelper.serialize(this.handItems));
 		NBTHelper.append(nbt, "BlockState", NBTHelper.serialize(this.blockState));
 		
-		NBTHelper.append(nbt, "CustomName", this.customName.serialize());
+		if(this.customName.getText() != null && !this.customName.getText().isEmpty())
+		{
+			NBTHelper.append(nbt, "CustomName", StringTag.valueOf(Component.Serializer.toJson(this.customName)));
+		}
 		
 		NBTHelper.append(nbt, this.potion);
 		NBTHelper.append(nbt, this.attribute);

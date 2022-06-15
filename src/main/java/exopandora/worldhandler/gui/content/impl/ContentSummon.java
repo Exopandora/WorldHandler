@@ -47,9 +47,8 @@ import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -183,7 +182,7 @@ public class ContentSummon extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslatableComponent("gui.worldhandler.entities.summon.start.mob_id"));
+		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.entities.summon.start.mob_id"));
 		this.mobField.setFilter(Predicates.notNull());
 		this.mobField.setValue(this.mob);
 		this.mobField.setResponder(text ->
@@ -194,7 +193,7 @@ public class ContentSummon extends Content
 			container.initButtons();
 		});
 		
-		this.nbtField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.entities.summon.start.custom_nbt"));
+		this.nbtField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.entities.summon.start.custom_nbt"));
 		this.nbtField.setFilter(Predicates.notNull());
 		this.nbtField.setValue(this.nbt);
 		this.nbtField.setResponder(text ->
@@ -236,13 +235,13 @@ public class ContentSummon extends Content
 				@Override
 				public MutableComponent translate(Attribute attribute)
 				{
-					return new TranslatableComponent(attribute.getDescriptionId());
+					return Component.translatable(attribute.getDescriptionId());
 				}
 				
 				@Override
 				public MutableComponent toTooltip(Attribute attribute)
 				{
-					return new TextComponent(attribute.getRegistryName().toString());
+					return Component.literal(ForgeRegistries.ATTRIBUTES.getKey(attribute).toString());
 				}
 				
 				@Override
@@ -310,7 +309,7 @@ public class ContentSummon extends Content
 				container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, "gui.worldhandler.entities.summon.start.custom_name", () -> this.toggleEditColor(container)));
 				container.add(this.nbtField);
 				
-				if(!this.builderSummon.needsCommandBlock(SummonCommandBuilder.Label.SUMMON_POS_NBT, false) && !this.entity.getCustomName().isSpecial())
+				if(!this.builderSummon.needsCommandBlock(SummonCommandBuilder.Label.SUMMON_POS_NBT, false) && !this.entity.getCustomName().isStyled())
 				{
 					container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.title.entities.summon", () -> this.send(container.getPlayer())));
 				}
@@ -362,15 +361,15 @@ public class ContentSummon extends Content
 				{
 					EffectInstance tag = this.effects.getOrCreate(effect);
 					
-					container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + effect.getRegistryName(), new TranslatableComponent(effect.getDescriptionId()), value ->
+					container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable(effect.getDescriptionId()), value ->
 					{
 						tag.setAmplifier(value.byteValue());
 					})));
-					container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + effect.getRegistryName(), new TranslatableComponent("gui.worldhandler.potion.time.minutes"), value ->
+					container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.minutes"), value ->
 					{
 						tag.setMinutes(value.intValue());
 					})));
-					container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.potions.effect.particles", tag.doShowParticles() ? new TranslatableComponent("gui.worldhandler.generic.on") : new TranslatableComponent("gui.worldhandler.generic.off")), () ->
+					container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.potions.effect.particles", tag.doShowParticles() ? Component.translatable("gui.worldhandler.generic.on") : Component.translatable("gui.worldhandler.generic.off")), () ->
 					{
 						tag.setShowParticles(!tag.doShowParticles());
 						container.init();
@@ -431,7 +430,7 @@ public class ContentSummon extends Content
 	
 	private void send(String player)
 	{
-		CommandHelper.sendCommand(player, this.builderSummon, SummonCommandBuilder.Label.SUMMON_POS_NBT, this.entity.getCustomName().isSpecial());
+		CommandHelper.sendCommand(player, this.builderSummon, SummonCommandBuilder.Label.SUMMON_POS_NBT, this.entity.getCustomName().isStyled());
 	}
 	
 	private void updateMutableTag()
@@ -450,7 +449,7 @@ public class ContentSummon extends Content
 				if(StringUtils.equalsIgnoreCase(this.mob, profession.toString()))
 				{
 					CompoundTag villagerData = new CompoundTag();
-					villagerData.putString("profession", profession.getRegistryName().toString());
+					villagerData.putString("profession", ForgeRegistries.PROFESSIONS.getKey(profession).toString());
 					
 					this.mutable.setKey("VillagerData");
 					this.mutable.setTag(villagerData);
@@ -469,7 +468,7 @@ public class ContentSummon extends Content
 		else if(EntityType.CHICKEN.equals(entity) && StringUtils.containsIgnoreCase(this.mob, "Jockey") && !this.entity.hasPassengers())
 		{
 			ListTag list = new ListTag();
-			EntityTag zombie = new EntityTag(EntityType.ZOMBIE.getRegistryName());
+			EntityTag zombie = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.ZOMBIE));
 			
 			zombie.setIsBaby(true);
 			list.add(zombie.value());
@@ -480,7 +479,7 @@ public class ContentSummon extends Content
 		else if(EntityType.SPIDER.equals(entity) && StringUtils.containsIgnoreCase(this.mob, "Jockey") && !this.entity.hasPassengers())
 		{
 			ListTag list = new ListTag();
-			EntityTag skeleton = new EntityTag(EntityType.SKELETON.getRegistryName());
+			EntityTag skeleton = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.SKELETON));
 			
 			skeleton.setHandItem(0, Items.BOW);
 			list.add(skeleton.value());
@@ -574,13 +573,13 @@ public class ContentSummon extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.entities.summon");
+		return Component.translatable("gui.worldhandler.title.entities.summon");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.entities.summon");
+		return Component.translatable("gui.worldhandler.tab.entities.summon");
 	}
 	
 	@Override

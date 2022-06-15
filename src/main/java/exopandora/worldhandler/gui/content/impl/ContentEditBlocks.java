@@ -7,9 +7,9 @@ import com.google.common.base.Predicates;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.impl.CloneCommandBuilder;
+import exopandora.worldhandler.builder.impl.CloneCommandBuilder.Label;
 import exopandora.worldhandler.builder.impl.FillCommandBuilder;
 import exopandora.worldhandler.builder.impl.WHCommandBuilder;
-import exopandora.worldhandler.builder.impl.CloneCommandBuilder.Label;
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -23,9 +23,8 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class ContentEditBlocks extends Content
 {
@@ -103,7 +102,7 @@ public class ContentEditBlocks extends Content
 		this.z2Field.setValue("Z2: " + BlockHelper.pos2().getZ());
 		this.z2Field.setResponder(text -> BlockHelper.pos2().setZ(this.parseCoordinate(text)));
 		
-		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, Page.FILL.equals(this.page) ? new TranslatableComponent("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : new TranslatableComponent("gui.worldhandler.edit_blocks.replace.block_id_replace"));
+		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, Page.FILL.equals(this.page) ? Component.translatable("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : Component.translatable("gui.worldhandler.edit_blocks.replace.block_id_replace"));
 		this.block1Field.setFilter(Predicates.notNull());
 		this.block1Field.setValue(this.block1);
 		this.block1Field.setResponder(text ->
@@ -113,7 +112,7 @@ public class ContentEditBlocks extends Content
 			container.initButtons();
 		});
 		
-		this.block2Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.replace.block_id_place"));
+		this.block2Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.replace.block_id_place"));
 		this.block2Field.setFilter(Predicates.notNull());
 		this.block2Field.setValue(this.block2);
 		this.block2Field.setResponder(text ->
@@ -123,7 +122,7 @@ public class ContentEditBlocks extends Content
 			container.initButtons();
 		});
 		
-		this.filterField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.clone.filter"));
+		this.filterField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.clone.filter"));
 		this.filterField.setFilter(Predicates.notNull());
 		this.filterField.setValue(this.filter);
 		this.filterField.setResponder(text ->
@@ -142,25 +141,25 @@ public class ContentEditBlocks extends Content
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.coordinates"), () ->
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.coordinates"), () ->
 		{
 			this.page = Page.COORDINATES;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.fill"), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.fill"), () ->
 		{
 			this.page = Page.FILL;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.replace"), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.replace"), () ->
 		{
 			this.page = Page.REPLACE;
 			container.init();
 		}));
-		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.clone"), () ->
+		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.clone"), () ->
 		{
 			this.page = Page.CLONE;
 			container.init();
@@ -200,7 +199,7 @@ public class ContentEditBlocks extends Content
 			xOffset2 = 0;
 			
 			container.add(this.block1Field);
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.fill"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.fill"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderFill, FillCommandBuilder.Label.FILL);
 			}));
@@ -218,7 +217,7 @@ public class ContentEditBlocks extends Content
 			
 			container.add(this.block1Field);
 			container.add(this.block2Field);
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.replace"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.replace"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderFill, FillCommandBuilder.Label.REPLACE);
 			}));
@@ -240,7 +239,7 @@ public class ContentEditBlocks extends Content
 			}
 			else
 			{
-				container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, TextComponent.EMPTY, null));
+				container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, Component.empty(), null));
 				button1.active = false;
 			}
 			
@@ -249,13 +248,13 @@ public class ContentEditBlocks extends Content
 				@Override
 				public MutableComponent translate(Mask mask)
 				{
-					return new TranslatableComponent("gui.worldhandler.edit_blocks.clone.mode." + mask.toString());
+					return Component.translatable("gui.worldhandler.edit_blocks.clone.mode." + mask.toString());
 				}
 				
 				@Override
 				public MutableComponent toTooltip(Mask mask)
 				{
-					return new TextComponent(mask.toString());
+					return Component.literal(mask.toString());
 				}
 				
 				@Override
@@ -272,7 +271,7 @@ public class ContentEditBlocks extends Content
 				}
 			}));
 			
-			container.add(button2 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.clone"), () ->
+			container.add(button2 = new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.clone"), () ->
 			{
 				System.out.println(this.builderClone.toCommand(this.mask.getLabel(), false));
 				CommandHelper.sendCommand(container.getPlayer(), this.builderClone, this.mask.getLabel());
@@ -284,13 +283,13 @@ public class ContentEditBlocks extends Content
 			}
 		}
 		
-		container.add(new GuiButtonBase(x + 118, y + yOffset1, width1, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.pos.set_pos_1"), () ->
+		container.add(new GuiButtonBase(x + 118, y + yOffset1, width1, 20, Component.translatable("gui.worldhandler.edit_blocks.pos.set_pos_1"), () ->
 		{
 			BlockHelper.pos1().set(BlockHelper.getFocusedBlockPos());
 			this.updatePositions();
 			container.init();
 		}));
-		container.add(new GuiButtonBase(x + 118 + xOffset2, y + yOffset2, width2, 20, new TranslatableComponent("gui.worldhandler.edit_blocks.pos.set_pos_2"), () ->
+		container.add(new GuiButtonBase(x + 118 + xOffset2, y + yOffset2, width2, 20, Component.translatable("gui.worldhandler.edit_blocks.pos.set_pos_2"), () ->
 		{
 			BlockHelper.pos2().set(BlockHelper.getFocusedBlockPos());
 			this.updatePositions();
@@ -399,13 +398,13 @@ public class ContentEditBlocks extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.blocks.edit_blocks");
+		return Component.translatable("gui.worldhandler.title.blocks.edit_blocks");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.blocks.edit_blocks");
+		return Component.translatable("gui.worldhandler.tab.blocks.edit_blocks");
 	}
 	
 	@Override

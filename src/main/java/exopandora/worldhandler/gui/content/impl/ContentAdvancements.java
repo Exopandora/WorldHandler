@@ -23,9 +23,8 @@ import exopandora.worldhandler.util.AdvancementHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class ContentAdvancements extends Content
 {
@@ -59,7 +58,7 @@ public class ContentAdvancements extends Content
 			@Override
 			public MutableComponent toTooltip(Advancement item)
 			{
-				return new TextComponent(item.getId().toString());
+				return Component.literal(item.getId().toString());
 			}
 			
 			@Override
@@ -88,21 +87,21 @@ public class ContentAdvancements extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(new GuiButtonList<Mode>(x + 118, y, Arrays.asList(Mode.values()), 114, 20, container, new ILogicMapped<Mode>()
 		{
 			@Override
 			public MutableComponent translate(Mode mode)
 			{
-				return new TranslatableComponent("gui.worldhandler.advancements." + mode.toString());
+				return Component.translatable("gui.worldhandler.advancements." + mode.toString());
 			}
 			
 			@Override
 			public MutableComponent toTooltip(Mode mode)
 			{
-				return new TextComponent(mode.toString());
+				return Component.literal(mode.toString());
 			}
 			
 			@Override
@@ -118,15 +117,15 @@ public class ContentAdvancements extends Content
 			}
 		}));
 		
-		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.advancements.grant"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.advancements.grant"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement, this.mode.getGrant());
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.advancements.revoke"), () ->
+		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.advancements.revoke"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement, this.mode.getRevoke());
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.actions.reset").withStyle(ChatFormatting.RED), () ->
+		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset").withStyle(ChatFormatting.RED), () ->
 		{
 			ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderAdvancement, AdvancementCommandBuilder.Label.REVOKE_EVERYTHING));
 		}));
@@ -141,13 +140,13 @@ public class ContentAdvancements extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.player.advancements");
+		return Component.translatable("gui.worldhandler.title.player.advancements");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.player.advancements");
+		return Component.translatable("gui.worldhandler.tab.player.advancements");
 	}
 	
 	@Override

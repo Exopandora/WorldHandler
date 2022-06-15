@@ -28,9 +28,8 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.TextUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -91,7 +90,7 @@ public class ContentCustomItem extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.start.item_id"));
+		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start.item_id"));
 		this.itemField.setFilter(Predicates.<String>notNull());
 		this.itemField.setValue(this.item);
 		this.itemField.setResponder(text ->
@@ -101,21 +100,21 @@ public class ContentCustomItem extends Content
 			container.initButtons();
 		});
 		
-		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.start.lore_1"));
+		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start.lore_1"));
 		this.itemLore1Field.setFilter(Predicates.<String>notNull());
 		this.itemLore1Field.setText(this.display.getLore1());
 		this.itemLore1Field.setResponder(text ->
 		{
-			this.display.setLore1(new TextComponent(text));
+			this.display.setLore1(Component.literal(text));
 			container.initButtons();
 		});
 		
-		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.start.lore_2"));
+		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start.lore_2"));
 		this.itemLore2Field.setFilter(Predicates.<String>notNull());
 		this.itemLore2Field.setText(this.display.getLore2());
 		this.itemLore2Field.setResponder(text ->
 		{
-			this.display.setLore2(new TextComponent(text));
+			this.display.setLore2(Component.literal(text));
 			container.initButtons();
 		});
 		
@@ -133,13 +132,13 @@ public class ContentCustomItem extends Content
 				@Override
 				public MutableComponent translate(Enchantment item)
 				{
-					return new TranslatableComponent(item.getDescriptionId());
+					return Component.translatable(item.getDescriptionId());
 				}
 				
 				@Override
 				public MutableComponent toTooltip(Enchantment item)
 				{
-					return new TextComponent(item.getRegistryName().toString());
+					return Component.literal(ForgeRegistries.ENCHANTMENTS.getKey(item).toString());
 				}
 				
 				@Override
@@ -151,7 +150,7 @@ public class ContentCustomItem extends Content
 				@Override
 				public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Enchantment item, ActionHandler actionHandler)
 				{
-					return new GuiSlider(x, y, width, height, 0, Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderSimple(item.getRegistryName().toString(), text, value ->
+					return new GuiSlider(x, y, width, height, 0, Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderSimple(ForgeRegistries.ENCHANTMENTS.getKey(item).toString(), text, value ->
 					{
 						ContentCustomItem.this.enchantments.set(item, value.shortValue());
 					}));
@@ -178,13 +177,13 @@ public class ContentCustomItem extends Content
 				@Override
 				public MutableComponent translate(Attribute attribute)
 				{
-					return new TranslatableComponent(attribute.getDescriptionId());
+					return Component.translatable(attribute.getDescriptionId());
 				}
 				
 				@Override
 				public MutableComponent toTooltip(Attribute attribute)
 				{
-					return new TextComponent(attribute.getRegistryName().toString());
+					return Component.literal(ForgeRegistries.ATTRIBUTES.getKey(attribute).toString());
 				}
 				
 				@Override
@@ -229,20 +228,20 @@ public class ContentCustomItem extends Content
 		GuiButtonBase button5;
 		GuiButtonBase button6;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.start"), () ->
+		container.add(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start"), () ->
 		{
 			this.page = Page.START;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.enchantment"), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.enchantment"), () ->
 		{
 			this.page = Page.ENCHANT;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.attributes"), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.attributes"), () ->
 		{
 			this.page = Page.ATTRIBUTES;
 			container.init();
@@ -284,13 +283,13 @@ public class ContentCustomItem extends Content
 			button3.active = false;
 		}
 		
-		if(!this.builderCutomItem.needsCommandBlock(GiveCommandBuilder.Label.GIVE, false) && !this.display.getName().isSpecial())
+		if(!this.builderCutomItem.needsCommandBlock(GiveCommandBuilder.Label.GIVE, false) && !this.display.getName().isStyled())
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.items.custom_item.custom_item"), () -> this.giveItem(container.getPlayer())));
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.custom_item"), () -> this.giveItem(container.getPlayer())));
 		}
 		else
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.actions.place_command_block"), () -> this.giveItem(container.getPlayer())));
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.place_command_block"), () -> this.giveItem(container.getPlayer())));
 		}
 		
 		button4.active = this.builderCutomItem.item().hasValue();
@@ -298,7 +297,7 @@ public class ContentCustomItem extends Content
 	
 	private void giveItem(String player)
 	{
-		CommandHelper.sendCommand(player, this.builderCutomItem, GiveCommandBuilder.Label.GIVE, this.display.getName().isSpecial());
+		CommandHelper.sendCommand(player, this.builderCutomItem, GiveCommandBuilder.Label.GIVE, this.display.getName().isStyled());
 	}
 	
 	@Override
@@ -332,13 +331,13 @@ public class ContentCustomItem extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.items.custom_item");
+		return Component.translatable("gui.worldhandler.title.items.custom_item");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.items.custom_item");
+		return Component.translatable("gui.worldhandler.tab.items.custom_item");
 	}
 	
 	@Override

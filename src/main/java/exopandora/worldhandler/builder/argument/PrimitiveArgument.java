@@ -69,13 +69,18 @@ public class PrimitiveArgument<T> implements IDeserializableArgument
 		return this.value == null;
 	}
 	
+	public static <T> Builder<T> builder(Function<String, T> deserializer)
+	{
+		return new Builder<T>(deserializer);
+	}
+	
 	public static class Builder<T>
 	{
 		private Function<T, Boolean> defaultOverride;
 		private Function<String, T> deserializer;
 		private Function<T, String> serializer;
 		
-		public Builder(Function<String, T> deserializer)
+		private Builder(Function<String, T> deserializer)
 		{
 			this.deserializer = deserializer;
 		}

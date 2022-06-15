@@ -16,32 +16,32 @@ public class EntitySummonArgument implements IDeserializableArgument
 {
 	private static final Map<String, ResourceLocation> ALIASES = Util.make(new HashMap<String, ResourceLocation>(), map ->
 	{
-		map.put("RedCow", EntityType.MOOSHROOM.getRegistryName());
-		map.put("ChickenJockey", EntityType.CHICKEN.getRegistryName());
-		map.put("Pigman", EntityType.PIGLIN.getRegistryName());
-		map.put("ZombiePig", EntityType.PIGLIN.getRegistryName());
-		map.put("ZombiePigman", EntityType.PIGLIN.getRegistryName());
-		map.put("Dog", EntityType.WOLF.getRegistryName());
-		map.put("Dragon", EntityType.ENDER_DRAGON.getRegistryName());
-		map.put("SnowMan", EntityType.SNOW_GOLEM.getRegistryName());
-		map.put("LavaCube", EntityType.MAGMA_CUBE.getRegistryName());
-		map.put("MagmaSlime", EntityType.MAGMA_CUBE.getRegistryName());
-		map.put("LavaSlime", EntityType.MAGMA_CUBE.getRegistryName());
-		map.put("SpiderJockey", EntityType.SPIDER.getRegistryName());
-		map.put("VillagerGolem", EntityType.IRON_GOLEM.getRegistryName());
-		map.put("Ozelot", EntityType.OCELOT.getRegistryName());
-		map.put("Kitty", EntityType.CAT.getRegistryName());
-		map.put("Kitten", EntityType.CAT.getRegistryName());
-		map.put("TESTIFICATE", EntityType.VILLAGER.getRegistryName());
-		map.put("Octopus", EntityType.SQUID.getRegistryName());
-		map.put("GlowingOctopus", EntityType.SQUID.getRegistryName());
-		map.put("Exwife", EntityType.GHAST.getRegistryName());
-		map.put("CommandMinecart", EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
-		map.put("Wizard", EntityType.EVOKER.getRegistryName());
-		map.put("Johnny", EntityType.VINDICATOR.getRegistryName());
-		map.put("BabyZombie", EntityType.ZOMBIE.getRegistryName());
+		map.put("RedCow", ForgeRegistries.ENTITIES.getKey(EntityType.MOOSHROOM));
+		map.put("ChickenJockey", ForgeRegistries.ENTITIES.getKey(EntityType.CHICKEN));
+		map.put("Pigman", ForgeRegistries.ENTITIES.getKey(EntityType.PIGLIN));
+		map.put("ZombiePig", ForgeRegistries.ENTITIES.getKey(EntityType.PIGLIN));
+		map.put("ZombiePigman", ForgeRegistries.ENTITIES.getKey(EntityType.PIGLIN));
+		map.put("Dog", ForgeRegistries.ENTITIES.getKey(EntityType.WOLF));
+		map.put("Dragon", ForgeRegistries.ENTITIES.getKey(EntityType.ENDER_DRAGON));
+		map.put("SnowMan", ForgeRegistries.ENTITIES.getKey(EntityType.SNOW_GOLEM));
+		map.put("LavaCube", ForgeRegistries.ENTITIES.getKey(EntityType.MAGMA_CUBE));
+		map.put("MagmaSlime", ForgeRegistries.ENTITIES.getKey(EntityType.MAGMA_CUBE));
+		map.put("LavaSlime", ForgeRegistries.ENTITIES.getKey(EntityType.MAGMA_CUBE));
+		map.put("SpiderJockey", ForgeRegistries.ENTITIES.getKey(EntityType.SPIDER));
+		map.put("VillagerGolem", ForgeRegistries.ENTITIES.getKey(EntityType.IRON_GOLEM));
+		map.put("Ozelot", ForgeRegistries.ENTITIES.getKey(EntityType.OCELOT));
+		map.put("Kitty", ForgeRegistries.ENTITIES.getKey(EntityType.CAT));
+		map.put("Kitten", ForgeRegistries.ENTITIES.getKey(EntityType.CAT));
+		map.put("TESTIFICATE", ForgeRegistries.ENTITIES.getKey(EntityType.VILLAGER));
+		map.put("Octopus", ForgeRegistries.ENTITIES.getKey(EntityType.SQUID));
+		map.put("GlowingOctopus", ForgeRegistries.ENTITIES.getKey(EntityType.SQUID));
+		map.put("Exwife", ForgeRegistries.ENTITIES.getKey(EntityType.GHAST));
+		map.put("CommandMinecart", ForgeRegistries.ENTITIES.getKey(EntityType.COMMAND_BLOCK_MINECART));
+		map.put("Wizard", ForgeRegistries.ENTITIES.getKey(EntityType.EVOKER));
+		map.put("Johnny", ForgeRegistries.ENTITIES.getKey(EntityType.VINDICATOR));
+		map.put("BabyZombie", ForgeRegistries.ENTITIES.getKey(EntityType.ZOMBIE));
 		
-		ForgeRegistries.PROFESSIONS.getKeys().stream().forEach(profession -> map.put(profession.getPath(), EntityType.VILLAGER.getRegistryName()));
+		ForgeRegistries.PROFESSIONS.getEntries().stream().forEach(profession -> map.put(profession.getKey().location().getPath(), profession.getKey().location()));
 	});
 	
 	private EntityType<?> entity;
@@ -69,7 +69,7 @@ public class EntitySummonArgument implements IDeserializableArgument
 		{
 			EntityType<?> type = ForgeRegistries.ENTITIES.getValue(entity);
 			
-			if(!ForgeRegistries.ENTITIES.getDefaultKey().equals(type.getRegistryName()) || type.getRegistryName().equals(entity))
+			if(type != null)
 			{
 				this.set(type);
 			}
@@ -123,7 +123,7 @@ public class EntitySummonArgument implements IDeserializableArgument
 			return null;
 		}
 		
-		return this.entity.getRegistryName().toString();
+		return ForgeRegistries.ENTITIES.getKey(this.entity).toString();
 	}
 	
 	@Override

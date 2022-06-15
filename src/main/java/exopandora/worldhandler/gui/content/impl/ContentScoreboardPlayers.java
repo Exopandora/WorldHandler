@@ -17,8 +17,8 @@ import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class ContentScoreboardPlayers extends ContentScoreboard
 {
@@ -75,7 +75,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.objectField = new GuiTextFieldTooltip(x + 118, y, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.objectives.objective"));
+		this.objectField = new GuiTextFieldTooltip(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setFilter(Predicates.notNull());
 		this.objectField.setResponder(text ->
 		{
@@ -86,7 +86,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		});
 		this.objectField.setValue(BUILDER.objective().get());
 		
-		this.tagField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.players.tag"));
+		this.tagField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.tag"));
 		this.tagField.setFilter(string -> string != null && !string.contains(" "));
 		this.tagField.setValue(this.builderTag.name().get());
 		this.tagField.setResponder(text ->
@@ -103,20 +103,20 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		GuiButtonBase button2;
 		GuiButtonBase button3;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y + 12, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.players.points"), () ->
+		container.add(button1 = new GuiButtonBase(x, y + 12, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.points"), () ->
 		{
 			this.page = Page.ADD_SET_REMOVE;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 36, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.players.tag"), () ->
+		container.add(button2 = new GuiButtonBase(x, y + 36, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.tag"), () ->
 		{
 			this.page = Page.TAG;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 60, 114, 20, new TranslatableComponent("gui.worldhandler.scoreboard.players.trigger"), () ->
+		container.add(button3 = new GuiButtonBase(x, y + 60, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.trigger"), () ->
 		{
 			this.page = Page.ENABLE;
 			container.init();
@@ -130,21 +130,21 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		
 		if(Page.ADD_SET_REMOVE.equals(this.page))
 		{
-			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxPlayerPoints(), 0, container, new LogicSliderSimple("points", new TranslatableComponent("gui.worldhandler.scoreboard.players.points"), value ->
+			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxPlayerPoints(), 0, container, new LogicSliderSimple("points", Component.translatable("gui.worldhandler.scoreboard.players.points"), value ->
 			{
 				BUILDER.score().set(value);
 			})));
-			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, new TranslatableComponent("gui.worldhandler.actions.add"), () ->
+			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), BUILDER, ScoreboardCommandBuilder.Label.PLAYERS_ADD_SCORE);
 				container.init();
 			}));
-			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, new TranslatableComponent("gui.worldhandler.actions.remove"), () ->
+			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), BUILDER, ScoreboardCommandBuilder.Label.PLAYERS_REMOVE_SCORE);
 				container.init();
 			}));
-			container.add(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.actions.reset"), new TranslatableComponent("gui.worldhandler.actions.set_to_0"), () ->
+			container.add(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset"), Component.translatable("gui.worldhandler.actions.set_to_0"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), BUILDER, ScoreboardCommandBuilder.Label.PLAYERS_RESET_SCORE);
 				container.init();
@@ -158,12 +158,12 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		}
 		else if(Page.TAG.equals(this.page))
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, new TranslatableComponent("gui.worldhandler.actions.add"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTag, TagCommandBuilder.Label.ADD);
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslatableComponent("gui.worldhandler.actions.remove"), () ->
+			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTag, TagCommandBuilder.Label.REMOVE);
 				container.init();
@@ -176,21 +176,21 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		}
 		else if(Page.ENABLE.equals(this.page))
 		{
-			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxTriggerValue(), 0, container, new LogicSliderSimple("enable", new TranslatableComponent("gui.worldhandler.generic.value"), value ->
+			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxTriggerValue(), 0, container, new LogicSliderSimple("enable", Component.translatable("gui.worldhandler.generic.value"), value ->
 			{
 				this.builderTrigger.value().set(value);
 			})));
-			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, new TranslatableComponent("gui.worldhandler.actions.add"), () ->
+			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger, TriggerCommandBuilder.Label.ADD);
 				container.init();
 			}));
-			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, new TranslatableComponent("gui.worldhandler.actions.set"), () ->
+			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.set"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger, TriggerCommandBuilder.Label.SET);
 				container.init();
 			}));
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.generic.enable"), () ->
+			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), BUILDER, ScoreboardCommandBuilder.Label.PLAYERS_ENABLE_OBJECTIVE);
 				container.init();
@@ -255,7 +255,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.scoreboard.players");
+		return Component.translatable("gui.worldhandler.tab.scoreboard.players");
 	}
 	
 	@Override

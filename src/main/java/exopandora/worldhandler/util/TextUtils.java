@@ -2,40 +2,39 @@ package exopandora.worldhandler.util;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
 
 public class TextUtils
 {
-	public static final TextComponent ARROW_LEFT = new TextComponent("<");
-	public static final TextComponent ARROW_RIGHT = new TextComponent(">");
-	public static final MutableComponent ARROW_LEFT_BOLD = new TextComponent("<").withStyle(ChatFormatting.BOLD);
-	public static final MutableComponent ARROW_RIGHT_BOLD = new TextComponent(">").withStyle(ChatFormatting.BOLD);
+	public static final Component ARROW_LEFT = Component.literal("<");
+	public static final Component ARROW_RIGHT = Component.literal(">");
+	public static final MutableComponent ARROW_LEFT_BOLD = Component.literal("<").withStyle(ChatFormatting.BOLD);
+	public static final MutableComponent ARROW_RIGHT_BOLD = Component.literal(">").withStyle(ChatFormatting.BOLD);
 	
 	public static MutableComponent stripText(MutableComponent string, int maxWidth, Font font)
 	{
-		return TextUtils.stripText(string, (MutableComponent) TextComponent.EMPTY, maxWidth, font);
+		return TextUtils.stripText(string, Component.empty(), maxWidth, font);
 	}
 	
 	public static MutableComponent stripText(MutableComponent string, MutableComponent prefix, int maxWidth, Font font)
 	{
 		if(font.width(prefix) + font.width(string) > (maxWidth - font.width(prefix)))
 		{
-			MutableComponent result = new TextComponent("").setStyle(string.getStyle()); 
+			MutableComponent result = Component.empty().setStyle(string.getStyle()); 
 			
 			for(char c : string.getString().toCharArray())
 			{
-				MutableComponent extension = new TextComponent(result.getString() + c + "...").setStyle(string.getStyle());
+				MutableComponent extension = Component.literal(result.getString() + c + "...").setStyle(string.getStyle());
 				
 				if(font.width(extension) < maxWidth)
 				{
-					result = new TextComponent(result.getString() + c).setStyle(string.getStyle());
+					result = Component.literal(result.getString() + c).setStyle(string.getStyle());
 				}
 				else
 				{
-					return new TextComponent(result.getString() + "...").setStyle(string.getStyle());
+					return Component.literal(result.getString() + "...").setStyle(string.getStyle());
 				}
 			}
 		}
@@ -101,9 +100,9 @@ public class TextUtils
 	{
 		if(text == null)
 		{
-			return (MutableComponent) TextComponent.EMPTY;
+			return Component.empty();
 		}
 		
-		return new TranslatableComponent(text, parameters);
+		return Component.translatable(text, parameters);
 	}
 }

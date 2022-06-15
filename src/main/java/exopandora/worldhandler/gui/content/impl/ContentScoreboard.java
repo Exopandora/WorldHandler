@@ -5,8 +5,8 @@ import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.util.ScoreboardHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public abstract class ContentScoreboard extends Content
 {
@@ -27,6 +27,6 @@ public abstract class ContentScoreboard extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.scoreboard");
+		return Component.translatable("gui.worldhandler.title.scoreboard");
 	}
 }

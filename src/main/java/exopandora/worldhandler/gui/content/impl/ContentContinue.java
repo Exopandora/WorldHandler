@@ -9,7 +9,7 @@ import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 public class ContentContinue extends ContentChild
 {
@@ -50,16 +50,16 @@ public class ContentContinue extends ContentChild
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(this.commandField);
-		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, new TranslatableComponent("gui.worldhandler.generic.yes").withStyle(ChatFormatting.RED), () ->
+		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, Component.translatable("gui.worldhandler.generic.yes").withStyle(ChatFormatting.RED), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builder, this.label, this.special);
 			ActionHelper.open(this.getParentContent());
 		}));
-		container.add(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, new TranslatableComponent("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, Component.translatable("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
 	}
 	
 	@Override

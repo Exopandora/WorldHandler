@@ -13,13 +13,9 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.content.impl.ContentChild;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.SignBlock;
@@ -173,11 +169,11 @@ public class ActionHelper
 			Minecraft.getInstance().setScreen(null);
 			Minecraft.getInstance().mouseHandler.grabMouse();
 			
-			Component message = new TranslatableComponent("<" + Main.NAME + "> %s", new TranslatableComponent("worldhandler.error.gui")).withStyle(ChatFormatting.RED);
-			Component cause = new TextComponent(" " + e.getClass().getCanonicalName() + ": " + e.getMessage()).withStyle(ChatFormatting.RED);
+			Component message = Component.translatable("<" + Main.NAME + "> %s", Component.translatable("worldhandler.error.gui")).withStyle(ChatFormatting.RED);
+			Component cause = Component.literal(" " + e.getClass().getCanonicalName() + ": " + e.getMessage()).withStyle(ChatFormatting.RED);
 			
-			Minecraft.getInstance().gui.handleChat(ChatType.SYSTEM, message, Util.NIL_UUID);
-			Minecraft.getInstance().gui.handleChat(ChatType.SYSTEM, cause, Util.NIL_UUID);
+			Minecraft.getInstance().gui.getChat().addMessage(message);
+			Minecraft.getInstance().gui.getChat().addMessage(cause);
 			
 			WorldHandler.LOGGER.throwing(e);
 		}
@@ -187,8 +183,8 @@ public class ActionHelper
 	{
 		if(!CommandHelper.canPlayerIssueCommand() && Config.getSettings().permissionQuery())
 		{
-			Minecraft.getInstance().gui.handleChat(ChatType.SYSTEM, new TextComponent(ChatFormatting.RED + I18n.get("worldhandler.permission.refused")), Util.NIL_UUID);
-			Minecraft.getInstance().gui.handleChat(ChatType.SYSTEM, new TextComponent(ChatFormatting.RED + I18n.get("worldhandler.permission.refused.change", I18n.get("gui.worldhandler.config.settings.permission_query"))), Util.NIL_UUID);
+			Minecraft.getInstance().gui.getChat().addMessage(Component.literal(ChatFormatting.RED + I18n.get("worldhandler.permission.refused")));
+			Minecraft.getInstance().gui.getChat().addMessage(Component.literal(ChatFormatting.RED + I18n.get("worldhandler.permission.refused.change", I18n.get("gui.worldhandler.config.settings.permission_query"))));
 		}
 		else
 		{

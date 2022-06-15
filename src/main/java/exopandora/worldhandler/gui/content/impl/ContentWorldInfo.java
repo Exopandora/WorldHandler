@@ -16,8 +16,8 @@ import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 
 public class ContentWorldInfo extends Content
@@ -71,20 +71,20 @@ public class ContentWorldInfo extends Content
 		GuiButtonBase world;
 		GuiButtonBase stats;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(start = new GuiButtonBase(x, y + 12, 114, 20, new TranslatableComponent("gui.worldhandler.world_info.start"), () ->
+		container.add(start = new GuiButtonBase(x, y + 12, 114, 20, Component.translatable("gui.worldhandler.world_info.start"), () ->
 		{
 			this.page = Page.START;
 			container.init();
 		}));
-		container.add(world = new GuiButtonBase(x, y + 36, 114, 20, new TranslatableComponent("gui.worldhandler.world_info.world"), () ->
+		container.add(world = new GuiButtonBase(x, y + 36, 114, 20, Component.translatable("gui.worldhandler.world_info.world"), () ->
 		{
 			this.page = Page.WORLD;
 			container.init();
 		}));
-		container.add(stats = new GuiButtonBase(x, y + 60, 114, 20, new TranslatableComponent("gui.worldhandler.world_info.statistics"), () ->
+		container.add(stats = new GuiButtonBase(x, y + 60, 114, 20, Component.translatable("gui.worldhandler.world_info.statistics"), () ->
 		{
 			this.page = Page.STATS;
 			container.init();
@@ -100,7 +100,7 @@ public class ContentWorldInfo extends Content
 			IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
 			
 			world.active = false;
-			container.add(seed = new GuiButtonBase(x + 118, y + 60, 114, 20, new TranslatableComponent("gui.worldhandler.world_info.world.copy_seed"), () ->
+			container.add(seed = new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.world_info.world.copy_seed"), () ->
 			{
 				Minecraft.getInstance().keyboardHandler.setClipboard(String.valueOf(server.overworld().getSeed()));
 			}));
@@ -191,13 +191,13 @@ public class ContentWorldInfo extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.world.world");
+		return Component.translatable("gui.worldhandler.title.world.world");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.world.world");
+		return Component.translatable("gui.worldhandler.tab.world.world");
 	}
 	
 	@Override

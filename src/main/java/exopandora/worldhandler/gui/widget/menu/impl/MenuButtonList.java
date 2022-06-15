@@ -15,8 +15,8 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonList.Persistence;
 import exopandora.worldhandler.gui.widget.menu.Menu;
 import exopandora.worldhandler.util.Node;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 
 public class MenuButtonList extends Menu
 {
@@ -61,7 +61,7 @@ public class MenuButtonList extends Menu
 			@Override
 			public MutableComponent toTooltip(Node item)
 			{
-				return new TextComponent(item.getKey());
+				return Component.literal(item.getKey());
 			}
 			
 			@Override
@@ -96,7 +96,7 @@ public class MenuButtonList extends Menu
 		{
 			for(int x = this.getDepth() + 1; x < this.maxDepth; x++)
 			{
-				GuiButtonBase button = new GuiButtonBase(this.x, this.y + 24 * x, 114, 20, TextComponent.EMPTY, null);
+				GuiButtonBase button = new GuiButtonBase(this.x, this.y + 24 * x, 114, 20, Component.empty(), null);
 				button.active = false;
 				container.add(button);
 			}

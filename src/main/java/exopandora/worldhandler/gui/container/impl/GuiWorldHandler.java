@@ -28,7 +28,7 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Widget;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class GuiWorldHandler extends Container
 {
@@ -219,7 +219,7 @@ public class GuiWorldHandler extends Container
 				stack.pushPose();
 				stack.translate(versionWidth - 12, versionHeight + 12, 0);
 				
-				this.renderTooltip(stack, new TextComponent(label), 0, 0);
+				this.renderTooltip(stack, Component.literal(label), 0, 0);
 				
 				stack.popPose();
 			}

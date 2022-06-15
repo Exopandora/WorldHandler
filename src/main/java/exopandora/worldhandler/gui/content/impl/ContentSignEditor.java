@@ -1,6 +1,5 @@
 package exopandora.worldhandler.gui.content.impl;
 
-
 import java.util.Arrays;
 
 import com.google.common.base.Predicates;
@@ -26,8 +25,8 @@ import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.SignBlock;
@@ -74,17 +73,17 @@ public class ContentSignEditor extends Content
 	{
 		if(this.isActive)
 		{
-			this.commandField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.blocks.sign_editor.commmand"));
+			this.commandField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.commmand"));
 			this.commandField.setFilter(Predicates.notNull());
-			this.commandField.setValue(this.texts[this.selectedLine].getText().getCommand());
+			this.commandField.setValue(this.texts[this.selectedLine].getComponent().getCommand());
 			this.commandField.moveCursorToEnd();
 			this.commandField.setResponder(text ->
 			{
-				this.texts[this.selectedLine].getText().setCommand(text);
+				this.texts[this.selectedLine].getComponent().setCommand(text);
 				container.initButtons();
 			});
 			
-			MenuColorField colors = new MenuColorField(x, y, "gui.worldhandler.blocks.sign_editor.text_line_" + (this.selectedLine + 1), this.texts[this.selectedLine].getText(), new ILogicColorMenu()
+			MenuColorField colors = new MenuColorField(x, y, "gui.worldhandler.blocks.sign_editor.text_line_" + (this.selectedLine + 1), this.texts[this.selectedLine].getComponent(), new ILogicColorMenu()
 			{
 				@Override
 				public boolean validate(String text)
@@ -117,27 +116,27 @@ public class ContentSignEditor extends Content
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.isActive)
 		{
-			container.add(button1 = new GuiButtonBase(x, y, 114, 20, new TranslatableComponent("gui.worldhandler.blocks.sign_editor.text_line_1"), () ->
+			container.add(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_1"), () ->
 			{
 				this.selectedLine = 0;
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.blocks.sign_editor.text_line_2"), () ->
+			container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_2"), () ->
 			{
 				this.selectedLine = 1;
 				container.init();
 			}));
-			container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.blocks.sign_editor.text_line_3"), () ->
+			container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_3"), () ->
 			{
 				this.selectedLine = 2;
 				container.init();
 			}));
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.blocks.sign_editor.text_line_4"), () ->
+			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_4"), () ->
 			{
 				this.selectedLine = 3;
 				container.init();
@@ -145,15 +144,15 @@ public class ContentSignEditor extends Content
 			
 			if(this.editColor)
 			{
-				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.generic.done"), () -> this.toggleEditColor(container)));
+				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.generic.done"), () -> this.toggleEditColor(container)));
 			}
 			else
 			{
 				container.add(this.commandField);
-				container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.blocks.sign_editor.format_text_line"), () -> this.toggleEditColor(container)));
-				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.actions.place_command_block"), () ->
+				container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.format_text_line"), () -> this.toggleEditColor(container)));
+				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.place_command_block"), () ->
 				{
-					CommandHelper.sendCommand(container.getPlayer(), this.builderSignEditor, DataCommandBuilder.Label.MERGE_BLOCK, Arrays.stream(this.texts).anyMatch(text -> text.getText().isSpecial()));
+					CommandHelper.sendCommand(container.getPlayer(), this.builderSignEditor, DataCommandBuilder.Label.MERGE_BLOCK, Arrays.stream(this.texts).anyMatch(text -> text.getComponent().isStyled()));
 				}));
 			}
 			
@@ -203,7 +202,7 @@ public class ContentSignEditor extends Content
 			posestack.popPose();
 			RenderSystem.applyModelViewMatrix();
 			
-			TranslatableComponent text = new TranslatableComponent("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.getTranslatedKeyMessage());
+			MutableComponent text = Component.translatable("gui.worldhandler.blocks.sign_editor.look_at_sign", KeyHandler.KEY_WORLD_HANDLER.getTranslatedKeyMessage());
 			Font font = Minecraft.getInstance().font;
 			font.draw(matrix, text, x + 116 - font.width(text) / 2, y + 70, Config.getSkin().getLabelColor());
 		}
@@ -218,13 +217,13 @@ public class ContentSignEditor extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.blocks.sign_editor");
+		return Component.translatable("gui.worldhandler.title.blocks.sign_editor");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.blocks.sign_editor");
+		return Component.translatable("gui.worldhandler.tab.blocks.sign_editor");
 	}
 	
 	@Override

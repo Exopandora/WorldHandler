@@ -27,18 +27,18 @@ import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContentCommandStack extends ContentChild
 {
 	private static final int HEAD_LENGTH = 1;
 	private static final int TAIL_LENGTH = 2;
-	private static final TextComponent PLUS = new TextComponent("+");
-	private static final TextComponent MINUS = new TextComponent("-");
+	private static final Component PLUS = Component.literal("+");
+	private static final Component MINUS = Component.literal("-");
 	
 	private final List<GuiTextFieldTooltip> textfields = new ArrayList<GuiTextFieldTooltip>();
 	private int scroll;
@@ -60,14 +60,14 @@ public class ContentCommandStack extends ContentChild
 		this.activatorRail.setBlockState(Blocks.ACTIVATOR_RAIL.defaultBlockState());
 		this.builderCommandStack.nbt().addTagProvider(this.activatorRail);
 		
-		EntityTag redstoneBlock = new EntityTag(EntityType.FALLING_BLOCK.getRegistryName());
+		EntityTag redstoneBlock = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.FALLING_BLOCK));
 		redstoneBlock.setTime(1);
 		redstoneBlock.setBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState());
 		this.activatorRail.addPassenger(redstoneBlock);
 		
 		this.addCommand(0);
 		
-		EntityTag blockRemover = new EntityTag(EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
+		EntityTag blockRemover = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.COMMAND_BLOCK_MINECART));
 		SetBlockCommandBuilder builder = new SetBlockCommandBuilder();
 		builder.pos().setX(new Coordinate.Ints(Coordinate.Type.RELATIVE));
 		builder.pos().setY(new Coordinate.Ints(-2, Coordinate.Type.RELATIVE));
@@ -88,10 +88,10 @@ public class ContentCommandStack extends ContentChild
 		blockRemover.setCommand(builder.toCommand(SetBlockCommandBuilder.Label.DESTROY, false));
 		this.activatorRail.addPassenger(blockRemover);
 		
-		EntityTag entityRemover = new EntityTag(EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
+		EntityTag entityRemover = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.COMMAND_BLOCK_MINECART));
 		KillCommandBuilder kill = new KillCommandBuilder();
 		kill.targets().setSelectorType(SelectorTypes.ALL_ENTITIES);
-		kill.targets().setType(EntityType.COMMAND_BLOCK_MINECART.getRegistryName());
+		kill.targets().setType(ForgeRegistries.ENTITIES.getKey(EntityType.COMMAND_BLOCK_MINECART));
 		kill.targets().setDistanceMax(1.0D);
 		entityRemover.setCommand(kill.toCommand(KillCommandBuilder.Label.KILL_TARGETS, false));
 		this.activatorRail.addPassenger(entityRemover);
@@ -112,7 +112,7 @@ public class ContentCommandStack extends ContentChild
 		{
 			int command = index + this.scroll;
 			
-			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip(x, y + 24 * index, 232 - 48, 20, new TranslatableComponent("gui.worldhandler.command_stack.command_n", command + 1));
+			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip(x, y + 24 * index, 232 - 48, 20, Component.translatable("gui.worldhandler.command_stack.command_n", command + 1));
 			textfield.setFilter(Predicates.notNull());
 			textfield.setValue(command < this.getCommandCount() ? this.getCommand(command) : null);
 			textfield.setResponder(text ->
@@ -130,8 +130,8 @@ public class ContentCommandStack extends ContentChild
 		GuiButtonBase buttonScrollUp;
 		GuiButtonBase buttonScrollDown;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		this.iterate(index ->
 		{
@@ -139,17 +139,17 @@ public class ContentCommandStack extends ContentChild
 			GuiButtonBase buttonDown;
 			GuiButtonBase buttonRemove;
 			
-			container.add(buttonUp = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 - 1, 20, 10, EnumIcon.ARROW_UP, new TranslatableComponent("gui.worldhandler.actions.move_up"), () ->
+			container.add(buttonUp = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 - 1, 20, 10, EnumIcon.ARROW_UP, Component.translatable("gui.worldhandler.actions.move_up"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll - 1);
 				container.init();
 			}));
-			container.add(buttonDown = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 + 11, 20, 10, EnumIcon.ARROW_DOWN, new TranslatableComponent("gui.worldhandler.actions.move_down"), () ->
+			container.add(buttonDown = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 + 11, 20, 10, EnumIcon.ARROW_DOWN, Component.translatable("gui.worldhandler.actions.move_down"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll + 1);
 				container.init();
 			}));
-			container.add(buttonRemove = new GuiButtonTooltip(x + 232 - 20, y + index * 24 - 1, 20, 10, MINUS, new TranslatableComponent("gui.worldhandler.command_stack.remove_command"), () ->
+			container.add(buttonRemove = new GuiButtonTooltip(x + 232 - 20, y + index * 24 - 1, 20, 10, MINUS, Component.translatable("gui.worldhandler.command_stack.remove_command"), () ->
 			{
 				int pos = index + this.scroll;
 				this.removeCommand(pos);
@@ -161,7 +161,7 @@ public class ContentCommandStack extends ContentChild
 				
 				container.init();
 			}));
-			container.add(new GuiButtonTooltip(x + 232 - 20, y + index * 24 + 11, 20, 10, PLUS, new TranslatableComponent("gui.worldhandler.command_stack.insert_command"), () ->
+			container.add(new GuiButtonTooltip(x + 232 - 20, y + index * 24 + 11, 20, 10, PLUS, Component.translatable("gui.worldhandler.command_stack.insert_command"), () ->
 			{
 				int pos = index + this.scroll + 1;
 				this.addCommand(pos);
@@ -180,16 +180,16 @@ public class ContentCommandStack extends ContentChild
 			buttonDown.active = index + this.scroll + 1 < this.getCommandCount();
 		});
 		
-		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.command_stack.copy_command"), () -> 
+		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.command_stack.copy_command"), () -> 
 		{
 			Minecraft.getInstance().keyboardHandler.setClipboard(this.builderCommandStack.toCommand(SummonCommandBuilder.Label.SUMMON_POS_NBT, false));
 		}));
-		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, new TranslatableComponent("gui.worldhandler.actions.move_up"), () ->
+		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, Component.translatable("gui.worldhandler.actions.move_up"), () ->
 		{
 			this.scrollUp();
 			container.init();
 		}));
-		container.add(buttonScrollDown = new GuiButtonIcon(x + 118 + 60, y + 72, 54, 20, EnumIcon.ARROW_DOWN, new TranslatableComponent("gui.worldhandler.actions.move_down"), () -> 
+		container.add(buttonScrollDown = new GuiButtonIcon(x + 118 + 60, y + 72, 54, 20, EnumIcon.ARROW_DOWN, Component.translatable("gui.worldhandler.actions.move_down"), () -> 
 		{
 			this.scrollDown();
 			container.init();
@@ -265,7 +265,7 @@ public class ContentCommandStack extends ContentChild
 	
 	private void addCommand(int index)
 	{
-		this.activatorRail.addPassenger(index + HEAD_LENGTH, new EntityTag(EntityType.COMMAND_BLOCK_MINECART.getRegistryName()));
+		this.activatorRail.addPassenger(index + HEAD_LENGTH, new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.COMMAND_BLOCK_MINECART)));
 	}
 	
 	private void removeCommand(int index)
@@ -299,6 +299,6 @@ public class ContentCommandStack extends ContentChild
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.command_stack");
+		return Component.translatable("gui.worldhandler.title.command_stack");
 	}
 }

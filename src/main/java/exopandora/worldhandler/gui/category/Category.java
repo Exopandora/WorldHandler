@@ -14,17 +14,19 @@ import exopandora.worldhandler.usercontent.UsercontentConfig;
 import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.usercontent.model.JsonTab;
 import exopandora.worldhandler.util.RegistryHelper;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 
-public class Category extends ForgeRegistryEntry<Category>
+public class Category
 {
 	public static IForgeRegistry<Category> REGISTRY;
+	public static final ResourceKey<Registry<Category>> REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(Main.MODID, "category"));
 	
 	private final List<ResourceLocation> contents;
 	
@@ -79,39 +81,41 @@ public class Category extends ForgeRegistryEntry<Category>
 	public static void createRegistry(NewRegistryEvent event)
 	{
 		event.create(new RegistryBuilder<Category>()
-				.setType(Category.class)
-				.setName(new ResourceLocation(Main.MODID + "_category"))
+				.setName(REGISTRY_KEY.location())
 				.disableSaving()
 				.disableSync(), registry -> REGISTRY = registry);
 	}
 	
 	@SubscribeEvent
-	public static void register(Register<Category> event)
+	public static void register(RegisterEvent event)
 	{
-		RegistryHelper.register(event.getRegistry(), "main", new Category("main", "containers", "multiplayer"));
-		RegistryHelper.register(event.getRegistry(), "entities", new Category("summon", "butcher"));
-		RegistryHelper.register(event.getRegistry(), "items", new Category("custom_item", "enchantment", "recipes"));
-		RegistryHelper.register(event.getRegistry(), "blocks", new Category("edit_blocks", "sign_editor", "note_editor"));
-		RegistryHelper.register(event.getRegistry(), "world", new Category("world", "gamerules"));
-		RegistryHelper.register(event.getRegistry(), "player", new Category("player", "experience", "advancements"));
-		RegistryHelper.register(event.getRegistry(), "scoreboard", new Category("scoreboard_objectives", "scoreboard_teams", "scoreboard_players"));
-		
-		for(UsercontentConfig config : UsercontentLoader.CONFIGS)
+		if(event.getRegistryKey().equals(REGISTRY_KEY))
 		{
-			if(config.getContent().getGui() != null && config.getContent().getGui().getTab() != null)
+			RegistryHelper.register(event, REGISTRY_KEY, "main", () -> new Category("main", "containers", "multiplayer"));
+			RegistryHelper.register(event, REGISTRY_KEY, "entities", () -> new Category("summon", "butcher"));
+			RegistryHelper.register(event, REGISTRY_KEY, "items", () -> new Category("custom_item", "enchantment", "recipes"));
+			RegistryHelper.register(event, REGISTRY_KEY, "blocks", () -> new Category("edit_blocks", "sign_editor", "note_editor"));
+			RegistryHelper.register(event, REGISTRY_KEY, "world", () -> new Category("world", "gamerules"));
+			RegistryHelper.register(event, REGISTRY_KEY, "player", () -> new Category("player", "experience", "advancements"));
+			RegistryHelper.register(event, REGISTRY_KEY, "scoreboard", () -> new Category("scoreboard_objectives", "scoreboard_teams", "scoreboard_players"));
+			
+			for(UsercontentConfig config : UsercontentLoader.CONFIGS)
 			{
-				Category.registerCategory(event.getRegistry(), config.getId(), config.getContent().getGui().getTab());
+				if(config.getContent().getGui() != null && config.getContent().getGui().getTab() != null)
+				{
+					Category.registerCategory(event, config.getId(), config.getContent().getGui().getTab());
+				}
 			}
 		}
 	}
 	
-	private static void registerCategory(IForgeRegistry<Category> registry, String id, JsonTab tab)
+	private static void registerCategory(RegisterEvent event, String id, JsonTab tab)
 	{
 		if(tab.getCategory() != null && !tab.getCategory().isEmpty())
 		{
 			if(!Categories.isRegistered(tab.getCategory()))
 			{
-				RegistryHelper.register(registry, tab.getCategory(), new Category(id));
+				RegistryHelper.register(event, REGISTRY_KEY, tab.getCategory(), () -> new Category(id));
 			}
 			else
 			{

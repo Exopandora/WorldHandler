@@ -20,8 +20,8 @@ import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -45,7 +45,7 @@ public class ContentButcher extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.radiusField = new GuiTextFieldTooltip(x + 58, y, 114, 20, new TranslatableComponent("gui.worldhandler.butcher.radius"));
+		this.radiusField = new GuiTextFieldTooltip(x + 58, y, 114, 20, Component.translatable("gui.worldhandler.butcher.radius"));
 		this.radiusField.setFilter(string ->
 		{
 			if(string == null)
@@ -90,25 +90,25 @@ public class ContentButcher extends Content
 	{
 		GuiButtonBase slaughter;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, new TranslatableComponent("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		container.add(this.radiusField);
-		container.add(new GuiButtonBase(x + 58, y + 24, 114, 20, new TranslatableComponent("gui.worldhandler.butcher.configure"), () ->
+		container.add(new GuiButtonBase(x + 58, y + 24, 114, 20, Component.translatable("gui.worldhandler.butcher.configure"), () ->
 		{
 			ActionHelper.open(Contents.BUTCHER_SETTINGS);
 		}));
 		
 		boolean enabled = this.radius != null && !this.radius.isEmpty();
 		
-		container.add(slaughter = new GuiButtonBase(x + 58, y + 48, 114, 20, new TranslatableComponent("gui.worldhandler.butcher.slaughter"), () ->
+		container.add(slaughter = new GuiButtonBase(x + 58, y + 48, 114, 20, Component.translatable("gui.worldhandler.butcher.slaughter"), () ->
 		{
 			Collection<EntityType<?>> entities = Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITIES::getValue).filter(Predicates.notNull()).collect(Collectors.toList());
 			ContentButcher.slaughter(container.getPlayer(), entities, Integer.parseInt(this.radius));
 		}));
 		slaughter.active = enabled && !Config.getButcher().getEntities().isEmpty();
 		
-		container.add(slaughter = new GuiButtonBase(x + 58, y + 72, 114, 20, new TranslatableComponent("gui.worldhandler.butcher.presets"), () ->
+		container.add(slaughter = new GuiButtonBase(x + 58, y + 72, 114, 20, Component.translatable("gui.worldhandler.butcher.presets"), () ->
 		{
 			ActionHelper.open(Contents.BUTCHER_PRESETS.withBuilder(this.builderKill, KillCommandBuilder.Label.KILL_TARGETS).withRadius(Double.parseDouble(this.radius)));
 		}));
@@ -133,7 +133,7 @@ public class ContentButcher extends Content
 				{
 					KillCommandBuilder kill = new KillCommandBuilder();
 					kill.targets().setSelectorType(SelectorTypes.ALL_ENTITIES);
-					kill.targets().setType(entity.getRegistryName());
+					kill.targets().setType(ForgeRegistries.ENTITIES.getKey(entity));
 					kill.targets().setDistanceMax(radius);
 					CommandHelper.sendCommand(username, kill, KillCommandBuilder.Label.KILL_TARGETS);
 				}
@@ -162,13 +162,13 @@ public class ContentButcher extends Content
 	@Override
 	public MutableComponent getTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.title.entities.butcher");
+		return Component.translatable("gui.worldhandler.title.entities.butcher");
 	}
 	
 	@Override
 	public MutableComponent getTabTitle()
 	{
-		return new TranslatableComponent("gui.worldhandler.tab.entities.butcher");
+		return Component.translatable("gui.worldhandler.tab.entities.butcher");
 	}
 	
 	@Override

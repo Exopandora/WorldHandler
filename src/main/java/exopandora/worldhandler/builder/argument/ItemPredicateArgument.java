@@ -2,12 +2,12 @@ package exopandora.worldhandler.builder.argument;
 
 import javax.annotation.Nullable;
 
-import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.commands.arguments.item.ItemParser;
+import exopandora.worldhandler.util.ItemPredicateParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemPredicateArgument extends TagArgument
 {
@@ -28,7 +28,7 @@ public class ItemPredicateArgument extends TagArgument
 	{
 		if(item != null)
 		{
-			this.resource = item.getRegistryName();
+			this.resource = ForgeRegistries.ITEMS.getKey(item);
 		}
 		else
 		{
@@ -60,20 +60,11 @@ public class ItemPredicateArgument extends TagArgument
 		{
 			try
 			{
-				ItemParser parser = new ItemParser(new StringReader(predicate), true).parse();
-				
-				if(parser.getItem() != null)
-				{
-					this.resource = parser.getItem().getRegistryName();
-					this.setTag(parser.getNbt());
-					this.isTag = false;
-				}
-				else
-				{
-					this.resource = parser.getTag().location();
-					this.setTag(parser.getNbt());
-					this.isTag = true;
-				}
+				ItemPredicateParser parser = new ItemPredicateParser(predicate);
+				parser.parse(true);
+				this.resource = parser.getResourceLocation();
+				this.setTag(parser.getNbt());
+				this.isTag = parser.isTag();
 			}
 			catch(CommandSyntaxException e)
 			{

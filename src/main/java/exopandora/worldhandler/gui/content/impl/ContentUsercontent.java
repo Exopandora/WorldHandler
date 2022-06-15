@@ -34,15 +34,12 @@ import exopandora.worldhandler.usercontent.model.JsonUsercontent;
 import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
 
 public class ContentUsercontent extends Content
 {
@@ -262,8 +259,8 @@ public class ContentUsercontent extends Content
 	
 	private void printError(String type, int index, Throwable e)
 	{
-		Component message = new TextComponent("<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage()).setStyle(Style.EMPTY.withColor(ChatFormatting.RED));
-		Minecraft.getInstance().gui.handleChat(ChatType.CHAT, message, Util.NIL_UUID);
+		Component message = Component.literal("<" + Main.NAME + ":" + this.id + ":" + type + ":" + index + "> " + e.getMessage()).setStyle(Style.EMPTY.withColor(ChatFormatting.RED));
+		Minecraft.getInstance().player.sendSystemMessage(message);
 	}
 	
 	private void updateTextfields()

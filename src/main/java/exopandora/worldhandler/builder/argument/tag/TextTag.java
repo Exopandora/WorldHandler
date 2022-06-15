@@ -1,21 +1,25 @@
 package exopandora.worldhandler.builder.argument.tag;
 
-import exopandora.worldhandler.util.SignText;
+import javax.annotation.Nonnull;
+
+import exopandora.worldhandler.util.UserStylableComponent;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 
 public class TextTag implements ITagProvider
 {
 	private final int id;
-	private final SignText text = new SignText();
+	private final UserStylableComponent component = new UserStylableComponent();
 	
 	public TextTag(int id)
 	{
 		this.id = id;
 	}
 	
-	public SignText getText()
+	public UserStylableComponent getComponent()
 	{
-		return this.text;
+		return this.component;
 	}
 	
 	@Override
@@ -24,9 +28,10 @@ public class TextTag implements ITagProvider
 		return "Text" + this.id;
 	}
 	
+	@Nonnull
 	@Override
 	public Tag value()
 	{
-		return this.text.serialize();
+		return StringTag.valueOf(Component.Serializer.toJson(this.component));
 	}
 }

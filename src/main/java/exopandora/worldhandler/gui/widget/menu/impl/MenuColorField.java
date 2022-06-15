@@ -10,12 +10,12 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonList;
 import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
 import exopandora.worldhandler.gui.widget.menu.Menu;
-import exopandora.worldhandler.util.MutableTextComponent;
+import exopandora.worldhandler.util.UserStylableComponent;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.FormattedCharSequence;
 
 public class MenuColorField extends Menu
 {
@@ -43,34 +43,31 @@ public class MenuColorField extends Menu
 	}
 	
 	private GuiTextFieldTooltip textField;
-	private final MutableTextComponent string;
+	private final UserStylableComponent component;
 	private final ILogicColorMenu logic;
 	private final String translationKey;
 	
-	public MenuColorField(int x, int y, String translationKey, MutableTextComponent string)
+	public MenuColorField(int x, int y, String translationKey, UserStylableComponent wrappedComponent)
 	{
-		this(x, y, translationKey, string, new ILogicColorMenu(){});
+		this(x, y, translationKey, wrappedComponent, new ILogicColorMenu(){});
 	}
 	
-	public MenuColorField(int x, int y, String translationKey, MutableTextComponent string, ILogicColorMenu logic)
+	public MenuColorField(int x, int y, String translationKey, UserStylableComponent wrappedComponent, ILogicColorMenu logic)
 	{
 		super(x, y);
 		this.translationKey = translationKey;
-		this.string = string;
+		this.component = wrappedComponent;
 		this.logic = logic;
 	}
 	
 	@Override
 	public void initGui(Container container)
 	{
-		this.textField = new GuiTextFieldTooltip(this.x + 118, this.y, 114, 20, new TranslatableComponent(this.translationKey));
+		this.textField = new GuiTextFieldTooltip(this.x + 118, this.y, 114, 20, Component.translatable(this.translationKey));
 		this.textField.setFilter(this.logic::validate);
-		this.textField.setFormatter(this.string::formatter);
-		this.textField.setValue(this.string.getContents());
-		this.textField.setResponder(text ->
-		{
-			this.string.setText(text);
-		});
+		this.textField.setFormatter((string, index) -> FormattedCharSequence.forward(string, this.component.getStyle()));
+		this.textField.setValue(this.component.getText());
+		this.textField.setResponder(this.component::setText);
 	}
 	
 	@Override
@@ -88,7 +85,7 @@ public class MenuColorField extends Menu
 				@Override
 				public MutableComponent translate(ChatFormatting item)
 				{
-					return new TranslatableComponent("gui.worldhandler.color").withStyle(item).append(": ").append(new TranslatableComponent("gui.worldhandler.color." + item.getName()));
+					return Component.translatable("gui.worldhandler.color").withStyle(item).append(": ").append(Component.translatable("gui.worldhandler.color." + item.getName()));
 				}
 				
 				@Override
@@ -106,7 +103,7 @@ public class MenuColorField extends Menu
 				@Override
 				public void onClick(ChatFormatting item)
 				{
-					MenuColorField.this.string.withStyle(item);
+					MenuColorField.this.component.withStyle(item);
 				}
 				
 				@Override
@@ -116,29 +113,29 @@ public class MenuColorField extends Menu
 				}
 			}));
 			
-			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, new TextComponent("I").setStyle(Style.EMPTY.withItalic(this.string.getStyle().isItalic())), () ->
+			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, Component.literal("I").setStyle(Style.EMPTY.withItalic(this.component.getStyle().isItalic())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().withItalic(!this.string.getStyle().isItalic()));
+				this.component.setStyle(this.component.getStyle().withItalic(!this.component.getStyle().isItalic()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, new TextComponent("B").setStyle(Style.EMPTY.withBold(this.string.getStyle().isBold())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, Component.literal("B").setStyle(Style.EMPTY.withBold(this.component.getStyle().isBold())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().withBold(!this.string.getStyle().isBold()));
+				this.component.setStyle(this.component.getStyle().withBold(!this.component.getStyle().isBold()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, new TextComponent("U").setStyle(Style.EMPTY.setUnderlined(this.string.getStyle().isUnderlined())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, Component.literal("U").setStyle(Style.EMPTY.withUnderlined(this.component.getStyle().isUnderlined())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().setUnderlined(!this.string.getStyle().isUnderlined()));
+				this.component.setStyle(this.component.getStyle().withUnderlined(!this.component.getStyle().isUnderlined()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, new TextComponent("S").setStyle(Style.EMPTY.setStrikethrough(this.string.getStyle().isStrikethrough())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, Component.literal("S").setStyle(Style.EMPTY.withStrikethrough(this.component.getStyle().isStrikethrough())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().setStrikethrough(!this.string.getStyle().isStrikethrough()));
+				this.component.setStyle(this.component.getStyle().withStrikethrough(!this.component.getStyle().isStrikethrough()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, new TextComponent("O").setStyle(Style.EMPTY.setObfuscated(this.string.getStyle().isObfuscated())), () ->
+			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, Component.literal("O").setStyle(Style.EMPTY.withObfuscated(this.component.getStyle().isObfuscated())), () ->
 			{
-				this.string.setStyle(this.string.getStyle().setObfuscated(!this.string.getStyle().isObfuscated()));
+				this.component.setStyle(this.component.getStyle().withObfuscated(!this.component.getStyle().isObfuscated()));
 				container.init();
 			}));
 		}

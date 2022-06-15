@@ -12,8 +12,8 @@ import exopandora.worldhandler.gui.widget.menu.Menu;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 
 public class MenuPageList<T> extends Menu
 {
@@ -89,7 +89,7 @@ public class MenuPageList<T> extends Menu
 			}
 			else
 			{
-				button = new GuiButtonBase(this.x, this.y + (this.height + 4) * x, this.width, this.height, TextComponent.EMPTY, null);
+				button = new GuiButtonBase(this.x, this.y + (this.height + 4) * x, this.width, this.height, Component.empty(), null);
 				button.active = false;
 			}
 			

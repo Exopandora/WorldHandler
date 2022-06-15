@@ -7,7 +7,7 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class WidgetWatch implements IContainerWidget
 {
@@ -28,7 +28,7 @@ public class WidgetWatch implements IContainerWidget
 		
 		if(Config.getSettings().tooltips() && mouseX >= watchX && mouseX <= watchX + 9 && mouseY >= watchY && mouseY <= watchY + 9)
 		{
-			container.renderTooltip(matrix, new TextComponent(TextUtils.formatWorldTime(time)), mouseX, mouseY + 9);
+			container.renderTooltip(matrix, Component.literal(TextUtils.formatWorldTime(time)), mouseX, mouseY + 9);
 		}
 	}
 	

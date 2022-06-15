@@ -3,8 +3,8 @@ package exopandora.worldhandler.gui.widget.button;
 import java.util.function.Consumer;
 
 import exopandora.worldhandler.gui.widget.button.GuiSlider.ILogicSlider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 
 public class LogicSliderSimple implements ILogicSlider
 {
@@ -28,13 +28,13 @@ public class LogicSliderSimple implements ILogicSlider
 	@Override
 	public MutableComponent formatSuffix(int value)
 	{
-		return new TextComponent("");
+		return Component.empty();
 	}
 	
 	@Override
 	public MutableComponent formatValue(int value)
 	{
-		return new TextComponent(": " + String.valueOf(value));
+		return Component.literal(": " + String.valueOf(value));
 	}
 	
 	@Override
