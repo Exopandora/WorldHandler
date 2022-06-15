@@ -107,6 +107,6 @@ public class TagArgument implements IDeserializableArgument
 	@Override
 	public boolean isDefault()
 	{
-		return this.tag == null && (this.providers == null || this.providers.isEmpty());
+		return this.tag == null && (this.providers == null || this.providers.isEmpty() || this.providers.stream().allMatch(provider -> provider.value() == null));
 	}
 }
