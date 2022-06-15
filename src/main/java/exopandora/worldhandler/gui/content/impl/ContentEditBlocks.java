@@ -109,7 +109,7 @@ public class ContentEditBlocks extends Content
 		this.block1Field.setResponder(text ->
 		{
 			this.block1 = text;
-			this.builderFill.block().deserialize(this.block1);
+			this.builderFill.block().deserialize(this.block1.replace(' ', '_'));
 			container.initButtons();
 		});
 		
@@ -119,7 +119,7 @@ public class ContentEditBlocks extends Content
 		this.block2Field.setResponder(text ->
 		{
 			this.block2 = text;
-			this.builderFill.filter().deserialize(this.block2);
+			this.builderFill.filter().deserialize(this.block2.replace(' ', '_'));
 			container.initButtons();
 		});
 		
@@ -129,7 +129,7 @@ public class ContentEditBlocks extends Content
 		this.filterField.setResponder(text ->
 		{
 			this.filter = text;
-			this.builderClone.filter().deserialize(this.filter);
+			this.builderClone.filter().deserialize(this.filter.replace(' ', '_'));
 			container.initButtons();
 		});
 	}

@@ -97,7 +97,7 @@ public class ContentCustomItem extends Content
 		this.itemField.setResponder(text ->
 		{
 			this.item = text;
-			this.builderCutomItem.item().deserialize(this.item);
+			this.builderCutomItem.item().deserialize(this.item.replace(' ', '_'));
 			container.initButtons();
 		});
 		
