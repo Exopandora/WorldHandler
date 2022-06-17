@@ -19,6 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockPredicateParser
 {
+	private static final ResourceLocation AIR_RESOURCE_LOCATION = ForgeRegistries.BLOCKS.getKey(Blocks.AIR);
 	private final StringReader reader;
 	private final Map<String, String> vagueProperties = Maps.newHashMap();
 	private ResourceLocation block = new ResourceLocation("");
@@ -158,7 +159,7 @@ public class BlockPredicateParser
 	{
 		Block block = ForgeRegistries.BLOCKS.getValue(this.block);
 		
-		if(Blocks.AIR.equals(block))
+		if(Blocks.AIR.equals(block) && !AIR_RESOURCE_LOCATION.equals(this.block))
 		{
 			return Optional.empty();
 		}
