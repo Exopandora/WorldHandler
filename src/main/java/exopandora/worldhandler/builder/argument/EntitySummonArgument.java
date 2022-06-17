@@ -68,8 +68,9 @@ public class EntitySummonArgument implements IDeserializableArgument
 		if(entity != null)
 		{
 			EntityType<?> type = ForgeRegistries.ENTITIES.getValue(entity);
+			ResourceLocation location = ForgeRegistries.ENTITIES.getKey(type);
 			
-			if(type != null)
+			if(!ForgeRegistries.ENTITIES.getDefaultKey().equals(location) || location.equals(entity))
 			{
 				this.set(type);
 			}
