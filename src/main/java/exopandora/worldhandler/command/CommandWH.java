@@ -22,8 +22,6 @@ import net.minecraft.commands.arguments.blocks.BlockPredicateArgument;
 import net.minecraft.commands.arguments.blocks.BlockStateArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CommandWH
@@ -58,84 +56,65 @@ public class CommandWH
 	
 	private static int pos1(CommandSourceStack source) throws CommandSyntaxException
 	{
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
-		{
-			BlockHelper.pos1().set(BlockHelper.getFocusedBlockPos());
-			BlockPos pos = BlockHelper.pos1();
-			ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
-			CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
-		});
-		
+		BlockHelper.pos1().set(BlockHelper.getFocusedBlockPos());
+		BlockPos pos = BlockHelper.pos1();
+		ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+		CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
 		return 1;
 	}
 	
 	private static int pos2(CommandSourceStack source) throws CommandSyntaxException
 	{
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
-		{
-			BlockHelper.pos2().set(BlockHelper.getFocusedBlockPos());
-			BlockPos pos = BlockHelper.pos2();
-			ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
-			CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
-		});
-		
+		BlockHelper.pos2().set(BlockHelper.getFocusedBlockPos());
+		BlockPos pos = BlockHelper.pos2();
+		ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+		CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
 		return 1;
 	}
 	
 	private static int fill(CommandSourceStack source, BlockInput block)
 	{
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
-		{
-			FillCommandBuilder builder = new FillCommandBuilder();
-			builder.from().set(BlockHelper.pos1());
-			builder.to().set(BlockHelper.pos2());
-			builder.block().set(block.getState(), block.tag);
-			CommandHelper.sendCommand(source.getTextName(), builder, FillCommandBuilder.Label.FILL);
-		});
-		
+		FillCommandBuilder builder = new FillCommandBuilder();
+		builder.from().set(BlockHelper.pos1());
+		builder.to().set(BlockHelper.pos2());
+		builder.block().set(block.getState(), block.tag);
+		CommandHelper.sendCommand(source.getTextName(), builder, FillCommandBuilder.Label.FILL);
 		return 1;
 	}
 	
 	private static int replace(CommandSourceStack source, String filter, BlockInput block)
 	{
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
-		{
-			FillCommandBuilder builder = new FillCommandBuilder();
-			builder.from().set(BlockHelper.pos1());
-			builder.to().set(BlockHelper.pos2());
-			builder.block().set(block.getState(), block.tag);
-			builder.filter().deserialize(filter);
-			CommandHelper.sendCommand(source.getTextName(), builder, FillCommandBuilder.Label.REPLACE);
-		});
-		
+		FillCommandBuilder builder = new FillCommandBuilder();
+		builder.from().set(BlockHelper.pos1());
+		builder.to().set(BlockHelper.pos2());
+		builder.block().set(block.getState(), block.tag);
+		builder.filter().deserialize(filter);
+		CommandHelper.sendCommand(source.getTextName(), builder, FillCommandBuilder.Label.REPLACE);
 		return 1;
 	}
 	
 	private static int clone(CommandSourceStack source, String mask, String filter)
 	{
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> 
+		CloneCommandBuilder builder = new CloneCommandBuilder();
+		builder.begin().set(BlockHelper.pos1());
+		builder.end().set(BlockHelper.pos2());
+		builder.destination().setX(new Coordinate.Ints(Type.RELATIVE));
+		builder.destination().setY(new Coordinate.Ints(Type.RELATIVE));
+		builder.destination().setZ(new Coordinate.Ints(Type.RELATIVE));
+		
+		switch(mask)
 		{
-			CloneCommandBuilder builder = new CloneCommandBuilder();
-			builder.begin().set(BlockHelper.pos1());
-			builder.end().set(BlockHelper.pos2());
-			builder.destination().setX(new Coordinate.Ints(Type.RELATIVE));
-			builder.destination().setY(new Coordinate.Ints(Type.RELATIVE));
-			builder.destination().setZ(new Coordinate.Ints(Type.RELATIVE));
-			
-			switch(mask)
-			{
-				case "filtered":
-					builder.filter().deserialize(filter);
-					CommandHelper.sendCommand(source.getTextName(), builder, CloneCommandBuilder.Label.FILTERED);
-					break;
-				case "masked":
-					CommandHelper.sendCommand(source.getTextName(), builder, CloneCommandBuilder.Label.MASKED);
-					break;
-				case "replace":
-					CommandHelper.sendCommand(source.getTextName(), builder, CloneCommandBuilder.Label.REPLACE);
-					break;
-			}
-		});
+			case "filtered":
+				builder.filter().deserialize(filter);
+				CommandHelper.sendCommand(source.getTextName(), builder, CloneCommandBuilder.Label.FILTERED);
+				break;
+			case "masked":
+				CommandHelper.sendCommand(source.getTextName(), builder, CloneCommandBuilder.Label.MASKED);
+				break;
+			case "replace":
+				CommandHelper.sendCommand(source.getTextName(), builder, CloneCommandBuilder.Label.REPLACE);
+				break;
+		}
 		
 		return 1;
 	}

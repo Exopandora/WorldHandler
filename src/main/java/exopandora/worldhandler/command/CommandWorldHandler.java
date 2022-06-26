@@ -6,13 +6,10 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.Main;
-import exopandora.worldhandler.util.ActionHelper;
+import exopandora.worldhandler.event.ClientEventHandler;
 import exopandora.worldhandler.util.CommandHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.VersionChecker;
 
@@ -39,7 +36,7 @@ public class CommandWorldHandler
 	
 	private static int display(CommandSourceStack source) throws CommandSyntaxException
 	{
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().execute(ActionHelper::displayGui));
+		ClientEventHandler.openGui = true;
 		return 1;
 	}
 	

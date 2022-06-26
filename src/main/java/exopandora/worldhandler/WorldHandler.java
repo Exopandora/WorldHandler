@@ -15,9 +15,9 @@ import exopandora.worldhandler.util.AdvancementHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -67,14 +67,14 @@ public class WorldHandler
 	{
 		MinecraftForge.EVENT_BUS.addListener(KeyHandler::keyInputEvent);
 		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::renderLevelLastEvent);
-		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::clientChatEvent);
+		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::clientTickEvent);
 		
 		ClientRegistry.registerKeyBinding(KeyHandler.KEY_WORLD_HANDLER);
 		KeyHandler.updatePosKeys();
 	}
 	
 	@SubscribeEvent
-	public void registerCommands(RegisterCommandsEvent event)
+	public void registerCommands(RegisterClientCommandsEvent event)
 	{
 		CommandHelper.registerCommands(event.getDispatcher(), event.getBuildContext());
 	}

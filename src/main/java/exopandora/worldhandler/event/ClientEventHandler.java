@@ -2,30 +2,26 @@ package exopandora.worldhandler.event;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.ParseResults;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
-import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.commands.CommandBuildContext;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ClientEventHandler
 {
+	public static boolean openGui;
+	
 	@SubscribeEvent
 	public static void renderLevelLastEvent(RenderLevelLastEvent event)
 	{
@@ -63,35 +59,12 @@ public class ClientEventHandler
 	}
 	
 	@SubscribeEvent
-	public static void clientChatEvent(ClientChatEvent event)
+	public static void clientTickEvent(ClientTickEvent event)
 	{
-		if(!Minecraft.getInstance().hasSingleplayerServer() && Minecraft.getInstance().player != null)
+		if(TickEvent.Phase.START.equals(event.phase) && ClientEventHandler.openGui)
 		{
-			CommandDispatcher<CommandSourceStack> dispatcher = new CommandDispatcher<CommandSourceStack>();
-			CommandHelper.registerCommands(dispatcher, new CommandBuildContext(RegistryAccess.BUILTIN.get()));
-			
-			StringReader command = new StringReader(event.getMessage());
-			command.skip();
-			
-			ParseResults<CommandSourceStack> result = dispatcher.parse(command, Minecraft.getInstance().player.createCommandSourceStack());
-			
-			if(result.getContext().getCommand() != null)
-			{
-				try
-				{
-					dispatcher.execute(result);
-					Minecraft.getInstance().gui.getChat().addRecentChat(event.getMessage());
-				}
-				catch(CommandSyntaxException e)
-				{
-					e.printStackTrace();
-				}
-				
-				if(event.isCancelable())
-				{
-					event.setCanceled(true);
-				}
-			}
+			ClientEventHandler.openGui = false;
+			ActionHelper.displayGui();
 		}
 	}
 }
