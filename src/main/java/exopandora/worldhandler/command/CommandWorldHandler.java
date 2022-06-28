@@ -14,6 +14,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.LevelSettings;
 import net.minecraft.world.level.storage.PrimaryLevelData;
 import net.minecraftforge.fml.ModList;
@@ -79,6 +80,12 @@ public class CommandWorldHandler
 		worldData.settings = new LevelSettings(settings.levelName(), settings.gameType(), settings.hardcore(), settings.difficulty(), true, settings.gameRules(), settings.getDataPackConfig(), settings.getLifecycle());
 		int operatorPermissionLevel = server.getOperatorUserPermissionLevel();
 		Minecraft.getInstance().player.setPermissionLevel(operatorPermissionLevel);
+		
+		for(ServerPlayer player : server.getPlayerList().getPlayers())
+		{
+			server.getCommands().sendCommands(player);
+		}
+		
 		source.sendSuccess(Component.translatable("commands.worldhandler.allow_commands.success"), false);
 		return operatorPermissionLevel;
 	}
