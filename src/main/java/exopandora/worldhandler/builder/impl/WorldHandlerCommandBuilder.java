@@ -12,7 +12,9 @@ public class WorldHandlerCommandBuilder extends CommandBuilder
 			.then(CommandNode.literal("display")
 					.label(Label.DISPLAY))
 			.then(CommandNode.literal("version")
-					.label(Label.VERSION));
+					.label(Label.VERSION))
+			.then(CommandNode.literal("allow_commands")
+					.label(Label.ALLOW_COMMANDS));
 	
 	@Override
 	protected CommandNodeLiteral root()
@@ -24,6 +26,7 @@ public class WorldHandlerCommandBuilder extends CommandBuilder
 	{
 		HELP,
 		DISPLAY,
-		VERSION;
+		VERSION,
+		ALLOW_COMMANDS;
 	}
 }

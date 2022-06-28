@@ -408,8 +408,13 @@
 	"key.worldhandler.pos1": "Set Position 1",
 	"key.worldhandler.pos2": "Set Position 2",
 
-	"worldhandler.permission.refused": "您没有权限使用 World Handler",
-	"worldhandler.permission.refused.change": "更改 \"%s\" 来停止显示这条信息",
+	"commands.worldhandler.allow_commands.not_in_singleplayer": "Cannot enable commands in a multiplayer world",
+	"commands.worldhandler.allow_commands.commands_already_allowed": "Commands are already allowed in this world",
+	"commands.worldhandler.allow_commands.success": "Commands are now enabled in this world",
+
+	"worldhandler.permission.refused": "You do not have permission to use commands",
+	"worldhandler.permission.refused.multiplayer": "If you want to use the World Handler regardless, with limited functionality, disable \"%s\" in the config",
+	"worldhandler.permission.refused.singleplayer": "If you want to use the World Handler regardless, with limited functionality, disable \"%s\" in the config. Alternatively you can run \"/worldhandler allow_commands\" to enable commands in this world",
 
 	"worldhandler.error.gui": "An unexpected error occured."
 }

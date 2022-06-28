@@ -407,8 +407,13 @@
 	"key.worldhandler.pos1": "Установить позицию 1",
 	"key.worldhandler.pos2": "Установить позицию 2",
 
-	"worldhandler.permission.refused": "У вас нет разрешения на использование World Handler",
-	"worldhandler.permission.refused.change": "Измените \"%s\", чтобы отключить это сообщение.",
+	"commands.worldhandler.allow_commands.not_in_singleplayer": "Cannot enable commands in a multiplayer world",
+	"commands.worldhandler.allow_commands.commands_already_allowed": "Commands are already allowed in this world",
+	"commands.worldhandler.allow_commands.success": "Commands are now enabled in this world",
+
+	"worldhandler.permission.refused": "You do not have permission to use commands",
+	"worldhandler.permission.refused.multiplayer": "If you want to use the World Handler regardless, with limited functionality, disable \"%s\" in the config",
+	"worldhandler.permission.refused.singleplayer": "If you want to use the World Handler regardless, with limited functionality, disable \"%s\" in the config. Alternatively you can run \"/worldhandler allow_commands\" to enable commands in this world",
 
 	"worldhandler.error.gui": "Произошла неожиданная ошибка."
 }

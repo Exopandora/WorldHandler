@@ -181,10 +181,18 @@ public class ActionHelper
 	
 	public static void displayGui()
 	{
-		if(!CommandHelper.canPlayerIssueCommand() && Config.getSettings().permissionQuery())
+		if(Config.getSettings().permissionQuery() && !CommandHelper.canPlayerIssueCommand())
 		{
-			Minecraft.getInstance().gui.getChat().addMessage(Component.literal(ChatFormatting.RED + I18n.get("worldhandler.permission.refused")));
-			Minecraft.getInstance().gui.getChat().addMessage(Component.literal(ChatFormatting.RED + I18n.get("worldhandler.permission.refused.change", I18n.get("gui.worldhandler.config.settings.permission_query"))));
+			Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("worldhandler.permission.refused").withStyle(ChatFormatting.RED));
+			
+			if(Minecraft.getInstance().hasSingleplayerServer())
+			{
+				Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("worldhandler.permission.refused.singleplayer", I18n.get("gui.worldhandler.config.settings.permission_query")).withStyle(ChatFormatting.RED));
+			}
+			else
+			{
+				Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("worldhandler.permission.refused.multiplayer", I18n.get("gui.worldhandler.config.settings.permission_query")).withStyle(ChatFormatting.RED));
+			}
 		}
 		else
 		{

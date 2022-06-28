@@ -404,11 +404,16 @@
 	"key.categories.worldhandler": "World Handler",
 
 	"key.worldhandler": "World Handler öffnen",
-	"key.worldhandler.pos1": "Position 1 setzen",
-	"key.worldhandler.pos2": "Position 2 setzen",
+	"key.worldhandler.pos1": "Setze Position 1",
+	"key.worldhandler.pos2": "Setze Position 2",
 
-	"worldhandler.permission.refused": "Du hast nicht die benötigte Berechtigung, um den World Handler zu benutzen",
-	"worldhandler.permission.refused.change": "Ändere \"%s\" um diese Nachricht zu umgehen",
+	"commands.worldhandler.allow_commands.not_in_singleplayer": "Kommandos können im Mehrspieler nicht aktiviert werden",
+	"commands.worldhandler.allow_commands.commands_already_allowed": "Kommandos sind bereits aktiviert in dieser Welt",
+	"commands.worldhandler.allow_commands.success": "Kommandos sind in dieser Welt jetzt aktiviert",
+
+	"worldhandler.permission.refused": "Du hast nicht die erforderlichen Berechtigungen Kommandos zu benutzen",
+	"worldhandler.permission.refused.multiplayer": "Deaktiviere \"%s\" in der Konfigurationsdatei, wenn du den World Handler, mit eingeschränkter Funktionalität, trotzdem benutzen möchtest.",
+	"worldhandler.permission.refused.singleplayer": "Deaktiviere \"%s\" in der Konfigurationsdatei, wenn du den World Handler, mit eingeschränkter Funktionalität, trotzdem benutzen möchtest. Alternativ kannst du auch \"/worldhandler allow_commands\" ausführen, um Kommandos in dieser Welt zu aktivieren",
 
 	"worldhandler.error.gui": "Ein unerwarteter Fehler ist aufgetreten."
 }
