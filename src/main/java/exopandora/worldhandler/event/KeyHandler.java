@@ -1,65 +1,37 @@
 package exopandora.worldhandler.event;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.glfw.GLFW;
 
-import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class KeyHandler
 {
 	public static final KeyMapping KEY_WORLD_HANDLER = new KeyMapping("key.worldhandler", GLFW.GLFW_KEY_V, "key.categories.worldhandler");
-	public static final KeyMapping KEY_WORLD_HANDLER_POS1 = new KeyMapping("key.worldhandler.pos1", GLFW.GLFW_KEY_O, "key.categories.worldhandler");
-	public static final KeyMapping KEY_WORLD_HANDLER_POS2 = new KeyMapping("key.worldhandler.pos2", GLFW.GLFW_KEY_P, "key.categories.worldhandler");
+	public static final KeyMapping KEY_WORLD_HANDLER_POS1 = new KeyMapping("key.worldhandler.pos1", GLFW.GLFW_KEY_UNKNOWN, "key.categories.worldhandler");
+	public static final KeyMapping KEY_WORLD_HANDLER_POS2 = new KeyMapping("key.worldhandler.pos2", GLFW.GLFW_KEY_UNKNOWN, "key.categories.worldhandler");
 	
 	@SubscribeEvent
-	public static void keyInputEvent(KeyInputEvent event)
+	public static void keyInputEvent(InputEvent.Key event)
 	{
 		if(Minecraft.getInstance() != null && Minecraft.getInstance().screen == null)
 		{
-			if(KEY_WORLD_HANDLER.isDown())
+			if(KEY_WORLD_HANDLER.consumeClick())
 			{
 				ActionHelper.displayGui();
 			}
-			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS1.isDown())
+			else if(KEY_WORLD_HANDLER_POS1.consumeClick())
 			{
 				BlockHelper.pos1().set(BlockHelper.getFocusedBlockPos());
 			}
-			else if(Config.getSettings().shortcutKeys() && KEY_WORLD_HANDLER_POS2.isDown())
+			else if(KEY_WORLD_HANDLER_POS2.consumeClick())
 			{
 				BlockHelper.pos2().set(BlockHelper.getFocusedBlockPos());
 			}
 		}
-	}
-	
-	public static void updatePosKeys()
-	{
-		boolean isRegistered = KeyHandler.arePosKeysRegistered();
-		
-		if(Config.getSettings().shortcutKeys() && !isRegistered)
-		{
-			ClientRegistry.registerKeyBinding(KEY_WORLD_HANDLER_POS1);
-			ClientRegistry.registerKeyBinding(KEY_WORLD_HANDLER_POS2);
-		}
-		else if(!Config.getSettings().shortcutKeys() && isRegistered)
-		{
-			KeyHandler.removePosKeys();
-		}
-	}
-	
-	public static boolean arePosKeysRegistered()
-	{
-		return ArrayUtils.contains(Minecraft.getInstance().options.keyMappings, KEY_WORLD_HANDLER_POS1) || ArrayUtils.contains(Minecraft.getInstance().options.keyMappings, KEY_WORLD_HANDLER_POS2);
-	}
-	
-	public static void removePosKeys()
-	{
-		Minecraft.getInstance().options.keyMappings = ArrayUtils.removeElements(Minecraft.getInstance().options.keyMappings, KEY_WORLD_HANDLER_POS1, KEY_WORLD_HANDLER_POS2);
 	}
 }

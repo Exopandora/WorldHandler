@@ -3,7 +3,6 @@
 
 	"gui.worldhandler.config.settings.command_syntax": "命令句法",
 	"gui.worldhandler.config.settings.shortcuts": "快捷键",
-	"gui.worldhandler.config.settings.key_shortcuts": "键盘快捷键",
 	"gui.worldhandler.config.settings.tooltips": "浮动提示",
 	"gui.worldhandler.config.settings.watch": "时钟",
 	"gui.worldhandler.config.settings.smooth_watch": "时钟平滑效果",
@@ -45,7 +44,6 @@
 	"gui.worldhandler.config.comment.settings.custom_time_dawn": "生物群系指示器开启",
 	"gui.worldhandler.config.comment.settings.command_syntax": "命令句法开启",
 	"gui.worldhandler.config.comment.settings.shortcuts": "快捷键开启",
-	"gui.worldhandler.config.comment.settings.key_shortcuts": "键盘快捷键开启",
 	"gui.worldhandler.config.comment.settings.tooltips": "浮动提示开启",
 	"gui.worldhandler.config.comment.settings.watch": "时钟开启",
 	"gui.worldhandler.config.comment.settings.smooth_watch": "时钟平滑效果开启",

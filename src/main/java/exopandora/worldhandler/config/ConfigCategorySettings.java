@@ -1,6 +1,5 @@
 package exopandora.worldhandler.config;
 
-import exopandora.worldhandler.event.KeyHandler;
 import exopandora.worldhandler.util.BlockPlacingMode;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
@@ -11,7 +10,6 @@ public class ConfigCategorySettings
 {
 	private final BooleanValue commandSyntax;
 	private final BooleanValue shortcuts;
-	private final BooleanValue shortcutKeys;
 	private final BooleanValue tooltips;
 	private final BooleanValue watch;
 	private final BooleanValue smoothWatch;
@@ -37,10 +35,6 @@ public class ConfigCategorySettings
 				.translation("gui.worldhandler.config.settings.shortcuts")
 				.comment("Whether or not to display a row of quick access buttons at the top")
 				.define("shortcuts", false);
-		this.shortcutKeys = builder
-				.translation("gui.worldhandler.config.settings.key_shortcuts")
-				.comment("Whether or not to enable button keys for pos1 and pos2")
-				.define("key_shortcuts", false);
 		this.tooltips = builder
 				.translation("gui.worldhandler.config.settings.tooltips")
 				.comment("Whether or not to display tooltips for buttons")
@@ -113,23 +107,6 @@ public class ConfigCategorySettings
 	public void setShortcuts(boolean enabled)
 	{
 		Config.set(this.shortcuts, enabled);
-	}
-	
-	public boolean shortcutKeys()
-	{
-		return this.shortcutKeys.get();
-	}
-	
-	public void setShortcutKeys(boolean enabled)
-	{
-		boolean previous = this.shortcutKeys();
-		
-		Config.set(this.shortcutKeys, enabled);
-		
-		if(previous != enabled)
-		{
-			KeyHandler.updatePosKeys();
-		}
 	}
 	
 	public boolean tooltips()

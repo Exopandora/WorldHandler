@@ -14,9 +14,9 @@ import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.util.AdvancementHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -50,9 +50,9 @@ public class WorldHandler
 				Config.setupDirectories(WorldHandler.USERCONTENT_PATH);
 				modLoadingContext.registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
 				UsercontentLoader.load(WorldHandler.USERCONTENT_PATH);
-				modEventBus.register(Config.class);
 				modEventBus.addListener(WorldHandler.this::clientSetup);
 				modEventBus.addListener(WorldHandler.this::registerClientReloadListeners);
+				modEventBus.addListener(WorldHandler.this::registerKeyMappingsEvent);
 				modEventBus.addListener(Content::createRegistry);
 				modEventBus.addListener(Category::createRegistry);
 				modEventBus.addListener(Content::register);
@@ -68,9 +68,14 @@ public class WorldHandler
 		MinecraftForge.EVENT_BUS.addListener(KeyHandler::keyInputEvent);
 		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::renderLevelLastEvent);
 		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::clientTickEvent);
-		
-		ClientRegistry.registerKeyBinding(KeyHandler.KEY_WORLD_HANDLER);
-		KeyHandler.updatePosKeys();
+	}
+	
+	@SubscribeEvent
+	public void registerKeyMappingsEvent(RegisterKeyMappingsEvent event)
+	{
+		event.register(KeyHandler.KEY_WORLD_HANDLER);
+		event.register(KeyHandler.KEY_WORLD_HANDLER_POS1);
+		event.register(KeyHandler.KEY_WORLD_HANDLER_POS2);
 	}
 	
 	@SubscribeEvent

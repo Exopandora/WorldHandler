@@ -3,7 +3,6 @@
 
 	"gui.worldhandler.config.settings.command_syntax": "Command Syntax",
 	"gui.worldhandler.config.settings.shortcuts": "Shortcuts",
-	"gui.worldhandler.config.settings.key_shortcuts": "Key Shortcuts",
 	"gui.worldhandler.config.settings.tooltips": "Tooltips",
 	"gui.worldhandler.config.settings.watch": "Watch",
 	"gui.worldhandler.config.settings.smooth_watch": "Smooth Watch",
@@ -44,7 +43,6 @@
 
 	"gui.worldhandler.config.comment.settings.command_syntax": "Displays the current command at the bottom",
 	"gui.worldhandler.config.comment.settings.shortcuts": "Adds a row of buttons at the top for quick access",
-	"gui.worldhandler.config.comment.settings.key_shortcuts": "Enables button keys for pos1 and pos2",
 	"gui.worldhandler.config.comment.settings.tooltips": "Whether or not to display tooltips",
 	"gui.worldhandler.config.comment.settings.watch": "Whether or not to display a watch",
 	"gui.worldhandler.config.comment.settings.smooth_watch": "Whether or not the watch pointers move smooth",

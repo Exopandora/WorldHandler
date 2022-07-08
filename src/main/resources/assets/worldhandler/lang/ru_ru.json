@@ -3,7 +3,6 @@
 
 	"gui.worldhandler.config.settings.command_syntax": "Синтаксис команд",
 	"gui.worldhandler.config.settings.shortcuts": "Ярлыки",
-	"gui.worldhandler.config.settings.key_shortcuts": "Сочетания клавиш",
 	"gui.worldhandler.config.settings.tooltips": "Всплывающие подсказки",
 	"gui.worldhandler.config.settings.watch": "Часы",
 	"gui.worldhandler.config.settings.smooth_watch": "Плавные часы",
@@ -44,7 +43,6 @@
 
 	"gui.worldhandler.config.comment.settings.command_syntax": "Отображает текущую команду в нижней части экрана",
 	"gui.worldhandler.config.comment.settings.shortcuts": "Добавляет ряд кнопок в верхней части для быстрого доступа",
-	"gui.worldhandler.config.comment.settings.key_shortcuts": "Включает кнопки для pos1 и pos2",
 	"gui.worldhandler.config.comment.settings.tooltips": "Отображать подсказки или нет",
 	"gui.worldhandler.config.comment.settings.watch": "Отображать часы или нет",
 	"gui.worldhandler.config.comment.settings.smooth_watch": "Стрелки часов движутся плавно или нет",

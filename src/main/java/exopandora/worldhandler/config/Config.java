@@ -7,11 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import exopandora.worldhandler.event.KeyHandler;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig.Type;
-import net.minecraftforge.fml.event.config.ModConfigEvent.Reloading;
 
 public class Config
 {
@@ -86,15 +82,6 @@ public class Config
 		if(configValue != null && value != null && (!value.equals(configValue.get()) || configValue.get() instanceof List<?>))
 		{
 			configValue.set(value);
-		}
-	}
-	
-	@SubscribeEvent
-	public static void configReload(Reloading event)
-	{
-		if(event.getConfig().getType().equals(Type.CLIENT))
-		{
-			KeyHandler.updatePosKeys();
 		}
 	}
 	

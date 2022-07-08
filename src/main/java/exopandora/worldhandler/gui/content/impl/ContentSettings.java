@@ -29,7 +29,6 @@ public class ContentSettings extends ContentChild
 	{
 		SETTINGS.add(new BooleanSetting("command_syntax", Config.CLIENT.getSettings()::commandSyntax, Config.CLIENT.getSettings()::setCommandSyntax));
 		SETTINGS.add(new BooleanSetting("shortcuts", Config.CLIENT.getSettings()::shortcuts, Config.CLIENT.getSettings()::setShortcuts));
-		SETTINGS.add(new BooleanSetting("key_shortcuts", Config.CLIENT.getSettings()::shortcutKeys, Config.CLIENT.getSettings()::setShortcutKeys));
 		SETTINGS.add(new BooleanSetting("tooltips", Config.CLIENT.getSettings()::tooltips, Config.CLIENT.getSettings()::setTooltips));
 		SETTINGS.add(new BooleanSetting("watch", Config.CLIENT.getSettings()::watch, Config.CLIENT.getSettings()::setWatch));
 		SETTINGS.add(new BooleanSetting("smooth_watch", Config.CLIENT.getSettings()::smoothWatch, Config.CLIENT.getSettings()::setSmoothWatch));
@@ -84,7 +83,7 @@ public class ContentSettings extends ContentChild
 		});
 		
 		container.add(settings);
-
+		
 		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.value"));
 		this.valueField.setFilter(string ->
 		{

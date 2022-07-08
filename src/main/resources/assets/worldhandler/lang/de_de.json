@@ -3,7 +3,6 @@
 
 	"gui.worldhandler.config.settings.command_syntax": "Befehlssyntax",
 	"gui.worldhandler.config.settings.shortcuts": "Schnellsteuerleiste",
-	"gui.worldhandler.config.settings.key_shortcuts": "Tasten Abkürzungen",
 	"gui.worldhandler.config.settings.tooltips": "Tooltips",
 	"gui.worldhandler.config.settings.watch": "Uhr",
 	"gui.worldhandler.config.settings.smooth_watch": "Geschmeidige Uhr",
@@ -45,7 +44,6 @@
 	"gui.worldhandler.config.comment.settings.custom_time_dawn": "Aktiviert Biome Indikator",
 	"gui.worldhandler.config.comment.settings.command_syntax": "Aktiviert Befehlssyntax",
 	"gui.worldhandler.config.comment.settings.shortcuts": "Aktiviert Schnellsteuerleiste",
-	"gui.worldhandler.config.comment.settings.key_shortcuts": "Aktiviert Tasten Abkürzungen",
 	"gui.worldhandler.config.comment.settings.tooltips": "Aktiviert Tooltips",
 	"gui.worldhandler.config.comment.settings.watch": "Aktiviert Uhr",
 	"gui.worldhandler.config.comment.settings.smooth_watch": "Aktiviert Geschmeidige Uhr",

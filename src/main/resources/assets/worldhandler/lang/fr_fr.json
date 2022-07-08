@@ -3,7 +3,6 @@
 
 	"gui.worldhandler.config.settings.command_syntax": "Syntaxe commandes",
 	"gui.worldhandler.config.settings.shortcuts": "Raccourcis",
-	"gui.worldhandler.config.settings.key_shortcuts": "Raccourcis clavier",
 	"gui.worldhandler.config.settings.tooltips": "Info-bulles",
 	"gui.worldhandler.config.settings.watch": "Montre",
 	"gui.worldhandler.config.settings.smooth_watch": "Montre fluide",
@@ -44,7 +43,6 @@
 
 	"gui.worldhandler.config.comment.settings.command_syntax": "Afficher en bas la commande actuelle",
 	"gui.worldhandler.config.comment.settings.shortcuts": "Adds a row of buttons at the top for quick access",
-	"gui.worldhandler.config.comment.settings.key_shortcuts": "Enables button keys for pos1 and pos2",
 	"gui.worldhandler.config.comment.settings.tooltips": "Afficher ou non les info-bulles",
 	"gui.worldhandler.config.comment.settings.watch": "Afficher ou non une montre",
 	"gui.worldhandler.config.comment.settings.smooth_watch": "Rendre ou non lisse les aiguilles de la montre",
