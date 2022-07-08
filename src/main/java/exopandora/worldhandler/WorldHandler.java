@@ -27,6 +27,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -41,7 +42,6 @@ public class WorldHandler
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		ModLoadingContext modLoadingContext = ModLoadingContext.get();
-		MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> new SafeRunnable()
 		{
 			@Override
@@ -50,9 +50,8 @@ public class WorldHandler
 				Config.setupDirectories(WorldHandler.USERCONTENT_PATH);
 				modLoadingContext.registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
 				UsercontentLoader.load(WorldHandler.USERCONTENT_PATH);
-				modEventBus.addListener(WorldHandler.this::clientSetup);
-				modEventBus.addListener(WorldHandler.this::registerClientReloadListeners);
 				modEventBus.addListener(WorldHandler.this::registerKeyMappingsEvent);
+				modEventBus.addListener(WorldHandler.this::registerClientReloadListeners);
 				modEventBus.addListener(Content::createRegistry);
 				modEventBus.addListener(Category::createRegistry);
 				modEventBus.addListener(Content::register);
@@ -60,6 +59,8 @@ public class WorldHandler
 			}
 		});
 		modLoadingContext.registerExtensionPoint(DisplayTest.class, () -> new DisplayTest(() -> "ANY", (remote, isServer) -> true));
+		modEventBus.addListener(this::clientSetup);
+		modEventBus.addListener(this::commonSetup);
 	}
 	
 	@SubscribeEvent
@@ -68,6 +69,12 @@ public class WorldHandler
 		MinecraftForge.EVENT_BUS.addListener(KeyHandler::keyInputEvent);
 		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::renderLevelLastEvent);
 		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::clientTickEvent);
+	}
+	
+	@SubscribeEvent
+	public void commonSetup(FMLCommonSetupEvent event)
+	{
+		MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
 	}
 	
 	@SubscribeEvent
