@@ -103,7 +103,7 @@ public class ContentButcher extends Content
 		
 		container.add(slaughter = new GuiButtonBase(x + 58, y + 48, 114, 20, Component.translatable("gui.worldhandler.butcher.slaughter"), () ->
 		{
-			Collection<EntityType<?>> entities = Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITIES::getValue).filter(Predicates.notNull()).collect(Collectors.toList());
+			Collection<EntityType<?>> entities = Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITY_TYPES::getValue).filter(Predicates.notNull()).collect(Collectors.toList());
 			ContentButcher.slaughter(container.getPlayer(), entities, Integer.parseInt(this.radius));
 		}));
 		slaughter.active = enabled && !Config.getButcher().getEntities().isEmpty();
@@ -133,7 +133,7 @@ public class ContentButcher extends Content
 				{
 					KillCommandBuilder kill = new KillCommandBuilder();
 					kill.targets().setSelectorType(SelectorTypes.ALL_ENTITIES);
-					kill.targets().setType(ForgeRegistries.ENTITIES.getKey(entity));
+					kill.targets().setType(ForgeRegistries.ENTITY_TYPES.getKey(entity));
 					kill.targets().setDistanceMax(radius);
 					CommandHelper.sendCommand(username, kill, KillCommandBuilder.Label.KILL_TARGETS);
 				}

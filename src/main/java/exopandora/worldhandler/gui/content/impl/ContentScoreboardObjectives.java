@@ -145,7 +145,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				@Nullable
 				private boolean isRegistryItem(ResourceLocation resource)
 				{
-					IForgeRegistry<?>[] registries = new IForgeRegistry<?>[] {ForgeRegistries.BLOCKS, ForgeRegistries.ITEMS, ForgeRegistries.ENTITIES};
+					IForgeRegistry<?>[] registries = new IForgeRegistry<?>[] {ForgeRegistries.BLOCKS, ForgeRegistries.ITEMS, ForgeRegistries.ENTITY_TYPES};
 					
 					for(IForgeRegistry<?> registry : registries)
 					{

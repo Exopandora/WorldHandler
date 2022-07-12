@@ -444,12 +444,12 @@ public class ContentSummon extends Content
 		}
 		else if(EntityType.VILLAGER.equals(entity))
 		{
-			for(VillagerProfession profession : ForgeRegistries.PROFESSIONS)
+			for(VillagerProfession profession : ForgeRegistries.VILLAGER_PROFESSIONS)
 			{
 				if(StringUtils.equalsIgnoreCase(this.mob, profession.toString()))
 				{
 					CompoundTag villagerData = new CompoundTag();
-					villagerData.putString("profession", ForgeRegistries.PROFESSIONS.getKey(profession).toString());
+					villagerData.putString("profession", ForgeRegistries.VILLAGER_PROFESSIONS.getKey(profession).toString());
 					
 					this.mutable.setKey("VillagerData");
 					this.mutable.setTag(villagerData);
@@ -468,7 +468,7 @@ public class ContentSummon extends Content
 		else if(EntityType.CHICKEN.equals(entity) && StringUtils.containsIgnoreCase(this.mob, "Jockey") && !this.entity.hasPassengers())
 		{
 			ListTag list = new ListTag();
-			EntityTag zombie = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.ZOMBIE));
+			EntityTag zombie = new EntityTag(ForgeRegistries.ENTITY_TYPES.getKey(EntityType.ZOMBIE));
 			
 			zombie.setIsBaby(true);
 			list.add(zombie.value());
@@ -479,7 +479,7 @@ public class ContentSummon extends Content
 		else if(EntityType.SPIDER.equals(entity) && StringUtils.containsIgnoreCase(this.mob, "Jockey") && !this.entity.hasPassengers())
 		{
 			ListTag list = new ListTag();
-			EntityTag skeleton = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.SKELETON));
+			EntityTag skeleton = new EntityTag(ForgeRegistries.ENTITY_TYPES.getKey(EntityType.SKELETON));
 			
 			skeleton.setHandItem(0, Items.BOW);
 			list.add(skeleton.value());

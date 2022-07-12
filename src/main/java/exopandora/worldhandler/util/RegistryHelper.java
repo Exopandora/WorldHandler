@@ -37,7 +37,7 @@ public class RegistryHelper
 			return Language.getInstance().has(key) ? key : resource.toString();
 		});
 		registerRegistry(ForgeRegistries.ENCHANTMENTS, Enchantment::getDescriptionId);
-		registerRegistry(ForgeRegistries.ENTITIES, EntityType::getDescriptionId);
+		registerRegistry(ForgeRegistries.ENTITY_TYPES, EntityType::getDescriptionId);
 		registerRegistry(ForgeRegistries.STAT_TYPES, stat -> "stat." + stat.toString().replace(':', '.'));
 	}
 	

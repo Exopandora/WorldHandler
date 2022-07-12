@@ -60,14 +60,14 @@ public class ContentCommandStack extends ContentChild
 		this.activatorRail.setBlockState(Blocks.ACTIVATOR_RAIL.defaultBlockState());
 		this.builderCommandStack.nbt().addTagProvider(this.activatorRail);
 		
-		EntityTag redstoneBlock = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.FALLING_BLOCK));
+		EntityTag redstoneBlock = new EntityTag(ForgeRegistries.ENTITY_TYPES.getKey(EntityType.FALLING_BLOCK));
 		redstoneBlock.setTime(1);
 		redstoneBlock.setBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState());
 		this.activatorRail.addPassenger(redstoneBlock);
 		
 		this.addCommand(0);
 		
-		EntityTag blockRemover = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.COMMAND_BLOCK_MINECART));
+		EntityTag blockRemover = new EntityTag(ForgeRegistries.ENTITY_TYPES.getKey(EntityType.COMMAND_BLOCK_MINECART));
 		SetBlockCommandBuilder builder = new SetBlockCommandBuilder();
 		builder.pos().setX(new Coordinate.Ints(Coordinate.Type.RELATIVE));
 		builder.pos().setY(new Coordinate.Ints(-2, Coordinate.Type.RELATIVE));
@@ -88,10 +88,10 @@ public class ContentCommandStack extends ContentChild
 		blockRemover.setCommand(builder.toCommand(SetBlockCommandBuilder.Label.DESTROY, false));
 		this.activatorRail.addPassenger(blockRemover);
 		
-		EntityTag entityRemover = new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.COMMAND_BLOCK_MINECART));
+		EntityTag entityRemover = new EntityTag(ForgeRegistries.ENTITY_TYPES.getKey(EntityType.COMMAND_BLOCK_MINECART));
 		KillCommandBuilder kill = new KillCommandBuilder();
 		kill.targets().setSelectorType(SelectorTypes.ALL_ENTITIES);
-		kill.targets().setType(ForgeRegistries.ENTITIES.getKey(EntityType.COMMAND_BLOCK_MINECART));
+		kill.targets().setType(ForgeRegistries.ENTITY_TYPES.getKey(EntityType.COMMAND_BLOCK_MINECART));
 		kill.targets().setDistanceMax(1.0D);
 		entityRemover.setCommand(kill.toCommand(KillCommandBuilder.Label.KILL_TARGETS, false));
 		this.activatorRail.addPassenger(entityRemover);
@@ -265,7 +265,7 @@ public class ContentCommandStack extends ContentChild
 	
 	private void addCommand(int index)
 	{
-		this.activatorRail.addPassenger(index + HEAD_LENGTH, new EntityTag(ForgeRegistries.ENTITIES.getKey(EntityType.COMMAND_BLOCK_MINECART)));
+		this.activatorRail.addPassenger(index + HEAD_LENGTH, new EntityTag(ForgeRegistries.ENTITY_TYPES.getKey(EntityType.COMMAND_BLOCK_MINECART)));
 	}
 	
 	private void removeCommand(int index)

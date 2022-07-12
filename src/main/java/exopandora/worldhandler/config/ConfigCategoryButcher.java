@@ -63,7 +63,7 @@ public class ConfigCategoryButcher
 	{
 		if(string != null)
 		{
-			return ForgeRegistries.ENTITIES.containsKey(ResourceLocation.tryParse(string.toString()));
+			return ForgeRegistries.ENTITY_TYPES.containsKey(ResourceLocation.tryParse(string.toString()));
 		}
 		
 		return false;

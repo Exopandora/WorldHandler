@@ -42,22 +42,22 @@ public class ContentButcherPresets extends ContentChild
 		
 		container.add(new GuiButtonBase(x + 58, y, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.passive_mobs"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> !MobCategory.MONSTER.equals(entity.getCategory()) && !MobCategory.MISC.equals(entity.getCategory())).collect(Collectors.toList()), this.radius);
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(entity -> !MobCategory.MONSTER.equals(entity.getCategory()) && !MobCategory.MISC.equals(entity.getCategory())).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
 		container.add(new GuiButtonBase(x + 58, y + 24, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.hostile_mobs"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> MobCategory.MONSTER.equals(entity.getCategory())).collect(Collectors.toList()), this.radius);
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(entity -> MobCategory.MONSTER.equals(entity.getCategory())).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
 		container.add(new GuiButtonBase(x + 58, y + 48, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.players"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(entity -> EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
 		container.add(new GuiButtonBase(x + 58, y + 72, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.entities"), () ->
 		{
-			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITIES.getValues().stream().filter(entity -> MobCategory.MISC.equals(entity.getCategory()) && !EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
+			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(entity -> MobCategory.MISC.equals(entity.getCategory()) && !EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
 	}

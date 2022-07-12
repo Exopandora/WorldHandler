@@ -24,7 +24,7 @@ public class ContentButcherSettings extends ContentChild
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<EntityType<?>> list = ForgeRegistries.ENTITIES.getValues().stream().filter(EntityType::canSummon).collect(Collectors.toList());
+		List<EntityType<?>> list = ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(EntityType::canSummon).collect(Collectors.toList());
 		
 		MenuPageList<EntityType<?>> entities = new MenuPageList<EntityType<?>>(x, y, list, 114, 20, 3, container, new ILogicPageList<EntityType<?>>()
 		{
@@ -37,13 +37,13 @@ public class ContentButcherSettings extends ContentChild
 			@Override
 			public MutableComponent toTooltip(EntityType<?> item)
 			{
-				return Component.literal(ForgeRegistries.ENTITIES.getKey(item).toString());
+				return Component.literal(ForgeRegistries.ENTITY_TYPES.getKey(item).toString());
 			}
 			
 			@Override
 			public void onClick(EntityType<?> item)
 			{
-				ContentButcherSettings.this.entity = ForgeRegistries.ENTITIES.getKey(item);
+				ContentButcherSettings.this.entity = ForgeRegistries.ENTITY_TYPES.getKey(item);
 				container.initButtons();
 			}
 			

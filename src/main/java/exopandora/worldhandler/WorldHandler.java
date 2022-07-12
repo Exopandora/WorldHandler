@@ -67,7 +67,7 @@ public class WorldHandler
 	public void clientSetup(FMLClientSetupEvent event)
 	{
 		MinecraftForge.EVENT_BUS.addListener(KeyHandler::keyInputEvent);
-		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::renderLevelLastEvent);
+		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::renderLevelStageEvent);
 		MinecraftForge.EVENT_BUS.addListener(ClientEventHandler::clientTickEvent);
 	}
 	

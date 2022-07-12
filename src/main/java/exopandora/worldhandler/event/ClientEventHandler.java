@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,9 +23,9 @@ public class ClientEventHandler
 	public static boolean openGui;
 	
 	@SubscribeEvent
-	public static void renderLevelLastEvent(RenderLevelLastEvent event)
+	public static void renderLevelStageEvent(RenderLevelStageEvent event)
 	{
-		if(Config.getSettings().highlightBlocks() && Minecraft.getInstance().level != null && Minecraft.getInstance().getEntityRenderDispatcher().camera != null)
+		if(RenderLevelStageEvent.Stage.AFTER_CUTOUT_MIPPED_BLOCKS_BLOCKS.equals(event.getStage()) && Config.getSettings().highlightBlocks() && Minecraft.getInstance().level != null && Minecraft.getInstance().getEntityRenderDispatcher().camera != null)
 		{
 			Vec3 projected = Minecraft.getInstance().getEntityRenderDispatcher().camera.getPosition();
 			
