@@ -11,7 +11,7 @@ license="GPL v3.0"
 
 [[mods]]
 	modId="worldhandler"
-	version="1.19-3.2.1"
+	version="1.19-3.2.2"
 	displayName="World Handler"
 	description="The World Handler provides a simple and easy to use graphical user interface for commands. It lets you create powerful and complex sub-commands alongside NBT-structures within seconds."
 
