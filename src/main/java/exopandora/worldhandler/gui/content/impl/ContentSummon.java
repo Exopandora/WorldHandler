@@ -156,10 +156,15 @@ public class ContentSummon extends Content
 		for(Attribute attribute : this.attributes.getAttributes())
 		{
 			double value = this.attributes.get(attribute);
+			double range = Config.getSliders().getMaxSummonAttributes();
 			
-			if(value > Config.getSliders().getMaxSummonAttributes())
+			if(value > range)
 			{
-				this.attributes.set(attribute, Config.getSliders().getMaxSummonAttributes());
+				this.attributes.set(attribute, range);
+			}
+			else if(value < -range)
+			{
+				this.attributes.set(attribute, -range);
 			}
 		}
 		

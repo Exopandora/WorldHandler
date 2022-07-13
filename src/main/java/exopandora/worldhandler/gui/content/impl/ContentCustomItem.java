@@ -69,10 +69,15 @@ public class ContentCustomItem extends Content
 		for(Attribute attribute : this.attributes.getAttributes())
 		{
 			double value = this.attributes.get(attribute);
+			double range = Config.getSliders().getMaxItemAttributes();
 			
-			if(value > Config.getSliders().getMaxItemAttributes())
+			if(value > range)
 			{
-				this.attributes.set(attribute, Config.getSliders().getMaxItemAttributes());
+				this.attributes.set(attribute, range);
+			}
+			else if(value < -range)
+			{
+				this.attributes.set(attribute, -range);
 			}
 		}
 		
@@ -195,7 +200,7 @@ public class ContentCustomItem extends Content
 				@Override
 				public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Attribute attribute, ActionHandler actionHandler)
 				{
-					return new GuiSlider(x, y, width, height, -Config.getSliders().getMaxItemAttributes(), Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderAttribute(attribute, text, value ->
+					return new GuiSlider(x, y, width, height, -Config.getSliders().getMaxItemAttributes(), Config.getSliders().getMaxItemAttributes(), 0, container, new LogicSliderAttribute(attribute, text, value ->
 					{
 						ContentCustomItem.this.attributes.set(attribute, value);
 					}));
