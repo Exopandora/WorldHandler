@@ -162,6 +162,7 @@
 	"gui.worldhandler.potions.effect.splash": "Всплеск",
 	"gui.worldhandler.potions.effect.lingering": "Длительный",
 	"gui.worldhandler.potions.effect.tipped_arrow": "Стрела",
+	"gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once": "Hold Shift to apply all effects at once",
 
 	"gui.worldhandler.command_stack.insert_command": "Вставить команду",
 	"gui.worldhandler.command_stack.remove_command": "Удалить команду",
@@ -372,6 +373,7 @@
 	"gui.worldhandler.actions.remove": "Удалить",
 	"gui.worldhandler.actions.set": "Установить",
 	"gui.worldhandler.actions.reset": "Сбросить",
+	"gui.worldhandler.actions.reset_all": "Reset All",
 	"gui.worldhandler.actions.set_to_0": "Установить на 0",
 	"gui.worldhandler.actions.perform": "Выполнить",
 	"gui.worldhandler.actions.send": "Отправить",

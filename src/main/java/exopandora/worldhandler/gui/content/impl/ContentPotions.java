@@ -18,6 +18,7 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.TextUtils;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffect;
@@ -89,15 +90,6 @@ public class ContentPotions extends ContentChild
 			public void onClick(MobEffect effect)
 			{
 				ContentPotions.this.builderPotion.effect().set(effect);
-				
-				for(MobEffect entry : ContentPotions.this.effects.getMobEffects())
-				{
-					if(!entry.equals(effect))
-					{
-						ContentPotions.this.effects.remove(entry);
-					}
-				}
-				
 				container.initButtons();
 			}
 			
@@ -131,18 +123,27 @@ public class ContentPotions extends ContentChild
 		
 		if(this.potionPage == 0)
 		{
-			container.add(new GuiButtonBase(x + 118, y + 12, 114, 20, Component.translatable("gui.worldhandler.potions.effect.give"), () ->
+			container.add(new GuiButtonBase(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.potions.effect.give"), () ->
 			{
 				this.next(container);
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 36, 114, 20, Component.translatable("gui.worldhandler.potions.effect.remove"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.potions.effect.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion, EffectCommandBuilder.Label.CLEAR_TARGETS_EFFECT);
 				container.init();
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.potions.effect.remove_all"), () ->
+			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.potions.effect.remove_all"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion, EffectCommandBuilder.Label.CLEAR);
+				container.init();
+			}));
+			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset_all"), () ->
+			{
+				this.builderPotion.amplifier().set((byte) 1);
+				this.builderPotion.seconds().set(0);
+				this.builderPotion.hideParticles().set(false);
+				this.effects.clear();
+				this.resetPersistence();
 				container.init();
 			}));
 		}
@@ -197,27 +198,27 @@ public class ContentPotions extends ContentChild
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 24, 56, 20, Component.translatable("gui.worldhandler.potions.effect.tipped_arrow"), () ->
+			container.add(button2 = new GuiButtonTooltip(x + 118, y + 24, 56, 20, Component.translatable("gui.worldhandler.potions.effect.tipped_arrow"), Component.translatable("gui.worldhandler.potions.effect.hold_to_apply_all_effects_at_once"), () ->
 			{
-				this.giveItem(container.getPlayer(), Items.TIPPED_ARROW, 0.125F);
+				this.giveItem(container.getPlayer(), Items.TIPPED_ARROW, 0.125F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, Component.translatable("gui.worldhandler.potions.effect.bottle"), Component.translatable("gui.worldhandler.actions.place_command_block"), () ->
+			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, Component.translatable("gui.worldhandler.potions.effect.bottle"), Component.translatable("gui.worldhandler.potions.effect.hold_to_apply_all_effects_at_once"), () ->
 			{
-				this.giveItem(container.getPlayer(), Items.POTION, 1.0F);
+				this.giveItem(container.getPlayer(), Items.POTION, 1.0F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.potions.effect.splash"), Component.translatable("gui.worldhandler.actions.place_command_block"), () ->
+			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.potions.effect.splash"), Component.translatable("gui.worldhandler.potions.effect.hold_to_apply_all_effects_at_once"), () ->
 			{
-				this.giveItem(container.getPlayer(), Items.SPLASH_POTION, 1.0F);
+				this.giveItem(container.getPlayer(), Items.SPLASH_POTION, 1.0F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, Component.translatable("gui.worldhandler.potions.effect.lingering"), Component.translatable("gui.worldhandler.actions.place_command_block"), () ->
+			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, Component.translatable("gui.worldhandler.potions.effect.lingering"), Component.translatable("gui.worldhandler.potions.effect.hold_to_apply_all_effects_at_once"), () ->
 			{
-				this.giveItem(container.getPlayer(), Items.LINGERING_POTION, 0.25F);
+				this.giveItem(container.getPlayer(), Items.LINGERING_POTION, 0.25F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
@@ -253,19 +254,27 @@ public class ContentPotions extends ContentChild
 		container.init();
 	}
 	
-	private void giveItem(String player, Item item, float modifier)
+	private void giveItem(String player, Item item, float modifier, boolean applyAllEffects)
 	{
 		CustomPotionEffectsTag effects = new CustomPotionEffectsTag();
-		MobEffect effect = this.builderPotion.effect().getEffect();
-		EffectInstance tag = effects.getOrCreate(effect);
-		EffectInstance original = this.effects.getOrCreate(effect);
 		
-		tag.setAmbient(original.isAmbient());
-		tag.setAmplifier(original.getAmplifier());
-		tag.setHours((int) (original.getHours() / modifier));
-		tag.setMinutes((int) (original.getMinutes() / modifier));
-		tag.setSeconds((int) (original.getSeconds() / modifier));
-		tag.setShowParticles(original.doShowParticles());
+		if(applyAllEffects)
+		{
+			for(MobEffect effect : this.effects.getMobEffects())
+			{
+				System.out.println(effect);
+				EffectInstance source = this.effects.getOrCreate(effect);
+				EffectInstance target = effects.getOrCreate(effect);
+				source.copyTo(target, modifier);
+			}
+		}
+		else
+		{
+			MobEffect effect = this.builderPotion.effect().getEffect();
+			EffectInstance source = this.effects.getOrCreate(effect);
+			EffectInstance target = effects.getOrCreate(effect);
+			source.copyTo(target, modifier);
+		}
 		
 		GiveCommandBuilder builder = new GiveCommandBuilder();
 		builder.targets().setTarget(this.builderPotionItem.targets().getTarget());

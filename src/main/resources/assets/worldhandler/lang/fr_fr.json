@@ -162,6 +162,7 @@
 	"gui.worldhandler.potions.effect.splash": "Jetable",
 	"gui.worldhandler.potions.effect.lingering": "Persistant",
 	"gui.worldhandler.potions.effect.tipped_arrow": "Flèche",
+	"gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once": "Hold Shift to apply all effects at once",
 
 	"gui.worldhandler.command_stack.insert_command": "Insérer la commande",
 	"gui.worldhandler.command_stack.remove_command": "Supprimer la commande",
@@ -373,6 +374,7 @@
 	"gui.worldhandler.actions.remove": "Supprimer",
 	"gui.worldhandler.actions.set": "Définir",
 	"gui.worldhandler.actions.reset": "Réinitialiser",
+	"gui.worldhandler.actions.reset_all": "Reset All",
 	"gui.worldhandler.actions.set_to_0": "Définir sur 0",
 	"gui.worldhandler.actions.perform": "Exécuter",
 	"gui.worldhandler.actions.send": "Envoyer",

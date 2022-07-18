@@ -162,6 +162,7 @@
 	"gui.worldhandler.potions.effect.splash": "Wurftrank",
 	"gui.worldhandler.potions.effect.lingering": "Verweil",
 	"gui.worldhandler.potions.effect.tipped_arrow": "Pfeil",
+	"gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once": "Halte die Umschalttaste gedrückt, um alle Effekte auf einmal anzuwenden",
 
 	"gui.worldhandler.command_stack.insert_command": "Kommando Einfügen",
 	"gui.worldhandler.command_stack.remove_command": "Kommando Entfernen",
@@ -372,6 +373,7 @@
 	"gui.worldhandler.actions.remove": "Entfernen",
 	"gui.worldhandler.actions.set": "Setzen",
 	"gui.worldhandler.actions.reset": "Zurücksetzen",
+	"gui.worldhandler.actions.reset_all": "Alles Zurücksetzen",
 	"gui.worldhandler.actions.set_to_0": "Auf 0 setzen",
 	"gui.worldhandler.actions.perform": "Ausführen",
 	"gui.worldhandler.actions.send": "Senden",

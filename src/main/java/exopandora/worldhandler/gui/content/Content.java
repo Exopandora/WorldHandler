@@ -136,4 +136,9 @@ public abstract class Content implements IContent
 		
 		return (T) this.persistence.computeIfAbsent(id, key -> supplier.get());
 	}
+	
+	public void resetPersistence()
+	{
+		this.persistence.clear();
+	}
 }

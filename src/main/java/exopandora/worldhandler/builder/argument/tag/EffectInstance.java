@@ -103,4 +103,15 @@ public class EffectInstance
 	{
 		return seconds + minutes * 60 + hours * 3600;
 	}
+	
+	public EffectInstance copyTo(EffectInstance effectInstance, float modifier)
+	{
+		effectInstance.setAmbient(this.isAmbient());
+		effectInstance.setAmplifier(this.getAmplifier());
+		effectInstance.setHours((int) (this.getHours() / modifier));
+		effectInstance.setMinutes((int) (this.getMinutes() / modifier));
+		effectInstance.setSeconds((int) (this.getSeconds() / modifier));
+		effectInstance.setShowParticles(this.doShowParticles());
+		return effectInstance;
+	}
 }
