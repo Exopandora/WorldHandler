@@ -1,6 +1,8 @@
 {
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos": {
+		"1.19-latest": "3.3",
+		"1.19-recommended": "3.3",
 		"1.19-latest": "3.2.3",
 		"1.19-recommended": "3.2.3",
 		"1.18.2-latest": "3.1.2",
@@ -75,6 +77,7 @@
 		"1.5-recommended": "1.0"
 	},
 	"1.19": {
+		"3.3": "- Added option to apply all configured potion effects when giving a bottle/tipped arrow/splash potion/lingering potion\n- Added button to reset all options in the potions interface",
 		"3.2.3": "- Fixed custom ranges for attribute sliders",
 		"3.2.2": "- Fixed compatibility with Forge 41.0.94",
 		"3.2.1": "- Fixed compatibility with Forge 41.0.64\n- Removed config option to disable pos shortcuts, instead they are now set to unbound by default",
