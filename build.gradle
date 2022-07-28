@@ -4,8 +4,7 @@ plugins {
 	id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = "${minecraft_version}-${version}"
-archivesBaseName = project.name
+archivesBaseName = "${mod_name}-${minecraft_version}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + ' (' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
