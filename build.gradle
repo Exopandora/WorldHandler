@@ -4,7 +4,7 @@ plugins {
 	id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = "${minecraft_version}-${mod_version}"
+version = "${minecraft_version}-${version}"
 archivesBaseName = project.name
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -107,9 +107,7 @@ minecraft {
 	}
 }
 
-sourceSets.main.resources {
-	srcDir 'src/generated/resources'
-}
+sourceSets.main.resources.srcDir 'src/generated/resources'
 
 repositories {
 	// Put repositories for dependencies here

@@ -97,7 +97,7 @@ public class BlockHelper
 			remove.to().setZ(new Coordinate.Ints(0, Coordinate.Type.RELATIVE));
 			remove.block().set(Blocks.AIR);
 			
-			Minecraft.getInstance().player.command(place.toCommand(FillCommandBuilder.Label.FILL, false).substring(1));
+			Minecraft.getInstance().player.commandUnsigned(place.toCommand(FillCommandBuilder.Label.FILL, false).substring(1));
 			
 			ExecuteCommandBuilder execute = new ExecuteCommandBuilder();
 			AtOptionalArgument at = new AtOptionalArgument(AtOptionalArgument.Label.AT);
