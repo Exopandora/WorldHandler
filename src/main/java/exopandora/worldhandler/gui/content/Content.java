@@ -18,6 +18,7 @@ import exopandora.worldhandler.gui.content.impl.ContentEditBlocks;
 import exopandora.worldhandler.gui.content.impl.ContentEnchantment;
 import exopandora.worldhandler.gui.content.impl.ContentExperience;
 import exopandora.worldhandler.gui.content.impl.ContentGamerules;
+import exopandora.worldhandler.gui.content.impl.ContentLocate;
 import exopandora.worldhandler.gui.content.impl.ContentMain;
 import exopandora.worldhandler.gui.content.impl.ContentMultiplayer;
 import exopandora.worldhandler.gui.content.impl.ContentNoteEditor;
@@ -86,6 +87,7 @@ public abstract class Content implements IContent
 			//WORLD
 			RegistryHelper.register(event, REGISTRY_KEY, "world", () -> new ContentWorldInfo());
 			RegistryHelper.register(event, REGISTRY_KEY, "gamerules", () -> new ContentGamerules());
+			RegistryHelper.register(event, REGISTRY_KEY, "locate", () -> new ContentLocate());
 			
 			//PLAYER
 			RegistryHelper.register(event, REGISTRY_KEY, "player", () -> new ContentPlayer());

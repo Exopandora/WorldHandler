@@ -70,6 +70,7 @@
 
 	"gui.worldhandler.tab.world.world": "世界",
 	"gui.worldhandler.tab.world.gamerules": "游戏规则",
+	"gui.worldhandler.tab.world.locate": "Locate",
 
 	"gui.worldhandler.tab.blocks.edit_blocks": "编辑方块",
 	"gui.worldhandler.tab.blocks.sign_editor": "告示牌编辑器",
@@ -97,6 +98,7 @@
 
 	"gui.worldhandler.title.world.world": "世界",
 	"gui.worldhandler.title.world.gamerules": "游戏规则",
+	"gui.worldhandler.title.world.locate": "Locate",
 
 	"gui.worldhandler.title.player.player": "玩家",
 	"gui.worldhandler.title.player.experience": "经验等级",
@@ -223,6 +225,11 @@
 
 	"gui.worldhandler.world_info.statistics.world_time": "世界时间",
 	"gui.worldhandler.world_info.statistics.played": "已游玩",
+
+	"gui.worldhandler.locate.biome": "Biome",
+	"gui.worldhandler.locate.structure": "Structure",
+	"gui.worldhandler.locate.poi": "Point Of Interest",
+	"gui.worldhandler.locate.locate": "Locate",
 
 	"gui.worldhandler.edit_blocks.coordinates": "坐标",
 	"gui.worldhandler.edit_blocks.fill": "填充",

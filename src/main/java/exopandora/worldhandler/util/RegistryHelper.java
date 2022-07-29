@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 
 import exopandora.worldhandler.Main;
 import net.minecraft.core.Registry;
-import net.minecraft.locale.Language;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -30,15 +29,15 @@ public class RegistryHelper
 		registerRegistry(ForgeRegistries.BLOCKS, Block::getDescriptionId);
 		registerRegistry(ForgeRegistries.ITEMS, Item::getDescriptionId);
 		registerRegistry(ForgeRegistries.MOB_EFFECTS, MobEffect::getDescriptionId);
-		registerRegistry(ForgeRegistries.BIOMES, biome ->
-		{
-			ResourceLocation resource = ForgeRegistries.BIOMES.getKey(biome);
-			String key = "biome." + resource.getNamespace() + "." + resource.getPath();
-			return Language.getInstance().has(key) ? key : resource.toString();
-		});
+		registerRegistry(ForgeRegistries.BIOMES, biome -> ForgeRegistries.BIOMES.getKey(biome).toLanguageKey("biome"));
 		registerRegistry(ForgeRegistries.ENCHANTMENTS, Enchantment::getDescriptionId);
 		registerRegistry(ForgeRegistries.ENTITY_TYPES, EntityType::getDescriptionId);
 		registerRegistry(ForgeRegistries.STAT_TYPES, stat -> "stat." + stat.toString().replace(':', '.'));
+		registerRegistry(ForgeRegistries.VILLAGER_PROFESSIONS, profession ->
+		{
+			ResourceLocation profName = ForgeRegistries.VILLAGER_PROFESSIONS.getKey(profession);
+			return EntityType.VILLAGER.getDescriptionId() + '.' + (!"minecraft".equals(profName.getNamespace()) ? profName.getNamespace() + '.' : "") + profName.getPath();
+		});
 	}
 	
 	private static <T> void registerRegistry(IForgeRegistry<T> registry, Function<T, String> mapper)

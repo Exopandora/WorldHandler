@@ -19,6 +19,7 @@ public class Contents
 	
 	public static final Content CUSTOM_ITEM = Contents.getRegisteredContent("custom_item");
 	public static final Content ENCHANTMENT = Contents.getRegisteredContent("enchantment");
+	public static final Content RECIPES = Contents.getRegisteredContent("recipes");
 	
 	public static final Content EDIT_BLOCKS = Contents.getRegisteredContent("edit_blocks");
 	public static final Content SIGN_EDITOR = Contents.getRegisteredContent("sign_editor");
@@ -26,7 +27,7 @@ public class Contents
 	
 	public static final Content WORLD_INFO = Contents.getRegisteredContent("world");
 	public static final Content GAMERULES = Contents.getRegisteredContent("gamerules");
-	public static final Content RECIPES = Contents.getRegisteredContent("recipes");
+	public static final Content LOCATE = Contents.getRegisteredContent("locate");
 	
 	public static final Content PLAYER = Contents.getRegisteredContent("player");
 	public static final Content EXPERIENCE = Contents.getRegisteredContent("experience");

@@ -69,6 +69,7 @@
 
 	"gui.worldhandler.tab.world.world": "Мир",
 	"gui.worldhandler.tab.world.gamerules": "Правила игры",
+	"gui.worldhandler.tab.world.locate": "Locate",
 
 	"gui.worldhandler.tab.blocks.edit_blocks": "Редактировать блоки",
 	"gui.worldhandler.tab.blocks.sign_editor": "Редактор знака",
@@ -96,6 +97,7 @@
 
 	"gui.worldhandler.title.world.world": "Мир",
 	"gui.worldhandler.title.world.gamerules": "Правила игры",
+	"gui.worldhandler.title.world.locate": "Locate",
 
 	"gui.worldhandler.title.player.player": "Игрок",
 	"gui.worldhandler.title.player.experience": "Опыт",
@@ -222,6 +224,11 @@
 
 	"gui.worldhandler.world_info.statistics.world_time": "Время мира",
 	"gui.worldhandler.world_info.statistics.played": "Сыгранно",
+
+	"gui.worldhandler.locate.biome": "Biome",
+	"gui.worldhandler.locate.structure": "Structure",
+	"gui.worldhandler.locate.poi": "Point Of Interest",
+	"gui.worldhandler.locate.locate": "Locate",
 
 	"gui.worldhandler.edit_blocks.coordinates": "Координаты",
 	"gui.worldhandler.edit_blocks.fill": "Заполнить",

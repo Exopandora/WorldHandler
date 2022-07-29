@@ -69,6 +69,7 @@
 
 	"gui.worldhandler.tab.world.world": "Welt",
 	"gui.worldhandler.tab.world.gamerules": "Spielregeln",
+	"gui.worldhandler.tab.world.locate": "Finden",
 
 	"gui.worldhandler.tab.blocks.edit_blocks": "Blöcke Ändern",
 	"gui.worldhandler.tab.blocks.sign_editor": "Schilder Ändern",
@@ -96,6 +97,7 @@
 
 	"gui.worldhandler.title.world.world": "Welt",
 	"gui.worldhandler.title.world.gamerules": "Gamerules",
+	"gui.worldhandler.title.world.locate": "Finden",
 
 	"gui.worldhandler.title.player.player": "Spieler",
 	"gui.worldhandler.title.player.experience": "Erfahrung",
@@ -222,6 +224,11 @@
 
 	"gui.worldhandler.world_info.statistics.world_time": "Weltzeit",
 	"gui.worldhandler.world_info.statistics.played": "Played",
+
+	"gui.worldhandler.locate.biome": "Biom",
+	"gui.worldhandler.locate.structure": "Struktur",
+	"gui.worldhandler.locate.poi": "Interessanter Ort",
+	"gui.worldhandler.locate.locate": "Finden",
 
 	"gui.worldhandler.edit_blocks.coordinates": "Koordinaten",
 	"gui.worldhandler.edit_blocks.fill": "Füllen",

@@ -95,7 +95,7 @@ public class Category
 			RegistryHelper.register(event, REGISTRY_KEY, "entities", () -> new Category("summon", "butcher"));
 			RegistryHelper.register(event, REGISTRY_KEY, "items", () -> new Category("custom_item", "enchantment", "recipes"));
 			RegistryHelper.register(event, REGISTRY_KEY, "blocks", () -> new Category("edit_blocks", "sign_editor", "note_editor"));
-			RegistryHelper.register(event, REGISTRY_KEY, "world", () -> new Category("world", "gamerules"));
+			RegistryHelper.register(event, REGISTRY_KEY, "world", () -> new Category("world", "gamerules", "locate"));
 			RegistryHelper.register(event, REGISTRY_KEY, "player", () -> new Category("player", "experience", "advancements"));
 			RegistryHelper.register(event, REGISTRY_KEY, "scoreboard", () -> new Category("scoreboard_objectives", "scoreboard_teams", "scoreboard_players"));
 			
