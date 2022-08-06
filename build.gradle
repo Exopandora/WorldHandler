@@ -16,7 +16,7 @@ minecraft {
 	runs {
 		client {
 			workingDirectory project.file('run')
-			taskName project.name + ' Client'
+			taskName project.name + 'Client'
 			
 			// Recommended logging data for a userdev environment
 			// The markers can be added/remove as needed separated by commas.
@@ -42,7 +42,7 @@ minecraft {
 		
 		server {
 			workingDirectory project.file('run')
-			taskName project.name + ' Server'
+			taskName project.name + 'Server'
 			
 			// property 'forge.logging.markers', 'REGISTRIES'
 			// property 'forge.logging.console.level', 'debug'
@@ -60,7 +60,7 @@ minecraft {
 		// The gametest system is also enabled by default for other run configs under the /test command.
 		gameTestServer {
 			workingDirectory project.file('run')
-			taskName project.name + ' GameTestServer'
+			taskName project.name + 'GameTest'
 			
 			// property 'forge.logging.markers', 'REGISTRIES'
 			// property 'forge.logging.console.level', 'debug'
@@ -75,12 +75,12 @@ minecraft {
 		
 		data {
 			workingDirectory project.file('run')
-			taskName project.name + ' Data'
+			taskName project.name + 'Data'
 			
 			// property 'forge.logging.markers', 'REGISTRIES'
 			// property 'forge.logging.console.level', 'debug'
 			
-			args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+			args '--mod', "${mod_id}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 			
 			mods {
 				modSource {
