@@ -198,25 +198,25 @@ public class ContentPotions extends ContentChild
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonTooltip(x + 118, y + 24, 56, 20, Component.translatable("gui.worldhandler.potions.effect.tipped_arrow"), Component.translatable("gui.worldhandler.potions.effect.hold_to_apply_all_effects_at_once"), () ->
+			container.add(button2 = new GuiButtonTooltip(x + 118, y + 24, 56, 20, Component.translatable("gui.worldhandler.potions.effect.tipped_arrow"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
 			{
 				this.giveItem(container.getPlayer(), Items.TIPPED_ARROW, 0.125F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, Component.translatable("gui.worldhandler.potions.effect.bottle"), Component.translatable("gui.worldhandler.potions.effect.hold_to_apply_all_effects_at_once"), () ->
+			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, Component.translatable("gui.worldhandler.potions.effect.bottle"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
 			{
 				this.giveItem(container.getPlayer(), Items.POTION, 1.0F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.potions.effect.splash"), Component.translatable("gui.worldhandler.potions.effect.hold_to_apply_all_effects_at_once"), () ->
+			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.potions.effect.splash"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
 			{
 				this.giveItem(container.getPlayer(), Items.SPLASH_POTION, 1.0F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, Component.translatable("gui.worldhandler.potions.effect.lingering"), Component.translatable("gui.worldhandler.potions.effect.hold_to_apply_all_effects_at_once"), () ->
+			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, Component.translatable("gui.worldhandler.potions.effect.lingering"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
 			{
 				this.giveItem(container.getPlayer(), Items.LINGERING_POTION, 0.25F, Screen.hasShiftDown());
 				this.potionPage = 0;
