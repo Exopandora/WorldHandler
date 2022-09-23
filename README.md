@@ -1,4 +1,4 @@
-# World Handler - Command GUI #
+# World Handler - Command GUI </br> [![badge](https://cf.way2muchnoise.eu/title/228970.svg)](https://www.curseforge.com/minecraft/mc-mods/world-handler-command-gui) [![badge](https://cf.way2muchnoise.eu/full_228970_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/world-handler-command-gui) #
 
 The World Handler provides a simple and easy to use graphical user interface for commands.
 It lets you create powerful and complex sub-commands alongside NBT-structures within seconds.
