@@ -2,6 +2,7 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import exopandora.worldhandler.builder.impl.LocateCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
@@ -17,10 +18,11 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.RegistryHelper;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
+import exopandora.worldhandler.util.TranslationHelper;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -56,7 +58,7 @@ public class ContentLocate extends Content
 	{
 		if(Page.BIOME.equals(this.page))
 		{
-			List<ResourceLocation> biomes = new ArrayList<ResourceLocation>(ForgeRegistries.BIOMES.getKeys());
+			List<ResourceLocation> biomes = RegistryHelper.getLookupProvider().lookup(Registries.BIOME).get().listElementIds().map(ResourceKey::location).collect(Collectors.toList());
 			MenuPageList<ResourceLocation> list = new MenuPageList<ResourceLocation>(x + 118, y, biomes, 114, 20, 3, container, new ILogicPageList<ResourceLocation>()
 			{
 				@Override
@@ -90,11 +92,12 @@ public class ContentLocate extends Content
 					return "biomes";
 				}
 			});
-			container.add(list);
+			container.addMenu(list);
 		}
 		else if(Page.STRUCTURE.equals(this.page))
 		{
-			List<ResourceLocation> structures = new ArrayList<ResourceLocation>(RegistryAccess.BUILTIN.get().registry(Registry.STRUCTURE_REGISTRY).get().keySet());
+			List<ResourceLocation> structures = RegistryHelper.getLookupProvider().lookup(Registries.STRUCTURE).get().listElementIds().map(ResourceKey::location).collect(Collectors.toList());
+			
 			MenuPageList<ResourceLocation> list = new MenuPageList<ResourceLocation>(x + 118, y, structures, 114, 20, 3, container, new ILogicPageList<ResourceLocation>()
 			{
 				@Override
@@ -128,7 +131,7 @@ public class ContentLocate extends Content
 					return "structures";
 				}
 			});
-			container.add(list);
+			container.addMenu(list);
 		}
 		else if(Page.POI.equals(this.page))
 		{
@@ -138,7 +141,7 @@ public class ContentLocate extends Content
 				@Override
 				public MutableComponent translate(ResourceLocation poi)
 				{
-					String result = RegistryHelper.translate(poi);
+					String result = TranslationHelper.translate(poi);
 					
 					if(result != null)
 					{
@@ -173,7 +176,7 @@ public class ContentLocate extends Content
 					return "pois";
 				}
 			});
-			container.add(list);
+			container.addMenu(list);
 		}
 	}
 	
@@ -183,13 +186,13 @@ public class ContentLocate extends Content
 		GuiButtonBase button2;
 		GuiButtonBase button3;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, "gui.worldhandler.generic.back", () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, "gui.worldhandler.generic.backToGame", ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, "gui.worldhandler.generic.back", () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, "gui.worldhandler.generic.backToGame", ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, "gui.worldhandler.locate.biome", () -> this.changePage(container, Page.BIOME)));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, "gui.worldhandler.locate.structure", () -> this.changePage(container, Page.STRUCTURE)));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, "gui.worldhandler.locate.poi", () -> this.changePage(container, Page.POI)));
-		container.add(new GuiButtonBase(x, y + 72, 114, 20, "gui.worldhandler.locate.locate", () ->
+		container.addRenderableWidget(button1 = new GuiButtonBase(x, y, 114, 20, "gui.worldhandler.locate.biome", () -> this.changePage(container, Page.BIOME)));
+		container.addRenderableWidget(button2 = new GuiButtonBase(x, y + 24, 114, 20, "gui.worldhandler.locate.structure", () -> this.changePage(container, Page.STRUCTURE)));
+		container.addRenderableWidget(button3 = new GuiButtonBase(x, y + 48, 114, 20, "gui.worldhandler.locate.poi", () -> this.changePage(container, Page.POI)));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 72, 114, 20, "gui.worldhandler.locate.locate", () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderLocate, this.page.getLabel());
 		}));

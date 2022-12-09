@@ -71,21 +71,21 @@ public class ContentEnchantment extends Content
 			}
 		});
 		
-		container.add(enchantments);
+		container.addMenu(enchantments);
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiSlider(x + 118, y + 24, 114, 20, 1, this.builderEnchantment.enchantment().getEnchantment().getMaxLevel(), 1, container, new LogicSliderSimple("enchantment", Component.translatable("gui.worldhandler.items.enchantment.level"), value ->
+		container.addRenderableWidget(new GuiSlider(x + 118, y + 24, 114, 20, 1, this.builderEnchantment.enchantment().getEnchantment().getMaxLevel(), 1, container, new LogicSliderSimple("enchantment", Component.translatable("gui.worldhandler.items.enchantment.level"), value ->
 		{
 			this.builderEnchantment.level().set(value.intValue());
 		})));
 		
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.items.enchantment.enchant"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.items.enchantment.enchant"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderEnchantment, EnchantCommandBuilder.Label.ENCHANT_LEVEL);
 		}));

@@ -28,12 +28,12 @@ public class ContentContainers extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 232, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 232, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.CRAFTING_TABLE)));
-		container.add(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.ENDER_CHEST)));
-		container.add(new GuiButtonBase(x + 24, y + 48, 208, 20, Blocks.ANVIL.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.ANVIL)));
-		container.add(new GuiButtonBase(x + 24, y + 72, 208, 20, Blocks.ENCHANTING_TABLE.getName(), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 24, y, 208, 20, Blocks.CRAFTING_TABLE.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.CRAFTING_TABLE)));
+		container.addRenderableWidget(new GuiButtonBase(x + 24, y + 24, 208, 20, Blocks.ENDER_CHEST.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.ENDER_CHEST)));
+		container.addRenderableWidget(new GuiButtonBase(x + 24, y + 48, 208, 20, Blocks.ANVIL.getName(), () -> this.placeBlock(container.getPlayer(), Blocks.ANVIL)));
+		container.addRenderableWidget(new GuiButtonBase(x + 24, y + 72, 208, 20, Blocks.ENCHANTING_TABLE.getName(), () ->
 		{
 			double angle = Minecraft.getInstance().player.getDirection().get2DDataValue() * Math.PI / 2;
 			double sin = Math.sin(angle);
@@ -87,10 +87,10 @@ public class ContentContainers extends Content
 			ActionHelper.backToGame();
 		}));
 		
-		container.add(new GuiButtonItem(x, y, 20, 20, new ItemStack(Blocks.CRAFTING_TABLE), () -> this.giveItem(container.getPlayer(), Items.CRAFTING_TABLE)));
-		container.add(new GuiButtonItem(x, y + 24, 20, 20, new ItemStack(Blocks.ENDER_CHEST), () -> this.giveItem(container.getPlayer(), Items.ENDER_CHEST)));
-		container.add(new GuiButtonItem(x, y + 48, 20, 20, new ItemStack(Blocks.ANVIL), () -> this.giveItem(container.getPlayer(), Items.ANVIL)));
-		container.add(new GuiButtonItem(x, y + 72, 20, 20, new ItemStack(Blocks.ENCHANTING_TABLE), () -> this.giveItem(container.getPlayer(), Items.ENCHANTING_TABLE)));
+		container.addRenderableWidget(new GuiButtonItem(x, y, 20, 20, new ItemStack(Blocks.CRAFTING_TABLE), () -> this.giveItem(container.getPlayer(), Items.CRAFTING_TABLE)));
+		container.addRenderableWidget(new GuiButtonItem(x, y + 24, 20, 20, new ItemStack(Blocks.ENDER_CHEST), () -> this.giveItem(container.getPlayer(), Items.ENDER_CHEST)));
+		container.addRenderableWidget(new GuiButtonItem(x, y + 48, 20, 20, new ItemStack(Blocks.ANVIL), () -> this.giveItem(container.getPlayer(), Items.ANVIL)));
+		container.addRenderableWidget(new GuiButtonItem(x, y + 72, 20, 20, new ItemStack(Blocks.ENCHANTING_TABLE), () -> this.giveItem(container.getPlayer(), Items.ENCHANTING_TABLE)));
 	}
 	
 	private void giveItem(String player, Item item)

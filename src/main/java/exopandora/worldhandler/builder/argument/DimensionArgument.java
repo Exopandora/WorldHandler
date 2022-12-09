@@ -3,7 +3,7 @@ package exopandora.worldhandler.builder.argument;
 import javax.annotation.Nullable;
 
 import exopandora.worldhandler.util.ResourceHelper;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -26,7 +26,7 @@ public class DimensionArgument implements IDeserializableArgument
 	{
 		if(dimension != null)
 		{
-			this.set(ResourceKey.create(Registry.DIMENSION_REGISTRY, dimension));
+			this.set(ResourceKey.create(Registries.DIMENSION, dimension));
 		}
 		else
 		{

@@ -106,7 +106,7 @@ public class ContentPotions extends ContentChild
 			}
 		});
 		
-		container.add(potions);
+		container.addMenu(potions);
 	}
 	
 	@Override
@@ -118,26 +118,26 @@ public class ContentPotions extends ContentChild
 		GuiButtonBase button4;
 		GuiButtonBase button5;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.potionPage == 0)
 		{
-			container.add(new GuiButtonBase(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.potions.effect.give"), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.potions.effect.give"), () ->
 			{
 				this.next(container);
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.potions.effect.remove"), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.potions.effect.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion, EffectCommandBuilder.Label.CLEAR_TARGETS_EFFECT);
 				container.init();
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.potions.effect.remove_all"), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.potions.effect.remove_all"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion, EffectCommandBuilder.Label.CLEAR);
 				container.init();
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset_all"), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset_all"), () ->
 			{
 				this.builderPotion.amplifier().set((byte) 1);
 				this.builderPotion.seconds().set(0);
@@ -152,18 +152,18 @@ public class ContentPotions extends ContentChild
 			MobEffect effect = this.builderPotion.effect().getEffect();
 			EffectInstance tag = this.effects.getOrCreate(effect);
 			
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.potions.effect.ambient", tag.isAmbient() ? Component.translatable("gui.worldhandler.generic.on") : Component.translatable("gui.worldhandler.generic.off")), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.potions.effect.ambient", tag.isAmbient() ? Component.translatable("gui.worldhandler.generic.on") : Component.translatable("gui.worldhandler.generic.off")), () ->
 			{
 				tag.setAmbient(!tag.isAmbient());
 				container.init();
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.potions.effect.particles", this.builderPotion.hideParticles().get() ? Component.translatable("gui.worldhandler.generic.off") : Component.translatable("gui.worldhandler.generic.on")), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.potions.effect.particles", this.builderPotion.hideParticles().get() ? Component.translatable("gui.worldhandler.generic.off") : Component.translatable("gui.worldhandler.generic.on")), () ->
 			{
 				this.builderPotion.hideParticles().set(!this.builderPotion.hideParticles().get());
 				tag.setShowParticles(!tag.doShowParticles());
 				container.init();
 			}));
-			container.add(new GuiSlider(x + 118, y, 114, 20, 1, Config.getSliders().getMaxPotionAmplifier(), 1, container, new LogicSliderSimple("amplifier" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potions.effect.amplifier"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y, 114, 20, 1, Config.getSliders().getMaxPotionAmplifier(), 1, container, new LogicSliderSimple("amplifier" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potions.effect.amplifier"), value ->
 			{
 				this.builderPotion.amplifier().set((byte) (value.byteValue() - 1));
 				tag.setAmplifier(value.byteValue());
@@ -174,17 +174,17 @@ public class ContentPotions extends ContentChild
 			MobEffect effect = this.builderPotion.effect().getEffect();
 			EffectInstance tag = this.effects.getOrCreate(effect);
 			
-			container.add(new GuiSlider(x + 118, y, 114, 20, 0, 59, 0, container, new LogicSliderSimple("s" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.seconds"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y, 114, 20, 0, 59, 0, container, new LogicSliderSimple("s" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.seconds"), value ->
 			{
 				tag.setSeconds(value.intValue());
 				this.builderPotion.seconds().set(tag.toSeconds());
 			})));
-			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, 59, 0, container, new LogicSliderSimple("m" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.minutes"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y + 24, 114, 20, 0, 59, 0, container, new LogicSliderSimple("m" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.minutes"), value ->
 			{
 				tag.setMinutes(value.intValue());
 				this.builderPotion.seconds().set(tag.toSeconds());
 			})));
-			container.add(new GuiSlider(x + 118, y + 48, 114, 20, 0, 99, 0, container, new LogicSliderSimple("h" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.hours"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y + 48, 114, 20, 0, 99, 0, container, new LogicSliderSimple("h" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.hours"), value ->
 			{
 				tag.setHours(value.intValue());
 				this.builderPotion.seconds().set(tag.toSeconds());
@@ -192,31 +192,31 @@ public class ContentPotions extends ContentChild
 		}
 		else if(this.potionPage == 3)
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.potions.effect"), () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.potions.effect"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderPotion, EffectCommandBuilder.Label.GIVE_SECONDS_AMPLIFIER_HIDEPARTICLES);
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonTooltip(x + 118, y + 24, 56, 20, Component.translatable("gui.worldhandler.potions.effect.tipped_arrow"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
+			container.addRenderableWidget(button2 = new GuiButtonTooltip(x + 118, y + 24, 56, 20, Component.translatable("gui.worldhandler.potions.effect.tipped_arrow"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
 			{
 				this.giveItem(container.getPlayer(), Items.TIPPED_ARROW, 0.125F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, Component.translatable("gui.worldhandler.potions.effect.bottle"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
+			container.addRenderableWidget(button3 = new GuiButtonTooltip(x + 178, y + 24, 55, 20, Component.translatable("gui.worldhandler.potions.effect.bottle"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
 			{
 				this.giveItem(container.getPlayer(), Items.POTION, 1.0F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.potions.effect.splash"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
+			container.addRenderableWidget(button4 = new GuiButtonTooltip(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.potions.effect.splash"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
 			{
 				this.giveItem(container.getPlayer(), Items.SPLASH_POTION, 1.0F, Screen.hasShiftDown());
 				this.potionPage = 0;
 				container.init();
 			}));
-			container.add(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, Component.translatable("gui.worldhandler.potions.effect.lingering"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
+			container.addRenderableWidget(button5 = new GuiButtonTooltip(x + 178, y + 48, 55, 20, Component.translatable("gui.worldhandler.potions.effect.lingering"), Component.translatable("gui.worldhandler.potions.effect.hold_shift_to_apply_all_effects_at_once"), () ->
 			{
 				this.giveItem(container.getPlayer(), Items.LINGERING_POTION, 0.25F, Screen.hasShiftDown());
 				this.potionPage = 0;
@@ -234,12 +234,12 @@ public class ContentPotions extends ContentChild
 		
 		if(this.potionPage > 0)
 		{
-			container.add(new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
 			{
 				this.potionPage--;
 				container.init();
 			}));
-			container.add(button1 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
 			{
 				this.next(container);
 			}));

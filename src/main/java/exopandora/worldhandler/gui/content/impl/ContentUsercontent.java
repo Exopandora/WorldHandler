@@ -108,7 +108,7 @@ public class ContentUsercontent extends Content
 		
 		for(JsonMenu menu : this.getWidgets(this.content.getGui().getMenus(), AbstractJsonWidget.Type.MENU))
 		{
-			container.add(this.menuFactory.createMenu(menu, this, container, x, y));
+			container.addMenu(this.menuFactory.createMenu(menu, this, container, x, y));
 		}
 		
 		this.updateTextfields();
@@ -118,7 +118,7 @@ public class ContentUsercontent extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		Stream.concat(this.textfields.values().stream(), this.widgets.stream()).map(VisibleObject::get).forEach(container::add);
+		Stream.concat(this.textfields.values().stream(), this.widgets.stream()).map(VisibleObject::get).forEach(container::addRenderableWidget);
 	}
 	
 	@Override

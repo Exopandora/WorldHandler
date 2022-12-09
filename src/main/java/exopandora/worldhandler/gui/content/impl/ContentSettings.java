@@ -82,7 +82,7 @@ public class ContentSettings extends ContentChild
 			}
 		});
 		
-		container.add(settings);
+		container.addMenu(settings);
 		
 		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.value"));
 		this.valueField.setFilter(string ->
@@ -114,19 +114,19 @@ public class ContentSettings extends ContentChild
 		GuiButtonBase button1;
 		GuiButtonBase button2;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.setting instanceof BooleanSetting)
 		{
 			BooleanSetting setting = (BooleanSetting) this.setting;
 			
-			container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
 			{
 				setting.set(true);
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.generic.disable"), () ->
+			container.addRenderableWidget(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.generic.disable"), () ->
 			{
 				setting.set(false);
 				container.init();
@@ -142,8 +142,8 @@ public class ContentSettings extends ContentChild
 			IntegerSetting setting = (IntegerSetting) this.setting;
 			this.valueField.setValue(String.valueOf(setting.get()));
 			
-			container.add(this.valueField);
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.actions.set"), () ->
+			container.addRenderableWidget(this.valueField);
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.actions.set"), () ->
 			{
 				String text = this.valueField.getValue();
 				

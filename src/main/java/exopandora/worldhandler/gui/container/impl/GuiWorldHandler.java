@@ -27,7 +27,7 @@ import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 
 public class GuiWorldHandler extends Container
@@ -56,7 +56,6 @@ public class GuiWorldHandler extends Container
 	{
 		ActionHelper.tryRun(() ->
 		{
-			this.widgetButtons.clear();
 			this.menus.clear();
 			this.clearWidgets();
 			
@@ -90,7 +89,6 @@ public class GuiWorldHandler extends Container
 		{
 			this.clearWidgets();
 			this.content.initButtons(this, this.getContentX(), this.getContentY());
-			this.widgetButtons.forEach(w -> this.addRenderableWidget(w));
 			
 			int x = this.getContentX();
 			int y = this.getContentY();
@@ -205,11 +203,11 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSettings().tooltips())
 			{
-				for(Widget button : this.renderables)
+				for(Renderable renderable : this.renderables)
 				{
-					if(button instanceof GuiButtonTooltip)
+					if(renderable instanceof GuiButtonTooltip)
 					{
-						((GuiButtonTooltip) button).renderTooltip(this, stack, mouseX, mouseY);
+						((GuiButtonTooltip) renderable).renderTooltip(this, stack, mouseX, mouseY);
 					}
 				}
 			}

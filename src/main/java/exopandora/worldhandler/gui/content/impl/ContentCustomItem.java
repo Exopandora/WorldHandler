@@ -127,7 +127,7 @@ public class ContentCustomItem extends Content
 		{
 			if(this.startPage == 1)
 			{
-				container.add(new MenuColorField(x, y, "gui.worldhandler.items.custom_item.start.custom_name", this.display.getName()));
+				container.addMenu(new MenuColorField(x, y, "gui.worldhandler.items.custom_item.start.custom_name", this.display.getName()));
 			}
 		}
 		else if(Page.ENCHANT.equals(this.page))
@@ -173,7 +173,7 @@ public class ContentCustomItem extends Content
 					return "enchantments";
 				}
 			});
-			container.add(enchantments);
+			container.addMenu(enchantments);
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
@@ -219,7 +219,7 @@ public class ContentCustomItem extends Content
 				}
 			});
 			
-			container.add(attributes);
+			container.addMenu(attributes);
 		}
 	}
 	
@@ -233,20 +233,20 @@ public class ContentCustomItem extends Content
 		GuiButtonBase button5;
 		GuiButtonBase button6;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start"), () ->
+		container.addRenderableWidget(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start"), () ->
 		{
 			this.page = Page.START;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.enchantment"), () ->
+		container.addRenderableWidget(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.enchantment"), () ->
 		{
 			this.page = Page.ENCHANT;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.attributes"), () ->
+		container.addRenderableWidget(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.attributes"), () ->
 		{
 			this.page = Page.ATTRIBUTES;
 			container.init();
@@ -256,12 +256,12 @@ public class ContentCustomItem extends Content
 		{
 			button1.active = false;
 			
-			container.add(button5 = new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
+			container.addRenderableWidget(button5 = new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
 			{
 				this.startPage--;
 				container.init();
 			}));
-			container.add(button6 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
+			container.addRenderableWidget(button6 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
 			{
 				this.startPage++;
 				container.init();
@@ -270,9 +270,9 @@ public class ContentCustomItem extends Content
 			if(this.startPage == 0)
 			{
 				button5.active = false;
-				container.add(this.itemField);
-				container.add(this.itemLore1Field);
-				container.add(this.itemLore2Field);
+				container.addRenderableWidget(this.itemField);
+				container.addRenderableWidget(this.itemLore1Field);
+				container.addRenderableWidget(this.itemLore2Field);
 			}
 			else if(this.startPage == 1)
 			{
@@ -290,11 +290,11 @@ public class ContentCustomItem extends Content
 		
 		if(!this.builderCutomItem.needsCommandBlock(GiveCommandBuilder.Label.GIVE, false) && !this.display.getName().isStyled())
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.custom_item"), () -> this.giveItem(container.getPlayer())));
+			container.addRenderableWidget(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.custom_item"), () -> this.giveItem(container.getPlayer())));
 		}
 		else
 		{
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.place_command_block"), () -> this.giveItem(container.getPlayer())));
+			container.addRenderableWidget(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.place_command_block"), () -> this.giveItem(container.getPlayer())));
 		}
 		
 		button4.active = this.builderCutomItem.item().hasValue();

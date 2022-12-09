@@ -79,25 +79,25 @@ public class ContentPlayer extends Content
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.entities.player.start"), () ->
+		container.addRenderableWidget(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.entities.player.start"), () ->
 		{
 			this.page = Page.START;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.entities.player.score"), () ->
+		container.addRenderableWidget(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.entities.player.score"), () ->
 		{
 			this.page = Page.SCORE;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.entities.player.position"), () ->
+		container.addRenderableWidget(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.entities.player.position"), () ->
 		{
 			this.page = Page.POSITION;
 			container.init();
 		}));
-		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous"), () ->
+		container.addRenderableWidget(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous"), () ->
 		{
 			this.page = Page.MISC;
 			container.init();
@@ -115,7 +115,7 @@ public class ContentPlayer extends Content
 		{
 			button3.active = false;
 			
-			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.entities.player.position.copy_position"), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.entities.player.position.copy_position"), () ->
 			{
 				Player player = Minecraft.getInstance().player;
 				
@@ -130,19 +130,19 @@ public class ContentPlayer extends Content
 		{
 			button4.active = false;
 			
-			container.add(new GuiButtonBase(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous.set_spawn").withStyle(ChatFormatting.RED), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous.set_spawn").withStyle(ChatFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSpawnpoint, SetSpawnCommandBuilder.Label.SPAWNPOINT));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").withStyle(ChatFormatting.RED), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous.set_global_spawn").withStyle(ChatFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderSetWorldSpawn, SetWorldSpawnCommandBuilder.Label.SET_WORLD_SPAWN));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous.kill").withStyle(ChatFormatting.RED), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous.kill").withStyle(ChatFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderKill, KillCommandBuilder.Label.KILL));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous.clear_inventory").withStyle(ChatFormatting.RED), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.entities.player.miscellaneous.clear_inventory").withStyle(ChatFormatting.RED), () ->
 			{
 				ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderClear, ClearInventoryCommandBuilder.Label.CLEAR));
 			}));

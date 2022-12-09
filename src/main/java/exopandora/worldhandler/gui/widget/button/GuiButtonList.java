@@ -36,9 +36,9 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	}
 	
 	@Override
-	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
 	{
-		this.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
+		this.renderBg(poseStack, Minecraft.getInstance(), mouseX, mouseY);
 		this.updateMessage();
 		
 		Font font = Minecraft.getInstance().font;
@@ -52,11 +52,11 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 			int spaceWidth = font.width(" ");
 			
 			Component display = TextUtils.stripText((MutableComponent) this.getMessage(), maxWidth, font);
-			int yPos = this.y + (this.height - 8) / 2;
+			int yPos = this.getY() + (this.height - 8) / 2;
 			
-			GuiComponent.drawCenteredString(matrix, font, display, this.x + this.width / 2, yPos, this.getFGColor());
-			GuiComponent.drawCenteredString(matrix, font, leftArrow, this.x + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
-			GuiComponent.drawCenteredString(matrix, font, rightArrow, this.x + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
+			GuiComponent.drawCenteredString(poseStack, font, display, this.getX() + this.width / 2, yPos, this.getFGColor());
+			GuiComponent.drawCenteredString(poseStack, font, leftArrow, this.getX() + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
+			GuiComponent.drawCenteredString(poseStack, font, rightArrow, this.getX() + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
 		}
 	}
 	
@@ -134,17 +134,17 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	
 	private boolean isHoveringLeft(double mouseX, double mouseY)
 	{
-		return this.isHoveringVertical(mouseY) && mouseX >= this.x && mouseX < this.x + Math.ceil(this.width / 2);
+		return this.isHoveringVertical(mouseY) && mouseX >= this.getX() && mouseX < this.getX() + Math.ceil(this.width / 2);
 	}
 	
 	private boolean isHoveringRight(double mouseX, double mouseY)
 	{
-		return this.isHoveringVertical(mouseY) && mouseX >= this.x + Math.ceil(this.width / 2) && mouseX < this.x + this.width;
+		return this.isHoveringVertical(mouseY) && mouseX >= this.getX() + Math.ceil(this.width / 2) && mouseX < this.getX() + this.width;
 	}
 	
 	private boolean isHoveringVertical(double mouseY)
 	{
-		return mouseY >= this.y && mouseY < this.y + this.height;
+		return mouseY >= this.getY() && mouseY < this.getY() + this.height;
 	}
 	
 	public static class Persistence

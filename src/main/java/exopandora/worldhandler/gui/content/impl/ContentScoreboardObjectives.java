@@ -18,7 +18,7 @@ import exopandora.worldhandler.gui.widget.menu.impl.ILogicButtonList;
 import exopandora.worldhandler.gui.widget.menu.impl.MenuButtonList;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import exopandora.worldhandler.util.RegistryHelper;
+import exopandora.worldhandler.util.TranslationHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -84,7 +84,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 							return Component.translatable(type.getTranslationKey());
 						}
 						
-						String translation = RegistryHelper.translate(resource);
+						String translation = TranslationHelper.translate(resource);
 						
 						if(translation != null)
 						{
@@ -159,7 +159,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				}
 			});
 			
-			container.add(objectives);
+			container.addMenu(objectives);
 		}
 		else if(Page.DISPLAY.equals(this.page) || Page.UNDISPLAY.equals(this.page))
 		{
@@ -193,7 +193,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				}
 			});
 			
-			container.add(slots);
+			container.addMenu(slots);
 		}
 	}
 	
@@ -205,25 +205,25 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.create"), () ->
+		container.addRenderableWidget(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.create"), () ->
 		{
 			this.page = Page.CREATE;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.display"), () ->
+		container.addRenderableWidget(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.display"), () ->
 		{
 			this.page = Page.DISPLAY;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.undisplay"), () ->
+		container.addRenderableWidget(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.undisplay"), () ->
 		{
 			this.page = Page.UNDISPLAY;
 			container.init();
 		}));
-		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.remove"), () ->
+		container.addRenderableWidget(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.remove"), () ->
 		{
 			this.page = Page.REMOVE;
 			container.init();
@@ -236,10 +236,10 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		
 		if(!Page.UNDISPLAY.equals(this.page))
 		{
-			container.add(this.objectField);
+			container.addRenderableWidget(this.objectField);
 		}
 		
-		container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.actions.perform"), () ->
+		container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.actions.perform"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), BUILDER, this.page.getLabel());
 			container.init();

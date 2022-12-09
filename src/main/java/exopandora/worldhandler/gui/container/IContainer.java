@@ -2,18 +2,18 @@ package exopandora.worldhandler.gui.container;
 
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.widget.menu.Menu;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 
 public interface IContainer
 {
-	<T extends GuiEventListener & Widget & NarratableEntry> T add(T button);
-	
 	void initButtons();
-	Menu add(Menu menu);
-	AbstractWidget addWidget(AbstractWidget button);
+	
+	<T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T widget);
+	<T extends Renderable> T addRenderableOnly(T widget);
+	<T extends GuiEventListener & NarratableEntry> T addWidget(T widget);
+	Menu addMenu(Menu menu);
 	
 	String getPlayer();
 	void setPlayer(String text);

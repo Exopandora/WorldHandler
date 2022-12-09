@@ -113,30 +113,30 @@ public class ContentGamerules extends Content
 			}
 		});
 		
-		container.add(rules);
+		container.addMenu(rules);
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.booleanValue)
 		{
-			container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
 			{
 				this.setGameRule(container.getPlayer(), String.valueOf(true));
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.generic.disable"), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.generic.disable"), () ->
 			{
 				this.setGameRule(container.getPlayer(), String.valueOf(false));
 			}));
 		}
 		else
 		{
-			container.add(this.valueField);
-			container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.actions.perform"), () ->
+			container.addRenderableWidget(this.valueField);
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.actions.perform"), () ->
 			{
 				this.setGameRule(container.getPlayer(), this.value);
 			}));

@@ -58,11 +58,11 @@ public class MenuPageList<T> extends Menu
 			
 			GuiButtonBase left = new GuiButtonBase(this.x, this.y + (this.height + 4) * this.length, buttonWidth + 1, this.height, TextUtils.ARROW_LEFT, () -> this.goLeft(container));
 			left.active = this.persistence.getPage() > 0;
-			container.add(left);
+			container.addRenderableWidget(left);
 			
 			GuiButtonBase right = new GuiButtonBase(this.x + 5 + buttonWidth, this.y + (this.height + 4) * this.length, buttonWidth, this.height, TextUtils.ARROW_RIGHT, () -> this.goRight(container));
 			right.active = this.persistence.getPage() < this.getTotalPages() - 1;
-			container.add(right);
+			container.addRenderableWidget(right);
 		}
 		
 		int length = (extended ? this.length + 1 : this.length);
@@ -93,7 +93,7 @@ public class MenuPageList<T> extends Menu
 				button.active = false;
 			}
 			
-			container.add(button);
+			container.addRenderableWidget(button);
 		}
 	}
 	

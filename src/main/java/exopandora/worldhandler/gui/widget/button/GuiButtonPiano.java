@@ -21,16 +21,16 @@ public class GuiButtonPiano extends GuiButtonBase
 	private final SoundEvent sound;
 	private final float pitch;
 	
-	public GuiButtonPiano(int x, int y, int widthIn, int heightIn, Component buttonText, SoundEvent sound, float pitch, Type type, ActionHandler actionHandler)
+	public GuiButtonPiano(int x, int y, int width, int height, Component buttonText, SoundEvent sound, float pitch, Type type, ActionHandler actionHandler)
 	{
-		super(x, y, widthIn, heightIn, buttonText, actionHandler);
+		super(x, y, width, height, buttonText, actionHandler);
 		this.sound = sound;
 		this.pitch = pitch;
 		this.type = type;
 	}
 	
 	@Override
-	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
 	{
 		switch(this.type)
 		{
@@ -60,28 +60,28 @@ public class GuiButtonPiano extends GuiButtonBase
 			case LEFT:
 			case NORMAL:
 			case RIGHT:
-				this.drawWhiteKey(matrix, hovered);
+				this.drawWhiteKey(poseStack, hovered);
 				break;
 			case BLACK:
-				this.drawBlackKey(matrix, hovered);
+				this.drawBlackKey(poseStack, hovered);
 				break;
 			default:
 				break;
 		}
 	}
 	
-	protected void drawWhiteKey(PoseStack matrix, int hoverstate)
+	protected void drawWhiteKey(PoseStack poseStack, int hoverstate)
 	{
 		int textColor = this.getFGColor();
 		Font font = Minecraft.getInstance().font;
 		
-		this.blit(matrix, this.x, this.y, 25 + hoverstate * 15 - 15, 0, 15, 92);
-		font.draw(matrix, this.getMessage(), (float) (this.x + this.width / 2 - font.width(this.getMessage()) / 2), (float) (this.y + (this.height - 8) / 2 + 36), textColor);
+		this.blit(poseStack, this.getX(), this.getY(), 25 + hoverstate * 15 - 15, 0, 15, 92);
+		font.draw(poseStack, this.getMessage(), (float) (this.getX() + this.width / 2 - font.width(this.getMessage()) / 2), (float) (this.getY() + (this.height - 8) / 2 + 36), textColor);
 	}
 	
-	protected void drawBlackKey(PoseStack matrix, int hoverstate)
+	protected void drawBlackKey(PoseStack poseStack, int hoverstate)
 	{
-		this.blit(matrix, this.x, this.y, 55 - hoverstate * 9 + 18, 0, 9, 58);
+		this.blit(poseStack, this.getX(), this.getY(), 55 - hoverstate * 9 + 18, 0, 9, 58);
 	}
 	
 	@Override
@@ -112,22 +112,22 @@ public class GuiButtonPiano extends GuiButtonBase
 	
 	private boolean isHoveringBlack(double mouseX, double mouseY)
 	{
-		return mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+		return mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
 	}
 	
 	private boolean isHoveringLeft(double mouseX, double mouseY)
 	{
-		return (mouseX >= this.x && mouseY >= this.y && mouseX < this.x + 10 && mouseY < this.y + 60) || (mouseX >= this.x && mouseY >= this.y + 58 && mouseX < this.x + 14 && mouseY < this.y + 93);
+		return (mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + 10 && mouseY < this.getY() + 60) || (mouseX >= this.getX() && mouseY >= this.getY() + 58 && mouseX < this.getX() + 14 && mouseY < this.getY() + 93);
 	}
 	
 	private boolean isHoveringNormal(double mouseX, double mouseY)
 	{
-		return (mouseX >= this.x + 4 && mouseY >= this.y && mouseX < this.x + 10 && mouseY < this.y + 60) || (mouseX >= this.x && mouseY >= this.y + 58 && mouseX < this.x + 14 && mouseY < this.y + 93);
+		return (mouseX >= this.getX() + 4 && mouseY >= this.getY() && mouseX < this.getX() + 10 && mouseY < this.getY() + 60) || (mouseX >= this.getX() && mouseY >= this.getY() + 58 && mouseX < this.getX() + 14 && mouseY < this.getY() + 93);
 	}
 	
 	private boolean isHoveringRight(double mouseX, double mouseY)
 	{
-		return (mouseX >= this.x + 4 && mouseY >= this.y && mouseX < this.x + 14 && mouseY < this.y + 60) || (mouseX >= this.x && mouseY >= this.y + 58 && mouseX < this.x + 14 && mouseY < this.y + 93);
+		return (mouseX >= this.getX() + 4 && mouseY >= this.getY() && mouseX < this.getX() + 14 && mouseY < this.getY() + 60) || (mouseX >= this.getX() && mouseY >= this.getY() + 58 && mouseX < this.getX() + 14 && mouseY < this.getY() + 93);
 	}
 	
 	@Override

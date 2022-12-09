@@ -24,7 +24,7 @@ public class WidgetCommandSyntax implements IContainerWidget
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(this.syntaxField);
+		container.addRenderableWidget(this.syntaxField);
 	}
 	
 	@Override

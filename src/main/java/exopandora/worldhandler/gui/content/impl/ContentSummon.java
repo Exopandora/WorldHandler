@@ -231,7 +231,7 @@ public class ContentSummon extends Content
 				}
 			});
 			
-			container.add(customName);
+			container.addMenu(customName);
 		}
 		else if(Page.ATTRIBUTES.equals(this.page))
 		{
@@ -277,7 +277,7 @@ public class ContentSummon extends Content
 				}
 			});
 			
-			container.add(attributes);
+			container.addMenu(attributes);
 		}
 	}
 	
@@ -292,13 +292,13 @@ public class ContentSummon extends Content
 		GuiButtonBase button6;
 		GuiButtonBase button7;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, "gui.worldhandler.generic.back", () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, "gui.worldhandler.generic.backToGame", ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, "gui.worldhandler.generic.back", () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, "gui.worldhandler.generic.backToGame", ActionHelper::backToGame));
 		
-		container.add(button4 = new GuiButtonBase(x, y, 114, 20, "gui.worldhandler.entities.summon.start", () -> this.changePage(container, Page.START)));
-		container.add(button5 = new GuiButtonBase(x, y + 24, 114, 20, "gui.worldhandler.entities.summon.potion_effects", () -> this.changePage(container, Page.POTIONS)));
-		container.add(button6 = new GuiButtonBase(x, y + 48, 114, 20, "gui.worldhandler.entities.summon.attributes", () -> this.changePage(container, Page.ATTRIBUTES)));
-		container.add(button7 = new GuiButtonBase(x, y + 72, 114, 20, "gui.worldhandler.entities.summon.equipment", () -> this.changePage(container, Page.EQUIPMENT)));
+		container.addRenderableWidget(button4 = new GuiButtonBase(x, y, 114, 20, "gui.worldhandler.entities.summon.start", () -> this.changePage(container, Page.START)));
+		container.addRenderableWidget(button5 = new GuiButtonBase(x, y + 24, 114, 20, "gui.worldhandler.entities.summon.potion_effects", () -> this.changePage(container, Page.POTIONS)));
+		container.addRenderableWidget(button6 = new GuiButtonBase(x, y + 48, 114, 20, "gui.worldhandler.entities.summon.attributes", () -> this.changePage(container, Page.ATTRIBUTES)));
+		container.addRenderableWidget(button7 = new GuiButtonBase(x, y + 72, 114, 20, "gui.worldhandler.entities.summon.equipment", () -> this.changePage(container, Page.EQUIPMENT)));
 		
 		if(Page.START.equals(this.page))
 		{
@@ -306,21 +306,21 @@ public class ContentSummon extends Content
 			
 			if(this.editColor)
 			{
-				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.generic.done", () -> this.toggleEditColor(container)));
+				container.addRenderableWidget(new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.generic.done", () -> this.toggleEditColor(container)));
 			}
 			else
 			{
-				container.add(this.mobField);
-				container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, "gui.worldhandler.entities.summon.start.custom_name", () -> this.toggleEditColor(container)));
-				container.add(this.nbtField);
+				container.addRenderableWidget(this.mobField);
+				container.addRenderableWidget(new GuiButtonBase(x + 118, y + 24, 114, 20, "gui.worldhandler.entities.summon.start.custom_name", () -> this.toggleEditColor(container)));
+				container.addRenderableWidget(this.nbtField);
 				
 				if(!this.builderSummon.needsCommandBlock(SummonCommandBuilder.Label.SUMMON_POS_NBT, false) && !this.entity.getCustomName().isStyled())
 				{
-					container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.title.entities.summon", () -> this.send(container.getPlayer())));
+					container.addRenderableWidget(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.title.entities.summon", () -> this.send(container.getPlayer())));
 				}
 				else
 				{
-					container.add(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.actions.place_command_block", () -> this.send(container.getPlayer())));
+					container.addRenderableWidget(button3 = new GuiButtonBase(x + 118, y + 72, 114, 20, "gui.worldhandler.actions.place_command_block", () -> this.send(container.getPlayer())));
 				}
 				
 				button3.active = this.builderSummon.entity().hasValue();
@@ -330,12 +330,12 @@ public class ContentSummon extends Content
 		{
 			button5.active = false;
 			
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y + 72, 56, 20, TextUtils.ARROW_LEFT, () ->
 			{
 				this.potionPage--;
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
+			container.addRenderableWidget(button2 = new GuiButtonBase(x + 118 + 60, y + 72, 55, 20, TextUtils.ARROW_RIGHT, () ->
 			{
 				this.potionPage++;
 				container.init();
@@ -366,15 +366,15 @@ public class ContentSummon extends Content
 				{
 					EffectInstance tag = this.effects.getOrCreate(effect);
 					
-					container.add(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable(effect.getDescriptionId()), value ->
+					container.addRenderableWidget(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable(effect.getDescriptionId()), value ->
 					{
 						tag.setAmplifier(value.byteValue());
 					})));
-					container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.minutes"), value ->
+					container.addRenderableWidget(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.minutes"), value ->
 					{
 						tag.setMinutes(value.intValue());
 					})));
-					container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.potions.effect.particles", tag.doShowParticles() ? Component.translatable("gui.worldhandler.generic.on") : Component.translatable("gui.worldhandler.generic.off")), () ->
+					container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.potions.effect.particles", tag.doShowParticles() ? Component.translatable("gui.worldhandler.generic.on") : Component.translatable("gui.worldhandler.generic.off")), () ->
 					{
 						tag.setShowParticles(!tag.doShowParticles());
 						container.init();
@@ -395,13 +395,13 @@ public class ContentSummon extends Content
 	 		{
 				final int index = i;
 				
-				container.add(new GuiButtonBase(x + 118, y + 24 * i, 20, 20, TextUtils.ARROW_LEFT, () ->
+				container.addRenderableWidget(new GuiButtonBase(x + 118, y + 24 * i, 20, 20, TextUtils.ARROW_LEFT, () ->
 				{
 					this.entity.setArmorItem(3 - index, ARMOR[index][Math.floorMod(ArrayUtils.indexOf(ARMOR[index], this.entity.getArmorItem(3 - index)) - 1, ARMOR[index].length)]);
 					container.init();
 				}));
-				container.add(button1 = new GuiButtonItem(x + 118 + 24, y + 24 * i, 20, 20, this.entity.getArmorItem(3 - i), null));
-				container.add(new GuiButtonBase(x + 118 + 47, y + 24 * i, 20, 20, TextUtils.ARROW_RIGHT, () ->
+				container.addRenderableWidget(button1 = new GuiButtonItem(x + 118 + 24, y + 24 * i, 20, 20, this.entity.getArmorItem(3 - i), null));
+				container.addRenderableWidget(new GuiButtonBase(x + 118 + 47, y + 24 * i, 20, 20, TextUtils.ARROW_RIGHT, () ->
 				{
 					this.entity.setArmorItem(3 - index, ARMOR[index][Math.floorMod(ArrayUtils.indexOf(ARMOR[index], this.entity.getArmorItem(3 - index)) + 1, ARMOR[index].length)]);
 					container.init();
@@ -414,13 +414,13 @@ public class ContentSummon extends Content
 	 		{
 				final int index = i;
 				
-				container.add(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 12, 20, 20, EnumIcon.ARROW_UP, null, () ->
+				container.addRenderableWidget(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 12, 20, 20, EnumIcon.ARROW_UP, null, () ->
 				{
 					this.entity.setHandItem(index, HANDS[index][Math.floorMod(ArrayUtils.indexOf(HANDS[index], this.entity.getHandItem(index)) - 1, HANDS[index].length)]);
 					container.init();
 				}));
-				container.add(button1 = new GuiButtonItem(x + 118 + 70 + 24 * i, y + 36, 20, 20, this.entity.getHandItem(i), null));
-				container.add(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 60, 20, 20, EnumIcon.ARROW_DOWN, null, () ->
+				container.addRenderableWidget(button1 = new GuiButtonItem(x + 118 + 70 + 24 * i, y + 36, 20, 20, this.entity.getHandItem(i), null));
+				container.addRenderableWidget(new GuiButtonIcon(x + 118 + 70 + 24 * i, y + 60, 20, 20, EnumIcon.ARROW_DOWN, null, () ->
 				{
 					this.entity.setHandItem(index, HANDS[index][Math.floorMod(ArrayUtils.indexOf(HANDS[index], this.entity.getHandItem(index)) + 1, HANDS[index].length)]);
 					container.init();

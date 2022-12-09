@@ -103,20 +103,20 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		GuiButtonBase button2;
 		GuiButtonBase button3;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y + 12, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.points"), () ->
+		container.addRenderableWidget(button1 = new GuiButtonBase(x, y + 12, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.points"), () ->
 		{
 			this.page = Page.ADD_SET_REMOVE;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 36, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.tag"), () ->
+		container.addRenderableWidget(button2 = new GuiButtonBase(x, y + 36, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.tag"), () ->
 		{
 			this.page = Page.TAG;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 60, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.trigger"), () ->
+		container.addRenderableWidget(button3 = new GuiButtonBase(x, y + 60, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.trigger"), () ->
 		{
 			this.page = Page.ENABLE;
 			container.init();
@@ -130,21 +130,21 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		
 		if(Page.ADD_SET_REMOVE.equals(this.page))
 		{
-			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxPlayerPoints(), 0, container, new LogicSliderSimple("points", Component.translatable("gui.worldhandler.scoreboard.players.points"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxPlayerPoints(), 0, container, new LogicSliderSimple("points", Component.translatable("gui.worldhandler.scoreboard.players.points"), value ->
 			{
 				BUILDER.score().set(value);
 			})));
-			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
+			container.addRenderableWidget(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), BUILDER, ScoreboardCommandBuilder.Label.PLAYERS_ADD_SCORE);
 				container.init();
 			}));
-			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.remove"), () ->
+			container.addRenderableWidget(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), BUILDER, ScoreboardCommandBuilder.Label.PLAYERS_REMOVE_SCORE);
 				container.init();
 			}));
-			container.add(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset"), Component.translatable("gui.worldhandler.actions.set_to_0"), () ->
+			container.addRenderableWidget(button1 = new GuiButtonTooltip(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset"), Component.translatable("gui.worldhandler.actions.set_to_0"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), BUILDER, ScoreboardCommandBuilder.Label.PLAYERS_RESET_SCORE);
 				container.init();
@@ -158,12 +158,12 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		}
 		else if(Page.TAG.equals(this.page))
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTag, TagCommandBuilder.Label.ADD);
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.actions.remove"), () ->
+			container.addRenderableWidget(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.actions.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTag, TagCommandBuilder.Label.REMOVE);
 				container.init();
@@ -176,21 +176,21 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		}
 		else if(Page.ENABLE.equals(this.page))
 		{
-			container.add(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxTriggerValue(), 0, container, new LogicSliderSimple("enable", Component.translatable("gui.worldhandler.generic.value"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxTriggerValue(), 0, container, new LogicSliderSimple("enable", Component.translatable("gui.worldhandler.generic.value"), value ->
 			{
 				this.builderTrigger.value().set(value);
 			})));
-			container.add(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
+			container.addRenderableWidget(this.addButton = new GuiButtonBase(x + 118, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger, TriggerCommandBuilder.Label.ADD);
 				container.init();
 			}));
-			container.add(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.set"), () ->
+			container.addRenderableWidget(this.removeButton = new GuiButtonBase(x + 118 + 114 / 2 + 1, y + 48, 56, 20, Component.translatable("gui.worldhandler.actions.set"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTrigger, TriggerCommandBuilder.Label.SET);
 				container.init();
 			}));
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), BUILDER, ScoreboardCommandBuilder.Label.PLAYERS_ENABLE_OBJECTIVE);
 				container.init();
@@ -203,11 +203,11 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		
 		if(Page.TAG.equals(this.page))
 		{
-			container.add(this.tagField);
+			container.addRenderableWidget(this.tagField);
 		}
 		else
 		{
-			container.add(this.objectField);
+			container.addRenderableWidget(this.objectField);
 		}
 	}
 	

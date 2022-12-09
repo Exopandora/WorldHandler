@@ -51,7 +51,7 @@ public class CommandHelper
 		}
 		else if(Minecraft.getInstance().player != null)
 		{
-			Minecraft.getInstance().player.commandUnsigned(command.substring(1));
+			Minecraft.getInstance().player.connection.sendCommand(command.substring(1));
 		}
 		
 		WorldHandler.LOGGER.info("Command: " + command);

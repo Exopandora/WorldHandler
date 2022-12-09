@@ -71,20 +71,20 @@ public class ContentWorldInfo extends Content
 		GuiButtonBase world;
 		GuiButtonBase stats;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(start = new GuiButtonBase(x, y + 12, 114, 20, Component.translatable("gui.worldhandler.world_info.start"), () ->
+		container.addRenderableWidget(start = new GuiButtonBase(x, y + 12, 114, 20, Component.translatable("gui.worldhandler.world_info.start"), () ->
 		{
 			this.page = Page.START;
 			container.init();
 		}));
-		container.add(world = new GuiButtonBase(x, y + 36, 114, 20, Component.translatable("gui.worldhandler.world_info.world"), () ->
+		container.addRenderableWidget(world = new GuiButtonBase(x, y + 36, 114, 20, Component.translatable("gui.worldhandler.world_info.world"), () ->
 		{
 			this.page = Page.WORLD;
 			container.init();
 		}));
-		container.add(stats = new GuiButtonBase(x, y + 60, 114, 20, Component.translatable("gui.worldhandler.world_info.statistics"), () ->
+		container.addRenderableWidget(stats = new GuiButtonBase(x, y + 60, 114, 20, Component.translatable("gui.worldhandler.world_info.statistics"), () ->
 		{
 			this.page = Page.STATS;
 			container.init();
@@ -100,7 +100,7 @@ public class ContentWorldInfo extends Content
 			IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
 			
 			world.active = false;
-			container.add(seed = new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.world_info.world.copy_seed"), () ->
+			container.addRenderableWidget(seed = new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.world_info.world.copy_seed"), () ->
 			{
 				Minecraft.getInstance().keyboardHandler.setClipboard(String.valueOf(server.overworld().getSeed()));
 			}));

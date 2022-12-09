@@ -130,8 +130,8 @@ public class ContentCommandStack extends ContentChild
 		GuiButtonBase buttonScrollUp;
 		GuiButtonBase buttonScrollDown;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		this.iterate(index ->
 		{
@@ -139,17 +139,17 @@ public class ContentCommandStack extends ContentChild
 			GuiButtonBase buttonDown;
 			GuiButtonBase buttonRemove;
 			
-			container.add(buttonUp = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 - 1, 20, 10, EnumIcon.ARROW_UP, Component.translatable("gui.worldhandler.actions.move_up"), () ->
+			container.addRenderableWidget(buttonUp = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 - 1, 20, 10, EnumIcon.ARROW_UP, Component.translatable("gui.worldhandler.actions.move_up"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll - 1);
 				container.init();
 			}));
-			container.add(buttonDown = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 + 11, 20, 10, EnumIcon.ARROW_DOWN, Component.translatable("gui.worldhandler.actions.move_down"), () ->
+			container.addRenderableWidget(buttonDown = new GuiButtonIcon(x + 232 - 20 - 24, y + index * 24 + 11, 20, 10, EnumIcon.ARROW_DOWN, Component.translatable("gui.worldhandler.actions.move_down"), () ->
 			{
 				this.swapCommands(index + this.scroll, index + this.scroll + 1);
 				container.init();
 			}));
-			container.add(buttonRemove = new GuiButtonTooltip(x + 232 - 20, y + index * 24 - 1, 20, 10, MINUS, Component.translatable("gui.worldhandler.command_stack.remove_command"), () ->
+			container.addRenderableWidget(buttonRemove = new GuiButtonTooltip(x + 232 - 20, y + index * 24 - 1, 20, 10, MINUS, Component.translatable("gui.worldhandler.command_stack.remove_command"), () ->
 			{
 				int pos = index + this.scroll;
 				this.removeCommand(pos);
@@ -161,7 +161,7 @@ public class ContentCommandStack extends ContentChild
 				
 				container.init();
 			}));
-			container.add(new GuiButtonTooltip(x + 232 - 20, y + index * 24 + 11, 20, 10, PLUS, Component.translatable("gui.worldhandler.command_stack.insert_command"), () ->
+			container.addRenderableWidget(new GuiButtonTooltip(x + 232 - 20, y + index * 24 + 11, 20, 10, PLUS, Component.translatable("gui.worldhandler.command_stack.insert_command"), () ->
 			{
 				int pos = index + this.scroll + 1;
 				this.addCommand(pos);
@@ -173,23 +173,23 @@ public class ContentCommandStack extends ContentChild
 				
 				container.init();
 			}));
-			container.add(this.textfields.get(index));
+			container.addRenderableWidget(this.textfields.get(index));
 			
 			buttonRemove.active = this.getCommandCount() > 1;
 			buttonUp.active = index + this.scroll > 0;
 			buttonDown.active = index + this.scroll + 1 < this.getCommandCount();
 		});
 		
-		container.add(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.command_stack.copy_command"), () -> 
+		container.addRenderableWidget(this.buttonCopy = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.command_stack.copy_command"), () -> 
 		{
 			Minecraft.getInstance().keyboardHandler.setClipboard(this.builderCommandStack.toCommand(SummonCommandBuilder.Label.SUMMON_POS_NBT, false));
 		}));
-		container.add(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, Component.translatable("gui.worldhandler.actions.move_up"), () ->
+		container.addRenderableWidget(buttonScrollUp = new GuiButtonIcon(x + 118, y + 72, 56, 20, EnumIcon.ARROW_UP, Component.translatable("gui.worldhandler.actions.move_up"), () ->
 		{
 			this.scrollUp();
 			container.init();
 		}));
-		container.add(buttonScrollDown = new GuiButtonIcon(x + 118 + 60, y + 72, 54, 20, EnumIcon.ARROW_DOWN, Component.translatable("gui.worldhandler.actions.move_down"), () -> 
+		container.addRenderableWidget(buttonScrollDown = new GuiButtonIcon(x + 118 + 60, y + 72, 54, 20, EnumIcon.ARROW_DOWN, Component.translatable("gui.worldhandler.actions.move_down"), () -> 
 		{
 			this.scrollDown();
 			container.init();

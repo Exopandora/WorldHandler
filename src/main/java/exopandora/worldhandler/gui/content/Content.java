@@ -34,7 +34,7 @@ import exopandora.worldhandler.gui.content.impl.ContentSummon;
 import exopandora.worldhandler.gui.content.impl.ContentUsercontent;
 import exopandora.worldhandler.gui.content.impl.ContentWorldInfo;
 import exopandora.worldhandler.usercontent.UsercontentLoader;
-import exopandora.worldhandler.util.RegistryHelper;
+import exopandora.worldhandler.util.TranslationHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -64,54 +64,54 @@ public abstract class Content implements IContent
 		if(event.getRegistryKey().equals(REGISTRY_KEY))
 		{
 			//MAIN
-			RegistryHelper.register(event, REGISTRY_KEY, "main", () -> new ContentMain());
-			RegistryHelper.register(event, REGISTRY_KEY, "containers", () -> new ContentContainers());
-			RegistryHelper.register(event, REGISTRY_KEY, "multiplayer", () -> new ContentMultiplayer());
+			TranslationHelper.register(event, REGISTRY_KEY, "main", () -> new ContentMain());
+			TranslationHelper.register(event, REGISTRY_KEY, "containers", () -> new ContentContainers());
+			TranslationHelper.register(event, REGISTRY_KEY, "multiplayer", () -> new ContentMultiplayer());
 			
 			//ENTITIES
-			RegistryHelper.register(event, REGISTRY_KEY, "summon", () -> new ContentSummon());
-			RegistryHelper.register(event, REGISTRY_KEY, "butcher", () -> new ContentButcher());
-			RegistryHelper.register(event, REGISTRY_KEY, "butcher_settings", () -> new ContentButcherSettings());
-			RegistryHelper.register(event, REGISTRY_KEY, "butcher_presets", () -> new ContentButcherPresets());
+			TranslationHelper.register(event, REGISTRY_KEY, "summon", () -> new ContentSummon());
+			TranslationHelper.register(event, REGISTRY_KEY, "butcher", () -> new ContentButcher());
+			TranslationHelper.register(event, REGISTRY_KEY, "butcher_settings", () -> new ContentButcherSettings());
+			TranslationHelper.register(event, REGISTRY_KEY, "butcher_presets", () -> new ContentButcherPresets());
 			
 			//ITEMS
-			RegistryHelper.register(event, REGISTRY_KEY, "custom_item", () -> new ContentCustomItem());
-			RegistryHelper.register(event, REGISTRY_KEY, "enchantment", () -> new ContentEnchantment());
-			RegistryHelper.register(event, REGISTRY_KEY, "recipes", () -> new ContentRecipes());
+			TranslationHelper.register(event, REGISTRY_KEY, "custom_item", () -> new ContentCustomItem());
+			TranslationHelper.register(event, REGISTRY_KEY, "enchantment", () -> new ContentEnchantment());
+			TranslationHelper.register(event, REGISTRY_KEY, "recipes", () -> new ContentRecipes());
 			
 			//BLOCKS
-			RegistryHelper.register(event, REGISTRY_KEY, "edit_blocks", () -> new ContentEditBlocks());
-			RegistryHelper.register(event, REGISTRY_KEY, "sign_editor", () -> new ContentSignEditor());
-			RegistryHelper.register(event, REGISTRY_KEY, "note_editor", () -> new ContentNoteEditor());
+			TranslationHelper.register(event, REGISTRY_KEY, "edit_blocks", () -> new ContentEditBlocks());
+			TranslationHelper.register(event, REGISTRY_KEY, "sign_editor", () -> new ContentSignEditor());
+			TranslationHelper.register(event, REGISTRY_KEY, "note_editor", () -> new ContentNoteEditor());
 			
 			//WORLD
-			RegistryHelper.register(event, REGISTRY_KEY, "world", () -> new ContentWorldInfo());
-			RegistryHelper.register(event, REGISTRY_KEY, "gamerules", () -> new ContentGamerules());
-			RegistryHelper.register(event, REGISTRY_KEY, "locate", () -> new ContentLocate());
+			TranslationHelper.register(event, REGISTRY_KEY, "world", () -> new ContentWorldInfo());
+			TranslationHelper.register(event, REGISTRY_KEY, "gamerules", () -> new ContentGamerules());
+			TranslationHelper.register(event, REGISTRY_KEY, "locate", () -> new ContentLocate());
 			
 			//PLAYER
-			RegistryHelper.register(event, REGISTRY_KEY, "player", () -> new ContentPlayer());
-			RegistryHelper.register(event, REGISTRY_KEY, "experience", () -> new ContentExperience());
-			RegistryHelper.register(event, REGISTRY_KEY, "advancements", () -> new ContentAdvancements());
+			TranslationHelper.register(event, REGISTRY_KEY, "player", () -> new ContentPlayer());
+			TranslationHelper.register(event, REGISTRY_KEY, "experience", () -> new ContentExperience());
+			TranslationHelper.register(event, REGISTRY_KEY, "advancements", () -> new ContentAdvancements());
 			
 			//SCOREBOARD
-			RegistryHelper.register(event, REGISTRY_KEY, "scoreboard_objectives", () -> new ContentScoreboardObjectives());
-			RegistryHelper.register(event, REGISTRY_KEY, "scoreboard_teams", () -> new ContentScoreboardTeams());
-			RegistryHelper.register(event, REGISTRY_KEY, "scoreboard_players", () -> new ContentScoreboardPlayers());
+			TranslationHelper.register(event, REGISTRY_KEY, "scoreboard_objectives", () -> new ContentScoreboardObjectives());
+			TranslationHelper.register(event, REGISTRY_KEY, "scoreboard_teams", () -> new ContentScoreboardTeams());
+			TranslationHelper.register(event, REGISTRY_KEY, "scoreboard_players", () -> new ContentScoreboardPlayers());
 			
 			//MISC
-			RegistryHelper.register(event, REGISTRY_KEY, "change_world", () -> new ContentChangeWorld());
-			RegistryHelper.register(event, REGISTRY_KEY, "continue", () -> new ContentContinue());
+			TranslationHelper.register(event, REGISTRY_KEY, "change_world", () -> new ContentChangeWorld());
+			TranslationHelper.register(event, REGISTRY_KEY, "continue", () -> new ContentContinue());
 			
 			//NO CATEGORY
-			RegistryHelper.register(event, REGISTRY_KEY, "potions", () -> new ContentPotions());
-			RegistryHelper.register(event, REGISTRY_KEY, "command_stack", () -> new ContentCommandStack());
-			RegistryHelper.register(event, REGISTRY_KEY, "settings", () -> new ContentSettings());
+			TranslationHelper.register(event, REGISTRY_KEY, "potions", () -> new ContentPotions());
+			TranslationHelper.register(event, REGISTRY_KEY, "command_stack", () -> new ContentCommandStack());
+			TranslationHelper.register(event, REGISTRY_KEY, "settings", () -> new ContentSettings());
 			
 			//USERCONTENT
 			UsercontentLoader.CONFIGS.forEach(config ->
 			{
-				RegistryHelper.register(event, REGISTRY_KEY, config.getId(), () ->
+				TranslationHelper.register(event, REGISTRY_KEY, config.getId(), () ->
 				{
 					try
 					{

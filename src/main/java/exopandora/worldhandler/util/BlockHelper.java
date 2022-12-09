@@ -7,9 +7,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.builder.argument.Coordinate;
 import exopandora.worldhandler.builder.impl.ExecuteCommandBuilder;
+import exopandora.worldhandler.builder.impl.ExecuteCommandBuilder.AtOptionalArgument;
 import exopandora.worldhandler.builder.impl.FillCommandBuilder;
 import exopandora.worldhandler.builder.impl.SetBlockCommandBuilder;
-import exopandora.worldhandler.builder.impl.ExecuteCommandBuilder.AtOptionalArgument;
 import exopandora.worldhandler.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -97,7 +97,7 @@ public class BlockHelper
 			remove.to().setZ(new Coordinate.Ints(0, Coordinate.Type.RELATIVE));
 			remove.block().set(Blocks.AIR);
 			
-			Minecraft.getInstance().player.commandUnsigned(place.toCommand(FillCommandBuilder.Label.FILL, false).substring(1));
+			Minecraft.getInstance().player.connection.sendCommand(place.toCommand(FillCommandBuilder.Label.FILL, false).substring(1));
 			
 			ExecuteCommandBuilder execute = new ExecuteCommandBuilder();
 			AtOptionalArgument at = new AtOptionalArgument(AtOptionalArgument.Label.AT);

@@ -90,25 +90,25 @@ public class ContentButcher extends Content
 	{
 		GuiButtonBase slaughter;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(this.radiusField);
-		container.add(new GuiButtonBase(x + 58, y + 24, 114, 20, Component.translatable("gui.worldhandler.butcher.configure"), () ->
+		container.addRenderableWidget(this.radiusField);
+		container.addRenderableWidget(new GuiButtonBase(x + 58, y + 24, 114, 20, Component.translatable("gui.worldhandler.butcher.configure"), () ->
 		{
 			ActionHelper.open(Contents.BUTCHER_SETTINGS);
 		}));
 		
 		boolean enabled = this.radius != null && !this.radius.isEmpty();
 		
-		container.add(slaughter = new GuiButtonBase(x + 58, y + 48, 114, 20, Component.translatable("gui.worldhandler.butcher.slaughter"), () ->
+		container.addRenderableWidget(slaughter = new GuiButtonBase(x + 58, y + 48, 114, 20, Component.translatable("gui.worldhandler.butcher.slaughter"), () ->
 		{
 			Collection<EntityType<?>> entities = Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITY_TYPES::getValue).filter(Predicates.notNull()).collect(Collectors.toList());
 			ContentButcher.slaughter(container.getPlayer(), entities, Integer.parseInt(this.radius));
 		}));
 		slaughter.active = enabled && !Config.getButcher().getEntities().isEmpty();
 		
-		container.add(slaughter = new GuiButtonBase(x + 58, y + 72, 114, 20, Component.translatable("gui.worldhandler.butcher.presets"), () ->
+		container.addRenderableWidget(slaughter = new GuiButtonBase(x + 58, y + 72, 114, 20, Component.translatable("gui.worldhandler.butcher.presets"), () ->
 		{
 			ActionHelper.open(Contents.BUTCHER_PRESETS.withBuilder(this.builderKill, KillCommandBuilder.Label.KILL_TARGETS).withRadius(Double.parseDouble(this.radius)));
 		}));

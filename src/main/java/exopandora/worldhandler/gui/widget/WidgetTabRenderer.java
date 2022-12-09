@@ -23,7 +23,7 @@ public class WidgetTabRenderer implements IContainerWidget
 	private static final int WEDGE_HEIGHT = 10;
 	
 	@Override
-	public void initGui(Container container, int x, int y)
+	public void initButtons(Container container, int x, int y)
 	{
 		Content content = container.getContent();
 		Category category = content.getCategory();

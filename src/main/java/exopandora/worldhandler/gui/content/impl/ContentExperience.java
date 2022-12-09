@@ -47,27 +47,27 @@ public class ContentExperience extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiSlider(x + 116 / 2, y, 114, 20, 0, Config.getSliders().getMaxExperience(), 0, container, new LogicSliderSimple("experience", Component.translatable("gui.worldhandler.title.player.experience"), value -> 
+		container.addRenderableWidget(new GuiSlider(x + 116 / 2, y, 114, 20, 0, Config.getSliders().getMaxExperience(), 0, container, new LogicSliderSimple("experience", Component.translatable("gui.worldhandler.title.player.experience"), value -> 
 		{
 			this.builderExperience.amount().set(value);
 		})));
 		
-		container.add(this.buttonAdd = new GuiButtonBase(x + 116 / 2, y + 24, 114, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
+		container.addRenderableWidget(this.buttonAdd = new GuiButtonBase(x + 116 / 2, y + 24, 114, 20, Component.translatable("gui.worldhandler.actions.add"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderExperience, ExperienceCommandBuilder.Label.ADD_LEVELS);
 			container.init();
 		}));
-		container.add(this.buttonRemove = new GuiButtonBase(x + 116 / 2, y + 48, 114, 20, Component.translatable("gui.worldhandler.actions.remove"), () ->
+		container.addRenderableWidget(this.buttonRemove = new GuiButtonBase(x + 116 / 2, y + 48, 114, 20, Component.translatable("gui.worldhandler.actions.remove"), () ->
 		{
 			ExperienceCommandBuilder builder = new ExperienceCommandBuilder();
 			builder.targets().setTarget(this.builderExperience.targets().getTarget());
 			builder.amount().set(-this.builderExperience.amount().get());
 			CommandHelper.sendCommand(container.getPlayer(), builder, ExperienceCommandBuilder.Label.ADD_LEVELS);
 		}));
-		container.add(new GuiButtonTooltip(x + 116 / 2, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset"), Component.translatable("gui.worldhandler.actions.set_to_0"), () ->
+		container.addRenderableWidget(new GuiButtonTooltip(x + 116 / 2, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset"), Component.translatable("gui.worldhandler.actions.set_to_0"), () ->
 		{
 			ExperienceCommandBuilder builder = new ExperienceCommandBuilder();
 			builder.amount().set(0);

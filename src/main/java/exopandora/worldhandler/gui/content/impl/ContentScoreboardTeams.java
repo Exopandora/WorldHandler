@@ -117,7 +117,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 				}
 			});
 			
-			container.add(options);
+			container.addMenu(options);
 		}
 	}
 	
@@ -129,25 +129,25 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.create"), () ->
+		container.addRenderableWidget(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.create"), () ->
 		{
 			this.page = Page.ADD;
 			container.init();
 		}));
-		container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.literal(I18n.get("gui.worldhandler.scoreboard.team.join") + " / " + I18n.get("gui.worldhandler.scoreboard.team.leave")), () ->
+		container.addRenderableWidget(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.literal(I18n.get("gui.worldhandler.scoreboard.team.join") + " / " + I18n.get("gui.worldhandler.scoreboard.team.leave")), () ->
 		{
 			this.page = Page.JOIN_OR_LEAVE;
 			container.init();
 		}));
-		container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.literal(I18n.get("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.get("gui.worldhandler.scoreboard.team.empty")), () ->
+		container.addRenderableWidget(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.literal(I18n.get("gui.worldhandler.scoreboard.team.remove") + " / " + I18n.get("gui.worldhandler.scoreboard.team.empty")), () ->
 		{
 			this.page = Page.REMOVE_OR_EMPTY;
 			container.init();
 		}));
-		container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.options"), () ->
+		container.addRenderableWidget(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.options"), () ->
 		{
 			this.page = Page.OPTION;
 			container.init();
@@ -162,12 +162,12 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		
 		if(Page.JOIN_OR_LEAVE.equals(this.page))
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.join"), () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.join"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.JOIN);
 				container.initButtons();
 			}));
-			container.add(new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.leave"), () ->
+			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.leave"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.LEAVE);
 				container.initButtons();
@@ -177,12 +177,12 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		}
 		else if(Page.REMOVE_OR_EMPTY.equals(this.page))
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.remove"), () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y + 36, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.remove"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.REMOVE);
 				container.initButtons();
 			}));
-			container.add(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.empty"), () ->
+			container.addRenderableWidget(button2 = new GuiButtonBase(x + 118, y + 60, 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.empty"), () ->
 			{
 				CommandHelper.sendCommand(container.getPlayer(), this.builderTeams, TeamCommandBuilder.Label.EMPTY);
 				container.initButtons();
@@ -194,7 +194,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 		
 		if(Page.ADD.equals(this.page) || Page.OPTION.equals(this.page))
 		{
-			container.add(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.actions.perform"), () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y + 72 - this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.actions.perform"), () ->
 			{
 				if(Page.ADD.equals(this.page))
 				{
@@ -209,7 +209,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 			button1.active = enabled;
 		}
 		
-		container.add(this.teamField);
+		container.addRenderableWidget(this.teamField);
 	}
 	
 	@Override

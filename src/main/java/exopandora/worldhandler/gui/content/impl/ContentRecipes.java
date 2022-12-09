@@ -80,21 +80,21 @@ public class ContentRecipes extends Content
 			}
 		});
 		
-		container.add(list);
+		container.addMenu(list);
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.recipes.give"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.recipes.give"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe, RecipeCommandBuilder.Label.GIVE);
 			container.initButtons();
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.recipes.take"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.recipes.take"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderRecipe, RecipeCommandBuilder.Label.TAKE);
 			container.initButtons();

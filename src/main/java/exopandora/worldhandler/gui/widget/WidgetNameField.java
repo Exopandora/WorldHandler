@@ -29,7 +29,7 @@ public class WidgetNameField implements IContainerWidget
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(this.nameField);
+		container.addWidget(this.nameField);
 	}
 	
 	@Override

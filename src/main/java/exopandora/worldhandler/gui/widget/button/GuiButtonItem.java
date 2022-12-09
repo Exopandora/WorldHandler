@@ -26,6 +26,6 @@ public class GuiButtonItem extends GuiButtonBase
 	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		super.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
-		Minecraft.getInstance().getItemRenderer().renderGuiItem(this.stack, this.x + this.width / 2 - 8, this.y + 2);
+		Minecraft.getInstance().getItemRenderer().renderGuiItem(this.stack, this.getX() + this.width / 2 - 8, this.getY() + 2);
 	}
 }

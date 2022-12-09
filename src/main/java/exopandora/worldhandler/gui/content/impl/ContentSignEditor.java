@@ -104,7 +104,7 @@ public class ContentSignEditor extends Content
 				}
 			});
 			
-			container.add(colors);
+			container.addMenu(colors);
 		}
 	}
 	
@@ -116,27 +116,27 @@ public class ContentSignEditor extends Content
 		GuiButtonBase button3;
 		GuiButtonBase button4;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.isActive)
 		{
-			container.add(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_1"), () ->
+			container.addRenderableWidget(button1 = new GuiButtonBase(x, y, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_1"), () ->
 			{
 				this.selectedLine = 0;
 				container.init();
 			}));
-			container.add(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_2"), () ->
+			container.addRenderableWidget(button2 = new GuiButtonBase(x, y + 24, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_2"), () ->
 			{
 				this.selectedLine = 1;
 				container.init();
 			}));
-			container.add(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_3"), () ->
+			container.addRenderableWidget(button3 = new GuiButtonBase(x, y + 48, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_3"), () ->
 			{
 				this.selectedLine = 2;
 				container.init();
 			}));
-			container.add(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_4"), () ->
+			container.addRenderableWidget(button4 = new GuiButtonBase(x, y + 72, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.text_line_4"), () ->
 			{
 				this.selectedLine = 3;
 				container.init();
@@ -144,13 +144,13 @@ public class ContentSignEditor extends Content
 			
 			if(this.editColor)
 			{
-				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.generic.done"), () -> this.toggleEditColor(container)));
+				container.addRenderableWidget(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.generic.done"), () -> this.toggleEditColor(container)));
 			}
 			else
 			{
-				container.add(this.commandField);
-				container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.format_text_line"), () -> this.toggleEditColor(container)));
-				container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.place_command_block"), () ->
+				container.addRenderableWidget(this.commandField);
+				container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.format_text_line"), () -> this.toggleEditColor(container)));
+				container.addRenderableWidget(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.place_command_block"), () ->
 				{
 					CommandHelper.sendCommand(container.getPlayer(), this.builderSignEditor, DataCommandBuilder.Label.MERGE_BLOCK, Arrays.stream(this.texts).anyMatch(text -> text.getComponent().isStyled()));
 				}));

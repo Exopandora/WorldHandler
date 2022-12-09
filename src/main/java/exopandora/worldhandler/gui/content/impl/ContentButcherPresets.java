@@ -37,25 +37,25 @@ public class ContentButcherPresets extends ContentChild
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 58, y, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.passive_mobs"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 58, y, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.passive_mobs"), () ->
 		{
 			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(entity -> !MobCategory.MONSTER.equals(entity.getCategory()) && !MobCategory.MISC.equals(entity.getCategory())).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
-		container.add(new GuiButtonBase(x + 58, y + 24, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.hostile_mobs"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 58, y + 24, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.hostile_mobs"), () ->
 		{
 			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(entity -> MobCategory.MONSTER.equals(entity.getCategory())).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
-		container.add(new GuiButtonBase(x + 58, y + 48, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.players"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 58, y + 48, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.players"), () ->
 		{
 			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(entity -> EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());
 		}));
-		container.add(new GuiButtonBase(x + 58, y + 72, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.entities"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 58, y + 72, 114, 20, Component.translatable("gui.worldhandler.butcher.presets.entities"), () ->
 		{
 			ContentButcher.slaughter(container.getPlayer(), ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(entity -> MobCategory.MISC.equals(entity.getCategory()) && !EntityType.PLAYER.equals(entity)).collect(Collectors.toList()), this.radius);
 			ActionHelper.open(this.getParentContent());

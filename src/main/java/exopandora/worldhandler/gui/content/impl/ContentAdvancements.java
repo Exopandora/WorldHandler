@@ -81,16 +81,16 @@ public class ContentAdvancements extends Content
 			}
 		});
 		
-		container.add(list);
+		container.addMenu(list);
 	}
 	
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonList<Mode>(x + 118, y, Arrays.asList(Mode.values()), 114, 20, container, new ILogicMapped<Mode>()
+		container.addRenderableWidget(new GuiButtonList<Mode>(x + 118, y, Arrays.asList(Mode.values()), 114, 20, container, new ILogicMapped<Mode>()
 		{
 			@Override
 			public MutableComponent translate(Mode mode)
@@ -117,15 +117,15 @@ public class ContentAdvancements extends Content
 			}
 		}));
 		
-		container.add(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.advancements.grant"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.advancements.grant"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement, this.mode.getGrant());
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.advancements.revoke"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.advancements.revoke"), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builderAdvancement, this.mode.getRevoke());
 		}));
-		container.add(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset").withStyle(ChatFormatting.RED), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.actions.reset").withStyle(ChatFormatting.RED), () ->
 		{
 			ActionHelper.open(Contents.CONTINUE.withBuilder(this.builderAdvancement, AdvancementCommandBuilder.Label.REVOKE_EVERYTHING));
 		}));

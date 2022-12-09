@@ -15,25 +15,25 @@ import net.minecraft.network.chat.Component;
 
 public class GuiButtonBase extends Button
 {
-	public GuiButtonBase(int x, int y, int widthIn, int heightIn, String translationKey, ActionHandler actionHandler)
+	public GuiButtonBase(int x, int y, int width, int height, String translationKey, ActionHandler actionHandler)
 	{
-		this(x, y, widthIn, heightIn, Component.translatable(translationKey), actionHandler);
+		this(x, y, width, height, Component.translatable(translationKey), actionHandler);
 	}
 	
-	public GuiButtonBase(int x, int y, int widthIn, int heightIn, Component buttonText, ActionHandler actionHandler)
+	public GuiButtonBase(int x, int y, int width, int height, Component buttonText, ActionHandler actionHandler)
 	{
-		super(x, y, widthIn, heightIn, buttonText, button -> ActionHelper.tryRun(actionHandler));
-	}
-	
-	@Override
-	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
-	{
-		this.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
-		GuiComponent.drawCenteredString(matrix, Minecraft.getInstance().font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, this.getFGColor());
+		super(x, y, width, height, buttonText, button -> ActionHelper.tryRun(actionHandler), Button.DEFAULT_NARRATION);
 	}
 	
 	@Override
-	protected void renderBg(PoseStack matrix, Minecraft minecraft, int mouseX, int mouseY)
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	{
+		this.renderBg(poseStack, Minecraft.getInstance(), mouseX, mouseY);
+		GuiComponent.drawCenteredString(poseStack, Minecraft.getInstance().font, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, this.getFGColor());
+	}
+	
+	@Override
+	protected void renderBg(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY)
 	{
 		RenderSystem.enableBlend();
 		RenderUtils.colorDefaultButton();
@@ -48,19 +48,19 @@ public class GuiButtonBase extends Button
 		{
 			int textureOffset = 46 + hovered * 20;
 			
-			this.blit(matrix, this.x, this.y, 0, textureOffset, hWidth, hHeight);
-			this.blit(matrix, this.x, this.y + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
-			this.blit(matrix, this.x + hWidth, this.y, 200 - hWidth, textureOffset, hWidth, hHeight);
-			this.blit(matrix, this.x + hWidth, this.y + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
+			this.blit(poseStack, this.getX(), this.getY(), 0, textureOffset, hWidth, hHeight);
+			this.blit(poseStack, this.getX(), this.getY() + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
+			this.blit(poseStack, this.getX() + hWidth, this.getY(), 200 - hWidth, textureOffset, hWidth, hHeight);
+			this.blit(poseStack, this.getX() + hWidth, this.getY() + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
 		}
 		else
 		{
 			int textureOffset = hovered * 20;
 			
-			this.blit(matrix, this.x, this.y, 0, textureOffset, hWidth, hHeight);
-			this.blit(matrix, this.x, this.y + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
-			this.blit(matrix, this.x + hWidth, this.y, 200 - hWidth, textureOffset, this.width / 2, hHeight);
-			this.blit(matrix, this.x + hWidth, this.y + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
+			this.blit(poseStack, this.getX(), this.getY(), 0, textureOffset, hWidth, hHeight);
+			this.blit(poseStack, this.getX(), this.getY() + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
+			this.blit(poseStack, this.getX() + hWidth, this.getY(), 200 - hWidth, textureOffset, this.width / 2, hHeight);
+			this.blit(poseStack, this.getX() + hWidth, this.getY() + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
 		}
 		
 		RenderSystem.disableBlend();

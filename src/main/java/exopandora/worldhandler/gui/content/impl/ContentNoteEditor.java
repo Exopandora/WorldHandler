@@ -59,53 +59,54 @@ public class ContentNoteEditor extends Content
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
 		if(this.isActive)
 		{
 			BlockPos pos = this.builderNoteEditor.pos().getBlockPos();
-			SoundEvent sound = this.getSoundEvent(pos.below());
+			SoundEvent sound = getSoundEvent(pos.below()).getSoundEvent().get();
 			
-			container.add(new GuiButtonPiano(x - 3 + 15, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.g"), sound, 0.53F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 1)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 2, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.a"), sound, 0.6F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 3)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 3, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.b"), sound, 0.67F, Type.RIGHT, () -> this.setNote(container.getPlayer(), 5)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.g"), sound, 0.53F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 1)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 2, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.a"), sound, 0.6F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 3)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 3, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.b"), sound, 0.67F, Type.RIGHT, () -> this.setNote(container.getPlayer(), 5)));
 			
-			container.add(new GuiButtonPiano(x - 3 + 15 * 4, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.c"), sound, 0.7F, Type.LEFT, () -> this.setNote(container.getPlayer(), 6)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 5, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.d"), sound, 0.8F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 8)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 6, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.e"), sound, 0.9F, Type.RIGHT, () -> this.setNote(container.getPlayer(), 10)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 7, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.f"), sound, 0.95F, Type.LEFT, () -> this.setNote(container.getPlayer(), 11)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 8, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.g"), sound, 1.05F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 13)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 9, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.a"), sound, 1.2F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 15)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 10, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.b"), sound, 1.32F, Type.RIGHT, () -> this.setNote(container.getPlayer(), 17)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 4, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.c"), sound, 0.7F, Type.LEFT, () -> this.setNote(container.getPlayer(), 6)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 5, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.d"), sound, 0.8F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 8)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 6, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.e"), sound, 0.9F, Type.RIGHT, () -> this.setNote(container.getPlayer(), 10)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 7, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.f"), sound, 0.95F, Type.LEFT, () -> this.setNote(container.getPlayer(), 11)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 8, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.g"), sound, 1.05F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 13)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 9, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.a"), sound, 1.2F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 15)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 10, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.b"), sound, 1.32F, Type.RIGHT, () -> this.setNote(container.getPlayer(), 17)));
 			
-			container.add(new GuiButtonPiano(x - 3 + 15 * 11, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.c"), sound, 1.4F, Type.LEFT, () -> this.setNote(container.getPlayer(), 18)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 12, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.d"), sound, 1.6F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 20)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 13, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.e"), sound, 1.8F, Type.RIGHT, () -> this.setNote(container.getPlayer(), 22)));
-			container.add(new GuiButtonPiano(x - 3 + 15 * 14, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.f"), sound, 1.9F, Type.LEFT, () -> this.setNote(container.getPlayer(), 23)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 11, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.c"), sound, 1.4F, Type.LEFT, () -> this.setNote(container.getPlayer(), 18)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 12, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.d"), sound, 1.6F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 20)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 13, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.e"), sound, 1.8F, Type.RIGHT, () -> this.setNote(container.getPlayer(), 22)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 14, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.f"), sound, 1.9F, Type.LEFT, () -> this.setNote(container.getPlayer(), 23)));
 			
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15, y, 9, 58, Component.literal("F#"), sound, 0.5F, Type.BLACK, () -> this.setNote(container.getPlayer(), 0)));
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 2, y, 9, 58, Component.literal("G#"), sound, 0.56F, Type.BLACK, () -> this.setNote(container.getPlayer(), 2)));
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 3, y, 9, 58, Component.literal("A#"), sound, 0.63F, Type.BLACK, () -> this.setNote(container.getPlayer(), 4)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15, y, 9, 58, Component.literal("F#"), sound, 0.5F, Type.BLACK, () -> this.setNote(container.getPlayer(), 0)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 2, y, 9, 58, Component.literal("G#"), sound, 0.56F, Type.BLACK, () -> this.setNote(container.getPlayer(), 2)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 3, y, 9, 58, Component.literal("A#"), sound, 0.63F, Type.BLACK, () -> this.setNote(container.getPlayer(), 4)));
 			
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 5, y, 9, 58, Component.literal("C#"), sound, 0.75F, Type.BLACK, () -> this.setNote(container.getPlayer(), 7)));
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 6, y, 9, 58, Component.literal("D#"), sound, 0.85F, Type.BLACK, () -> this.setNote(container.getPlayer(), 9)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 5, y, 9, 58, Component.literal("C#"), sound, 0.75F, Type.BLACK, () -> this.setNote(container.getPlayer(), 7)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 6, y, 9, 58, Component.literal("D#"), sound, 0.85F, Type.BLACK, () -> this.setNote(container.getPlayer(), 9)));
 			
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 8, y, 9, 58, Component.literal("F#"), sound, 1.0F, Type.BLACK, () -> this.setNote(container.getPlayer(), 12)));
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 9, y, 9, 58, Component.literal("G#"), sound, 1.1F, Type.BLACK, () -> this.setNote(container.getPlayer(), 14)));
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 10, y, 9, 58, Component.literal("A#"), sound, 1.25F, Type.BLACK, () -> this.setNote(container.getPlayer(), 16)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 8, y, 9, 58, Component.literal("F#"), sound, 1.0F, Type.BLACK, () -> this.setNote(container.getPlayer(), 12)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 9, y, 9, 58, Component.literal("G#"), sound, 1.1F, Type.BLACK, () -> this.setNote(container.getPlayer(), 14)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 10, y, 9, 58, Component.literal("A#"), sound, 1.25F, Type.BLACK, () -> this.setNote(container.getPlayer(), 16)));
 			
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 12, y, 9, 58, Component.literal("C#"), sound, 1.5F, Type.BLACK, () -> this.setNote(container.getPlayer(), 19)));
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 13, y, 9, 58, Component.literal("D#"), sound, 1.7F, Type.BLACK, () -> this.setNote(container.getPlayer(), 21)));
-			container.add(new GuiButtonPiano(x - 3 - 5 + 15 * 15, y, 9, 58, Component.literal("F#"), sound, 2.0F, Type.BLACK, () -> this.setNote(container.getPlayer(), 24)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 12, y, 9, 58, Component.literal("C#"), sound, 1.5F, Type.BLACK, () -> this.setNote(container.getPlayer(), 19)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 13, y, 9, 58, Component.literal("D#"), sound, 1.7F, Type.BLACK, () -> this.setNote(container.getPlayer(), 21)));
+			container.addRenderableWidget(new GuiButtonPiano(x - 3 - 5 + 15 * 15, y, 9, 58, Component.literal("F#"), sound, 2.0F, Type.BLACK, () -> this.setNote(container.getPlayer(), 24)));
 		}
 	}
 	
 	private void setNote(String player, int note)
 	{
 		SetBlockCommandBuilder builder = new SetBlockCommandBuilder();
-		builder.pos().set(this.builderNoteEditor.pos().getBlockPos());
-		NoteBlockInstrument instrument = NoteBlockInstrument.byState(Minecraft.getInstance().level.getBlockState(this.builderNoteEditor.pos().getBlockPos().below()));
+		BlockPos pos = this.builderNoteEditor.pos().getBlockPos();
+		builder.pos().set(pos);
+		NoteBlockInstrument instrument = getSoundEvent(pos);
 		BlockState state = Blocks.NOTE_BLOCK.defaultBlockState()
 				.setValue(BlockStateProperties.NOTEBLOCK_INSTRUMENT, instrument)
 				.setValue(BlockStateProperties.NOTE, note);
@@ -150,13 +151,16 @@ public class ContentNoteEditor extends Content
 		}
 	}
 	
-	private SoundEvent getSoundEvent(BlockPos blockPos)
+	private static NoteBlockInstrument getSoundEvent(BlockPos blockPos)
 	{
 		Level level = Minecraft.getInstance().level;
 		
 		if(level != null)
 		{
-			return NoteBlockInstrument.byState(level.getBlockState(blockPos)).getSoundEvent();
+			return NoteBlockInstrument.byStateAbove(level.getBlockState(blockPos.above())).orElseGet(() ->
+			{
+				return NoteBlockInstrument.byStateBelow(level.getBlockState(blockPos.below()));
+			});
 		}
 		
 		return null;

@@ -50,7 +50,7 @@ public class MenuButtonList extends Menu
 	@Override
 	public void initButtons(Container container)
 	{
-		container.add(new GuiButtonList<Node>(this.x, this.y, this.items, 114, 20, container, new ILogicMapped<Node>()
+		container.addRenderableWidget(new GuiButtonList<Node>(this.x, this.y, this.items, 114, 20, container, new ILogicMapped<Node>()
 		{
 			@Override
 			public MutableComponent translate(Node item)
@@ -98,7 +98,7 @@ public class MenuButtonList extends Menu
 			{
 				GuiButtonBase button = new GuiButtonBase(this.x, this.y + 24 * x, 114, 20, Component.empty(), null);
 				button.active = false;
-				container.add(button);
+				container.addRenderableWidget(button);
 			}
 		}
 	}

@@ -75,12 +75,12 @@ public class MenuColorField extends Menu
 	{
 		if(this.logic.doDrawTextField())
 		{
-			container.add(this.textField);
+			container.addRenderableWidget(this.textField);
 		}
 		
 		if(this.logic.doDrawButtons())
 		{
-			container.add(new GuiButtonList<ChatFormatting>(this.x + 118, this.y + 24, COLORS, 114, 20, container, new ILogicMapped<ChatFormatting>()
+			container.addRenderableWidget(new GuiButtonList<ChatFormatting>(this.x + 118, this.y + 24, COLORS, 114, 20, container, new ILogicMapped<ChatFormatting>()
 			{
 				@Override
 				public MutableComponent translate(ChatFormatting item)
@@ -113,27 +113,27 @@ public class MenuColorField extends Menu
 				}
 			}));
 			
-			container.add(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, Component.literal("I").setStyle(Style.EMPTY.withItalic(this.component.getStyle().isItalic())), () ->
+			container.addRenderableWidget(new GuiButtonBase(this.x + 118, this.y + 48, 20, 20, Component.literal("I").setStyle(Style.EMPTY.withItalic(this.component.getStyle().isItalic())), () ->
 			{
 				this.component.setStyle(this.component.getStyle().withItalic(!this.component.getStyle().isItalic()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, Component.literal("B").setStyle(Style.EMPTY.withBold(this.component.getStyle().isBold())), () ->
+			container.addRenderableWidget(new GuiButtonBase(this.x + 118 + 24 - 1, this.y + 48, 20, 20, Component.literal("B").setStyle(Style.EMPTY.withBold(this.component.getStyle().isBold())), () ->
 			{
 				this.component.setStyle(this.component.getStyle().withBold(!this.component.getStyle().isBold()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, Component.literal("U").setStyle(Style.EMPTY.withUnderlined(this.component.getStyle().isUnderlined())), () ->
+			container.addRenderableWidget(new GuiButtonBase(this.x + 118 + 24 * 2 - 1, this.y + 48, 20, 20, Component.literal("U").setStyle(Style.EMPTY.withUnderlined(this.component.getStyle().isUnderlined())), () ->
 			{
 				this.component.setStyle(this.component.getStyle().withUnderlined(!this.component.getStyle().isUnderlined()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, Component.literal("S").setStyle(Style.EMPTY.withStrikethrough(this.component.getStyle().isStrikethrough())), () ->
+			container.addRenderableWidget(new GuiButtonBase(this.x + 118 + 24 * 3 - 1, this.y + 48, 20, 20, Component.literal("S").setStyle(Style.EMPTY.withStrikethrough(this.component.getStyle().isStrikethrough())), () ->
 			{
 				this.component.setStyle(this.component.getStyle().withStrikethrough(!this.component.getStyle().isStrikethrough()));
 				container.init();
 			}));
-			container.add(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, Component.literal("O").setStyle(Style.EMPTY.withObfuscated(this.component.getStyle().isObfuscated())), () ->
+			container.addRenderableWidget(new GuiButtonBase(this.x + 118 + 24 * 4 - 2, this.y + 48, 20, 20, Component.literal("O").setStyle(Style.EMPTY.withObfuscated(this.component.getStyle().isObfuscated())), () ->
 			{
 				this.component.setStyle(this.component.getStyle().withObfuscated(!this.component.getStyle().isObfuscated()));
 				container.init();

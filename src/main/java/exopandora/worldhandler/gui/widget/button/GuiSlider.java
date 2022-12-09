@@ -21,21 +21,21 @@ public class GuiSlider extends GuiButtonBase
 	private final ILogicSlider logic;
 	private final Container container;
 	
-	public GuiSlider(int x, int y, int widthIn, int heightIn, double min, double max, double start, Container container, ILogicSlider logic)
+	public GuiSlider(int x, int y, int width, int height, double min, double max, double start, Container container, ILogicSlider logic)
 	{
-		super(x, y, widthIn, heightIn, Component.empty(), null);
+		super(x, y, width, height, Component.empty(), null);
 		this.logic = Objects.requireNonNull(logic);
 		this.container = Objects.requireNonNull(container);
 		this.persistence = this.container.getContent().getPersistence(this.logic.getId(), () -> new Persistence(min, max, min == max ? 0.0 : ((start - min) / (max - min))));
 		this.persistence.validate(min, max);
-		this.logic.onChangeSliderValue(this.persistence.getValueInt());
+		this.logic.onChangeSliderValue(this.persistence.getIntValue());
 		this.updateDisplayString();
 	}
 	
 	@Override
-	protected void renderBg(PoseStack matrix, Minecraft minecraft, int mouseX, int mouseY)
+	protected void renderBg(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY)
 	{
-		super.renderBg(matrix, minecraft, mouseX, mouseY);
+		super.renderBg(poseStack, minecraft, mouseX, mouseY);
 		
 		int hovered = super.getYImage(this.isHoveredOrFocused());
 		int textureOffset = (Config.getSkin().getTextureType().equals("resourcepack") ? 46 : 0) + hovered * 20;
@@ -43,8 +43,8 @@ public class GuiSlider extends GuiButtonBase
 		RenderSystem.enableBlend();
 		RenderUtils.colorDefaultButton();
 		
-		this.blit(matrix, this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.y, 0, textureOffset, 4, 20);
-		this.blit(matrix, this.x + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.y, 196, textureOffset, 4, 20);
+		this.blit(poseStack, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.getY(), 0, textureOffset, 4, 20);
+		this.blit(poseStack, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.getY(), 196, textureOffset, 4, 20);
 		
 		RenderSystem.disableBlend();
 	}
@@ -64,7 +64,7 @@ public class GuiSlider extends GuiButtonBase
 	
 	protected void updateSlider(double mouseX)
 	{
-		this.persistence.setValue((mouseX - (this.x + 4)) / (float) (this.width - 8));
+		this.persistence.setValue((mouseX - (this.getX() + 4)) / (float) (this.width - 8));
 		
 		if(this.persistence.getValue() < 0.0F)
 		{
@@ -77,7 +77,7 @@ public class GuiSlider extends GuiButtonBase
 		}
 		
 		this.updateDisplayString();
-		this.logic.onChangeSliderValue(this.persistence.getValueInt());
+		this.logic.onChangeSliderValue(this.persistence.getIntValue());
 	}
 	
 	@Override
@@ -88,7 +88,7 @@ public class GuiSlider extends GuiButtonBase
 	
 	private void updateDisplayString()
 	{
-		int value = this.persistence.getValueInt();
+		int value = this.persistence.getIntValue();
 		MutableComponent suffix = this.logic.formatValue(value).append(this.logic.formatSuffix(value));
 		Font fontRenderer = Minecraft.getInstance().font;
 		MutableComponent text = TextUtils.stripText(this.logic.formatPrefix(value), this.width - fontRenderer.width(suffix), fontRenderer).append(suffix);
@@ -142,12 +142,12 @@ public class GuiSlider extends GuiButtonBase
 			this.value = value;
 		}
 		
-		public int getValueInt()
+		public int getIntValue()
 		{
 			return (int) Math.round(this.min + (this.max - this.min) * this.value);
 		}
 		
-		public void setValueInt(int value)
+		public void setIntValue(int value)
 		{
 			this.value = this.intToValue(value);
 		}

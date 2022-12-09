@@ -26,16 +26,16 @@ public class ContentChangeWorld extends ContentChild
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(new GuiButtonBase(x + 116 / 2, y + 24, 232 / 2, 20, Component.translatable("gui.worldhandler.change_world.singleplayer"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 116 / 2, y + 24, 232 / 2, 20, Component.translatable("gui.worldhandler.change_world.singleplayer"), () ->
 		{
 			IConnection connection = ContentChangeWorld.disconnect();
 			Minecraft.getInstance().setScreen(new SelectWorldScreen(new DummyScreen(() -> ContentChangeWorld.reconnect(connection))));
 		}));
 		
-		container.add(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, Component.translatable("gui.worldhandler.change_world.multiplayer"), () ->
+		container.addRenderableWidget(new GuiButtonBase(x + 116 / 2, y + 48, 232 / 2, 20, Component.translatable("gui.worldhandler.change_world.multiplayer"), () ->
 		{
 			IConnection connection = ContentChangeWorld.disconnect();
 			DummyScreen dummy = new DummyScreen(() -> ContentChangeWorld.reconnect(connection));

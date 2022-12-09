@@ -60,7 +60,7 @@ public class ContentButcherSettings extends ContentChild
 			}
 		});
 		
-		container.add(entities);
+		container.addMenu(entities);
 	}
 	
 	@Override
@@ -69,15 +69,15 @@ public class ContentButcherSettings extends ContentChild
 		GuiButtonBase button1;
 		GuiButtonBase button2;
 		
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
+		container.addRenderableWidget(button1 = new GuiButtonBase(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.enable"), () ->
 		{
 			Config.CLIENT.getButcher().addEntity(this.entity);
 			container.initButtons();
 		}));
-		container.add(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.generic.disable"), () ->
+		container.addRenderableWidget(button2 = new GuiButtonBase(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.generic.disable"), () ->
 		{
 			Config.CLIENT.getButcher().removeEntity(this.entity);
 			container.initButtons();

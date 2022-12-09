@@ -8,13 +8,13 @@ import net.minecraft.network.chat.Component;
 
 public class GuiButtonTab extends GuiButtonBase
 {
-	public GuiButtonTab(int x, int y, int widthIn, int heightIn, Component narration, ActionHandler actionHandler)
+	public GuiButtonTab(int x, int y, int width, int height, Component narration, ActionHandler actionHandler)
 	{
-		super(x, y, widthIn, heightIn, narration, actionHandler);
+		super(x, y, width, height, narration, actionHandler);
 	}
 	
 	@Override
-	public void render(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
 	{
 		
 	}

@@ -13,7 +13,7 @@ import net.minecraft.network.chat.Component;
 public class WidgetShortcuts implements IContainerWidget
 {
 	@Override
-	public void initGui(Container container, int x, int y)
+	public void initButtons(Container container, int x, int y)
 	{
 		int start = container.width / 2 - 157;
 		EnumShortcuts shortcuts[] = EnumShortcuts.values();
@@ -21,7 +21,7 @@ public class WidgetShortcuts implements IContainerWidget
 		for(int i = 0; i < shortcuts.length; i++)
 		{
 			EnumShortcuts shortcut = shortcuts[i];
-			container.addWidget(new GuiButtonIcon(start + i * 21, 0, 20, 20, shortcut.getIcon(), shortcut.getTextSupplier().get(), shortcut.getActionHandler()));
+			container.addRenderableWidget(new GuiButtonIcon(start + i * 21, 0, 20, 20, shortcut.getIcon(), shortcut.getTextSupplier().get(), shortcut.getActionHandler()));
 		}
 	}
 	

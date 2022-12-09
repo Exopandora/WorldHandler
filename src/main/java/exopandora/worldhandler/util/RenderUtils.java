@@ -2,7 +2,7 @@ package exopandora.worldhandler.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import exopandora.worldhandler.config.Config;
 import net.minecraft.client.gui.GuiComponent;
@@ -29,13 +29,13 @@ public class RenderUtils
 		matrix.translate(width + 5, height + 5, 0F);
 		matrix.scale(0.25F, 0.25F, 0.25F);
 		
-		matrix.mulPose(Vector3f.ZP.rotationDegrees(rotationHour));
+		matrix.mulPose(Axis.ZP.rotationDegrees(rotationHour));
 		GuiComponent.fill(matrix, -1, -1, 1, 11, 0xFF383838);
-		matrix.mulPose(Vector3f.ZN.rotationDegrees(rotationHour));
+		matrix.mulPose(Axis.ZN.rotationDegrees(rotationHour));
 		
-		matrix.mulPose(Vector3f.ZP.rotationDegrees(rotationMinute));
+		matrix.mulPose(Axis.ZP.rotationDegrees(rotationMinute));
 		GuiComponent.fill(matrix, -1, -1, 1, 15, 0xFF6F6F6F);
-		matrix.mulPose(Vector3f.ZN.rotationDegrees(rotationMinute));
+		matrix.mulPose(Axis.ZN.rotationDegrees(rotationMinute));
 		
 		matrix.popPose();
 		

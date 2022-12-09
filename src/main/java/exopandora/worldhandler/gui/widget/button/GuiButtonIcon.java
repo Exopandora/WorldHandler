@@ -12,24 +12,24 @@ public class GuiButtonIcon extends GuiButtonTooltip
 {
 	private final EnumIcon icon;
 	
-	public GuiButtonIcon(int x, int y, int widthIn, int heightIn, EnumIcon icon, Component tooltip, ActionHandler actionHandler)
+	public GuiButtonIcon(int x, int y, int width, int height, EnumIcon icon, Component tooltip, ActionHandler actionHandler)
 	{
-		super(x, y, widthIn, heightIn, tooltip, tooltip, actionHandler);
+		super(x, y, width, height, tooltip, tooltip, actionHandler);
 		this.icon = icon;
 	}
 	
 	@Override
-	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderBg(matrix, Minecraft.getInstance(), mouseX, mouseY);
+		super.renderBg(poseStack, Minecraft.getInstance(), mouseX, mouseY);
 		
 		if(this.icon != null)
 		{
-			this.renderIcon(matrix);
+			this.renderIcon(poseStack);
 		}
 	}
 	
-	private void renderIcon(PoseStack matrix)
+	private void renderIcon(PoseStack poseStack)
 	{
 		RenderSystem.setShaderTexture(0, ResourceHelper.iconTexture());
 		
@@ -42,6 +42,6 @@ public class GuiButtonIcon extends GuiButtonTooltip
 			RenderSystem.setShaderColor(0.8F, 0.8F, 0.8F, 1.0F);
 		}
 		
-		this.blit(matrix, this.x + this.width / 2 - 4, this.y + this.height / 2 - 4, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);
+		this.blit(poseStack, this.getX() + this.width / 2 - 4, this.getY() + this.height / 2 - 4, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);
 	}
 }

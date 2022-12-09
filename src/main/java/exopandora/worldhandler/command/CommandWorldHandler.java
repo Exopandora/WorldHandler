@@ -77,7 +77,7 @@ public class CommandWorldHandler
 			throw COMMANDS_ALREADY_ALLOWED.create();
 		}
 		
-		worldData.settings = new LevelSettings(settings.levelName(), settings.gameType(), settings.hardcore(), settings.difficulty(), true, settings.gameRules(), settings.getDataPackConfig(), settings.getLifecycle());
+		worldData.settings = new LevelSettings(settings.levelName(), settings.gameType(), settings.hardcore(), settings.difficulty(), true, settings.gameRules(), settings.getDataConfiguration(), settings.getLifecycle());
 		int operatorPermissionLevel = server.getOperatorUserPermissionLevel();
 		Minecraft.getInstance().player.setPermissionLevel(operatorPermissionLevel);
 		

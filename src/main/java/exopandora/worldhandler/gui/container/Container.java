@@ -5,9 +5,7 @@ import java.util.List;
 
 import exopandora.worldhandler.gui.widget.menu.IMenu;
 import exopandora.worldhandler.gui.widget.menu.Menu;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,41 +14,44 @@ import net.minecraft.network.chat.Component;
 public abstract class Container extends Screen implements IContainer
 {
 	protected final List<IMenu> menus = new ArrayList<IMenu>();
-	protected final List<AbstractWidget> widgetButtons = new ArrayList<AbstractWidget>();
 	
 	protected Container(Component title)
 	{
 		super(title);
 	}
 	
+	// Workaround protected modifier
 	@Override
 	public void init()
 	{
 		super.init();
 	}
 	
+	// Workaround protected modifier
 	@Override
-	public <T extends GuiEventListener & Widget & NarratableEntry> T add(T button)
+	public <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T widget)
 	{
-		return super.addRenderableWidget(button);
+		return super.addRenderableWidget(widget);
 	}
 	
-	public <T extends EditBox> T add(T textfield)
+	// Workaround protected modifier
+	@Override
+	public <T extends Renderable> T addRenderableOnly(T widget)
 	{
-		return super.addWidget(textfield);
+		return super.addRenderableOnly(widget);
+	}
+	
+	// Workaround protected modifier
+	@Override
+	public <T extends GuiEventListener & NarratableEntry> T addWidget(T widget)
+	{
+		return super.addWidget(widget);
 	}
 	
 	@Override
-	public Menu add(Menu menu)
+	public Menu addMenu(Menu menu)
 	{
 		this.menus.add(menu);
 		return menu;
-	}
-	
-	@Override
-	public AbstractWidget addWidget(AbstractWidget button)
-	{
-		this.widgetButtons.add(button);
-		return button;
 	}
 }

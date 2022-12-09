@@ -10,17 +10,17 @@ public class GuiButtonTooltip extends GuiButtonBase
 {
 	protected Component tooltip;
 	
-	public GuiButtonTooltip(int x, int y, int widthIn, int heightIn, Component buttonText, Component tooltip, ActionHandler actionHandler)
+	public GuiButtonTooltip(int x, int y, int width, int height, Component buttonText, Component tooltip, ActionHandler actionHandler)
 	{
-		super(x, y, widthIn, heightIn, buttonText, actionHandler);
+		super(x, y, width, height, buttonText, actionHandler);
 		this.tooltip = tooltip;
 	}
 	
-	public void renderTooltip(Screen screen, PoseStack matrix, int mouseX, int mouseY)
+	public void renderTooltip(Screen screen, PoseStack poseStack, int mouseX, int mouseY)
 	{
 		if(this.isHoveredOrFocused() && this.tooltip != null && !this.tooltip.getString().isEmpty())
 		{
-			screen.renderTooltip(matrix, this.tooltip, mouseX, mouseY);
+			screen.renderTooltip(poseStack, this.tooltip, mouseX, mouseY);
 		}
 	}
 }

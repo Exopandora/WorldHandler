@@ -24,14 +24,14 @@ public class GuiTextFieldTooltip extends EditBox
 	}
 	
 	@Override
-	public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderButton(matrix, mouseX, mouseY, partialTicks);
+		super.renderButton(poseStack, mouseX, mouseY, partialTicks);
 		
 		if(this.isVisible() && !this.isFocused() && this.tooltip != null && ChatFormatting.stripFormatting(this.getValue()).isEmpty())
 		{
-			int x = this.x;
-			int y = this.y;
+			int x = this.getX();
+			int y = this.getY();
 			
 			if(this.getInnerWidth() != this.width)
 			{
@@ -39,7 +39,7 @@ public class GuiTextFieldTooltip extends EditBox
 				y += (this.height - 8) / 2;
 			}
 			
-			Minecraft.getInstance().font.drawShadow(matrix, this.tooltip, (float) x, (float) y, 0x7F7F7F); //drawStringWithShadow
+			Minecraft.getInstance().font.drawShadow(poseStack, this.tooltip, (float) x, (float) y, 0x7F7F7F);
 		}
 	}
 	
@@ -51,12 +51,6 @@ public class GuiTextFieldTooltip extends EditBox
 	public Component getTooltip()
 	{
 		return this.tooltip;
-	}
-	
-	public void setPosition(int x, int y)
-	{
-		this.x = x;
-		this.y = y;
 	}
 	
 	public void setText(Component text)

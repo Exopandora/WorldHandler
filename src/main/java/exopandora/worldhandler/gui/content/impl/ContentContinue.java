@@ -50,16 +50,16 @@ public class ContentContinue extends ContentChild
 	@Override
 	public void initButtons(Container container, int x, int y)
 	{
-		container.add(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
-		container.add(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
+		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.back"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 118, y + 96, 114, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 		
-		container.add(this.commandField);
-		container.add(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, Component.translatable("gui.worldhandler.generic.yes").withStyle(ChatFormatting.RED), () ->
+		container.addRenderableWidget(this.commandField);
+		container.addRenderableWidget(new GuiButtonBase(x + 116 / 2, y + 36, 116, 20, Component.translatable("gui.worldhandler.generic.yes").withStyle(ChatFormatting.RED), () ->
 		{
 			CommandHelper.sendCommand(container.getPlayer(), this.builder, this.label, this.special);
 			ActionHelper.open(this.getParentContent());
 		}));
-		container.add(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, Component.translatable("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
+		container.addRenderableWidget(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, Component.translatable("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
 	}
 	
 	@Override
