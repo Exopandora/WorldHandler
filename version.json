@@ -1,6 +1,8 @@
 {
 	"homepage": "https://minecraft.curseforge.com/projects/world-handler-command-gui",
 	"promos": {
+		"1.19.4-latest": "3.4.3",
+		"1.19.4-recommended": "3.4.3",
 		"1.19.3-latest": "3.4.3",
 		"1.19.3-recommended": "3.4.3",
 		"1.19.2-latest": "3.4.1",
@@ -79,6 +81,9 @@
 		"1.5.1-recommended": "1.15",
 		"1.5-latest": "1.0",
 		"1.5-recommended": "1.0"
+	},
+	"1.19.3": {
+		"3.4.3": "- Added 1.19.4 compatibility"
 	},
 	"1.19.3": {
 		"3.4.3": "- Fixed pack version",
