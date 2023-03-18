@@ -1,7 +1,6 @@
 package exopandora.worldhandler.gui.widget;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.impl.WorldHandlerCommandBuilder;
 import exopandora.worldhandler.config.Config;
@@ -38,15 +37,6 @@ public class WidgetCommandSyntax implements IContainerWidget
 		}
 	}
 	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		if(this.syntaxField != null)
-		{
-			this.syntaxField.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
-	}
-	
 	private void updateSyntax(Container container)
 	{
 		if(this.syntaxField != null && !this.syntaxField.isFocused())
@@ -77,5 +67,17 @@ public class WidgetCommandSyntax implements IContainerWidget
 	public EnumLayer getLayer()
 	{
 		return EnumLayer.FOREGROUND;
+	}
+	
+	@Override
+	public void setFocused(boolean focused)
+	{
+		this.syntaxField.setFocused(focused);
+	}
+	
+	@Override
+	public boolean isFocused()
+	{
+		return this.syntaxField.isFocused();
 	}
 }

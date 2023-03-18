@@ -84,7 +84,23 @@ public class DataCommandBuilder extends CommandBuilder
 																					.label(Label.MODIFY_BLOCK_FROM_STORAGE_PATH)))))
 													.then(CommandNode.literal("value")
 															.then(CommandNode.argument("value", this.value)
-																	.label(Label.MODIFY_BLOCK_VALUE)))))))
+																	.label(Label.MODIFY_BLOCK_VALUE)))
+													.then(CommandNode.literal("string")
+															.then(CommandNode.literal("block")
+																	.then(CommandNode.argument("sourcePos", this.sourcePos)
+																			.label(Label.MODIFY_BLOCK_STRING_BLOCK)
+																			.then(CommandNode.argument("sourcePath", this.sourcePath)
+																					.label(Label.MODIFY_BLOCK_STRING_BLOCK_PATH))))
+															.then(CommandNode.literal("entity")
+																	.then(CommandNode.argument("sourceTarget", this.sourceTarget)
+																			.label(Label.MODIFY_BLOCK_STRING_ENTITY)
+																			.then(CommandNode.argument("sourcePath", this.sourcePath)
+																					.label(Label.MODIFY_BLOCK_STRING_ENTITY_PATH))))
+															.then(CommandNode.literal("storage")
+																	.then(CommandNode.argument("source", this.sourceTarget)
+																			.label(Label.MODIFY_BLOCK_STRING_STORAGE)
+																			.then(CommandNode.argument("sourcePath", this.sourcePath)
+																					.label(Label.MODIFY_BLOCK_STRING_STORAGE_PATH)))))))))
 					.then(CommandNode.literal("entity")
 							.then(CommandNode.argument("target", this.target)
 									.then(CommandNode.argument("path", this.path)
@@ -107,7 +123,23 @@ public class DataCommandBuilder extends CommandBuilder
 																					.label(Label.MODIFY_ENTITY_FROM_STORAGE_PATH)))))
 													.then(CommandNode.literal("value")
 															.then(CommandNode.argument("value", this.value)
-																	.label(Label.MODIFY_ENTITY_VALUE)))))))
+																	.label(Label.MODIFY_ENTITY_VALUE)))
+													.then(CommandNode.literal("string")
+															.then(CommandNode.literal("block")
+																	.then(CommandNode.argument("sourcePos", this.sourcePos)
+																			.label(Label.MODIFY_ENTITY_STRING_BLOCK)
+																			.then(CommandNode.argument("sourcePath", this.sourcePath)
+																					.label(Label.MODIFY_ENTITY_STRING_BLOCK_PATH))))
+															.then(CommandNode.literal("entity")
+																	.then(CommandNode.argument("sourceTarget", this.sourceTarget)
+																			.label(Label.MODIFY_ENTITY_STRING_ENTITY)
+																			.then(CommandNode.argument("sourcePath", this.sourcePath)
+																					.label(Label.MODIFY_ENTITY_STRING_ENTITY_PATH))))
+															.then(CommandNode.literal("storage")
+																	.then(CommandNode.argument("source", this.sourceTarget)
+																			.label(Label.MODIFY_ENTITY_STRING_STORAGE)
+																			.then(CommandNode.argument("sourcePath", this.sourcePath)
+																					.label(Label.MODIFY_ENTITY_STRING_STORAGE_PATH)))))))))
 					.then(CommandNode.literal("storage")
 							.then(CommandNode.argument("target", this.target)
 									.then(CommandNode.argument("path", this.path)
@@ -130,7 +162,23 @@ public class DataCommandBuilder extends CommandBuilder
 																					.label(Label.MODIFY_STORAGE_FROM_STORAGE_PATH)))))
 													.then(CommandNode.literal("value")
 															.then(CommandNode.argument("value", this.value)
-																	.label(Label.MODIFY_STORAGE_VALUE))))))))
+																	.label(Label.MODIFY_STORAGE_VALUE)))
+													.then(CommandNode.literal("string")
+															.then(CommandNode.literal("block")
+																	.then(CommandNode.argument("sourcePos", this.sourcePos)
+																			.label(Label.MODIFY_STORAGE_STRING_BLOCK)
+																			.then(CommandNode.argument("sourcePath", this.sourcePath)
+																					.label(Label.MODIFY_STORAGE_STRING_BLOCK_PATH))))
+															.then(CommandNode.literal("entity")
+																	.then(CommandNode.argument("sourceTarget", this.sourceTarget)
+																			.label(Label.MODIFY_STORAGE_STRING_ENTITY)
+																			.then(CommandNode.argument("sourcePath", this.sourcePath)
+																					.label(Label.MODIFY_STORAGE_STRING_ENTITY_PATH))))
+															.then(CommandNode.literal("storage")
+																	.then(CommandNode.argument("source", this.sourceTarget)
+																			.label(Label.MODIFY_STORAGE_STRING_STORAGE)
+																			.then(CommandNode.argument("sourcePath", this.sourcePath)
+																					.label(Label.MODIFY_STORAGE_STRING_STORAGE_PATH))))))))))
 			.then(CommandNode.literal("remove")
 					.then(CommandNode.literal("block")
 							.then(CommandNode.argument("targetPos", this.targetPos)
@@ -227,6 +275,12 @@ public class DataCommandBuilder extends CommandBuilder
 		MODIFY_BLOCK_FROM_STORAGE,
 		MODIFY_BLOCK_FROM_STORAGE_PATH,
 		MODIFY_BLOCK_VALUE,
+		MODIFY_BLOCK_STRING_BLOCK,
+		MODIFY_BLOCK_STRING_BLOCK_PATH,
+		MODIFY_BLOCK_STRING_ENTITY,
+		MODIFY_BLOCK_STRING_ENTITY_PATH,
+		MODIFY_BLOCK_STRING_STORAGE,
+		MODIFY_BLOCK_STRING_STORAGE_PATH,
 		MODIFY_ENTITY_FROM_BLOCK,
 		MODIFY_ENTITY_FROM_BLOCK_PATH,
 		MODIFY_ENTITY_FROM_ENTITY,
@@ -234,6 +288,12 @@ public class DataCommandBuilder extends CommandBuilder
 		MODIFY_ENTITY_FROM_STORAGE,
 		MODIFY_ENTITY_FROM_STORAGE_PATH,
 		MODIFY_ENTITY_VALUE,
+		MODIFY_ENTITY_STRING_BLOCK,
+		MODIFY_ENTITY_STRING_BLOCK_PATH,
+		MODIFY_ENTITY_STRING_ENTITY,
+		MODIFY_ENTITY_STRING_ENTITY_PATH,
+		MODIFY_ENTITY_STRING_STORAGE,
+		MODIFY_ENTITY_STRING_STORAGE_PATH,
 		MODIFY_STORAGE_FROM_BLOCK,
 		MODIFY_STORAGE_FROM_BLOCK_PATH,
 		MODIFY_STORAGE_FROM_ENTITY,
@@ -241,6 +301,12 @@ public class DataCommandBuilder extends CommandBuilder
 		MODIFY_STORAGE_FROM_STORAGE,
 		MODIFY_STORAGE_FROM_STORAGE_PATH,
 		MODIFY_STORAGE_VALUE,
+		MODIFY_STORAGE_STRING_BLOCK,
+		MODIFY_STORAGE_STRING_BLOCK_PATH,
+		MODIFY_STORAGE_STRING_ENTITY,
+		MODIFY_STORAGE_STRING_ENTITY_PATH,
+		MODIFY_STORAGE_STRING_STORAGE,
+		MODIFY_STORAGE_STRING_STORAGE_PATH,
 		REMOVE_BLOCK,
 		REMOVE_ENTITY,
 		REMOVE_STORAGE;

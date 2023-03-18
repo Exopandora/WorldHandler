@@ -1,7 +1,6 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.impl.BanCommandBuilder;
 import exopandora.worldhandler.builder.impl.DeOpCommandBuilder;
@@ -94,7 +93,7 @@ public class ContentMultiplayer extends Content
 	{
 		this.playerField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.multiplayer.username"));
 		this.playerField.setFilter(Predicates.notNull());
-		this.playerField.setFocus(false);
+		this.playerField.setFocused(false);
 		this.playerField.setValue(this.builderKick.targets().getTarget());
 		this.playerField.setMaxLength(16);
 		this.playerField.setResponder(text ->
@@ -105,7 +104,7 @@ public class ContentMultiplayer extends Content
 		
 		this.reasonField = new GuiTextFieldTooltip(x + 118, y + 24 + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.multiplayer.kick_ban.reason"));
 		this.reasonField.setFilter(Predicates.notNull());
-		this.reasonField.setFocus(false);
+		this.reasonField.setFocused(false);
 		this.reasonField.setValue(this.builderKick.reason().get());
 		this.reasonField.setResponder(text ->
 		{
@@ -277,20 +276,6 @@ public class ContentMultiplayer extends Content
 		if(!Page.RUNTIME.equals(this.page))
 		{
 			this.playerField.tick();
-		}
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		if(Page.KICK_AND_BAN.equals(this.page))
-		{
-			this.reasonField.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
-		
-		if(!Page.RUNTIME.equals(this.page))
-		{
-			this.playerField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

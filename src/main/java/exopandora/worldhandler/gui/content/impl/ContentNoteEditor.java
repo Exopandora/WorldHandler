@@ -20,6 +20,7 @@ import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -122,14 +123,14 @@ public class ContentNoteEditor extends Content
 			RenderSystem.setShaderTexture(0, NOTE);
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			
-			container.blit(matrix, x - 1, y - 1, 0, 0, 8, 59);
-			container.blit(matrix, x - 1, y - 1 + 59, 0, 59, 13, 35);
+			GuiComponent.blit(matrix, x - 1, y - 1, 0, 0, 8, 59);
+			GuiComponent.blit(matrix, x - 1, y - 1 + 59, 0, 59, 13, 35);
 			
-			container.blit(matrix, x - 1 + 232 - 5, y - 1, 18, 0, 7, 59);
-			container.blit(matrix, x - 1 + 232 - 10, y - 1 + 59, 13, 59, 12, 35);
+			GuiComponent.blit(matrix, x - 1 + 232 - 5, y - 1, 18, 0, 7, 59);
+			GuiComponent.blit(matrix, x - 1 + 232 - 10, y - 1 + 59, 13, 59, 12, 35);
 			
-			container.blit(matrix, x - 1 + 8, y - 1, 0, 94, 219, 1);
-			container.blit(matrix, x - 1 + 13, y - 1 + 93, 0, 94, 209, 1);
+			GuiComponent.blit(matrix, x - 1 + 8, y - 1, 0, 94, 219, 1);
+			GuiComponent.blit(matrix, x - 1 + 13, y - 1 + 93, 0, 94, 209, 1);
 		}
 		else
 		{
@@ -140,7 +141,7 @@ public class ContentNoteEditor extends Content
 			posestack.translate(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
 			posestack.scale(scale, scale, scale);
 			
-			Minecraft.getInstance().getItemRenderer().renderGuiItem(new ItemStack(Items.NOTE_BLOCK), 0, 0);
+			Minecraft.getInstance().getItemRenderer().renderGuiItem(matrix, new ItemStack(Items.NOTE_BLOCK), 0, 0);
 			
 			posestack.popPose();
 			RenderSystem.applyModelViewMatrix();

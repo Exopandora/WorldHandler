@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.impl.ContentSettings.Setting.BooleanSetting;
@@ -167,15 +165,6 @@ public class ContentSettings extends ContentChild
 		if(this.setting instanceof IntegerSetting)
 		{
 			this.valueField.tick();
-		}
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		if(this.setting instanceof IntegerSetting)
-		{
-			this.valueField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

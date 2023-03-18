@@ -98,4 +98,16 @@ public class WidgetNameField implements IContainerWidget
 		
 		container.getContent().onPlayerNameChanged(container.getPlayer());
 	}
+	
+	@Override
+	public void setFocused(boolean focused)
+	{
+		this.nameField.setFocused(focused);
+	}
+	
+	@Override
+	public boolean isFocused()
+	{
+		return this.nameField.isFocused();
+	}
 }

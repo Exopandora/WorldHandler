@@ -24,9 +24,9 @@ public class GuiTextFieldTooltip extends EditBox
 	}
 	
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderButton(poseStack, mouseX, mouseY, partialTicks);
+		super.render(poseStack, mouseX, mouseY, partialTicks);
 		
 		if(this.isVisible() && !this.isFocused() && this.tooltip != null && ChatFormatting.stripFormatting(this.getValue()).isEmpty())
 		{

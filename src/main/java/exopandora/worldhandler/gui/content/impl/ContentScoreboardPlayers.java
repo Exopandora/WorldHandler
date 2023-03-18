@@ -1,7 +1,6 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.impl.ScoreboardCommandBuilder;
 import exopandora.worldhandler.builder.impl.TagCommandBuilder;
@@ -236,19 +235,6 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 			}
 			
 			this.objectField.tick();
-		}
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		if(Page.TAG.equals(this.page))
-		{
-			this.tagField.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
-		else
-		{
-			this.objectField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

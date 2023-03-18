@@ -1,7 +1,5 @@
 package exopandora.worldhandler.gui.content.impl;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
@@ -41,7 +39,7 @@ public class ContentContinue extends ContentChild
 	public void initGui(Container container, int x, int y)
 	{
 		this.commandField = new GuiTextFieldTooltip(x + 116 / 2, y + 12, 116, 20);
-		this.commandField.setFocus(false);
+		this.commandField.setFocused(false);
 		this.commandField.setValue(this.builder.toCommand(this.label, false));
 		this.commandField.moveCursorToStart();
 		this.commandField.setFilter(text -> text.equals(this.commandField.getValue()));
@@ -60,11 +58,5 @@ public class ContentContinue extends ContentChild
 			ActionHelper.open(this.getParentContent());
 		}));
 		container.addRenderableWidget(new GuiButtonBase(x + 116 / 2, y + 60, 116, 20, Component.translatable("gui.worldhandler.generic.no"), () -> ActionHelper.back(this)));
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		this.commandField.renderButton(matrix, mouseX, mouseY, partialTicks);
 	}
 }

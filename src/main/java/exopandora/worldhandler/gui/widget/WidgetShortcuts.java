@@ -126,4 +126,16 @@ public class WidgetShortcuts implements IContainerWidget
 			return this.actionHandler;
 		}
 	}
+	
+	@Override
+	public void setFocused(boolean focused)
+	{
+		return;
+	}
+	
+	@Override
+	public boolean isFocused()
+	{
+		return false;
+	}
 }

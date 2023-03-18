@@ -8,7 +8,6 @@ import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.argument.Coordinate;
 import exopandora.worldhandler.builder.argument.TargetArgument.SelectorTypes;
@@ -206,15 +205,6 @@ public class ContentCommandStack extends ContentChild
 		this.iterate(index ->
 		{
 			this.textfields.get(index).tick();
-		});
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		this.iterate(index ->
-		{
-			this.textfields.get(index).renderButton(matrix, mouseX, mouseY, partialTicks);
 		});
 	}
 	

@@ -11,6 +11,8 @@ import net.minecraft.network.chat.Component;
 
 public class WidgetWatch implements IContainerWidget
 {
+	private boolean focused = false;
+	
 	@Override
 	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
@@ -42,5 +44,17 @@ public class WidgetWatch implements IContainerWidget
 	public EnumLayer getLayer()
 	{
 		return EnumLayer.BACKGROUND;
+	}
+	
+	@Override
+	public void setFocused(boolean focused)
+	{
+		this.focused = focused;
+	}
+	
+	@Override
+	public boolean isFocused()
+	{
+		return this.focused;
 	}
 }

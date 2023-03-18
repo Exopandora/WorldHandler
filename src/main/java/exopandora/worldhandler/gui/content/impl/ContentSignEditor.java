@@ -185,7 +185,7 @@ public class ContentSignEditor extends Content
 		{
 			if(!this.editColor)
 			{
-				this.commandField.renderButton(matrix, mouseX, mouseY, partialTicks);
+				this.commandField.render(matrix, mouseX, mouseY, partialTicks);
 			}
 		}
 		else
@@ -197,7 +197,7 @@ public class ContentSignEditor extends Content
 			posestack.translate(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
 			posestack.scale(scale, scale, scale);
 			
-			Minecraft.getInstance().getItemRenderer().renderGuiItem(new ItemStack(Items.OAK_SIGN), 0, 0);
+			Minecraft.getInstance().getItemRenderer().renderGuiItem(posestack, new ItemStack(Items.OAK_SIGN), 0, 0);
 			
 			posestack.popPose();
 			RenderSystem.applyModelViewMatrix();

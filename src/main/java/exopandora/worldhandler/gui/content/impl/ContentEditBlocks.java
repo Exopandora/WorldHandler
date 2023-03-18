@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.impl.CloneCommandBuilder;
 import exopandora.worldhandler.builder.impl.CloneCommandBuilder.Label;
@@ -334,37 +333,6 @@ public class ContentEditBlocks extends Content
 			if(Mask.FILTERED.equals(this.mask))
 			{
 				this.filterField.tick();
-			}
-		}
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		if(Page.COORDINATES.equals(this.page))
-		{
-			this.x1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.y1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.z1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-			
-			this.x2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.y2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.z2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
-		else if(Page.FILL.equals(this.page))
-		{
-			this.block1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
-		else if(Page.REPLACE.equals(this.page))
-		{
-			this.block1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.block2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
-		else if(Page.CLONE.equals(this.page))
-		{
-			if(Mask.FILTERED.equals(this.mask))
-			{
-				this.filterField.renderButton(matrix, mouseX, mouseY, partialTicks);
 			}
 		}
 	}

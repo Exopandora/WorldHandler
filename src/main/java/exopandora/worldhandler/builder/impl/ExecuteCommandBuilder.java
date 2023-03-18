@@ -8,6 +8,7 @@ import exopandora.worldhandler.builder.argument.Arguments;
 import exopandora.worldhandler.builder.argument.BlockPosArgument;
 import exopandora.worldhandler.builder.argument.CommandArgument;
 import exopandora.worldhandler.builder.argument.DimensionArgument;
+import exopandora.worldhandler.builder.argument.EntitySummonArgument;
 import exopandora.worldhandler.builder.argument.NbtPathArgument;
 import exopandora.worldhandler.builder.argument.PrimitiveArgument;
 import exopandora.worldhandler.builder.argument.RangeArgument;
@@ -213,7 +214,7 @@ public class ExecuteCommandBuilder extends CommandBuilder
 	
 	public static class InOptionalArgument extends OptionalCommandBuilder<InOptionalArgument.Label>
 	{
-		private final DimensionArgument dimension = DimensionArgument.dimension();
+		private final DimensionArgument dimension = Arguments.dimension();
 		private final CommandNodeLiteral root = CommandNode.literal("in")
 				.then(CommandNode.argument("dimension", this.dimension)
 						.label(Label.IN));
@@ -249,7 +250,16 @@ public class ExecuteCommandBuilder extends CommandBuilder
 						.label(Label.POS))
 				.then(CommandNode.literal("as")
 						.then(CommandNode.argument("targets", this.targets)
-								.label(Label.AS)));
+								.label(Label.AS)))
+				.then(CommandNode.literal("over")
+						.then(CommandNode.literal("world_surface")
+								.label(Label.OVER_WORLD_SURFACE))
+						.then(CommandNode.literal("motion_blocking")
+								.label(Label.OVER_MOTION_BLOCKING))
+						.then(CommandNode.literal("motion_blocking_no_leaves")
+								.label(Label.OVER_MOTION_BLOCKING_NO_LEAVES))
+						.then(CommandNode.literal("ocean_floor")
+								.label(Label.OVER_OCEAN_FLOOR)));
 		
 		public PositionedOptionalArgument(Label label)
 		{
@@ -275,7 +285,11 @@ public class ExecuteCommandBuilder extends CommandBuilder
 		public static enum Label
 		{
 			POS,
-			AS;
+			AS,
+			OVER_WORLD_SURFACE,
+			OVER_MOTION_BLOCKING,
+			OVER_MOTION_BLOCKING_NO_LEAVES,
+			OVER_OCEAN_FLOOR;
 		}
 	}
 	
@@ -316,6 +330,7 @@ public class ExecuteCommandBuilder extends CommandBuilder
 		private final BlockPosArgument start = Arguments.blockPos();
 		private final BlockPosArgument end = Arguments.blockPos();
 		private final BlockPosArgument destination = Arguments.blockPos();
+		private final DimensionArgument dimension = Arguments.dimension();
 		private final NbtPathArgument path = Arguments.nbtPath();
 		private final PrimitiveArgument<ResourceLocation> predicate = Arguments.resourceLocation();
 		private final TargetArgument target = Arguments.target();
@@ -354,9 +369,15 @@ public class ExecuteCommandBuilder extends CommandBuilder
 									.then(CommandNode.argument("source", this.target)
 											.then(CommandNode.argument("sourcePath", this.path)
 													.label(Label.DATA_STORAGE)))))
+					.then(CommandNode.literal("dimension")
+							.then(CommandNode.argument("dimension", this.dimension)
+									.label(Label.DIMENSION)))
 					.then(CommandNode.literal("entity")
 							.then(CommandNode.argument("entites", this.target)
 									.label(Label.ENTITY)))
+					.then(CommandNode.literal("loaded")
+							.then(CommandNode.argument("pos", this.pos)
+									.label(Label.LOADED)))
 					.then(CommandNode.literal("predicate")
 							.then(CommandNode.argument("predicate", this.predicate)
 									.label(Label.PREDICATE)))
@@ -462,7 +483,9 @@ public class ExecuteCommandBuilder extends CommandBuilder
 			DATA_BLOCK,
 			DATA_ENTITY,
 			DATA_STORAGE,
+			DIMENSION,
 			ENTITY,
+			LOADED,
 			PREDICATE,
 			SCORE_LT,
 			SCORE_LE,
@@ -619,6 +642,80 @@ public class ExecuteCommandBuilder extends CommandBuilder
 			SUCCESS_ENTITY,
 			SUCCESS_SCORE,
 			SUCCESS_STORAGE;
+		}
+	}
+	
+	public static class OnOptionalArgument extends OptionalCommandBuilder<OnOptionalArgument.Label>
+	{
+		private final CommandNodeLiteral root = CommandNode.literal("on")
+				.then(CommandNode.literal("attacker")
+						.label(Label.ATTACKER))
+				.then(CommandNode.literal("controller")
+						.label(Label.CONTROLLER))
+				.then(CommandNode.literal("leasher")
+						.label(Label.LEASHER))
+				.then(CommandNode.literal("origin")
+						.label(Label.ORIGIN))
+				.then(CommandNode.literal("owner")
+						.label(Label.OWNER))
+				.then(CommandNode.literal("passengers")
+						.label(Label.PASSENGERS))
+				.then(CommandNode.literal("target")
+						.label(Label.TARGET))
+				.then(CommandNode.literal("vehicle")
+						.label(Label.VEHICLE));
+		
+		public OnOptionalArgument(Label label)
+		{
+			super(label);
+		}
+		
+		@Override
+		protected CommandNodeLiteral root()
+		{
+			return this.root;
+		}
+		
+		public static enum Label
+		{
+			ATTACKER,
+			CONTROLLER,
+			LEASHER,
+			ORIGIN,
+			OWNER,
+			PASSENGERS,
+			TARGET,
+			VEHICLE;
+		}
+	}
+	
+	public static class SummonOptionalArgument extends OptionalCommandBuilder<SummonOptionalArgument.Label>
+	{
+		private final EntitySummonArgument entity = Arguments.entitySummon();
+		
+		private final CommandNodeLiteral root = CommandNode.literal("on")
+				.then(CommandNode.argument("entity", this.entity)
+						.label(Label.SUMMON));
+		
+		public SummonOptionalArgument(Label label)
+		{
+			super(label);
+		}
+		
+		public EntitySummonArgument entity()
+		{
+			return entity;
+		}
+		
+		@Override
+		protected CommandNodeLiteral root()
+		{
+			return this.root;
+		}
+		
+		public static enum Label
+		{
+			SUMMON;
 		}
 	}
 }

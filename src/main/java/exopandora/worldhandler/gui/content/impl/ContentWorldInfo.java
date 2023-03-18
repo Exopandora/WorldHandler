@@ -2,8 +2,6 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.function.Function;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.gui.category.Categories;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
@@ -93,6 +91,9 @@ public class ContentWorldInfo extends Content
 		if(Page.START.equals(this.page))
 		{
 			start.active = false;
+			container.addRenderableWidget(this.posXField);
+			container.addRenderableWidget(this.posYField);
+			container.addRenderableWidget(this.posZField);
 		}
 		else if(Page.WORLD.equals(this.page))
 		{
@@ -106,10 +107,16 @@ public class ContentWorldInfo extends Content
 			}));
 			
 			seed.active = server != null;
+			
+			container.addRenderableWidget(this.worldField);
+			container.addRenderableWidget(this.seedField);
 		}
 		else if(Page.STATS.equals(this.page))
 		{
 			stats.active = false;
+			
+			container.addRenderableWidget(this.totalTimeField);
+			container.addRenderableWidget(this.currentTimeField);
 		}
 	}
 	
@@ -119,27 +126,6 @@ public class ContentWorldInfo extends Content
 		this.updateCurrentTime();
 		this.updateTotalTime();
 		this.seedField.tick();
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		if(Page.START.equals(this.page))
-		{
-			this.posXField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.posYField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.posZField.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
-		else if(Page.WORLD.equals(this.page))
-		{
-			this.worldField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.seedField.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
-		else if(Page.STATS.equals(this.page))
-		{
-			this.totalTimeField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.currentTimeField.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
 	}
 	
 	private void updateCurrentTime()

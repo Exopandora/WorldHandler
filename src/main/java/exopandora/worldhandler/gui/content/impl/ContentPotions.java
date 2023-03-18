@@ -262,7 +262,6 @@ public class ContentPotions extends ContentChild
 		{
 			for(MobEffect effect : this.effects.getMobEffects())
 			{
-				System.out.println(effect);
 				EffectInstance source = this.effects.getOrCreate(effect);
 				EffectInstance target = effects.getOrCreate(effect);
 				source.copyTo(target, modifier);

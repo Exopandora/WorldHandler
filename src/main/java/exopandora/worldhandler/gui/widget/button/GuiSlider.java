@@ -12,6 +12,7 @@ import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -33,20 +34,30 @@ public class GuiSlider extends GuiButtonBase
 	}
 	
 	@Override
-	protected void renderBg(PoseStack poseStack, Minecraft minecraft, int mouseX, int mouseY)
+	public void renderBackground(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderBg(poseStack, minecraft, mouseX, mouseY);
+		super.renderBackground(poseStack, mouseX, mouseY, partialTicks);
 		
-		int hovered = super.getYImage(this.isHoveredOrFocused());
-		int textureOffset = (Config.getSkin().getTextureType().equals("resourcepack") ? 46 : 0) + hovered * 20;
+		int textureOffset = (Config.getSkin().getTextureType().equals("resourcepack") ? 66 : 20);
+		
+		if(this.isHoveredOrFocused())
+		{
+			textureOffset += 20;
+		}
 		
 		RenderSystem.enableBlend();
 		RenderUtils.colorDefaultButton();
 		
-		this.blit(poseStack, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.getY(), 0, textureOffset, 4, 20);
-		this.blit(poseStack, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.getY(), 196, textureOffset, 4, 20);
+		GuiComponent.blit(poseStack, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.getY(), 0, textureOffset, 4, 20);
+		GuiComponent.blit(poseStack, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.getY(), 196, textureOffset, 4, 20);
 		
 		RenderSystem.disableBlend();
+	}
+	
+	@Override
+	protected int getTextureY()
+	{
+		return 0;
 	}
 	
 	@Override
@@ -80,18 +91,12 @@ public class GuiSlider extends GuiButtonBase
 		this.logic.onChangeSliderValue(this.persistence.getIntValue());
 	}
 	
-	@Override
-	protected int getYImage(boolean mouseOver)
-	{
-		return 0;
-	}
-	
 	private void updateDisplayString()
 	{
 		int value = this.persistence.getIntValue();
 		MutableComponent suffix = this.logic.formatValue(value).append(this.logic.formatSuffix(value));
 		Font fontRenderer = Minecraft.getInstance().font;
-		MutableComponent text = TextUtils.stripText(this.logic.formatPrefix(value), this.width - fontRenderer.width(suffix), fontRenderer).append(suffix);
+		MutableComponent text = TextUtils.stripText(this.logic.formatPrefix(value), this.width - fontRenderer.width(suffix) - 2, fontRenderer).append(suffix);
 		this.setMessage(text);
 	}
 	

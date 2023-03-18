@@ -3,7 +3,6 @@ package exopandora.worldhandler.gui.content.impl;
 import java.util.ArrayList;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.argument.tag.AbstractAttributeTag;
 import exopandora.worldhandler.builder.argument.tag.AttributeModifiersTag;
@@ -313,17 +312,6 @@ public class ContentCustomItem extends Content
 			this.itemField.tick();
 			this.itemLore1Field.tick();
 			this.itemLore2Field.tick();
-		}
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		if(Page.START.equals(this.page) && this.startPage == 0)
-		{
-			this.itemField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.itemLore1Field.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.itemLore2Field.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

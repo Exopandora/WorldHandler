@@ -143,4 +143,16 @@ public abstract class Content implements IContent
 	{
 		this.persistence.clear();
 	}
+	
+	@Override
+	public void setFocused(boolean focused)
+	{
+		return;
+	}
+	
+	@Override
+	public boolean isFocused()
+	{
+		return false;
+	}
 }

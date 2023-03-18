@@ -42,6 +42,7 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
@@ -514,15 +515,7 @@ public class ContentSummon extends Content
 	@Override
 	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		if(Page.START.equals(this.page))
-		{
-			if(!this.editColor)
-			{
-				this.mobField.renderButton(matrix, mouseX, mouseY, partialTicks);
-				this.nbtField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			}
-		}
-		else if(Page.POTIONS.equals(this.page))
+		if(Page.POTIONS.equals(this.page))
 		{
 			Minecraft.getInstance().font.draw(matrix, (this.potionPage + 1) + "/" + (ForgeRegistries.MOB_EFFECTS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
 		}
@@ -530,13 +523,12 @@ public class ContentSummon extends Content
 		{
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderSystem.setShaderTexture(0, BEACON_LOCATION);
-	 		container.setBlitOffset(0);
 	 		
 	 		for(int i = 0; i < 4; i++)
 	 		{
 		 		if(Items.AIR.equals(this.entity.getArmorItem(3 - i)))
 		 		{
-			 		container.blit(matrix, x + 118 + 24 + 2, y + 2 + 24 * i, 112, 221, 16, 16);
+			 		GuiComponent.blit(matrix, x + 118 + 24 + 2, y + 2 + 24 * i, 112, 221, 16, 16);
 		 		}
 	 		}
 	 		
@@ -544,7 +536,7 @@ public class ContentSummon extends Content
 	 		{
 		 		if(Items.AIR.equals(this.entity.getHandItem(i)))
 		 		{
-			 		container.blit(matrix, x + 118 + 70 + 2 + 24 * i, y + 2 + 36, 112, 221, 16, 16);
+		 			GuiComponent.blit(matrix, x + 118 + 70 + 2 + 24 * i, y + 2 + 36, 112, 221, 16, 16);
 		 		}
 	 		}
 		}
@@ -553,8 +545,8 @@ public class ContentSummon extends Content
 	private List<ResourceLocation> sortedEffects()
 	{
 		return ForgeRegistries.MOB_EFFECTS.getKeys().stream()
-				.sorted((a, b) -> I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(a).getDescriptionId()).compareTo(I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(b).getDescriptionId())))
-				.collect(Collectors.toList());
+			.sorted((a, b) -> I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(a).getDescriptionId()).compareTo(I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(b).getDescriptionId())))
+			.collect(Collectors.toList());
 	}
 	
 	private void toggleEditColor(Container container)

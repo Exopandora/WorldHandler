@@ -63,9 +63,4 @@ public class DimensionArgument implements IDeserializableArgument
 	{
 		return false;
 	}
-	
-	public static DimensionArgument dimension()
-	{
-		return new DimensionArgument();
-	}
 }

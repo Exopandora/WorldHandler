@@ -17,6 +17,7 @@ import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
@@ -46,9 +47,11 @@ public class ContentRecipes extends Content
 			@Override
 			public MutableComponent translate(Recipe<?> recipe)
 			{
-				if(!ItemStack.EMPTY.equals(recipe.getResultItem()))
+				RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
+				
+				if(!ItemStack.EMPTY.equals(recipe.getResultItem(registryAccess)))
 				{
-					return (MutableComponent) recipe.getResultItem().getHoverName();
+					return (MutableComponent) recipe.getResultItem(registryAccess).getHoverName();
 				}
 				
 				return Component.literal(recipe.getId().toString());

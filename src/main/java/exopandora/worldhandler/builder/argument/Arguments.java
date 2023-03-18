@@ -334,4 +334,9 @@ public class Arguments
 	{
 		return new BlockPosArgument();
 	}
+	
+	public static DimensionArgument dimension()
+	{
+		return new DimensionArgument();
+	}
 }

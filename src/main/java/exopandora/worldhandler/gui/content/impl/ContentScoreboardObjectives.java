@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.impl.ScoreboardCommandBuilder;
 import exopandora.worldhandler.gui.container.Container;
@@ -253,15 +252,6 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 		if(!Page.UNDISPLAY.equals(this.page))
 		{
 			this.objectField.tick();
-		}
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		if(!Page.UNDISPLAY.equals(this.page))
-		{
-			this.objectField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

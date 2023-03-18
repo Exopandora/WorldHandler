@@ -153,9 +153,6 @@ public class MenuColorField extends Menu
 	@Override
 	public void draw(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		if(this.logic.doDrawTextField())
-		{
-			this.textField.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
+		
 	}
 }

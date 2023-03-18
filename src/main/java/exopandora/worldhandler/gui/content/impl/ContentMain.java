@@ -12,7 +12,6 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.OptionsScreen;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -53,13 +52,13 @@ public class ContentMain extends Content
 		container.addRenderableWidget(new GuiButtonBase(x, y + 96, 74, 20, Component.translatable("gui.worldhandler.change_world"), () -> ActionHelper.open(Contents.CHANGE_WORLD)));
 		container.addRenderableWidget(new GuiButtonBase(x + 78, y + 96, 76, 20, Component.translatable("gui.worldhandler.resourcepack"), () -> 
 		{
-			Minecraft.getInstance().options.save();
-			Minecraft.getInstance().setScreen(new PackSelectionScreen(container, Minecraft.getInstance().getResourcePackRepository(), resourcePackList ->
+			Minecraft minecraft = Minecraft.getInstance();
+			minecraft.options.save();
+			minecraft.setScreen(new PackSelectionScreen(Minecraft.getInstance().getResourcePackRepository(), resourcePackList ->
 			{
-				OptionsScreen optionsScreen = new OptionsScreen(container, Minecraft.getInstance().options);
-				optionsScreen.init(Minecraft.getInstance(), 0, 0);
-				optionsScreen.updatePackList(resourcePackList);
-			}, Minecraft.getInstance().getResourcePackDirectory(), Component.translatable("resourcePack.title")));
+				minecraft.options.updateResourcePacks(resourcePackList);
+				ActionHelper.tryRun(() -> ActionHelper.open(Contents.MAIN));
+			}, minecraft.getResourcePackDirectory(), Component.translatable("resourcePack.title")));
 		}));
 		container.addRenderableWidget(new GuiButtonBase(x + 158, y + 96, 74, 20, Component.translatable("gui.worldhandler.generic.backToGame"), ActionHelper::backToGame));
 	}

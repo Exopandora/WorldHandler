@@ -75,7 +75,7 @@ public class MenuPageList<T> extends Menu
 			if(index < this.items.size())
 			{
 				T item = this.items.get(index);
-				MutableComponent text = TextUtils.stripText(this.logic.translate(item), this.width, Minecraft.getInstance().font);
+				MutableComponent text = this.logic.translate(item);
 				button = this.logic.onRegister(this.x, this.y + (this.height + 4) * x, this.width, this.height, text, item, () ->
 				{
 					this.persistence.setSelectedIndex(index);

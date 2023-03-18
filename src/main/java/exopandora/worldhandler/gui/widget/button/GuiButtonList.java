@@ -12,7 +12,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.Mth;
 
 public class GuiButtonList<T> extends GuiButtonTooltip
 {
@@ -36,9 +36,9 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	}
 	
 	@Override
-	public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	public void renderWidget(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
 	{
-		this.renderBg(poseStack, Minecraft.getInstance(), mouseX, mouseY);
+		this.renderBackground(poseStack, mouseX, mouseY, partialTicks);
 		this.updateMessage();
 		
 		Font font = Minecraft.getInstance().font;
@@ -48,13 +48,13 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 			Component leftArrow = this.isHoveringLeft(mouseX, mouseY) ? TextUtils.ARROW_LEFT_BOLD : TextUtils.ARROW_LEFT;
 			Component rightArrow = this.isHoveringRight(mouseX, mouseY) ? TextUtils.ARROW_RIGHT_BOLD : TextUtils.ARROW_RIGHT;
 			
-			int maxWidth = Math.max(0, this.width - font.width("<   >"));
+			int combinedArrowWidth = font.width("<   >");
+			int maxWidth = Math.max(0, this.width - combinedArrowWidth);
 			int spaceWidth = font.width(" ");
-			
-			Component display = TextUtils.stripText((MutableComponent) this.getMessage(), maxWidth, font);
 			int yPos = this.getY() + (this.height - 8) / 2;
 			
-			GuiComponent.drawCenteredString(poseStack, font, display, this.getX() + this.width / 2, yPos, this.getFGColor());
+			this.renderScrollingString(poseStack, font, combinedArrowWidth / 2 + 2, this.getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
+			
 			GuiComponent.drawCenteredString(poseStack, font, leftArrow, this.getX() + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
 			GuiComponent.drawCenteredString(poseStack, font, rightArrow, this.getX() + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
 		}

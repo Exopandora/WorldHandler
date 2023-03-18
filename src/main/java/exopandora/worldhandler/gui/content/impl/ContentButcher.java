@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.argument.TargetArgument.SelectorTypes;
 import exopandora.worldhandler.builder.impl.KillCommandBuilder;
@@ -145,12 +144,6 @@ public class ContentButcher extends Content
 	public void tick(Container container)
 	{
 		this.radiusField.tick();
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		this.radiusField.renderButton(matrix, mouseX, mouseY, partialTicks);
 	}
 	
 	@Override

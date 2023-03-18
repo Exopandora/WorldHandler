@@ -110,10 +110,18 @@ public class ContentPlayer extends Content
 		else if(Page.SCORE.equals(this.page))
 		{
 			button2.active = false;
+			
+			container.addRenderableWidget(this.scoreField);
+			container.addRenderableWidget(this.xpField);
+			container.addRenderableWidget(this.coinsField);
 		}
 		else if(Page.POSITION.equals(this.page))
 		{
 			button3.active = false;
+			
+			container.addRenderableWidget(this.posXField);
+			container.addRenderableWidget(this.posYField);
+			container.addRenderableWidget(this.posZField);
 			
 			container.addRenderableWidget(new GuiButtonBase(x + 118, y + 72, 114, 20, Component.translatable("gui.worldhandler.entities.player.position.copy_position"), () ->
 			{
@@ -180,20 +188,8 @@ public class ContentPlayer extends Content
 			Minecraft.getInstance().font.draw(matrix, Minecraft.getInstance().player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			InventoryScreen.renderEntityInInventory(xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
+			InventoryScreen.renderEntityInInventoryFollowsMouse(matrix, xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
 			RenderSystem.defaultBlendFunc();
-		}
-		else if(Page.SCORE.equals(this.page))
-		{
-			this.scoreField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.xpField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.coinsField.renderButton(matrix, mouseX, mouseY, partialTicks);
-		}
-		else if(Page.POSITION.equals(this.page))
-		{
-			this.posXField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.posYField.renderButton(matrix, mouseX, mouseY, partialTicks);
-			this.posZField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

@@ -26,6 +26,7 @@ import exopandora.worldhandler.util.ResourceHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
@@ -152,7 +153,6 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSkin().drawBackground())
 			{
-				this.setBlitOffset(-1);
 				super.renderBackground(stack);
 			}
 			
@@ -160,7 +160,7 @@ public class GuiWorldHandler extends Container
 			RenderUtils.colorDefaultBackground();
 			
 			this.bindBackground();
-			this.blit(stack, backgroundX, backgroundY, 0, 0, this.getBackgroundWidth(), this.getBackgroundHeight());
+			GuiComponent.blit(stack, backgroundX, backgroundY, 0, 0, this.getBackgroundWidth(), this.getBackgroundHeight());
 			
 			final String label = Main.MC_VERSION + "-" + Main.MOD_VERSION;
 			final int versionWidth = this.width - this.font.width(label) - 2;
@@ -181,9 +181,9 @@ public class GuiWorldHandler extends Container
 			final int maxWidth = this.getBackgroundWidth() - 18 - this.font.width(this.getPlayer()) - (Config.getSettings().watch() ? 9 : 0);
 			this.font.draw(stack, TextUtils.stripText(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
 			
-			for(int i = 0; i < this.renderables.size(); i++)
+			for(Renderable renderable : this.renderables)
 			{
-				this.renderables.get(i).render(stack, mouseX, mouseY, partialTicks);
+				renderable.render(stack, mouseX, mouseY, partialTicks);
 			}
 			
 			this.content.drawScreen(stack, this, x, y, mouseX, mouseY, partialTicks);
@@ -319,14 +319,7 @@ public class GuiWorldHandler extends Container
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
 	{
-		boolean focused = this.getFocused() != null;
-		
-		if(focused && this.getFocused() instanceof AbstractWidget)
-		{
-			focused = ((AbstractWidget) this.getFocused()).isFocused();
-		}
-		
-		if(!focused && KeyHandler.KEY_WORLD_HANDLER.matches(keyCode, scanCode) && KeyHandler.KEY_WORLD_HANDLER.getKeyModifier().isActive(null))
+		if(!(this.getFocused() instanceof AbstractWidget) && KeyHandler.KEY_WORLD_HANDLER.matches(keyCode, scanCode) && KeyHandler.KEY_WORLD_HANDLER.getKeyModifier().isActive(null))
 		{
 			Minecraft.getInstance().setScreen(null);
 			return true;
@@ -384,25 +377,6 @@ public class GuiWorldHandler extends Container
 		}
 		
 		return super.charTyped(charTyped, keyCode);
-	}
-	
-	@Override
-	public boolean changeFocus(boolean focus)
-	{
-		for(IContainerWidget widget : WIDGETS)
-		{
-			if(widget.isEnabled() && widget.changeFocus(focus))
-			{
-				return true;
-			}
-		}
-		
-		if(this.content.changeFocus(focus))
-		{
-			return true;
-		}
-		
-		return super.changeFocus(focus);
 	}
 	
 	@Override

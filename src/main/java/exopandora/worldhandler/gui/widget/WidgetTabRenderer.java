@@ -7,13 +7,14 @@ import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
-import exopandora.worldhandler.gui.widget.button.GuiButtonTab;
+import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
-import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
@@ -42,7 +43,7 @@ public class WidgetTabRenderer implements IContainerWidget
 				int width = WidgetTabRenderer.width(container, index, size);
 				int offset = WidgetTabRenderer.offset(container, index, size);
 				
-				container.addWidget(new GuiButtonTab(xPos + offset, yPos, width, 21, tab.getTabTitle(), () -> ActionHelper.open(tab)));
+				container.addWidget(new GuiButtonBase(xPos + offset, yPos, width, 21, tab.getTabTitle(), () -> ActionHelper.open(tab)));
 			}
 		}
 	}
@@ -58,15 +59,13 @@ public class WidgetTabRenderer implements IContainerWidget
 		
 		int size = category.getSize();
 		
-		container.setBlitOffset(0);
-		
 		for(int index = 0; index < size; index++)
 		{
 			int width = WidgetTabRenderer.width(container, index, size);
 			int offset = WidgetTabRenderer.offset(container, index, size);
 			
 			Content tab = category.getContent(index);
-			Component title = TextUtils.stripText(tab.getTabTitle().withStyle(ChatFormatting.UNDERLINE), width, Minecraft.getInstance().font);
+			Component title = tab.getTabTitle().withStyle(ChatFormatting.UNDERLINE);
 			
 			if(content.getActiveContent().equals(tab))
 			{
@@ -121,7 +120,7 @@ public class WidgetTabRenderer implements IContainerWidget
 			RenderSystem.disableBlend();
 		}
 		
-		this.drawTabTitle(matrix, container, title, x + width / 2, y + 9, 0xFFFFFF);
+		this.drawTabTitle(matrix, container, title, true, x, y, width, y + height, 0xFFFFFF);
 	}
 	
 	private void drawInactiveTab(PoseStack matrix, Container container, int index, int size, int x, int y, int width, int height, Component title)
@@ -136,7 +135,7 @@ public class WidgetTabRenderer implements IContainerWidget
 			RenderSystem.disableBlend();
 		}
 		
-		this.drawTabTitle(matrix, container, title, x + width / 2, y + 7, 0xE0E0E0);
+		this.drawTabTitle(matrix, container, title, false, x, y + 2, width, y + height, 0xE0E0E0);
 	}
 	
 	private void drawTabBackgroundMerge(PoseStack matrix, Container container, int index, int size, int x, int y, int width, int height)
@@ -155,23 +154,23 @@ public class WidgetTabRenderer implements IContainerWidget
 	private void drawTabBackground(PoseStack matrix, Container container, int x, int y, int width, int height)
 	{
 		container.bindBackground();
-		container.setBlitOffset(-1);
 		
 		int left = Mth.ceil(width / 2D);
 		int right = Mth.floor(width / 2D);
 		
 		RenderSystem.enableBlend();
 		
-		container.blit(matrix, x, y, 0, 0, left, height);
-		container.blit(matrix, x + left, y, container.getBackgroundWidth() - right, 0, right, height);
+		GuiComponent.blit(matrix, x, y, 0, 0, left, height);
+		GuiComponent.blit(matrix, x + left, y, container.getBackgroundWidth() - right, 0, right, height);
 		
 		RenderSystem.disableBlend();
 	}
 	
-	private void drawTabTitle(PoseStack matrix, GuiComponent gui, Component title, int x, int y, int color)
+	private void drawTabTitle(PoseStack matrix, GuiComponent gui, Component title, boolean isActive, int x, int y, int width, int height, int color)
 	{
-		gui.setBlitOffset(0);
-		GuiComponent.drawCenteredString(matrix, Minecraft.getInstance().font, title, x, y, color);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		Font font = Minecraft.getInstance().font;
+		AbstractWidget.renderScrollingString(matrix, font, title, x + 5, y, x + width - 5, height, color);
 	}
 	
 	@Override
@@ -195,5 +194,17 @@ public class WidgetTabRenderer implements IContainerWidget
 	private static int offset(Container container, int index, int size)
 	{
 		return (int) Math.round(index * (double) (container.getBackgroundWidth() + SPACING) / size);
+	}
+	
+	@Override
+	public void setFocused(boolean focused)
+	{
+		return;
+	}
+	
+	@Override
+	public boolean isFocused()
+	{
+		return false;
 	}
 }

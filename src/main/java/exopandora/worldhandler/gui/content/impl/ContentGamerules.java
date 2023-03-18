@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 
@@ -157,15 +156,6 @@ public class ContentGamerules extends Content
 		if(!this.booleanValue)
 		{
 			this.valueField.tick();
-		}
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		if(!this.booleanValue)
-		{
-			this.valueField.renderButton(matrix, mouseX, mouseY, partialTicks);
 		}
 	}
 	

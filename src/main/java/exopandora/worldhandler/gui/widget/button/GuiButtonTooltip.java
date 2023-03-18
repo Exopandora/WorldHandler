@@ -18,7 +18,7 @@ public class GuiButtonTooltip extends GuiButtonBase
 	
 	public void renderTooltip(Screen screen, PoseStack poseStack, int mouseX, int mouseY)
 	{
-		if(this.isHoveredOrFocused() && this.tooltip != null && !this.tooltip.getString().isEmpty())
+		if(this.isHovered() && this.tooltip != null && !this.tooltip.getString().isEmpty())
 		{
 			screen.renderTooltip(poseStack, this.tooltip, mouseX, mouseY);
 		}

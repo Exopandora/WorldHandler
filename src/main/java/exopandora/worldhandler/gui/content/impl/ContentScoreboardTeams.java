@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.Predicates;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.impl.TeamCommandBuilder;
 import exopandora.worldhandler.gui.container.Container;
@@ -216,12 +215,6 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	public void tick(Container container)
 	{
 		this.teamField.tick();
-	}
-	
-	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
-	{
-		this.teamField.renderButton(matrix, mouseX, mouseY, partialTicks);
 	}
 	
 	@Override

@@ -139,14 +139,6 @@ public class ContentUsercontent extends Content
 	@Override
 	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
-		for(VisibleObject<EditBox> textfield : this.textfields.values())
-		{
-			if(textfield.get().visible)
-			{
-				textfield.get().renderButton(matrix, mouseX, mouseY, partialTicks);
-			}
-		}
-		
 		if(this.content.getGui() != null && this.content.getGui().getLabels() != null)
 		{
 			for(JsonLabel label : this.content.getGui().getLabels())

@@ -72,7 +72,7 @@ public class BlockPosArgument implements IArgument
 			return null;
 		}
 		
-		return new BlockPos(this.x.getValue().doubleValue(), this.y.getValue().doubleValue(), this.z.getValue().doubleValue());
+		return new BlockPos(this.x.getValue().intValue(), this.y.getValue().intValue(), this.z.getValue().intValue());
 	}
 	
 	@Override

@@ -42,7 +42,7 @@ public class RenderUtils
 		RenderUtils.colorDefaultButton();
 		RenderSystem.setShaderTexture(0, ResourceHelper.iconTexture());
 		
-		gui.blit(matrix, width + 0, height, 48, 0, 10, 10);
+		GuiComponent.blit(matrix, width + 0, height, 48, 0, 10, 10);
 		
 		matrix.pushPose();
 		matrix.scale(0.5F, 0.5F, 0.5F);
@@ -89,7 +89,7 @@ public class RenderUtils
 	{
 		for(int i = 0; i < size; i++)
 		{
-			gui.blit(matrix, x, y + i, textureX, textureY + i, i + 1, 1);
+			GuiComponent.blit(matrix, x, y + i, textureX, textureY + i, i + 1, 1);
 		}
 	}
 	
@@ -97,7 +97,7 @@ public class RenderUtils
 	{
 		for(int i = 0; i < size; i++)
 		{
-			gui.blit(matrix, x + size - i - 1, y + i, textureX + size - i - 1, textureY + i, i + 1, 1);
+			GuiComponent.blit(matrix, x + size - i - 1, y + i, textureX + size - i - 1, textureY + i, i + 1, 1);
 		}
 	}
 	
@@ -105,7 +105,7 @@ public class RenderUtils
 	{
 		for(int i = 0; i < size; i++)
 		{
-			gui.blit(matrix, x, y + i, textureX, textureY, size - i, 1);
+			GuiComponent.blit(matrix, x, y + i, textureX, textureY, size - i, 1);
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class RenderUtils
 	{
 		for(int i = 0; i < size; i++)
 		{
-			gui.blit(matrix, x + i, y + i, textureX + i, textureY, size - i, 1);
+			GuiComponent.blit(matrix, x + i, y + i, textureX + i, textureY, size - i, 1);
 		}
 	}
 	
@@ -127,7 +127,7 @@ public class RenderUtils
 			int z = width - (int) (w * width);
 			
 			RenderUtils.colorDefaultBackground(w);
-			gui.blit(matrix, x + z, y + i, textureX + z, textureY + i, width - z, 1);
+			GuiComponent.blit(matrix, x + z, y + i, textureX + z, textureY + i, width - z, 1);
 		}
 		
 		RenderSystem.disableBlend();
@@ -143,7 +143,7 @@ public class RenderUtils
 			int z = (int) (w * width);
 			
 			RenderUtils.colorDefaultBackground(w);
-			gui.blit(matrix, x, y + i, textureX, textureY + i, z, 1);
+			GuiComponent.blit(matrix, x, y + i, textureX, textureY + i, z, 1);
 		}
 		
 		RenderSystem.disableBlend();

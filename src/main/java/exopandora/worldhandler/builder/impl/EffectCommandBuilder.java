@@ -26,7 +26,13 @@ public class EffectCommandBuilder extends CommandBuilder
 											.then(CommandNode.argument("amplifier", this.amplifier)
 													.label(Label.GIVE_SECONDS_AMPLIFIER)
 													.then(CommandNode.argument("hideParticles", this.hideParticles)
-															.label(Label.GIVE_SECONDS_AMPLIFIER_HIDEPARTICLES)))))))
+															.label(Label.GIVE_SECONDS_AMPLIFIER_HIDEPARTICLES))))
+									.then(CommandNode.literal("infinite")
+											.label(Label.GIVE_INFINITE)
+											.then(CommandNode.argument("amplifier", this.amplifier)
+													.label(Label.GIVE_INFINITE_AMPLIFIER)
+													.then(CommandNode.argument("hideParticles", this.hideParticles)
+															.label(Label.GIVE_INFINITE_AMPLIFIER_HIDEPARTICLES)))))))
 			.then(CommandNode.literal("clear")
 					.label(Label.CLEAR)
 					.then(CommandNode.argument("targets", this.targets)
@@ -71,6 +77,9 @@ public class EffectCommandBuilder extends CommandBuilder
 		GIVE_SECONDS,
 		GIVE_SECONDS_AMPLIFIER,
 		GIVE_SECONDS_AMPLIFIER_HIDEPARTICLES,
+		GIVE_INFINITE,
+		GIVE_INFINITE_AMPLIFIER,
+		GIVE_INFINITE_AMPLIFIER_HIDEPARTICLES,
 		CLEAR,
 		CLEAR_TARGETS,
 		CLEAR_TARGETS_EFFECT;
