@@ -11,7 +11,7 @@ import exopandora.worldhandler.gui.content.impl.ContentSettings.Setting.BooleanS
 import exopandora.worldhandler.gui.content.impl.ContentSettings.Setting.IntegerSetting;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
 import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
@@ -41,7 +41,7 @@ public class ContentSettings extends ContentChild
 	}
 	
 	private Setting<?> setting;
-	private GuiTextFieldTooltip valueField;
+	private GuiHintTextField valueField;
 	
 	@Override
 	public void initGui(Container container, int x, int y)
@@ -82,7 +82,7 @@ public class ContentSettings extends ContentChild
 		
 		container.addMenu(settings);
 		
-		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.value"));
+		this.valueField = new GuiHintTextField(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.value"));
 		this.valueField.setFilter(string ->
 		{
 			if(string == null)

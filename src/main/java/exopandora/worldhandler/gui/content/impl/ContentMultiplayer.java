@@ -21,7 +21,7 @@ import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.ChatFormatting;
@@ -31,8 +31,8 @@ import net.minecraft.network.chat.MutableComponent;
 
 public class ContentMultiplayer extends Content
 {
-	private GuiTextFieldTooltip playerField;
-	private GuiTextFieldTooltip reasonField;
+	private GuiHintTextField playerField;
+	private GuiHintTextField reasonField;
 	
 	private Page page = Page.KICK_AND_BAN;
 	
@@ -91,7 +91,7 @@ public class ContentMultiplayer extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.playerField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.multiplayer.username"));
+		this.playerField = new GuiHintTextField(x + 118, y + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.multiplayer.username"));
 		this.playerField.setFilter(Predicates.notNull());
 		this.playerField.setFocused(false);
 		this.playerField.setValue(this.builderKick.targets().getTarget());
@@ -102,7 +102,7 @@ public class ContentMultiplayer extends Content
 			container.initButtons();
 		});
 		
-		this.reasonField = new GuiTextFieldTooltip(x + 118, y + 24 + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.multiplayer.kick_ban.reason"));
+		this.reasonField = new GuiHintTextField(x + 118, y + 24 + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.multiplayer.kick_ban.reason"));
 		this.reasonField.setFilter(Predicates.notNull());
 		this.reasonField.setFocused(false);
 		this.reasonField.setValue(this.builderKick.reason().get());

@@ -3,7 +3,7 @@ package exopandora.worldhandler.gui.content.impl;
 import exopandora.worldhandler.builder.ICommandBuilder;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.ChatFormatting;
@@ -12,7 +12,7 @@ import net.minecraft.network.chat.Component;
 public class ContentContinue extends ContentChild
 {
 	private ICommandBuilder builder;
-	private GuiTextFieldTooltip commandField;
+	private GuiHintTextField commandField;
 	private Object label;
 	private boolean special;
 	
@@ -38,7 +38,7 @@ public class ContentContinue extends ContentChild
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.commandField = new GuiTextFieldTooltip(x + 116 / 2, y + 12, 116, 20);
+		this.commandField = new GuiHintTextField(x + 116 / 2, y + 12, 116, 20);
 		this.commandField.setFocused(false);
 		this.commandField.setValue(this.builder.toCommand(this.label, false));
 		this.commandField.moveCursorToStart();

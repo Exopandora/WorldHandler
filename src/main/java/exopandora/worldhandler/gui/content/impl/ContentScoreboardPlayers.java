@@ -12,7 +12,7 @@ import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.widget.button.GuiSlider;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
@@ -33,8 +33,8 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	
 	private GuiButtonBase addButton;
 	private GuiButtonBase removeButton;
-	private GuiTextFieldTooltip objectField;
-	private GuiTextFieldTooltip tagField;
+	private GuiHintTextField objectField;
+	private GuiHintTextField tagField;
 	
 	public ContentScoreboardPlayers()
 	{
@@ -74,7 +74,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.objectField = new GuiTextFieldTooltip(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.objective"));
+		this.objectField = new GuiHintTextField(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setFilter(Predicates.notNull());
 		this.objectField.setResponder(text ->
 		{
@@ -85,7 +85,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 		});
 		this.objectField.setValue(BUILDER.objective().get());
 		
-		this.tagField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.tag"));
+		this.tagField = new GuiHintTextField(x + 118, y + 12, 114, 20, Component.translatable("gui.worldhandler.scoreboard.players.tag"));
 		this.tagField.setFilter(string -> string != null && !string.contains(" "));
 		this.tagField.setValue(this.builderTag.name().get());
 		this.tagField.setResponder(text ->

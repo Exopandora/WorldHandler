@@ -16,7 +16,7 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonList;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicMapped;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
@@ -27,15 +27,15 @@ import net.minecraft.network.chat.MutableComponent;
 
 public class ContentEditBlocks extends Content
 {
-	private GuiTextFieldTooltip x1Field;
-	private GuiTextFieldTooltip y1Field;
-	private GuiTextFieldTooltip z1Field;
-	private GuiTextFieldTooltip x2Field;
-	private GuiTextFieldTooltip y2Field;
-	private GuiTextFieldTooltip z2Field;
-	private GuiTextFieldTooltip block1Field;
-	private GuiTextFieldTooltip block2Field;
-	private GuiTextFieldTooltip filterField;
+	private GuiHintTextField x1Field;
+	private GuiHintTextField y1Field;
+	private GuiHintTextField z1Field;
+	private GuiHintTextField x2Field;
+	private GuiHintTextField y2Field;
+	private GuiHintTextField z2Field;
+	private GuiHintTextField block1Field;
+	private GuiHintTextField block2Field;
+	private GuiHintTextField filterField;
 	
 	private final FillCommandBuilder builderFill = new FillCommandBuilder();
 	private final CloneCommandBuilder builderClone = new CloneCommandBuilder();
@@ -71,37 +71,37 @@ public class ContentEditBlocks extends Content
 	{
 		this.updatePositions();
 		
-		this.x1Field = new GuiTextFieldTooltip(x + 118, y, 55, 20);
+		this.x1Field = new GuiHintTextField(x + 118, y, 55, 20);
 		this.x1Field.setFilter(this.coordinatePredicate("X1"));
 		this.x1Field.setValue("X1: " + BlockHelper.pos1().getX());
 		this.x1Field.setResponder(text -> BlockHelper.pos1().setX(this.parseCoordinate(text)));
 		
-		this.y1Field = new GuiTextFieldTooltip(x + 118, y + 24, 55, 20);
+		this.y1Field = new GuiHintTextField(x + 118, y + 24, 55, 20);
 		this.y1Field.setFilter(this.coordinatePredicate("Y1"));
 		this.y1Field.setValue("Y1: " + BlockHelper.pos1().getY());
 		this.y1Field.setResponder(text -> BlockHelper.pos1().setY(this.parseCoordinate(text)));
 		
-		this.z1Field = new GuiTextFieldTooltip(x + 118, y + 48, 55, 20);
+		this.z1Field = new GuiHintTextField(x + 118, y + 48, 55, 20);
 		this.z1Field.setFilter(this.coordinatePredicate("Z1"));
 		this.z1Field.setValue("Z1: " + BlockHelper.pos1().getZ());
 		this.z1Field.setResponder(text -> BlockHelper.pos1().setZ(this.parseCoordinate(text)));
 		
-		this.x2Field = new GuiTextFieldTooltip(x + 118 + 59, y, 55, 20);
+		this.x2Field = new GuiHintTextField(x + 118 + 59, y, 55, 20);
 		this.x2Field.setFilter(this.coordinatePredicate("X2"));
 		this.x2Field.setValue("X2: " + BlockHelper.pos2().getX());
 		this.x2Field.setResponder(text -> BlockHelper.pos2().setX(this.parseCoordinate(text)));
 		
-		this.y2Field = new GuiTextFieldTooltip(x + 118 + 59, y + 24, 55, 20);
+		this.y2Field = new GuiHintTextField(x + 118 + 59, y + 24, 55, 20);
 		this.y2Field.setFilter(this.coordinatePredicate("Y2"));
 		this.y2Field.setValue("Y2: " + BlockHelper.pos2().getY());
 		this.y2Field.setResponder(text -> BlockHelper.pos2().setY(this.parseCoordinate(text)));
 		
-		this.z2Field = new GuiTextFieldTooltip(x + 118 + 59, y + 48, 55, 20);
+		this.z2Field = new GuiHintTextField(x + 118 + 59, y + 48, 55, 20);
 		this.z2Field.setFilter(this.coordinatePredicate("Z2"));
 		this.z2Field.setValue("Z2: " + BlockHelper.pos2().getZ());
 		this.z2Field.setResponder(text -> BlockHelper.pos2().setZ(this.parseCoordinate(text)));
 		
-		this.block1Field = new GuiTextFieldTooltip(x + 118, y, 114, 20, Page.FILL.equals(this.page) ? Component.translatable("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : Component.translatable("gui.worldhandler.edit_blocks.replace.block_id_replace"));
+		this.block1Field = new GuiHintTextField(x + 118, y, 114, 20, Page.FILL.equals(this.page) ? Component.translatable("gui.worldhandler.edit_blocks.fill.block_id_to_fill") : Component.translatable("gui.worldhandler.edit_blocks.replace.block_id_replace"));
 		this.block1Field.setFilter(Predicates.notNull());
 		this.block1Field.setValue(this.block1);
 		this.block1Field.setResponder(text ->
@@ -111,7 +111,7 @@ public class ContentEditBlocks extends Content
 			container.initButtons();
 		});
 		
-		this.block2Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.replace.block_id_place"));
+		this.block2Field = new GuiHintTextField(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.replace.block_id_place"));
 		this.block2Field.setFilter(Predicates.notNull());
 		this.block2Field.setValue(this.block2);
 		this.block2Field.setResponder(text ->
@@ -121,7 +121,7 @@ public class ContentEditBlocks extends Content
 			container.initButtons();
 		});
 		
-		this.filterField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.clone.filter"));
+		this.filterField = new GuiHintTextField(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.edit_blocks.clone.filter"));
 		this.filterField.setFilter(Predicates.notNull());
 		this.filterField.setValue(this.filter);
 		this.filterField.setResponder(text ->

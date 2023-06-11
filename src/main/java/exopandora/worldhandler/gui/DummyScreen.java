@@ -5,17 +5,17 @@ import net.minecraft.network.chat.Component;
 
 public class DummyScreen extends Screen
 {
-	private final Runnable runnable;
+	private final Runnable onInit;
 	
-	public DummyScreen(Runnable runnable)
+	public DummyScreen(Runnable onInit)
 	{
 		super(Component.empty());
-		this.runnable = runnable;
+		this.onInit = onInit;
 	}
 	
 	@Override
 	protected void init()
 	{
-		this.runnable.run();
+		this.onInit.run();
 	}
 }

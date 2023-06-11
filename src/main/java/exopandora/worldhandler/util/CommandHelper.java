@@ -17,7 +17,7 @@ public class CommandHelper
 	
 	public static void sendFeedback(CommandSourceStack source, String message)
 	{
-		source.sendSuccess(Component.literal(message), false);
+		source.sendSuccess(() -> Component.literal(message), false);
 	}
 	
 	public static boolean canPlayerIssueCommand()

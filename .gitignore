@@ -127,3 +127,6 @@ src/test/
 ### ForgeGradle ###
 run/
 bin/
+
+### Changelog ###
+changelog.txt

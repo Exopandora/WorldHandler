@@ -94,7 +94,7 @@ public class ContentChangeWorld extends ContentChild
 		else if(connection instanceof DedicatedConnection dedicated)
 		{
 			ServerData data = dedicated.getData();
-			ConnectScreen.startConnecting(new TitleScreen(), Minecraft.getInstance(), ServerAddress.parseString(data.ip), data);
+			ConnectScreen.startConnecting(new TitleScreen(), Minecraft.getInstance(), ServerAddress.parseString(data.ip), data, false);
 		}
 	}
 	

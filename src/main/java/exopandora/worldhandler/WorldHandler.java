@@ -1,6 +1,5 @@
 package exopandora.worldhandler;
 
-import java.io.File;
 import java.nio.file.Path;
 
 import org.apache.logging.log4j.LogManager;
@@ -51,7 +50,7 @@ public class WorldHandler
 			public void run()
 			{
 				Config.setupDirectories(WorldHandler.USERCONTENT_PATH);
-				modLoadingContext.registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + File.pathSeparator + Main.MODID + ".toml");
+				modLoadingContext.registerConfig(Type.CLIENT, Config.CLIENT_SPEC, Main.MODID + "/" + Main.MODID + ".toml");
 				UsercontentLoader.load(WorldHandler.USERCONTENT_PATH);
 				modEventBus.addListener(WorldHandler.this::registerKeyMappingsEvent);
 				modEventBus.addListener(WorldHandler.this::registerClientReloadListeners);

@@ -25,6 +25,4 @@ public interface IContainer
 	
 	int getBackgroundWidth();
 	int getBackgroundHeight();
-	
-	void bindBackground();
 }

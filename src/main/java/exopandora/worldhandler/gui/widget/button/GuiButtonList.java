@@ -2,14 +2,12 @@ package exopandora.worldhandler.gui.widget.button;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicMapped;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -36,9 +34,9 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 	}
 	
 	@Override
-	public void renderWidget(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		this.renderBackground(poseStack, mouseX, mouseY, partialTicks);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		this.updateMessage();
 		
 		Font font = Minecraft.getInstance().font;
@@ -53,18 +51,18 @@ public class GuiButtonList<T> extends GuiButtonTooltip
 			int spaceWidth = font.width(" ");
 			int yPos = this.getY() + (this.height - 8) / 2;
 			
-			this.renderScrollingString(poseStack, font, combinedArrowWidth / 2 + 2, this.getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
+			this.renderScrollingString(guiGraphics, font, combinedArrowWidth / 2 + 2, this.getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
 			
-			GuiComponent.drawCenteredString(poseStack, font, leftArrow, this.getX() + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
-			GuiComponent.drawCenteredString(poseStack, font, rightArrow, this.getX() + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
+			guiGraphics.drawCenteredString(font, leftArrow, this.getX() + this.width / 2 - maxWidth / 2 - spaceWidth, yPos, this.getFGColor());
+			guiGraphics.drawCenteredString(font, rightArrow, this.getX() + this.width / 2 + maxWidth / 2 + spaceWidth, yPos, this.getFGColor());
 		}
 	}
 	
 	@Override
-	public void renderTooltip(Screen screen, PoseStack matrix, int mouseX, int mouseY)
+	public void renderTooltip(GuiGraphics guiGraphics, Font font, int mouseX, int mouseY)
 	{
 		this.tooltip = this.logic.formatTooltip(this.items.get(this.persistence.getIndex()), this.persistence.getIndex() + 1, this.items.size());
-		super.renderTooltip(screen, matrix, mouseX, mouseY);
+		super.renderTooltip(guiGraphics, font, mouseX, mouseY);
 	}
 	
 	@Override

@@ -3,18 +3,19 @@ package exopandora.worldhandler.gui.widget.button;
 import java.util.Objects;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.util.ILogic;
 import exopandora.worldhandler.util.RenderUtils;
+import exopandora.worldhandler.util.ResourceHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public class GuiSlider extends GuiButtonBase
 {
@@ -34,9 +35,9 @@ public class GuiSlider extends GuiButtonBase
 	}
 	
 	@Override
-	public void renderBackground(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderBackground(poseStack, mouseX, mouseY, partialTicks);
+		super.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		
 		int textureOffset = (Config.getSkin().getTextureType().equals("resourcepack") ? 66 : 20);
 		
@@ -47,9 +48,10 @@ public class GuiSlider extends GuiButtonBase
 		
 		RenderSystem.enableBlend();
 		RenderUtils.colorDefaultButton();
+		ResourceLocation texture = ResourceHelper.buttonTexture();
 		
-		GuiComponent.blit(poseStack, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.getY(), 0, textureOffset, 4, 20);
-		GuiComponent.blit(poseStack, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.getY(), 196, textureOffset, 4, 20);
+		guiGraphics.blit(texture, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.getY(), 0, textureOffset, 4, 20);
+		guiGraphics.blit(texture, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.getY(), 196, textureOffset, 4, 20);
 		
 		RenderSystem.disableBlend();
 	}

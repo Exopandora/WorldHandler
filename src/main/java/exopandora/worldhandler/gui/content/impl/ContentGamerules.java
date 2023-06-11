@@ -16,7 +16,7 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
 import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
@@ -29,7 +29,7 @@ import net.minecraft.world.level.GameRules.GameRuleTypeVisitor;
 
 public class ContentGamerules extends Content
 {
-	private GuiTextFieldTooltip valueField;
+	private GuiHintTextField valueField;
 	
 	private boolean booleanValue;
 	private String value;
@@ -46,7 +46,7 @@ public class ContentGamerules extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.valueField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.value"));
+		this.valueField = new GuiHintTextField(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.value"));
 		this.valueField.setFilter(Predicates.notNull());
 		this.valueField.setValue(this.value);
 		this.valueField.moveCursorToEnd();

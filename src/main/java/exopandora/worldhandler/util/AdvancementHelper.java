@@ -17,13 +17,13 @@ import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Unit;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.level.storage.loot.PredicateManager;
+import net.minecraft.world.level.storage.loot.LootDataManager;
 import net.minecraftforge.common.crafting.conditions.ICondition.IContext;
 
 public class AdvancementHelper implements PreparableReloadListener
 {
 	private static final AdvancementHelper INSTANCE = new AdvancementHelper();
-	private final ServerAdvancementManager manager = new ServerAdvancementManager(new PredicateManager(), IContext.EMPTY);
+	private final ServerAdvancementManager manager = new ServerAdvancementManager(new LootDataManager(), IContext.EMPTY);
 	
 	@Override
 	public CompletableFuture<Void> reload(PreparationBarrier stage, ResourceManager resourceManager, ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler, Executor backgroundExecutor, Executor gameExecutor)

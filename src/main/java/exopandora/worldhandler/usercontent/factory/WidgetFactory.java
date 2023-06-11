@@ -13,7 +13,7 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonItem;
 import exopandora.worldhandler.gui.widget.button.GuiButtonList;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.widget.button.GuiSlider;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.usercontent.UsercontentAPI;
 import exopandora.worldhandler.usercontent.model.JsonItem;
@@ -102,7 +102,7 @@ public class WidgetFactory extends AbstractWidgetFactory
 		}
 		else if(JsonWidget.Type.TEXTFIELD.equals(widget.getType()))
 		{
-			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip
+			GuiHintTextField textfield = new GuiHintTextField
 			(
 				widget.getLayout().getX() + x,
 				widget.getLayout().getY() + y,

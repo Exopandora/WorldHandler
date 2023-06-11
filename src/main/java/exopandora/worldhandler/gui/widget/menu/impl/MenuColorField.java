@@ -3,15 +3,14 @@ package exopandora.worldhandler.gui.widget.menu.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonList;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.menu.Menu;
 import exopandora.worldhandler.util.UserStylableComponent;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -42,7 +41,7 @@ public class MenuColorField extends Menu
 		COLORS.add(ChatFormatting.WHITE);
 	}
 	
-	private GuiTextFieldTooltip textField;
+	private GuiHintTextField textField;
 	private final UserStylableComponent component;
 	private final ILogicColorMenu logic;
 	private final String translationKey;
@@ -63,7 +62,7 @@ public class MenuColorField extends Menu
 	@Override
 	public void initGui(Container container)
 	{
-		this.textField = new GuiTextFieldTooltip(this.x + 118, this.y, 114, 20, Component.translatable(this.translationKey));
+		this.textField = new GuiHintTextField(this.x + 118, this.y, 114, 20, Component.translatable(this.translationKey));
 		this.textField.setFilter(this.logic::validate);
 		this.textField.setFormatter((string, index) -> FormattedCharSequence.forward(string, this.component.getStyle()));
 		this.textField.setValue(this.component.getText());
@@ -151,7 +150,7 @@ public class MenuColorField extends Menu
 	}
 	
 	@Override
-	public void draw(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		
 	}

@@ -12,7 +12,7 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicButtonList;
 import exopandora.worldhandler.gui.widget.menu.impl.MenuButtonList;
 import exopandora.worldhandler.util.ActionHelper;
@@ -30,7 +30,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class ContentScoreboardObjectives extends ContentScoreboard
 {
-	private GuiTextFieldTooltip objectField;
+	private GuiHintTextField objectField;
 	private Page page = Page.CREATE;
 	
 	@Override
@@ -42,7 +42,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.objectField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.objective"));
+		this.objectField = new GuiHintTextField(x + 118, y + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.scoreboard.objectives.objective"));
 		this.objectField.setFilter(Predicates.notNull());
 		this.objectField.setResponder(text ->
 		{

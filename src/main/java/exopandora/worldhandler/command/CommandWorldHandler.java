@@ -28,14 +28,14 @@ public class CommandWorldHandler
 	public static void register(CommandDispatcher<CommandSourceStack> dispatcher)
 	{
 		dispatcher.register(Commands.literal("worldhandler")
-				.then(Commands.literal("help")
-					.executes(context -> help(context.getSource())))
-				.then(Commands.literal("display")
-					.executes(context -> display(context.getSource())))
-				.then(Commands.literal("version")
-					.executes(context -> version(context.getSource())))
-				.then(Commands.literal("allow_commands")
-						.executes(context -> allowCommands(context.getSource()))));
+			.then(Commands.literal("help")
+				.executes(context -> help(context.getSource())))
+			.then(Commands.literal("display")
+				.executes(context -> display(context.getSource())))
+			.then(Commands.literal("version")
+				.executes(context -> version(context.getSource())))
+			.then(Commands.literal("allow_commands")
+				.executes(context -> allowCommands(context.getSource()))));
 	}
 	
 	private static int help(CommandSourceStack source) throws CommandSyntaxException
@@ -86,7 +86,7 @@ public class CommandWorldHandler
 			server.getCommands().sendCommands(player);
 		}
 		
-		source.sendSuccess(Component.translatable("commands.worldhandler.allow_commands.success"), false);
+		source.sendSuccess(() -> Component.translatable("commands.worldhandler.allow_commands.success"), false);
 		return operatorPermissionLevel;
 	}
 }

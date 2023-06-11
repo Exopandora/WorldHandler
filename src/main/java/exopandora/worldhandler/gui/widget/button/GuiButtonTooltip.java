@@ -1,9 +1,8 @@
 package exopandora.worldhandler.gui.widget.button;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.util.ActionHandler;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 public class GuiButtonTooltip extends GuiButtonBase
@@ -16,11 +15,11 @@ public class GuiButtonTooltip extends GuiButtonBase
 		this.tooltip = tooltip;
 	}
 	
-	public void renderTooltip(Screen screen, PoseStack poseStack, int mouseX, int mouseY)
+	public void renderTooltip(GuiGraphics guiGraphics, Font font, int mouseX, int mouseY)
 	{
 		if(this.isHovered() && this.tooltip != null && !this.tooltip.getString().isEmpty())
 		{
-			screen.renderTooltip(poseStack, this.tooltip, mouseX, mouseY);
+			guiGraphics.renderTooltip(font, this.tooltip, mouseX, mouseY);
 		}
 	}
 }

@@ -193,7 +193,7 @@
 	"gui.worldhandler.items.enchantment.level": "Level",
 	"gui.worldhandler.items.enchantment.enchant": "Enchant",
 
-	"gui.worldhandler.blocks.sign_editor.look_at_sign": "Look at a Sign and press '%s'",
+	"gui.worldhandler.blocks.sign_editor.look_at_sign": "Look at a sign and press '%s'",
 	"gui.worldhandler.blocks.sign_editor.text_line_1": "Text Line I",
 	"gui.worldhandler.blocks.sign_editor.text_line_2": "Text Line II",
 	"gui.worldhandler.blocks.sign_editor.text_line_3": "Text Line III",
@@ -201,7 +201,7 @@
 	"gui.worldhandler.blocks.sign_editor.commmand": "Command",
 	"gui.worldhandler.blocks.sign_editor.format_text_line": "Format Text Line",
 
-	"gui.worldhandler.blocks.note_block_editor.look_at_note_block": "Look at a Note Block and press '%s'",
+	"gui.worldhandler.blocks.note_block_editor.look_at_note_block": "Look at a note block and press '%s'",
 	"gui.worldhandler.blocks.note_block_editor.c": "C",
 	"gui.worldhandler.blocks.note_block_editor.d": "D",
 	"gui.worldhandler.blocks.note_block_editor.e": "E",

@@ -9,8 +9,6 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.builder.impl.UsercontentCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
@@ -35,6 +33,7 @@ import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
@@ -137,7 +136,7 @@ public class ContentUsercontent extends Content
 	}
 	
 	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(GuiGraphics guiGraphics, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(this.content.getGui() != null && this.content.getGui().getLabels() != null)
 		{
@@ -145,7 +144,7 @@ public class ContentUsercontent extends Content
 			{
 				if(label.getVisible() == null || label.getVisible().eval(this.engineAdapter))
 				{
-					container.getMinecraft().font.draw(matrix, TextUtils.formatNonnull(label.getText()), label.getX() + x, label.getY() + y, label.getColor());
+					guiGraphics.drawString(Minecraft.getInstance().font, TextUtils.formatNonnull(label.getText()), label.getX() + x, label.getY() + y, label.getColor(), false);
 				}
 			}
 		}

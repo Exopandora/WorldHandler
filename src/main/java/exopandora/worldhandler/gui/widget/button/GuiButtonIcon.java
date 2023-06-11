@@ -1,11 +1,10 @@
 package exopandora.worldhandler.gui.widget.button;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ResourceHelper;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 public class GuiButtonIcon extends GuiButtonTooltip
@@ -19,20 +18,18 @@ public class GuiButtonIcon extends GuiButtonTooltip
 	}
 	
 	@Override
-	public void renderWidget(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderBackground(poseStack, mouseX, mouseY, partialTicks);
+		super.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		
 		if(this.icon != null)
 		{
-			this.renderIcon(poseStack);
+			this.renderIcon(guiGraphics);
 		}
 	}
 	
-	private void renderIcon(PoseStack poseStack)
+	private void renderIcon(GuiGraphics guiGraphics)
 	{
-		RenderSystem.setShaderTexture(0, ResourceHelper.iconTexture());
-		
 		if(this.active)
 		{
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -42,6 +39,6 @@ public class GuiButtonIcon extends GuiButtonTooltip
 			RenderSystem.setShaderColor(0.8F, 0.8F, 0.8F, 1.0F);
 		}
 		
-		GuiComponent.blit(poseStack, this.getX() + this.width / 2 - 4, this.getY() + this.height / 2 - 4, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);
+		guiGraphics.blit(ResourceHelper.iconTexture(), this.getX() + this.width / 2 - 4, this.getY() + this.height / 2 - 4, this.icon.getX() * 8, this.icon.getY() * 8, 8, 8);
 	}
 }

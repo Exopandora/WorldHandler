@@ -15,7 +15,7 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
@@ -30,7 +30,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContentButcher extends Content
 {
-	private GuiTextFieldTooltip radiusField;
+	private GuiHintTextField radiusField;
 	private String radius;
 	private final KillCommandBuilder builderKill = new KillCommandBuilder();
 	private final CommandPreview preview = new CommandPreview(this.builderKill, KillCommandBuilder.Label.KILL_TARGETS);
@@ -44,7 +44,7 @@ public class ContentButcher extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.radiusField = new GuiTextFieldTooltip(x + 58, y, 114, 20, Component.translatable("gui.worldhandler.butcher.radius"));
+		this.radiusField = new GuiHintTextField(x + 58, y, 114, 20, Component.translatable("gui.worldhandler.butcher.radius"));
 		this.radiusField.setFilter(string ->
 		{
 			if(string == null)

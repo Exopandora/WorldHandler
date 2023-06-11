@@ -26,7 +26,7 @@ import exopandora.worldhandler.util.ResourceHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
@@ -144,7 +144,7 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks)
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		ActionHelper.tryRun(() ->
 		{
@@ -153,19 +153,18 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSkin().drawBackground())
 			{
-				super.renderBackground(stack);
+				super.renderBackground(guiGraphics);
 			}
 			
 			RenderSystem.enableBlend();
 			RenderUtils.colorDefaultBackground();
 			
-			this.bindBackground();
-			GuiComponent.blit(stack, backgroundX, backgroundY, 0, 0, this.getBackgroundWidth(), this.getBackgroundHeight());
+			guiGraphics.blit(ResourceHelper.backgroundTexture(), backgroundX, backgroundY, 0, 0, this.getBackgroundWidth(), this.getBackgroundHeight());
 			
 			final String label = Main.MC_VERSION + "-" + Main.MOD_VERSION;
 			final int versionWidth = this.width - this.font.width(label) - 2;
 			final int versionHeight = this.height - 10;
-			this.font.draw(stack, label, versionWidth, versionHeight, Config.getSkin().getLabelColor() + 0x33000000);
+			guiGraphics.drawString(this.font, label, versionWidth, versionHeight, Config.getSkin().getLabelColor() + 0x33000000, false);
 			
 			int x = this.getContentX();
 			int y = this.getContentY();
@@ -174,30 +173,30 @@ public class GuiWorldHandler extends Container
 			{
 				if(widget.isEnabled() && EnumLayer.BACKGROUND == widget.getLayer())
 				{
-					widget.drawScreen(stack, this, x, y, mouseX, mouseY, partialTicks);
+					widget.drawScreen(guiGraphics, this, x, y, mouseX, mouseY, partialTicks);
 				}
 			}
 			
 			final int maxWidth = this.getBackgroundWidth() - 18 - this.font.width(this.getPlayer()) - (Config.getSettings().watch() ? 9 : 0);
-			this.font.draw(stack, TextUtils.stripText(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor());
+			guiGraphics.drawString(this.font, TextUtils.stripText(this.content.getTitle(), maxWidth, this.font), backgroundX + 7, backgroundY + 7, Config.getSkin().getLabelColor(), false);
 			
 			for(Renderable renderable : this.renderables)
 			{
-				renderable.render(stack, mouseX, mouseY, partialTicks);
+				renderable.render(guiGraphics, mouseX, mouseY, partialTicks);
 			}
 			
-			this.content.drawScreen(stack, this, x, y, mouseX, mouseY, partialTicks);
+			this.content.drawScreen(guiGraphics, this, x, y, mouseX, mouseY, partialTicks);
 			
 			for(IMenu menu : this.menus)
 			{
-				menu.draw(stack, mouseX, mouseY, partialTicks);
+				menu.draw(guiGraphics, mouseX, mouseY, partialTicks);
 			}
 			
 			for(IContainerWidget widget : WIDGETS)
 			{
 				if(widget.isEnabled() && EnumLayer.FOREGROUND == widget.getLayer())
 				{
-					widget.drawScreen(stack, this, x, y, mouseX, mouseY, partialTicks);
+					widget.drawScreen(guiGraphics, this, x, y, mouseX, mouseY, partialTicks);
 				}
 			}
 			
@@ -207,19 +206,20 @@ public class GuiWorldHandler extends Container
 				{
 					if(renderable instanceof GuiButtonTooltip)
 					{
-						((GuiButtonTooltip) renderable).renderTooltip(this, stack, mouseX, mouseY);
+						((GuiButtonTooltip) renderable).renderTooltip(guiGraphics, this.font, mouseX, mouseY);
 					}
 				}
 			}
 			
 			if(mouseX >= versionWidth && mouseY >= versionHeight)
 			{
-				stack.pushPose();
-				stack.translate(versionWidth - 12, versionHeight + 12, 0);
+				PoseStack poseStack = guiGraphics.pose();
+				poseStack.pushPose();
+				poseStack.translate(versionWidth - 12, versionHeight + 12, 0);
 				
-				this.renderTooltip(stack, Component.literal(label), 0, 0);
+				guiGraphics.renderTooltip(this.font, Component.literal(label), 0, 0);
 				
-				stack.popPose();
+				poseStack.popPose();
 			}
 			
 			RenderSystem.disableBlend();
@@ -455,11 +455,5 @@ public class GuiWorldHandler extends Container
 	public int getBackgroundHeight()
 	{
 		return 166;
-	}
-	
-	@Override
-	public void bindBackground()
-	{
-		RenderSystem.setShaderTexture(0, ResourceHelper.backgroundTexture());
 	}
 }

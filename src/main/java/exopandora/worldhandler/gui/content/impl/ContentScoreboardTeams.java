@@ -10,7 +10,7 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicButtonList;
 import exopandora.worldhandler.gui.widget.menu.impl.MenuButtonList;
 import exopandora.worldhandler.util.ActionHelper;
@@ -32,7 +32,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 			.add(this.builderTeams, TeamCommandBuilder.Label.EMPTY);
 	private final CommandPreview previewModify = new CommandPreview(this.builderTeams, TeamCommandBuilder.Label.MODIFY);
 	
-	private GuiTextFieldTooltip teamField;
+	private GuiHintTextField teamField;
 	private Page page = Page.ADD;
 	
 	@Override
@@ -56,7 +56,7 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.teamField = new GuiTextFieldTooltip(x + 118, y + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.team"));
+		this.teamField = new GuiHintTextField(x + 118, y + this.page.getShift(), 114, 20, Component.translatable("gui.worldhandler.scoreboard.team.team"));
 		this.teamField.setFilter(Predicates.notNull());
 		this.teamField.setValue(this.builderTeams.team().get());
 		this.teamField.setResponder(text ->

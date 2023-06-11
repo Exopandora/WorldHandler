@@ -1,14 +1,13 @@
 package exopandora.worldhandler.gui.widget.button;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.util.ActionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
@@ -31,7 +30,7 @@ public class GuiButtonPiano extends GuiButtonBase
 	}
 	
 	@Override
-	public void renderWidget(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		switch(this.type)
 		{
@@ -54,35 +53,34 @@ public class GuiButtonPiano extends GuiButtonBase
 		int hovered = this.getTextureY();
 		
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Config.getSkin().getButtonAlpha());
-		RenderSystem.setShaderTexture(0, NOTE);
 		
 		switch(this.type)
 		{
 			case LEFT:
 			case NORMAL:
 			case RIGHT:
-				this.drawWhiteKey(poseStack, hovered);
+				this.drawWhiteKey(guiGraphics, hovered);
 				break;
 			case BLACK:
-				this.drawBlackKey(poseStack, hovered);
+				this.drawBlackKey(guiGraphics, hovered);
 				break;
 			default:
 				break;
 		}
 	}
 	
-	protected void drawWhiteKey(PoseStack poseStack, int hoverstate)
+	protected void drawWhiteKey(GuiGraphics guiGraphics, int hoverstate)
 	{
 		int textColor = this.getFGColor();
 		Font font = Minecraft.getInstance().font;
 		
-		GuiComponent.blit(poseStack, this.getX(), this.getY(), 25 + hoverstate * 15 - 15, 0, 15, 92);
-		font.draw(poseStack, this.getMessage(), (float) (this.getX() + this.width / 2 - font.width(this.getMessage()) / 2), (float) (this.getY() + (this.height - 8) / 2 + 36), textColor);
+		guiGraphics.blit(NOTE, this.getX(), this.getY(), 25 + hoverstate * 15 - 15, 0, 15, 92);
+		guiGraphics.drawString(font, this.getMessage(), this.getX() + this.width / 2 - font.width(this.getMessage()) / 2, this.getY() + (this.height - 8) / 2 + 36, textColor, false);
 	}
 	
-	protected void drawBlackKey(PoseStack poseStack, int hoverstate)
+	protected void drawBlackKey(GuiGraphics guiGraphics, int hoverstate)
 	{
-		GuiComponent.blit(poseStack, this.getX(), this.getY(), 55 - hoverstate * 9 + 18, 0, 9, 58);
+		guiGraphics.blit(NOTE, this.getX(), this.getY(), 55 - hoverstate * 9 + 18, 0, 9, 58);
 	}
 	
 	@Override

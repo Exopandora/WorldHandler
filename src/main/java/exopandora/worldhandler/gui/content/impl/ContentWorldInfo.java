@@ -8,7 +8,7 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
@@ -22,15 +22,15 @@ public class ContentWorldInfo extends Content
 {
 	private Page page = Page.START;
 	
-	private GuiTextFieldTooltip posXField;
-	private GuiTextFieldTooltip posYField;
-	private GuiTextFieldTooltip posZField;
+	private GuiHintTextField posXField;
+	private GuiHintTextField posYField;
+	private GuiHintTextField posZField;
 	
-	private GuiTextFieldTooltip worldField;
-	private GuiTextFieldTooltip seedField;
+	private GuiHintTextField worldField;
+	private GuiHintTextField seedField;
 	
-	private GuiTextFieldTooltip totalTimeField;
-	private GuiTextFieldTooltip currentTimeField;
+	private GuiHintTextField totalTimeField;
+	private GuiHintTextField currentTimeField;
 	
 	@Override
 	public void initGui(Container container, int x, int y)
@@ -38,27 +38,27 @@ public class ContentWorldInfo extends Content
 		Level level = ContentWorldInfo.getSidedWorld();
 		IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
 		
-		this.posXField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20);
+		this.posXField = new GuiHintTextField(x + 118, y + 12, 114, 20);
 		this.posXField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " X: " + ContentWorldInfo.format(level, object -> object.getLevelData().getXSpawn()));
 		
-		this.posYField = new GuiTextFieldTooltip(x + 118, y + 36, 114, 20);
+		this.posYField = new GuiHintTextField(x + 118, y + 36, 114, 20);
 		this.posYField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " Y: " + ContentWorldInfo.format(level, object -> object.getLevelData().getYSpawn()));
 		
-		this.posZField = new GuiTextFieldTooltip(x + 118, y + 60, 114, 20);
+		this.posZField = new GuiHintTextField(x + 118, y + 60, 114, 20);
 		this.posZField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " Z: " + ContentWorldInfo.format(level, object -> object.getLevelData().getZSpawn()));
 		
-		this.worldField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20);
+		this.worldField = new GuiHintTextField(x + 118, y + 12, 114, 20);
 		this.worldField.setValue(I18n.get("gui.worldhandler.world_info.world.name") + ": " + ContentWorldInfo.format(server, object -> object.getWorldData().getLevelName()));
 		
-		this.seedField = new GuiTextFieldTooltip(x + 118, y + 36, 114, 20);
+		this.seedField = new GuiHintTextField(x + 118, y + 36, 114, 20);
 		this.seedField.setValue(I18n.get("gui.worldhandler.world_info.world.seed") + ": " + ContentWorldInfo.format(server, object -> object.overworld().getSeed()));
 		this.seedField.setFilter(string -> string.equals(this.seedField.getValue()));
 		this.seedField.moveCursorToStart();
 		
-		this.currentTimeField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20);
+		this.currentTimeField = new GuiHintTextField(x + 118, y + 24, 114, 20);
 		this.updateCurrentTime();
 		
-		this.totalTimeField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20);
+		this.totalTimeField = new GuiHintTextField(x + 118, y + 48, 114, 20);
 		this.updateTotalTime();
 	}
 	

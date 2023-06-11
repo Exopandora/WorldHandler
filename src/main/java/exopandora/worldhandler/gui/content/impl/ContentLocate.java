@@ -58,7 +58,13 @@ public class ContentLocate extends Content
 	{
 		if(Page.BIOME.equals(this.page))
 		{
-			List<ResourceLocation> biomes = RegistryHelper.getLookupProvider().lookup(Registries.BIOME).get().listElementIds().map(ResourceKey::location).collect(Collectors.toList());
+			List<ResourceLocation> biomes = RegistryHelper.getLookupProvider()
+				.lookup(Registries.BIOME)
+				.get()
+				.listElementIds()
+				.map(ResourceKey::location)
+				.collect(Collectors.toList());
+			
 			MenuPageList<ResourceLocation> list = new MenuPageList<ResourceLocation>(x + 118, y, biomes, 114, 20, 3, container, new ILogicPageList<ResourceLocation>()
 			{
 				@Override
@@ -96,7 +102,12 @@ public class ContentLocate extends Content
 		}
 		else if(Page.STRUCTURE.equals(this.page))
 		{
-			List<ResourceLocation> structures = RegistryHelper.getLookupProvider().lookup(Registries.STRUCTURE).get().listElementIds().map(ResourceKey::location).collect(Collectors.toList());
+			List<ResourceLocation> structures = RegistryHelper.getLookupProvider()
+				.lookup(Registries.STRUCTURE)
+				.get()
+				.listElementIds()
+				.map(ResourceKey::location)
+				.collect(Collectors.toList());
 			
 			MenuPageList<ResourceLocation> list = new MenuPageList<ResourceLocation>(x + 118, y, structures, 114, 20, 3, container, new ILogicPageList<ResourceLocation>()
 			{

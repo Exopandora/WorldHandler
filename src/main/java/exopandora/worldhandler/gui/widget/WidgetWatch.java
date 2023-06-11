@@ -1,12 +1,11 @@
 package exopandora.worldhandler.gui.widget;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 public class WidgetWatch implements IContainerWidget
@@ -14,7 +13,7 @@ public class WidgetWatch implements IContainerWidget
 	private boolean focused = false;
 	
 	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(GuiGraphics guiGraphics, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		final int watchX = container.getBackgroundX() + 233;
 		final int watchY = container.getBackgroundY() + 5;
@@ -26,11 +25,11 @@ public class WidgetWatch implements IContainerWidget
 			time = Minecraft.getInstance().level.getLevelData().getDayTime();
 		}
 		
-		RenderUtils.drawWatchIntoGui(matrix, container, watchX, watchY, time, Config.getSettings().smoothWatch());
+		RenderUtils.drawWatchIntoGui(guiGraphics, watchX, watchY, time, Config.getSettings().smoothWatch());
 		
 		if(Config.getSettings().tooltips() && mouseX >= watchX && mouseX <= watchX + 9 && mouseY >= watchY && mouseY <= watchY + 9)
 		{
-			container.renderTooltip(matrix, Component.literal(TextUtils.formatWorldTime(time)), mouseX, mouseY + 9);
+			guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal(TextUtils.formatWorldTime(time)), mouseX, mouseY + 9);
 		}
 	}
 	

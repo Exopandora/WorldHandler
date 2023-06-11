@@ -20,7 +20,7 @@ import exopandora.worldhandler.util.BlockHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -66,7 +66,7 @@ public class ContentNoteEditor extends Content
 		if(this.isActive)
 		{
 			BlockPos pos = this.builderNoteEditor.pos().getBlockPos();
-			SoundEvent sound = getSoundEvent(pos.below()).getSoundEvent().get();
+			SoundEvent sound = getSoundEvent(pos).getSoundEvent().get();
 			
 			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.g"), sound, 0.53F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 1)));
 			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 2, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.a"), sound, 0.6F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 3)));
@@ -109,46 +109,44 @@ public class ContentNoteEditor extends Content
 		builder.pos().set(pos);
 		NoteBlockInstrument instrument = getSoundEvent(pos);
 		BlockState state = Blocks.NOTE_BLOCK.defaultBlockState()
-				.setValue(BlockStateProperties.NOTEBLOCK_INSTRUMENT, instrument)
-				.setValue(BlockStateProperties.NOTE, note);
+			.setValue(BlockStateProperties.NOTEBLOCK_INSTRUMENT, instrument)
+			.setValue(BlockStateProperties.NOTE, note);
 		builder.block().set(state);
 		CommandHelper.sendCommand(player, builder, SetBlockCommandBuilder.Label.REPLACE);
 	}
 	
 	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(GuiGraphics guiGraphics, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(this.isActive)
 		{
-			RenderSystem.setShaderTexture(0, NOTE);
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 			
-			GuiComponent.blit(matrix, x - 1, y - 1, 0, 0, 8, 59);
-			GuiComponent.blit(matrix, x - 1, y - 1 + 59, 0, 59, 13, 35);
+			guiGraphics.blit(NOTE, x - 1, y - 1, 0, 0, 8, 59);
+			guiGraphics.blit(NOTE, x - 1, y - 1 + 59, 0, 59, 13, 35);
 			
-			GuiComponent.blit(matrix, x - 1 + 232 - 5, y - 1, 18, 0, 7, 59);
-			GuiComponent.blit(matrix, x - 1 + 232 - 10, y - 1 + 59, 13, 59, 12, 35);
+			guiGraphics.blit(NOTE, x - 1 + 232 - 5, y - 1, 18, 0, 7, 59);
+			guiGraphics.blit(NOTE, x - 1 + 232 - 10, y - 1 + 59, 13, 59, 12, 35);
 			
-			GuiComponent.blit(matrix, x - 1 + 8, y - 1, 0, 94, 219, 1);
-			GuiComponent.blit(matrix, x - 1 + 13, y - 1 + 93, 0, 94, 209, 1);
+			guiGraphics.blit(NOTE, x - 1 + 8, y - 1, 0, 94, 219, 1);
+			guiGraphics.blit(NOTE, x - 1 + 13, y - 1 + 93, 0, 94, 209, 1);
 		}
 		else
 		{
 			float scale = 4;
     		
-			PoseStack posestack = RenderSystem.getModelViewStack();
+			PoseStack posestack = guiGraphics.pose();
 			posestack.pushPose();
 			posestack.translate(container.width / 2 - 8.5F * scale, container.height / 2 - 15 - 8.5F * scale, 0);
 			posestack.scale(scale, scale, scale);
 			
-			Minecraft.getInstance().getItemRenderer().renderGuiItem(matrix, new ItemStack(Items.NOTE_BLOCK), 0, 0);
+			guiGraphics.renderItem(new ItemStack(Items.NOTE_BLOCK), 0, 0);
 			
 			posestack.popPose();
-			RenderSystem.applyModelViewMatrix();
 			
 			MutableComponent text = Component.translatable("gui.worldhandler.blocks.note_block_editor.look_at_note_block", KeyHandler.KEY_WORLD_HANDLER.getTranslatedKeyMessage());
 			Font font = Minecraft.getInstance().font;
-			font.draw(matrix, text, x + 116 - font.width(text) / 2, y + 70, Config.getSkin().getLabelColor());
+			guiGraphics.drawString(font, text, x + 116 - font.width(text) / 2, y + 70, Config.getSkin().getLabelColor(), false);
 		}
 	}
 	
@@ -158,10 +156,18 @@ public class ContentNoteEditor extends Content
 		
 		if(level != null)
 		{
-			return NoteBlockInstrument.byStateAbove(level.getBlockState(blockPos.above())).orElseGet(() ->
+			NoteBlockInstrument noteblockinstrument = level.getBlockState(blockPos.above()).instrument();
+			
+			if(noteblockinstrument.worksAboveNoteBlock())
 			{
-				return NoteBlockInstrument.byStateBelow(level.getBlockState(blockPos.below()));
-			});
+				return noteblockinstrument;
+			}
+			else
+			{
+				NoteBlockInstrument noteblockinstrument1 = level.getBlockState(blockPos.below()).instrument();
+				NoteBlockInstrument noteblockinstrument2 = noteblockinstrument1.worksAboveNoteBlock() ? NoteBlockInstrument.HARP : noteblockinstrument1;
+				return noteblockinstrument2;
+			}
 		}
 		
 		return null;

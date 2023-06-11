@@ -21,7 +21,7 @@ import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -39,7 +39,7 @@ public class ContentCommandStack extends ContentChild
 	private static final Component PLUS = Component.literal("+");
 	private static final Component MINUS = Component.literal("-");
 	
-	private final List<GuiTextFieldTooltip> textfields = new ArrayList<GuiTextFieldTooltip>();
+	private final List<GuiHintTextField> textfields = new ArrayList<GuiHintTextField>();
 	private int scroll;
 	private GuiButtonBase buttonCopy;
 	
@@ -111,7 +111,7 @@ public class ContentCommandStack extends ContentChild
 		{
 			int command = index + this.scroll;
 			
-			GuiTextFieldTooltip textfield = new GuiTextFieldTooltip(x, y + 24 * index, 232 - 48, 20, Component.translatable("gui.worldhandler.command_stack.command_n", command + 1));
+			GuiHintTextField textfield = new GuiHintTextField(x, y + 24 * index, 232 - 48, 20, Component.translatable("gui.worldhandler.command_stack.command_n", command + 1));
 			textfield.setFilter(Predicates.notNull());
 			textfield.setValue(command < this.getCommandCount() ? this.getCommand(command) : null);
 			textfield.setResponder(text ->

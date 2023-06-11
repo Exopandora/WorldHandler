@@ -5,18 +5,18 @@ import com.google.common.base.Predicates;
 import exopandora.worldhandler.builder.impl.WorldHandlerCommandBuilder;
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 
 public class WidgetCommandSyntax implements IContainerWidget
 {
 	private static final WorldHandlerCommandBuilder BUILDER_WORLD_HANDLER = new WorldHandlerCommandBuilder();
 	
-	private GuiTextFieldTooltip syntaxField;
+	private GuiHintTextField syntaxField;
 	
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.syntaxField = new GuiTextFieldTooltip(container.width / 2 - 156, container.height - 22, 312, 20);
+		this.syntaxField = new GuiHintTextField(container.width / 2 - 156, container.height - 22, 312, 20);
 		this.updateSyntax(container);
 	}
 	

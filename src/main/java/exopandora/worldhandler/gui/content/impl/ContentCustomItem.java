@@ -17,7 +17,7 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiSlider;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.button.LogicSliderAttribute;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
@@ -35,9 +35,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContentCustomItem extends Content
 {
-	private GuiTextFieldTooltip itemField;
-	private GuiTextFieldTooltip itemLore1Field;
-	private GuiTextFieldTooltip itemLore2Field;
+	private GuiHintTextField itemField;
+	private GuiHintTextField itemLore1Field;
+	private GuiHintTextField itemLore2Field;
 	
 	private final GiveCommandBuilder builderCutomItem = new GiveCommandBuilder();
 	private final AttributeModifiersTag attributes = new AttributeModifiersTag();
@@ -94,7 +94,7 @@ public class ContentCustomItem extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.itemField = new GuiTextFieldTooltip(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start.item_id"));
+		this.itemField = new GuiHintTextField(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start.item_id"));
 		this.itemField.setFilter(Predicates.<String>notNull());
 		this.itemField.setValue(this.item);
 		this.itemField.setResponder(text ->
@@ -104,7 +104,7 @@ public class ContentCustomItem extends Content
 			container.initButtons();
 		});
 		
-		this.itemLore1Field = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start.lore_1"));
+		this.itemLore1Field = new GuiHintTextField(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start.lore_1"));
 		this.itemLore1Field.setFilter(Predicates.<String>notNull());
 		this.itemLore1Field.setText(this.display.getLore1());
 		this.itemLore1Field.setResponder(text ->
@@ -113,7 +113,7 @@ public class ContentCustomItem extends Content
 			container.initButtons();
 		});
 		
-		this.itemLore2Field = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start.lore_2"));
+		this.itemLore2Field = new GuiHintTextField(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.items.custom_item.start.lore_2"));
 		this.itemLore2Field.setFilter(Predicates.<String>notNull());
 		this.itemLore2Field.setText(this.display.getLore2());
 		this.itemLore2Field.setResponder(text ->

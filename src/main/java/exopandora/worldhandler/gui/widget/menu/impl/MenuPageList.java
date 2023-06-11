@@ -3,14 +3,13 @@ package exopandora.worldhandler.gui.widget.menu.impl;
 import java.util.List;
 import java.util.Objects;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.menu.Menu;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -104,9 +103,9 @@ public class MenuPageList<T> extends Menu
 	}
 	
 	@Override
-	public void draw(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void draw(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		Minecraft.getInstance().font.draw(matrix, String.format("%d/%d", this.persistence.getPage() + 1, this.getTotalPages()), this.x, this.y - 11, Config.getSkin().getHeadlineColor());
+		guiGraphics.drawString(Minecraft.getInstance().font, String.format("%d/%d", this.persistence.getPage() + 1, this.getTotalPages()), this.x, this.y - 11, Config.getSkin().getHeadlineColor(), false);
 	}
 	
 	private void goLeft(Container container)

@@ -1,9 +1,7 @@
 package exopandora.worldhandler.gui.widget.button;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.util.ActionHandler;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -23,9 +21,9 @@ public class GuiButtonItem extends GuiButtonBase
 	}
 	
 	@Override
-	public void renderWidget(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderBackground(matrix, mouseX, mouseY, partialTicks);
-		Minecraft.getInstance().getItemRenderer().renderGuiItem(matrix, this.stack, this.getX() + this.width / 2 - 8, this.getY() + 2);
+		super.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
+		guiGraphics.renderItem(this.stack, this.getX() + this.width / 2 - 8, this.getY() + 2);
 	}
 }

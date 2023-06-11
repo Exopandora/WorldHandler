@@ -1,7 +1,6 @@
 package exopandora.worldhandler.gui.content.impl;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.impl.ClearInventoryCommandBuilder;
 import exopandora.worldhandler.builder.impl.KillCommandBuilder;
@@ -13,11 +12,11 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.util.ActionHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -29,13 +28,13 @@ public class ContentPlayer extends Content
 {
 	private Page page = Page.START;
 	
-	private GuiTextFieldTooltip posXField;
-	private GuiTextFieldTooltip posYField;
-	private GuiTextFieldTooltip posZField;
+	private GuiHintTextField posXField;
+	private GuiHintTextField posYField;
+	private GuiHintTextField posZField;
 	
-	private GuiTextFieldTooltip scoreField;
-	private GuiTextFieldTooltip coinsField;
-	private GuiTextFieldTooltip xpField;
+	private GuiHintTextField scoreField;
+	private GuiHintTextField coinsField;
+	private GuiHintTextField xpField;
 	
 	private final SetWorldSpawnCommandBuilder builderSetWorldSpawn = new SetWorldSpawnCommandBuilder();
 	private final SetSpawnCommandBuilder builderSpawnpoint = new SetSpawnCommandBuilder();
@@ -61,12 +60,12 @@ public class ContentPlayer extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.posXField = new GuiTextFieldTooltip(x + 118, y, 114, 20);
-		this.posYField = new GuiTextFieldTooltip(x + 118, y + 24, 114, 20);
-		this.posZField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20);
-		this.scoreField = new GuiTextFieldTooltip(x + 118, y + 12, 114, 20);
-		this.coinsField = new GuiTextFieldTooltip(x + 118, y + 36, 114, 20);
-		this.xpField = new GuiTextFieldTooltip(x + 118, y + 60, 114, 20);
+		this.posXField = new GuiHintTextField(x + 118, y, 114, 20);
+		this.posYField = new GuiHintTextField(x + 118, y + 24, 114, 20);
+		this.posZField = new GuiHintTextField(x + 118, y + 48, 114, 20);
+		this.scoreField = new GuiHintTextField(x + 118, y + 12, 114, 20);
+		this.coinsField = new GuiHintTextField(x + 118, y + 36, 114, 20);
+		this.xpField = new GuiHintTextField(x + 118, y + 60, 114, 20);
 		
 		this.tick(container);
 	}
@@ -176,19 +175,20 @@ public class ContentPlayer extends Content
 	}
 	
 	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(GuiGraphics guiGraphics, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(Page.START.equals(this.page) && Minecraft.getInstance().player != null)
 		{
+			Minecraft minecraft = Minecraft.getInstance();
 			int xPos = x + 175;
 			int yPos = y + 82;
-			int playerNameWidth = Minecraft.getInstance().font.width(Minecraft.getInstance().player.getName()) / 2;
+			int playerNameWidth = minecraft.font.width(minecraft.player.getName()) / 2;
 			
-			GuiComponent.fill(matrix, container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
-			Minecraft.getInstance().font.draw(matrix, Minecraft.getInstance().player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
+			guiGraphics.fill(container.width / 2 - playerNameWidth - 1 + 59, yPos - 74, container.width / 2 + playerNameWidth + 1 + 59, yPos - 65, 0x3F000000);
+			guiGraphics.drawString(minecraft.font, minecraft.player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			InventoryScreen.renderEntityInInventoryFollowsMouse(matrix, xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, Minecraft.getInstance().player);
+			InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, minecraft.player);
 			RenderSystem.defaultBlendFunc();
 		}
 	}

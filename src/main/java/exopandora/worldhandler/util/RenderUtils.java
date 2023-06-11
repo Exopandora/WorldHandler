@@ -5,13 +5,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
 import exopandora.worldhandler.config.Config;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
 
 public class RenderUtils
 {
 	public static final double EPS = 0.0020000000949949026D;
 	
-	public static void drawWatchIntoGui(PoseStack matrix, GuiComponent gui, int width, int height, long worldTicks, boolean smooth)
+	public static void drawWatchIntoGui(GuiGraphics guiGraphics, int width, int height, long worldTicks, boolean smooth)
 	{
 		float hour = TextUtils.toHour(worldTicks);
 		float minute = TextUtils.toMinute(worldTicks);
@@ -25,29 +26,29 @@ public class RenderUtils
 		float rotationHour = (360 / 12) * (hour >= 12 ? (hour - 12) : hour) - 180F;
 		float rotationMinute = (360 / 60) * minute - 180F;
 		
-		matrix.pushPose();
-		matrix.translate(width + 5, height + 5, 0F);
-		matrix.scale(0.25F, 0.25F, 0.25F);
+		PoseStack poseStack = guiGraphics.pose();
+		poseStack.pushPose();
+		poseStack.translate(width + 5, height + 5, 0F);
+		poseStack.scale(0.25F, 0.25F, 0.25F);
 		
-		matrix.mulPose(Axis.ZP.rotationDegrees(rotationHour));
-		GuiComponent.fill(matrix, -1, -1, 1, 11, 0xFF383838);
-		matrix.mulPose(Axis.ZN.rotationDegrees(rotationHour));
+		poseStack.mulPose(Axis.ZP.rotationDegrees(rotationHour));
+		guiGraphics.fill(-1, -1, 1, 11, 0xFF383838);
+		poseStack.mulPose(Axis.ZN.rotationDegrees(rotationHour));
 		
-		matrix.mulPose(Axis.ZP.rotationDegrees(rotationMinute));
-		GuiComponent.fill(matrix, -1, -1, 1, 15, 0xFF6F6F6F);
-		matrix.mulPose(Axis.ZN.rotationDegrees(rotationMinute));
+		poseStack.mulPose(Axis.ZP.rotationDegrees(rotationMinute));
+		guiGraphics.fill(-1, -1, 1, 15, 0xFF6F6F6F);
+		poseStack.mulPose(Axis.ZN.rotationDegrees(rotationMinute));
 		
-		matrix.popPose();
+		poseStack.popPose();
 		
 		RenderUtils.colorDefaultButton();
-		RenderSystem.setShaderTexture(0, ResourceHelper.iconTexture());
 		
-		GuiComponent.blit(matrix, width + 0, height, 48, 0, 10, 10);
+		guiGraphics.blit(ResourceHelper.iconTexture(), width + 0, height, 48, 0, 10, 10);
 		
-		matrix.pushPose();
-		matrix.scale(0.5F, 0.5F, 0.5F);
-		GuiComponent.fill(matrix, (width + 5) * 2 - 1, (height + 4) * 2 + 1, (width + 6) * 2 - 1, (height + 5) * 2 + 1, 0xFF000000);
-		matrix.popPose();
+		poseStack.pushPose();
+		poseStack.scale(0.5F, 0.5F, 0.5F);
+		guiGraphics.fill((width + 5) * 2 - 1, (height + 4) * 2 + 1, (width + 6) * 2 - 1, (height + 5) * 2 + 1, 0xFF000000);
+		poseStack.popPose();
 	}
 	
 	public static void colorDefaultButton()
@@ -85,39 +86,39 @@ public class RenderUtils
 		RenderSystem.setShaderColor(Math.max(0, r - 0.3F), Math.max(0, g - 0.3F), Math.max(0, b - 0.3F), a);
 	}
 	
-	public static void drawTexturedTriangleBL(PoseStack matrix, GuiComponent gui, int x, int y, int textureX, int textureY, int size)
+	public static void drawTexturedTriangleBL(GuiGraphics guiGraphics, ResourceLocation texture, int x, int y, int textureX, int textureY, int size)
 	{
 		for(int i = 0; i < size; i++)
 		{
-			GuiComponent.blit(matrix, x, y + i, textureX, textureY + i, i + 1, 1);
+			guiGraphics.blit(texture, x, y + i, textureX, textureY + i, i + 1, 1);
 		}
 	}
 	
-	public static void drawTexturedTriangleBR(PoseStack matrix, GuiComponent gui, int x, int y, int textureX, int textureY, int size)
+	public static void drawTexturedTriangleBR(GuiGraphics guiGraphics, ResourceLocation texture, int x, int y, int textureX, int textureY, int size)
 	{
 		for(int i = 0; i < size; i++)
 		{
-			GuiComponent.blit(matrix, x + size - i - 1, y + i, textureX + size - i - 1, textureY + i, i + 1, 1);
+			guiGraphics.blit(texture, x + size - i - 1, y + i, textureX + size - i - 1, textureY + i, i + 1, 1);
 		}
 	}
 	
-	public static void drawTexturedTriangleTL(PoseStack matrix, GuiComponent gui, int x, int y, int textureX, int textureY, int size)
+	public static void drawTexturedTriangleTL(GuiGraphics guiGraphics, ResourceLocation texture, int x, int y, int textureX, int textureY, int size)
 	{
 		for(int i = 0; i < size; i++)
 		{
-			GuiComponent.blit(matrix, x, y + i, textureX, textureY, size - i, 1);
+			guiGraphics.blit(texture, x, y + i, textureX, textureY, size - i, 1);
 		}
 	}
 	
-	public static void drawTexturedTriangleTR(PoseStack matrix, GuiComponent gui, int x, int y, int textureX, int textureY, int size)
+	public static void drawTexturedTriangleTR(GuiGraphics guiGraphics, ResourceLocation texture, int x, int y, int textureX, int textureY, int size)
 	{
 		for(int i = 0; i < size; i++)
 		{
-			GuiComponent.blit(matrix, x + i, y + i, textureX + i, textureY, size - i, 1);
+			guiGraphics.blit(texture, x + i, y + i, textureX + i, textureY, size - i, 1);
 		}
 	}
 	
-	public static void drawTexturedWedgeGradientTR(PoseStack matrix, GuiComponent gui, int x, int y, int textureX, int textureY, int width, int height)
+	public static void drawTexturedWedgeGradientTR(GuiGraphics guiGraphics, ResourceLocation texture, int x, int y, int textureX, int textureY, int width, int height)
 	{
 		RenderSystem.enableBlend();
 		
@@ -127,13 +128,13 @@ public class RenderUtils
 			int z = width - (int) (w * width);
 			
 			RenderUtils.colorDefaultBackground(w);
-			GuiComponent.blit(matrix, x + z, y + i, textureX + z, textureY + i, width - z, 1);
+			guiGraphics.blit(texture, x + z, y + i, textureX + z, textureY + i, width - z, 1);
 		}
 		
 		RenderSystem.disableBlend();
 	}
 	
-	public static void drawTexturedWedgeGradientTL(PoseStack matrix, GuiComponent gui, int x, int y, int textureX, int textureY, int width, int height)
+	public static void drawTexturedWedgeGradientTL(GuiGraphics guiGraphics, ResourceLocation texture, int x, int y, int textureX, int textureY, int width, int height)
 	{
 		RenderSystem.enableBlend();
 		
@@ -143,7 +144,7 @@ public class RenderUtils
 			int z = (int) (w * width);
 			
 			RenderUtils.colorDefaultBackground(w);
-			GuiComponent.blit(matrix, x, y + i, textureX, textureY + i, z, 1);
+			guiGraphics.blit(texture, x, y + i, textureX, textureY + i, z, 1);
 		}
 		
 		RenderSystem.disableBlend();

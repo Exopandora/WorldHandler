@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.builder.argument.Coordinate;
 import exopandora.worldhandler.builder.argument.tag.AbstractAttributeTag;
@@ -30,7 +29,7 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonItem;
 import exopandora.worldhandler.gui.widget.button.GuiSlider;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import exopandora.worldhandler.gui.widget.button.LogicSliderAttribute;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicColorMenu;
@@ -42,7 +41,7 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
@@ -117,8 +116,8 @@ public class ContentSummon extends Content
 	private static final Item[][] HANDS = {SWORDS, SWORDS};
 	private static final Random RANDOM = new Random();
 	
-	private GuiTextFieldTooltip mobField;
-	private GuiTextFieldTooltip nbtField;
+	private GuiHintTextField mobField;
+	private GuiHintTextField nbtField;
 	
 	private int potionPage = 0;
 	private boolean editColor;
@@ -188,7 +187,7 @@ public class ContentSummon extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		this.mobField = new GuiTextFieldTooltip(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.entities.summon.start.mob_id"));
+		this.mobField = new GuiHintTextField(x + 118, y, 114, 20, Component.translatable("gui.worldhandler.entities.summon.start.mob_id"));
 		this.mobField.setFilter(Predicates.notNull());
 		this.mobField.setValue(this.mob);
 		this.mobField.setResponder(text ->
@@ -199,7 +198,7 @@ public class ContentSummon extends Content
 			container.initButtons();
 		});
 		
-		this.nbtField = new GuiTextFieldTooltip(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.entities.summon.start.custom_nbt"));
+		this.nbtField = new GuiHintTextField(x + 118, y + 48, 114, 20, Component.translatable("gui.worldhandler.entities.summon.start.custom_nbt"));
 		this.nbtField.setFilter(Predicates.notNull());
 		this.nbtField.setValue(this.nbt);
 		this.nbtField.setResponder(text ->
@@ -513,22 +512,21 @@ public class ContentSummon extends Content
 	}
 	
 	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(GuiGraphics guiGraphics, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		if(Page.POTIONS.equals(this.page))
 		{
-			Minecraft.getInstance().font.draw(matrix, (this.potionPage + 1) + "/" + (ForgeRegistries.MOB_EFFECTS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor());
+			guiGraphics.drawString(Minecraft.getInstance().font, (this.potionPage + 1) + "/" + (ForgeRegistries.MOB_EFFECTS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor(), false);
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			RenderSystem.setShaderTexture(0, BEACON_LOCATION);
 	 		
 	 		for(int i = 0; i < 4; i++)
 	 		{
 		 		if(Items.AIR.equals(this.entity.getArmorItem(3 - i)))
 		 		{
-			 		GuiComponent.blit(matrix, x + 118 + 24 + 2, y + 2 + 24 * i, 112, 221, 16, 16);
+		 			guiGraphics.blit(BEACON_LOCATION, x + 118 + 24 + 2, y + 2 + 24 * i, 112, 221, 16, 16);
 		 		}
 	 		}
 	 		
@@ -536,7 +534,7 @@ public class ContentSummon extends Content
 	 		{
 		 		if(Items.AIR.equals(this.entity.getHandItem(i)))
 		 		{
-		 			GuiComponent.blit(matrix, x + 118 + 70 + 2 + 24 * i, y + 2 + 36, 112, 221, 16, 16);
+		 			guiGraphics.blit(BEACON_LOCATION, x + 118 + 70 + 2 + 24 * i, y + 2 + 36, 112, 221, 16, 16);
 		 		}
 	 		}
 		}

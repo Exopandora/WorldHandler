@@ -1,18 +1,17 @@
 package exopandora.worldhandler.gui.widget;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
-import exopandora.worldhandler.gui.widget.button.GuiTextFieldTooltip;
+import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 
 public class WidgetNameField implements IContainerWidget
 {
-	private final GuiTextFieldTooltip nameField = Util.make(new GuiTextFieldTooltip(0, 0, 0, 11), textfield -> textfield.setMaxLength(16));
+	private final GuiHintTextField nameField = Util.make(new GuiHintTextField(0, 0, 0, 11), textfield -> textfield.setMaxLength(16));
 	
 	@Override
 	public void initGui(Container container, int x, int y)
@@ -33,14 +32,15 @@ public class WidgetNameField implements IContainerWidget
 	}
 	
 	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(GuiGraphics guiGraphics, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		String username = container.getPlayer().isEmpty() && !this.nameField.isFocused() ? I18n.get("gui.worldhandler.generic.edit_username") : container.getPlayer();
+		Font font = Minecraft.getInstance().font;
 		
-		int xPos = container.getBackgroundX() + container.getBackgroundWidth() - this.watchOffset() - 7 - Minecraft.getInstance().font.width(username);
+		int xPos = container.getBackgroundX() + container.getBackgroundWidth() - this.watchOffset() - 7 - font.width(username);
 		int yPos = container.getBackgroundY() + 7;
 		
-		Minecraft.getInstance().font.draw(matrix, username, xPos, yPos, Config.getSkin().getLabelColor());
+		guiGraphics.drawString(font, username, xPos, yPos, Config.getSkin().getLabelColor(), false);
 	}
 	
 	@Override

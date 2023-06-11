@@ -1,7 +1,6 @@
 package exopandora.worldhandler.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.category.Category;
@@ -10,12 +9,14 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
+import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class WidgetTabRenderer implements IContainerWidget
@@ -49,10 +50,11 @@ public class WidgetTabRenderer implements IContainerWidget
 	}
 	
 	@Override
-	public void drawScreen(PoseStack matrix, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
+	public void drawScreen(GuiGraphics guiGraphics, Container container, int x, int y, int mouseX, int mouseY, float partialTicks)
 	{
 		Content content = container.getContent();
 		Category category = content.getCategory();
+		ResourceLocation texture = ResourceHelper.backgroundTexture();
 		
 		int xPos = container.getBackgroundX();
 		int yPos = container.getBackgroundY();
@@ -70,21 +72,21 @@ public class WidgetTabRenderer implements IContainerWidget
 			if(content.getActiveContent().equals(tab))
 			{
 				int height = Config.getSkin().getBackgroundAlphaInt() == 255 ? 25 : 22;
-				this.drawActiveTab(matrix, container, index, size, xPos + offset, yPos - 22, width, height, title);
+				this.drawActiveTab(guiGraphics, container, texture, index, size, xPos + offset, yPos - 22, width, height, title);
 			}
 			else
 			{
-				this.drawInactiveTab(matrix, container, index, size, xPos + offset, yPos - 20, width, 20, title);
+				this.drawInactiveTab(guiGraphics, container, texture, index, size, xPos + offset, yPos - 20, width, 20, title);
 			}
 		}
 		
 		RenderUtils.colorDefaultBackground();
 	}
 	
-	private void drawActiveTab(PoseStack matrix, Container container, int index, int size, int x, int y, int width, int height, Component title)
+	private void drawActiveTab(GuiGraphics guiGraphics, Container container, ResourceLocation texture, int index, int size, int x, int y, int width, int height, Component title)
 	{
 		RenderUtils.colorDefaultBackground();
-		this.drawTabBackground(matrix, container, x, y, width, height);
+		this.drawTabBackground(guiGraphics, container, texture, x, y, width, height);
 		
 		if(!Config.getSkin().sharpEdges())
 		{
@@ -94,83 +96,81 @@ public class WidgetTabRenderer implements IContainerWidget
 			{
 				if(index > 0)
 				{
-					RenderUtils.drawTexturedTriangleBL(matrix, container, x, y + height - 2, x - container.getBackgroundX(), 1, 2);
+					RenderUtils.drawTexturedTriangleBL(guiGraphics, texture, x, y + height - 2, x - container.getBackgroundX(), 1, 2);
 				}
 				
 				if(index < size - 1 || size == 1)
 				{
-					RenderUtils.drawTexturedTriangleBR(matrix, container, x + width - 2, y + height - 2, x - container.getBackgroundX() + width, 1, 2);
+					RenderUtils.drawTexturedTriangleBR(guiGraphics, texture, x + width - 2, y + height - 2, x - container.getBackgroundX() + width, 1, 2);
 				}
 				
 				if(index == 0)
 				{
-					RenderUtils.drawTexturedWedgeGradientTL(matrix, container, x, y + height, 0, height, width, WidgetTabRenderer.WEDGE_HEIGHT);
+					RenderUtils.drawTexturedWedgeGradientTL(guiGraphics, texture, x, y + height, 0, height, width, WidgetTabRenderer.WEDGE_HEIGHT);
 				}
 				
 				if(index == size - 1 && size > 1)
 				{
-					RenderUtils.drawTexturedWedgeGradientTR(matrix, container, x, y + height, x - container.getBackgroundX(), height, width, WidgetTabRenderer.WEDGE_HEIGHT);
+					RenderUtils.drawTexturedWedgeGradientTR(guiGraphics, texture, x, y + height, x - container.getBackgroundX(), height, width, WidgetTabRenderer.WEDGE_HEIGHT);
 				}
 			}
 			else
 			{
-				this.drawTabBackgroundMerge(matrix, container, index, size, x, y, width, height);
+				this.drawTabBackgroundMerge(guiGraphics, container, texture, index, size, x, y, width, height);
 			}
 			
 			RenderSystem.disableBlend();
 		}
 		
-		this.drawTabTitle(matrix, container, title, true, x, y, width, y + height, 0xFFFFFF);
+		this.drawTabTitle(guiGraphics, title, true, x, y, width, y + height, 0xFFFFFF);
 	}
 	
-	private void drawInactiveTab(PoseStack matrix, Container container, int index, int size, int x, int y, int width, int height, Component title)
+	private void drawInactiveTab(GuiGraphics guiGraphics, Container container, ResourceLocation texture, int index, int size, int x, int y, int width, int height, Component title)
 	{
 		RenderUtils.colorDarkBackground();
-		this.drawTabBackground(matrix, container, x, y, width, 20);
+		this.drawTabBackground(guiGraphics, container, texture, x, y, width, 20);
 		
 		if(!Config.getSkin().sharpEdges())
 		{
 			RenderSystem.enableBlend();
-			this.drawTabBackgroundMerge(matrix, container, index, size, x, y, width, height);
+			this.drawTabBackgroundMerge(guiGraphics, container, texture, index, size, x, y, width, height);
 			RenderSystem.disableBlend();
 		}
 		
-		this.drawTabTitle(matrix, container, title, false, x, y + 2, width, y + height, 0xE0E0E0);
+		this.drawTabTitle(guiGraphics, title, false, x, y + 2, width, y + height, 0xE0E0E0);
 	}
 	
-	private void drawTabBackgroundMerge(PoseStack matrix, Container container, int index, int size, int x, int y, int width, int height)
+	private void drawTabBackgroundMerge(GuiGraphics guiGraphics, Container container, ResourceLocation texture, int index, int size, int x, int y, int width, int height)
 	{
 		if(index == 0)
 		{
-			RenderUtils.drawTexturedTriangleTL(matrix, container, x, y + height, 0, height, 2);
+			RenderUtils.drawTexturedTriangleTL(guiGraphics, texture, x, y + height, 0, height, 2);
 		}
 		
 		if(index == size - 1)
 		{
-			RenderUtils.drawTexturedTriangleTR(matrix, container, x + width - 3, y + height, container.getBackgroundWidth() - 3, height, 3);
+			RenderUtils.drawTexturedTriangleTR(guiGraphics, texture, x + width - 3, y + height, container.getBackgroundWidth() - 3, height, 3);
 		}
 	}
 	
-	private void drawTabBackground(PoseStack matrix, Container container, int x, int y, int width, int height)
+	private void drawTabBackground(GuiGraphics guiGraphics, Container container, ResourceLocation texture, int x, int y, int width, int height)
 	{
-		container.bindBackground();
-		
 		int left = Mth.ceil(width / 2D);
 		int right = Mth.floor(width / 2D);
 		
 		RenderSystem.enableBlend();
 		
-		GuiComponent.blit(matrix, x, y, 0, 0, left, height);
-		GuiComponent.blit(matrix, x + left, y, container.getBackgroundWidth() - right, 0, right, height);
+		guiGraphics.blit(texture, x, y, 0, 0, left, height);
+		guiGraphics.blit(texture, x + left, y, container.getBackgroundWidth() - right, 0, right, height);
 		
 		RenderSystem.disableBlend();
 	}
 	
-	private void drawTabTitle(PoseStack matrix, GuiComponent gui, Component title, boolean isActive, int x, int y, int width, int height, int color)
+	private void drawTabTitle(GuiGraphics guiGraphics, Component title, boolean isActive, int x, int y, int width, int height, int color)
 	{
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		Font font = Minecraft.getInstance().font;
-		AbstractWidget.renderScrollingString(matrix, font, title, x + 5, y, x + width - 5, height, color);
+		AbstractWidget.renderScrollingString(guiGraphics, font, title, x + 5, y, x + width - 5, height, color);
 	}
 	
 	@Override

@@ -1,7 +1,6 @@
 package exopandora.worldhandler.gui.widget.button;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.util.ActionHandler;
@@ -9,10 +8,11 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
 import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class GuiButtonBase extends AbstractButton
@@ -31,19 +31,19 @@ public class GuiButtonBase extends AbstractButton
 	}
 	
 	@Override
-	public void renderWidget(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		this.renderBackground(poseStack, mouseX, mouseY, partialTicks);
-		this.renderString(poseStack, Minecraft.getInstance().font, this.getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
+		this.renderString(guiGraphics, Minecraft.getInstance().font, this.getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
 	}
 	
-	protected void renderBackground(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
+	protected void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		RenderSystem.enableBlend();
 		RenderUtils.colorDefaultButton();
 		
 		int textureY = this.getTextureY();
-		RenderSystem.setShaderTexture(0, ResourceHelper.buttonTexture());
+		ResourceLocation texture = ResourceHelper.buttonTexture();
     	
 		int hWidth = this.width / 2;
 		int hHeight = this.height / 2;
@@ -52,19 +52,19 @@ public class GuiButtonBase extends AbstractButton
 		{
 			int textureOffset = 46 + textureY * 20;
 			
-			GuiComponent.blit(poseStack, this.getX(), this.getY(), 0, textureOffset, hWidth, hHeight);
-			GuiComponent.blit(poseStack, this.getX(), this.getY() + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
-			GuiComponent.blit(poseStack, this.getX() + hWidth, this.getY(), 200 - hWidth, textureOffset, hWidth, hHeight);
-			GuiComponent.blit(poseStack, this.getX() + hWidth, this.getY() + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
+			guiGraphics.blit(texture, this.getX(), this.getY(), 0, textureOffset, hWidth, hHeight);
+			guiGraphics.blit(texture, this.getX(), this.getY() + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
+			guiGraphics.blit(texture, this.getX() + hWidth, this.getY(), 200 - hWidth, textureOffset, hWidth, hHeight);
+			guiGraphics.blit(texture, this.getX() + hWidth, this.getY() + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
 		}
 		else
 		{
 			int textureOffset = textureY * 20;
 			
-			GuiComponent.blit(poseStack, this.getX(), this.getY(), 0, textureOffset, hWidth, hHeight);
-			GuiComponent.blit(poseStack, this.getX(), this.getY() + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
-			GuiComponent.blit(poseStack, this.getX() + hWidth, this.getY(), 200 - hWidth, textureOffset, this.width / 2, hHeight);
-			GuiComponent.blit(poseStack, this.getX() + hWidth, this.getY() + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
+			guiGraphics.blit(texture, this.getX(), this.getY(), 0, textureOffset, hWidth, hHeight);
+			guiGraphics.blit(texture, this.getX(), this.getY() + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
+			guiGraphics.blit(texture, this.getX() + hWidth, this.getY(), 200 - hWidth, textureOffset, this.width / 2, hHeight);
+			guiGraphics.blit(texture, this.getX() + hWidth, this.getY() + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
 		}
 		
 		RenderSystem.disableBlend();
