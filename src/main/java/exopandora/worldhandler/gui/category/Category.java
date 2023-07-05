@@ -13,7 +13,7 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.usercontent.UsercontentConfig;
 import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.usercontent.model.JsonTab;
-import exopandora.worldhandler.util.TranslationHelper;
+import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -91,13 +91,13 @@ public class Category
 	{
 		if(event.getRegistryKey().equals(REGISTRY_KEY))
 		{
-			TranslationHelper.register(event, REGISTRY_KEY, "main", () -> new Category("main", "containers", "multiplayer"));
-			TranslationHelper.register(event, REGISTRY_KEY, "entities", () -> new Category("summon", "butcher"));
-			TranslationHelper.register(event, REGISTRY_KEY, "items", () -> new Category("custom_item", "enchantment", "recipes"));
-			TranslationHelper.register(event, REGISTRY_KEY, "blocks", () -> new Category("edit_blocks", "sign_editor", "note_editor"));
-			TranslationHelper.register(event, REGISTRY_KEY, "world", () -> new Category("world", "gamerules", "locate"));
-			TranslationHelper.register(event, REGISTRY_KEY, "player", () -> new Category("player", "experience", "advancements"));
-			TranslationHelper.register(event, REGISTRY_KEY, "scoreboard", () -> new Category("scoreboard_objectives", "scoreboard_teams", "scoreboard_players"));
+			RegistryHelper.register(event, REGISTRY_KEY, "main", () -> new Category("main", "containers", "multiplayer"));
+			RegistryHelper.register(event, REGISTRY_KEY, "entities", () -> new Category("summon", "butcher"));
+			RegistryHelper.register(event, REGISTRY_KEY, "items", () -> new Category("custom_item", "enchantment", "recipes"));
+			RegistryHelper.register(event, REGISTRY_KEY, "blocks", () -> new Category("edit_blocks", "sign_editor", "note_editor"));
+			RegistryHelper.register(event, REGISTRY_KEY, "world", () -> new Category("world", "gamerules", "locate"));
+			RegistryHelper.register(event, REGISTRY_KEY, "player", () -> new Category("player", "experience", "advancements"));
+			RegistryHelper.register(event, REGISTRY_KEY, "scoreboard", () -> new Category("scoreboard_objectives", "scoreboard_teams", "scoreboard_players"));
 			
 			for(UsercontentConfig config : UsercontentLoader.CONFIGS)
 			{
@@ -115,7 +115,7 @@ public class Category
 		{
 			if(!Categories.isRegistered(tab.getCategory()))
 			{
-				TranslationHelper.register(event, REGISTRY_KEY, tab.getCategory(), () -> new Category(id));
+				RegistryHelper.register(event, REGISTRY_KEY, tab.getCategory(), () -> new Category(id));
 			}
 			else
 			{

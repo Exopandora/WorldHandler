@@ -3,13 +3,9 @@ package exopandora.worldhandler.util;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-import exopandora.worldhandler.Main;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
@@ -18,7 +14,6 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegisterEvent;
 
 public class TranslationHelper
 {
@@ -58,10 +53,5 @@ public class TranslationHelper
 		}
 		
 		return null;
-	}
-	
-	public static <T> void register(RegisterEvent event, ResourceKey<Registry<T>> key, String location, Supplier<T> valueSupplier)
-	{
-		event.register(key, new ResourceLocation(Main.MODID, location), valueSupplier);
 	}
 }
