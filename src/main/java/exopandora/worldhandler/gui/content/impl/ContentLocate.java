@@ -2,7 +2,11 @@ package exopandora.worldhandler.gui.content.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.suggestion.Suggestion;
 
 import exopandora.worldhandler.builder.impl.LocateCommandBuilder;
 import exopandora.worldhandler.gui.category.Categories;
@@ -17,8 +21,8 @@ import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import exopandora.worldhandler.util.RegistryHelper;
 import exopandora.worldhandler.util.TranslationHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -32,6 +36,7 @@ public class ContentLocate extends Content
 	private final CommandPreview previewLocateBiome = new CommandPreview(this.builderLocate, LocateCommandBuilder.Label.BIOME);
 	private final CommandPreview previewLocateStructure = new CommandPreview(this.builderLocate, LocateCommandBuilder.Label.STRUCTURE);
 	private final CommandPreview previewLocatePoi = new CommandPreview(this.builderLocate, LocateCommandBuilder.Label.POI);
+	private final CachedServerResource<List<ResourceLocation>> structures = new CachedServerResource<List<ResourceLocation>>();
 	private Page page = Page.BIOME;
 	
 	@Override
@@ -58,7 +63,7 @@ public class ContentLocate extends Content
 	{
 		if(Page.BIOME.equals(this.page))
 		{
-			List<ResourceLocation> biomes = RegistryHelper.getLookupProvider()
+			List<ResourceLocation> biomes = Minecraft.getInstance().getConnection().getSuggestionsProvider().registryAccess()
 				.lookup(Registries.BIOME)
 				.get()
 				.listElementIds()
@@ -102,47 +107,54 @@ public class ContentLocate extends Content
 		}
 		else if(Page.STRUCTURE.equals(this.page))
 		{
-			List<ResourceLocation> structures = RegistryHelper.getLookupProvider()
-				.lookup(Registries.STRUCTURE)
-				.get()
-				.listElementIds()
-				.map(ResourceKey::location)
-				.collect(Collectors.toList());
-			
-			MenuPageList<ResourceLocation> list = new MenuPageList<ResourceLocation>(x + 118, y, structures, 114, 20, 3, container, new ILogicPageList<ResourceLocation>()
+			if(!this.structures.isCurrent())
 			{
-				@Override
-				public MutableComponent translate(ResourceLocation structure)
+				Minecraft.getInstance().getConnection().getSuggestionsProvider()
+					.customSuggestion(new CommandContext<Object>(null, "locate structure ", null, null, null, null, null, null, null, true))
+					.thenAccept(structures -> this.structures.set(structures.getList().stream()
+						.map(Suggestion::getText)
+						.filter(suggestion -> !suggestion.startsWith("#"))
+						.map(ResourceLocation::new)
+						.collect(Collectors.toList())))
+					.thenRun(container::init);
+			}
+			else
+			{
+				MenuPageList<ResourceLocation> list = new MenuPageList<ResourceLocation>(x + 118, y, this.structures.get(), 114, 20, 3, container, new ILogicPageList<ResourceLocation>()
 				{
-					return Component.literal(structure.toString());
-				}
-				
-				@Override
-				public MutableComponent toTooltip(ResourceLocation structure)
-				{
-					return Component.literal(structure.toString());
-				}
-				
-				@Override
-				public void onClick(ResourceLocation structure)
-				{
-					ContentLocate.this.builderLocate.structure().set(structure);
-					container.initButtons();
-				}
-				
-				@Override
-				public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, ResourceLocation structure, ActionHandler actionHandler)
-				{
-					return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(structure), actionHandler);
-				}
-				
-				@Override
-				public String getId()
-				{
-					return "structures";
-				}
-			});
-			container.addMenu(list);
+					@Override
+					public MutableComponent translate(ResourceLocation structure)
+					{
+						return Component.literal(structure.toString());
+					}
+					
+					@Override
+					public MutableComponent toTooltip(ResourceLocation structure)
+					{
+						return Component.literal(structure.toString());
+					}
+					
+					@Override
+					public void onClick(ResourceLocation structure)
+					{
+						ContentLocate.this.builderLocate.structure().set(structure);
+						container.initButtons();
+					}
+					
+					@Override
+					public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, ResourceLocation structure, ActionHandler actionHandler)
+					{
+						return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(structure), actionHandler);
+					}
+					
+					@Override
+					public String getId()
+					{
+						return "structures";
+					}
+				});
+				container.addMenu(list);
+			}
 		}
 		else if(Page.POI.equals(this.page))
 		{
@@ -259,6 +271,33 @@ public class ContentLocate extends Content
 		public LocateCommandBuilder.Label getLabel()
 		{
 			return this.label;
+		}
+	}
+	
+	private static class CachedServerResource<T>
+	{
+		private UUID connectionId = null;
+		private T value;
+		
+		public void set(T value)
+		{
+			this.connectionId = this.getCurrentConntectionId();
+			this.value = value;
+		}
+		
+		public T get()
+		{
+			return this.value;
+		}
+		
+		public boolean isCurrent()
+		{
+			return this.connectionId == this.getCurrentConntectionId();
+		}
+		
+		private UUID getCurrentConntectionId()
+		{
+			return Minecraft.getInstance().getConnection().getId();
 		}
 	}
 }

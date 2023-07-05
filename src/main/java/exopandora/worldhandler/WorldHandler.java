@@ -13,7 +13,6 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.usercontent.UsercontentLoader;
 import exopandora.worldhandler.util.AdvancementHelper;
 import exopandora.worldhandler.util.CommandHelper;
-import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
@@ -29,7 +28,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -63,7 +61,6 @@ public class WorldHandler
 		modLoadingContext.registerExtensionPoint(DisplayTest.class, () -> new DisplayTest(() -> "ANY", (remote, isServer) -> true));
 		modEventBus.addListener(this::clientSetup);
 		modEventBus.addListener(this::commonSetup);
-		modEventBus.addListener(this::loadComplete);
 	}
 	
 	@SubscribeEvent
@@ -78,12 +75,6 @@ public class WorldHandler
 	public void commonSetup(FMLCommonSetupEvent event)
 	{
 		MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
-	}
-	
-	@SubscribeEvent
-	public void loadComplete(FMLLoadCompleteEvent event)
-	{
-		RegistryHelper.init();
 	}
 	
 	@SubscribeEvent
