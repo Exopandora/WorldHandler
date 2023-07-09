@@ -1,12 +1,15 @@
 package exopandora.worldhandler.usercontent;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,6 +19,7 @@ import javax.script.ScriptEngine;
 import org.apache.commons.io.IOUtils;
 import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -24,6 +28,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import exopandora.worldhandler.WorldHandler;
+import exopandora.worldhandler.gui.category.Category;
 import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.usercontent.model.Action;
 import exopandora.worldhandler.usercontent.model.ArgumentType;
@@ -36,6 +41,7 @@ import net.minecraft.resources.ResourceLocation;
 public class UsercontentLoader
 {
 	public static final List<UsercontentConfig> CONFIGS = new ArrayList<UsercontentConfig>();
+	public static final Map<String, List<String>> CATEGORIES = new HashMap<String, List<String>>(Category.DEFAULT_CATEGORIES);
 	
 	public static void load(Path path)
 	{
@@ -63,7 +69,21 @@ public class UsercontentLoader
 				.registerTypeAdapter(JsonWidget.Type.class, new EnumTypeAdapter<JsonWidget.Type>(JsonWidget.Type.class))
 				.registerTypeAdapter(Action.Type.class, new EnumTypeAdapter<Action.Type>(Action.Type.class))
 				.registerTypeAdapter(JsonMenu.Type.class, new EnumTypeAdapter<JsonMenu.Type>(JsonMenu.Type.class))
+				.setPrettyPrinting()
 				.create();
+		final Path categories = path.resolve("categories.json");
+		
+		if(Files.exists(categories) && Files.isRegularFile(categories) && Files.isReadable(categories))
+		{
+			String fileContents = UsercontentLoader.readFile(categories);
+			UsercontentLoader.CATEGORIES.putAll(gson.fromJson(fileContents, new TypeToken<Map<String, List<String>>>() {}.getType()));
+		}
+		
+		try(FileOutputStream outputStream = new FileOutputStream(categories.toFile()))
+		{
+			IOUtils.write(gson.toJson(UsercontentLoader.CATEGORIES), outputStream, Charset.defaultCharset());
+		}
+		
 		final List<Path> folders = Files.list(path)
 				.filter(Files::isDirectory)
 				.filter(Files::isReadable)

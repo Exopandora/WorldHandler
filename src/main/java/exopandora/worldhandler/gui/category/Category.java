@@ -1,7 +1,10 @@
 package exopandora.worldhandler.gui.category;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -27,6 +30,15 @@ public class Category
 {
 	public static IForgeRegistry<Category> REGISTRY;
 	public static final ResourceKey<Registry<Category>> REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(Main.MODID, "category"));
+	public static final Map<String, List<String>> DEFAULT_CATEGORIES = new CategoriesBuilder()
+		.add("main", "main", "containers", "multiplayer")
+		.add("entities", "summon", "butcher")
+		.add("items", "custom_item", "enchantment", "recipes")
+		.add("blocks", "edit_blocks", "sign_editor", "note_editor")
+		.add("world", "world", "gamerules", "locate")
+		.add("player", "player", "experience", "advancements")
+		.add("scoreboard", "scoreboard_objectives", "scoreboard_teams", "scoreboard_players")
+		.build();
 	
 	private final List<ResourceLocation> contents;
 	
@@ -43,11 +55,6 @@ public class Category
 	public Category(ResourceLocation... contents)
 	{
 		this(Lists.newArrayList(contents));
-	}
-	
-	public Category(String... keys)
-	{
-		this(Arrays.stream(keys).map(key -> new ResourceLocation(Main.MODID, key)).collect(Collectors.toList()));
 	}
 	
 	public Category add(int index, ResourceLocation content)
@@ -91,13 +98,16 @@ public class Category
 	{
 		if(event.getRegistryKey().equals(REGISTRY_KEY))
 		{
-			RegistryHelper.register(event, REGISTRY_KEY, "main", () -> new Category("main", "containers", "multiplayer"));
-			RegistryHelper.register(event, REGISTRY_KEY, "entities", () -> new Category("summon", "butcher"));
-			RegistryHelper.register(event, REGISTRY_KEY, "items", () -> new Category("custom_item", "enchantment", "recipes"));
-			RegistryHelper.register(event, REGISTRY_KEY, "blocks", () -> new Category("edit_blocks", "sign_editor", "note_editor"));
-			RegistryHelper.register(event, REGISTRY_KEY, "world", () -> new Category("world", "gamerules", "locate"));
-			RegistryHelper.register(event, REGISTRY_KEY, "player", () -> new Category("player", "experience", "advancements"));
-			RegistryHelper.register(event, REGISTRY_KEY, "scoreboard", () -> new Category("scoreboard_objectives", "scoreboard_teams", "scoreboard_players"));
+			for(Entry<String, List<String>> entry : UsercontentLoader.CATEGORIES.entrySet())
+			{
+				RegistryHelper.register(event, REGISTRY_KEY, entry.getKey(), () ->
+				{
+					var keys = entry.getValue().stream()
+						.map(key -> new ResourceLocation(Main.MODID, key))
+						.collect(Collectors.toList());
+					return new Category(keys);
+				});
+			}
 			
 			for(UsercontentConfig config : UsercontentLoader.CONFIGS)
 			{
@@ -115,12 +125,28 @@ public class Category
 		{
 			if(!Categories.isRegistered(tab.getCategory()))
 			{
-				RegistryHelper.register(event, REGISTRY_KEY, tab.getCategory(), () -> new Category(id));
+				RegistryHelper.register(event, REGISTRY_KEY, tab.getCategory(), () -> new Category(new ResourceLocation(Main.MODID, id)));
 			}
 			else
 			{
 				Categories.getRegisteredCategory(tab.getCategory()).add(tab.getCategoryIndex(), id);
 			}
+		}
+	}
+	
+	private static class CategoriesBuilder
+	{
+		private final Map<String, List<String>> categories = new HashMap<String, List<String>>();
+		
+		public CategoriesBuilder add(String category, String... contents)
+		{
+			this.categories.put(category, Collections.unmodifiableList(Lists.newArrayList(contents)));
+			return this;
+		}
+		
+		public Map<String, List<String>> build()
+		{
+			return Collections.unmodifiableMap(categories);
 		}
 	}
 }
