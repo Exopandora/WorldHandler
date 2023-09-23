@@ -25,7 +25,6 @@
 	"gui.worldhandler.config.skin.button_red": "Schaltflächen Rot",
 	"gui.worldhandler.config.skin.button_green": "Schaltflächen Grün",
 	"gui.worldhandler.config.skin.button_blue": "Schaltflächen Blau",
-	"gui.worldhandler.config.skin.textures": "Texturen",
 	"gui.worldhandler.config.skin.sharp_tab_edges": "Scharfe Tab Kanten",
 	"gui.worldhandler.config.skin.draw_background": "Zeichne Hintergrund",
 	"gui.worldhandler.config.skin.background_alpha": "Hintergrund Alpha",

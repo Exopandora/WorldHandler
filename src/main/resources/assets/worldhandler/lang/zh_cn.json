@@ -25,7 +25,6 @@
 	"gui.worldhandler.config.skin.button_red": "按钮红色",
 	"gui.worldhandler.config.skin.button_green": "按钮绿色",
 	"gui.worldhandler.config.skin.button_blue": "按钮蓝色",
-	"gui.worldhandler.config.skin.textures": "材质",
 	"gui.worldhandler.config.skin.sharp_tab_edges": "尖锐分栏边缘",
 	"gui.worldhandler.config.skin.draw_background": "绘制暗色背景",
 	"gui.worldhandler.config.skin.background_alpha": "背景透明度",
