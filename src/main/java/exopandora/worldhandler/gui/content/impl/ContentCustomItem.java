@@ -16,8 +16,8 @@ import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
-import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
+import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.LogicSliderAttribute;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicPageList;
@@ -302,17 +302,6 @@ public class ContentCustomItem extends Content
 	private void giveItem(String player)
 	{
 		CommandHelper.sendCommand(player, this.builderCutomItem, GiveCommandBuilder.Label.GIVE, this.display.getName().isStyled());
-	}
-	
-	@Override
-	public void tick(Container container)
-	{
-		if(Page.START.equals(this.page) && this.startPage == 0)
-		{
-			this.itemField.tick();
-			this.itemLore1Field.tick();
-			this.itemLore2Field.tick();
-		}
 	}
 	
 	@Override

@@ -253,7 +253,7 @@
 	"gui.worldhandler.recipes.take": "Nehmen",
 
 	"gui.worldhandler.scoreboard.slot.list": "Liste",
-	"gui.worldhandler.scoreboard.slot.belowName": "Unter Name",
+	"gui.worldhandler.scoreboard.slot.below_name": "Unter Name",
 	"gui.worldhandler.scoreboard.slot.sidebar": "Seitentafel",
 	"gui.worldhandler.scoreboard.slot.sidebar.team": "Seitentafel Team",
 

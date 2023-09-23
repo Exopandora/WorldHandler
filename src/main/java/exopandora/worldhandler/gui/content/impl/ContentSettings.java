@@ -160,15 +160,6 @@ public class ContentSettings extends ContentChild
 	}
 	
 	@Override
-	public void tick(Container container)
-	{
-		if(this.setting instanceof IntegerSetting)
-		{
-			this.valueField.tick();
-		}
-	}
-	
-	@Override
 	public MutableComponent getTitle()
 	{
 		return Component.translatable("gui.worldhandler.shortcuts.tooltip.settings");

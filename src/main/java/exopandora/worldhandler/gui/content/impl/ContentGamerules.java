@@ -49,7 +49,7 @@ public class ContentGamerules extends Content
 		this.valueField = new GuiHintTextField(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.generic.value"));
 		this.valueField.setFilter(Predicates.notNull());
 		this.valueField.setValue(this.value);
-		this.valueField.moveCursorToEnd();
+		this.valueField.moveCursorToEnd(false);
 		this.valueField.setResponder(text ->
 		{
 			this.value = text;
@@ -148,15 +148,6 @@ public class ContentGamerules extends Content
 		builder.rule().set(this.builderGamerule.rule().get());
 		builder.value().set(value);
 		CommandHelper.sendCommand(player, builder, GameRuleCommandBuilder.Label.GAMERULE_VALUE);
-	}
-	
-	@Override
-	public void tick(Container container)
-	{
-		if(!this.booleanValue)
-		{
-			this.valueField.tick();
-		}
 	}
 	
 	@Override

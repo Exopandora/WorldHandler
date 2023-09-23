@@ -30,11 +30,6 @@ public class WidgetCommandSyntax implements IContainerWidget
 	public void tick(Container container)
 	{
 		this.updateSyntax(container);
-		
-		if(this.syntaxField != null)
-		{
-			this.syntaxField.tick();
-		}
 	}
 	
 	private void updateSyntax(Container container)
@@ -53,7 +48,7 @@ public class WidgetCommandSyntax implements IContainerWidget
 			}
 			
 			this.syntaxField.setFilter(string -> string.equals(this.syntaxField.getValue()));
-			this.syntaxField.moveCursorToStart();
+			this.syntaxField.moveCursorToStart(false);
 		}
 	}
 	

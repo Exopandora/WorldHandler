@@ -11,8 +11,8 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.content.Contents;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
-import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
+import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
@@ -213,11 +213,7 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 	@Override
 	public void tick(Container container)
 	{
-		if(Page.TAG.equals(this.page))
-		{
-			this.tagField.tick();
-		}
-		else
+		if(!Page.TAG.equals(this.page))
 		{
 			boolean enabled = BUILDER.objective().get() != null && !BUILDER.objective().get().isEmpty();
 			
@@ -233,8 +229,6 @@ public class ContentScoreboardPlayers extends ContentScoreboard
 				this.addButton.active = enabled && this.builderTrigger.value().get() > 0;
 				this.removeButton.active = enabled;
 			}
-			
-			this.objectField.tick();
 		}
 	}
 	

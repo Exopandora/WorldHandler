@@ -6,7 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.server.packs.PackResources;
@@ -40,7 +40,7 @@ public class AdvancementHelper implements PreparableReloadListener
 		});
 	}
 	
-	public Collection<Advancement> getAdvancements()
+	public Collection<AdvancementHolder> getAdvancements()
 	{
 		return this.manager.getAllAdvancements();
 	}

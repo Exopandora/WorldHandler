@@ -2,14 +2,14 @@ package exopandora.worldhandler.gui.widget.button;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import exopandora.worldhandler.config.Config;
+import exopandora.worldhandler.Main;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
-import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +17,13 @@ import net.minecraft.util.Mth;
 
 public class GuiButtonBase extends AbstractButton
 {
+	protected static final WidgetSprites VANILLA_BUTTON_SPRITES = new WidgetSprites
+	(
+		new ResourceLocation(Main.MODID, "textures/skins/vanilla/button.png"),
+		new ResourceLocation(Main.MODID, "textures/skins/vanilla/button_disabled.png"),
+		new ResourceLocation(Main.MODID, "textures/skins/vanilla/button_highlighted.png")
+	);
+	
 	private final ActionHandler actionHandler;
 	
 	public GuiButtonBase(int x, int y, int width, int height, String translationKey, ActionHandler actionHandler)
@@ -40,51 +47,10 @@ public class GuiButtonBase extends AbstractButton
 	protected void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		RenderSystem.enableBlend();
-		RenderUtils.colorDefaultButton();
-		
-		int textureY = this.getTextureY();
-		ResourceLocation texture = ResourceHelper.buttonTexture();
-    	
-		int hWidth = this.width / 2;
-		int hHeight = this.height / 2;
-		
-		if(Config.getSkin().getTextureType().equals("resourcepack"))
-		{
-			int textureOffset = 46 + textureY * 20;
-			
-			guiGraphics.blit(texture, this.getX(), this.getY(), 0, textureOffset, hWidth, hHeight);
-			guiGraphics.blit(texture, this.getX(), this.getY() + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
-			guiGraphics.blit(texture, this.getX() + hWidth, this.getY(), 200 - hWidth, textureOffset, hWidth, hHeight);
-			guiGraphics.blit(texture, this.getX() + hWidth, this.getY() + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
-		}
-		else
-		{
-			int textureOffset = textureY * 20;
-			
-			guiGraphics.blit(texture, this.getX(), this.getY(), 0, textureOffset, hWidth, hHeight);
-			guiGraphics.blit(texture, this.getX(), this.getY() + hHeight, 0, textureOffset + 20 - hHeight, hWidth, hHeight);
-			guiGraphics.blit(texture, this.getX() + hWidth, this.getY(), 200 - hWidth, textureOffset, this.width / 2, hHeight);
-			guiGraphics.blit(texture, this.getX() + hWidth, this.getY() + hHeight, 200 - hWidth, textureOffset + 20 - hHeight, hWidth, hHeight);
-		}
-		
+		RenderUtils.colorDefaultButton(guiGraphics);
+		guiGraphics.blitSprite(SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		RenderUtils.resetColor(guiGraphics);
 		RenderSystem.disableBlend();
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-	}
-	
-	protected int getTextureY()
-	{
-		int i = 1;
-		
-		if(!this.active)
-		{
-			i = 0;
-		}
-		else if(this.isHoveredOrFocused())
-		{
-			i = 2;
-		}
-		
-		return i;
 	}
 	
 	@Override

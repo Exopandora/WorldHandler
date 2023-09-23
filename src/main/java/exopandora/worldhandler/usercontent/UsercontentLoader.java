@@ -63,14 +63,14 @@ public class UsercontentLoader
 		}
 		
 		final Gson gson = new GsonBuilder()
-				.registerTypeAdapter(ArgumentType.class, new EnumTypeAdapter<ArgumentType>(ArgumentType.class))
-				.registerTypeAdapter(EnumIcon.class, new EnumTypeAdapter<EnumIcon>(EnumIcon.class))
-				.registerTypeAdapter(BooleanExpression.Type.class, new EnumTypeAdapter<BooleanExpression.Type>(BooleanExpression.Type.class))
-				.registerTypeAdapter(JsonWidget.Type.class, new EnumTypeAdapter<JsonWidget.Type>(JsonWidget.Type.class))
-				.registerTypeAdapter(Action.Type.class, new EnumTypeAdapter<Action.Type>(Action.Type.class))
-				.registerTypeAdapter(JsonMenu.Type.class, new EnumTypeAdapter<JsonMenu.Type>(JsonMenu.Type.class))
-				.setPrettyPrinting()
-				.create();
+			.registerTypeAdapter(ArgumentType.class, new EnumTypeAdapter<ArgumentType>(ArgumentType.class))
+			.registerTypeAdapter(EnumIcon.class, new EnumTypeAdapter<EnumIcon>(EnumIcon.class))
+			.registerTypeAdapter(BooleanExpression.Type.class, new EnumTypeAdapter<BooleanExpression.Type>(BooleanExpression.Type.class))
+			.registerTypeAdapter(JsonWidget.Type.class, new EnumTypeAdapter<JsonWidget.Type>(JsonWidget.Type.class))
+			.registerTypeAdapter(Action.Type.class, new EnumTypeAdapter<Action.Type>(Action.Type.class))
+			.registerTypeAdapter(JsonMenu.Type.class, new EnumTypeAdapter<JsonMenu.Type>(JsonMenu.Type.class))
+			.setPrettyPrinting()
+			.create();
 		final Path categories = path.resolve("categories.json");
 		
 		if(Files.exists(categories) && Files.isRegularFile(categories) && Files.isReadable(categories))
@@ -85,10 +85,10 @@ public class UsercontentLoader
 		}
 		
 		final List<Path> folders = Files.list(path)
-				.filter(Files::isDirectory)
-				.filter(Files::isReadable)
-				.filter(UsercontentLoader::isValidPathName)
-				.collect(Collectors.toList());
+			.filter(Files::isDirectory)
+			.filter(Files::isReadable)
+			.filter(UsercontentLoader::isValidPathName)
+			.collect(Collectors.toList());
 		
 		for(Path folder : folders)
 		{

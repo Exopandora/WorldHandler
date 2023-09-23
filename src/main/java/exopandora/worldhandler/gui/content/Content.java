@@ -53,9 +53,9 @@ public abstract class Content implements IContent
 	public static void createRegistry(NewRegistryEvent event)
 	{
 		event.create(new RegistryBuilder<Content>()
-				.setName(REGISTRY_KEY.location())
-				.disableSaving()
-				.disableSync(), registry -> REGISTRY = registry);
+			.setName(REGISTRY_KEY.location())
+			.disableSaving()
+			.disableSync(), registry -> REGISTRY = registry);
 	}
 	
 	@SubscribeEvent

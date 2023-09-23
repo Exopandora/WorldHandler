@@ -21,7 +21,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 public class ContentRecipes extends Content
 {
@@ -37,41 +37,41 @@ public class ContentRecipes extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<Recipe<?>> recipes = Minecraft.getInstance().player.getRecipeBook().getCollections().stream()
+		List<RecipeHolder<?>> recipes = Minecraft.getInstance().player.getRecipeBook().getCollections().stream()
 				.flatMap(recipe -> recipe.getRecipes().stream())
-				.filter(recipe -> !recipe.isSpecial())
+				.filter(recipe -> !recipe.value().isSpecial())
 				.collect(Collectors.toList());
 		
-		MenuPageList<Recipe<?>> list = new MenuPageList<Recipe<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<Recipe<?>>()
+		MenuPageList<RecipeHolder<?>> list = new MenuPageList<RecipeHolder<?>>(x, y, recipes, 114, 20, 3, container, new ILogicPageList<RecipeHolder<?>>()
 		{
 			@Override
-			public MutableComponent translate(Recipe<?> recipe)
+			public MutableComponent translate(RecipeHolder<?> recipe)
 			{
 				RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
 				
-				if(!ItemStack.EMPTY.equals(recipe.getResultItem(registryAccess)))
+				if(!ItemStack.EMPTY.equals(recipe.value().getResultItem(registryAccess)))
 				{
-					return (MutableComponent) recipe.getResultItem(registryAccess).getHoverName();
+					return (MutableComponent) recipe.value().getResultItem(registryAccess).getHoverName();
 				}
 				
-				return Component.literal(recipe.getId().toString());
+				return Component.literal(recipe.id().toString());
 			}
 			
 			@Override
-			public MutableComponent toTooltip(Recipe<?> recipe)
+			public MutableComponent toTooltip(RecipeHolder<?> recipe)
 			{
-				return Component.literal(recipe.getId().toString());
+				return Component.literal(recipe.id().toString());
 			}
 			
 			@Override
-			public void onClick(Recipe<?> recipe)
+			public void onClick(RecipeHolder<?> recipe)
 			{
-				ContentRecipes.this.builderRecipe.recipe().set(recipe.getId());
+				ContentRecipes.this.builderRecipe.recipe().set(recipe.id());
 				container.initButtons();
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Recipe<?> recipe, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, RecipeHolder<?> recipe, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(recipe), actionHandler);
 			}

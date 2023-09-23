@@ -254,7 +254,7 @@
 	"gui.worldhandler.recipes.take": "Retirer",
 
 	"gui.worldhandler.scoreboard.slot.list": "Liste",
-	"gui.worldhandler.scoreboard.slot.belowName": "Sous le nom",
+	"gui.worldhandler.scoreboard.slot.below_name": "Sous le nom",
 	"gui.worldhandler.scoreboard.slot.sidebar": "Barre latérale",
 	"gui.worldhandler.scoreboard.slot.sidebar.team": "Sidebar Team",
 

@@ -12,6 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public abstract class AbstractEffectTag implements ITagProvider 
 {
@@ -32,11 +33,11 @@ public abstract class AbstractEffectTag implements ITagProvider
 				CompoundTag compound = new CompoundTag();
 				int ticks = instance.toTicks();
 				
-				compound.putByte("Id", (byte) MobEffect.getId(entry.getKey()));
-				compound.putByte("Amplifier", (byte) (instance.getAmplifier() - 1));
-				compound.putInt("Duration", ticks > 0 ? ticks : 1000000);
-				compound.putBoolean("Ambient", instance.isAmbient());
-				compound.putBoolean("ShowParticles", instance.doShowParticles());
+				compound.putString("id", ForgeRegistries.MOB_EFFECTS.getKey(entry.getKey()).toString());
+				compound.putByte("amplifier", (byte) (instance.getAmplifier() - 1));
+				compound.putInt("duration", ticks > 0 ? ticks : 1000000);
+				compound.putBoolean("ambient", instance.isAmbient());
+				compound.putBoolean("show_particles", instance.doShowParticles());
 				
 				list.add(compound);
 			}

@@ -53,31 +53,29 @@ public class ContentChangeWorld extends ContentChild
 	
 	private static IConnection disconnect()
 	{
-		boolean isIntegrated = Minecraft.getInstance().isLocalServer();
-		boolean isRealms = Minecraft.getInstance().isConnectedToRealms();
-		ServerData data = Minecraft.getInstance().getCurrentServer();
+		Minecraft minecraft = Minecraft.getInstance();
+		boolean isIntegrated = minecraft.isLocalServer();
+		ServerData serverData = minecraft.getCurrentServer();
+		
+		minecraft.level.disconnect();
 		
 		if(isIntegrated)
 		{
-			String folder = Minecraft.getInstance().getSingleplayerServer().storageSource.getLevelId();
-			Minecraft.getInstance().level.disconnect();
-			Minecraft.getInstance().clearLevel(new GenericDirtMessageScreen(Component.translatable("menu.savingLevel")));
-			
+			String folder = minecraft.getSingleplayerServer().storageSource.getLevelId();
+			minecraft.disconnect(new GenericDirtMessageScreen(Component.translatable("menu.savingLevel")));
 			return new IntegratedConnection(folder);
 		}
-		
-		if(Minecraft.getInstance().level != null)
+		else
 		{
-			Minecraft.getInstance().level.disconnect();
-			Minecraft.getInstance().clearLevel();
+			minecraft.disconnect();
 		}
 		
-		if(isRealms)
+		if(serverData.isRealm())
 		{
 			return null;
 		}
 		
-		return new DedicatedConnection(data);
+		return new DedicatedConnection(serverData);
 	}
 	
 	private static void reconnect(IConnection connection)

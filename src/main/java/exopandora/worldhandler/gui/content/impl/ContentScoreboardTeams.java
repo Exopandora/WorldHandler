@@ -212,12 +212,6 @@ public class ContentScoreboardTeams extends ContentScoreboard
 	}
 	
 	@Override
-	public void tick(Container container)
-	{
-		this.teamField.tick();
-	}
-	
-	@Override
 	public MutableComponent getTabTitle()
 	{
 		return Component.translatable("gui.worldhandler.tab.scoreboard.teams");

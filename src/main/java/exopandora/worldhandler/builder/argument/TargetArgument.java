@@ -86,22 +86,26 @@ public class TargetArgument implements IArgument
 	
 	public void setDistance(@Nullable Double distance)
 	{
-		this.distance = new MinMaxBounds.Doubles(distance, distance);
+		this.distance = MinMaxBounds.Doubles.exactly(distance);
 	}
 	
 	public void setDistance(@Nullable Double min, @Nullable Double max)
 	{
-		this.distance = new MinMaxBounds.Doubles(min, max);
+		this.distance = MinMaxBounds.Doubles.between(min, max);
 	}
 	
 	public void setDistanceMin(@Nullable Double min)
 	{
-		this.distance = new MinMaxBounds.Doubles(min, this.distance.getMax());
+		this.distance = this.distance.max()
+			.map(max -> MinMaxBounds.Doubles.between(min, max))
+			.orElseGet(() -> MinMaxBounds.Doubles.exactly(min));
 	}
 	
 	public void setDistanceMax(@Nullable Double max)
 	{
-		this.distance = new MinMaxBounds.Doubles(this.distance.getMin(), max);
+		this.distance = this.distance.min()
+			.map(min -> MinMaxBounds.Doubles.between(min, max))
+			.orElseGet(() -> MinMaxBounds.Doubles.exactly(max));
 	}
 	
 	public void setX(@Nullable Double x)
@@ -146,12 +150,12 @@ public class TargetArgument implements IArgument
 	
 	public void setRotationXMin(@Nullable Float min)
 	{
-		this.rotX = WrappedMinMaxBounds.between(min, this.rotX.getMax());
+		this.rotX = WrappedMinMaxBounds.between(min, this.rotX.max());
 	}
 	
 	public void setRotationXMax(@Nullable Float max)
 	{
-		this.rotX = WrappedMinMaxBounds.between(this.rotX.getMin(), max);
+		this.rotX = WrappedMinMaxBounds.between(this.rotX.min(), max);
 	}
 	
 	public void setRotationY(@Nullable Float rotY)
@@ -166,12 +170,12 @@ public class TargetArgument implements IArgument
 	
 	public void setRotationYMin(@Nullable Float min)
 	{
-		this.rotY = WrappedMinMaxBounds.between(min, this.rotY.getMax());
+		this.rotY = WrappedMinMaxBounds.between(min, this.rotY.max());
 	}
 	
 	public void setRotationYMax(@Nullable Float max)
 	{
-		this.rotY = WrappedMinMaxBounds.between(this.rotY.getMin(), max);
+		this.rotY = WrappedMinMaxBounds.between(this.rotY.min(), max);
 	}
 	
 	public void setLevel(@Nullable Double level)
@@ -301,7 +305,11 @@ public class TargetArgument implements IArgument
 			this.scores = new HashMap<String, MinMaxBounds.Ints>();
 		}
 		
-		this.scores.put(score, MinMaxBounds.Ints.between(min, this.scores.getOrDefault(score, MinMaxBounds.Ints.ANY).getMax()));
+		MinMaxBounds.Ints bounds = this.scores.getOrDefault(score, MinMaxBounds.Ints.ANY).max()
+			.map(max -> MinMaxBounds.Ints.between(min, max))
+			.orElseGet(() -> MinMaxBounds.Ints.exactly(min));
+		
+		this.scores.put(score, bounds);
 	}
 	
 	public void setScoreMax(String score, @Nullable Integer max)
@@ -311,7 +319,11 @@ public class TargetArgument implements IArgument
 			this.scores = new HashMap<String, MinMaxBounds.Ints>();
 		}
 		
-		this.scores.put(score, MinMaxBounds.Ints.between(this.scores.getOrDefault(score, MinMaxBounds.Ints.ANY).getMin(), max));
+		MinMaxBounds.Ints bounds = this.scores.getOrDefault(score, MinMaxBounds.Ints.ANY).min()
+			.map(min -> MinMaxBounds.Ints.between(min, max))
+			.orElseGet(() -> MinMaxBounds.Ints.exactly(max));
+		
+		this.scores.put(score, bounds);
 	}
 	
 	public void setGamemode(@Nullable Gamemode gamemode)
@@ -551,13 +563,13 @@ public class TargetArgument implements IArgument
 	@Nullable
 	private static String serializeMinMaxBounds(MinMaxBounds<?> bounds)
 	{
-		return Util.serializeBounds(bounds.getMin(), bounds.getMax());
+		return Util.serializeBounds(bounds.min(), bounds.max());
 	}
 	
 	@Nullable
 	private static String serializeWrappedMinMaxBounds(WrappedMinMaxBounds bounds)
 	{
-		return Util.serializeBounds(bounds.getMin(), bounds.getMax());
+		return Util.serializeBounds(bounds.min(), bounds.max());
 	}
 	
 	@Nullable

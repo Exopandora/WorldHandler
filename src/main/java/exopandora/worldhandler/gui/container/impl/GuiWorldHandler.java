@@ -22,7 +22,6 @@ import exopandora.worldhandler.gui.widget.button.GuiButtonTooltip;
 import exopandora.worldhandler.gui.widget.menu.IMenu;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
-import exopandora.worldhandler.util.ResourceHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -30,6 +29,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class GuiWorldHandler extends Container
 {
@@ -42,6 +42,7 @@ public class GuiWorldHandler extends Container
 		widgets.add(new WidgetCommandSyntax());
 		widgets.add(new WidgetShortcuts());
 	});
+	private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation("textures/gui/demo_background.png");
 	
 	private final Content content;
 	
@@ -153,18 +154,20 @@ public class GuiWorldHandler extends Container
 			
 			if(Config.getSkin().drawBackground())
 			{
-				super.renderBackground(guiGraphics);
+				super.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 			}
 			
 			RenderSystem.enableBlend();
-			RenderUtils.colorDefaultBackground();
+			RenderUtils.colorDefaultBackground(guiGraphics);
 			
-			guiGraphics.blit(ResourceHelper.backgroundTexture(), backgroundX, backgroundY, 0, 0, this.getBackgroundWidth(), this.getBackgroundHeight());
+			guiGraphics.blit(BACKGROUND_TEXTURE, backgroundX, backgroundY, 0, 0, this.getBackgroundWidth(), this.getBackgroundHeight());
 			
 			final String label = Main.MC_VERSION + "-" + Main.MOD_VERSION;
 			final int versionWidth = this.width - this.font.width(label) - 2;
 			final int versionHeight = this.height - 10;
 			guiGraphics.drawString(this.font, label, versionWidth, versionHeight, Config.getSkin().getLabelColor() + 0x33000000, false);
+			
+			RenderUtils.resetColor(guiGraphics);
 			
 			int x = this.getContentX();
 			int y = this.getContentY();
@@ -298,22 +301,22 @@ public class GuiWorldHandler extends Container
 	}
 	
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double distance)
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY)
 	{
 		for(IContainerWidget widget : WIDGETS)
 		{
-			if(widget.isEnabled() && widget.mouseScrolled(mouseX, mouseY, distance))
+			if(widget.isEnabled() && widget.mouseScrolled(mouseX, mouseY, scrollX, scrollY))
 			{
 				return true;
 			}
 		}
 		
-		if(this.content.mouseScrolled(mouseX, mouseY, distance))
+		if(this.content.mouseScrolled(mouseX, mouseY, scrollX, scrollY))
 		{
 			return true;
 		}
 		
-		return super.mouseScrolled(mouseX, mouseY, distance);
+		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
 	
 	@Override

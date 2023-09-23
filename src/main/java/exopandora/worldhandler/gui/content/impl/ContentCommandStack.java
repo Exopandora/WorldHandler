@@ -199,15 +199,6 @@ public class ContentCommandStack extends ContentChild
 		buttonScrollDown.active = this.scroll < this.getCommandCount() - 3;
 	}
 	
-	@Override
-	public void tick(Container container)
-	{
-		this.iterate(index ->
-		{
-			this.textfields.get(index).tick();
-		});
-	}
-	
 	private void iterate(Consumer<Integer> consumer)
 	{
 		for(int x = 0; x < this.textfields.size() && x + this.scroll < this.getCommandCount(); x++)

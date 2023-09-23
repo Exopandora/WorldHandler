@@ -41,7 +41,7 @@ public class ContentContinue extends ContentChild
 		this.commandField = new GuiHintTextField(x + 116 / 2, y + 12, 116, 20);
 		this.commandField.setFocused(false);
 		this.commandField.setValue(this.builder.toCommand(this.label, false));
-		this.commandField.moveCursorToStart();
+		this.commandField.moveCursorToStart(false);
 		this.commandField.setFilter(text -> text.equals(this.commandField.getValue()));
 	}
 	

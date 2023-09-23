@@ -4,11 +4,9 @@ import java.util.Objects;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import exopandora.worldhandler.config.Config;
 import exopandora.worldhandler.gui.container.Container;
 import exopandora.worldhandler.util.ILogic;
 import exopandora.worldhandler.util.RenderUtils;
-import exopandora.worldhandler.util.ResourceHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -19,6 +17,9 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GuiSlider extends GuiButtonBase
 {
+	private static final ResourceLocation SLIDER_SPRITE = new ResourceLocation("widget/slider");
+	private static final ResourceLocation SLIDER_HANDLE_SPRITE = new ResourceLocation("widget/slider_handle");
+	private static final ResourceLocation SLIDER_HANDLE_HIGHLIGHTED_SPRITE = new ResourceLocation("widget/slider_handle_highlighted");
 	private final Persistence persistence;
 	private final ILogicSlider logic;
 	private final Container container;
@@ -38,28 +39,22 @@ public class GuiSlider extends GuiButtonBase
 	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		super.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
-		
-		int textureOffset = (Config.getSkin().getTextureType().equals("resourcepack") ? 66 : 20);
-		
-		if(this.isHoveredOrFocused())
-		{
-			textureOffset += 20;
-		}
-		
 		RenderSystem.enableBlend();
-		RenderUtils.colorDefaultButton();
-		ResourceLocation texture = ResourceHelper.buttonTexture();
-		
-		guiGraphics.blit(texture, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.getY(), 0, textureOffset, 4, 20);
-		guiGraphics.blit(texture, this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)) + 4, this.getY(), 196, textureOffset, 4, 20);
-		
+		RenderUtils.colorDefaultButton(guiGraphics);
+		guiGraphics.blitSprite(this.getSprite(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		guiGraphics.blitSprite(this.getHandleSprite(), this.getX() + (int) (this.persistence.getValue() * (float) (this.width - 8)), this.getY(), 8, this.getHeight());
+		RenderUtils.resetColor(guiGraphics);
 		RenderSystem.disableBlend();
 	}
 	
-	@Override
-	protected int getTextureY()
+	protected ResourceLocation getSprite()
 	{
-		return 0;
+		return SLIDER_SPRITE;
+	}
+	
+	protected ResourceLocation getHandleSprite()
+	{
+		return this.isHoveredOrFocused() ? SLIDER_HANDLE_HIGHLIGHTED_SPRITE : SLIDER_HANDLE_SPRITE;
 	}
 	
 	@Override

@@ -80,7 +80,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 								return Component.translatable("gui.worldhandler.scoreboard.objectives.stat.killed_by");
 							}
 							
-							return Component.translatable(type.getTranslationKey());
+							return (MutableComponent) type.getDisplayName();
 						}
 						
 						String translation = TranslationHelper.translate(resource);
@@ -244,15 +244,6 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 			container.init();
 		}));
 		button1.active = Page.UNDISPLAY.equals(this.page) || BUILDER.objective().get() != null && !BUILDER.objective().get().isEmpty();
-	}
-	
-	@Override
-	public void tick(Container container)
-	{
-		if(!Page.UNDISPLAY.equals(this.page))
-		{
-			this.objectField.tick();
-		}
 	}
 	
 	@Override

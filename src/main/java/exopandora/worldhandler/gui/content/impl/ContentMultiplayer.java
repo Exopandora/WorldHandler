@@ -265,20 +265,6 @@ public class ContentMultiplayer extends Content
 		}
 	}
 	
-	@Override
-	public void tick(Container container)
-	{
-		if(Page.KICK_AND_BAN.equals(this.page))
-		{
-			this.reasonField.tick();
-		}
-		
-		if(!Page.RUNTIME.equals(this.page))
-		{
-			this.playerField.tick();
-		}
-	}
-	
 	private void setPlayer(String player)
 	{
 		this.builderBan.targets().setTarget(player);

@@ -307,33 +307,9 @@ public class ContentEditBlocks extends Content
 	@Override
 	public void tick(Container container)
 	{
-		if(Page.COORDINATES.equals(this.page))
-		{
-			this.x1Field.tick();
-			this.y1Field.tick();
-			this.z1Field.tick();
-			
-			this.x2Field.tick();
-			this.y2Field.tick();
-			this.z2Field.tick();
-		}
-		else if(Page.FILL.equals(this.page))
-		{
-			this.block1Field.tick();
-		}
-		else if(Page.REPLACE.equals(this.page))
-		{
-			this.block1Field.tick();
-			this.block2Field.tick();
-		}
-		else if(Page.CLONE.equals(this.page))
+		if(Page.CLONE.equals(this.page))
 		{
 			this.builderClone.destination().set(Minecraft.getInstance().player.blockPosition());	
-			
-			if(Mask.FILTERED.equals(this.mask))
-			{
-				this.filterField.tick();
-			}
 		}
 	}
 	

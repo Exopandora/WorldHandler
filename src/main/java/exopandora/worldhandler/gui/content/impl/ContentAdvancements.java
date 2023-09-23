@@ -22,7 +22,7 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.AdvancementHelper;
 import exopandora.worldhandler.util.CommandHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -43,33 +43,33 @@ public class ContentAdvancements extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<Advancement> advancements = AdvancementHelper.getInstance().getAdvancements().stream()
-				.filter(advancement -> advancement.getDisplay() != null)
+		List<AdvancementHolder> advancements = AdvancementHelper.getInstance().getAdvancements().stream()
+				.filter(advancement -> advancement.value().display().isPresent())
 				.collect(Collectors.toList());
 		
-		MenuPageList<Advancement> list = new MenuPageList<Advancement>(x, y, advancements, 114, 20, 3, container, new ILogicPageList<Advancement>()
+		MenuPageList<AdvancementHolder> list = new MenuPageList<AdvancementHolder>(x, y, advancements, 114, 20, 3, container, new ILogicPageList<AdvancementHolder>()
 		{
 			@Override
-			public MutableComponent translate(Advancement item)
+			public MutableComponent translate(AdvancementHolder item)
 			{
-				return (MutableComponent) item.getDisplay().getTitle();
+				return (MutableComponent) item.value().display().get().getTitle();
 			}
 			
 			@Override
-			public MutableComponent toTooltip(Advancement item)
+			public MutableComponent toTooltip(AdvancementHolder item)
 			{
-				return Component.literal(item.getId().toString());
+				return Component.literal(item.id().toString());
 			}
 			
 			@Override
-			public void onClick(Advancement item)
+			public void onClick(AdvancementHolder item)
 			{
-				ContentAdvancements.this.builderAdvancement.advancement().set(item.getId());
+				ContentAdvancements.this.builderAdvancement.advancement().set(item.id());
 				container.initButtons();
 			}
 			
 			@Override
-			public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Advancement item, ActionHandler actionHandler)
+			public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, AdvancementHolder item, ActionHandler actionHandler)
 			{
 				return new GuiButtonTooltip(x, y, width, height, text, this.toTooltip(item), actionHandler);
 			}

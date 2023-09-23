@@ -48,7 +48,7 @@ public class WidgetNameField implements IContainerWidget
 	{
 		if(this.nameField.isFocused())
 		{
-			this.nameField.moveCursorToEnd();
+			this.nameField.moveCursorToEnd(false);
 		}
 		
 		return false;
@@ -59,7 +59,7 @@ public class WidgetNameField implements IContainerWidget
 	{
 		if(this.nameField.isFocused())
 		{
-			this.nameField.moveCursorToEnd();
+			this.nameField.moveCursorToEnd(false);
 		}
 		
 		return false;

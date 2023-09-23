@@ -9,7 +9,6 @@ import exopandora.worldhandler.gui.content.Content;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.RenderUtils;
-import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -21,6 +20,7 @@ import net.minecraft.util.Mth;
 
 public class WidgetTabRenderer implements IContainerWidget
 {
+	private static final ResourceLocation TAB_TEXTURE = new ResourceLocation("textures/gui/demo_background.png");
 	private static final int SPACING = 2;
 	private static final int WEDGE_HEIGHT = 10;
 	
@@ -54,7 +54,6 @@ public class WidgetTabRenderer implements IContainerWidget
 	{
 		Content content = container.getContent();
 		Category category = content.getCategory();
-		ResourceLocation texture = ResourceHelper.backgroundTexture();
 		
 		int xPos = container.getBackgroundX();
 		int yPos = container.getBackgroundY();
@@ -72,20 +71,20 @@ public class WidgetTabRenderer implements IContainerWidget
 			if(content.getActiveContent().equals(tab))
 			{
 				int height = Config.getSkin().getBackgroundAlphaInt() == 255 ? 25 : 22;
-				this.drawActiveTab(guiGraphics, container, texture, index, size, xPos + offset, yPos - 22, width, height, title);
+				this.drawActiveTab(guiGraphics, container, TAB_TEXTURE, index, size, xPos + offset, yPos - 22, width, height, title);
 			}
 			else
 			{
-				this.drawInactiveTab(guiGraphics, container, texture, index, size, xPos + offset, yPos - 20, width, 20, title);
+				this.drawInactiveTab(guiGraphics, container, TAB_TEXTURE, index, size, xPos + offset, yPos - 20, width, 20, title);
 			}
 		}
 		
-		RenderUtils.colorDefaultBackground();
+		RenderUtils.resetColor(guiGraphics);
 	}
 	
 	private void drawActiveTab(GuiGraphics guiGraphics, Container container, ResourceLocation texture, int index, int size, int x, int y, int width, int height, Component title)
 	{
-		RenderUtils.colorDefaultBackground();
+		RenderUtils.colorDefaultBackground(guiGraphics);
 		this.drawTabBackground(guiGraphics, container, texture, x, y, width, height);
 		
 		if(!Config.getSkin().sharpEdges())
@@ -127,7 +126,7 @@ public class WidgetTabRenderer implements IContainerWidget
 	
 	private void drawInactiveTab(GuiGraphics guiGraphics, Container container, ResourceLocation texture, int index, int size, int x, int y, int width, int height, Component title)
 	{
-		RenderUtils.colorDarkBackground();
+		RenderUtils.colorDarkBackground(guiGraphics);
 		this.drawTabBackground(guiGraphics, container, texture, x, y, width, 20);
 		
 		if(!Config.getSkin().sharpEdges())

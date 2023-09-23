@@ -141,12 +141,6 @@ public class ContentButcher extends Content
 	}
 	
 	@Override
-	public void tick(Container container)
-	{
-		this.radiusField.tick();
-	}
-	
-	@Override
 	public Category getCategory()
 	{
 		return Categories.ENTITIES;

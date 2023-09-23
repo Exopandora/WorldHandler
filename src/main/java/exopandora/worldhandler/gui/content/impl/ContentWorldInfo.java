@@ -53,7 +53,7 @@ public class ContentWorldInfo extends Content
 		this.seedField = new GuiHintTextField(x + 118, y + 36, 114, 20);
 		this.seedField.setValue(I18n.get("gui.worldhandler.world_info.world.seed") + ": " + ContentWorldInfo.format(server, object -> object.overworld().getSeed()));
 		this.seedField.setFilter(string -> string.equals(this.seedField.getValue()));
-		this.seedField.moveCursorToStart();
+		this.seedField.moveCursorToStart(false);
 		
 		this.currentTimeField = new GuiHintTextField(x + 118, y + 24, 114, 20);
 		this.updateCurrentTime();
@@ -125,7 +125,6 @@ public class ContentWorldInfo extends Content
 	{
 		this.updateCurrentTime();
 		this.updateTotalTime();
-		this.seedField.tick();
 	}
 	
 	private void updateCurrentTime()

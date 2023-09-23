@@ -28,8 +28,8 @@ import exopandora.worldhandler.gui.widget.button.EnumIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonBase;
 import exopandora.worldhandler.gui.widget.button.GuiButtonIcon;
 import exopandora.worldhandler.gui.widget.button.GuiButtonItem;
-import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.GuiHintTextField;
+import exopandora.worldhandler.gui.widget.button.GuiSlider;
 import exopandora.worldhandler.gui.widget.button.LogicSliderAttribute;
 import exopandora.worldhandler.gui.widget.button.LogicSliderSimple;
 import exopandora.worldhandler.gui.widget.menu.impl.ILogicColorMenu;
@@ -495,19 +495,6 @@ public class ContentSummon extends Content
 		else
 		{
 			this.mutable.reset();
-		}
-	}
-	
-	@Override
-	public void tick(Container container)
-	{
-		if(Page.START.equals(this.page))
-		{
-			if(!this.editColor)
-			{
-				this.mobField.tick();
-				this.nbtField.tick();
-			}
 		}
 	}
 	

@@ -41,9 +41,9 @@ public class RenderUtils
 		
 		poseStack.popPose();
 		
-		RenderUtils.colorDefaultButton();
-		
+		colorDefaultButton(guiGraphics);
 		guiGraphics.blit(ResourceHelper.iconTexture(), width + 0, height, 48, 0, 10, 10);
+		guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		poseStack.pushPose();
 		poseStack.scale(0.5F, 0.5F, 0.5F);
@@ -51,39 +51,44 @@ public class RenderUtils
 		poseStack.popPose();
 	}
 	
-	public static void colorDefaultButton()
+	public static void colorDefaultButton(GuiGraphics guiGraphics)
 	{
 		float r = Config.getSkin().getButtonRed();
 		float g = Config.getSkin().getButtonGreen();
 		float b = Config.getSkin().getButtonBlue();
 		float a = Config.getSkin().getButtonAlpha();
 		
-		RenderSystem.setShaderColor(r, g, b, a);
+		guiGraphics.setColor(r, g, b, a);
 	}
 	
-	public static void colorDefaultBackground()
+	public static void colorDefaultBackground(GuiGraphics guiGraphics)
 	{
-		RenderUtils.colorDefaultBackground(1.0F);
+		colorDefaultBackground(guiGraphics, 1.0F);
 	}
 	
-	public static void colorDefaultBackground(double alpha)
+	public static void colorDefaultBackground(GuiGraphics guiGraphics, double alpha)
 	{
 		float r = Config.getSkin().getBackgroundRed();
 		float g = Config.getSkin().getBackgroundGreen();
 		float b = Config.getSkin().getBackgroundBlue();
 		float a = (float) alpha * Config.getSkin().getBackgroundAlpha();
 		
-		RenderSystem.setShaderColor(r, g, b, a);
+		guiGraphics.setColor(r, g, b, a);
 	}
 	
-	public static void colorDarkBackground()
+	public static void colorDarkBackground(GuiGraphics guiGraphics)
 	{
 		float r = Config.getSkin().getBackgroundRed();
 		float g = Config.getSkin().getBackgroundGreen();
 		float b = Config.getSkin().getBackgroundBlue();
 		float a = Config.getSkin().getBackgroundAlpha();
 		
-		RenderSystem.setShaderColor(Math.max(0, r - 0.3F), Math.max(0, g - 0.3F), Math.max(0, b - 0.3F), a);
+		guiGraphics.setColor(Math.max(0, r - 0.3F), Math.max(0, g - 0.3F), Math.max(0, b - 0.3F), a);
+	}
+	
+	public static void resetColor(GuiGraphics guiGraphics)
+	{
+		guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 	
 	public static void drawTexturedTriangleBL(GuiGraphics guiGraphics, ResourceLocation texture, int x, int y, int textureX, int textureY, int size)
@@ -127,7 +132,7 @@ public class RenderUtils
 			double w = (height - i) / (double) (height + 1);
 			int z = width - (int) (w * width);
 			
-			RenderUtils.colorDefaultBackground(w);
+			colorDefaultBackground(guiGraphics, w);
 			guiGraphics.blit(texture, x + z, y + i, textureX + z, textureY + i, width - z, 1);
 		}
 		
@@ -143,7 +148,7 @@ public class RenderUtils
 			double w = (height - i) / (double) (height + 1);
 			int z = (int) (w * width);
 			
-			RenderUtils.colorDefaultBackground(w);
+			colorDefaultBackground(guiGraphics, w);
 			guiGraphics.blit(texture, x, y + i, textureX, textureY + i, z, 1);
 		}
 		

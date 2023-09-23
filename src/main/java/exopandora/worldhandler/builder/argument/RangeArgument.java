@@ -1,5 +1,6 @@
 package exopandora.worldhandler.builder.argument;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import javax.annotation.Nullable;
@@ -10,8 +11,8 @@ import net.minecraft.advancements.critereon.MinMaxBounds;
 public class RangeArgument<T extends Number> implements IDeserializableArgument
 {
 	private final Function<String, MinMaxBounds<T>> parser;
-	private T min;
-	private T max;
+	private Optional<T> min;
+	private Optional<T> max;
 	
 	protected RangeArgument(Function<String, MinMaxBounds<T>> parser)
 	{
@@ -20,34 +21,34 @@ public class RangeArgument<T extends Number> implements IDeserializableArgument
 	
 	public void setExact(@Nullable T value)
 	{
-		this.min = value;
-		this.max = value;
+		this.min = Optional.of(value);
+		this.max = Optional.of(value);
 	}
 	
 	public void setRange(@Nullable T min, @Nullable T max)
 	{
-		this.min = min;
-		this.max = max;
+		this.min = Optional.of(min);
+		this.max = Optional.of(max);
 	}
 	
 	public void setMin(@Nullable T min)
 	{
-		this.min = min;
+		this.min = Optional.of(min);
 	}
 	
 	public void setMax(@Nullable T max)
 	{
-		this.max = max;
+		this.max = Optional.of(max);
 	}
 	
 	public T getMin()
 	{
-		return this.min;
+		return this.min.orElse(null);
 	}
 	
 	public T getMax()
 	{
-		return this.max;
+		return this.max.orElse(null);
 	}
 	
 	@Override
@@ -56,22 +57,13 @@ public class RangeArgument<T extends Number> implements IDeserializableArgument
 		if(string != null)
 		{
 			MinMaxBounds<T> bounds = this.parser.apply(string);
-			
-			if(bounds != null)
-			{
-				this.min = bounds.getMin();
-				this.max = bounds.getMax();
-			}
-			else
-			{
-				this.min = null;
-				this.max = null;
-			}
+			this.min = bounds.min();
+			this.max = bounds.max();
 		}
 		else
 		{
-			this.min = null;
-			this.max = null;
+			this.min = Optional.empty();
+			this.max = Optional.empty();
 		}
 	}
 	

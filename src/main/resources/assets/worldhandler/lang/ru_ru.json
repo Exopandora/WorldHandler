@@ -253,7 +253,7 @@
 	"gui.worldhandler.recipes.take": "Забрать",
 
 	"gui.worldhandler.scoreboard.slot.list": "Список",
-	"gui.worldhandler.scoreboard.slot.belowName": "Под именем",
+	"gui.worldhandler.scoreboard.slot.below_name": "Под именем",
 	"gui.worldhandler.scoreboard.slot.sidebar": "Боковая панель",
 	"gui.worldhandler.scoreboard.slot.sidebar.team": "Боковая панель отряда",
 

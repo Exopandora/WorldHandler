@@ -143,10 +143,7 @@ public class MenuColorField extends Menu
 	@Override
 	public void tick()
 	{
-		if(this.logic.doDrawTextField())
-		{
-			this.textField.tick();
-		}
+		
 	}
 	
 	@Override

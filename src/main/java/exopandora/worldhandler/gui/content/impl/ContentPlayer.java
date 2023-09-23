@@ -188,7 +188,7 @@ public class ContentPlayer extends Content
 			guiGraphics.drawString(minecraft.font, minecraft.player.getName(), container.width / 2 - playerNameWidth + 59, yPos - 73, 0xE0E0E0);
 			
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, minecraft.player);
+			InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, xPos, yPos, 30, xPos - mouseX, yPos - mouseY - 44, 0.0625F, (float) mouseX, (float) mouseY, minecraft.player);
 			RenderSystem.defaultBlendFunc();
 		}
 	}

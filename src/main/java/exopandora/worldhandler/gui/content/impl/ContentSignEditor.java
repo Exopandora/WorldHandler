@@ -83,7 +83,7 @@ public class ContentSignEditor extends Content
 			this.commandField = new GuiHintTextField(x + 118, y + 24, 114, 20, Component.translatable("gui.worldhandler.blocks.sign_editor.commmand"));
 			this.commandField.setFilter(Predicates.notNull());
 			this.commandField.setValue(this.texts.getLine(this.selectedLine).getCommand());
-			this.commandField.moveCursorToEnd();
+			this.commandField.moveCursorToEnd(false);
 			this.commandField.setResponder(text ->
 			{
 				this.texts.getLine(this.selectedLine).setCommand(text);
@@ -167,15 +167,6 @@ public class ContentSignEditor extends Content
 			button2.active = this.selectedLine != 1;
 			button3.active = this.selectedLine != 2;
 			button4.active = this.selectedLine != 3;
-		}
-	}
-	
-	@Override
-	public void tick(Container container)
-	{
-		if(this.isActive && !this.editColor)
-		{
-			this.commandField.tick();
 		}
 	}
 	

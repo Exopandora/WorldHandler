@@ -63,7 +63,7 @@ public class ScoreboardHelper
 		
 		//Slots
 		
-		this.slots.addNode("belowName");
+		this.slots.addNode("below_name");
 		this.slots.addNode("list");
 		this.slots.addNode("sidebar");
 		this.slots.addNode("sidebar.team", colors);

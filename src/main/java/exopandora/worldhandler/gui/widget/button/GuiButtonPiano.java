@@ -69,6 +69,22 @@ public class GuiButtonPiano extends GuiButtonBase
 		}
 	}
 	
+	protected int getTextureY()
+	{
+		int i = 1;
+		
+		if(!this.active)
+		{
+			i = 0;
+		}
+		else if(this.isHoveredOrFocused())
+		{
+			i = 2;
+		}
+		
+		return i;
+	}
+	
 	protected void drawWhiteKey(GuiGraphics guiGraphics, int hoverstate)
 	{
 		int textColor = this.getFGColor();

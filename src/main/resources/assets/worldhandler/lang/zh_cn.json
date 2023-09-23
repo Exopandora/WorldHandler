@@ -254,7 +254,7 @@
 	"gui.worldhandler.recipes.take": "拿取",
 
 	"gui.worldhandler.scoreboard.slot.list": "列表",
-	"gui.worldhandler.scoreboard.slot.belowName": "名称下方",
+	"gui.worldhandler.scoreboard.slot.below_name": "名称下方",
 	"gui.worldhandler.scoreboard.slot.sidebar": "侧边栏",
 	"gui.worldhandler.scoreboard.slot.sidebar.team": "侧边栏队伍",
 

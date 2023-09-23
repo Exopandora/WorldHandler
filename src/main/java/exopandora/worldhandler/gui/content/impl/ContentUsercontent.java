@@ -123,14 +123,6 @@ public class ContentUsercontent extends Content
 	@Override
 	public void tick(Container container)
 	{
-		for(VisibleObject<EditBox> textfield : this.textfields.values())
-		{
-			if(textfield.isVisible(this.engineAdapter))
-			{
-				textfield.get().tick();
-			}
-		}
-		
 		this.updateButtons();
 		this.updateTextfields();
 	}

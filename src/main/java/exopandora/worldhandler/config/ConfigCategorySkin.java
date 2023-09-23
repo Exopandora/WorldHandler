@@ -1,7 +1,5 @@
 package exopandora.worldhandler.config;
 
-import java.util.Arrays;
-
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
@@ -20,7 +18,6 @@ public class ConfigCategorySkin
 	private final IntValue buttonGreen;
 	private final IntValue buttonBlue;
 	private final IntValue buttonAlpha;
-	private final ConfigValue<String> type;
 	private final BooleanValue sharpEdges;
 	private final BooleanValue drawBackground;
 	
@@ -75,11 +72,6 @@ public class ConfigCategorySkin
 				.comment("Button alpha")
 				.defineInRange("button_alpha", 255, 0, 255);
 
-		this.type = builder
-				.translation("gui.worldhandler.config.skin.textures")
-				.comment("Background texture (resourcepack, vanilla)")
-				.defineInList("textures", "resourcepack", Arrays.asList("resourcepack", "vanilla"));
-		
 		this.sharpEdges = builder
 				.translation("gui.worldhandler.config.skin.sharp_tab_edges")
 				.comment("Whether or not the gui has sharp or smooth tab edges")
@@ -210,16 +202,6 @@ public class ConfigCategorySkin
 	public void setButtonBlue(int blue)
 	{
 		Config.set(this.buttonBlue, blue);
-	}
-	
-	public String getTextureType()
-	{
-		return this.type.get();
-	}
-	
-	public void setTextureType(String type)
-	{
-		Config.set(this.type, type);
 	}
 	
 	public boolean sharpEdges()
