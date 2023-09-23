@@ -1,10 +1,12 @@
 package exopandora.worldhandler.builder.argument;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,7 @@ public class TargetArgument implements IArgument
 	@Nullable
 	private String selectorType;
 	private NegatableCriterion<String> name = new NegatableCriterion<String>();
-	private MinMaxBounds.Doubles distance = MinMaxBounds.Doubles.ANY;
+	private DoubleMinMaxBounds distance = DoubleMinMaxBounds.ANY;
 	@Nullable
 	private Double x;
 	@Nullable
@@ -47,7 +49,7 @@ public class TargetArgument implements IArgument
 	private Map<ResourceLocation, Boolean> advancements;
 	private List<NegatableCriterion<ResourceLocation>> predicates;
 	private NegatableCriterion<String> team = new NegatableCriterion<String>();
-	private Map<String, MinMaxBounds.Ints> scores;
+	private Map<String, IntMinMaxBounds> scores;
 	@Nullable
 	private NegatableCriterion<Gamemode> gamemode = new NegatableCriterion<Gamemode>();
 	@Nullable
@@ -86,26 +88,22 @@ public class TargetArgument implements IArgument
 	
 	public void setDistance(@Nullable Double distance)
 	{
-		this.distance = MinMaxBounds.Doubles.exactly(distance);
+		this.distance = new DoubleMinMaxBounds(distance, distance);
 	}
 	
 	public void setDistance(@Nullable Double min, @Nullable Double max)
 	{
-		this.distance = MinMaxBounds.Doubles.between(min, max);
+		this.distance = new DoubleMinMaxBounds(min, max);
 	}
 	
 	public void setDistanceMin(@Nullable Double min)
 	{
-		this.distance = this.distance.max()
-			.map(max -> MinMaxBounds.Doubles.between(min, max))
-			.orElseGet(() -> MinMaxBounds.Doubles.exactly(min));
+		this.distance = new DoubleMinMaxBounds(min, this.distance.getMax());
 	}
 	
 	public void setDistanceMax(@Nullable Double max)
 	{
-		this.distance = this.distance.min()
-			.map(min -> MinMaxBounds.Doubles.between(min, max))
-			.orElseGet(() -> MinMaxBounds.Doubles.exactly(max));
+		this.distance = new DoubleMinMaxBounds(this.distance.getMin(), max);
 	}
 	
 	public void setX(@Nullable Double x)
@@ -282,48 +280,40 @@ public class TargetArgument implements IArgument
 	{
 		if(this.scores == null)
 		{
-			this.scores = new HashMap<String, MinMaxBounds.Ints>();
+			this.scores = new HashMap<String, IntMinMaxBounds>();
 		}
 		
-		this.scores.put(score, MinMaxBounds.Ints.exactly(value));
+		this.scores.put(score, IntMinMaxBounds.exactly(value));
 	}
 	
 	public void setScore(String score, @Nullable Integer min, @Nullable Integer max)
 	{
 		if(this.scores == null)
 		{
-			this.scores = new HashMap<String, MinMaxBounds.Ints>();
+			this.scores = new HashMap<String, IntMinMaxBounds>();
 		}
 		
-		this.scores.put(score, MinMaxBounds.Ints.between(min, max));
+		this.scores.put(score, new IntMinMaxBounds(min, max));
 	}
 	
 	public void setScoreMin(String score, @Nullable Integer min)
 	{
 		if(this.scores == null)
 		{
-			this.scores = new HashMap<String, MinMaxBounds.Ints>();
+			this.scores = new HashMap<String, IntMinMaxBounds>();
 		}
 		
-		MinMaxBounds.Ints bounds = this.scores.getOrDefault(score, MinMaxBounds.Ints.ANY).max()
-			.map(max -> MinMaxBounds.Ints.between(min, max))
-			.orElseGet(() -> MinMaxBounds.Ints.exactly(min));
-		
-		this.scores.put(score, bounds);
+		this.scores.put(score, new IntMinMaxBounds(min, this.scores.getOrDefault(score, IntMinMaxBounds.ANY).getMax()));
 	}
 	
 	public void setScoreMax(String score, @Nullable Integer max)
 	{
 		if(this.scores == null)
 		{
-			this.scores = new HashMap<String, MinMaxBounds.Ints>();
+			this.scores = new HashMap<String, IntMinMaxBounds>();
 		}
 		
-		MinMaxBounds.Ints bounds = this.scores.getOrDefault(score, MinMaxBounds.Ints.ANY).min()
-			.map(min -> MinMaxBounds.Ints.between(min, max))
-			.orElseGet(() -> MinMaxBounds.Ints.exactly(max));
-		
-		this.scores.put(score, bounds);
+		this.scores.put(score, new IntMinMaxBounds(this.scores.getOrDefault(score, IntMinMaxBounds.ANY).getMin(), max));
 	}
 	
 	public void setGamemode(@Nullable Gamemode gamemode)
@@ -366,7 +356,7 @@ public class TargetArgument implements IArgument
 	
 	public MinMaxBounds.Doubles getDistance()
 	{
-		return this.distance;
+		return this.distance.toMinMaxBounds();
 	}
 	
 	@Nullable
@@ -457,7 +447,9 @@ public class TargetArgument implements IArgument
 	@Nullable
 	public Map<String, MinMaxBounds.Ints> getScores()
 	{
-		return this.scores;
+		return this.scores.entrySet().stream()
+			.map(entry -> new SimpleEntry<String, MinMaxBounds.Ints>(entry.getKey(), entry.getValue().toMinMaxBounds()))
+			.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 	
 	public NegatableCriterion<Gamemode> getGamemode()
@@ -488,7 +480,7 @@ public class TargetArgument implements IArgument
 		List<String> criteria = new ArrayList<String>();
 		
 		this.append("name", this.name, criteria, TargetArgument::serializeNegatableCriterion);
-		this.append("distance", this.distance, criteria, TargetArgument::serializeMinMaxBounds);
+		this.append("distance", this.distance, criteria, TargetArgument::serializeDoubleMinMaxBounds);
 		this.append("x", this.x, criteria);
 		this.append("y", this.y, criteria);
 		this.append("z", this.z, criteria);
@@ -504,7 +496,7 @@ public class TargetArgument implements IArgument
 		this.appendMap("advancements", this.advancements, criteria, ResourceLocation::toString, b -> b.toString());
 		this.appendList("predicate", this.predicates, criteria, TargetArgument::serializeNegatableCriterion);
 		this.append("team", this.team, criteria, TargetArgument::serializeNegatableCriterion);
-		this.appendMap("scores", this.scores, criteria, String::toString, TargetArgument::serializeMinMaxBounds);
+		this.appendMap("scores", this.scores, criteria, String::toString, TargetArgument::serializeIntMinMaxBounds);
 		this.append("gamemode", this.gamemode, criteria, TargetArgument::serializeNegatableCriterion);
 		this.append("sort", this.sort, criteria);
 		
@@ -561,9 +553,15 @@ public class TargetArgument implements IArgument
 	}
 	
 	@Nullable
-	private static String serializeMinMaxBounds(MinMaxBounds<?> bounds)
+	private static String serializeDoubleMinMaxBounds(DoubleMinMaxBounds bounds)
 	{
-		return Util.serializeBounds(bounds.min(), bounds.max());
+		return Util.serializeBounds(bounds.getMin(), bounds.getMax());
+	}
+	
+	@Nullable
+	private static String serializeIntMinMaxBounds(IntMinMaxBounds bounds)
+	{
+		return Util.serializeBounds(bounds.getMin(), bounds.getMax());
 	}
 	
 	@Nullable
@@ -594,6 +592,73 @@ public class TargetArgument implements IArgument
 		}
 		
 		return null;
+	}
+	
+	private static class DoubleMinMaxBounds
+	{
+		public static final DoubleMinMaxBounds ANY = new DoubleMinMaxBounds(null, null);
+		
+		private final Double min;
+		private final Double max;
+		
+		public DoubleMinMaxBounds(Double min, Double max)
+		{
+			this.min = min;
+			this.max = max;
+		}
+		
+		public MinMaxBounds.Doubles toMinMaxBounds()
+		{
+			return new MinMaxBounds.Doubles(Optional.ofNullable(this.min), Optional.ofNullable(this.max));
+		}
+		
+		@Nullable
+		public Double getMin()
+		{
+			return this.min;
+		}
+		
+		@Nullable
+		public Double getMax()
+		{
+			return this.max;
+		}
+	}
+	
+	private static class IntMinMaxBounds
+	{
+		public static final IntMinMaxBounds ANY = new IntMinMaxBounds(null, null);
+		
+		private final Integer min;
+		private final Integer max;
+		
+		public IntMinMaxBounds(Integer min, Integer max)
+		{
+			this.min = min;
+			this.max = max;
+		}
+		
+		public MinMaxBounds.Ints toMinMaxBounds()
+		{
+			return new MinMaxBounds.Ints(Optional.ofNullable(this.min), Optional.ofNullable(this.max));
+		}
+		
+		@Nullable
+		public Integer getMin()
+		{
+			return this.min;
+		}
+		
+		@Nullable
+		public Integer getMax()
+		{
+			return this.max;
+		}
+		
+		private static IntMinMaxBounds exactly(@Nullable Integer value)
+		{
+			return new IntMinMaxBounds(value, value);
+		}
 	}
 	
 	public static class NegatableCriterion<T>

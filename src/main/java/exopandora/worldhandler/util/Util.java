@@ -1,17 +1,9 @@
 package exopandora.worldhandler.util;
 
-import java.util.Optional;
-
 import javax.annotation.Nullable;
 
 public class Util
 {
-	@Nullable
-	public static <T extends Number, S extends Number> String serializeBounds(Optional<T> minBound, Optional<S> maxBound)
-	{
-		return serializeBounds(minBound.orElse(null), maxBound.orElse(null));
-	}
-	
 	@Nullable
 	public static String serializeBounds(@Nullable Number minBound, @Nullable Number maxBound)
 	{

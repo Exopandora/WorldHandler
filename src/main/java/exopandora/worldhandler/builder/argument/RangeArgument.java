@@ -21,31 +21,33 @@ public class RangeArgument<T extends Number> implements IDeserializableArgument
 	
 	public void setExact(@Nullable T value)
 	{
-		this.min = Optional.of(value);
-		this.max = Optional.of(value);
+		this.min = Optional.ofNullable(value);
+		this.max = Optional.ofNullable(value);
 	}
 	
 	public void setRange(@Nullable T min, @Nullable T max)
 	{
-		this.min = Optional.of(min);
-		this.max = Optional.of(max);
+		this.min = Optional.ofNullable(min);
+		this.max = Optional.ofNullable(max);
 	}
 	
 	public void setMin(@Nullable T min)
 	{
-		this.min = Optional.of(min);
+		this.min = Optional.ofNullable(min);
 	}
 	
 	public void setMax(@Nullable T max)
 	{
-		this.max = Optional.of(max);
+		this.max = Optional.ofNullable(max);
 	}
 	
+	@Nullable
 	public T getMin()
 	{
 		return this.min.orElse(null);
 	}
 	
+	@Nullable
 	public T getMax()
 	{
 		return this.max.orElse(null);
@@ -71,12 +73,12 @@ public class RangeArgument<T extends Number> implements IDeserializableArgument
 	@Nullable
 	public String serialize()
 	{
-		return Util.serializeBounds(this.min, this.max);
+		return Util.serializeBounds(this.getMin(), this.getMax());
 	}
 	
 	@Override
 	public boolean isDefault()
 	{
-		return this.min == null && this.max == null;
+		return this.min.isEmpty() && this.max.isEmpty();
 	}
 }
