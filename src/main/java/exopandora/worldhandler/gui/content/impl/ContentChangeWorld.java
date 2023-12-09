@@ -86,7 +86,10 @@ public class ContentChangeWorld extends ContentChild
 		}
 		else if(connection instanceof IntegratedConnection integrated)
 		{
-			Minecraft.getInstance().createWorldOpenFlows().loadLevel(new TitleScreen(), integrated.getFolder());
+			Minecraft.getInstance().createWorldOpenFlows().checkForBackupAndLoad(integrated.getFolder(), () ->
+			{
+				Minecraft.getInstance().setScreen(new TitleScreen());
+			});
 			Minecraft.getInstance().mouseHandler.grabMouse();
 		}
 		else if(connection instanceof DedicatedConnection dedicated)

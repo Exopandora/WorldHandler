@@ -11,7 +11,7 @@ public class Main
 {
 	public static final String NAME = "World Handler";
 	public static final String MODID = "worldhandler";
-	public static final String MC_VERSION = "1.20.2";
+	public static final String MC_VERSION = "1.20.4";
 	public static final String MOD_VERSION = "3.5.1";
 	public static final String URL = "https://minecraft.curseforge.com/projects/world-handler-command-gui";
 	

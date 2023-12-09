@@ -12,7 +12,7 @@ import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.PlainTextContents;
 
 public class UserStylableComponent extends MutableComponent
 {
@@ -20,7 +20,7 @@ public class UserStylableComponent extends MutableComponent
 	
 	public UserStylableComponent()
 	{
-		super(ComponentContents.EMPTY, Lists.newArrayList(), Style.EMPTY);
+		super(PlainTextContents.EMPTY, Lists.newArrayList(), Style.EMPTY);
 	}
 	
 	public void setText(String text)
@@ -66,10 +66,10 @@ public class UserStylableComponent extends MutableComponent
 	{
 		if(this.isStyled())
 		{
-			return new LiteralContents(applyStyleFormatting(this.text));
+			return PlainTextContents.create(applyStyleFormatting(this.text));
 		}
 		
-		return new LiteralContents(this.text);
+		return PlainTextContents.create(this.text);
 	}
 	
 	public boolean isStyled()

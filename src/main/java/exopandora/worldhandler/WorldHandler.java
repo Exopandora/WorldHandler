@@ -37,7 +37,6 @@ public class WorldHandler
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final Path USERCONTENT_PATH = FMLPaths.CONFIGDIR.get().resolve(Main.MODID).resolve("usercontent");
 	
-	@SuppressWarnings("serial")
 	public WorldHandler()
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

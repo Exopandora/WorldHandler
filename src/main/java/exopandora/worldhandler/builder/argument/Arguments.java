@@ -2,25 +2,34 @@ package exopandora.worldhandler.builder.argument;
 
 import java.util.function.Function;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.JsonOps;
 
 import exopandora.worldhandler.builder.argument.PrimitiveArgument.Linkage;
 import exopandora.worldhandler.builder.argument.PrimitiveArgument.Operation;
 import exopandora.worldhandler.builder.argument.PrimitiveArgument.Relation;
 import exopandora.worldhandler.builder.argument.PrimitiveArgument.Type;
 import exopandora.worldhandler.util.EnumHelper;
+import net.minecraft.Util;
 import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.commands.ParserUtils;
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria.RenderType;
 
 public class Arguments
 {
+    private static final Gson GSON = (new GsonBuilder()).disableHtmlEscaping().create();
+    
 	public static PrimitiveArgument<Short> shortArg()
 	{
 		return PrimitiveArgument.builder(string ->
@@ -338,5 +347,22 @@ public class Arguments
 	public static DimensionArgument dimension()
 	{
 		return new DimensionArgument();
+	}
+	
+	public static PrimitiveArgument<Style> style()
+	{
+		return PrimitiveArgument.<Style>builder(string ->
+		{
+			try
+			{
+				return ParserUtils.parseJson(new StringReader(string), Style.Serializer.CODEC);
+			}
+			catch(Exception e)
+			{
+				return null;
+			}
+		})
+		.serializer(style -> GSON.toJson(Util.getOrThrow(Style.Serializer.CODEC.encodeStart(JsonOps.INSTANCE, style), JsonParseException::new)))
+		.build();
 	}
 }

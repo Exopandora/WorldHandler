@@ -8,6 +8,7 @@ import exopandora.worldhandler.builder.argument.PrimitiveArgument;
 import exopandora.worldhandler.builder.argument.PrimitiveArgument.Operation;
 import exopandora.worldhandler.builder.argument.TargetArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria.RenderType;
 
 public class ScoreboardCommandBuilder extends CommandBuilder
@@ -17,11 +18,13 @@ public class ScoreboardCommandBuilder extends CommandBuilder
 	private final PrimitiveArgument<Component> displayName = Arguments.textComponent();
 	private final PrimitiveArgument<String> slot = Arguments.word();
 	private final PrimitiveArgument<RenderType> renderType = Arguments.renderType();
+	private final PrimitiveArgument<Boolean> displayAutoUpdate = Arguments.boolArg();
 	private final TargetArgument target = Arguments.target();
 	private final TargetArgument targets = Arguments.target();
 	private final PrimitiveArgument<Integer> score = Arguments.intArg();
 	private final PrimitiveArgument<Operation> operation = Arguments.operation();
 	private final PrimitiveArgument<String> sourceObjective = Arguments.word();
+	private final PrimitiveArgument<Style> style = Arguments.style();
 	
 	private final CommandNodeLiteral root = CommandNode.literal("scoreboard")
 		.then(CommandNode.literal("objectives")
@@ -39,7 +42,18 @@ public class ScoreboardCommandBuilder extends CommandBuilder
 							.label(Label.OBJECTIVES_MODIFY_DISPLAYNAME)))
 					.then(CommandNode.literal("rendertype")
 						.then(CommandNode.argument("renderType", this.renderType)
-							.label(Label.OBJECTIVES_MODIFY_RENDERTYPE)))))
+							.label(Label.OBJECTIVES_MODIFY_RENDERTYPE)))
+					.then(CommandNode.literal("displayautoupdate")
+						.then(CommandNode.argument("displayAutoUpdate", this.displayAutoUpdate)
+							.label(Label.OBJECTIVES_MODIFY_DISPLAYAUTOUPDATE)))
+					.then(CommandNode.literal("numberformat")
+						.label(Label.OBJECTIVES_MODIFY_NUMBERFORMAT)
+						.then(CommandNode.argument("styled", this.style)
+							.label(Label.OBJECTIVES_MODIFY_NUMBERFORMAT_STYLED))
+						.then(CommandNode.argument("fixed", this.displayName)
+							.label(Label.OBJECTIVES_MODIFY_NUMBERFORMAT_FIXED))
+						.then(CommandNode.literal("blank")
+							.label(Label.OBJECTIVES_MODIFY_NUMBERFORMAT_BLANK)))))
 			.then(CommandNode.literal("remove")
 				.then(CommandNode.argument("objective", this.objective)
 					.label(Label.OBJECTIVES_REMOVE)))
@@ -87,6 +101,23 @@ public class ScoreboardCommandBuilder extends CommandBuilder
 					.label(Label.PLAYERS_ENABLE)
 					.then(CommandNode.argument("objective", this.objective)
 						.label(Label.PLAYERS_ENABLE_OBJECTIVE))))
+			.then(CommandNode.literal("display")
+				.then(CommandNode.literal("name")
+					.then(CommandNode.argument("targets", this.targets)
+						.then(CommandNode.argument("objective", this.objective)
+							.label(Label.PLAYERS_DISPLAY)
+							.then(CommandNode.argument("name", this.displayName)
+								.label(Label.PLAYERS_DISPLAY_NAME))))
+				.then(CommandNode.literal("numberformat")
+					.then(CommandNode.argument("targets", this.targets)
+						.then(CommandNode.argument("objective", this.objective)
+							.label(Label.PLAYERS_DISPLAY_NUMBERFORMAT)
+							.then(CommandNode.argument("styled", this.style)
+								.label(Label.PLAYERS_DISPLAY_NUMBERFORMAT_STYLED))
+							.then(CommandNode.argument("fixed", this.displayName)
+								.label(Label.PLAYERS_DISPLAY_NUMBERFORMAT_FIXED))
+							.then(CommandNode.literal("blank")
+								.label(Label.PLAYERS_DISPLAY_NUMBERFORMAT_BLANK)))))))
 			.then(CommandNode.literal("operation")
 				.then(CommandNode.argument("targetObjective", this.objective)
 					.then(CommandNode.argument("operation", this.operation)
@@ -144,6 +175,11 @@ public class ScoreboardCommandBuilder extends CommandBuilder
 		return this.sourceObjective;
 	}
 	
+	public PrimitiveArgument<Style> style()
+	{
+		return this.style;
+	}
+	
 	@Override
 	protected CommandNodeLiteral root()
 	{
@@ -157,6 +193,11 @@ public class ScoreboardCommandBuilder extends CommandBuilder
 		OBJECTIVES_ADD_DISPLAYNAME,
 		OBJECTIVES_MODIFY_DISPLAYNAME,
 		OBJECTIVES_MODIFY_RENDERTYPE,
+		OBJECTIVES_MODIFY_DISPLAYAUTOUPDATE,
+		OBJECTIVES_MODIFY_NUMBERFORMAT,
+		OBJECTIVES_MODIFY_NUMBERFORMAT_STYLED,
+		OBJECTIVES_MODIFY_NUMBERFORMAT_FIXED,
+		OBJECTIVES_MODIFY_NUMBERFORMAT_BLANK,
 		OBJECTIVES_REMOVE,
 		OBJECTIVES_SETDISPLAY_SLOT,
 		OBJECTIVES_SETDISPLAY_SLOT_OBJECTIVE,
@@ -170,6 +211,12 @@ public class ScoreboardCommandBuilder extends CommandBuilder
 		PLAYERS_RESET_SCORE,
 		PLAYERS_ENABLE,
 		PLAYERS_ENABLE_OBJECTIVE,
-		PLAYERS_OPERATION;
+		PLAYERS_OPERATION,
+		PLAYERS_DISPLAY,
+		PLAYERS_DISPLAY_NAME,
+		PLAYERS_DISPLAY_NUMBERFORMAT,
+		PLAYERS_DISPLAY_NUMBERFORMAT_STYLED,
+		PLAYERS_DISPLAY_NUMBERFORMAT_FIXED,
+		PLAYERS_DISPLAY_NUMBERFORMAT_BLANK;
 	}
 }

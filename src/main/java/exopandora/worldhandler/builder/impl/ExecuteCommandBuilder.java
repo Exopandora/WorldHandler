@@ -338,6 +338,7 @@ public class ExecuteCommandBuilder extends CommandBuilder
 		private final PrimitiveArgument<String> targetObjective = Arguments.word();
 		private final PrimitiveArgument<String> sourceObjective = Arguments.word();
 		private final RangeArgument<Integer> range = Arguments.intRange();
+		private final PrimitiveArgument<ResourceLocation> function = Arguments.resourceLocation();
 		private final CommandNodeLiteral root;
 		
 		public ConditionOptionalArgument(String condition, Label label)
@@ -406,7 +407,10 @@ public class ExecuteCommandBuilder extends CommandBuilder
 																	.label(Label.SCORE_GE))))
 											.then(CommandNode.literal("matches")
 													.then(CommandNode.argument("range", this.range)
-															.label(Label.SCORE_MATCHES))))));
+															.label(Label.SCORE_MATCHES))))))
+					.then(CommandNode.literal("function")
+							.then(CommandNode.argument("function", this.function)
+									.label(Label.FUNCTION)));
 		}
 		
 		public BlockPosArgument pos()
@@ -469,6 +473,11 @@ public class ExecuteCommandBuilder extends CommandBuilder
 			return this.range;
 		}
 		
+		public PrimitiveArgument<ResourceLocation> function()
+		{
+			return this.function;
+		}
+		
 		@Override
 		protected CommandNodeLiteral root()
 		{
@@ -492,7 +501,8 @@ public class ExecuteCommandBuilder extends CommandBuilder
 			SCORE_EQ,
 			SCORE_GT,
 			SCORE_GE,
-			SCORE_MATCHES;
+			SCORE_MATCHES,
+			FUNCTION;
 		}
 	}
 	
