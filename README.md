@@ -75,7 +75,7 @@ A description on how to implement a custom json and javascript file can be found
 
 # Support #
 
-Only the latest game version will be supported and updated with new features
+This mod will no longer be updated.
 
 # License #
 
