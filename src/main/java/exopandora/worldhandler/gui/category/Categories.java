@@ -15,7 +15,7 @@ public class Categories
 	
 	public static Category getRegisteredCategory(String name)
 	{
-		Category category = Category.REGISTRY.getValue(new ResourceLocation(Main.MODID, name));
+		Category category = Category.REGISTRY.get(ResourceLocation.fromNamespaceAndPath(Main.MODID, name));
 		
 		if(category == null)
 		{
@@ -27,6 +27,6 @@ public class Categories
 	
 	public static boolean isRegistered(String name)
 	{
-		return Category.REGISTRY.containsKey(new ResourceLocation(Main.MODID, name));
+		return Category.REGISTRY.containsKey(ResourceLocation.fromNamespaceAndPath(Main.MODID, name));
 	}
 }

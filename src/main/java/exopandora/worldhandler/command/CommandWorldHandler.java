@@ -17,8 +17,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.LevelSettings;
 import net.minecraft.world.level.storage.PrimaryLevelData;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.VersionChecker;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.VersionChecker;
 
 public class CommandWorldHandler
 {

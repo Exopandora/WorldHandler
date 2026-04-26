@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public abstract class AbstractAttributeTag implements ITagProvider
 {	
-	public static final List<Attribute> ATTRIBUTES = ForgeRegistries.ATTRIBUTES.getValues().stream()
+	public static final List<Attribute> ATTRIBUTES = BuiltInRegistries.ATTRIBUTE.stream().toList().stream()
 			.filter(attribute -> !attribute.getDescriptionId().equals(I18n.get(attribute.getDescriptionId())))
 			.collect(Collectors.toList());
 	

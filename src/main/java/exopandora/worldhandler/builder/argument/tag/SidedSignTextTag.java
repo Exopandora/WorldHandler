@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javax.annotation.Nonnull;
 
+import exopandora.worldhandler.util.TextUtils;
 import exopandora.worldhandler.util.UserStylableComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -36,7 +37,7 @@ public class SidedSignTextTag implements ITagProvider
 		
 		for(UserStylableComponent text : this.lines)
 		{
-			messages.add(StringTag.valueOf(Component.Serializer.toJson(text)));
+			messages.add(StringTag.valueOf(TextUtils.toJson(text)));
 		}
 		
 		CompoundTag tag = new CompoundTag();

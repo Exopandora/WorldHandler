@@ -38,24 +38,20 @@ import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.RegistryBuilder;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 
 public abstract class Content implements IContent
 {
-	public static IForgeRegistry<Content> REGISTRY;
-	public static final ResourceKey<Registry<Content>> REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(Main.MODID, "content"));
+	public static Registry<Content> REGISTRY;
+	public static final ResourceKey<Registry<Content>> REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Main.MODID, "content"));
 	
 	@SubscribeEvent
 	public static void createRegistry(NewRegistryEvent event)
 	{
-		event.create(new RegistryBuilder<Content>()
-			.setName(REGISTRY_KEY.location())
-			.disableSaving()
-			.disableSync(), registry -> REGISTRY = registry);
+		REGISTRY = event.create(new RegistryBuilder<Content>(REGISTRY_KEY).sync(false));
 	}
 	
 	@SubscribeEvent

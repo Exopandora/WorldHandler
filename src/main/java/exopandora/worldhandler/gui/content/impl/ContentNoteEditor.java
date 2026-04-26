@@ -37,7 +37,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class ContentNoteEditor extends Content
 {
-	private static final ResourceLocation NOTE = new ResourceLocation(Main.MODID, "textures/misc/note.png");
+	private static final ResourceLocation NOTE = ResourceLocation.fromNamespaceAndPath(Main.MODID, "textures/misc/note.png");
 	
 	private final SetBlockCommandBuilder builderNoteEditor = new SetBlockCommandBuilder();
 	private final CommandPreview preview = new CommandPreview(this.builderNoteEditor, SetBlockCommandBuilder.Label.REPLACE);
@@ -66,7 +66,7 @@ public class ContentNoteEditor extends Content
 		if(this.isActive)
 		{
 			BlockPos pos = this.builderNoteEditor.pos().getBlockPos();
-			SoundEvent sound = getSoundEvent(pos).getSoundEvent().get();
+			SoundEvent sound = getSoundEvent(pos).getSoundEvent().value();
 			
 			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.g"), sound, 0.53F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 1)));
 			container.addRenderableWidget(new GuiButtonPiano(x - 3 + 15 * 2, y, 14, 92, Component.translatable("gui.worldhandler.blocks.note_block_editor.a"), sound, 0.6F, Type.NORMAL, () -> this.setNote(container.getPlayer(), 3)));

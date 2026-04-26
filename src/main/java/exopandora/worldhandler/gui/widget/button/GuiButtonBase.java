@@ -19,9 +19,9 @@ public class GuiButtonBase extends AbstractButton
 {
 	protected static final WidgetSprites VANILLA_BUTTON_SPRITES = new WidgetSprites
 	(
-		new ResourceLocation(Main.MODID, "textures/skins/vanilla/button.png"),
-		new ResourceLocation(Main.MODID, "textures/skins/vanilla/button_disabled.png"),
-		new ResourceLocation(Main.MODID, "textures/skins/vanilla/button_highlighted.png")
+		ResourceLocation.fromNamespaceAndPath(Main.MODID, "textures/skins/vanilla/button.png"),
+		ResourceLocation.fromNamespaceAndPath(Main.MODID, "textures/skins/vanilla/button_disabled.png"),
+		ResourceLocation.fromNamespaceAndPath(Main.MODID, "textures/skins/vanilla/button_highlighted.png")
 	);
 	
 	private final ActionHandler actionHandler;

@@ -7,7 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import exopandora.worldhandler.util.ItemPredicateParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ItemPredicateArgument extends TagArgument
 {
@@ -28,7 +28,7 @@ public class ItemPredicateArgument extends TagArgument
 	{
 		if(item != null)
 		{
-			this.resource = ForgeRegistries.ITEMS.getKey(item);
+			this.resource = BuiltInRegistries.ITEM.getKey(item);
 		}
 		else
 		{

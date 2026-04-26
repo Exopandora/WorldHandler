@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.Main;
 import exopandora.worldhandler.config.Config;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraft.core.Registry;
 
 public class ResourceHelper
 {
@@ -20,13 +20,13 @@ public class ResourceHelper
 		return null;
 	}
 	
-	public static boolean isRegistered(ResourceLocation resource, IForgeRegistry<?> registry)
+	public static boolean isRegistered(ResourceLocation resource, Registry<?> registry)
 	{
 		return resource != null && registry != null && registry.containsKey(resource);
 	}
 	
 	@Nullable
-	public static ResourceLocation assertRegistered(ResourceLocation resource, IForgeRegistry<?> registry)
+	public static ResourceLocation assertRegistered(ResourceLocation resource, Registry<?> registry)
 	{
 		if(resource != null && ResourceHelper.isRegistered(resource, registry))
 		{
@@ -38,6 +38,6 @@ public class ResourceHelper
 	
 	public static ResourceLocation iconTexture()
 	{
-		return new ResourceLocation(Main.MODID, "textures/icons/icons_" + Config.getSkin().getIconSize().name() + ".png");
+		return ResourceLocation.fromNamespaceAndPath(Main.MODID, "textures/icons/icons_" + Config.getSkin().getIconSize().name() + ".png");
 	}
 }

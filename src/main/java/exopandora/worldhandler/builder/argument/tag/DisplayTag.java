@@ -1,5 +1,6 @@
 package exopandora.worldhandler.builder.argument.tag;
 
+import exopandora.worldhandler.util.TextUtils;
 import exopandora.worldhandler.util.UserStylableComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -19,7 +20,7 @@ public class DisplayTag implements ITagProvider
 		
 		if(this.name.getText() != null && !this.name.getText().isEmpty())
 		{
-			display.putString("Name", Component.Serializer.toJson(this.name));
+			display.putString("Name", TextUtils.toJson(this.name));
 		}
 		
 		ListTag lore = new ListTag();
@@ -28,7 +29,7 @@ public class DisplayTag implements ITagProvider
 		{
 			if(this.lore[x] != null && !this.lore[x].getString().isEmpty())
 			{
-				lore.add(StringTag.valueOf(Component.Serializer.toJson(this.lore[x])));
+				lore.add(StringTag.valueOf(TextUtils.toJson(this.lore[x])));
 			}
 		}
 		

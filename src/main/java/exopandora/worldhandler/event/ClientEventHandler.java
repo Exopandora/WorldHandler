@@ -13,10 +13,9 @@ import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 public class ClientEventHandler
 {
@@ -59,9 +58,9 @@ public class ClientEventHandler
 	}
 	
 	@SubscribeEvent
-	public static void clientTickEvent(ClientTickEvent event)
+	public static void clientTickEvent(ClientTickEvent.Pre event)
 	{
-		if(TickEvent.Phase.START.equals(event.phase) && ClientEventHandler.openGui)
+		if(ClientEventHandler.openGui)
 		{
 			ClientEventHandler.openGui = false;
 			ActionHelper.displayGui();

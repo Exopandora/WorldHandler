@@ -1,6 +1,7 @@
 package exopandora.worldhandler.builder.argument;
 
 import java.util.function.Function;
+import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,7 +16,7 @@ import exopandora.worldhandler.builder.argument.PrimitiveArgument.Operation;
 import exopandora.worldhandler.builder.argument.PrimitiveArgument.Relation;
 import exopandora.worldhandler.builder.argument.PrimitiveArgument.Type;
 import exopandora.worldhandler.util.EnumHelper;
-import net.minecraft.Util;
+import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.commands.ParserUtils;
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
@@ -160,7 +161,7 @@ public class Arguments
 	
 	public static PrimitiveArgument<ResourceLocation> resourceLocation()
 	{
-		return PrimitiveArgument.builder(string -> string.isEmpty() ? null : new ResourceLocation(string)).build();
+		return PrimitiveArgument.<ResourceLocation>builder(string -> string.isEmpty() ? null : ResourceLocation.parse(string)).build();
 	}
 	
 	public static ItemArgument item()
@@ -262,8 +263,8 @@ public class Arguments
 	
 	public static PrimitiveArgument<Anchor> anchor()
 	{
-		return PrimitiveArgument.builder(string -> EnumHelper.find(string, Anchor.values(), anchor -> anchor.name))
-				.serializer(anchor -> anchor.name)
+		return PrimitiveArgument.builder(Anchor::getByName)
+				.serializer(anchor -> anchor.name().toLowerCase(Locale.ROOT))
 				.build();
 	}
 	
@@ -292,13 +293,13 @@ public class Arguments
 		{
 			try
 			{
-				return Component.Serializer.fromJson(string);
+				return Component.Serializer.fromJson(string, RegistryHelper.registryAccess());
 			}
 			catch(Exception e)
 			{
 				return Component.literal(string);
 			}
-		}).serializer(Component.Serializer::toJson).build();
+		}).serializer(component -> Component.Serializer.toJson(component, RegistryHelper.registryAccess())).build();
 	}
 	
 	public static PrimitiveArgument<PrimitiveArgument.Relation> relation()
@@ -355,14 +356,14 @@ public class Arguments
 		{
 			try
 			{
-				return ParserUtils.parseJson(new StringReader(string), Style.Serializer.CODEC);
+				return ParserUtils.parseJson(RegistryHelper.registryAccess(), new StringReader(string), Style.Serializer.CODEC);
 			}
 			catch(Exception e)
 			{
 				return null;
 			}
 		})
-		.serializer(style -> GSON.toJson(Util.getOrThrow(Style.Serializer.CODEC.encodeStart(JsonOps.INSTANCE, style), JsonParseException::new)))
+		.serializer(style -> GSON.toJson(Style.Serializer.CODEC.encodeStart(JsonOps.INSTANCE, style).getOrThrow(JsonParseException::new)))
 		.build();
 	}
 }

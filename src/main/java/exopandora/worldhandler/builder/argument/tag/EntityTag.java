@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import exopandora.worldhandler.util.NBTHelper;
+import exopandora.worldhandler.util.TextUtils;
 import exopandora.worldhandler.util.UserStylableComponent;
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
@@ -405,7 +406,7 @@ public class EntityTag implements ITagProvider
 		
 		if(this.customName.getText() != null && !this.customName.getText().isEmpty())
 		{
-			NBTHelper.append(nbt, "CustomName", StringTag.valueOf(Component.Serializer.toJson(this.customName)));
+			NBTHelper.append(nbt, "CustomName", StringTag.valueOf(TextUtils.toJson(this.customName)));
 		}
 		
 		NBTHelper.append(nbt, this.potion);

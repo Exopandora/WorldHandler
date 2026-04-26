@@ -20,16 +20,15 @@ import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.RegistryBuilder;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 
 public class Category
 {
-	public static IForgeRegistry<Category> REGISTRY;
-	public static final ResourceKey<Registry<Category>> REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(Main.MODID, "category"));
+	public static Registry<Category> REGISTRY;
+	public static final ResourceKey<Registry<Category>> REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Main.MODID, "category"));
 	public static final Map<String, List<String>> DEFAULT_CATEGORIES = new CategoriesBuilder()
 		.add("main", "main", "containers", "multiplayer")
 		.add("entities", "summon", "butcher")
@@ -65,7 +64,7 @@ public class Category
 	
 	public Category add(int index, String key)
 	{
-		return this.add(index, new ResourceLocation(Main.MODID, key));
+		return this.add(index, ResourceLocation.fromNamespaceAndPath(Main.MODID, key));
 	}
 	
 	public List<ResourceLocation> getContents()
@@ -81,16 +80,13 @@ public class Category
 	@Nullable
 	public Content getContent(int index)
 	{
-		return Content.REGISTRY.getValue(this.contents.get(index));
+		return Content.REGISTRY.get(this.contents.get(index));
 	}
 	
 	@SubscribeEvent
 	public static void createRegistry(NewRegistryEvent event)
 	{
-		event.create(new RegistryBuilder<Category>()
-			.setName(REGISTRY_KEY.location())
-			.disableSaving()
-			.disableSync(), registry -> REGISTRY = registry);
+		REGISTRY = event.create(new RegistryBuilder<Category>(REGISTRY_KEY).sync(false));
 	}
 	
 	@SubscribeEvent
@@ -103,7 +99,7 @@ public class Category
 				RegistryHelper.register(event, REGISTRY_KEY, entry.getKey(), () ->
 				{
 					var keys = entry.getValue().stream()
-						.map(key -> new ResourceLocation(Main.MODID, key))
+						.map(key -> ResourceLocation.fromNamespaceAndPath(Main.MODID, key))
 						.collect(Collectors.toList());
 					return new Category(keys);
 				});
@@ -125,7 +121,7 @@ public class Category
 		{
 			if(!Categories.isRegistered(tab.getCategory()))
 			{
-				RegistryHelper.register(event, REGISTRY_KEY, tab.getCategory(), () -> new Category(new ResourceLocation(Main.MODID, id)));
+				RegistryHelper.register(event, REGISTRY_KEY, tab.getCategory(), () -> new Category(ResourceLocation.fromNamespaceAndPath(Main.MODID, id)));
 			}
 			else
 			{

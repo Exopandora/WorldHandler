@@ -22,7 +22,7 @@ import net.minecraft.commands.arguments.blocks.BlockPredicateArgument;
 import net.minecraft.commands.arguments.blocks.BlockStateArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class CommandWH
 {
@@ -58,7 +58,7 @@ public class CommandWH
 	{
 		BlockHelper.pos1().set(BlockHelper.getFocusedBlockPos());
 		BlockPos pos = BlockHelper.pos1();
-		ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+		ResourceLocation block = BuiltInRegistries.BLOCK.getKey(BlockHelper.getBlock(pos));
 		CommandHelper.sendFeedback(source, "Set first position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
 		return 1;
 	}
@@ -67,7 +67,7 @@ public class CommandWH
 	{
 		BlockHelper.pos2().set(BlockHelper.getFocusedBlockPos());
 		BlockPos pos = BlockHelper.pos2();
-		ResourceLocation block = ForgeRegistries.BLOCKS.getKey(BlockHelper.getBlock(pos));
+		ResourceLocation block = BuiltInRegistries.BLOCK.getKey(BlockHelper.getBlock(pos));
 		CommandHelper.sendFeedback(source, "Set second position to " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + " (" + block + ")");
 		return 1;
 	}

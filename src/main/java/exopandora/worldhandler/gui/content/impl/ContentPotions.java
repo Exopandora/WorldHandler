@@ -24,7 +24,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ContentPotions extends ContentChild
 {
@@ -72,7 +72,7 @@ public class ContentPotions extends ContentChild
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		MenuPageList<MobEffect> potions = new MenuPageList<MobEffect>(x, y, new ArrayList<MobEffect>(ForgeRegistries.MOB_EFFECTS.getValues()), 114, 20, 3, container, new ILogicPageList<MobEffect>()
+		MenuPageList<MobEffect> potions = new MenuPageList<MobEffect>(x, y, new ArrayList<MobEffect>(BuiltInRegistries.MOB_EFFECT.stream().toList()), 114, 20, 3, container, new ILogicPageList<MobEffect>()
 		{
 			@Override
 			public MutableComponent translate(MobEffect effect)
@@ -83,7 +83,7 @@ public class ContentPotions extends ContentChild
 			@Override
 			public MutableComponent toTooltip(MobEffect effect)
 			{
-				return Component.literal(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString());
+				return Component.literal(BuiltInRegistries.MOB_EFFECT.getKey(effect).toString());
 			}
 			
 			@Override
@@ -163,7 +163,7 @@ public class ContentPotions extends ContentChild
 				tag.setShowParticles(!tag.doShowParticles());
 				container.init();
 			}));
-			container.addRenderableWidget(new GuiSlider(x + 118, y, 114, 20, 1, Config.getSliders().getMaxPotionAmplifier(), 1, container, new LogicSliderSimple("amplifier" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potions.effect.amplifier"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y, 114, 20, 1, Config.getSliders().getMaxPotionAmplifier(), 1, container, new LogicSliderSimple("amplifier" + BuiltInRegistries.MOB_EFFECT.getKey(effect), Component.translatable("gui.worldhandler.potions.effect.amplifier"), value ->
 			{
 				this.builderPotion.amplifier().set((byte) (value.byteValue() - 1));
 				tag.setAmplifier(value.byteValue());
@@ -174,17 +174,17 @@ public class ContentPotions extends ContentChild
 			MobEffect effect = this.builderPotion.effect().getEffect();
 			EffectInstance tag = this.effects.getOrCreate(effect);
 			
-			container.addRenderableWidget(new GuiSlider(x + 118, y, 114, 20, 0, 59, 0, container, new LogicSliderSimple("s" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.seconds"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y, 114, 20, 0, 59, 0, container, new LogicSliderSimple("s" + BuiltInRegistries.MOB_EFFECT.getKey(effect), Component.translatable("gui.worldhandler.potion.time.seconds"), value ->
 			{
 				tag.setSeconds(value.intValue());
 				this.builderPotion.seconds().set(tag.toSeconds());
 			})));
-			container.addRenderableWidget(new GuiSlider(x + 118, y + 24, 114, 20, 0, 59, 0, container, new LogicSliderSimple("m" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.minutes"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y + 24, 114, 20, 0, 59, 0, container, new LogicSliderSimple("m" + BuiltInRegistries.MOB_EFFECT.getKey(effect), Component.translatable("gui.worldhandler.potion.time.minutes"), value ->
 			{
 				tag.setMinutes(value.intValue());
 				this.builderPotion.seconds().set(tag.toSeconds());
 			})));
-			container.addRenderableWidget(new GuiSlider(x + 118, y + 48, 114, 20, 0, 99, 0, container, new LogicSliderSimple("h" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.hours"), value ->
+			container.addRenderableWidget(new GuiSlider(x + 118, y + 48, 114, 20, 0, 99, 0, container, new LogicSliderSimple("h" + BuiltInRegistries.MOB_EFFECT.getKey(effect), Component.translatable("gui.worldhandler.potion.time.hours"), value ->
 			{
 				tag.setHours(value.intValue());
 				this.builderPotion.seconds().set(tag.toSeconds());

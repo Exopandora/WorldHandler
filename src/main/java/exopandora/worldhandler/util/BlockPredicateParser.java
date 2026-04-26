@@ -15,14 +15,14 @@ import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class BlockPredicateParser
 {
-	private static final ResourceLocation AIR_RESOURCE_LOCATION = ForgeRegistries.BLOCKS.getKey(Blocks.AIR);
+	private static final ResourceLocation AIR_RESOURCE_LOCATION = BuiltInRegistries.BLOCK.getKey(Blocks.AIR);
 	private final StringReader reader;
 	private final Map<String, String> vagueProperties = Maps.newHashMap();
-	private ResourceLocation block = new ResourceLocation("");
+	private ResourceLocation block = null;
 	@Nullable
 	private CompoundTag nbt;
 	private boolean isTag;
@@ -157,7 +157,7 @@ public class BlockPredicateParser
 	
 	public Optional<Block> getBlock()
 	{
-		Block block = ForgeRegistries.BLOCKS.getValue(this.block);
+		Block block = BuiltInRegistries.BLOCK.get(this.block);
 		
 		if(Blocks.AIR.equals(block) && !AIR_RESOURCE_LOCATION.equals(this.block))
 		{

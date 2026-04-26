@@ -1,52 +1,56 @@
 plugins {
 	id 'java'
 	id 'eclipse'
-	id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+	id 'net.neoforged.moddev' version '2.0.141'
 	id 'me.hypherionmc.cursegradle' version '2.+'
 }
 
-archivesBaseName = "${mod_name}-${minecraft_version}"
+archivesBaseName = "${mod_name}-${minecraft_version}-neoforge"
 version = mod_version
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + ' (' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
-minecraft {
-	mappings channel: 'official', version: minecraft_version
-	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+neoForge {
+	version = neo_version
+	accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
 	
 	runs {
-		configureEach {
-			workingDirectory project.file('run')
-		}
-		
 		client {
-			taskName "${project.name}Client"
+			client()
+			gameDirectory = project.file('run')
+			systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
 		}
 		
 		server {
-			taskName "${project.name}Server"
+			server()
+			gameDirectory = project.file('run')
+			programArgument '--nogui'
+			systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
 		}
 		
 		gameTestServer {
-			taskName "${project.name}GameTest"
-			property 'forge.enabledGameTestNamespaces', mod_id
+			type = "gameTestServer"
+			gameDirectory = project.file('run')
+			systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
 		}
 		
 		data {
-			workingDirectory project.file('run-data')
-			taskName "${project.name}Data"
-			args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+			data()
+			gameDirectory = project.file('run-data')
+			programArguments.addAll '--mod', mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+		}
+	}
+	
+	mods {
+		"${mod_id}" {
+			sourceSet(sourceSets.main)
 		}
 	}
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
-
-dependencies {
-	minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-}
 
 tasks.named('jar', Jar).configure {
 	manifest {
@@ -70,9 +74,9 @@ tasks.named('processResources', ProcessResources).configure {
 	
 	from sourceSets.main.resources
 	
-    filesMatching(['META-INF/mods.toml']) {
-        expand project.properties
-    }
+	filesMatching(['META-INF/neoforge.mods.toml']) {
+		expand project.properties
+	}
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -86,16 +90,15 @@ curseforge {
 		changelog = file('changelog.txt').canRead() ? file('changelog.txt').text : ''
 		changelogType = 'text'
 		releaseType = 'release'
-		addGameVersion 'Forge'
-		forge_compatible_minecraft_versions.split(",").each {
+		addGameVersion 'NeoForge'
+		neoforge_compatible_minecraft_versions.split(",").each {
 			addGameVersion(it)
 		}
 		mainArtifact(jar) {
-			displayName = "${minecraft_version}-${mod_version} Universal"
+			displayName = "${minecraft_version}-${mod_version} NeoForge"
 		}
 	}
 	options {
 		javaVersionAutoDetect = false
-		forgeGradleIntegration = false
 	}
 }

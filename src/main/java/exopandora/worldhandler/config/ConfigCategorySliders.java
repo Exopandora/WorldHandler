@@ -1,7 +1,7 @@
 package exopandora.worldhandler.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.DoubleValue;
 
 public class ConfigCategorySliders
 {
@@ -15,7 +15,7 @@ public class ConfigCategorySliders
 	private final DoubleValue maxPlayerPoints;
 	private final DoubleValue maxTriggerValue;
 	
-	public ConfigCategorySliders(ForgeConfigSpec.Builder builder)
+	public ConfigCategorySliders(ModConfigSpec.Builder builder)
 	{
 		builder.push("sliders");
 		

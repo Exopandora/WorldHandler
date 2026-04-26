@@ -2,10 +2,10 @@ package exopandora.worldhandler.builder.argument;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.util.RegistryHelper;
 import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class EnchantmentArgument implements IDeserializableArgument
 {
@@ -25,7 +25,7 @@ public class EnchantmentArgument implements IDeserializableArgument
 	{
 		if(enchantment != null)
 		{
-			this.set(ForgeRegistries.ENCHANTMENTS.getValue(enchantment));
+			this.set(RegistryHelper.getEnchantment(enchantment));
 		}
 		else
 		{
@@ -54,7 +54,7 @@ public class EnchantmentArgument implements IDeserializableArgument
 			return null;
 		}
 		
-		return ForgeRegistries.ENCHANTMENTS.getKey(this.enchantment).toString();
+		return RegistryHelper.getEnchantmentKey(this.enchantment).toString();
 	}
 	
 	@Override

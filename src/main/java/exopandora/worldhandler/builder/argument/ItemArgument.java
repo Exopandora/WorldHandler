@@ -7,7 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import exopandora.worldhandler.util.ItemPredicateParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ItemArgument extends TagArgument
 {
@@ -27,7 +27,7 @@ public class ItemArgument extends TagArgument
 	{
 		if(item != null)
 		{
-			this.set(ForgeRegistries.ITEMS.getValue(item));
+			this.set(BuiltInRegistries.ITEM.get(item));
 		}
 		else
 		{
@@ -85,10 +85,10 @@ public class ItemArgument extends TagArgument
 		
 		if(tag != null)
 		{
-			return ForgeRegistries.ITEMS.getKey(this.item).toString() + tag;
+			return BuiltInRegistries.ITEM.getKey(this.item).toString() + tag;
 		}
 		
-		return ForgeRegistries.ITEMS.getKey(this.item).toString();
+		return BuiltInRegistries.ITEM.getKey(this.item).toString();
 	}
 	
 	@Override

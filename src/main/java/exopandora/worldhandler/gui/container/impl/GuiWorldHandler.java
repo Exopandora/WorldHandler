@@ -42,7 +42,7 @@ public class GuiWorldHandler extends Container
 		widgets.add(new WidgetCommandSyntax());
 		widgets.add(new WidgetShortcuts());
 	});
-	private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation("textures/gui/demo_background.png");
+	private static final ResourceLocation BACKGROUND_TEXTURE = ResourceLocation.parse("textures/gui/demo_background.png");
 	
 	private final Content content;
 	

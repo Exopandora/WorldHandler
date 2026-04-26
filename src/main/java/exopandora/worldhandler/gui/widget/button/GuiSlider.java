@@ -17,9 +17,9 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GuiSlider extends GuiButtonBase
 {
-	private static final ResourceLocation SLIDER_SPRITE = new ResourceLocation("widget/slider");
-	private static final ResourceLocation SLIDER_HANDLE_SPRITE = new ResourceLocation("widget/slider_handle");
-	private static final ResourceLocation SLIDER_HANDLE_HIGHLIGHTED_SPRITE = new ResourceLocation("widget/slider_handle_highlighted");
+	private static final ResourceLocation SLIDER_SPRITE = ResourceLocation.parse("widget/slider");
+	private static final ResourceLocation SLIDER_HANDLE_SPRITE = ResourceLocation.parse("widget/slider_handle");
+	private static final ResourceLocation SLIDER_HANDLE_HIGHLIGHTED_SPRITE = ResourceLocation.parse("widget/slider_handle_highlighted");
 	private final Persistence persistence;
 	private final ILogicSlider logic;
 	private final Container container;

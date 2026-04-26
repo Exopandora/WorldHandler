@@ -20,7 +20,7 @@ import net.minecraft.util.Mth;
 
 public class WidgetTabRenderer implements IContainerWidget
 {
-	private static final ResourceLocation TAB_TEXTURE = new ResourceLocation("textures/gui/demo_background.png");
+	private static final ResourceLocation TAB_TEXTURE = ResourceLocation.parse("textures/gui/demo_background.png");
 	private static final int SPACING = 2;
 	private static final int WEDGE_HEIGHT = 10;
 	

@@ -5,20 +5,23 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.arguments.item.ItemParser;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ItemPredicateParser
 {
+	private static final SimpleCommandExceptionType ERROR_NO_TAGS_ALLOWED = new SimpleCommandExceptionType(Component.translatable("argument.item.tag.disallowed"));
 	private final StringReader reader;
-	private ResourceLocation item = new ResourceLocation("");
+	private ResourceLocation item = null;
 	@Nullable
 	private CompoundTag nbt;
 	private boolean isTag;
@@ -39,7 +42,7 @@ public class ItemPredicateParser
 		{
 			if(!allowTags)
 			{
-				throw ItemParser.ERROR_NO_TAGS_ALLOWED.createWithContext(this.reader);
+				throw ERROR_NO_TAGS_ALLOWED.createWithContext(this.reader);
 			}
 			
 			this.readTag();
@@ -74,7 +77,7 @@ public class ItemPredicateParser
 	
 	public Optional<Item> getItem()
 	{
-		Item item = ForgeRegistries.ITEMS.getValue(this.item);
+		Item item = BuiltInRegistries.ITEM.get(this.item);
 		
 		if(Items.AIR.equals(item))
 		{

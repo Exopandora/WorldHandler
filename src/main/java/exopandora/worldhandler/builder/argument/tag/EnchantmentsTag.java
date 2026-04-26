@@ -7,11 +7,11 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class EnchantmentsTag implements ITagProvider
 {
@@ -29,7 +29,7 @@ public class EnchantmentsTag implements ITagProvider
 			{
 				CompoundTag enchantment = new CompoundTag();
 				
-				enchantment.putString("id", ForgeRegistries.ENCHANTMENTS.getKey(entry.getKey()).toString());
+				enchantment.putString("id", RegistryHelper.getEnchantmentKey(entry.getKey()).toString());
 				enchantment.putShort("lvl", entry.getValue());
 				
 				enchantments.add(enchantment);
