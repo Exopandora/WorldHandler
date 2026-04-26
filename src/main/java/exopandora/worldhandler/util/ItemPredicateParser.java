@@ -19,9 +19,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ItemPredicateParser
 {
+	private static final ResourceLocation AIR_RESOURCE_LOCATION = BuiltInRegistries.ITEM.getKey(Items.AIR);
 	private static final SimpleCommandExceptionType ERROR_NO_TAGS_ALLOWED = new SimpleCommandExceptionType(Component.translatable("argument.item.tag.disallowed"));
 	private final StringReader reader;
-	private ResourceLocation item = null;
+	private ResourceLocation item = AIR_RESOURCE_LOCATION;
 	@Nullable
 	private CompoundTag nbt;
 	private boolean isTag;

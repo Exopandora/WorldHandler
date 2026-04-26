@@ -12,7 +12,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 
 public abstract class AbstractAttributeTag implements ITagProvider
 {	
-	public static final List<Attribute> ATTRIBUTES = BuiltInRegistries.ATTRIBUTE.stream().toList().stream()
+	public static final List<Attribute> ATTRIBUTES = BuiltInRegistries.ATTRIBUTE.stream()
 			.filter(attribute -> !attribute.getDescriptionId().equals(I18n.get(attribute.getDescriptionId())))
 			.collect(Collectors.toList());
 	

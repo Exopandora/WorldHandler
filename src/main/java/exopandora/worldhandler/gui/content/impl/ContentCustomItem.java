@@ -52,9 +52,9 @@ public class ContentCustomItem extends Content
 	
 	public ContentCustomItem()
 	{
-		this.builderCutomItem.item().addTagProvider(this.attributes);
-		this.builderCutomItem.item().addTagProvider(this.display);
-		this.builderCutomItem.item().addTagProvider(this.enchantments);
+		this.builderCutomItem.item().addComponentProvider(this.attributes);
+		this.builderCutomItem.item().addComponentProvider(this.display);
+		this.builderCutomItem.item().addComponentProvider(this.enchantments);
 	}
 	
 	@Override

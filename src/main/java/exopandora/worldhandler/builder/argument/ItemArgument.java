@@ -4,7 +4,14 @@ import javax.annotation.Nullable;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import exopandora.worldhandler.builder.argument.tag.IItemComponentProvider;
 import exopandora.worldhandler.util.ItemPredicateParser;
+import exopandora.worldhandler.util.RegistryHelper;
+import net.minecraft.commands.arguments.item.ItemInput;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,6 +19,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 public class ItemArgument extends TagArgument
 {
 	private Item item;
+	private List<IItemComponentProvider> componentProviders;
 	
 	protected ItemArgument()
 	{
@@ -38,6 +46,16 @@ public class ItemArgument extends TagArgument
 	public Item getItem()
 	{
 		return this.item;
+	}
+
+	public void addComponentProvider(IItemComponentProvider provider)
+	{
+		if(this.componentProviders == null)
+		{
+			this.componentProviders = new ArrayList<IItemComponentProvider>();
+		}
+
+		this.componentProviders.add(provider);
 	}
 	
 	@Override
@@ -79,6 +97,23 @@ public class ItemArgument extends TagArgument
 		if(this.item == null)
 		{
 			return null;
+		}
+
+		DataComponentPatch.Builder components = DataComponentPatch.builder();
+
+		if(this.componentProviders != null)
+		{
+			for(IItemComponentProvider provider : this.componentProviders)
+			{
+				provider.addItemComponents(components);
+			}
+		}
+
+		DataComponentPatch componentPatch = components.build();
+
+		if(!componentPatch.isEmpty())
+		{
+			return new ItemInput(BuiltInRegistries.ITEM.wrapAsHolder(this.item), componentPatch).serialize(RegistryHelper.registryAccess());
 		}
 		
 		String tag = super.serialize();

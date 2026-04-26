@@ -24,7 +24,7 @@ public class ContentButcherSettings extends ContentChild
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<EntityType<?>> list = BuiltInRegistries.ENTITY_TYPE.stream().toList().stream().filter(EntityType::canSummon).collect(Collectors.toList());
+		List<EntityType<?>> list = BuiltInRegistries.ENTITY_TYPE.stream().filter(EntityType::canSummon).collect(Collectors.toList());
 		
 		MenuPageList<EntityType<?>> entities = new MenuPageList<EntityType<?>>(x, y, list, 114, 20, 3, container, new ILogicPageList<EntityType<?>>()
 		{

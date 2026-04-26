@@ -18,13 +18,13 @@ license="GPL v3.0"
 [[dependencies.worldhandler]]
     modId="minecraft"
     type="required"
-    versionRange="[1.21.1,1.21.2)"
+    versionRange="[1.21,1.21.2)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.worldhandler]]
     modId="neoforge"
     type="required"
-    versionRange="[21.1.225,)"
+    versionRange="[21.0.167,)"
     ordering="NONE"
     side="BOTH"

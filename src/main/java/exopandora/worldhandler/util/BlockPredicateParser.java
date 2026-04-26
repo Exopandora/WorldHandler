@@ -22,7 +22,7 @@ public class BlockPredicateParser
 	private static final ResourceLocation AIR_RESOURCE_LOCATION = BuiltInRegistries.BLOCK.getKey(Blocks.AIR);
 	private final StringReader reader;
 	private final Map<String, String> vagueProperties = Maps.newHashMap();
-	private ResourceLocation block = null;
+	private ResourceLocation block = AIR_RESOURCE_LOCATION;
 	@Nullable
 	private CompoundTag nbt;
 	private boolean isTag;
