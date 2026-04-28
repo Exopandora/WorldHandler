@@ -26,7 +26,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ContentButcher extends Content
 {
@@ -102,7 +102,7 @@ public class ContentButcher extends Content
 		
 		container.addRenderableWidget(slaughter = new GuiButtonBase(x + 58, y + 48, 114, 20, Component.translatable("gui.worldhandler.butcher.slaughter"), () ->
 		{
-			Collection<EntityType<?>> entities = Config.getButcher().getEntities().stream().map(ForgeRegistries.ENTITY_TYPES::getValue).filter(Predicates.notNull()).collect(Collectors.toList());
+			Collection<EntityType<?>> entities = Config.getButcher().getEntities().stream().map(BuiltInRegistries.ENTITY_TYPE::get).filter(Predicates.notNull()).collect(Collectors.toList());
 			ContentButcher.slaughter(container.getPlayer(), entities, Integer.parseInt(this.radius));
 		}));
 		slaughter.active = enabled && !Config.getButcher().getEntities().isEmpty();
@@ -132,7 +132,7 @@ public class ContentButcher extends Content
 				{
 					KillCommandBuilder kill = new KillCommandBuilder();
 					kill.targets().setSelectorType(SelectorTypes.ALL_ENTITIES);
-					kill.targets().setType(ForgeRegistries.ENTITY_TYPES.getKey(entity));
+					kill.targets().setType(BuiltInRegistries.ENTITY_TYPE.getKey(entity));
 					kill.targets().setDistanceMax(radius);
 					CommandHelper.sendCommand(username, kill, KillCommandBuilder.Label.KILL_TARGETS);
 				}

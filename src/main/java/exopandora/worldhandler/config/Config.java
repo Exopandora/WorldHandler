@@ -7,16 +7,16 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class Config
 {
-	public static final ForgeConfigSpec CLIENT_SPEC;
+	public static final ModConfigSpec CLIENT_SPEC;
 	public static final ClientConfig CLIENT;
 	
 	static
 	{
-		Pair<ClientConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
+		Pair<ClientConfig, ModConfigSpec> pair = new ModConfigSpec.Builder().configure(ClientConfig::new);
 		CLIENT_SPEC = pair.getRight();
 		CLIENT = pair.getLeft();
 	}
@@ -28,7 +28,7 @@ public class Config
 		private final ConfigCategorySkin skin;
 		private final ConfigCategorySliders sliders;
 		
-		public ClientConfig(ForgeConfigSpec.Builder builder)
+		public ClientConfig(ModConfigSpec.Builder builder)
 		{
 			this.settings = new ConfigCategorySettings(builder);
 			this.butcher = new ConfigCategoryButcher(builder);
@@ -77,7 +77,7 @@ public class Config
 		return Config.CLIENT.getSliders();
 	}
 	
-	protected static <T> void set(ForgeConfigSpec.ConfigValue<T> configValue, T value)
+	protected static <T> void set(ModConfigSpec.ConfigValue<T> configValue, T value)
 	{
 		if(configValue != null && value != null && (!value.equals(configValue.get()) || configValue.get() instanceof List<?>))
 		{

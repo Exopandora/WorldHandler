@@ -1,9 +1,9 @@
 package exopandora.worldhandler.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
+import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 
 public class ConfigCategorySkin
 {
@@ -21,7 +21,7 @@ public class ConfigCategorySkin
 	private final BooleanValue sharpEdges;
 	private final BooleanValue drawBackground;
 	
-	public ConfigCategorySkin(ForgeConfigSpec.Builder builder)
+	public ConfigCategorySkin(ModConfigSpec.Builder builder)
 	{
 		builder.push("skin");
 		

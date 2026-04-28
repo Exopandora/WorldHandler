@@ -17,10 +17,10 @@ import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
+import exopandora.worldhandler.util.RegistryHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContentEnchantment extends Content
 {
@@ -36,18 +36,18 @@ public class ContentEnchantment extends Content
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		MenuPageList<Enchantment> enchantments = new MenuPageList<Enchantment>(x, y, new ArrayList<Enchantment>(ForgeRegistries.ENCHANTMENTS.getValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
+		MenuPageList<Enchantment> enchantments = new MenuPageList<Enchantment>(x, y, new ArrayList<Enchantment>(RegistryHelper.enchantmentValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
 		{
 			@Override
 			public MutableComponent translate(Enchantment enchantment)
 			{
-				return Component.translatable(enchantment.getDescriptionId());
+				return RegistryHelper.getEnchantmentDescription(enchantment).copy();
 			}
 			
 			@Override
 			public MutableComponent toTooltip(Enchantment enchantment)
 			{
-				return Component.literal(ForgeRegistries.ENCHANTMENTS.getKey(enchantment).toString());
+				return Component.literal(RegistryHelper.getEnchantmentKey(enchantment).toString());
 			}
 			
 			@Override

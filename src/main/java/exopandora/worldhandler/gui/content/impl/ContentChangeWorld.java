@@ -11,12 +11,13 @@ import exopandora.worldhandler.util.IConnection.DedicatedConnection;
 import exopandora.worldhandler.util.IConnection.IntegratedConnection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ConnectScreen;
-import net.minecraft.client.gui.screens.GenericDirtMessageScreen;
+import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.multiplayer.SafetyScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.TransferState;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -62,7 +63,7 @@ public class ContentChangeWorld extends ContentChild
 		if(isIntegrated)
 		{
 			String folder = minecraft.getSingleplayerServer().storageSource.getLevelId();
-			minecraft.disconnect(new GenericDirtMessageScreen(Component.translatable("menu.savingLevel")));
+			minecraft.disconnect(new GenericMessageScreen(Component.translatable("menu.savingLevel")));
 			return new IntegratedConnection(folder);
 		}
 		else
@@ -86,7 +87,7 @@ public class ContentChangeWorld extends ContentChild
 		}
 		else if(connection instanceof IntegratedConnection integrated)
 		{
-			Minecraft.getInstance().createWorldOpenFlows().checkForBackupAndLoad(integrated.getFolder(), () ->
+			Minecraft.getInstance().createWorldOpenFlows().openWorld(integrated.getFolder(), () ->
 			{
 				Minecraft.getInstance().setScreen(new TitleScreen());
 			});
@@ -95,7 +96,7 @@ public class ContentChangeWorld extends ContentChild
 		else if(connection instanceof DedicatedConnection dedicated)
 		{
 			ServerData data = dedicated.getData();
-			ConnectScreen.startConnecting(new TitleScreen(), Minecraft.getInstance(), ServerAddress.parseString(data.ip), data, false);
+			ConnectScreen.startConnecting(new TitleScreen(), Minecraft.getInstance(), ServerAddress.parseString(data.ip), data, false, (TransferState) null);
 		}
 	}
 	

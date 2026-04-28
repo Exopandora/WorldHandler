@@ -28,7 +28,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ContentLocate extends Content
 {
@@ -114,7 +114,7 @@ public class ContentLocate extends Content
 					.thenAccept(structures -> this.structures.set(structures.getList().stream()
 						.map(Suggestion::getText)
 						.filter(suggestion -> !suggestion.startsWith("#"))
-						.map(ResourceLocation::new)
+						.map(ResourceLocation::parse)
 						.collect(Collectors.toList())))
 					.thenRun(container::init);
 			}
@@ -158,7 +158,7 @@ public class ContentLocate extends Content
 		}
 		else if(Page.POI.equals(this.page))
 		{
-			List<ResourceLocation> pois = new ArrayList<ResourceLocation>(ForgeRegistries.POI_TYPES.getKeys());
+			List<ResourceLocation> pois = new ArrayList<ResourceLocation>(BuiltInRegistries.POINT_OF_INTEREST_TYPE.keySet());
 			MenuPageList<ResourceLocation> list = new MenuPageList<ResourceLocation>(x + 118, y, pois, 114, 20, 3, container, new ILogicPageList<ResourceLocation>()
 			{
 				@Override

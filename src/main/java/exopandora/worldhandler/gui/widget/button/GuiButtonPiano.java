@@ -16,7 +16,7 @@ import net.minecraft.sounds.SoundEvent;
 
 public class GuiButtonPiano extends GuiButtonBase
 {
-	private static final ResourceLocation NOTE = new ResourceLocation(Main.MODID, "textures/misc/note.png");
+	private static final ResourceLocation NOTE = ResourceLocation.fromNamespaceAndPath(Main.MODID, "textures/misc/note.png");
 	private final Type type;
 	private final SoundEvent sound;
 	private final float pitch;

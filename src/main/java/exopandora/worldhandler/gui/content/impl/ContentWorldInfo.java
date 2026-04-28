@@ -39,13 +39,13 @@ public class ContentWorldInfo extends Content
 		IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
 		
 		this.posXField = new GuiHintTextField(x + 118, y + 12, 114, 20);
-		this.posXField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " X: " + ContentWorldInfo.format(level, object -> object.getLevelData().getXSpawn()));
+		this.posXField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " X: " + ContentWorldInfo.format(level, object -> object.getLevelData().getSpawnPos().getX()));
 		
 		this.posYField = new GuiHintTextField(x + 118, y + 36, 114, 20);
-		this.posYField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " Y: " + ContentWorldInfo.format(level, object -> object.getLevelData().getYSpawn()));
+		this.posYField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " Y: " + ContentWorldInfo.format(level, object -> object.getLevelData().getSpawnPos().getY()));
 		
 		this.posZField = new GuiHintTextField(x + 118, y + 60, 114, 20);
-		this.posZField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " Z: " + ContentWorldInfo.format(level, object -> object.getLevelData().getZSpawn()));
+		this.posZField.setValue(I18n.get("gui.worldhandler.world_info.start.spawn") + " Z: " + ContentWorldInfo.format(level, object -> object.getLevelData().getSpawnPos().getZ()));
 		
 		this.worldField = new GuiHintTextField(x + 118, y + 12, 114, 20);
 		this.worldField.setValue(I18n.get("gui.worldhandler.world_info.world.name") + ": " + ContentWorldInfo.format(server, object -> object.getWorldData().getLevelName()));

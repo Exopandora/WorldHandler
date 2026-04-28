@@ -21,7 +21,7 @@ import exopandora.worldhandler.usercontent.model.JsonWidget;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class WidgetFactory extends AbstractWidgetFactory
 {
@@ -54,7 +54,7 @@ public class WidgetFactory extends AbstractWidgetFactory
 				widget.getLayout().getY() + y,
 				widget.getLayout().getWidth(),
 				widget.getLayout().getHeight(),
-				ForgeRegistries.ITEMS.getValue(new ResourceLocation(widget.getAttributes().getItem())),
+				BuiltInRegistries.ITEM.get(ResourceLocation.parse(widget.getAttributes().getItem())),
 				this.getActionHandlerFactory().createActionHandler(content, widget.getAction(), container::getPlayer)
 			);
 		}

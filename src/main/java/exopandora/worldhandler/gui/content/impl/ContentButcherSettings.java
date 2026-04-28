@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ContentButcherSettings extends ContentChild
 {
@@ -24,7 +24,7 @@ public class ContentButcherSettings extends ContentChild
 	@Override
 	public void initGui(Container container, int x, int y)
 	{
-		List<EntityType<?>> list = ForgeRegistries.ENTITY_TYPES.getValues().stream().filter(EntityType::canSummon).collect(Collectors.toList());
+		List<EntityType<?>> list = BuiltInRegistries.ENTITY_TYPE.stream().filter(EntityType::canSummon).collect(Collectors.toList());
 		
 		MenuPageList<EntityType<?>> entities = new MenuPageList<EntityType<?>>(x, y, list, 114, 20, 3, container, new ILogicPageList<EntityType<?>>()
 		{
@@ -37,13 +37,13 @@ public class ContentButcherSettings extends ContentChild
 			@Override
 			public MutableComponent toTooltip(EntityType<?> item)
 			{
-				return Component.literal(ForgeRegistries.ENTITY_TYPES.getKey(item).toString());
+				return Component.literal(BuiltInRegistries.ENTITY_TYPE.getKey(item).toString());
 			}
 			
 			@Override
 			public void onClick(EntityType<?> item)
 			{
-				ContentButcherSettings.this.entity = ForgeRegistries.ENTITY_TYPES.getKey(item);
+				ContentButcherSettings.this.entity = BuiltInRegistries.ENTITY_TYPE.getKey(item);
 				container.initButtons();
 			}
 			

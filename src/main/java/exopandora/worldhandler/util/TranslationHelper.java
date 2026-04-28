@@ -10,32 +10,29 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 
 public class TranslationHelper
 {
-	private static final Map<IForgeRegistry<?>, Function<?, String>> FORGE = new HashMap<IForgeRegistry<?>, Function<?, String>>();
+	private static final Map<Registry<?>, Function<?, String>> FORGE = new HashMap<Registry<?>, Function<?, String>>();
 	
 	static
 	{
-		registerRegistry(ForgeRegistries.BLOCKS, Block::getDescriptionId);
-		registerRegistry(ForgeRegistries.ITEMS, Item::getDescriptionId);
-		registerRegistry(ForgeRegistries.MOB_EFFECTS, MobEffect::getDescriptionId);
-		registerRegistry(ForgeRegistries.BIOMES, biome -> ForgeRegistries.BIOMES.getKey(biome).toLanguageKey("biome"));
-		registerRegistry(ForgeRegistries.ENCHANTMENTS, Enchantment::getDescriptionId);
-		registerRegistry(ForgeRegistries.ENTITY_TYPES, EntityType::getDescriptionId);
-		registerRegistry(ForgeRegistries.STAT_TYPES, stat -> "stat." + stat.toString().replace(':', '.'));
-		registerRegistry(ForgeRegistries.VILLAGER_PROFESSIONS, profession ->
+		registerRegistry(BuiltInRegistries.BLOCK, Block::getDescriptionId);
+		registerRegistry(BuiltInRegistries.ITEM, Item::getDescriptionId);
+		registerRegistry(BuiltInRegistries.MOB_EFFECT, MobEffect::getDescriptionId);
+		registerRegistry(BuiltInRegistries.ENTITY_TYPE, EntityType::getDescriptionId);
+		registerRegistry(BuiltInRegistries.STAT_TYPE, stat -> "stat." + stat.toString().replace(':', '.'));
+		registerRegistry(BuiltInRegistries.VILLAGER_PROFESSION, profession ->
 		{
-			ResourceLocation profName = ForgeRegistries.VILLAGER_PROFESSIONS.getKey(profession);
+			ResourceLocation profName = BuiltInRegistries.VILLAGER_PROFESSION.getKey(profession);
 			return EntityType.VILLAGER.getDescriptionId() + '.' + (!"minecraft".equals(profName.getNamespace()) ? profName.getNamespace() + '.' : "") + profName.getPath();
 		});
 	}
 	
-	private static <T> void registerRegistry(IForgeRegistry<T> registry, Function<T, String> mapper)
+	private static <T> void registerRegistry(Registry<T> registry, Function<T, String> mapper)
 	{
 		FORGE.put(registry, mapper);
 	}
@@ -44,11 +41,16 @@ public class TranslationHelper
 	@SuppressWarnings("unchecked")
 	public static <T> String translate(ResourceLocation resource)
 	{
-		for(IForgeRegistry<?> registry : FORGE.keySet())
+		if(RegistryHelper.getEnchantment(resource) != null)
+		{
+			return RegistryHelper.getEnchantmentDescription(RegistryHelper.getEnchantment(resource)).getString();
+		}
+		
+		for(Registry<?> registry : FORGE.keySet())
 		{
 			if(registry.containsKey(resource))
 			{
-				return ((Function<T, String>) FORGE.get(registry)).apply((T) registry.getValue(resource));
+				return ((Function<T, String>) FORGE.get(registry)).apply((T) registry.get(resource));
 			}
 		}
 		

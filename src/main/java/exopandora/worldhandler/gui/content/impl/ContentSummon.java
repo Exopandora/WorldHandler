@@ -57,11 +57,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ContentSummon extends Content
 {
-	private static final ResourceLocation BEACON_LOCATION = new ResourceLocation("textures/gui/container/beacon.png");
+	private static final ResourceLocation BEACON_LOCATION = ResourceLocation.parse("textures/gui/container/beacon.png");
 	private static final Item[] HELMETS =
 	{
 		Items.AIR,
@@ -246,7 +246,7 @@ public class ContentSummon extends Content
 				@Override
 				public MutableComponent toTooltip(Attribute attribute)
 				{
-					return Component.literal(ForgeRegistries.ATTRIBUTES.getKey(attribute).toString());
+					return Component.literal(BuiltInRegistries.ATTRIBUTE.getKey(attribute).toString());
 				}
 				
 				@Override
@@ -345,7 +345,7 @@ public class ContentSummon extends Content
 			
 			for(ResourceLocation location : this.sortedEffects())
 			{
-				MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(location);
+				MobEffect effect = BuiltInRegistries.MOB_EFFECT.get(location);
 				
 				if(effect.equals(MobEffects.HARM) || effect.equals(MobEffects.HEAL))
 				{
@@ -357,7 +357,7 @@ public class ContentSummon extends Content
 					button1.active = false;
 				}
 				
-				if(this.potionPage == ForgeRegistries.MOB_EFFECTS.getKeys().size() - 3)
+				if(this.potionPage == BuiltInRegistries.MOB_EFFECT.keySet().size() - 3)
 				{
 					button2.active = false;
 				}
@@ -366,11 +366,11 @@ public class ContentSummon extends Content
 				{
 					EffectInstance tag = this.effects.getOrCreate(effect);
 					
-					container.addRenderableWidget(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable(effect.getDescriptionId()), value ->
+					container.addRenderableWidget(new GuiSlider(x + 118, y, 114, 20, 0, Config.getSliders().getMaxSummonPotionAmplifier(), 0, container, new LogicSliderSimple("amplifier" + BuiltInRegistries.MOB_EFFECT.getKey(effect), Component.translatable(effect.getDescriptionId()), value ->
 					{
 						tag.setAmplifier(value.byteValue());
 					})));
-					container.addRenderableWidget(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + ForgeRegistries.MOB_EFFECTS.getKey(effect), Component.translatable("gui.worldhandler.potion.time.minutes"), value ->
+					container.addRenderableWidget(new GuiSlider(x + 118, y + 24, 114, 20, 0, Config.getSliders().getMaxSummonPotionMinutes(), 0, container, new LogicSliderSimple("duration" + BuiltInRegistries.MOB_EFFECT.getKey(effect), Component.translatable("gui.worldhandler.potion.time.minutes"), value ->
 					{
 						tag.setMinutes(value.intValue());
 					})));
@@ -449,12 +449,12 @@ public class ContentSummon extends Content
 		}
 		else if(EntityType.VILLAGER.equals(entity))
 		{
-			for(VillagerProfession profession : ForgeRegistries.VILLAGER_PROFESSIONS)
+			for(VillagerProfession profession : BuiltInRegistries.VILLAGER_PROFESSION)
 			{
 				if(StringUtils.equalsIgnoreCase(this.mob, profession.toString()))
 				{
 					CompoundTag villagerData = new CompoundTag();
-					villagerData.putString("profession", ForgeRegistries.VILLAGER_PROFESSIONS.getKey(profession).toString());
+					villagerData.putString("profession", BuiltInRegistries.VILLAGER_PROFESSION.getKey(profession).toString());
 					
 					this.mutable.setKey("VillagerData");
 					this.mutable.setTag(villagerData);
@@ -473,7 +473,7 @@ public class ContentSummon extends Content
 		else if(EntityType.CHICKEN.equals(entity) && StringUtils.containsIgnoreCase(this.mob, "Jockey") && !this.entity.hasPassengers())
 		{
 			ListTag list = new ListTag();
-			EntityTag zombie = new EntityTag(ForgeRegistries.ENTITY_TYPES.getKey(EntityType.ZOMBIE));
+			EntityTag zombie = new EntityTag(BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.ZOMBIE));
 			
 			zombie.setIsBaby(true);
 			list.add(zombie.value());
@@ -484,7 +484,7 @@ public class ContentSummon extends Content
 		else if(EntityType.SPIDER.equals(entity) && StringUtils.containsIgnoreCase(this.mob, "Jockey") && !this.entity.hasPassengers())
 		{
 			ListTag list = new ListTag();
-			EntityTag skeleton = new EntityTag(ForgeRegistries.ENTITY_TYPES.getKey(EntityType.SKELETON));
+			EntityTag skeleton = new EntityTag(BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.SKELETON));
 			
 			skeleton.setHandItem(0, Items.BOW);
 			list.add(skeleton.value());
@@ -503,7 +503,7 @@ public class ContentSummon extends Content
 	{
 		if(Page.POTIONS.equals(this.page))
 		{
-			guiGraphics.drawString(Minecraft.getInstance().font, (this.potionPage + 1) + "/" + (ForgeRegistries.MOB_EFFECTS.getKeys().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor(), false);
+			guiGraphics.drawString(Minecraft.getInstance().font, (this.potionPage + 1) + "/" + (BuiltInRegistries.MOB_EFFECT.keySet().size() - 2), x + 118, y - 11, Config.getSkin().getHeadlineColor(), false);
 		}
 		else if(Page.EQUIPMENT.equals(this.page))
 		{
@@ -529,8 +529,8 @@ public class ContentSummon extends Content
 	
 	private List<ResourceLocation> sortedEffects()
 	{
-		return ForgeRegistries.MOB_EFFECTS.getKeys().stream()
-			.sorted((a, b) -> I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(a).getDescriptionId()).compareTo(I18n.get(ForgeRegistries.MOB_EFFECTS.getValue(b).getDescriptionId())))
+		return BuiltInRegistries.MOB_EFFECT.keySet().stream()
+			.sorted((a, b) -> I18n.get(BuiltInRegistries.MOB_EFFECT.get(a).getDescriptionId()).compareTo(I18n.get(BuiltInRegistries.MOB_EFFECT.get(b).getDescriptionId())))
 			.collect(Collectors.toList());
 	}
 	

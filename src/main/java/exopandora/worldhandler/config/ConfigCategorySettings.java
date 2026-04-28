@@ -1,10 +1,10 @@
 package exopandora.worldhandler.config;
 
 import exopandora.worldhandler.util.BlockPlacingMode;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
+import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 
 public class ConfigCategorySettings
 {
@@ -23,7 +23,7 @@ public class ConfigCategorySettings
 	private final IntValue midnight;
 	private final ConfigValue<BlockPlacingMode> blockPlacingMode;
 	
-	public ConfigCategorySettings(ForgeConfigSpec.Builder builder)
+	public ConfigCategorySettings(ModConfigSpec.Builder builder)
 	{
 		builder.push("settings");
 		

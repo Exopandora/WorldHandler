@@ -8,7 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class AttributesTag extends AbstractAttributeTag
 {
@@ -23,7 +23,7 @@ public class AttributesTag extends AbstractAttributeTag
 			if(entry.getValue() != 0)
 			{
 				CompoundTag attribute = new CompoundTag();
-				String id = ForgeRegistries.ATTRIBUTES.getKey(entry.getKey()).toString();
+				String id = BuiltInRegistries.ATTRIBUTE.getKey(entry.getKey()).toString();
 				
 				attribute.putString("Name", id);
 				attribute.putDouble("Base", entry.getValue() / 100);

@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class NBTHelper
 {
@@ -62,7 +62,7 @@ public class NBTHelper
 		for(Item item : itemArray)
 		{
 			CompoundTag compound = new CompoundTag();
-			compound.putString("id", ForgeRegistries.ITEMS.getKey(item).toString());
+			compound.putString("id", BuiltInRegistries.ITEM.getKey(item).toString());
 			compound.putInt("Count", 1);
 			list.add(compound);
 		}

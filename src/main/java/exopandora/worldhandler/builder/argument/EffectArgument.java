@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import exopandora.worldhandler.util.ResourceHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class EffectArgument implements IDeserializableArgument
 {
@@ -25,7 +25,7 @@ public class EffectArgument implements IDeserializableArgument
 	{
 		if(effect != null)
 		{
-			this.set(ForgeRegistries.MOB_EFFECTS.getValue(effect));
+			this.set(BuiltInRegistries.MOB_EFFECT.get(effect));
 		}
 		else
 		{
@@ -54,7 +54,7 @@ public class EffectArgument implements IDeserializableArgument
 			return null;
 		}
 		
-		return ForgeRegistries.MOB_EFFECTS.getKey(this.effect).toString();
+		return BuiltInRegistries.MOB_EFFECT.getKey(this.effect).toString();
 	}
 	
 	@Override

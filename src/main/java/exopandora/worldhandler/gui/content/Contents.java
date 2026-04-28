@@ -46,7 +46,7 @@ public class Contents
 	
 	public static Content getRegisteredContent(String name)
 	{
-		Content content = Content.REGISTRY.getValue(new ResourceLocation(Main.MODID, name));
+		Content content = Content.REGISTRY.get(ResourceLocation.fromNamespaceAndPath(Main.MODID, name));
 		
 		if(content == null)
 		{
@@ -58,6 +58,6 @@ public class Contents
 	
 	public static boolean isRegistered(String name)
 	{
-		return Content.REGISTRY.containsKey(new ResourceLocation(Main.MODID, name));
+		return Content.REGISTRY.containsKey(ResourceLocation.fromNamespaceAndPath(Main.MODID, name));
 	}
 }

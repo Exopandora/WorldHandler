@@ -13,6 +13,11 @@ public class TextUtils
 	public static final MutableComponent ARROW_LEFT_BOLD = Component.literal("<").withStyle(ChatFormatting.BOLD);
 	public static final MutableComponent ARROW_RIGHT_BOLD = Component.literal(">").withStyle(ChatFormatting.BOLD);
 	
+	public static String toJson(Component component)
+	{
+		return Component.Serializer.toJson(component, RegistryHelper.registryAccess());
+	}
+	
 	public static MutableComponent stripText(MutableComponent string, int maxWidth, Font font)
 	{
 		return TextUtils.stripText(string, Component.empty(), maxWidth, font);

@@ -26,12 +26,13 @@ import exopandora.worldhandler.gui.widget.menu.impl.MenuPageList;
 import exopandora.worldhandler.util.ActionHandler;
 import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.CommandHelper;
+import exopandora.worldhandler.util.RegistryHelper;
 import exopandora.worldhandler.util.TextUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ContentCustomItem extends Content
 {
@@ -51,9 +52,9 @@ public class ContentCustomItem extends Content
 	
 	public ContentCustomItem()
 	{
-		this.builderCutomItem.item().addTagProvider(this.attributes);
-		this.builderCutomItem.item().addTagProvider(this.display);
-		this.builderCutomItem.item().addTagProvider(this.enchantments);
+		this.builderCutomItem.item().addComponentProvider(this.attributes);
+		this.builderCutomItem.item().addComponentProvider(this.display);
+		this.builderCutomItem.item().addComponentProvider(this.enchantments);
 	}
 	
 	@Override
@@ -131,18 +132,18 @@ public class ContentCustomItem extends Content
 		}
 		else if(Page.ENCHANT.equals(this.page))
 		{
-			MenuPageList<Enchantment> enchantments = new MenuPageList<Enchantment>(x + 118, y, new ArrayList<Enchantment>(ForgeRegistries.ENCHANTMENTS.getValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
+			MenuPageList<Enchantment> enchantments = new MenuPageList<Enchantment>(x + 118, y, new ArrayList<Enchantment>(RegistryHelper.enchantmentValues()), 114, 20, 3, container, new ILogicPageList<Enchantment>()
 			{
 				@Override
 				public MutableComponent translate(Enchantment item)
 				{
-					return Component.translatable(item.getDescriptionId());
+					return RegistryHelper.getEnchantmentDescription(item).copy();
 				}
 				
 				@Override
 				public MutableComponent toTooltip(Enchantment item)
 				{
-					return Component.literal(ForgeRegistries.ENCHANTMENTS.getKey(item).toString());
+					return Component.literal(RegistryHelper.getEnchantmentKey(item).toString());
 				}
 				
 				@Override
@@ -154,7 +155,7 @@ public class ContentCustomItem extends Content
 				@Override
 				public GuiButtonBase onRegister(int x, int y, int width, int height, MutableComponent text, Enchantment item, ActionHandler actionHandler)
 				{
-					return new GuiSlider(x, y, width, height, 0, Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderSimple(ForgeRegistries.ENCHANTMENTS.getKey(item).toString(), text, value ->
+					return new GuiSlider(x, y, width, height, 0, Config.getSliders().getMaxItemEnchantment(), 0, container, new LogicSliderSimple(RegistryHelper.getEnchantmentKey(item).toString(), text, value ->
 					{
 						ContentCustomItem.this.enchantments.set(item, value.shortValue());
 					}));
@@ -187,7 +188,7 @@ public class ContentCustomItem extends Content
 				@Override
 				public MutableComponent toTooltip(Attribute attribute)
 				{
-					return Component.literal(ForgeRegistries.ATTRIBUTES.getKey(attribute).toString());
+					return Component.literal(BuiltInRegistries.ATTRIBUTE.getKey(attribute).toString());
 				}
 				
 				@Override

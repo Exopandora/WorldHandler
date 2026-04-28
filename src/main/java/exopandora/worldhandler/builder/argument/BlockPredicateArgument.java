@@ -16,7 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class BlockPredicateArgument extends TagArgument
 {
@@ -38,7 +38,7 @@ public class BlockPredicateArgument extends TagArgument
 	{
 		if(state != null)
 		{
-			this.resource = ForgeRegistries.BLOCKS.getKey(state.getBlock());
+			this.resource = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 			this.properties = propertiesToString(state.getValues());
 		}
 		else

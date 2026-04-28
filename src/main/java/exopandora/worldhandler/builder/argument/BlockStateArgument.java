@@ -9,7 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class BlockStateArgument extends TagArgument
 {
@@ -24,7 +24,7 @@ public class BlockStateArgument extends TagArgument
 	{
 		if(block != null)
 		{
-			this.set(ForgeRegistries.BLOCKS.getValue(block));
+			this.set(BuiltInRegistries.BLOCK.get(block));
 		}
 		else
 		{
@@ -104,7 +104,7 @@ public class BlockStateArgument extends TagArgument
 		
 		StringBuilder builder = new StringBuilder(this.state.toString());
 		String block = this.state.getBlock().toString();
-		builder.replace(0, block.length(), ForgeRegistries.BLOCKS.getKey(this.state.getBlock()).toString());
+		builder.replace(0, block.length(), BuiltInRegistries.BLOCK.getKey(this.state.getBlock()).toString());
 		String nbt = super.serialize();
 		
 		if(nbt != null && this.state.hasBlockEntity())

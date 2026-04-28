@@ -6,8 +6,8 @@ import exopandora.worldhandler.util.ActionHelper;
 import exopandora.worldhandler.util.BlockHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 public class KeyHandler
 {

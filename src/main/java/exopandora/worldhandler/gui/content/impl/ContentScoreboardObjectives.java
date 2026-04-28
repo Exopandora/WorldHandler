@@ -25,8 +25,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.Stats;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 
 public class ContentScoreboardObjectives extends ContentScoreboard
 {
@@ -63,7 +63,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 					
 					if(resource != null)
 					{
-						StatType<?> type = ForgeRegistries.STAT_TYPES.getValue(resource);
+						StatType<?> type = BuiltInRegistries.STAT_TYPE.get(resource);
 						
 						if(type != null)
 						{
@@ -144,9 +144,9 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 				@Nullable
 				private boolean isRegistryItem(ResourceLocation resource)
 				{
-					IForgeRegistry<?>[] registries = new IForgeRegistry<?>[] {ForgeRegistries.BLOCKS, ForgeRegistries.ITEMS, ForgeRegistries.ENTITY_TYPES};
+					Registry<?>[] registries = new Registry<?>[] {BuiltInRegistries.BLOCK, BuiltInRegistries.ITEM, BuiltInRegistries.ENTITY_TYPE};
 					
-					for(IForgeRegistry<?> registry : registries)
+					for(Registry<?> registry : registries)
 					{
 						if(registry.containsKey(resource))
 						{
@@ -154,7 +154,7 @@ public class ContentScoreboardObjectives extends ContentScoreboard
 						}
 					}
 					
-					return ForgeRegistries.STAT_TYPES.containsKey(resource);
+					return BuiltInRegistries.STAT_TYPE.containsKey(resource);
 				}
 			});
 			

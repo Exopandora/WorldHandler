@@ -14,7 +14,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.scores.Team.CollisionRule;
 import net.minecraft.world.scores.Team.Visibility;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ScoreboardHelper
 {
@@ -44,7 +44,7 @@ public class ScoreboardHelper
 		
 		this.objectives.merge("minecraft", (parent, child) -> parent + "." + child);
 		
-		for(StatType<?> type : ForgeRegistries.STAT_TYPES)
+		for(StatType<?> type : BuiltInRegistries.STAT_TYPE)
 		{
 			if(!type.equals(Stats.CUSTOM))
 			{
@@ -55,7 +55,7 @@ public class ScoreboardHelper
 					entries.add(new Node(this.buildKey(key)));
 				}
 				
-				this.objectives.addNode(this.buildKey(ForgeRegistries.STAT_TYPES.getKey(type)), entries);
+				this.objectives.addNode(this.buildKey(BuiltInRegistries.STAT_TYPE.getKey(type)), entries);
 			}
 		}
 		

@@ -17,7 +17,7 @@ public class GuiHintTextField extends EditBox
 	
 	public GuiHintTextField(int x, int y, int width, int height, Component hint)
 	{
-		super(Minecraft.getInstance().font, x, y, width, height, null);
+		super(Minecraft.getInstance().font, x, y, width, height, Component.empty());
 		this.setMaxLength(Integer.MAX_VALUE);
 		this.hint = hint;
 	}
@@ -60,7 +60,7 @@ public class GuiHintTextField extends EditBox
 		}
 		else
 		{
-			this.setValue((String) null);
+			this.setValue("");
 		}
 	}
 }

@@ -7,15 +7,15 @@ import java.util.stream.Collectors;
 import com.google.common.base.Predicates;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class ConfigCategoryButcher
 {
 	private final ConfigValue<List<? extends String>> entities;
 	
-	public ConfigCategoryButcher(ForgeConfigSpec.Builder builder)
+	public ConfigCategoryButcher(ModConfigSpec.Builder builder)
 	{
 		builder.push("butcher");
 		
@@ -63,7 +63,7 @@ public class ConfigCategoryButcher
 	{
 		if(string != null)
 		{
-			return ForgeRegistries.ENTITY_TYPES.containsKey(ResourceLocation.tryParse(string.toString()));
+			return BuiltInRegistries.ENTITY_TYPE.containsKey(ResourceLocation.tryParse(string.toString()));
 		}
 		
 		return false;
